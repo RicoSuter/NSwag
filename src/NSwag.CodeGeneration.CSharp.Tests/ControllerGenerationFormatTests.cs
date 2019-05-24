@@ -253,7 +253,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("public partial class ComplexTypeResponse", code);
         }
 
-        private async Task<SwaggerDocument> GetSwaggerDocument()
+        private async Task<OpenApiDocument> GetSwaggerDocument()
         {
             JsonSchema complexTypeSchema = new JsonSchema();
             complexTypeSchema.Title = "ComplexType";
@@ -271,7 +271,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var typeString = await JsonSchema.FromTypeAsync(typeof(string));
 
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["Foo"] = new OpenApiPathItem
             {
                 {

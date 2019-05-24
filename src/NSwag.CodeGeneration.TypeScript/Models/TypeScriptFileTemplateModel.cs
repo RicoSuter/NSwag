@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptFileTemplateModel" /> class.</summary>
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public TypeScriptFileTemplateModel(
             IEnumerable<CodeArtifact> clientTypes,
             IEnumerable<CodeArtifact> dtoTypes,
-            SwaggerDocument document,
+            OpenApiDocument document,
             TypeScriptExtensionCode extensionCode,
             SwaggerToTypeScriptClientGeneratorSettings settings,
             TypeScriptTypeResolver resolver)

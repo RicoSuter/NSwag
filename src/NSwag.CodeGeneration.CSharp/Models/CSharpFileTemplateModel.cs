@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public class CSharpFileTemplateModel
     {
         private readonly string _clientCode;
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly CSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             IEnumerable<CodeArtifact> clientTypes,
             IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
-            SwaggerDocument document,
+            OpenApiDocument document,
             SwaggerToCSharpGeneratorSettings settings,
             SwaggerToCSharpGeneratorBase generator,
             CSharpTypeResolver resolver)

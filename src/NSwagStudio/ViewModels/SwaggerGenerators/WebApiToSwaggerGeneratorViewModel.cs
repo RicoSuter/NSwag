@@ -120,7 +120,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(async () =>
                 {
-                    var document = (SwaggerDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
+                    var document = (OpenApiDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
                     return document?.ToJson();
                 });
             });

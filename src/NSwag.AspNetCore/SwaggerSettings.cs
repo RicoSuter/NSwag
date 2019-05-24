@@ -59,7 +59,7 @@ namespace NSwag.AspNetCore
 
 #if AspNetOwin
         /// <summary>Gets or sets the Swagger post process action.</summary>
-        public Action<SwaggerDocument> PostProcess { get; set; }
+        public Action<OpenApiDocument> PostProcess { get; set; }
 
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);

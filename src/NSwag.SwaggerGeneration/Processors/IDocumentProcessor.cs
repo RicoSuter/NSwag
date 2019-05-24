@@ -11,7 +11,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
 {
-    /// <summary>Post processes a generated <see cref="SwaggerDocument"/>.</summary>
+    /// <summary>Post processes a generated <see cref="OpenApiDocument"/>.</summary>
     public interface IDocumentProcessor
     {
         /// <summary>Processes the specified Swagger document.</summary>

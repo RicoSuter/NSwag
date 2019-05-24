@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = await SwaggerDocument.FromJsonAsync(swagger);
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
             var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };

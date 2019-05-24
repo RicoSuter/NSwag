@@ -113,7 +113,7 @@ namespace NSwag.Commands
             yield return typeof(JToken).GetTypeInfo().Assembly;
             yield return typeof(ContextualType).GetTypeInfo().Assembly;
             yield return typeof(JsonSchema).GetTypeInfo().Assembly;
-            yield return typeof(SwaggerDocument).GetTypeInfo().Assembly;
+            yield return typeof(OpenApiDocument).GetTypeInfo().Assembly;
             yield return typeof(InputOutputCommandBase).GetTypeInfo().Assembly;
             yield return typeof(SwaggerJsonSchemaGenerator).GetTypeInfo().Assembly;
             yield return typeof(WebApiToSwaggerGenerator).GetTypeInfo().Assembly;
@@ -128,7 +128,7 @@ namespace NSwag.Commands
             yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
             yield return new BindingRedirect("Namotion.Reflection", typeof(ContextualType), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema), "c2f9c3bdfae56102");
-            yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Core", typeof(OpenApiDocument), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.SwaggerGeneration.AspNetCore", typeof(AspNetCoreToSwaggerGenerator), "c2d88086e098d109");

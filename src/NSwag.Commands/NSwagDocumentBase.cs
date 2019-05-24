@@ -267,11 +267,11 @@ namespace NSwag.Commands
             return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
         }
 
-        /// <summary>Generates the <see cref="SwaggerDocument"/> with the currently selected generator.</summary>
+        /// <summary>Generates the <see cref="OpenApiDocument"/> with the currently selected generator.</summary>
         /// <returns>The document.</returns>
-        protected async Task<SwaggerDocument> GenerateSwaggerDocumentAsync()
+        protected async Task<OpenApiDocument> GenerateSwaggerDocumentAsync()
         {
-            return (SwaggerDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
+            return (OpenApiDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static string EscapeJsonString(string value)

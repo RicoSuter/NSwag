@@ -10,7 +10,7 @@ namespace NSwag.Core.Tests.Serialization
         public async Task When_callbacks_are_defined_then_they_are_serialized_in_OpenApi()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {

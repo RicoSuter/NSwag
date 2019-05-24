@@ -16,6 +16,6 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Generates the specified document.</summary>
         /// <param name="documentName">The document name.</param>
         /// <returns>The document.</returns>
-        Task<SwaggerDocument> GenerateAsync(string documentName);
+        Task<OpenApiDocument> GenerateAsync(string documentName);
     }
 }

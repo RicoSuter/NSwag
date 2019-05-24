@@ -31,7 +31,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         public AspNetCoreOperationProcessorContext(
-            SwaggerDocument document, 
+            OpenApiDocument document, 
             OpenApiOperationDescription operationDescription, 
             Type controllerType, 
             MethodInfo methodInfo, 

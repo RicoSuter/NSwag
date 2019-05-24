@@ -22,7 +22,7 @@ namespace NSwag.Commands
             return TryWriteFileOutputAsync(command, command.OutputFilePath, host, generator);
         }
 
-        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, Func<SwaggerDocument> generator)
+        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, Func<OpenApiDocument> generator)
         {
             return TryWriteFileOutputAsync(command, command.OutputFilePath, host, () =>
                 command.OutputFilePath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ? SwaggerYamlDocument.ToYaml(generator()) : generator().ToJson());

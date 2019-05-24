@@ -31,9 +31,9 @@ namespace NSwag.Commands
         public string[] ServiceSchemes { get; set; }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<SwaggerDocument> GetInputSwaggerDocument()
+        protected async Task<OpenApiDocument> GetInputSwaggerDocument()
         {
-            var document = Input as SwaggerDocument;
+            var document = Input as OpenApiDocument;
             if (document == null)
             {
                 var input = Input.ToString();

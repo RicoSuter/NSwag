@@ -28,7 +28,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         public OperationProcessorContext(
-            SwaggerDocument document,
+            OpenApiDocument document,
             OpenApiOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         }
 
         /// <summary>Gets the Swagger document.</summary>
-        public SwaggerDocument Document { get; }
+        public OpenApiDocument Document { get; }
 
         /// <summary>Gets or sets the operation description.</summary>
         public OpenApiOperationDescription OperationDescription { get; }

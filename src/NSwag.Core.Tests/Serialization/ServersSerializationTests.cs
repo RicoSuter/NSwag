@@ -11,7 +11,7 @@ namespace NSwag.Core.Tests.Serialization
         public async Task When_document_is_empty_then_serialized_correctly_in_Swagger()
         {
             //// Arrange
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
 
             //// Act
             var json = document.ToJson(SchemaType.Swagger2);
@@ -64,7 +64,7 @@ namespace NSwag.Core.Tests.Serialization
         public async Task When_server_is_set_then_it_is_correctly_converted_to_Swagger()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Servers =
                 {
@@ -89,7 +89,7 @@ namespace NSwag.Core.Tests.Serialization
         public async Task When_host_basePath_and_schemeas_are_set_then_it_is_correctly_converted_to_OpenApi()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Host = "localhost:12354",
                 BasePath = "/myapi",
@@ -110,7 +110,7 @@ namespace NSwag.Core.Tests.Serialization
         public void When_scheme_without_host_is_added_then_servers_are_not_cleared()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 BasePath = "/myapi",
                 Schemes = { OpenApiSchema.Http }
@@ -130,7 +130,7 @@ namespace NSwag.Core.Tests.Serialization
         public void When_host_is_removed_then_base_url_is_also_empty()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Host = "localhost:12354",
                 BasePath = "/myapi",
@@ -145,9 +145,9 @@ namespace NSwag.Core.Tests.Serialization
             Assert.True(string.IsNullOrEmpty(document.BaseUrl));
         }
 
-        private static SwaggerDocument CreateDocument()
+        private static OpenApiDocument CreateDocument()
         {
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Servers =
                 {

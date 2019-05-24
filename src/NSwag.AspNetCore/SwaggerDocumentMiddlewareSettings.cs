@@ -29,7 +29,7 @@ namespace NSwag.AspNetCore
         /// Should only be used to transform the document related to the request.
         /// Caution: This action will not be called by the CLI or NSwagStudio 
         /// (use PostProcess in AddSwaggerDocument instead).</summary>
-        public Action<SwaggerDocument, HttpRequest> PostProcess { get; set; }
+        public Action<OpenApiDocument, HttpRequest> PostProcess { get; set; }
         
         /// <summary>
         /// Should be used in a case when your application is exposed under different URLs, e.g. the application

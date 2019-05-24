@@ -17,13 +17,13 @@ namespace NSwag.CodeGeneration.CSharp
     /// <summary>Generates the CSharp service client code. </summary>
     public class SwaggerToCSharpClientGenerator : SwaggerToCSharpGeneratorBase
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings)
+        public SwaggerToCSharpClientGenerator(OpenApiDocument document, SwaggerToCSharpClientGeneratorSettings settings)
             : this(document, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, document))
         {
         }
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(SwaggerDocument document, SwaggerToCSharpClientGeneratorSettings settings, CSharpTypeResolver resolver)
+        public SwaggerToCSharpClientGenerator(OpenApiDocument document, SwaggerToCSharpClientGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
             Settings = settings;

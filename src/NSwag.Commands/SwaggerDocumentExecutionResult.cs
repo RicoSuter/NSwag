@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace NSwag.Commands
 {
-    /// <summary>Stores the result of a <see cref="SwaggerDocument"/> execution.</summary>
+    /// <summary>Stores the result of a <see cref="OpenApiDocument"/> execution.</summary>
     public class SwaggerDocumentExecutionResult
     {
         private readonly IDictionary<Type, string> _generatorOutputs = new Dictionary<Type, string>();

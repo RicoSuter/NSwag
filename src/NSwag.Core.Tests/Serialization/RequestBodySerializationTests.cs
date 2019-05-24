@@ -15,7 +15,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.Swagger2);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
@@ -30,7 +30,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
@@ -45,7 +45,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
@@ -67,7 +67,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
@@ -88,7 +88,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
@@ -109,7 +109,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
@@ -130,7 +130,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
@@ -151,7 +151,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
@@ -173,7 +173,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             requestBody.Content["application/json"] = new OpenApiMediaType
@@ -196,7 +196,7 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             requestBody.Description = requestBody.Description + "123";
@@ -208,14 +208,14 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("bar123", parameter.Description);
         }
 
-        private static SwaggerDocument CreateDocument()
+        private static OpenApiDocument CreateDocument()
         {
             var schema = new JsonSchema
             {
                 Type = JsonObjectType.String
             };
 
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {

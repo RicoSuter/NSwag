@@ -20,7 +20,7 @@ using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi
 {
-    /// <summary>Generates a <see cref="SwaggerDocument"/> object for the given Web API class type. </summary>
+    /// <summary>Generates a <see cref="OpenApiDocument"/> object for the given Web API class type. </summary>
     public class WebApiToSwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
@@ -67,27 +67,27 @@ namespace NSwag.SwaggerGeneration.WebApi
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <typeparam name="TController">The type of the controller.</typeparam>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        /// <returns>The <see cref="OpenApiDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public Task<SwaggerDocument> GenerateForControllerAsync<TController>()
+        public Task<OpenApiDocument> GenerateForControllerAsync<TController>()
         {
             return GenerateForControllersAsync(new[] { typeof(TController) });
         }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
         /// <param name="controllerType">The type of the controller.</param>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        /// <returns>The <see cref="OpenApiDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public Task<SwaggerDocument> GenerateForControllerAsync(Type controllerType)
+        public Task<OpenApiDocument> GenerateForControllerAsync(Type controllerType)
         {
             return GenerateForControllersAsync(new[] { controllerType });
         }
 
         /// <summary>Generates a Swagger specification for the given controller types.</summary>
         /// <param name="controllerTypes">The types of the controller.</param>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        /// <returns>The <see cref="OpenApiDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
+        public async Task<OpenApiDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new OpenApiSchemaResolver(document, Settings);
@@ -113,13 +113,13 @@ namespace NSwag.SwaggerGeneration.WebApi
             return document;
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync()
+        private async Task<OpenApiDocument> CreateDocumentAsync()
         {
             var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?
-                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
-                new SwaggerDocument();
+                await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
+                new OpenApiDocument();
 
-            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
+            document.Generator = "NSwag v" + OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
             document.SchemaType = Settings.SchemaType;
 
             document.Consumes = new List<string> { "application/json" };
@@ -152,7 +152,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private async Task<bool> GenerateForControllerAsync(OpenApiDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -209,7 +209,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
-        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(OpenApiDocument document, Type controllerType, List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
@@ -242,7 +242,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return addedOperations > 0;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
                 methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations);
@@ -300,7 +300,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 });
         }
 
-        private string GetOperationId(SwaggerDocument document, string controllerName, MethodInfo method)
+        private string GetOperationId(OpenApiDocument document, string controllerName, MethodInfo method)
         {
             string operationId;
 

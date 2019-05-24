@@ -14,6 +14,6 @@ namespace NSwag.AspNetCore
         public SwaggerJsonSchemaGenerator SchemaGenerator { get; set; }
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
-        public Action<SwaggerDocument> PostProcess { get; set; }
+        public Action<OpenApiDocument> PostProcess { get; set; }
     }
 }

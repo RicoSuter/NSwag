@@ -148,23 +148,23 @@ namespace NSwag
         [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
 
-        /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
         public IEnumerable<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
 
-        /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
         public IEnumerable<string> ActualProduces => Produces ?? Parent.Parent.Produces;
 
-        /// <summary>Gets the actual schemes, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the actual schemes, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
         public IEnumerable<OpenApiSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
-        /// <summary>Gets the responses from the operation and from the <see cref="SwaggerDocument"/> and dereferences them if necessary.</summary>
+        /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
         public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
 
-        /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the actual security description, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
         public ICollection<OpenApiSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
 

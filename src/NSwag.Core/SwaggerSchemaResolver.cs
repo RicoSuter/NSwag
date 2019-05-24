@@ -17,13 +17,13 @@ namespace NSwag
     {
         private readonly ITypeNameGenerator _typeNameGenerator;
 
-        private SwaggerDocument Document => (SwaggerDocument)RootObject;
+        private OpenApiDocument Document => (OpenApiDocument)RootObject;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaResolver" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" /></exception>
-        public OpenApiSchemaResolver(SwaggerDocument document, JsonSchemaGeneratorSettings settings)
+        public OpenApiSchemaResolver(OpenApiDocument document, JsonSchemaGeneratorSettings settings)
             : base(document, settings)
         {
             if (document == null)

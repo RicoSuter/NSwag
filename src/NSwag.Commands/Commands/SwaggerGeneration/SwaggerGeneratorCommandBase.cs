@@ -355,7 +355,7 @@ namespace NSwag.Commands.SwaggerGeneration
             }
         }
 
-        protected void PostprocessDocument(SwaggerDocument document)
+        protected void PostprocessDocument(OpenApiDocument document)
         {
             if (ServiceHost == ".")
             {

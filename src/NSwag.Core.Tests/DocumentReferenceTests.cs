@@ -38,7 +38,7 @@ namespace NSwag.Core.Tests
 }";
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
 
             //// Assert
@@ -81,7 +81,7 @@ namespace NSwag.Core.Tests
 }";
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
 
             //// Assert

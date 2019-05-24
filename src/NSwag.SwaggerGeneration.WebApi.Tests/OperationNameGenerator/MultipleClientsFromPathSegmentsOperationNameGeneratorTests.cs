@@ -13,7 +13,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
             var generator = new MultipleClientsFromPathSegmentsOperationNameGenerator();
 
             //// Act
-            var operationName = generator.GetOperationName(new SwaggerDocument(), "/", OpenApiOperationMethod.Get, new OpenApiOperation());
+            var operationName = generator.GetOperationName(new OpenApiDocument(), "/", OpenApiOperationMethod.Get, new OpenApiOperation());
 
             //// Assert
             Assert.AreEqual("Index", operationName);
@@ -26,7 +26,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
             var generator = new MultipleClientsFromPathSegmentsOperationNameGenerator();
 
             //// Act
-            var operationName = generator.GetOperationName(new SwaggerDocument(), "/{id}", OpenApiOperationMethod.Get, new OpenApiOperation());
+            var operationName = generator.GetOperationName(new OpenApiDocument(), "/{id}", OpenApiOperationMethod.Get, new OpenApiOperation());
 
             //// Assert
             Assert.AreEqual("Index", operationName);

@@ -12,7 +12,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_form_parameters_are_defined_then_MultipartFormDataContent_is_generated()
         {
             //// Arrange
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_form_parameters_are_defined_then_FormUrlEncodedContent_is_generated()
         {
             //// Arrange
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {

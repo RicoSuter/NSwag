@@ -122,7 +122,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
         {
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var swaggerSettings = new AspNetCoreToSwaggerGeneratorSettings();
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             var generator = new AspNetCoreToSwaggerGenerator(swaggerSettings);
             var schemaGeneratorSettings = new JsonSchemaGeneratorSettings();
             var schemaGenerator = new JsonSchemaGenerator(schemaGeneratorSettings);

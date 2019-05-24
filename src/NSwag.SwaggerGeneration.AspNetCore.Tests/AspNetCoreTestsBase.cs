@@ -19,7 +19,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
 
         protected TestServer TestServer { get; }
 
-        protected async Task<SwaggerDocument> GenerateDocumentAsync(AspNetCoreToSwaggerGeneratorSettings settings, params Type[] controllerTypes)
+        protected async Task<OpenApiDocument> GenerateDocumentAsync(AspNetCoreToSwaggerGeneratorSettings settings, params Type[] controllerTypes)
         {
             var generator = new AspNetCoreToSwaggerGenerator(settings);
             var provider = TestServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();

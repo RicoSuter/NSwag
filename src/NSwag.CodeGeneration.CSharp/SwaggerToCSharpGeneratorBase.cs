@@ -20,13 +20,13 @@ namespace NSwag.CodeGeneration.CSharp
     {
         private readonly SwaggerToCSharpGeneratorSettings _settings;
         private readonly CSharpTypeResolver _resolver;
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGeneratorBase"/> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        protected SwaggerToCSharpGeneratorBase(SwaggerDocument document, SwaggerToCSharpGeneratorSettings settings, CSharpTypeResolver resolver)
+        protected SwaggerToCSharpGeneratorBase(OpenApiDocument document, SwaggerToCSharpGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings.CodeGeneratorSettings, resolver)
         {
             _document = document;
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="document">The document </param>
-        public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, SwaggerDocument document)
+        public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, OpenApiDocument document)
         {
             var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
 

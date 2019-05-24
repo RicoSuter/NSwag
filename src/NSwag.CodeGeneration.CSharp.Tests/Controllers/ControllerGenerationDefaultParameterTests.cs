@@ -10,7 +10,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
         public void When_parameter_has_default_then_set_in_partial_controller()
         {
             //// Arrange
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {

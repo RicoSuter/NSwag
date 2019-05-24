@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp client template model.</summary>
     public class CSharpClientTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
         private readonly JsonSchema _exceptionSchema;
         private readonly SwaggerToCSharpClientGeneratorSettings _settings;
 
@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             string controllerClassName,
             IEnumerable<CSharpOperationModel> operations,
             JsonSchema exceptionSchema,
-            SwaggerDocument document,
+            OpenApiDocument document,
             SwaggerToCSharpClientGeneratorSettings settings)
             : base(controllerName, settings)
         {

@@ -28,7 +28,7 @@ namespace NSwag.AspNetCore
             _documents = documents ?? throw new ArgumentNullException(nameof(documents));
         }
 
-        public async Task<SwaggerDocument> GenerateAsync(string documentName)
+        public async Task<OpenApiDocument> GenerateAsync(string documentName)
         {
             if (documentName == null)
             {

@@ -124,7 +124,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <summary>Generates the Swagger specification.</summary>
         /// <param name="context">The context.</param>
         /// <returns>The Swagger specification.</returns>
-        protected virtual async Task<SwaggerDocument> GenerateDocumentAsync(HttpContext context)
+        protected virtual async Task<OpenApiDocument> GenerateDocumentAsync(HttpContext context)
         {
             var document = await _documentProvider.GenerateAsync(_documentName);
 

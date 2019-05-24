@@ -56,7 +56,7 @@ namespace NSwag.Commands.SwaggerGeneration
         }
 
         /// <summary>Loads the Swagger spec.</summary>
-        public async Task<SwaggerDocument> RunAsync()
+        public async Task<OpenApiDocument> RunAsync()
         {
             var input = !string.IsNullOrEmpty(Swagger) ? Swagger : Url;
             return await ReadSwaggerDocumentAsync(input);

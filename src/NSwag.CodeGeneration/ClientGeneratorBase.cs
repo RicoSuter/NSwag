@@ -24,13 +24,13 @@ namespace NSwag.CodeGeneration
         where TResponseModel : ResponseModelBase
         where TParameterModel : ParameterModelBase
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="codeGeneratorSettings">The code generator settings.</param>
         /// <param name="resolver">The type resolver.</param>
-        protected ClientGeneratorBase(SwaggerDocument document, CodeGeneratorSettingsBase codeGeneratorSettings, TypeResolverBase resolver)
+        protected ClientGeneratorBase(OpenApiDocument document, CodeGeneratorSettingsBase codeGeneratorSettings, TypeResolverBase resolver)
         {
             _document = document;
             Resolver = resolver;
@@ -140,7 +140,7 @@ namespace NSwag.CodeGeneration
         /// <returns>The operation model.</returns>
         protected abstract TOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings);
 
-        private List<TOperationModel> GetOperations(SwaggerDocument document)
+        private List<TOperationModel> GetOperations(OpenApiDocument document)
         {
             document.GenerateOperationIds();
 

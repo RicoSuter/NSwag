@@ -71,9 +71,9 @@ namespace NSwag.Core.Tests.Serialization
             Assert.DoesNotContain(@"""flow""", json);
         }
 
-        private static SwaggerDocument CreateSwaggerDocument()
+        private static OpenApiDocument CreateSwaggerDocument()
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.SecurityDefinitions.Add("foo", new OpenApiSecurityScheme
             {
                 Name = "Baz",
@@ -87,9 +87,9 @@ namespace NSwag.Core.Tests.Serialization
             return document;
         }
 
-        private static SwaggerDocument CreateOpenApiDocument()
+        private static OpenApiDocument CreateOpenApiDocument()
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.SecurityDefinitions.Add("foo", new OpenApiSecurityScheme
             {
                 Name = "Baz",

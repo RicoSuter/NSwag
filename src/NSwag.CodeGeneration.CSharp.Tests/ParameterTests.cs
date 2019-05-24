@@ -9,7 +9,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["foo"] = new OpenApiPathItem
             {
                 {
@@ -104,7 +104,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
@@ -186,7 +186,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
@@ -262,7 +262,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
 
             //// Act
             var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());

@@ -31,7 +31,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
         }
 
-        private static void ProcessSwaggerTagsAttribute(SwaggerDocument document, Type controllerType)
+        private static void ProcessSwaggerTagsAttribute(OpenApiDocument document, Type controllerType)
         {
             dynamic tagsAttribute = controllerType.ToCachedType()
                 .TypeAttributes
@@ -60,7 +60,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
         }
 
-        private static void ProcessSwaggerTagAttributes(SwaggerDocument document, Type controllerType)
+        private static void ProcessSwaggerTagAttributes(OpenApiDocument document, Type controllerType)
         {
             var tagAttributes = controllerType
                 .ToCachedType().TypeAttributes
@@ -77,7 +77,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
         }
 
-        internal static void AddTagFromSwaggerTagAttribute(SwaggerDocument document, dynamic tagAttribute)
+        internal static void AddTagFromSwaggerTagAttribute(OpenApiDocument document, dynamic tagAttribute)
         {
             if (document.Tags == null)
             {

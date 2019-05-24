@@ -89,7 +89,7 @@ namespace NSwag.CodeGeneration.Tests
 
             //// Act
             var schema = await JsonSchema.FromJsonAsync(jsonSchema);
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Definitions["Foo"] = schema;
 
             //// Assert
@@ -111,9 +111,9 @@ namespace NSwag.CodeGeneration.Tests
             Assert.False(string.IsNullOrWhiteSpace(operationName));
         }
 
-        private static async Task<SwaggerDocument> CreateDocumentAsync()
+        private static async Task<OpenApiDocument> CreateDocumentAsync()
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 

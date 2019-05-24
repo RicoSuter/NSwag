@@ -24,7 +24,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
-    /// <summary>Generates a <see cref="SwaggerDocument"/> using <see cref="ApiDescription"/>. </summary>
+    /// <summary>Generates a <see cref="OpenApiDocument"/> using <see cref="ApiDescription"/>. </summary>
     public class AspNetCoreToSwaggerGenerator : ISwaggerGenerator
     {
         private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
@@ -48,10 +48,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <summary>Gets the generator settings.</summary>
         public AspNetCoreToSwaggerGeneratorSettings Settings { get; }
 
-        /// <summary>Generates the <see cref="SwaggerDocument"/> with services from the given service provider.</summary>
+        /// <summary>Generates the <see cref="OpenApiDocument"/> with services from the given service provider.</summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>The document</returns>
-        public async Task<SwaggerDocument> GenerateAsync(object serviceProvider)
+        public async Task<OpenApiDocument> GenerateAsync(object serviceProvider)
         {
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
@@ -88,9 +88,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
         /// <param name="apiDescriptionGroups">The <see cref="ApiDescriptionGroupCollection"/>.</param>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
+        /// <returns>The <see cref="OpenApiDocument" />.</returns>
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        public async Task<SwaggerDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
+        public async Task<OpenApiDocument> GenerateAsync(ApiDescriptionGroupCollection apiDescriptionGroups)
         {
             var apiDescriptions = apiDescriptionGroups.Items
                 .Where(group =>
@@ -123,7 +123,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         }
 
         private async Task<List<Type>> GenerateForControllersAsync(
-            SwaggerDocument document,
+            OpenApiDocument document,
             IGrouping<Type, Tuple<ApiDescription, ControllerActionDescriptor>>[] apiGroups,
             OpenApiSchemaResolver schemaResolver)
         {
@@ -200,7 +200,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         }
 
         private async Task<List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>> AddOperationDescriptionsToDocumentAsync(
-            SwaggerDocument document, Type controllerType,
+            OpenApiDocument document, Type controllerType,
             List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> operations,
             SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
@@ -235,7 +235,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return addedOperations;
         }
 
-        private void UpdateConsumesAndProduces(SwaggerDocument document,
+        private void UpdateConsumesAndProduces(OpenApiDocument document,
             List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> allOperations)
         {
             // TODO: Move to SwaggerGenerator class?
@@ -262,13 +262,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             }
         }
 
-        private async Task<SwaggerDocument> CreateDocumentAsync()
+        private async Task<OpenApiDocument> CreateDocumentAsync()
         {
             var document = !string.IsNullOrEmpty(Settings.DocumentTemplate) ?
-                await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
-                new SwaggerDocument();
+                await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
+                new OpenApiDocument();
 
-            document.Generator = $"NSwag v{SwaggerDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
+            document.Generator = $"NSwag v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
             document.SchemaType = Settings.SchemaType;
 
             if (document.Info == null)
@@ -297,7 +297,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return document;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             // 1. Run from settings
             var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations)
@@ -335,7 +335,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return true;
         }
 
-        private string GetOperationId(SwaggerDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method)
+        private string GetOperationId(OpenApiDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method)
         {
             string operationId;
 

@@ -19,7 +19,7 @@ namespace NSwag
     {
         /// <summary></summary>
         /// <param name="document"></param>
-        public OpenApiComponents(SwaggerDocument document)
+        public OpenApiComponents(OpenApiDocument document)
         {
             var schemas = new ObservableDictionary<string, JsonSchema>();
             schemas.CollectionChanged += (sender, args) =>

@@ -31,9 +31,9 @@ namespace NSwag
             };
         }
 
-        /// <summary>Gets the parent <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Gets the parent <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public SwaggerDocument Parent { get; internal set; }
+        public OpenApiDocument Parent { get; internal set; }
 
         /// <summary>Gets or sets the summary (OpenApi only).</summary>
         [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

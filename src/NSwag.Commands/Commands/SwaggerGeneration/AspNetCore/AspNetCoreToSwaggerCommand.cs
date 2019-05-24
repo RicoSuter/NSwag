@@ -214,10 +214,10 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
-                    JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
+                    JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
 
                     var documentJson = File.ReadAllText(outputFile);
-                    var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
+                    var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
                     await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
                     return document;
                 }
@@ -261,7 +261,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             return currentWorkingDirectory;
         }
 
-        public async Task<SwaggerDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
+        public async Task<OpenApiDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
         {
             Directory.SetCurrentDirectory(currentWorkingDirectory);
 
@@ -275,14 +275,14 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             }
         }
 
-        private async Task<SwaggerDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
+        private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
         {
             var documentProvider = host.Services.GetRequiredService<ISwaggerDocumentProvider>();
             var document = await documentProvider.GenerateAsync(DocumentName);
             return document;
         }
 
-        private async Task<SwaggerDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
+        private async Task<OpenApiDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
         {
             InitializeCustomTypes(assemblyLoader);
 

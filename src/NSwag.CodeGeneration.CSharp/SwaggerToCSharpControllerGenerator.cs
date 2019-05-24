@@ -18,13 +18,13 @@ namespace NSwag.CodeGeneration.CSharp
     /// <summary>Generates the CSharp service client code. </summary>
     public class SwaggerToCSharpControllerGenerator : SwaggerToCSharpGeneratorBase
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpControllerGenerator(SwaggerDocument document, SwaggerToCSharpControllerGeneratorSettings settings)
+        public SwaggerToCSharpControllerGenerator(OpenApiDocument document, SwaggerToCSharpControllerGeneratorSettings settings)
             : this(document, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, document))
         {
         }
@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpControllerGenerator(SwaggerDocument document, SwaggerToCSharpControllerGeneratorSettings settings, CSharpTypeResolver resolver)
+        public SwaggerToCSharpControllerGenerator(OpenApiDocument document, SwaggerToCSharpControllerGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
             _document = document ?? throw new ArgumentNullException(nameof(document));

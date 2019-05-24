@@ -37,9 +37,9 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Contains(@"""ParameterExamples""", json); // parameter examples
         }
 
-        private static SwaggerDocument CreateDocument()
+        private static OpenApiDocument CreateDocument()
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Paths["foo"] = new OpenApiPathItem
             {
                 {

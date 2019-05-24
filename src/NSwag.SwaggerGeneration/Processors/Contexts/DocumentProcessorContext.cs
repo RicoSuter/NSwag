@@ -22,7 +22,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="settings">The settings.</param>
-        public DocumentProcessorContext(SwaggerDocument document, IEnumerable<Type> allControllerTypes, IEnumerable<Type> controllerTypes,
+        public DocumentProcessorContext(OpenApiDocument document, IEnumerable<Type> allControllerTypes, IEnumerable<Type> controllerTypes,
             JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator, SwaggerGeneratorSettings settings)
         {
             Document = document;
@@ -34,7 +34,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         }
 
         /// <summary>Gets the Swagger document.</summary>
-        public SwaggerDocument Document { get; }
+        public OpenApiDocument Document { get; }
 
         /// <summary>Gets the all controller types even the excluded/ignored ones.</summary>
         public IEnumerable<Type> AllControllerTypes { get; }

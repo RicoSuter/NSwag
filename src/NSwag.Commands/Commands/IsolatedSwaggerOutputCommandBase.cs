@@ -41,11 +41,11 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
+            JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) =>
                 new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
 
             var documentJson = await RunIsolatedAsync((string)null);
-            var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
+            var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
             await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
         }

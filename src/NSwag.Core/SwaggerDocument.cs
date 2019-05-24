@@ -22,10 +22,10 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service.</summary>
-    public partial class SwaggerDocument : JsonExtensionObject, IDocumentPathProvider
+    public partial class OpenApiDocument : JsonExtensionObject, IDocumentPathProvider
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerDocument"/> class.</summary>
-        public SwaggerDocument()
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocument"/> class.</summary>
+        public OpenApiDocument()
         {
             Swagger = "2.0";
             OpenApi = "3.0.0";
@@ -45,7 +45,7 @@ namespace NSwag
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
-        public static string ToolchainVersion => typeof(SwaggerDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
+        public static string ToolchainVersion => typeof(OpenApiDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
 
         /// <summary>Gets or sets the preferred schema type.</summary>
         [JsonIgnore]
@@ -128,8 +128,8 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
-        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static Task<SwaggerDocument> FromJsonAsync(string data)
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromJsonAsync(string data)
         {
             return FromJsonAsync(data, null, SchemaType.Swagger2, null);
         }
@@ -137,8 +137,8 @@ namespace NSwag
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
-        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static Task<SwaggerDocument> FromJsonAsync(string data, string documentPath)
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath)
         {
             return FromJsonAsync(data, documentPath, SchemaType.Swagger2, null);
         }
@@ -147,8 +147,8 @@ namespace NSwag
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
-        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static Task<SwaggerDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType)
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType)
         {
             return FromJsonAsync(data, documentPath, expectedSchemaType, null);
         }
@@ -158,8 +158,8 @@ namespace NSwag
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
-        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, Func<SwaggerDocument, JsonReferenceResolver> referenceResolverFactory)
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static async Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory)
         {
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
             // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
@@ -186,7 +186,7 @@ namespace NSwag
             }
 
             var contractResolver = GetJsonSerializerContractResolver(expectedSchemaType);
-            return await JsonSchemaSerialization.FromJsonAsync<SwaggerDocument>(data, expectedSchemaType, documentPath, document =>
+            return await JsonSchemaSerialization.FromJsonAsync<OpenApiDocument>(data, expectedSchemaType, documentPath, document =>
             {
                 document.SchemaType = expectedSchemaType;
                 if (referenceResolverFactory != null)
@@ -203,8 +203,8 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
-        /// <returns>The <see cref="SwaggerDocument" />.</returns>
-        public static async Task<SwaggerDocument> FromFileAsync(string filePath)
+        /// <returns>The <see cref="OpenApiDocument" />.</returns>
+        public static async Task<OpenApiDocument> FromFileAsync(string filePath)
         {
             var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
             return await FromJsonAsync(data, filePath).ConfigureAwait(false);
@@ -212,8 +212,8 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
-        /// <returns>The <see cref="SwaggerDocument"/>.</returns>
-        public static async Task<SwaggerDocument> FromUrlAsync(string url)
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static async Task<OpenApiDocument> FromUrlAsync(string url)
         {
             var data = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
             return await FromJsonAsync(data, url).ConfigureAwait(false);

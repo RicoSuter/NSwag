@@ -13,9 +13,9 @@ namespace NSwag.SwaggerGeneration
     /// <summary>Interface for a service provider based Swagger document generator.</summary>
     public interface ISwaggerGenerator
     {
-        /// <summary>Generates the <see cref="SwaggerDocument"/>.</summary>
+        /// <summary>Generates the <see cref="OpenApiDocument"/>.</summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>The document</returns>
-        Task<SwaggerDocument> GenerateAsync(object serviceProvider);
+        Task<OpenApiDocument> GenerateAsync(object serviceProvider);
     }
 }

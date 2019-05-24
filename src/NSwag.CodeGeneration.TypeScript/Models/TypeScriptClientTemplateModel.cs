@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     {
         private readonly TypeScriptExtensionCode _extensionCode;
         private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             string controllerClassName,
             IEnumerable<TypeScriptOperationModel> operations,
             TypeScriptExtensionCode extensionCode,
-            SwaggerDocument document,
+            OpenApiDocument document,
             SwaggerToTypeScriptClientGeneratorSettings settings)
         {
             _extensionCode = extensionCode;

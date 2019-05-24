@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
     ""definitions"" : { }
 }
 ";
-            var document = await SwaggerDocument.FromJsonAsync(swagger);
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
             var settings = new SwaggerToTypeScriptClientGeneratorSettings { ClassName = "MyClass" };

@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace NSwag
 {
-    public partial class SwaggerDocument
+    public partial class OpenApiDocument
     {
         private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
             new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.Swagger2));
@@ -49,8 +49,8 @@ namespace NSwag
 
             if (schemaType == SchemaType.Swagger2)
             {
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "openapi");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "servers");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "openapi");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "servers");
                 resolver.IgnoreProperty(typeof(OpenApiParameter), "title");
 
                 // TODO: Use rename for not mapped properties!
@@ -62,7 +62,7 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(OpenApiOperation), "servers");
                 resolver.IgnoreProperty(typeof(OpenApiOperation), "requestBody");
 
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "components");
                 resolver.IgnoreProperty(typeof(OpenApiParameter), "examples");
                 resolver.IgnoreProperty(typeof(OpenApiParameter), "x-position");
 
@@ -76,14 +76,14 @@ namespace NSwag
             }
             else if (schemaType == SchemaType.OpenApi3)
             {
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "swagger");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "swagger");
 
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "host");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "basePath");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "schemes");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "host");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "basePath");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "schemes");
 
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "consumes");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "produces");
 
                 resolver.IgnoreProperty(typeof(OpenApiOperation), "schemes");
                 resolver.IgnoreProperty(typeof(OpenApiOperation), "consumes");
@@ -94,10 +94,10 @@ namespace NSwag
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
                 //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
 
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "definitions");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "parameters");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "responses");
-                resolver.IgnoreProperty(typeof(SwaggerDocument), "securityDefinitions");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "definitions");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "parameters");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "responses");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "securityDefinitions");
 
                 resolver.IgnoreProperty(typeof(OpenApiResponse), "schema");
                 resolver.IgnoreProperty(typeof(OpenApiResponse), "examples");

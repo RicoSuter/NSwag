@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.TypeScript
     /// <summary>Generates the CSharp service client code. </summary>
     public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase<TypeScriptOperationModel, TypeScriptParameterModel, TypeScriptResponseModel>
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly TypeScriptExtensionCode _extensionCode;
 
@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
+        public SwaggerToTypeScriptClientGenerator(OpenApiDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
             : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings))
         {
         }
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(SwaggerDocument document, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+        public SwaggerToTypeScriptClientGenerator(OpenApiDocument document, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
             : base(document, settings.CodeGeneratorSettings, resolver)
         {
             Settings = settings;

@@ -94,7 +94,7 @@ namespace NSwag.Commands.SwaggerGeneration
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             var generator = new JsonSchemaGenerator(Settings);
             var schemaResolver = new OpenApiSchemaResolver(document, Settings);
 

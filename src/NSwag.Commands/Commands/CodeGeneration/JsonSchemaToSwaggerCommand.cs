@@ -21,10 +21,10 @@ namespace NSwag.Commands.CodeGeneration
             return await RunAsync();
         }
 
-        public async Task<SwaggerDocument> RunAsync()
+        public async Task<OpenApiDocument> RunAsync()
         {
             var schema = await JsonSchema.FromJsonAsync(Schema).ConfigureAwait(false);
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
 
             var rootSchemaName = string.IsNullOrEmpty(Name) && Regex.IsMatch(schema.Title ?? string.Empty, "^[a-zA-Z0-9_]*$") ? schema.Title : Name;
             if (string.IsNullOrEmpty(rootSchemaName))

@@ -148,9 +148,9 @@ namespace NSwag.Core.Tests.Serialization
         }
 
 
-        private static SwaggerDocument CreateDocument(JsonObjectType type)
+        private static OpenApiDocument CreateDocument(JsonObjectType type)
         {
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {
