@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.AssemblyLoader.Utilities;
+using Xunit;
 
 namespace NSwag.Tests.Commands
 {
-    [TestClass]
     public class WildcardTests
     {
-        [TestMethod]
+        [Fact]
         public void When_path_has_wildcards_then_they_are_expanded_correctly()
         {
             //// Arrange
@@ -17,10 +16,10 @@ namespace NSwag.Tests.Commands
             var files = PathUtilities.ExpandFileWildcards("../../**/NSwag.*.dll").ToList();
 
             //// Assert
-            Assert.IsTrue(files.Any(f => f.Contains("bin\\Debug")) || files.Any(f => f.Contains("bin\\Release")));
+            Assert.True(files.Any(f => f.Contains("bin\\Debug")) || files.Any(f => f.Contains("bin\\Release")));
         }
 
-        [TestMethod]
+        [Fact]
         public void NoWildcard()
         {
             //// Arrange
@@ -30,11 +29,11 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("abc/def", items, '/');
 
             //// Assert
-            Assert.AreEqual(1, matches.Count());
-            Assert.AreEqual("abc/def", matches.First());
+            Assert.Single(matches);
+            Assert.Equal("abc/def", matches.First());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleWildcardInTheMiddle()
         {
             //// Arrange
@@ -44,11 +43,11 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("abc/*/ghi", items, '/');
 
             //// Assert
-            Assert.AreEqual(1, matches.Count());
-            Assert.AreEqual("abc/def/ghi", matches.First());
+            Assert.Single(matches);
+            Assert.Equal("abc/def/ghi", matches.First());
         }
 
-        [TestMethod]
+        [Fact]
         public void DoubleWildcardInTheMiddle()
         {
             //// Arrange
@@ -58,12 +57,12 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("a/**/c", items, '/');
 
             //// Assert
-            Assert.AreEqual(2, matches.Count());
-            Assert.AreEqual("a/b/c", matches.First());
-            Assert.AreEqual("a/b/b/c", matches.Last());
+            Assert.Equal(2, matches.Count());
+            Assert.Equal("a/b/c", matches.First());
+            Assert.Equal("a/b/b/c", matches.Last());
         }
         
-        [TestMethod]
+        [Fact]
         public void DoubleWildcardAtTheEnd()
         {
             //// Arrange
@@ -73,10 +72,10 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("abc/**", items, '/');
 
             //// Assert
-            Assert.AreEqual(3, matches.Count());
+            Assert.Equal(3, matches.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleWildcardAtTheEnd()
         {
             //// Arrange
@@ -86,10 +85,10 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("abc/*", items, '/');
 
             //// Assert
-            Assert.AreEqual(2, matches.Count());
+            Assert.Equal(2, matches.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public void DoubleWildcardAtTheBeginning()
         {
             //// Arrange
@@ -99,12 +98,12 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("**/c", items, '/');
 
             //// Assert
-            Assert.AreEqual(2, matches.Count());
-            Assert.AreEqual("a/b/c", matches.First());
-            Assert.AreEqual("a/c", matches.Last());
+            Assert.Equal(2, matches.Count());
+            Assert.Equal("a/b/c", matches.First());
+            Assert.Equal("a/c", matches.Last());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleWildcardAtTheBeginning()
         {
             //// Arrange
@@ -114,9 +113,9 @@ namespace NSwag.Tests.Commands
             var matches = PathUtilities.FindWildcardMatches("*/b/c", items, '/');
 
             //// Assert
-            Assert.AreEqual(2, matches.Count());
-            Assert.AreEqual("a/b/c", matches.First());
-            Assert.AreEqual("x/b/c", matches.Last());
+            Assert.Equal(2, matches.Count());
+            Assert.Equal("a/b/c", matches.First());
+            Assert.Equal("x/b/c", matches.Last());
         }
     }
 }

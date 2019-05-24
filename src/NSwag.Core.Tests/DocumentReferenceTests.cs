@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace NSwag.Tests.Specification
+namespace NSwag.Core.Tests
 {
-    [TestClass]
     public class DocumentReferenceTests
     {
-        [TestMethod]
+        [Fact]
         public async Task When_response_is_referenced_then_it_should_be_resolved()
         {
             //// Arrange
@@ -43,13 +42,13 @@ namespace NSwag.Tests.Specification
             json = document.ToJson();
 
             //// Assert
-            Assert.IsNotNull(document, "Document not parsed");
-            Assert.IsNotNull(document.Operations.First().Operation.ActualResponses["500"].Schema, "Response schema not parsed");
+            Assert.NotNull(document);
+            Assert.NotNull(document.Operations.First().Operation.ActualResponses["500"].Schema);
 
-            Assert.IsTrue(json.Contains(@"""$ref"": ""#/responses/GeneralError"""));
+            Assert.Contains(@"""$ref"": ""#/responses/GeneralError""", json);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_referenced_then_it_should_be_resolved()
         {
             //// Arrange
@@ -86,8 +85,8 @@ namespace NSwag.Tests.Specification
             json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual("foo", document.Operations.First().Operation.ActualParameters.First().Name);
-            Assert.IsTrue(json.Contains(@"""$ref"": ""#/parameters/Foo"""));
+            Assert.Equal("foo", document.Operations.First().Operation.ActualParameters.First().Name);
+            Assert.Contains(@"""$ref"": ""#/parameters/Foo""", json);
         }
     }
 }

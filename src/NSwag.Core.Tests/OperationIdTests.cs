@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
-namespace NSwag.Tests.Specification
+namespace NSwag.Core.Tests
 {
-    [TestClass]
     public class OperationIdTests
     {
-        [TestMethod]
-        public void When_generating_operation_id()
+        [Fact]
+        public void When_generating_operation_ids_then_all_are_set()
         {
             //// Arrange
             var document = new SwaggerDocument();
@@ -27,7 +26,7 @@ namespace NSwag.Tests.Specification
             document.GenerateOperationIds();
 
             //// Assert
-            Assert.IsTrue(document.Operations.GroupBy(o => o.Operation.OperationId).All(g => g.Count() == 1));
+            Assert.True(document.Operations.GroupBy(o => o.Operation.OperationId).All(g => g.Count() == 1));
         }
     }
 }

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NSwag.Annotations.Converters;
+using Xunit;
 
-namespace NSwag.Tests.Converters
+namespace NSwag.Core.Tests.Converters
 {
     public class CompanyNotFoundException : Exception
     {
@@ -27,10 +27,9 @@ namespace NSwag.Tests.Converters
         public Guid CompanyKey { get; set; }
     }
 
-    [TestClass]
     public class ExceptionSerializationTests
     {
-        [TestMethod]
+        [Fact]
         public void When_custom_exception_is_serialized_then_everything_works()
         {
             //// Arrange
@@ -51,18 +50,18 @@ namespace NSwag.Tests.Converters
                 var newJson = JsonConvert.SerializeObject(newException, settings);
 
                 //// Assert
-                Assert.AreEqual(exception.CompanyKey, newException.CompanyKey);
+                Assert.Equal(exception.CompanyKey, newException.CompanyKey);
 
-                Assert.AreEqual(exception.Message, newException.Message);
-                Assert.AreEqual(exception.Source, newException.Source);
-                Assert.AreEqual(exception.InnerException.Message, newException.InnerException.Message);
-                Assert.AreEqual(exception.InnerException.InnerException.Message, newException.InnerException.InnerException.Message);
+                Assert.Equal(exception.Message, newException.Message);
+                Assert.Equal(exception.Source, newException.Source);
+                Assert.Equal(exception.InnerException.Message, newException.InnerException.Message);
+                Assert.Equal(exception.InnerException.InnerException.Message, newException.InnerException.InnerException.Message);
 
-                Assert.AreEqual(exception.StackTrace, newException.StackTrace);
+                Assert.Equal(exception.StackTrace, newException.StackTrace);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_stack_trace_hiding_is_enabled_then_stack_trace_is_HIDDEN()
         {
             //// Arrange
@@ -78,11 +77,11 @@ namespace NSwag.Tests.Converters
                 var newException = JsonConvert.DeserializeObject<Exception>(json, settings) as CompanyNotFoundException;
 
                 //// Assert
-                Assert.AreEqual("HIDDEN", newException.StackTrace);
+                Assert.Equal("HIDDEN", newException.StackTrace);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void JsonExceptionConverter_is_thread_safe()
         {
             //// Arrange
@@ -120,7 +119,7 @@ namespace NSwag.Tests.Converters
             return settings;
         }
 
-        [TestMethod]
+        [Fact]
         public void When_ArgumentException_is_thrown_then_it_is_serialized_with_all_properties()
         {
             //// Arrange
@@ -138,11 +137,11 @@ namespace NSwag.Tests.Converters
                 var newJson = JsonConvert.SerializeObject(newException, settings);
 
                 //// Assert
-                Assert.AreEqual(exception.ParamName, newException.ParamName);
+                Assert.Equal(exception.ParamName, newException.ParamName);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_InvalidOperationException_is_thrown_then_it_is_serialized_with_all_properties()
         {
             //// Arrange
@@ -160,7 +159,7 @@ namespace NSwag.Tests.Converters
                 var newJson = JsonConvert.SerializeObject(newException, settings);
 
                 //// Assert
-                Assert.AreEqual(exception.Message, newException.Message);
+                Assert.Equal(exception.Message, newException.Message);
             }
         }
 
@@ -174,7 +173,7 @@ namespace NSwag.Tests.Converters
             public string Name { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_ArgumentOutOfRangeException_is_thrown_then_it_is_serialized_with_all_properties()
         {
             //// Arrange
@@ -192,8 +191,8 @@ namespace NSwag.Tests.Converters
                 var newJson = JsonConvert.SerializeObject(newException, settings);
 
                 //// Assert
-                Assert.IsNotNull(newException.ActualValue);
-                Assert.AreEqual(exception.ParamName, newException.ParamName);
+                Assert.NotNull(newException.ActualValue);
+                Assert.Equal(exception.ParamName, newException.ParamName);
             }
         }
     }
