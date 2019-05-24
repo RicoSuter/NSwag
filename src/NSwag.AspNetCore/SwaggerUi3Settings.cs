@@ -26,10 +26,14 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi3.</summary>
+#if AspNetOwin
     public class SwaggerUi3Settings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
+#else
+    public class SwaggerUi3Settings : SwaggerUiSettingsBase
+#endif
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Settings{T}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Settings"/> class.</summary>
         public SwaggerUi3Settings()
         {
             DocExpansion = "none";
@@ -137,6 +141,7 @@ namespace NSwag.AspNetCore
     /// <summary>Specifies a route in the Swagger dropdown.</summary>
     public class SwaggerUi3Route
     {
+        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Route"/> class.</summary>
         public SwaggerUi3Route(string name, string url)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -147,10 +152,12 @@ namespace NSwag.AspNetCore
             Name = name;
             Url = url;
         }
-
+        
+        /// <summary>Gets the route URL.</summary>
         [JsonProperty("url")]
         public string Url { get; internal set; }
 
+        /// <summary>Gets the route name.</summary>
         [JsonProperty("name")]
         public string Name { get; internal set; }
     }

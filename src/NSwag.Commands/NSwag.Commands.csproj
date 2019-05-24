@@ -26,7 +26,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Commands\SwaggerGeneration\AspNetCore\AspNetCore.targets" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.0.5" />
@@ -64,21 +63,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="NJsonSchema" Version="9.14.1" />
-    <PackageReference Include="NJsonSchema.Yaml" Version="9.14.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="9.14.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="9.14.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.14.1" />
+    <PackageReference Include="NJsonSchema" Version="10.0.5" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.0.5" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.5" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.0.5" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="10.0.5" />
   </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -27,7 +28,9 @@ namespace NSwag.SwaggerGeneration.Processors
             ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
 
             if (!context.OperationDescription.Operation.Tags.Any())
+            {
                 AddControllerNameTag(context);
+            }
 
             return Task.FromResult(true);
         }
@@ -38,7 +41,9 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             var controllerName = context.ControllerType.Name;
             if (controllerName.EndsWith("Controller"))
+            {
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
+            }
 
             context.OperationDescription.Operation.Tags.Add(controllerName);
         }
@@ -50,10 +55,14 @@ namespace NSwag.SwaggerGeneration.Processors
                                             .Select(a => (dynamic)a))
             {
                 if (operationDescription.Operation.Tags.All(t => t != tagAttribute.Name))
+                {
                     operationDescription.Operation.Tags.Add(tagAttribute.Name);
+                }
 
-                if (ReflectionExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
+                if (ObjectExtensions.HasProperty(tagAttribute, "AddToDocument") && tagAttribute.AddToDocument)
+                {
                     DocumentTagsProcessor.AddTagFromSwaggerTagAttribute(document, tagAttribute);
+                }
             }
         }
 
@@ -69,15 +78,21 @@ namespace NSwag.SwaggerGeneration.Processors
                 foreach (var tag in tags)
                 {
                     if (operationDescription.Operation.Tags.All(t => t != tag))
+                    {
                         operationDescription.Operation.Tags.Add(tag);
+                    }
 
-                    if (ReflectionExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
+                    if (ObjectExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
                     {
                         if (document.Tags == null)
+                        {
                             document.Tags = new List<SwaggerTag>();
+                        }
 
                         if (document.Tags.All(t => t.Name != tag))
+                        {
                             document.Tags.Add(new SwaggerTag { Name = tag });
+                        }
                     }
                 }
             }

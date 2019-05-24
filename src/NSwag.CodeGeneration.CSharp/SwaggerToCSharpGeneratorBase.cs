@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="isNullable">Specifies whether the type is nullable..</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
-        public override string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint)
+        public override string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint)
         {
             if (schema == null)
                 return "void";

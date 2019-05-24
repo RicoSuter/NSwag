@@ -169,7 +169,7 @@ namespace NSwag.Core.Tests.Serialization
                                             new SwaggerResponse
                                             {
                                                 Examples = 123,
-                                                Schema = new JsonSchema4
+                                                Schema = new JsonSchema
                                                 {
                                                     Type = type
                                                 },

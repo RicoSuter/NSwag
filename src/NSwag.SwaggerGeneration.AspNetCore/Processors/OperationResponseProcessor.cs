@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -70,15 +71,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
+                        var returnTypeAttributes = context.MethodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
+                        var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
+
                         var typeDescription = _settings.ReflectionService.GetDescription(
-                            returnType, GetParameterAttributes(context.MethodInfo.ReturnParameter),
-                            _settings.DefaultResponseReferenceTypeNullHandling, _settings);
+                            contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                         response.IsNullableRaw = typeDescription.IsNullable;
-
                         response.Schema = await context.SchemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                                returnType, null, typeDescription.IsNullable, context.SchemaResolver)
+                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
                             .ConfigureAwait(false);
                     }
 
@@ -91,7 +92,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
                 {
                     IsNullableRaw = true,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
                         Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,

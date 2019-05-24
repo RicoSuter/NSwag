@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Annotations;
 using NJsonSchema.Generation;
@@ -207,7 +208,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary))
+            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
                 operationDescription.Operation.TryAddConsumes("multipart/form-data");
             }
@@ -236,7 +237,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         private async Task<bool> TryAddFileParameterAsync(
             OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
-            var typeInfo = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
+            var typeInfo = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes), _settings);
 
             var isFileArray = IsFileArray(extendedApiParameter.ApiParameter.Type, typeInfo);
 
@@ -244,7 +245,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 .Union(extendedApiParameter.ParameterType.GetTypeInfo().GetCustomAttributes());
 
             var hasSwaggerFileAttribute = attributes.Any(a =>
-                a.GetType().IsAssignableTo("SwaggerFileAttribute", TypeNameStyle.Name));
+                a.GetType().IsAssignableToTypeName("SwaggerFileAttribute", TypeNameStyle.Name));
 
             if (typeInfo.Type == JsonObjectType.File ||
                 typeInfo.Format == JsonFormatStrings.Binary ||
@@ -276,7 +277,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
             {
-                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0], null, _settings);
+                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings);
                 if (description.Type == JsonObjectType.File || description.Format == JsonFormatStrings.Binary)
                 {
                     return true;
@@ -290,20 +291,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         {
             SwaggerParameter operationParameter;
 
-            var typeDescription = _settings.ReflectionService.GetDescription(
-                extendedApiParameter.ParameterType, extendedApiParameter.Attributes, _settings);
+            var contextualParameterType = extendedApiParameter.ParameterType
+                .ToContextualType(extendedApiParameter.Attributes);
+
+            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameterType, _settings);
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
 
             var operation = context.OperationDescription.Operation;
             var parameterType = extendedApiParameter.ParameterType;
-            if (parameterType.Name == "XmlDocument" || parameterType.InheritsFrom("XmlDocument", TypeNameStyle.Name))
+            if (parameterType.Name == "XmlDocument" || parameterType.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
             {
                 operation.TryAddConsumes("application/xml");
                 operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         IsNullableRaw = isNullable
@@ -313,14 +316,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
                 };
             }
-            else if (parameterType.IsAssignableTo("System.IO.Stream", TypeNameStyle.FullName))
+            else if (parameterType.IsAssignableToTypeName("System.IO.Stream", TypeNameStyle.FullName))
             {
                 operation.TryAddConsumes("application/octet-stream");
                 operationParameter = new SwaggerParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
                     Kind = SwaggerParameterKind.Body,
-                    Schema = new JsonSchema4
+                    Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
                         Format = JsonFormatStrings.Byte,
@@ -340,8 +343,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = isNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema4>(
-                        extendedApiParameter.ParameterType, extendedApiParameter.Attributes, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
+                        contextualParameterType, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
                 };
             }
 
@@ -353,15 +356,33 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
+            var contextualParameter = extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
+
+            var description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false);
             var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
-                extendedApiParameter.ApiParameter.Name,
-                await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                extendedApiParameter.ParameterType,
-                extendedApiParameter.Attributes).ConfigureAwait(false);
+                extendedApiParameter.ApiParameter.Name, description, contextualParameter).ConfigureAwait(false);
 
             if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
             {
-                operationParameter.Default = extendedApiParameter.ParameterInfo.DefaultValue;
+                var defaultValue = context.SchemaGenerator
+                    .ConvertDefaultValue(contextualParameter, extendedApiParameter.ParameterInfo.DefaultValue);
+
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    operationParameter.Default = defaultValue;
+                }
+                else if (operationParameter.Schema.HasReference)
+                {
+                    operationParameter.Schema = new JsonSchema
+                    {
+                        Default = defaultValue,
+                        OneOf = { operationParameter.Schema }
+                    };
+                }
+                else
+                {
+                    operationParameter.Schema.Default = defaultValue;
+                }
             }
 
             operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
@@ -374,7 +395,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             operationParameter.Kind = SwaggerParameterKind.FormData;
 
             if (isFileArray)
+            {
                 operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+            }
         }
 
         private class ExtendedApiParameterDescription
@@ -387,7 +410,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             public Type ParameterType { get; set; }
 
-            public IEnumerable<Attribute> Attributes { get; set; }
+            public IEnumerable<Attribute> Attributes { get; set; } = Enumerable.Empty<Attribute>();
 
             public bool IsRequired(bool requireParametersWithoutDefault)
             {
@@ -427,11 +450,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 var parameterDocumentation = string.Empty;
                 if (ParameterInfo != null)
                 {
-                    parameterDocumentation = await ParameterInfo.GetDescriptionAsync(Attributes).ConfigureAwait(false);
+                    parameterDocumentation = await ParameterInfo.ToContextualParameter().GetDescriptionAsync().ConfigureAwait(false);
                 }
                 else if (PropertyInfo != null)
                 {
-                    parameterDocumentation = await PropertyInfo.GetDescriptionAsync(Attributes).ConfigureAwait(false);
+                    parameterDocumentation = await PropertyInfo.ToContextualProperty().GetDescriptionAsync().ConfigureAwait(false);
                 }
 
                 return parameterDocumentation;

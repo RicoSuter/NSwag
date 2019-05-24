@@ -108,7 +108,7 @@ namespace NSwag.CodeGeneration.Models
         public string Description => ConversionUtilities.TrimWhiteSpaces(_parameter.Description);
 
         /// <summary>Gets the schema.</summary>
-        public JsonSchema4 Schema => _parameter.ActualSchema;
+        public JsonSchema Schema => _parameter.ActualSchema;
 
         /// <summary>Gets a value indicating whether the parameter is required.</summary>
         public bool IsRequired => _parameter.IsRequired;

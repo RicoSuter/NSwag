@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration
         /// <param name="isNullable">Specifies whether the type is nullable..</param>
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
-        string GetTypeName(JsonSchema4 schema, bool isNullable, string typeNameHint);
+        string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint);
 
         /// <summary>Gets the file/binary response type name.</summary>
         /// <returns>The type name.</returns>

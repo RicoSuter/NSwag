@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema exceptionSchema, SwaggerOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
             _operation = operation;
             _resolver = resolver;
@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The response model.</returns>
-        protected abstract TResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
+        protected abstract TResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema exceptionSchema, IClientGenerator generator,
             TypeResolverBase resolver, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets the operation ID.</summary>
@@ -307,7 +307,7 @@ namespace NSwag.CodeGeneration.Models
 
             if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
             {
-                schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
+                schema = new JsonSchema { Type = JsonObjectType.Array, Item = schema };
             }
 
             var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;

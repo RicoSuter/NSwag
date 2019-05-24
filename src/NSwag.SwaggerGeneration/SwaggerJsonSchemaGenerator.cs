@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -33,7 +34,7 @@ namespace NSwag.SwaggerGeneration
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override async Task GenerateObjectAsync(Type type, JsonTypeDescription typeDescription, JsonSchema4 schema, JsonSchemaResolver schemaResolver)
+        protected override async Task GenerateObjectAsync(Type type, JsonTypeDescription typeDescription, JsonSchema schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
@@ -56,26 +57,29 @@ namespace NSwag.SwaggerGeneration
 
         /// <summary>Generetes a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
         /// <typeparam name="TSchemaType">The resulted schema type which may reference the actual schema.</typeparam>
-        /// <param name="type">The type of the schema to generate.</param>
-        /// <param name="parentAttributes">The parent attributes (e.g. property or paramter attributes).</param>
+        /// <param name="contextualType">The type of the schema to generate.</param>
         /// <param name="isNullable">Specifies whether the property, parameter or requested schema type is nullable.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="transformation">An action to transform the resulting schema (e.g. property or parameter) before the type of reference is determined (with $ref or allOf/oneOf).</param>
         /// <returns>The requested schema object.</returns>
         public override async Task<TSchemaType> GenerateWithReferenceAndNullabilityAsync<TSchemaType>(
-            Type type, IEnumerable<Attribute> parentAttributes, bool isNullable,
-            JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema4, Task> transformation = null)
+            ContextualType contextualType, bool isNullable,
+            JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema, Task> transformation = null)
         {
-            if (type.Name == "Task`1")
-                type = type.GenericTypeArguments[0];
+            if (contextualType.TypeName == "Task`1")
+            {
+                contextualType = contextualType.OriginalGenericArguments[0];
+            }
+            else if (contextualType.TypeName == "JsonResult`1")
+            {
+                contextualType = contextualType.OriginalGenericArguments[0];
+            }
+            else if (contextualType.TypeName == "ActionResult`1")
+            {
+                contextualType = contextualType.OriginalGenericArguments[0];
+            }
 
-            if (type.Name == "JsonResult`1")
-                type = type.GenericTypeArguments[0];
-
-            if (type.Name == "ActionResult`1")
-                type = type.GenericTypeArguments[0];
-
-            if (IsFileResponse(type))
+            if (IsFileResponse(contextualType))
             {
                 if (Settings.SchemaType == SchemaType.Swagger2)
                 {
@@ -87,17 +91,17 @@ namespace NSwag.SwaggerGeneration
                 }
             }
 
-            return await base.GenerateWithReferenceAndNullabilityAsync(type, parentAttributes, isNullable, schemaResolver, transformation);
+            return await base.GenerateWithReferenceAndNullabilityAsync(contextualType, isNullable, schemaResolver, transformation);
         }
 
         private bool IsFileResponse(Type returnType)
         {
-            return returnType.IsAssignableTo("FileResult", TypeNameStyle.Name) ||
+            return returnType.IsAssignableToTypeName("FileResult", TypeNameStyle.Name) ||
                    returnType.Name == "IActionResult" ||
                    returnType.Name == "IHttpActionResult" ||
                    returnType.Name == "HttpResponseMessage" ||
-                   returnType.IsAssignableTo("ActionResult", TypeNameStyle.Name) ||
-                   returnType.InheritsFrom("HttpResponseMessage", TypeNameStyle.Name);
+                   returnType.IsAssignableToTypeName("ActionResult", TypeNameStyle.Name) ||
+                   returnType.InheritsFromTypeName("HttpResponseMessage", TypeNameStyle.Name);
         }
     }
 }

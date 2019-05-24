@@ -9,6 +9,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
@@ -27,17 +28,21 @@ namespace NSwag.SwaggerGeneration.Processors
                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
 
             if (descriptionAttribute != null)
+            {
                 context.OperationDescription.Operation.Summary = descriptionAttribute.Description;
+            }
             else
             {
-                var summary = await context.MethodInfo.GetXmlSummaryAsync().ConfigureAwait(false);
+                var summary = await context.MethodInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
                 if (summary != string.Empty)
                     context.OperationDescription.Operation.Summary = summary;
             }
 
-            var remarks = await context.MethodInfo.GetXmlRemarksAsync().ConfigureAwait(false);
+            var remarks = await context.MethodInfo.GetXmlDocsRemarksAsync().ConfigureAwait(false);
             if (remarks != string.Empty)
+            {
                 context.OperationDescription.Operation.Description = remarks;
+            }
 
             return true; 
         }

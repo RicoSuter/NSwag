@@ -11,6 +11,7 @@ using System.Web.Http.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
 using NSwag.Annotations;
 

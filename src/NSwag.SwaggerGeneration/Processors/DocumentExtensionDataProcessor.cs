@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -32,7 +33,7 @@ namespace NSwag.SwaggerGeneration.Processors
             foreach (var extensionDataAttribute in
                 from type in context.AllControllerTypes
                 from extensionDataAttribute in type.GetTypeInfo().GetCustomAttributes(true)
-                    .Where(a => a.GetType().IsAssignableTo("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
+                    .Where(a => a.GetType().IsAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name))
                 select (dynamic)extensionDataAttribute)
             {
                 string key = extensionDataAttribute.Key;

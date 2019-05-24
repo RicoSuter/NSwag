@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
@@ -50,8 +51,8 @@ namespace NSwag.SwaggerGeneration.WebApi
             return assembly.ExportedTypes
                 .Where(t => t.GetTypeInfo().IsAbstract == false)
                 .Where(t => t.Name.EndsWith("Controller") ||
-                            t.InheritsFrom("ApiController", TypeNameStyle.Name) ||
-                            t.InheritsFrom("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
+                            t.InheritsFromTypeName("ApiController", TypeNameStyle.Name) ||
+                            t.InheritsFromTypeName("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
                 .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
                 .Where(t =>
                 {
@@ -115,7 +116,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 await SwaggerDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
                 new SwaggerDocument();
 
-            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")";
+            document.Generator = "NSwag v" + SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
             document.SchemaType = Settings.SchemaType;
 
             document.Consumes = new List<string> { "application/json" };
@@ -165,7 +166,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                                 operations.Any(o => o.Item1.Path == httpPath &&
                                                     o.Item1.Method == httpMethod &&
                                                     o.Item2.DeclaringType != currentControllerType &&
-                                                    o.Item2.DeclaringType.IsAssignableTo(currentControllerType.FullName, TypeNameStyle.FullName));
+                                                    o.Item2.DeclaringType.IsAssignableToTypeName(currentControllerType.FullName, TypeNameStyle.FullName));
 
                             if (isPathAlreadyDefinedInInheritanceHierarchy == false)
                             {
@@ -240,11 +241,11 @@ namespace NSwag.SwaggerGeneration.WebApi
                 .GetCustomAttributes()
             // 3. Run from method attributes
                 .Concat(methodInfo.GetCustomAttributes())
-                .Where(a => a.GetType().IsAssignableTo("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
+                .Where(a => a.GetType().IsAssignableToTypeName("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
 
             foreach (dynamic attribute in operationProcessorAttribute)
             {
-                var operationProcessor = ReflectionExtensions.HasProperty(attribute, "Parameters") ?
+                var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ?
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
