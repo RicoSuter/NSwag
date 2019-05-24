@@ -19,13 +19,13 @@ namespace NSwag.SwaggerGeneration.Processors.Security
     {
         private readonly string _name;
         private readonly IEnumerable<string> _scopeNames;
-        private readonly SwaggerSecurityScheme _swaggerSecurityScheme;
+        private readonly OpenApiSecurityScheme _swaggerSecurityScheme;
 
         /// <summary>Initializes a new instance of the <see cref="SecurityDefinitionAppender" /> class where the security requirement must be manually added.</summary>
         /// <param name="name">The name/key of the security scheme/definition.</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
         [Obsolete("Use the constructor with scopeNames parameter instead.")]
-        public SecurityDefinitionAppender(string name, SwaggerSecurityScheme swaggerSecurityScheme)
+        public SecurityDefinitionAppender(string name, OpenApiSecurityScheme swaggerSecurityScheme)
         {
             _name = name;
             _swaggerSecurityScheme = swaggerSecurityScheme;
@@ -35,7 +35,7 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <param name="name">The name/key of the security scheme/definition.</param>
         /// <param name="scopeNames">The scope names to add to as security requirement with the scheme name in the 'security' property (can be an empty list).</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
-        public SecurityDefinitionAppender(string name, IEnumerable<string> scopeNames, SwaggerSecurityScheme swaggerSecurityScheme)
+        public SecurityDefinitionAppender(string name, IEnumerable<string> scopeNames, OpenApiSecurityScheme swaggerSecurityScheme)
         {
             _name = name;
             _scopeNames = scopeNames ?? throw new ArgumentNullException(nameof(scopeNames));
@@ -54,10 +54,10 @@ namespace NSwag.SwaggerGeneration.Processors.Security
             {
                 if (context.Document.Security == null)
                 {
-                    context.Document.Security = new Collection<SwaggerSecurityRequirement>();
+                    context.Document.Security = new Collection<OpenApiSecurityRequirement>();
                 }
 
-                context.Document.Security.Add(new SwaggerSecurityRequirement
+                context.Document.Security.Add(new OpenApiSecurityRequirement
                 {
                     { _name, _scopeNames }
                 });

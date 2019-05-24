@@ -36,11 +36,11 @@ namespace NSwag.SwaggerGeneration
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="parameterType">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
-        public SwaggerParameter CreateUntypedPathParameter(string parameterName, string parameterType)
+        public OpenApiParameter CreateUntypedPathParameter(string parameterName, string parameterType)
         {
-            var parameter = new SwaggerParameter();
+            var parameter = new OpenApiParameter();
             parameter.Name = parameterName;
-            parameter.Kind = SwaggerParameterKind.Path;
+            parameter.Kind = OpenApiParameterKind.Path;
             parameter.IsRequired = true;
 
             if (_settings.SchemaType == SchemaType.Swagger2)
@@ -73,7 +73,7 @@ namespace NSwag.SwaggerGeneration
         /// <param name="name">The name.</param>
         /// <param name="contextualParameter">The parameter.</param>
         /// <returns>The parameter.</returns>
-        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(string name, ContextualParameterInfo contextualParameter)
+        public async Task<OpenApiParameter> CreatePrimitiveParameterAsync(string name, ContextualParameterInfo contextualParameter)
         {
             var documentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
             return await CreatePrimitiveParameterAsync(name, documentation, contextualParameter).ConfigureAwait(false);
@@ -84,10 +84,10 @@ namespace NSwag.SwaggerGeneration
         /// <param name="description">The description.</param>
         /// <param name="contextualParameter">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
-        public async Task<SwaggerParameter> CreatePrimitiveParameterAsync(
+        public async Task<OpenApiParameter> CreatePrimitiveParameterAsync(
             string name, string description, ContextualType contextualParameter)
         {
-            SwaggerParameter operationParameter;
+            OpenApiParameter operationParameter;
 
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
             if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
@@ -96,7 +96,7 @@ namespace NSwag.SwaggerGeneration
                     .GenerateAsync(contextualParameter, _schemaResolver)
                     .ConfigureAwait(false);
 
-                operationParameter = new SwaggerParameter();
+                operationParameter = new OpenApiParameter();
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
@@ -132,12 +132,12 @@ namespace NSwag.SwaggerGeneration
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter = await _schemaGenerator
-                        .GenerateAsync<SwaggerParameter>(contextualParameter, _schemaResolver)
+                        .GenerateAsync<OpenApiParameter>(contextualParameter, _schemaResolver)
                         .ConfigureAwait(false);
                 }
                 else
                 {
-                    operationParameter = new SwaggerParameter
+                    operationParameter = new OpenApiParameter
                     {
                         Schema = await _schemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
@@ -152,7 +152,7 @@ namespace NSwag.SwaggerGeneration
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
             }
 
             operationParameter.IsNullableRaw = typeDescription.IsNullable;

@@ -10,21 +10,21 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerPathItem
+            document.Paths["foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get, new SwaggerOperation
+                    OpenApiOperationMethod.Get, new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Name = "foo"
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Name = "foo"
                             },
                         }

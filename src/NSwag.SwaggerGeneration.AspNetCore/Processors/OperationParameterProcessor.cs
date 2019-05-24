@@ -128,13 +128,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     continue;
                 }
 
-                SwaggerParameter operationParameter = null;
+                OpenApiParameter operationParameter = null;
                 if (apiParameter.Source == BindingSource.Path ||
                     (apiParameter.Source == BindingSource.Custom &&
                      httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
-                    operationParameter.Kind = SwaggerParameterKind.Path;
+                    operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -142,14 +142,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 else if (apiParameter.Source == BindingSource.Header)
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
-                    operationParameter.Kind = SwaggerParameterKind.Header;
+                    operationParameter.Kind = OpenApiParameterKind.Header;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (apiParameter.Source == BindingSource.Query)
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
-                    operationParameter.Kind = SwaggerParameterKind.Query;
+                    operationParameter.Kind = OpenApiParameterKind.Query;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -160,7 +160,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 else if (apiParameter.Source == BindingSource.Form)
                 {
                     operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
-                    operationParameter.Kind = SwaggerParameterKind.FormData;
+                    operationParameter.Kind = OpenApiParameterKind.FormData;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
@@ -169,7 +169,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     if (await TryAddFileParameterAsync(context, extendedApiParameter).ConfigureAwait(false) == false)
                     {
                         operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
-                        operationParameter.Kind = SwaggerParameterKind.Query;
+                        operationParameter.Kind = OpenApiParameterKind.Query;
 
                         context.OperationDescription.Operation.Parameters.Add(operationParameter);
                     }
@@ -187,7 +187,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
                     if (parameter != null)
                     {
-                        ((Dictionary<ParameterInfo, SwaggerParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
+                        ((Dictionary<ParameterInfo, OpenApiParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
                     }
                 }
             }
@@ -200,15 +200,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             return true;
         }
 
-        private void EnsureSingleBodyParameter(SwaggerOperationDescription operationDescription)
+        private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+            if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
                 throw new InvalidOperationException($"The operation '{operationDescription.Operation.OperationId}' has more than one body parameter.");
             }
         }
 
-        private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
+        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
@@ -216,12 +216,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             }
         }
 
-        private void RemoveUnusedPathParameters(SwaggerOperationDescription operationDescription, string httpPath)
+        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
-                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
+                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return "{" + parameterName + "}";
                 }
@@ -293,9 +293,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             return false;
         }
 
-        private async Task<SwaggerParameter> AddBodyParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
+        private async Task<OpenApiParameter> AddBodyParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
-            SwaggerParameter operationParameter;
+            OpenApiParameter operationParameter;
 
             var contextualParameterType = extendedApiParameter.ParameterType
                 .ToContextualType(extendedApiParameter.Attributes);
@@ -308,10 +308,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             if (parameterType.Name == "XmlDocument" || parameterType.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
             {
                 operation.TryAddConsumes("application/xml");
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
-                    Kind = SwaggerParameterKind.Body,
+                    Kind = OpenApiParameterKind.Body,
                     Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
@@ -325,10 +325,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             else if (parameterType.IsAssignableToTypeName("System.IO.Stream", TypeNameStyle.FullName))
             {
                 operation.TryAddConsumes("application/octet-stream");
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
-                    Kind = SwaggerParameterKind.Body,
+                    Kind = OpenApiParameterKind.Body,
                     Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
@@ -342,10 +342,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             }
             else // body from type
             {
-                operationParameter = new SwaggerParameter
+                operationParameter = new OpenApiParameter
                 {
                     Name = extendedApiParameter.ApiParameter.Name,
-                    Kind = SwaggerParameterKind.Body,
+                    Kind = OpenApiParameterKind.Body,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = isNullable,
                     Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
@@ -358,7 +358,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             return operationParameter;
         }
 
-        private async Task<SwaggerParameter> CreatePrimitiveParameterAsync(
+        private async Task<OpenApiParameter> CreatePrimitiveParameterAsync(
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
@@ -395,14 +395,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             return operationParameter;
         }
 
-        private void InitializeFileParameter(SwaggerParameter operationParameter, bool isFileArray)
+        private void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
         {
             operationParameter.Type = JsonObjectType.File;
-            operationParameter.Kind = SwaggerParameterKind.FormData;
+            operationParameter.Kind = OpenApiParameterKind.FormData;
 
             if (isFileArray)
             {
-                operationParameter.CollectionFormat = SwaggerParameterCollectionFormat.Multi;
+                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
             }
         }
 

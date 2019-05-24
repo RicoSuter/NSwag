@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
-        public CSharpControllerOperationModel(SwaggerOperation operation, SwaggerToCSharpControllerGeneratorSettings settings, 
+        public CSharpControllerOperationModel(OpenApiOperation operation, SwaggerToCSharpControllerGeneratorSettings settings, 
             SwaggerToCSharpControllerGenerator generator, CSharpTypeResolver resolver) 
             : base(operation, settings, generator, resolver)
         {

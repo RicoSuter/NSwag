@@ -7,13 +7,12 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using NJsonSchema;
 
 namespace NSwag
 {
     /// <summary>Describes a Swagger tag.</summary>
-    public class SwaggerTag : JsonExtensionObject
+    public class OpenApiTag : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -25,6 +24,6 @@ namespace NSwag
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
+        public OpenApiExternalDocumentation ExternalDocumentation { get; set; }
     }
 }

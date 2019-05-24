@@ -47,7 +47,7 @@ namespace NSwag.SwaggerGeneration.Processors
             context.OperationDescription.Operation.Tags.Add(controllerName);
         }
 
-        private void ProcessSwaggerTagAttributes(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        private void ProcessSwaggerTagAttributes(SwaggerDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             foreach (var tagAttribute in methodInfo.GetCustomAttributes()
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
@@ -65,7 +65,7 @@ namespace NSwag.SwaggerGeneration.Processors
             }
         }
 
-        private void ProcessSwaggerTagsAttribute(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        private void ProcessSwaggerTagsAttribute(SwaggerDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             dynamic tagsAttribute = methodInfo
                 .GetCustomAttributes()
@@ -85,12 +85,12 @@ namespace NSwag.SwaggerGeneration.Processors
                     {
                         if (document.Tags == null)
                         {
-                            document.Tags = new List<SwaggerTag>();
+                            document.Tags = new List<OpenApiTag>();
                         }
 
                         if (document.Tags.All(t => t.Name != tag))
                         {
-                            document.Tags.Add(new SwaggerTag { Name = tag });
+                            document.Tags.Add(new OpenApiTag { Name = tag });
                         }
                     }
                 }

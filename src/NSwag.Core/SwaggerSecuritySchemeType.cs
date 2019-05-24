@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace NSwag
 {
     /// <summary></summary>
-    public enum SwaggerSecuritySchemeType
+    public enum OpenApiSecuritySchemeType
     {
         /// <summary>The security scheme is not defined.</summary>
         Undefined,

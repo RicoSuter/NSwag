@@ -27,7 +27,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Act
             var document = new SwaggerDocument();
             var settings = new JsonSchemaGeneratorSettings();
-            var schemaResolver = new SwaggerSchemaResolver(document, settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, settings);
             var generator = new JsonSchemaGenerator(settings);
             foreach (var className in classNames)
             {

@@ -15,21 +15,21 @@ using NJsonSchema.Infrastructure;
 namespace NSwag
 {
     /// <summary>The definition of a security scheme that can be used by the operations.</summary>
-    public class SwaggerSecurityScheme : JsonExtensionObject
+    public class OpenApiSecurityScheme : JsonExtensionObject
     {
-        private SwaggerSecuritySchemeType _type;
+        private OpenApiSecuritySchemeType _type;
 
         /// <summary>Gets or sets the type of the security scheme.</summary>
-        /// <remarks>Changes the type to <see cref="SwaggerSecuritySchemeType.Http"/> and the <see cref="Scheme"/> to "basic" set to <see cref="SwaggerSecuritySchemeType.Basic"/>.</remarks>
+        /// <remarks>Changes the type to <see cref="OpenApiSecuritySchemeType.Http"/> and the <see cref="Scheme"/> to "basic" set to <see cref="OpenApiSecuritySchemeType.Basic"/>.</remarks>
         [JsonIgnore]
-        public SwaggerSecuritySchemeType Type
+        public OpenApiSecuritySchemeType Type
         {
             get => _type;
             set
             {
-                if (value == SwaggerSecuritySchemeType.Basic)
+                if (value == OpenApiSecuritySchemeType.Basic)
                 {
-                    _type = SwaggerSecuritySchemeType.Http;
+                    _type = OpenApiSecuritySchemeType.Http;
                     Scheme = "basic";
                 }
                 else
@@ -50,7 +50,7 @@ namespace NSwag
         /// <summary>Gets or sets the type of the API key.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public SwaggerSecurityApiKeyLocation In { get; set; }
+        public OpenApiSecurityApiKeyLocation In { get; set; }
 
         /// <summary>Gets or sets name of the HTTP Authorization scheme to be used in the Authorization header as defined in RFC7235 (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "scheme", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -71,20 +71,20 @@ namespace NSwag
 
         [JsonProperty(PropertyName = "type", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, Order = -10)]
         [JsonConverter(typeof(StringEnumConverter))]
-        internal SwaggerSecuritySchemeType TypeRaw
+        internal OpenApiSecuritySchemeType TypeRaw
         {
             get
             {
                 if (JsonSchemaSerialization.CurrentSchemaType == SchemaType.Swagger2)
                 {
-                    if (Type == SwaggerSecuritySchemeType.Http)
+                    if (Type == OpenApiSecuritySchemeType.Http)
                     {
-                        return SwaggerSecuritySchemeType.Basic;
+                        return OpenApiSecuritySchemeType.Basic;
                     }
 
-                    if (Type == SwaggerSecuritySchemeType.OpenIdConnect)
+                    if (Type == OpenApiSecuritySchemeType.OpenIdConnect)
                     {
-                        return SwaggerSecuritySchemeType.OAuth2;
+                        return OpenApiSecuritySchemeType.OAuth2;
                     }
                 }
 
@@ -93,9 +93,9 @@ namespace NSwag
             set
             {
                 if (JsonSchemaSerialization.CurrentSchemaType == SchemaType.Swagger2 &&
-                    Type == SwaggerSecuritySchemeType.Basic)
+                    Type == OpenApiSecuritySchemeType.Basic)
                 {
-                    Type = SwaggerSecuritySchemeType.Http;
+                    Type = OpenApiSecuritySchemeType.Http;
                     Scheme = "basic";
                 }
                 else
@@ -109,34 +109,34 @@ namespace NSwag
 
         /// <summary>Gets or sets the used by the OAuth2 security scheme (Swagger only).</summary>
         [JsonProperty(PropertyName = "flow", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public SwaggerOAuth2Flow Flow
+        public OpenApiOAuth2Flow Flow
         {
             get
             {
-                if (Type == SwaggerSecuritySchemeType.OAuth2)
+                if (Type == OpenApiSecuritySchemeType.OAuth2)
                 {
                     if (Flows?.Implicit != null)
                     {
-                        return SwaggerOAuth2Flow.Implicit;
+                        return OpenApiOAuth2Flow.Implicit;
                     }
 
                     if (Flows?.Password != null)
                     {
-                        return SwaggerOAuth2Flow.Password;
+                        return OpenApiOAuth2Flow.Password;
                     }
 
                     if (Flows?.ClientCredentials != null)
                     {
-                        return SwaggerOAuth2Flow.Application;
+                        return OpenApiOAuth2Flow.Application;
                     }
 
                     if (Flows?.AuthorizationCode != null)
                     {
-                        return SwaggerOAuth2Flow.AccessCode;
+                        return OpenApiOAuth2Flow.AccessCode;
                     }
                 }
 
-                return SwaggerOAuth2Flow.Undefined;
+                return OpenApiOAuth2Flow.Undefined;
             }
             set => UpdateFlows(value, AuthorizationUrl, TokenUrl, Scopes);
         }
@@ -165,7 +165,7 @@ namespace NSwag
             set => UpdateFlows(Flow, AuthorizationUrl, TokenUrl, value);
         }
 
-        private void UpdateFlows(SwaggerOAuth2Flow flowType, string authorizationUrl, string tokenUrl, IDictionary<string, string> scopes)
+        private void UpdateFlows(OpenApiOAuth2Flow flowType, string authorizationUrl, string tokenUrl, IDictionary<string, string> scopes)
         {
             var flow = new OpenApiOAuthFlow
             {
@@ -174,19 +174,19 @@ namespace NSwag
                 Scopes = scopes,
             };
 
-            if (flowType == SwaggerOAuth2Flow.Implicit)
+            if (flowType == OpenApiOAuth2Flow.Implicit)
             {
                 Flows = new OpenApiOAuthFlows { Implicit = flow };
             }
-            else if (flowType == SwaggerOAuth2Flow.Password)
+            else if (flowType == OpenApiOAuth2Flow.Password)
             {
                 Flows = new OpenApiOAuthFlows { Password = flow };
             }
-            else if (flowType == SwaggerOAuth2Flow.Application)
+            else if (flowType == OpenApiOAuth2Flow.Application)
             {
                 Flows = new OpenApiOAuthFlows { ClientCredentials = flow };
             }
-            else if (flowType == SwaggerOAuth2Flow.AccessCode)
+            else if (flowType == OpenApiOAuth2Flow.AccessCode)
             {
                 Flows = new OpenApiOAuthFlows { AuthorizationCode = flow };
             }
@@ -196,24 +196,24 @@ namespace NSwag
             }
         }
 
-        private OpenApiOAuthFlow GetFlow(SwaggerOAuth2Flow flowType)
+        private OpenApiOAuthFlow GetFlow(OpenApiOAuth2Flow flowType)
         {
-            if (flowType == SwaggerOAuth2Flow.Implicit)
+            if (flowType == OpenApiOAuth2Flow.Implicit)
             {
                 return Flows?.Implicit;
             }
 
-            if (flowType == SwaggerOAuth2Flow.Password)
+            if (flowType == OpenApiOAuth2Flow.Password)
             {
                 return Flows?.Password;
             }
 
-            if (flowType == SwaggerOAuth2Flow.Application)
+            if (flowType == OpenApiOAuth2Flow.Application)
             {
                 return Flows?.ClientCredentials;
             }
 
-            if (flowType == SwaggerOAuth2Flow.AccessCode)
+            if (flowType == OpenApiOAuth2Flow.AccessCode)
             {
                 return Flows?.AuthorizationCode;
             }

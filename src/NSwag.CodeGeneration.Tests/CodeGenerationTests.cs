@@ -117,17 +117,17 @@ namespace NSwag.CodeGeneration.Tests
             var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new SwaggerPathItem();
-            document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
+            document.Paths["/Person"] = new OpenApiPathItem();
+            document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
             {
                 Responses = 
                 {
                     {
-                        "200", new SwaggerResponse
+                        "200", new OpenApiResponse
                         {
                             Schema = new JsonSchema
                             {
-                                Reference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                                Reference = await generator.GenerateAsync(typeof(Person), new OpenApiSchemaResolver(document, settings))
                             }
                         }
                     }

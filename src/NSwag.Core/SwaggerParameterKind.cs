@@ -14,7 +14,7 @@ namespace NSwag
 {
     /// <summary>Enumeration of the parameter kinds. </summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum SwaggerParameterKind
+    public enum OpenApiParameterKind
     {
         /// <summary>An undefined kind.</summary>
         [EnumMember(Value = "undefined")]

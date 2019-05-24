@@ -51,28 +51,28 @@ namespace NSwag
             {
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "openapi");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "servers");
-                resolver.IgnoreProperty(typeof(SwaggerParameter), "title");
+                resolver.IgnoreProperty(typeof(OpenApiParameter), "title");
 
                 // TODO: Use rename for not mapped properties!
-                resolver.IgnoreProperty(typeof(SwaggerPathItem), "summary");
-                resolver.IgnoreProperty(typeof(SwaggerPathItem), "description");
-                resolver.IgnoreProperty(typeof(SwaggerPathItem), "servers");
+                resolver.IgnoreProperty(typeof(OpenApiPathItem), "summary");
+                resolver.IgnoreProperty(typeof(OpenApiPathItem), "description");
+                resolver.IgnoreProperty(typeof(OpenApiPathItem), "servers");
 
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "callbacks");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "servers");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "requestBody");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "callbacks");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "servers");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "requestBody");
 
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "components");
-                resolver.IgnoreProperty(typeof(SwaggerParameter), "examples");
-                resolver.IgnoreProperty(typeof(SwaggerParameter), "x-position");
+                resolver.IgnoreProperty(typeof(OpenApiParameter), "examples");
+                resolver.IgnoreProperty(typeof(OpenApiParameter), "x-position");
 
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "content");
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "links");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "content");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "links");
 
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scheme");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "bearerFormat");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "openIdConnectUrl");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flows");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scheme");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "bearerFormat");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "openIdConnectUrl");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "flows");
             }
             else if (schemaType == SchemaType.OpenApi3)
             {
@@ -85,9 +85,9 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "consumes");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "produces");
 
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "schemes");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "consumes");
-                resolver.IgnoreProperty(typeof(SwaggerOperation), "produces");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "schemes");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "consumes");
+                resolver.IgnoreProperty(typeof(OpenApiOperation), "produces");
 
                 //resolver.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
 
@@ -99,14 +99,14 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "responses");
                 resolver.IgnoreProperty(typeof(SwaggerDocument), "securityDefinitions");
 
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "schema");
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "examples");
-                resolver.IgnoreProperty(typeof(SwaggerResponse), "x-nullable");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "schema");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "examples");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "x-nullable");
 
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "flow");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "authorizationUrl");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "tokenUrl");
-                resolver.IgnoreProperty(typeof(SwaggerSecurityScheme), "scopes");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "flow");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "authorizationUrl");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "tokenUrl");
+                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scopes");
             }
             else
             {
@@ -116,7 +116,7 @@ namespace NSwag
             return resolver;
         }
 
-        private ObservableCollection<SwaggerSchema> _schemes = new ObservableCollection<SwaggerSchema>();
+        private ObservableCollection<OpenApiSchema> _schemes = new ObservableCollection<OpenApiSchema>();
 
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
         [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -140,7 +140,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the schemes.</summary>
         [JsonProperty(PropertyName = "schemes", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
-        public ICollection<SwaggerSchema> Schemes
+        public ICollection<OpenApiSchema> Schemes
         {
             get
             {
@@ -149,10 +149,10 @@ namespace NSwag
                     _schemes.CollectionChanged -= OnSchemesChanged;
                 }
 
-                _schemes = new ObservableCollection<SwaggerSchema>(Servers?
+                _schemes = new ObservableCollection<OpenApiSchema>(Servers?
                     .Where(s => s.Url.Contains("://"))
-                    .Select(s => s.Url.StartsWith("http://") ? SwaggerSchema.Http : SwaggerSchema.Https)
-                    .Distinct() ?? new List<SwaggerSchema>());
+                    .Select(s => s.Url.StartsWith("http://") ? OpenApiSchema.Http : OpenApiSchema.Https)
+                    .Distinct() ?? new List<OpenApiSchema>());
 
                 _schemes.CollectionChanged += OnSchemesChanged;
 
@@ -163,10 +163,10 @@ namespace NSwag
 
         private void OnSchemesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdateServers((ICollection<SwaggerSchema>)sender, Host, BasePath);
+            UpdateServers((ICollection<OpenApiSchema>)sender, Host, BasePath);
         }
 
-        private void UpdateServers(ICollection<SwaggerSchema> schemes, string host, string basePath)
+        private void UpdateServers(ICollection<OpenApiSchema> schemes, string host, string basePath)
         {
             if ((schemes == null || schemes.Count == 0) && (!string.IsNullOrEmpty(host) || !string.IsNullOrEmpty(basePath)))
             {
@@ -201,14 +201,14 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
         [JsonProperty(PropertyName = "parameters", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerParameter> Parameters => Components.Parameters;
+        public IDictionary<string, OpenApiParameter> Parameters => Components.Parameters;
 
         /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
         [JsonProperty(PropertyName = "responses", Order = 15, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerResponse> Responses => Components.Responses;
+        public IDictionary<string, OpenApiResponse> Responses => Components.Responses;
 
         /// <summary>Gets or sets the security definitions (Swagger only).</summary>
         [JsonProperty(PropertyName = "securityDefinitions", Order = 16, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
+        public IDictionary<string, OpenApiSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
     }
 }

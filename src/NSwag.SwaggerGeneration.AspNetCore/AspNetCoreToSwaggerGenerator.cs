@@ -102,7 +102,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                 .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions
                 .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
@@ -125,12 +125,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         private async Task<List<Type>> GenerateForControllersAsync(
             SwaggerDocument document,
             IGrouping<Type, Tuple<ApiDescription, ControllerActionDescriptor>>[] apiGroups,
-            SwaggerSchemaResolver schemaResolver)
+            OpenApiSchemaResolver schemaResolver)
         {
             var usedControllerTypes = new List<Type>();
             var swaggerGenerator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
 
-            var allOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+            var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
             {
                 var controllerType = controllerApiDescriptionGroup.Key;
@@ -142,7 +142,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                 if (!hasIgnoreAttribute)
                 {
-                    var operations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+                    var operations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
                     foreach (var item in controllerApiDescriptionGroup)
                     {
                         var apiDescription = item.Item1;
@@ -161,13 +161,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                         }
 
                         var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? OpenApiOperationMethod.Get;
 
-                        var operationDescription = new SwaggerOperationDescription
+                        var operationDescription = new OpenApiOperationDescription
                         {
                             Path = path,
                             Method = httpMethod,
-                            Operation = new SwaggerOperation
+                            Operation = new OpenApiOperation
                             {
                                 IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
                                 OperationId = GetOperationId(document, controllerActionDescriptor, method),
@@ -182,7 +182,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                             }
                         };
 
-                        operations.Add(new Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
+                        operations.Add(new Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
                     }
 
                     var addedOperations = await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
@@ -199,12 +199,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return usedControllerTypes;
         }
 
-        private async Task<List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>> AddOperationDescriptionsToDocumentAsync(
+        private async Task<List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>> AddOperationDescriptionsToDocumentAsync(
             SwaggerDocument document, Type controllerType,
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> operations,
-            SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+            List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> operations,
+            SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
-            var addedOperations = new List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>>();
+            var addedOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             var allOperations = operations.Select(t => t.Item1).ToList();
             foreach (var tuple in operations)
             {
@@ -219,7 +219,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                     var path = operation.Path.Replace("//", "/");
                     if (!document.Paths.ContainsKey(path))
                     {
-                        document.Paths[path] = new SwaggerPathItem();
+                        document.Paths[path] = new OpenApiPathItem();
                     }
 
                     if (document.Paths[path].ContainsKey(operation.Method))
@@ -236,7 +236,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         }
 
         private void UpdateConsumesAndProduces(SwaggerDocument document,
-            List<Tuple<SwaggerOperationDescription, ApiDescription, MethodInfo>> allOperations)
+            List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> allOperations)
         {
             // TODO: Move to SwaggerGenerator class?
 
@@ -273,7 +273,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
             if (document.Info == null)
             {
-                document.Info = new SwaggerInfo();
+                document.Info = new OpenApiInfo();
             }
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
@@ -297,7 +297,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return document;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             // 1. Run from settings
             var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations)

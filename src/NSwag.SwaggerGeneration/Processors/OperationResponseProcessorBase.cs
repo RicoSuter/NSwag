@@ -159,7 +159,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var typeDescription = _settings.ReflectionService.GetDescription(
                     contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
-                var response = new SwaggerResponse
+                var response = new OpenApiResponse
                 {
                     Description = description ?? string.Empty
                 };
@@ -248,7 +248,7 @@ namespace NSwag.SwaggerGeneration.Processors
 
             if (IsVoidResponse(returnType))
             {
-                operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
+                operation.Responses[GetVoidResponseStatusCode()] = new OpenApiResponse
                 {
                     Description = successXmlDescription
                 };
@@ -262,7 +262,7 @@ namespace NSwag.SwaggerGeneration.Processors
                 var responseSchema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
                     contextualReturnParameter, typeDescription.IsNullable, context.SchemaResolver).ConfigureAwait(false);
 
-                operation.Responses["200"] = new SwaggerResponse
+                operation.Responses["200"] = new OpenApiResponse
                 {
                     Description = successXmlDescription,
                     IsNullableRaw = typeDescription.IsNullable,

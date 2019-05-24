@@ -61,7 +61,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 foreach (var apiResponse in context.ApiDescription.SupportedResponseTypes)
                 {
                     var returnType = apiResponse.Type;
-                    var response = new SwaggerResponse();
+                    var response = new OpenApiResponse();
                     string httpStatusCode;
 
                     if (apiResponse.TryGetPropertyValue<bool>("IsDefaultResponse"))
@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 
             if (context.OperationDescription.Operation.Responses.Count == 0)
             {
-                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new SwaggerResponse
+                context.OperationDescription.Operation.Responses[GetVoidResponseStatusCode()] = new OpenApiResponse
                 {
                     IsNullableRaw = true,
                     Schema = new JsonSchema

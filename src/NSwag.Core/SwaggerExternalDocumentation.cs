@@ -12,7 +12,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>The external documentation description.</summary>
-    public class SwaggerExternalDocumentation : JsonExtensionObject
+    public class OpenApiExternalDocumentation : JsonExtensionObject
     {
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

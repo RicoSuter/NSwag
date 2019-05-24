@@ -49,7 +49,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var json = document.ToJson();
 
             //// Assert
-            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][OpenApiOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.File, operation.ActualParameters.Single(p => p.Name == "formFile").Type);
             Assert.IsTrue(operation.ActualParameters.Any(p => p.Name == "formFile"));
@@ -80,11 +80,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync(typeof(FileCollectionController));
 
             //// Assert
-            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][OpenApiOperationMethod.Post];
             var parameter = operation.ActualParameters.Single(p => p.Name == "files");
 
             Assert.AreEqual(JsonObjectType.File, parameter.Type);
-            Assert.AreEqual(SwaggerParameterCollectionFormat.Multi, parameter.CollectionFormat);
+            Assert.AreEqual(OpenApiParameterCollectionFormat.Multi, parameter.CollectionFormat);
 
             Assert.AreEqual(1, operation.ActualConsumes.Count());
             Assert.AreEqual("multipart/form-data", operation.ActualConsumes.First());
@@ -110,7 +110,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var json = document.ToJson();
 
             //// Assert
-            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][OpenApiOperationMethod.Post];
             var parameter = operation.ActualParameters.Single(p => p.Name == "data");
 
             Assert.AreEqual(JsonObjectType.String, parameter.Schema.Type);

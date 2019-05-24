@@ -30,8 +30,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             string parameterName, 
             string variableName, 
             string typeName, 
-            SwaggerParameter parameter,
-            IList<SwaggerParameter> allParameters, 
+            OpenApiParameter parameter,
+            IList<OpenApiParameter> allParameters, 
             CodeGeneratorSettingsBase settings, 
             IClientGenerator generator, 
             TypeResolverBase typeResolver)

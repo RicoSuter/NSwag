@@ -41,7 +41,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, operation.ActualParameters[0].Kind);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromUriAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, operation.ActualParameters[0].Kind);
         }
 
 
@@ -76,7 +76,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithFromBodyAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Path, operation.ActualParameters[0].Kind); // TODO: What is correct?
+            Assert.AreEqual(OpenApiParameterKind.Path, operation.ActualParameters[0].Kind); // TODO: What is correct?
         }
 
         [RoutePrefix("api/RoutePrefixWithPaths/{companyIdentifier:guid}")]
@@ -109,7 +109,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var parameter = operation.Parameters.Single(p => p.Name == "companyIdentifier");
 
             Assert.AreEqual(2, operation.ActualParameters.Count);
-            Assert.AreEqual(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, parameter.Kind);
             Assert.AreEqual(JsonObjectType.String, parameter.Type);
             Assert.AreEqual(JsonFormatStrings.Guid, parameter.Format);
         }

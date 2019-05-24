@@ -272,29 +272,29 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var typeString = await JsonSchema.FromTypeAsync(typeof(string));
 
             var document = new SwaggerDocument();
-            document.Paths["Foo"] = new SwaggerPathItem
+            document.Paths["Foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation {
                         OperationId = "Test_Foo",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "test",
                                 IsRequired = false,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "test2",
                                 IsRequired = false,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Boolean
                             }
                         },
                         Responses =
                         {
-                            new System.Collections.Generic.KeyValuePair<string, SwaggerResponse>("200", new SwaggerResponse
+                            new System.Collections.Generic.KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
                             {
                                 Schema = typeString
                             })
@@ -303,29 +303,29 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
-            document.Paths["FooRequired"] = new SwaggerPathItem
+            document.Paths["FooRequired"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation {
                         OperationId = "Test_FooRequired",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "test",
                                 IsRequired = true,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "test2",
                                 IsRequired = true,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Boolean
                             }
                         },
                         Responses =
                         {
-                            new System.Collections.Generic.KeyValuePair<string, SwaggerResponse>("200", new SwaggerResponse
+                            new System.Collections.Generic.KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
                             {
                                 Schema = typeString
                             })
@@ -334,26 +334,26 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
-            document.Paths["Bar"] = new SwaggerPathItem
+            document.Paths["Bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation {
                         OperationId = "Test_Bar",
                     }
                 }
             };
 
-            document.Paths["HeaderParam"] = new SwaggerPathItem
+            document.Paths["HeaderParam"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation {
                         OperationId = "Test_HeaderParam",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "comesFromHeader",
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Type = JsonObjectType.String
                             }
                         }
@@ -361,17 +361,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
-            document.Paths["HeaderParamRequired"] = new SwaggerPathItem
+            document.Paths["HeaderParamRequired"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation {
                         OperationId = "Test_HeaderParamRequired",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "comes-from-header",
                                 IsRequired = true,
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Type = JsonObjectType.String
                             }
                         },
@@ -380,17 +380,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
-            document.Paths["Complex"] = new SwaggerPathItem
+            document.Paths["Complex"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation {
                         OperationId = "Test_Complex",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "complexType",
                                 IsRequired = false,
-                                Kind = SwaggerParameterKind.Body,
+                                Kind = OpenApiParameterKind.Body,
                                 Type = JsonObjectType.Object,
                                 Reference = complexTypeSchema
                             }
@@ -399,27 +399,27 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
-            document.Paths["ComplexRequired"] = new SwaggerPathItem
+            document.Paths["ComplexRequired"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation {
                         OperationId = "Test_ComplexRequired",
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "complexType",
                                 IsRequired = true,
-                                Kind = SwaggerParameterKind.Body,
+                                Kind = OpenApiParameterKind.Body,
                                 Type = JsonObjectType.Object,
                                 Reference = complexTypeSchema
                             }
                         },
                         Responses = {
-                            new System.Collections.Generic.KeyValuePair<string, SwaggerResponse>
+                            new System.Collections.Generic.KeyValuePair<string, OpenApiResponse>
                             (
-                                "200", new SwaggerResponse
+                                "200", new OpenApiResponse
                                 {
-                                    Reference = new SwaggerResponse
+                                    Reference = new OpenApiResponse
                                     {
                                         Schema = complexTypeReponseSchema
                                     }

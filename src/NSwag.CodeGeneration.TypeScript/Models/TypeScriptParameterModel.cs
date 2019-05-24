@@ -31,8 +31,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             string parameterName,
             string variableName,
             string typeName,
-            SwaggerParameter parameter,
-            IList<SwaggerParameter> allParameters,
+            OpenApiParameter parameter,
+            IList<OpenApiParameter> allParameters,
             SwaggerToTypeScriptClientGeneratorSettings settings,
             SwaggerToTypeScriptClientGenerator generator,
             TypeResolverBase typeResolver)

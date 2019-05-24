@@ -19,19 +19,19 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>Describes a JSON web service operation. </summary>
-    public class SwaggerOperation : JsonExtensionObject
+    public class OpenApiOperation : JsonExtensionObject
     {
         private OpenApiRequestBody _requestBody;
 
         private bool _disableRequestBodyUpdate = false;
         private bool _disableBodyParameterUpdate = false;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerPathItem"/> class.</summary>
-        public SwaggerOperation()
+        /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
+        public OpenApiOperation()
         {
             Tags = new List<string>();
 
-            var parameters = new ObservableCollection<SwaggerParameter>();
+            var parameters = new ObservableCollection<OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
             {
                 foreach (var parameter in Parameters)
@@ -43,7 +43,7 @@ namespace NSwag
             };
             Parameters = parameters;
 
-            var responses = new ObservableDictionary<string, SwaggerResponse>();
+            var responses = new ObservableDictionary<string, OpenApiResponse>();
             responses.CollectionChanged += (sender, args) =>
             {
                 foreach (var response in Responses.Values)
@@ -56,7 +56,7 @@ namespace NSwag
 
         /// <summary>Gets the parent operations list.</summary>
         [JsonIgnore]
-        public SwaggerPathItem Parent { get; internal set; }
+        public OpenApiPathItem Parent { get; internal set; }
 
         /// <summary>Gets or sets the tags.</summary>
         [JsonProperty(PropertyName = "tags", Order = 1, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -72,7 +72,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", Order = 4, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
+        public OpenApiExternalDocumentation ExternalDocumentation { get; set; }
 
         /// <summary>Gets or sets the operation ID (unique name).</summary>
         [JsonProperty(PropertyName = "operationId", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -88,7 +88,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters.</summary>
         [JsonIgnore]
-        public IList<SwaggerParameter> Parameters { get; }
+        public IList<OpenApiParameter> Parameters { get; }
 
         /// <summary>Gets or sets the request body (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "requestBody", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -108,7 +108,7 @@ namespace NSwag
 
         /// <summary>Gets the actual parameters (a combination of all inherited and local parameters).</summary>
         [JsonIgnore]
-        public IReadOnlyList<SwaggerParameter> ActualParameters
+        public IReadOnlyList<OpenApiParameter> ActualParameters
         {
             get
             {
@@ -118,7 +118,7 @@ namespace NSwag
                     .GroupBy(p => p.Name + "|" + p.Kind)
                     .Select(p => p.First());
 
-                return new ReadOnlyCollection<SwaggerParameter>(allParameters
+                return new ReadOnlyCollection<OpenApiParameter>(allParameters
                     .Select(p => p.ActualParameter)
                     .ToList());
             }
@@ -126,11 +126,11 @@ namespace NSwag
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerResponse> Responses { get; }
+        public IDictionary<string, OpenApiResponse> Responses { get; }
 
         /// <summary>Gets or sets the schemes.</summary>
         [JsonProperty(PropertyName = "schemes", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
-        public List<SwaggerSchema> Schemes { get; set; }
+        public List<OpenApiSchema> Schemes { get; set; }
 
         /// <summary>Gets or sets the callbacks (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "callbacks", Order = 12, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -142,7 +142,7 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<SwaggerSecurityRequirement> Security { get; set; }
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -158,15 +158,15 @@ namespace NSwag
 
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<SwaggerSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
+        public IEnumerable<OpenApiSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
         /// <summary>Gets the responses from the operation and from the <see cref="SwaggerDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
-        public IReadOnlyDictionary<string, SwaggerResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
+        public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="SwaggerDocument"/>.</summary>
         [JsonIgnore]
-        public ICollection<SwaggerSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
+        public ICollection<OpenApiSecurityRequirement> ActualSecurity => Security ?? Parent.Parent.Security;
 
         /// <summary>Adds a consumes MIME type if it does not yet exists.</summary>
         /// <param name="mimeType">The MIME type.</param>
@@ -184,7 +184,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        internal IList<SwaggerParameter> ParametersRaw
+        internal IList<OpenApiParameter> ParametersRaw
         {
             get
             {
@@ -195,7 +195,7 @@ namespace NSwag
 
                 if (JsonSchemaSerialization.CurrentSchemaType != SchemaType.Swagger2)
                 {
-                    return Parameters.Where(p => p.Kind != SwaggerParameterKind.Body).ToList();
+                    return Parameters.Where(p => p.Kind != OpenApiParameterKind.Body).ToList();
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace NSwag
             }
         }
 
-        internal void UpdateRequestBody(SwaggerParameter parameter)
+        internal void UpdateRequestBody(OpenApiParameter parameter)
         {
             if (!_disableRequestBodyUpdate)
             {
@@ -212,7 +212,7 @@ namespace NSwag
                 {
                     _disableBodyParameterUpdate = true;
 
-                    if (parameter.Kind == SwaggerParameterKind.Body)
+                    if (parameter.Kind == OpenApiParameterKind.Body)
                     {
                         if (RequestBody == null)
                         {
@@ -248,7 +248,7 @@ namespace NSwag
                 {
                     _disableRequestBodyUpdate = true;
 
-                    var bodyParameter = Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+                    var bodyParameter = Parameters.SingleOrDefault(p => p.Kind == OpenApiParameterKind.Body);
                     if (bodyParameter != null)
                     {
                         if (RequestBody == null)
@@ -276,16 +276,16 @@ namespace NSwag
             }
         }
 
-        private SwaggerParameter CreateBodyParameter()
+        private OpenApiParameter CreateBodyParameter()
         {
-            var parameter = new SwaggerParameter();
+            var parameter = new OpenApiParameter();
             UpdateBodyParameter(parameter);
             return parameter;
         }
 
-        private void UpdateBodyParameter(SwaggerParameter parameter)
+        private void UpdateBodyParameter(OpenApiParameter parameter)
         {
-            parameter.Kind = SwaggerParameterKind.Body;
+            parameter.Kind = OpenApiParameterKind.Body;
             parameter.Name = RequestBody.ActualName;
             parameter.Position = RequestBody.Position;
             parameter.Description = RequestBody.Description;
@@ -300,14 +300,14 @@ namespace NSwag
             {
                 var bodyParameter = args
                     .NewItems?
-                    .OfType<SwaggerParameter>()
-                    .SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+                    .OfType<OpenApiParameter>()
+                    .SingleOrDefault(p => p.Kind == OpenApiParameterKind.Body);
 
                 if (bodyParameter != null)
                 {
                     UpdateRequestBody(bodyParameter);
                 }
-                else if (Parameters.All(p => p.Kind != SwaggerParameterKind.Body))
+                else if (Parameters.All(p => p.Kind != OpenApiParameterKind.Body))
                 {
                     RequestBody = null;
                 }

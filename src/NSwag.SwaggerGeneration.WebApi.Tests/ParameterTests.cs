@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
 
             //// Assert
-            var operation = document.Paths["/upload"][SwaggerOperationMethod.Post];
+            var operation = document.Paths["/upload"][OpenApiOperationMethod.Post];
 
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Foo").Type);
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Bar").Type);
@@ -83,11 +83,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
 
             //// Assert
-            var operation = document.Paths["/fetch/{id}"][SwaggerOperationMethod.Get];
+            var operation = document.Paths["/fetch/{id}"][OpenApiOperationMethod.Get];
             var parameter = operation.ActualParameters.Single(p => p.Name == "Id");
 
             Assert.AreEqual(JsonObjectType.String, parameter.Type);
-            Assert.AreEqual(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, parameter.Kind);
 
             Assert.IsNull(operation.Consumes);
         }
@@ -102,13 +102,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
 
             //// Assert
-            var operation = document.Paths["/fetch-all"][SwaggerOperationMethod.Get];
+            var operation = document.Paths["/fetch-all"][OpenApiOperationMethod.Get];
 
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Foo").Type);
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Foo").Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Foo").Kind);
 
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters.Single(p => p.Name == "Bar").Type);
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Bar").Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters.Single(p => p.Name == "Bar").Kind);
 
             Assert.IsNull(operation.Consumes);
         }

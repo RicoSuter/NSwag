@@ -39,11 +39,11 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         {
             if (context.OperationDescription.Operation.Security == null)
             {
-                context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+                context.OperationDescription.Operation.Security = new List<OpenApiSecurityRequirement>();
             }
 
             var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
-            context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+            context.OperationDescription.Operation.Security.Add(new OpenApiSecurityRequirement
             {
                 { _name, scopes }
             });
@@ -55,7 +55,7 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="methodInfo">The method information.</param>
         /// <returns>The scopes.</returns>
-        protected virtual IEnumerable<string> GetScopes(SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
+        protected virtual IEnumerable<string> GetScopes(OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             var allAttributes = methodInfo.GetCustomAttributes().Concat(
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());

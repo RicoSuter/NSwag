@@ -129,7 +129,7 @@ namespace NSwag.AspNetCore.Middlewares
             var document = await _documentProvider.GenerateAsync(_documentName);
 
             document.Host = context.Request.Host.Value ?? "";
-            document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+            document.Schemes.Add(context.Request.Scheme == "http" ? OpenApiSchema.Http : OpenApiSchema.Https);
             document.BasePath = context.Request.PathBase.Value ?? "";
 
             _settings.PostProcess?.Invoke(document, context.Request);

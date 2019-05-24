@@ -15,19 +15,19 @@ using NJsonSchema.References;
 namespace NSwag
 {
     /// <summary>The Swagger response.</summary>
-    public class SwaggerResponse : JsonReferenceBase<SwaggerResponse>, IJsonReference
+    public class OpenApiResponse : JsonReferenceBase<OpenApiResponse>, IJsonReference
     {
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
 
-        /// <summary>Gets the parent <see cref="SwaggerOperation"/>.</summary>
+        /// <summary>Gets the parent <see cref="OpenApiOperation"/>.</summary>
         [JsonIgnore]
         public object Parent { get; internal set; }
 
         /// <summary>Gets the actual response, either this or the referenced response.</summary>
         [JsonIgnore]
-        public SwaggerResponse ActualResponse => Reference ?? this;
+        public OpenApiResponse ActualResponse => Reference ?? this;
 
         /// <summary>Gets or sets the response's description.</summary>
         [JsonProperty(PropertyName = "description", Order = 1)]
@@ -35,7 +35,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers.</summary>
         [JsonProperty(PropertyName = "headers", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerHeaders Headers { get; } = new SwaggerHeaders();
+        public OpenApiHeaders Headers { get; } = new OpenApiHeaders();
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
         /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>
@@ -115,7 +115,7 @@ namespace NSwag
         /// <summary>Checks whether this is a binary/file response.</summary>
         /// <param name="operation">The operation the response belongs to.</param>
         /// <returns>The result.</returns>
-        public bool IsBinary(SwaggerOperation operation)
+        public bool IsBinary(OpenApiOperation operation)
         {
             if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
             {
@@ -135,7 +135,7 @@ namespace NSwag
                     }
                 }
 
-                var actualProduces = (ActualResponse.Parent as SwaggerOperation)?.ActualProduces;
+                var actualProduces = (ActualResponse.Parent as OpenApiOperation)?.ActualProduces;
                 if (actualProduces?.Any() == true)
                 {
                     var producesIsBinary =
@@ -159,7 +159,7 @@ namespace NSwag
         /// <summary>Checks whether this is an empty response.</summary>
         /// <param name="operation">The operation the response belongs to.</param>
         /// <returns>The result.</returns>
-        public bool IsEmpty(SwaggerOperation operation)
+        public bool IsEmpty(OpenApiOperation operation)
         {
             return !IsBinary(operation) &&
                 ActualResponse.Content.Count == 0 &&
@@ -172,7 +172,7 @@ namespace NSwag
         IJsonReference IJsonReference.ActualObject => ActualResponse;
 
         [JsonIgnore]
-        object IJsonReference.PossibleRoot => (Parent as SwaggerOperation)?.Parent?.Parent;
+        object IJsonReference.PossibleRoot => (Parent as OpenApiOperation)?.Parent?.Parent;
 
         #endregion
     }

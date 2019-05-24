@@ -39,14 +39,14 @@ namespace NSwag.SwaggerGeneration.Processors
             if (tagsAttribute != null)
             {
                 var tags = ((string[])tagsAttribute.Tags)
-                    .Select(t => new SwaggerTag { Name = t })
+                    .Select(t => new OpenApiTag { Name = t })
                     .ToList();
 
                 if (tags.Any())
                 {
                     if (document.Tags == null)
                     {
-                        document.Tags = new List<SwaggerTag>();
+                        document.Tags = new List<OpenApiTag>();
                     }
 
                     foreach (var tag in tags)
@@ -81,13 +81,13 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             if (document.Tags == null)
             {
-                document.Tags = new List<SwaggerTag>();
+                document.Tags = new List<OpenApiTag>();
             }
 
             var tag = document.Tags.SingleOrDefault(t => t.Name == tagAttribute.Name);
             if (tag == null)
             {
-                tag = new SwaggerTag();
+                tag = new OpenApiTag();
                 document.Tags.Add(tag);
             }
 
@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration.Processors
             if (!string.IsNullOrEmpty(tagAttribute.DocumentationDescription) ||
                 !string.IsNullOrEmpty(tagAttribute.DocumentationUrl))
             {
-                tag.ExternalDocumentation = new SwaggerExternalDocumentation
+                tag.ExternalDocumentation = new OpenApiExternalDocumentation
                 {
                     Description = tagAttribute.DocumentationDescription,
                     Url = tagAttribute.DocumentationUrl

@@ -14,7 +14,7 @@ namespace NSwag
 {
     /// <summary>Defines the collectionFormat of a parameter.</summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum SwaggerParameterCollectionFormat
+    public enum OpenApiParameterCollectionFormat
     {
         /// <summary>An undefined format.</summary>
         [EnumMember(Value = "undefined")]

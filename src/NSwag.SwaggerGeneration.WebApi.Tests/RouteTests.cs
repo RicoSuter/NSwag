@@ -129,7 +129,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
             Assert.AreEqual("/path/{param}", operation.Path);
             Assert.AreEqual("param", parameter.Name);
-            Assert.AreEqual(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, parameter.Kind);
         }
     }
 }

@@ -12,7 +12,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>The web service contact description.</summary>
-    public class SwaggerContact : JsonExtensionObject
+    public class OpenApiContact : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

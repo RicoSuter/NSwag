@@ -9,7 +9,7 @@
 namespace NSwag
 {
     /// <summary>Flattened information about an operation.</summary>
-    public class SwaggerOperationDescription
+    public class OpenApiOperationDescription
     {
         /// <summary>Gets or sets the relative URL path.</summary>
         public string Path { get; set; }
@@ -18,6 +18,6 @@ namespace NSwag
         public string Method { get;  set; }
 
         /// <summary>Gets or sets the operation.</summary>
-        public SwaggerOperation Operation { get; set; }
+        public OpenApiOperation Operation { get; set; }
     }
 }

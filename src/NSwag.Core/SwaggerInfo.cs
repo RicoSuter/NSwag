@@ -12,7 +12,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>The web service description.</summary>
-    public class SwaggerInfo : JsonExtensionObject
+    public class OpenApiInfo : JsonExtensionObject
     {
         /// <summary>Gets or sets the title.</summary>
         [JsonProperty(PropertyName = "title", Required = Required.Always,
@@ -29,11 +29,11 @@ namespace NSwag
 
         /// <summary>Gets or sets the contact information.</summary>
         [JsonProperty(PropertyName = "contact", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public SwaggerContact Contact { get; set; }
+        public OpenApiContact Contact { get; set; }
 
         /// <summary>Gets or sets the license information.</summary>
         [JsonProperty(PropertyName = "license", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public SwaggerLicense License { get; set; }
+        public OpenApiLicense License { get; set; }
 
         /// <summary>Gets or sets the API version.</summary>
         [JsonProperty(PropertyName = "version", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

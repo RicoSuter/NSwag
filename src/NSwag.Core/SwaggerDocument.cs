@@ -31,7 +31,7 @@ namespace NSwag
             OpenApi = "3.0.0";
             Components = new OpenApiComponents(this);
 
-            var paths = new ObservableDictionary<string, SwaggerPathItem>();
+            var paths = new ObservableDictionary<string, OpenApiPathItem>();
             paths.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Paths.Values)
@@ -41,7 +41,7 @@ namespace NSwag
             };
 
             Paths = paths;
-            Info = new SwaggerInfo();
+            Info = new OpenApiInfo();
         }
 
         /// <summary>Gets the NSwag toolchain version.</summary>
@@ -69,7 +69,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the metadata about the API.</summary>
         [JsonProperty(PropertyName = "info", Order = 4, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public SwaggerInfo Info { get; set; }
+        public OpenApiInfo Info { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -77,7 +77,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, SwaggerPathItem> Paths { get; }
+        public IDictionary<string, OpenApiPathItem> Paths { get; }
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -85,11 +85,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<SwaggerSecurityRequirement> Security { get; set; } = new Collection<SwaggerSecurityRequirement>();
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = new Collection<OpenApiSecurityRequirement>();
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IList<SwaggerTag> Tags { get; set; } = new Collection<SwaggerTag>();
+        public IList<OpenApiTag> Tags { get; set; } = new Collection<OpenApiTag>();
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
@@ -97,7 +97,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the external documentation.</summary>
         [JsonProperty(PropertyName = "externalDocs", Order = 19, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerExternalDocumentation ExternalDocumentation { get; set; }
+        public OpenApiExternalDocumentation ExternalDocumentation { get; set; }
 
         /// <summary>Converts the Swagger specification to JSON.</summary>
         /// <returns>The JSON string.</returns>
@@ -195,7 +195,7 @@ namespace NSwag
                 }
                 else
                 {
-                    var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                    var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
                     return new JsonReferenceResolver(schemaResolver);
                 }
             }, contractResolver).ConfigureAwait(false);
@@ -221,11 +221,11 @@ namespace NSwag
 
         /// <summary>Gets the operations.</summary>
         [JsonIgnore]
-        public IEnumerable<SwaggerOperationDescription> Operations
+        public IEnumerable<OpenApiOperationDescription> Operations
         {
             get
             {
-                return Paths.SelectMany(p => p.Value.Select(o => new SwaggerOperationDescription
+                return Paths.SelectMany(p => p.Value.Select(o => new OpenApiOperationDescription
                 {
                     Path = p.Key,
                     Method = o.Key,
@@ -282,7 +282,7 @@ namespace NSwag
             }
         }
 
-        private string GetOperationNameFromPath(SwaggerOperationDescription operation)
+        private string GetOperationNameFromPath(OpenApiOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
             var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));

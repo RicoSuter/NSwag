@@ -369,7 +369,7 @@ namespace NSwag.Commands.SwaggerGeneration
             if (ServiceSchemes != null && ServiceSchemes.Any())
             {
                 document.Schemes = ServiceSchemes
-                    .Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true))
+                    .Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true))
                     .ToList();
             }
 

@@ -138,7 +138,7 @@ namespace NSwag.CodeGeneration
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected abstract TOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
+        protected abstract TOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings);
 
         private List<TOperationModel> GetOperations(SwaggerDocument document)
         {

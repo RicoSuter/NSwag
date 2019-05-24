@@ -33,7 +33,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 }
             };
 
-            var operationDescription = new SwaggerOperationDescription { Operation = new SwaggerOperation() };
+            var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
             var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
 
@@ -68,7 +68,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 }
             };
 
-            var operationDescription = new SwaggerOperationDescription { Operation = new SwaggerOperation() };
+            var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
             var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
 
@@ -101,7 +101,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 }
             };
 
-            var operationDescription = new SwaggerOperationDescription { Operation = new SwaggerOperation() };
+            var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
             var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
 
@@ -120,13 +120,13 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
 
         private AspNetCoreOperationProcessorContext GetContext(ApiDescription apiDescription)
         {
-            var operationDescription = new SwaggerOperationDescription { Operation = new SwaggerOperation() };
+            var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var swaggerSettings = new AspNetCoreToSwaggerGeneratorSettings();
             var document = new SwaggerDocument();
             var generator = new AspNetCoreToSwaggerGenerator(swaggerSettings);
             var schemaGeneratorSettings = new JsonSchemaGeneratorSettings();
             var schemaGenerator = new JsonSchemaGenerator(schemaGeneratorSettings);
-            var schemaResolver = new SwaggerSchemaResolver(document, schemaGeneratorSettings);
+            var schemaResolver = new OpenApiSchemaResolver(document, schemaGeneratorSettings);
             var context = new AspNetCoreOperationProcessorContext(
                 document,
                 operationDescription,
@@ -136,7 +136,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 schemaGenerator,
                 schemaResolver,
                 swaggerSettings,
-                new List<SwaggerOperationDescription>())
+                new List<OpenApiOperationDescription>())
             {
                 ApiDescription = apiDescription,
             };

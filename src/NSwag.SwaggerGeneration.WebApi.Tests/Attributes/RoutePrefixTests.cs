@@ -65,11 +65,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var swagger = await generator.GenerateForControllerAsync<PersonsController>();
 
             //// Assert
-            Assert.IsNotNull(swagger.Paths["/api/Persons"][SwaggerOperationMethod.Get]);
-            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][SwaggerOperationMethod.Get]);
-            Assert.IsNotNull(swagger.Paths["/api/Persons"][SwaggerOperationMethod.Post]);
-            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][SwaggerOperationMethod.Put]);
-            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][SwaggerOperationMethod.Delete]);
+            Assert.IsNotNull(swagger.Paths["/api/Persons"][OpenApiOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][OpenApiOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/Persons"][OpenApiOperationMethod.Post]);
+            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][OpenApiOperationMethod.Put]);
+            Assert.IsNotNull(swagger.Paths["/api/Persons/{id}"][OpenApiOperationMethod.Delete]);
             Assert.IsTrue(swagger.Paths.Count == 3);
             Assert.IsTrue(swagger.Paths.SelectMany(p => p.Value).Count() == 6);
         }
@@ -149,13 +149,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var swagger = await generator.GenerateForControllerAsync<UsersController>();
 
             //// Assert
-            Assert.IsNotNull(swagger.Paths["/api/users"][SwaggerOperationMethod.Get]);
-            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Get]);
-            Assert.IsNotNull(swagger.Paths["/api/users"][SwaggerOperationMethod.Post]);
-            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Put]);
-            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][SwaggerOperationMethod.Delete]);
-            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices"][SwaggerOperationMethod.Get]);
-            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices/{deviceId}"][SwaggerOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users"][OpenApiOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][OpenApiOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users"][OpenApiOperationMethod.Post]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][OpenApiOperationMethod.Put]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}"][OpenApiOperationMethod.Delete]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices"][OpenApiOperationMethod.Get]);
+            Assert.IsNotNull(swagger.Paths["/api/users/{userId}/devices/{deviceId}"][OpenApiOperationMethod.Get]);
             Assert.IsTrue(swagger.Paths.Count == 4);
             Assert.IsTrue(swagger.Paths.SelectMany(p => p.Value).Count() == 7);
         }

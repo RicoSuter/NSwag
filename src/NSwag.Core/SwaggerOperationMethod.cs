@@ -9,7 +9,7 @@
 namespace NSwag
 {
     /// <summary>Enumeration of the available HTTP methods. </summary>
-    public static class SwaggerOperationMethod
+    public static class OpenApiOperationMethod
     {
         /// <summary>An undefined method.</summary>
         public static string Undefined { get; } = "undefined";

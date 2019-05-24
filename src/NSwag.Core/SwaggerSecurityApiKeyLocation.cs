@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace NSwag
 {
     /// <summary>Specifies the location of the API Key.</summary>
-    public enum SwaggerSecurityApiKeyLocation
+    public enum OpenApiSecurityApiKeyLocation
     {
         /// <summary>The API key kind is not defined.</summary>
         Undefined,

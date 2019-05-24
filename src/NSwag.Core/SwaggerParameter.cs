@@ -15,11 +15,11 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>Describes an operation parameter. </summary>
-    public class SwaggerParameter : JsonSchema
+    public class OpenApiParameter : JsonSchema
     {
         private string _name;
-        private SwaggerParameterKind _kind;
-        private SwaggerParameterStyle _style;
+        private OpenApiParameterKind _kind;
+        private OpenApiParameterStyle _style;
         private bool _isRequired = false;
         private JsonSchema _schema;
         private IDictionary<string, OpenApiExample> _examples;
@@ -27,7 +27,7 @@ namespace NSwag
         private int? _position;
 
         [JsonIgnore]
-        internal SwaggerOperation ParentOperation => Parent as SwaggerOperation;
+        internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -43,7 +43,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the kind of the parameter.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerParameterKind Kind
+        public OpenApiParameterKind Kind
         {
             get => _kind;
             set
@@ -55,7 +55,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the style of the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerParameterStyle Style
+        public OpenApiParameterStyle Style
         {
             get => _style;
             set
@@ -107,11 +107,11 @@ namespace NSwag
 
         /// <summary>Gets the actual parameter.</summary>
         [JsonIgnore]
-        public SwaggerParameter ActualParameter => Reference is SwaggerParameter ? (SwaggerParameter)Reference : this;
+        public OpenApiParameter ActualParameter => Reference is OpenApiParameter ? (OpenApiParameter)Reference : this;
 
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerParameterCollectionFormat CollectionFormat { get; set; }
+        public OpenApiParameterCollectionFormat CollectionFormat { get; set; }
 
         /// <summary>Gets or sets the headers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -160,7 +160,7 @@ namespace NSwag
         {
             get
             {
-                if (Reference is SwaggerParameter parameter)
+                if (Reference is OpenApiParameter parameter)
                 {
                     return parameter.ActualSchema;
                 }
@@ -210,12 +210,12 @@ namespace NSwag
         {
             get
             {
-                if (Kind != SwaggerParameterKind.Body)
+                if (Kind != OpenApiParameterKind.Body)
                 {
                     return false;
                 }
 
-                var parent = Parent as SwaggerOperation;
+                var parent = Parent as OpenApiOperation;
                 var consumes = parent?.ActualConsumes?.Any() == true ?
                     parent.ActualConsumes :
                     parent?.RequestBody?.Content.Keys;
@@ -232,12 +232,12 @@ namespace NSwag
         {
             get
             {
-                if (Kind != SwaggerParameterKind.Body || IsXmlBodyParameter)
+                if (Kind != OpenApiParameterKind.Body || IsXmlBodyParameter)
                 {
                     return false;
                 }
 
-                var parent = Parent as SwaggerOperation;
+                var parent = Parent as OpenApiOperation;
                 var consumes = parent?.ActualConsumes?.Any() == true ?
                     parent.ActualConsumes :
                     parent?.RequestBody?.Content.Keys;

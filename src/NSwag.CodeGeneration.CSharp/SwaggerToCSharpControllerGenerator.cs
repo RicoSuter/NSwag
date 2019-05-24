@@ -54,7 +54,7 @@ namespace NSwag.CodeGeneration.CSharp
             var artifacts = base.GenerateAllClientTypes().ToList();
 
             if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
-                _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Header)) > 0)
+                _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Header)) > 0)
             {
                 var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderAttribute", new object());
                 artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Utility, template));
@@ -82,7 +82,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected override CSharpOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        protected override CSharpOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new CSharpControllerOperationModel(operation, (SwaggerToCSharpControllerGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
         }

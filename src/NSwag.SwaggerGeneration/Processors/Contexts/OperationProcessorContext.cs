@@ -29,14 +29,14 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="schemaGenerator">The schema generator.</param>
         public OperationProcessorContext(
             SwaggerDocument document,
-            SwaggerOperationDescription operationDescription,
+            OpenApiOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
             SwaggerGenerator swaggerGenerator,
             JsonSchemaGenerator schemaGenerator,
             JsonSchemaResolver schemaResolver,
             SwaggerGeneratorSettings settings,
-            IList<SwaggerOperationDescription> allOperationDescriptions)
+            IList<OpenApiOperationDescription> allOperationDescriptions)
         {
             Document = document;
             OperationDescription = operationDescription;
@@ -53,7 +53,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public SwaggerDocument Document { get; }
 
         /// <summary>Gets or sets the operation description.</summary>
-        public SwaggerOperationDescription OperationDescription { get; }
+        public OpenApiOperationDescription OperationDescription { get; }
 
         /// <summary>Gets the type of the controller.</summary>
         /// <value>The type of the controller.</value>
@@ -75,9 +75,9 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public JsonSchemaGenerator SchemaGenerator { get; }
 
         /// <summary>Gets or sets all operation descriptions.</summary>
-        public IList<SwaggerOperationDescription> AllOperationDescriptions { get; }
+        public IList<OpenApiOperationDescription> AllOperationDescriptions { get; }
 
         /// <summary>Gets the ParameterInfo to SwaggerParameter mappings.</summary>
-        public IReadOnlyDictionary<ParameterInfo, SwaggerParameter> Parameters { get; } = new Dictionary<ParameterInfo, SwaggerParameter>();
+        public IReadOnlyDictionary<ParameterInfo, OpenApiParameter> Parameters { get; } = new Dictionary<ParameterInfo, OpenApiParameter>();
     }
 }

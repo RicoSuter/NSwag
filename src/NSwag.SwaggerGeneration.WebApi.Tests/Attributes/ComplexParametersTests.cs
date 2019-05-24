@@ -174,7 +174,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var operation = document.Operations.Single(o => o.Operation.OperationId == "Test_WithoutAttribute").Operation;
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Body, operation.ActualParameters[0].Kind);
             Assert.AreEqual("data", operation.ActualParameters[0].Name);
         }
 
@@ -194,8 +194,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             //// Assert
             Assert.AreEqual("My comment.", operation.Summary);
             Assert.AreEqual("My remarks.", operation.Description);
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[1].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters[1].Kind);
             Assert.AreEqual("Foo", operation.ActualParameters[0].Name);
             Assert.AreEqual("bar", operation.ActualParameters[1].Name);
             Assert.AreEqual("My comment.", operation.ActualParameters[1].Description);
@@ -216,7 +216,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Body, operation.ActualParameters[0].Kind);
             Assert.AreEqual("data", operation.ActualParameters[0].Name);
         }
 
@@ -235,7 +235,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters[0].Kind);
             Assert.AreEqual("data", operation.ActualParameters[0].Name);
         }
 
@@ -263,7 +263,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.ActualParameters[0].Kind);
             Assert.AreEqual(JsonObjectType.String, operation.ActualParameters[0].Type);
             Assert.AreEqual("mappedParameter", operation.ActualParameters[0].Name);
         }
@@ -283,7 +283,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Body, operation.ActualParameters[0].Kind);
             Assert.AreEqual("data", operation.ActualParameters[0].Name);
         }
 
@@ -302,7 +302,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Body, operation.ActualParameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Body, operation.ActualParameters[0].Kind);
             Assert.AreEqual("data", operation.ActualParameters[0].Name);
         }
 
@@ -344,9 +344,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             var json = document.ToJson();
 
             //// Assert
-            Assert.AreEqual(SwaggerParameterKind.Path, operation.Parameters[0].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Path, operation.Parameters[0].Kind);
             Assert.AreEqual("title", operation.Parameters[0].Name);
-            Assert.AreEqual(SwaggerParameterKind.Query, operation.Parameters[1].Kind);
+            Assert.AreEqual(OpenApiParameterKind.Query, operation.Parameters[1].Kind);
             Assert.AreEqual("bar", operation.Parameters[1].Name);
         }
     }

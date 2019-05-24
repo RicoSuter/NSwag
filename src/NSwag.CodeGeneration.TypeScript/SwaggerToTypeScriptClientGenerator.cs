@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <param name="operation"></param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected override TypeScriptOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings)
+        protected override TypeScriptOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver);
         }

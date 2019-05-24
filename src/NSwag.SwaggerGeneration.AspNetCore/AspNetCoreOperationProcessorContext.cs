@@ -32,14 +32,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// <param name="schemaGenerator">The schema generator.</param>
         public AspNetCoreOperationProcessorContext(
             SwaggerDocument document, 
-            SwaggerOperationDescription operationDescription, 
+            OpenApiOperationDescription operationDescription, 
             Type controllerType, 
             MethodInfo methodInfo, 
             SwaggerGenerator swaggerGenerator, 
             JsonSchemaGenerator schemaGenerator, 
             JsonSchemaResolver schemaResolver, 
             SwaggerGeneratorSettings settings, 
-            IList<SwaggerOperationDescription> allOperationDescriptions) 
+            IList<OpenApiOperationDescription> allOperationDescriptions) 
             : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, settings, allOperationDescriptions)
         {
         }

@@ -12,7 +12,7 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>The license information.</summary>
-    public class SwaggerLicense : JsonExtensionObject
+    public class OpenApiLicense : JsonExtensionObject
     {
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

@@ -13,28 +13,28 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerPathItem
+            document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "foo",
                                 IsRequired = false,
                                 IsNullableRaw = true,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "bar",
                                 IsRequired = true,
                                 IsNullableRaw = false,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }
                         }
@@ -85,29 +85,29 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerPathItem
+            document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation
                     {
                         Consumes = new System.Collections.Generic.List<string> { "application/x-www-form-urlencoded" },
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "foo",
                                 IsRequired = false,
                                 IsNullableRaw = true,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "bar",
                                 IsRequired = true,
                                 IsNullableRaw = false,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }
                         }

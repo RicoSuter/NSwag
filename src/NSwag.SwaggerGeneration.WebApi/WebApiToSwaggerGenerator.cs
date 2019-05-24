@@ -90,7 +90,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         public async Task<SwaggerDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
 
             var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
@@ -127,7 +127,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             if (document.Info == null)
             {
-                document.Info = new SwaggerInfo();
+                document.Info = new OpenApiInfo();
             }
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
@@ -152,7 +152,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> GenerateForControllerAsync(SwaggerDocument document, Type controllerType, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -164,7 +164,7 @@ namespace NSwag.SwaggerGeneration.WebApi
                 return false;
             }
 
-            var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
+            var operations = new List<Tuple<OpenApiOperationDescription, MethodInfo>>();
 
             var currentControllerType = controllerType;
             while (currentControllerType != null)
@@ -186,18 +186,18 @@ namespace NSwag.SwaggerGeneration.WebApi
 
                             if (isPathAlreadyDefinedInInheritanceHierarchy == false)
                             {
-                                var operationDescription = new SwaggerOperationDescription
+                                var operationDescription = new OpenApiOperationDescription
                                 {
                                     Path = httpPath,
                                     Method = httpMethod,
-                                    Operation = new SwaggerOperation
+                                    Operation = new OpenApiOperation
                                     {
                                         IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
                                         OperationId = GetOperationId(document, controllerType.Name, method)
                                     }
                                 };
 
-                                operations.Add(new Tuple<SwaggerOperationDescription, MethodInfo>(operationDescription, method));
+                                operations.Add(new Tuple<OpenApiOperationDescription, MethodInfo>(operationDescription, method));
                             }
                         }
                     }
@@ -209,7 +209,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
         }
 
-        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<SwaggerOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> AddOperationDescriptionsToDocumentAsync(SwaggerDocument document, Type controllerType, List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
@@ -225,7 +225,7 @@ namespace NSwag.SwaggerGeneration.WebApi
 
                     if (!document.Paths.ContainsKey(path))
                     {
-                        document.Paths[path] = new SwaggerPathItem();
+                        document.Paths[path] = new OpenApiPathItem();
                     }
 
                     if (document.Paths[path].ContainsKey(operation.Method))
@@ -242,7 +242,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             return addedOperations > 0;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, SwaggerOperationDescription operationDescription, List<SwaggerOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, SwaggerSchemaResolver schemaResolver)
+        private async Task<bool> RunOperationProcessorsAsync(SwaggerDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, SwaggerGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
                 methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations);
@@ -515,35 +515,35 @@ namespace NSwag.SwaggerGeneration.WebApi
             {
                 if (actionName.StartsWith("Get", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Get;
+                    yield return OpenApiOperationMethod.Get;
                 }
                 else if (actionName.StartsWith("Post", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Post;
+                    yield return OpenApiOperationMethod.Post;
                 }
                 else if (actionName.StartsWith("Put", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Put;
+                    yield return OpenApiOperationMethod.Put;
                 }
                 else if (actionName.StartsWith("Delete", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Delete;
+                    yield return OpenApiOperationMethod.Delete;
                 }
                 else if (actionName.StartsWith("Patch", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Patch;
+                    yield return OpenApiOperationMethod.Patch;
                 }
                 else if (actionName.StartsWith("Options", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Options;
+                    yield return OpenApiOperationMethod.Options;
                 }
                 else if (actionName.StartsWith("Head", StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return SwaggerOperationMethod.Head;
+                    yield return OpenApiOperationMethod.Head;
                 }
                 else
                 {
-                    yield return SwaggerOperationMethod.Post;
+                    yield return OpenApiOperationMethod.Post;
                 }
             }
         }
@@ -552,37 +552,37 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
             {
-                yield return SwaggerOperationMethod.Get;
+                yield return OpenApiOperationMethod.Get;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPostAttribute"))
             {
-                yield return SwaggerOperationMethod.Post;
+                yield return OpenApiOperationMethod.Post;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPutAttribute"))
             {
-                yield return SwaggerOperationMethod.Put;
+                yield return OpenApiOperationMethod.Put;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpDeleteAttribute"))
             {
-                yield return SwaggerOperationMethod.Delete;
+                yield return OpenApiOperationMethod.Delete;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpOptionsAttribute"))
             {
-                yield return SwaggerOperationMethod.Options;
+                yield return OpenApiOperationMethod.Options;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPatchAttribute"))
             {
-                yield return SwaggerOperationMethod.Patch;
+                yield return OpenApiOperationMethod.Patch;
             }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpHeadAttribute"))
             {
-                yield return SwaggerOperationMethod.Head;
+                yield return OpenApiOperationMethod.Head;
             }
 
             dynamic acceptVerbsAttribute = method.GetCustomAttributes()
@@ -598,31 +598,31 @@ namespace NSwag.SwaggerGeneration.WebApi
                 {
                     if (verb == "get")
                     {
-                        yield return SwaggerOperationMethod.Get;
+                        yield return OpenApiOperationMethod.Get;
                     }
                     else if (verb == "post")
                     {
-                        yield return SwaggerOperationMethod.Post;
+                        yield return OpenApiOperationMethod.Post;
                     }
                     else if (verb == "put")
                     {
-                        yield return SwaggerOperationMethod.Put;
+                        yield return OpenApiOperationMethod.Put;
                     }
                     else if (verb == "delete")
                     {
-                        yield return SwaggerOperationMethod.Delete;
+                        yield return OpenApiOperationMethod.Delete;
                     }
                     else if (verb == "options")
                     {
-                        yield return SwaggerOperationMethod.Options;
+                        yield return OpenApiOperationMethod.Options;
                     }
                     else if (verb == "head")
                     {
-                        yield return SwaggerOperationMethod.Head;
+                        yield return OpenApiOperationMethod.Head;
                     }
                     else if (verb == "patch")
                     {
-                        yield return SwaggerOperationMethod.Patch;
+                        yield return OpenApiOperationMethod.Patch;
                     }
                 }
             }

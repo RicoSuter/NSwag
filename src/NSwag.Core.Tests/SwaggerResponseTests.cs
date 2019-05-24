@@ -15,8 +15,8 @@ namespace NSwag.Core.Tests
         public void When_response_contains_produces_detect_if_binary_response(string contentType, bool expectsBinary)
         {
             // Arrange
-            var response = new SwaggerResponse();
-            var operation = new SwaggerOperation();
+            var response = new OpenApiResponse();
+            var operation = new OpenApiOperation();
             operation.Produces = new System.Collections.Generic.List<string> { contentType };
             operation.Responses.Add("200", response);
 

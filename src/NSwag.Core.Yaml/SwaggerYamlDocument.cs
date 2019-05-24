@@ -104,7 +104,7 @@ namespace NSwag
         {
             return document =>
             {
-                var schemaResolver = new SwaggerSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
                 return new JsonAndYamlReferenceResolver(schemaResolver);
             };
         }

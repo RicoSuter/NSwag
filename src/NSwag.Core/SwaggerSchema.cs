@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace NSwag
 {
     /// <summary>The enumeration of Swagger protocol schemes.</summary>
-    public enum SwaggerSchema
+    public enum OpenApiSchema
     {
         /// <summary>An undefined schema.</summary>
         [EnumMember(Value = "undefined")]

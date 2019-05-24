@@ -11,7 +11,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
 {
-    /// <summary>Post processes a generated <see cref="SwaggerOperation"/>.</summary>
+    /// <summary>Post processes a generated <see cref="OpenApiOperation"/>.</summary>
     public interface IOperationProcessor
     {
         /// <summary>Processes the specified method information.</summary>

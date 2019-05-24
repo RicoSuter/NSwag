@@ -14,7 +14,7 @@ namespace NSwag
 {
     /// <summary>Enumeration of the OAuth2 flows. </summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum SwaggerOAuth2Flow
+    public enum OpenApiOAuth2Flow
     {
         /// <summary>An undefined flow.</summary>
         [EnumMember(Value = "undefined")]

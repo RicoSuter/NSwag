@@ -101,7 +101,7 @@ namespace NSwag.AspNet.Owin.Middlewares
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
             document.Host = context.Request.Host.Value ?? "";
-            document.Schemes.Add(context.Request.Scheme == "http" ? SwaggerSchema.Http : SwaggerSchema.Https);
+            document.Schemes.Add(context.Request.Scheme == "http" ? OpenApiSchema.Http : OpenApiSchema.Https);
             document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
 
             _settings.PostProcess?.Invoke(document);

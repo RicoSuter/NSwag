@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Returns the route name for a controller method.</summary>
         /// <param name="operation">Swagger operation</param>
         /// <returns>Route name.</returns>
-        public string GetRouteName(SwaggerOperation operation)
+        public string GetRouteName(OpenApiOperation operation)
         {
             if (RouteNamingStrategy == CSharpControllerRouteNamingStrategy.OperationId)
             {

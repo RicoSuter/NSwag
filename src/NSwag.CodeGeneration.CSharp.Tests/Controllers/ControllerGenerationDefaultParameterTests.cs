@@ -11,59 +11,59 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerPathItem
+            document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation {
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation {
                         Parameters = {
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "booldef",
                                 IsRequired = false,
                                 Default = true,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Boolean
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "intdef",
                                 IsRequired = false,
                                 Default = 42,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Integer
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "bar",
                                 IsRequired = false,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Integer
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "doubledef",
                                 IsRequired = false,
                                 Default = 0.6822871999174,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Number
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "decdef",
                                 IsRequired = false,
                                 Default = 79228162514264337593543950335M,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Number,
                                 Format = JsonFormatStrings.Decimal
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "abc",
                                 IsRequired = true,
                                 Default = 84,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.Integer
                             },
-                            new SwaggerParameter {
+                            new OpenApiParameter {
                                 Name = "strdef",
                                 Default = @"default""string""",
                                 IsRequired = false,
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Type = JsonObjectType.String
                             }
                         }

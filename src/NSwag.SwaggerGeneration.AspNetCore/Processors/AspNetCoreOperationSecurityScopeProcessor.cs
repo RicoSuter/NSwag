@@ -58,11 +58,11 @@ namespace NSwag.SwaggerGeneration.Processors.Security
 
                 if (context.OperationDescription.Operation.Security == null)
                 {
-                    context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+                    context.OperationDescription.Operation.Security = new List<OpenApiSecurityRequirement>();
                 }
 
                 var scopes = GetScopes(authorizeAttributes);
-                context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
+                context.OperationDescription.Operation.Security.Add(new OpenApiSecurityRequirement
                 {
                     { _name, scopes }
                 });

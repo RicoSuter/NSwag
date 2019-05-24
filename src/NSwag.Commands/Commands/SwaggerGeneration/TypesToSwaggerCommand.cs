@@ -96,7 +96,7 @@ namespace NSwag.Commands.SwaggerGeneration
         {
             var document = new SwaggerDocument();
             var generator = new JsonSchemaGenerator(Settings);
-            var schemaResolver = new SwaggerSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
 
 #if FullNet
             var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)

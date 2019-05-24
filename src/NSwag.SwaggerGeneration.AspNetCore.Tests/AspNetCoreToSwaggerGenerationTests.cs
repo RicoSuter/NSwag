@@ -159,12 +159,12 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 operation =>
                 {
                     Assert.Equal("/api/test", operation.Path);
-                    Assert.Equal(SwaggerOperationMethod.Delete, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Delete, operation.Method);
                 },
                 operation =>
                 {
                     Assert.Equal("/api/test/{id}", operation.Path);
-                    Assert.Equal(SwaggerOperationMethod.Get, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Get, operation.Method);
 
                     Assert.Single(operation.Operation.Responses);
                     var response = operation.Operation.Responses["200"];
@@ -174,7 +174,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 operation =>
                 {
                     Assert.Equal("/api/test/{id}", operation.Path);
-                    Assert.Equal(SwaggerOperationMethod.Put, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Put, operation.Method);
                 });
         }
 
@@ -191,14 +191,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operationDescription = Assert.Single(document.Operations);
             Assert.Equal("/test", operationDescription.Path);
-            Assert.Equal(SwaggerOperationMethod.Get, operationDescription.Method);
+            Assert.Equal(OpenApiOperationMethod.Get, operationDescription.Method);
 
             var operation = operationDescription.Operation;
             Assert.Equal("Test_FindModel", operation.OperationId);
 
             var parameter = Assert.Single(operation.Parameters);
             Assert.Equal("id", parameter.Name);
-            Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Path, parameter.Kind);
             Assert.True(parameter.IsRequired);
             Assert.Equal(NJsonSchema.JsonObjectType.Integer, parameter.Type);
 
@@ -221,14 +221,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operationDescription = Assert.Single(document.Operations);
             Assert.Equal("/test", operationDescription.Path);
-            Assert.Equal(SwaggerOperationMethod.Get, operationDescription.Method);
+            Assert.Equal(OpenApiOperationMethod.Get, operationDescription.Method);
 
             var operation = operationDescription.Operation;
             Assert.Equal("Test_FindModel", operation.OperationId);
 
             var parameter = Assert.Single(operation.Parameters);
             Assert.Equal("id", parameter.Name);
-            Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Path, parameter.Kind);
             Assert.True(parameter.IsRequired);
             Assert.Equal(NJsonSchema.JsonObjectType.Integer, parameter.Type);
 
@@ -269,7 +269,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operationDescription = Assert.Single(document.Operations);
             Assert.Equal("/test1", operationDescription.Path);
-            Assert.Equal(SwaggerOperationMethod.Get, operationDescription.Method);
+            Assert.Equal(OpenApiOperationMethod.Get, operationDescription.Method);
         }
 
         [Fact]
@@ -285,11 +285,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operationDescription = Assert.Single(document.Operations);
             Assert.Equal("/{id}", operationDescription.Path);
-            Assert.Equal(SwaggerOperationMethod.Post, operationDescription.Method);
+            Assert.Equal(OpenApiOperationMethod.Post, operationDescription.Method);
 
             var parameter = Assert.Single(operationDescription.Operation.Parameters);
             Assert.Equal("id", parameter.Name);
-            Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Path, parameter.Kind);
         }
 
         [Fact]
@@ -307,22 +307,22 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 document.Operations.OrderBy(o => o.Method.ToString()),
                 operation =>
                 {
-                    Assert.Equal(SwaggerOperationMethod.Delete, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Delete, operation.Method);
                     Assert.Equal("HttpMethods_HttpDelete", operation.Operation.OperationId);
                 },
                 operation =>
                 {
-                    Assert.Equal(SwaggerOperationMethod.Head, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Head, operation.Method);
                     Assert.Equal("HttpMethods_HttpHead", operation.Operation.OperationId);
                 },
                 operation =>
                 {
-                    Assert.Equal(SwaggerOperationMethod.Options, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Options, operation.Method);
                     Assert.Equal("HttpMethods_HttpOptions", operation.Operation.OperationId);
                 },
                 operation =>
                 {
-                    Assert.Equal(SwaggerOperationMethod.Patch, operation.Method);
+                    Assert.Equal(OpenApiOperationMethod.Patch, operation.Method);
                     Assert.Equal("HttpMethods_HttpPatch", operation.Operation.OperationId);
                 });
         }
@@ -419,7 +419,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromHeaderParameter)).Operation;
             var parameter = Assert.Single(operation.Parameters);
-            Assert.Equal(SwaggerParameterKind.Header, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Header, parameter.Kind);
             Assert.Equal("headerParameter", parameter.Name);
         }
 
@@ -436,7 +436,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromBodyParameter)).Operation;
             var parameter = Assert.Single(operation.Parameters);
-            Assert.Equal(SwaggerParameterKind.Body, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Body, parameter.Kind);
             Assert.Equal("model", parameter.Name);
             Assert.True(parameter.IsRequired);
         }
@@ -454,7 +454,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FromFormParameter)).Operation;
             var parameter = Assert.Single(operation.Parameters);
-            Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.FormData, parameter.Kind);
             Assert.Equal("formParameter", parameter.Name);
             Assert.True(parameter.IsRequired);
         }
@@ -474,8 +474,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             var requiredParameter = operation.Parameters.First();
             var optionalParameter = operation.Parameters.Last();
 
-            Assert.Equal(SwaggerParameterKind.Query, requiredParameter.Kind);
-            Assert.Equal(SwaggerParameterKind.Query, optionalParameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Query, requiredParameter.Kind);
+            Assert.Equal(OpenApiParameterKind.Query, optionalParameter.Kind);
 
             Assert.Equal("queryParameter1", requiredParameter.Name);
             Assert.Equal("queryParameter2", optionalParameter.Name);
@@ -497,7 +497,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
             //// Assert
             var operation = Assert.Single(document.Operations, o => o.Path == "/" + nameof(ControllerWithParameters.FileParameter)).Operation;
             var parameter = Assert.Single(operation.Parameters);
-            Assert.Equal(SwaggerParameterKind.FormData, parameter.Kind);
+            Assert.Equal(OpenApiParameterKind.FormData, parameter.Kind);
             Assert.Equal("multipart/form-data", Assert.Single(operation.Consumes));
         }
 
@@ -518,17 +518,17 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 parameter =>
                 {
                     Assert.Equal(nameof(ComplexModel.Header), parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Query, parameter.Kind);
                 },
                 parameter =>
                 {
                     Assert.Equal(nameof(ComplexModel.Id), parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Query, parameter.Kind);
                 },
                 parameter =>
                 {
                     Assert.Equal(nameof(ComplexModel.QueryValues), parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Query, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Query, parameter.Kind);
                 });
         }
 
@@ -549,17 +549,17 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 parameter =>
                 {
                     Assert.Equal(nameof(ControllerWithBoundProperties.HeaderValue), parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Header, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Header, parameter.Kind);
                 },
                 parameter =>
                 {
                     Assert.Equal(nameof(ControllerWithBoundProperties.Id), parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Path, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Path, parameter.Kind);
                 },
                 parameter =>
                 {
                     Assert.Equal("model", parameter.Name);
-                    Assert.Equal(SwaggerParameterKind.Body, parameter.Kind);
+                    Assert.Equal(OpenApiParameterKind.Body, parameter.Kind);
                 });
         }
 

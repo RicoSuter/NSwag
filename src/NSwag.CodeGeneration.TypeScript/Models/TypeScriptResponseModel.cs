@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
-        public TypeScriptResponseModel(IOperationModel operationModel, SwaggerOperation operation, string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
+        public TypeScriptResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse, 
             JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, SwaggerToTypeScriptClientGeneratorSettings settings) 
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
         {

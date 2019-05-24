@@ -10,15 +10,15 @@ namespace NSwag.Core.Tests
         {
             //// Arrange
             var document = new SwaggerDocument();
-            document.Paths["path"] = new SwaggerPathItem
+            document.Paths["path"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation { }
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation { }
                 },
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation { }
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation { }
                 }
             };
 

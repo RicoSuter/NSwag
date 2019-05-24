@@ -15,12 +15,12 @@ using NSwag.Collections;
 
 namespace NSwag
 {
-    /// <summary>A Swagger path, the key is usually a value of <see cref="SwaggerOperationMethod"/>.</summary>
+    /// <summary>A Swagger path, the key is usually a value of <see cref="OpenApiOperationMethod"/>.</summary>
     [JsonConverter(typeof(SwaggerPathItemConverter))]
-    public class SwaggerPathItem : ObservableDictionary<string, SwaggerOperation>
+    public class OpenApiPathItem : ObservableDictionary<string, OpenApiOperation>
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerPathItem"/> class.</summary>
-        public SwaggerPathItem()
+        /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
+        public OpenApiPathItem()
         {
             CollectionChanged += (sender, args) =>
             {
@@ -49,14 +49,14 @@ namespace NSwag
 
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<SwaggerParameter> Parameters { get; set; } = new Collection<SwaggerParameter>();
+        public ICollection<OpenApiParameter> Parameters { get; set; } = new Collection<OpenApiParameter>();
 
         // Needed to convert dictionary keys to lower case
         internal class SwaggerPathItemConverter : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                var operations = (SwaggerPathItem)value;
+                var operations = (OpenApiPathItem)value;
                 writer.WriteStartObject();
 
                 if (operations.Parameters != null && operations.Parameters.Any())
@@ -80,7 +80,7 @@ namespace NSwag
                     return null;
                 }
 
-                var operations = new SwaggerPathItem();
+                var operations = new OpenApiPathItem();
                 while (reader.Read() && reader.TokenType == JsonToken.PropertyName)
                 {
                     var propertyName = reader.Value.ToString();
@@ -88,11 +88,11 @@ namespace NSwag
 
                     if (propertyName == "parameters")
                     {
-                        operations.Parameters = (List<SwaggerParameter>)serializer.Deserialize(reader, typeof(List<SwaggerParameter>));
+                        operations.Parameters = (List<OpenApiParameter>)serializer.Deserialize(reader, typeof(List<OpenApiParameter>));
                     }
                     else
                     {
-                        var value = (SwaggerOperation)serializer.Deserialize(reader, typeof(SwaggerOperation));
+                        var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
                         operations.Add(propertyName, value);
                     }
 
@@ -102,7 +102,7 @@ namespace NSwag
 
             public override bool CanConvert(Type objectType)
             {
-                return objectType == typeof(SwaggerPathItem);
+                return objectType == typeof(OpenApiPathItem);
             }
         }
     }

@@ -40,8 +40,8 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("rsuter.com", document.Host);
             Assert.Equal("/myapi", document.BasePath);
             Assert.Equal(2, document.Schemes.Count);
-            Assert.Equal(SwaggerSchema.Http, document.Schemes.First());
-            Assert.Equal(SwaggerSchema.Https, document.Schemes.Last());
+            Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
+            Assert.Equal(OpenApiSchema.Https, document.Schemes.Last());
 
             Assert.Contains(@"""basePath""", json);
         }
@@ -82,7 +82,7 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
             Assert.Equal(1, document.Schemes.Count);
-            Assert.Equal(SwaggerSchema.Http, document.Schemes.First());
+            Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace NSwag.Core.Tests.Serialization
             {
                 Host = "localhost:12354",
                 BasePath = "/myapi",
-                Schemes = { SwaggerSchema.Http }
+                Schemes = { OpenApiSchema.Http }
             };
 
             //// Act
@@ -103,7 +103,7 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
             Assert.Equal(1, document.Schemes.Count);
-            Assert.Equal(SwaggerSchema.Http, document.Schemes.First());
+            Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
         [Fact]
@@ -113,11 +113,11 @@ namespace NSwag.Core.Tests.Serialization
             var document = new SwaggerDocument
             {
                 BasePath = "/myapi",
-                Schemes = { SwaggerSchema.Http }
+                Schemes = { OpenApiSchema.Http }
             };
 
             //// Act
-            document.Schemes.Add(SwaggerSchema.Https);
+            document.Schemes.Add(OpenApiSchema.Https);
             document.Host = "localhost:12354";
 
             var json = document.ToJson(SchemaType.Swagger2);
@@ -134,7 +134,7 @@ namespace NSwag.Core.Tests.Serialization
             {
                 Host = "localhost:12354",
                 BasePath = "/myapi",
-                Schemes = { SwaggerSchema.Http }
+                Schemes = { OpenApiSchema.Http }
             };
 
             //// Act
@@ -158,7 +158,7 @@ namespace NSwag.Core.Tests.Serialization
                 }
             };
 
-            document.Schemes.Add(SwaggerSchema.Https);
+            document.Schemes.Add(OpenApiSchema.Https);
 
             return document;
         }

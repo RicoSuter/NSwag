@@ -17,8 +17,8 @@ namespace NSwag.CodeGeneration.Models
     public abstract class ResponseModelBase
     {
         private readonly IOperationModel _operationModel;
-        private readonly SwaggerResponse _response;
-        private readonly SwaggerOperation _operation;
+        private readonly OpenApiResponse _response;
+        private readonly OpenApiOperation _operation;
         private readonly JsonSchema _exceptionSchema;
         private readonly IClientGenerator _generator;
         private readonly CodeGeneratorSettingsBase _settings;
@@ -35,8 +35,8 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator.</param>
         protected ResponseModelBase(IOperationModel operationModel,
-            SwaggerOperation operation,
-            string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse,
+            OpenApiOperation operation,
+            string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse,
             JsonSchema exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
             _response = response;
