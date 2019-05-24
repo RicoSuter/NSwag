@@ -251,8 +251,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var attributes = extendedApiParameter.Attributes
                 .Union(extendedApiParameter.ParameterType.GetTypeInfo().GetCustomAttributes());
 
-            var hasSwaggerFileAttribute = attributes.Any(a =>
-                a.GetType().IsAssignableToTypeName("SwaggerFileAttribute", TypeNameStyle.Name));
+            var hasSwaggerFileAttribute = attributes.FirstAssignableToTypeNameOrDefault("SwaggerFileAttribute", TypeNameStyle.Name) != null;
 
             if (typeInfo.Type == JsonObjectType.File ||
                 typeInfo.Format == JsonFormatStrings.Binary ||

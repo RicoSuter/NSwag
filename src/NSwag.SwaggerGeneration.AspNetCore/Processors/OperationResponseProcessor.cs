@@ -13,7 +13,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -42,13 +41,14 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                 return false;
             }
 
-            var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
-                            a.GetType().Name == "SwaggerResponseAttribute" ||
-                            a.GetType().Name == "SwaggerDefaultResponseAttribute")
+            var responseTypeAttributes = context.MethodInfo
+                .GetCustomAttributes()
+                .Where(a => a.GetType().IsAssignableToTypeName("ResponseTypeAttribute", TypeNameStyle.Name) ||
+                            a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
+                            a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name))
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
-                    .Where(a => a.GetType().Name == "SwaggerResponseAttribute" ||
-                            a.GetType().Name == "SwaggerDefaultResponseAttribute"))
+                    .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
+                                a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)))
                 .ToList();
 
             if (responseTypeAttributes.Count > 0)

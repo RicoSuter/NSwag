@@ -14,7 +14,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 using NSwag.SwaggerGeneration.WebApi.Infrastructure;
@@ -305,7 +304,10 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             string operationId;
 
-            dynamic swaggerOperationAttribute = method.GetCustomAttributes().FirstOrDefault(a => a.GetType().Name == "SwaggerOperationAttribute");
+            dynamic swaggerOperationAttribute = method
+                .GetCustomAttributes()
+                .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
+
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
-using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -51,8 +50,8 @@ namespace NSwag.SwaggerGeneration.Processors
         private void ProcessSwaggerTagAttributes(SwaggerDocument document, SwaggerOperationDescription operationDescription, MethodInfo methodInfo)
         {
             foreach (var tagAttribute in methodInfo.GetCustomAttributes()
-                                            .Where(a => a.GetType().Name == "SwaggerTagAttribute")
-                                            .Select(a => (dynamic)a))
+                .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
+                .Select(a => (dynamic)a))
             {
                 if (operationDescription.Operation.Tags.All(t => t != tagAttribute.Name))
                 {
@@ -70,7 +69,7 @@ namespace NSwag.SwaggerGeneration.Processors
         {
             dynamic tagsAttribute = methodInfo
                 .GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "SwaggerTagsAttribute");
+                .FirstAssignableToTypeNameOrDefault("SwaggerTagsAttribute", TypeNameStyle.Name);
 
             if (tagsAttribute != null)
             {

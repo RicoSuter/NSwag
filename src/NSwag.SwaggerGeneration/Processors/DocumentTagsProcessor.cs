@@ -9,9 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors;
+using Namotion.Reflection;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
 namespace NSwag.SwaggerGeneration.Processors
@@ -34,10 +33,9 @@ namespace NSwag.SwaggerGeneration.Processors
 
         private static void ProcessSwaggerTagsAttribute(SwaggerDocument document, Type controllerType)
         {
-            dynamic tagsAttribute = controllerType.GetTypeInfo()
-                .GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "SwaggerTagsAttribute");
-
+            dynamic tagsAttribute = controllerType.ToCachedType()
+                .TypeAttributes
+                .FirstAssignableToTypeNameOrDefault("SwaggerTagsAttribute", TypeNameStyle.Name);
             if (tagsAttribute != null)
             {
                 var tags = ((string[])tagsAttribute.Tags)
@@ -64,8 +62,9 @@ namespace NSwag.SwaggerGeneration.Processors
 
         private static void ProcessSwaggerTagAttributes(SwaggerDocument document, Type controllerType)
         {
-            var tagAttributes = controllerType.GetTypeInfo().GetCustomAttributes()
-                .Where(a => a.GetType().Name == "SwaggerTagAttribute")
+            var tagAttributes = controllerType
+                .ToCachedType().TypeAttributes
+                .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
                 .Select(a => (dynamic)a)
                 .ToArray();
 

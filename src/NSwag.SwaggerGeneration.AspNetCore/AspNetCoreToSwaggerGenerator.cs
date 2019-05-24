@@ -19,7 +19,6 @@ using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -340,7 +339,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         {
             string operationId;
 
-            dynamic swaggerOperationAttribute = method.GetCustomAttributes().FirstOrDefault(a => a.GetType().Name == "SwaggerOperationAttribute");
+            dynamic swaggerOperationAttribute = method
+                .GetCustomAttributes()
+                .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
+
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;

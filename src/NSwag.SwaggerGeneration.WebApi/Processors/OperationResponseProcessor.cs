@@ -9,6 +9,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
 
@@ -33,15 +34,15 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         public async Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
-                            a.GetType().Name == "SwaggerResponseAttribute")
+                .Where(a => a.GetType().IsAssignableToTypeName("ResponseTypeAttribute", TypeNameStyle.Name) ||
+                            a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name))
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
-                    .Where(a => a.GetType().Name == "SwaggerResponseAttribute"))
+                    .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name)))
                 .ToList();
 
             var producesResponseTypeAttributes = context.MethodInfo.GetCustomAttributes()
-                .Where(a => a.GetType().Name == "ProducesResponseTypeAttribute" ||
-                            a.GetType().Name == "ProducesAttribute")
+                .Where(a => a.GetType().IsAssignableToTypeName("ProducesResponseTypeAttribute", TypeNameStyle.Name) ||
+                            a.GetType().IsAssignableToTypeName("ProducesAttribute", TypeNameStyle.Name))
                 .ToList();
 
             var attributes = responseTypeAttributes.Concat(producesResponseTypeAttributes);
