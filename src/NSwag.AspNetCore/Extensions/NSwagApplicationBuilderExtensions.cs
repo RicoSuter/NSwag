@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using NSwag.AspNetCore.Middlewares;
-using NSwag.SwaggerGeneration.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +31,7 @@ namespace Microsoft.AspNetCore.Builder
         /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
+        [Obsolete("Use UseOpenApi() instead.")]
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
         {
             return UseSwaggerWithApiExplorerCore(app, configure);
@@ -38,10 +39,7 @@ namespace Microsoft.AspNetCore.Builder
 
         private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure)
         {
-            // TODO(v12): Add IOptions support when SwaggerUi3Settings<> T has been removed
-            //var settings = configure == null && app.ApplicationServices.GetService<IOptions<SwaggerMiddlewareSettings>>()?.Value ?? new SwaggerMiddlewareSettings();
-
-            var settings = new SwaggerDocumentMiddlewareSettings();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerDocumentMiddlewareSettings>>()?.Value : null ?? new SwaggerDocumentMiddlewareSettings();
             configure?.Invoke(settings);
 
             if (settings.Path.Contains("{documentName}"))
@@ -67,23 +65,19 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseSwaggerUi3(
             this IApplicationBuilder app,
-            Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUi3Settings> configure = null)
         {
-            // TODO(v12): Add IOptions support when SwaggerUi3Settings<> T has been removed
-            //var settings = configure == null && app.ApplicationServices.GetService<IOptions<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>>>()?.Value ?? 
-            //    new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
-
-            var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerUi3Settings>>()?.Value : null ?? new SwaggerUi3Settings();
             configure?.Invoke(settings);
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
             {
                 app.UseMiddleware<RedirectToIndexMiddleware>(swaggerUiRoute, swaggerRoute, settings.TransformToExternalPath);
-                app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
+                app.UseMiddleware<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
                 app.UseFileServer(new FileServerOptions
                 {
                     RequestPath = new PathString(swaggerUiRoute),
-                    FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
+                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
                 });
             },
             (documents) =>
@@ -110,27 +104,51 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseReDoc(
             this IApplicationBuilder app,
-            Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerReDocSettings> configure = null)
         {
-            var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerReDocSettings>>()?.Value : null ?? new SwaggerReDocSettings();
             configure?.Invoke(settings);
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
             {
                 app.UseMiddleware<RedirectToIndexMiddleware>(swaggerUiRoute, swaggerRoute, settings.TransformToExternalPath);
-                app.UseMiddleware<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
+                app.UseMiddleware<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.ReDoc.index.html");
                 app.UseFileServer(new FileServerOptions
                 {
                     RequestPath = new PathString(swaggerUiRoute),
-                    FileProvider = new EmbeddedFileProvider(typeof(SwaggerExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
+                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.ReDoc")
                 });
             }, (documents) => false);
 
             return app;
         }
 
+        /// <summary>Adds the Swagger UI (only) to the pipeline.</summary>
+        /// <param name="app">The app.</param>
+        /// <param name="configure">Configure the Swagger UI settings.</param>
+        /// <returns>The app builder.</returns>
+        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
+        public static IApplicationBuilder UseSwaggerUi(
+            this IApplicationBuilder app,
+            Action<SwaggerUiSettings> configure = null)
+        {
+            var settings = new SwaggerUiSettings();
+            settings.DocumentPath = "/swagger/v1/swagger.json";
+            configure?.Invoke(settings);
+
+            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
+            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
+            app.UseFileServer(new FileServerOptions
+            {
+                RequestPath = new PathString(settings.ActualSwaggerUiPath),
+                FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi")
+            });
+
+            return app;
+        }
+
         private static void UseSwaggerUiWithDocumentNamePlaceholderExpanding(IApplicationBuilder app,
-            SwaggerUiSettingsBase<WebApiToSwaggerGeneratorSettings> settings,
+            SwaggerUiSettingsBase settings,
             Action<string, string> register,
             Func<IEnumerable<SwaggerDocumentRegistration>, bool> registerMultiple)
         {

@@ -23,23 +23,7 @@ namespace NSwag.CodeGeneration.CSharp
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
                 Namespace = "MyNamespace",
-                SchemaType = SchemaType.Swagger2,
-
-                // TODO: Remove these defaults when NJS is updated with them
-                ClassStyle = CSharpClassStyle.Poco,
-
-                DateType = "System.DateTimeOffset",
-                DateTimeType = "System.DateTimeOffset",
-                TimeType = "System.TimeSpan",
-                TimeSpanType = "System.TimeSpan",
-
-                ArrayType = "System.Collections.Generic.ICollection",
-                ArrayInstanceType = "System.Collections.ObjectModel.Collection",
-                ArrayBaseType = "System.Collections.ObjectModel.Collection",
-
-                DictionaryType = "System.Collections.Generic.IDictionary",
-                DictionaryInstanceType = "System.Collections.Generic.Dictionary",
-                DictionaryBaseType = "System.Collections.Generic.Dictionary"
+                SchemaType = SchemaType.Swagger2
             };
 
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]

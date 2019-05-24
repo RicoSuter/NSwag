@@ -21,6 +21,7 @@ using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.SwaggerGeneration;
@@ -55,7 +56,7 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.DefaultReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Default, Null or NotNull).")]
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
         {
             get => Settings.DefaultResponseReferenceTypeNullHandling;

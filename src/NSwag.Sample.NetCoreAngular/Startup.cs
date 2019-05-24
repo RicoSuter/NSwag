@@ -35,6 +35,8 @@ namespace NSwag.Sample.NetCoreAngular
                 o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
                 o.SerializerSettings.Converters = new List<JsonConverter> { new StringEnumConverter() };
             });
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +51,7 @@ namespace NSwag.Sample.NetCoreAngular
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly);
+            app.UseSwaggerUi3();
 
             if (env.IsDevelopment())
             {

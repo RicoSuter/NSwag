@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 

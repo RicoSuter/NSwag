@@ -88,7 +88,7 @@ namespace NSwag.CodeGeneration.Tests
 }";
 
             //// Act
-            var schema = await JsonSchema4.FromJsonAsync(jsonSchema);
+            var schema = await JsonSchema.FromJsonAsync(jsonSchema);
             var document = new SwaggerDocument();
             document.Definitions["Foo"] = schema;
 
@@ -125,7 +125,7 @@ namespace NSwag.CodeGeneration.Tests
                     {
                         "200", new SwaggerResponse
                         {
-                            Schema = new JsonSchema4
+                            Schema = new JsonSchema
                             {
                                 Reference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
                             }

@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         public CSharpResponseModel(IOperationModel operationModel, SwaggerOperation operation, string statusCode, SwaggerResponse response, 
-            bool isPrimarySuccessResponse, JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, CodeGeneratorSettingsBase settings)
+            bool isPrimarySuccessResponse, JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, CodeGeneratorSettingsBase settings)
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings, generator)
         {
         }

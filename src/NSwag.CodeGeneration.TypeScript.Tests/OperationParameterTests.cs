@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.SwaggerGeneration.WebApi;
 using Xunit;
 

@@ -22,8 +22,12 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
+#if AspNetOwin
     public class SwaggerUiSettings<T> : SwaggerUiSettingsBase<T>
         where T : SwaggerGeneratorSettings, new()
+#else
+    public class SwaggerUiSettings : SwaggerUiSettingsBase
+#endif
     {
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
         public bool ValidateSpecification { get; set; } = true;

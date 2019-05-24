@@ -15,13 +15,13 @@ using NJsonSchema;
 namespace NSwag
 {
     /// <summary>Describes an operation parameter. </summary>
-    public class SwaggerParameter : JsonSchema4
+    public class SwaggerParameter : JsonSchema
     {
         private string _name;
         private SwaggerParameterKind _kind;
         private SwaggerParameterStyle _style;
         private bool _isRequired = false;
-        private JsonSchema4 _schema;
+        private JsonSchema _schema;
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;
         private int? _position;
@@ -127,7 +127,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 Schema
+        public JsonSchema Schema
         {
             get => _schema;
             set
@@ -139,7 +139,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
         [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public JsonSchema4 CustomSchema { get; set; }
+        public JsonSchema CustomSchema { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -156,14 +156,18 @@ namespace NSwag
         /// <summary>Gets the actual schema, either the parameter schema itself (or its reference) or the <see cref="Schema"/> property when <see cref="Kind"/> == body.</summary>
         /// <exception cref="InvalidOperationException" accessor="get">The schema reference path is not resolved.</exception>
         [JsonIgnore]
-        public override JsonSchema4 ActualSchema
+        public override JsonSchema ActualSchema
         {
             get
             {
                 if (Reference is SwaggerParameter parameter)
+                {
                     return parameter.ActualSchema;
+                }
                 else
+                {
                     return Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema;
+                }
             }
         }
 

@@ -62,19 +62,19 @@ namespace NSwag.Commands
         }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<JsonSchema4> GetJsonSchemaAsync()
+        protected async Task<JsonSchema> GetJsonSchemaAsync()
         {
             var input = Input.ToString();
             if (string.IsNullOrEmpty(input))
                 throw new ArgumentException("The argument 'Input' was empty.");
 
             if (IsJson(input))
-                return await JsonSchema4.FromJsonAsync(input).ConfigureAwait(false);
+                return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
 
             if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
-                return await JsonSchema4.FromFileAsync(input).ConfigureAwait(false);
+                return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
 
-            return await JsonSchema4.FromUrlAsync(input).ConfigureAwait(false);
+            return await JsonSchema.FromUrlAsync(input).ConfigureAwait(false);
         }
     }
 }

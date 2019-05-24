@@ -35,7 +35,7 @@ namespace NSwag
         /// <summary>Appends the schema to the root object.</summary>
         /// <param name="schema">The schema to append.</param>
         /// <param name="typeNameHint">The type name hint.</param>
-        public override void AppendSchema(JsonSchema4 schema, string typeNameHint)
+        public override void AppendSchema(JsonSchema schema, string typeNameHint)
         {
             if (!Document.Definitions.Values.Contains(schema))
             {
