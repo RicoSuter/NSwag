@@ -214,7 +214,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.ActualSchema.IsBinary))
+            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
                 operationDescription.Operation.TryAddConsumes("multipart/form-data");
             }

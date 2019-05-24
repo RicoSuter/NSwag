@@ -161,9 +161,13 @@ namespace NSwag
             get
             {
                 if (Reference is SwaggerParameter parameter)
+                {
                     return parameter.ActualSchema;
+                }
                 else
+                {
                     return Schema?.ActualSchema ?? CustomSchema?.ActualSchema ?? base.ActualSchema;
+                }
             }
         }
 
