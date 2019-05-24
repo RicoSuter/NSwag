@@ -28,11 +28,16 @@ namespace NSwag.CodeGeneration
             schema = schema.ActualTypeSchema;
 
             if (checkedSchemas.Contains(schema))
+            {
                 return false;
+            }
+
             checkedSchemas.Add(schema);
 
             if (schema.IsDictionary)
+            {
                 return schema.AdditionalPropertiesSchema?.UsesComplexObjectSchema(checkedSchemas) == true;
+            }
 
             if (schema.Type.HasFlag(JsonObjectType.Array))
             {
@@ -42,7 +47,9 @@ namespace NSwag.CodeGeneration
             }
 
             if (schema.Type.HasFlag(JsonObjectType.Object))
+            {
                 return !schema.IsAnyType;
+            }
 
             return false;
         }

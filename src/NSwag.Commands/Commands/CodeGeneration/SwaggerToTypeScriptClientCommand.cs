@@ -351,7 +351,10 @@ namespace NSwag.Commands.CodeGeneration
             {
                 var additionalCode = ExtensionCode ?? string.Empty;
                 if (await DynamicApis.FileExistsAsync(additionalCode).ConfigureAwait(false))
+                {
                     additionalCode = await DynamicApis.FileReadAllTextAsync(additionalCode).ConfigureAwait(false);
+                }
+
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);

@@ -89,7 +89,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
                 if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
+                {
                     return "protected";
+                }
 
                 return "public";
             }
@@ -138,7 +140,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
+                {
                     return "System.Exception";
+                }
 
                 var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
@@ -177,7 +181,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                             };
                         }
                         else
+                        {
                             return new CSharpExceptionDescriptionModel[] { };
+                        }
                     });
             }
         }
@@ -224,7 +230,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                {
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
+                }
 
                 return "FileParameter";
             }

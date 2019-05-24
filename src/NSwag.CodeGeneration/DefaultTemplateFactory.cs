@@ -43,7 +43,9 @@ namespace NSwag.CodeGeneration
             if (resource != null)
             {
                 using (var reader = new StreamReader(resource))
+                {
                     return reader.ReadToEnd();
+                }
             }
 
             return base.GetEmbeddedLiquidTemplate(language, template);

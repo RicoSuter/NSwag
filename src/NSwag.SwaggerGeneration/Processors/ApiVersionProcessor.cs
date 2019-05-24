@@ -55,7 +55,9 @@ namespace NSwag.SwaggerGeneration.Processors
 
                         var version = mappedVersions.FirstOrDefault(v => IncludedVersions == null || IncludedVersions.Length == 0 || IncludedVersions.Contains(v));
                         if (version == null && mappedVersions.Length == 0)
+                        {
                             version = IncludedVersions != null && IncludedVersions.Any() ? IncludedVersions[0] : versions[0];
+                        }
 
                         if (version != null)
                         {
@@ -63,7 +65,9 @@ namespace NSwag.SwaggerGeneration.Processors
                             return Task.FromResult(true);
                         }
                         else
+                        {
                             return Task.FromResult(false);
+                        }
                     }
 
                     return Task.FromResult(false);

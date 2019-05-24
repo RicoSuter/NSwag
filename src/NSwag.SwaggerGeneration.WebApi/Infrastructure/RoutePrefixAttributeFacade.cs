@@ -27,7 +27,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
 
             _prefix = type.GetRuntimeProperty("Prefix");
             if (_prefix == null)
+            {
                 throw new ArgumentException($"{type.FullName} does not implement property 'Prefix'");
+            }
 
             Attribute = attr;
         }

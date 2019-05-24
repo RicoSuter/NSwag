@@ -43,7 +43,9 @@ namespace NSwag.CodeGeneration.Models
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
             if (defaultResponse != null)
+            {
                 responses.Remove(defaultResponse);
+            }
 
             Responses = responses;
             DefaultResponse = defaultResponse;
@@ -180,7 +182,9 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+                {
                     throw new InvalidOperationException("Multiple body parameters found in operation '" + _operation.OperationId + "'.");
+                }
 
                 return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
             }
@@ -236,7 +240,9 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (_operation.ActualConsumes?.Contains("application/json") == true)
+                {
                     return "application/json";
+                }
 
                 return _operation.ActualConsumes?.FirstOrDefault() ??
                     _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
@@ -250,7 +256,9 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (_operation.ActualProduces?.Contains("application/json") == true)
+                {
                     return "application/json";
+                }
 
                 return _operation.ActualProduces?.FirstOrDefault() ?? 
                     SuccessResponse?.Produces ??
@@ -275,11 +283,15 @@ namespace NSwag.CodeGeneration.Models
         protected KeyValuePair<string, SwaggerResponse> GetSuccessResponse()
         {
             if (_operation.ActualResponses.Any(r => r.Key == "200"))
+            {
                 return new KeyValuePair<string, SwaggerResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
+            }
 
             var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key));
             if (response.Value != null)
+            {
                 return new KeyValuePair<string, SwaggerResponse>(response.Key, response.Value);
+            }
 
             return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
         }

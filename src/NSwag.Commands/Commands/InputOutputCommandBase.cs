@@ -39,7 +39,9 @@ namespace NSwag.Commands
                 var input = Input.ToString();
 
                 if (string.IsNullOrEmpty(input))
+                {
                     throw new ArgumentException("The argument 'Input' was empty.");
+                }
 
                 document = await ReadSwaggerDocumentAsync(input);
             }
@@ -52,10 +54,14 @@ namespace NSwag.Commands
             else
             {
                 if (!string.IsNullOrEmpty(ServiceHost))
+                {
                     document.Host = ServiceHost;
+                }
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
+                {
                     document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                }
             }
 
             return document;
@@ -66,13 +72,19 @@ namespace NSwag.Commands
         {
             var input = Input.ToString();
             if (string.IsNullOrEmpty(input))
+            {
                 throw new ArgumentException("The argument 'Input' was empty.");
+            }
 
             if (IsJson(input))
+            {
                 return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
+            }
 
             if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
+            {
                 return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
+            }
 
             return await JsonSchema.FromUrlAsync(input).ConfigureAwait(false);
         }

@@ -141,7 +141,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                             .Distinct();
                     }
                     else
+                    {
                         return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                    }
                 }
                 return new string[] { };
             }

@@ -20,7 +20,9 @@ namespace NSwag.CodeGeneration.TypeScript
         protected override string Generate(JsonSchema schema, string typeNameHint)
         {
             if (typeNameHint == "Error")
+            {
                 typeNameHint = "ErrorDto";
+            }
 
             return base.Generate(schema, typeNameHint);
         }

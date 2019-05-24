@@ -209,7 +209,10 @@ namespace NSwag.Commands.CodeGeneration
         {
             var result = await RunAsync();
             foreach (var pair in result)
+            {
                 await TryWriteFileOutputAsync(pair.Key, host, () => pair.Value).ConfigureAwait(false);
+            }
+
             return result;
         }
 

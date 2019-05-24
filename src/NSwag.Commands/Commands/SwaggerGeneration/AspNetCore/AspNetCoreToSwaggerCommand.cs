@@ -117,7 +117,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 #if NET461
                 var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
+                {
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+                }
 
                 if (projectMetadata.TargetFrameworkIdentifier == ".NETFramework")
                 {
@@ -126,19 +128,27 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                     if (is32BitProject)
                     {
                         if (Environment.Is64BitProcess)
+                        {
                             throw new InvalidOperationException($"The ouput of {projectFile} is a 32-bit application and requires NSwag.Console.x86 to be processed.");
+                        }
+
                         binaryName = LauncherBinaryName + ".x86.exe";
                     }
                     else
                     {
                         if (!Environment.Is64BitProcess)
+                        {
                             throw new InvalidOperationException($"The ouput of {projectFile} is a 64-bit application and requires NSwag.Console to be processed.");
+                        }
+
                         binaryName = LauncherBinaryName + ".exe";
                     }
 
                     var executableSource = Path.Combine(toolDirectory, binaryName);
                     if (!File.Exists(executableSource))
+                    {
                         throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+                    }
 
                     executable = Path.Combine(projectMetadata.OutputPath, binaryName);
                     File.Copy(executableSource, executable, overwrite: true);
@@ -155,7 +165,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 #elif NETCOREAPP || NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
+                {
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+                }
 
                 if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp")
                 {
@@ -196,7 +208,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 {
                     var exitCode = await Exe.RunAsync(executable, args, verboseHost).ConfigureAwait(false);
                     if (exitCode != 0)
+                    {
                         throw new InvalidOperationException($"Swagger generation failed with non-zero exit code '{exitCode}'.");
+                    }
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
@@ -301,7 +315,9 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 try
                 {
                     if (File.Exists(file))
+                    {
                         File.Delete(file);
+                    }
                 }
                 catch
                 {

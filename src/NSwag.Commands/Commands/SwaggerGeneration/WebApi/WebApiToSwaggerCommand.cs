@@ -78,7 +78,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
         {
             var controllerNames = ControllerNames.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
             if (!controllerNames.Any() && AssemblyPaths?.Length > 0)
+            {
                 controllerNames = GetControllerNames(assemblyLoader).ToList();
+            }
 
             var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
 
@@ -87,10 +89,14 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             if (IsAspNetCore && ResolveJsonOptions)
             {
                 using (var webHost = await CreateWebHostAsync(assemblyLoader))
+                {
                     settings = await CreateSettingsAsync(assemblyLoader, webHost, workingDirectory);
+                }
             }
             else
+            {
                 settings = await CreateSettingsAsync(assemblyLoader, null, workingDirectory);
+            }
 
             var generator = new WebApiToSwaggerGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
@@ -120,7 +126,9 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
 #pragma warning restore 1998
         {
             if (AssemblyPaths == null || AssemblyPaths.Length == 0)
+            {
                 throw new InvalidOperationException("No assembly paths have been provided.");
+            }
 
             var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader);
 
@@ -131,16 +139,22 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
 
             var controllerNamesWithoutWildcard = controllerNames.Where(n => !n.Contains("*")).ToArray();
             if (controllerNamesWithoutWildcard.Any(n => !matchedControllerNames.Contains(n)))
+            {
                 throw new TypeLoadException("Unable to load type for controllers: " + string.Join(", ", controllerNamesWithoutWildcard));
+            }
 
             var controllerTypes = new List<Type>();
             foreach (var className in matchedControllerNames)
             {
                 var controllerType = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
                 if (controllerType != null)
+                {
                     controllerTypes.Add(controllerType);
+                }
                 else
+                {
                     throw new TypeLoadException("Unable to load type for controller: " + className);
+                }
             }
 
             return controllerTypes;

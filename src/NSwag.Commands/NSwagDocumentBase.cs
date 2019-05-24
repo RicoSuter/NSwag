@@ -120,7 +120,9 @@ namespace NSwag.Commands
             {
                 var name = System.IO.Path.GetFileName(Path);
                 if (!name.Equals("nswag.json", StringComparison.OrdinalIgnoreCase))
+                {
                     return name;
+                }
 
                 var segments = Path.Replace("\\", "/").Split('/');
                 return segments.Length >= 2 ? string.Join("/", segments.Skip(segments.Length - 2)) : name;
@@ -181,7 +183,9 @@ namespace NSwag.Commands
                     data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => EscapeJsonString(Environment.ExpandEnvironmentVariables(p.Value)));
 
                     foreach (var p in ConvertVariables(variables))
+                    {
                         data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
+                    }
 
                     var obj = JObject.Parse(data);
                     if (obj["defaultVariables"] != null)
@@ -200,7 +204,9 @@ namespace NSwag.Commands
                 var document = FromJson<TDocument>(filePath, data);
 
                 if (saveFile)
+                {
                     await document.SaveAsync();
+                }
 
                 return document;
             });
@@ -313,7 +319,9 @@ namespace NSwag.Commands
             if (SwaggerGenerators.FromSwaggerCommand != null)
             {
                 if (!SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("https://"))
+                {
                     SwaggerGenerators.FromSwaggerCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromSwaggerCommand.Url);
+                }
             }
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
@@ -381,7 +389,9 @@ namespace NSwag.Commands
             }
 
             foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
+            {
                 generator.OutputFilePath = ConvertToAbsolutePath(generator.OutputFilePath);
+            }
         }
 
         private void ConvertToRelativePaths()
@@ -389,7 +399,9 @@ namespace NSwag.Commands
             if (SwaggerGenerators.FromSwaggerCommand != null)
             {
                 if (!SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("https://"))
+                {
                     SwaggerGenerators.FromSwaggerCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromSwaggerCommand.Url);
+                }
             }
 
             if (SwaggerGenerators.WebApiToSwaggerCommand != null)
@@ -458,7 +470,9 @@ namespace NSwag.Commands
             }
 
             foreach (var generator in CodeGenerators.Items.Where(i => i != null).Concat(SwaggerGenerators.Items))
+            {
                 generator.OutputFilePath = ConvertToRelativePath(generator.OutputFilePath);
+            }
         }
 
         /// <summary>Occurs when a property value changes.</summary>

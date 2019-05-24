@@ -34,7 +34,9 @@ namespace NSwag.Commands
             {
                 var directory = DynamicApis.PathGetDirectoryName(path);
                 if (!string.IsNullOrEmpty(directory) && await DynamicApis.DirectoryExistsAsync(directory).ConfigureAwait(false) == false)
+                {
                     await DynamicApis.DirectoryCreateDirectoryAsync(directory).ConfigureAwait(false);
+                }
 
                 var data = generator();
                 if (!await DynamicApis.FileExistsAsync(path) || await DynamicApis.FileReadAllTextAsync(path) != data)

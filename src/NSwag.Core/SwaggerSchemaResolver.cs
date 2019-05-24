@@ -27,7 +27,9 @@ namespace NSwag
             : base(document, settings)
         {
             if (document == null)
+            {
                 throw new ArgumentNullException(nameof(document));
+            }
 
             _typeNameGenerator = settings.TypeNameGenerator;
         }

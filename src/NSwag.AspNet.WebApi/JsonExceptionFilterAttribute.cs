@@ -74,7 +74,9 @@ namespace NSwag.AspNet.WebApi
                 };
             }
             else
+            {
                 base.OnActionExecuted(context);
+            }
         }
 
         private int GetStatusCode(Exception exception, HttpActionExecutedContext context)

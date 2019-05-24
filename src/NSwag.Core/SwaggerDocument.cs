@@ -35,7 +35,9 @@ namespace NSwag
             paths.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Paths.Values)
+                {
                     path.Parent = this;
+                }
             };
 
             Paths = paths;
@@ -239,7 +241,9 @@ namespace NSwag
 
             // Generate missing IDs
             foreach (var operation in Operations.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+            {
                 operation.Operation.OperationId = GetOperationNameFromPath(operation);
+            }
 
             // Find non-unique operation IDs
             foreach (var group in Operations.GroupBy(o => o.Operation.OperationId))
@@ -268,7 +272,9 @@ namespace NSwag
                     // Add numbers
                     var i = 2;
                     foreach (var operation in operations.Skip(1))
+                    {
                         operation.Operation.OperationId += i++;
+                    }
 
                     GenerateOperationIds();
                     return;

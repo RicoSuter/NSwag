@@ -40,9 +40,13 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             if (consumesAttribute != null && consumesAttribute.ContentTypes != null)
             {
                 if (context.OperationDescription.Operation.Consumes == null)
+                {
                     context.OperationDescription.Operation.Consumes = new List<string>(consumesAttribute.ContentTypes);
+                }
                 else
+                {
                     context.OperationDescription.Operation.Consumes.AddRange(consumesAttribute.ContentTypes);
+                }
             }
 
             return Task.FromResult(true);

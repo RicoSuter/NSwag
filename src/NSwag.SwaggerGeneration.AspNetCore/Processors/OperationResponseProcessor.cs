@@ -38,7 +38,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         public async Task<bool> ProcessAsync(OperationProcessorContext operationProcessorContext)
         {
             if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
+            {
                 return false;
+            }
 
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().Name == "ResponseTypeAttribute" ||
@@ -63,11 +65,17 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     string httpStatusCode;
 
                     if (apiResponse.TryGetPropertyValue<bool>("IsDefaultResponse"))
+                    {
                         httpStatusCode = "default";
+                    }
                     else if (apiResponse.StatusCode == 0 && IsVoidResponse(returnType))
+                    {
                         httpStatusCode = "200";
+                    }
                     else
+                    {
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
+                    }
 
                     if (IsVoidResponse(returnType) == false)
                     {

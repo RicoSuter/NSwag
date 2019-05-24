@@ -127,14 +127,18 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
                                         .FirstAssignableToTypeNameOrDefault("WillReadBodyAttribute", TypeNameStyle.Name);
 
                                     if (willReadBodyAttribute == null)
+                                    {
                                         operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                    }
                                     else
                                     {
                                         // Try to get a boolean property value from the attribute which explicity tells us whether to read from the body
                                         // If no such property exists, then default to false since WebAPI's HttpParameterBinding.WillReadBody defaults to false
                                         var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
                                         if (willReadBody)
+                                        {
                                             operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                        }
                                         else
                                         {
                                             // If we are not reading from the body, then treat this as a primitive.
@@ -208,7 +212,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
         private void EnsureSingleBodyParameter(SwaggerOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+            {
                 throw new InvalidOperationException("The operation '" + operationDescription.Operation.OperationId + "' has more than one body parameter.");
+            }
         }
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
@@ -225,7 +231,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
                 if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
+                {
                     return "{" + parameterName + "}";
+                }
+
                 return string.Empty;
             }).TrimEnd('/');
         }

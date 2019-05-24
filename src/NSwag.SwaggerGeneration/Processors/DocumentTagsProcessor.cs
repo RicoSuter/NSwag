@@ -47,12 +47,16 @@ namespace NSwag.SwaggerGeneration.Processors
                 if (tags.Any())
                 {
                     if (document.Tags == null)
+                    {
                         document.Tags = new List<SwaggerTag>();
+                    }
 
                     foreach (var tag in tags)
                     {
                         if (document.Tags.All(t => t.Name != tag.Name))
+                        {
                             document.Tags.Add(tag);
+                        }
                     }
                 }
             }
@@ -68,14 +72,18 @@ namespace NSwag.SwaggerGeneration.Processors
             if (tagAttributes.Any())
             {
                 foreach (var tagAttribute in tagAttributes)
+                {
                     AddTagFromSwaggerTagAttribute(document, tagAttribute);
+                }
             }
         }
 
         internal static void AddTagFromSwaggerTagAttribute(SwaggerDocument document, dynamic tagAttribute)
         {
             if (document.Tags == null)
+            {
                 document.Tags = new List<SwaggerTag>();
+            }
 
             var tag = document.Tags.SingleOrDefault(t => t.Name == tagAttribute.Name);
             if (tag == null)

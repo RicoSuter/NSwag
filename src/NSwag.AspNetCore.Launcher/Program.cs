@@ -96,11 +96,15 @@ namespace NSwag.AspNetCore.Launcher
                 var name = assemblyName.Name;
 
                 if (!NSwagReferencedAssemblies.TryGetValue(name, out var assemblyInfo))
+                {
                     return null;
+                }
 
                 // If we've loaded a higher version from the app's closure, return it.
                 if (assemblyInfo.LoadedAssembly != null)
+                {
                     return assemblyInfo.LoadedAssembly;
+                }
 
                 var assemblyLocation = Path.Combine(toolsDirectory, name + ".dll");
                 if (!File.Exists(assemblyLocation))
@@ -127,11 +131,15 @@ namespace NSwag.AspNetCore.Launcher
                 var name = assemblyName.Name;
 
                 if (!NSwagReferencedAssemblies.TryGetValue(name, out var assemblyInfo))
+                {
                     return null;
+                }
 
                 // If we've loaded a higher version from the app's closure, return it.
                 if (assemblyInfo.LoadedAssembly != null)
+                {
                     return assemblyInfo.LoadedAssembly;
+                }
 
                 var assemblyLocation = Path.Combine(toolsDirectory, name + ".dll");
                 if (!File.Exists(assemblyLocation))

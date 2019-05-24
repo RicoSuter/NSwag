@@ -35,7 +35,9 @@ namespace NSwag.SwaggerGeneration.Processors
             {
                 var summary = await context.MethodInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
                 if (summary != string.Empty)
+                {
                     context.OperationDescription.Operation.Summary = summary;
+                }
             }
 
             var remarks = await context.MethodInfo.GetXmlDocsRemarksAsync().ConfigureAwait(false);

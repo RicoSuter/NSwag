@@ -145,9 +145,14 @@ namespace NSwag.AspNetCore
         public SwaggerUi3Route(string name, string url)
         {
             if (string.IsNullOrWhiteSpace(name))
+            {
                 throw new ArgumentNullException(nameof(name));
+            }
+
             if (string.IsNullOrWhiteSpace(url))
+            {
                 throw new ArgumentNullException(nameof(url));
+            }
 
             Name = name;
             Url = url;

@@ -56,7 +56,9 @@ namespace NSwag.AspNet.Owin.Middlewares
                 context.Response.Write(schemaJson);
             }
             else
+            {
                 await Next.Invoke(context);
+            }
         }
 
         /// <summary>Generates or gets the cached Swagger specification.</summary>

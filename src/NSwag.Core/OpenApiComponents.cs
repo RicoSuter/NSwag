@@ -42,7 +42,9 @@ namespace NSwag
             responses.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Responses.Values)
+                {
                     path.Parent = document;
+                }
             };
             Responses = responses;
 
@@ -50,7 +52,9 @@ namespace NSwag
             parameters.CollectionChanged += (sender, args) =>
             {
                 foreach (var path in Parameters.Values)
+                {
                     path.Parent = document;
+                }
             };
             Parameters = parameters;
 

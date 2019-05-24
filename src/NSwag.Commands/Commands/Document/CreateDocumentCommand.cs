@@ -26,7 +26,9 @@ namespace NSwag.Commands.Document
                 host.WriteMessage("nswag.json file created.");
             }
             else
+            {
                 host.WriteMessage("nswag.json already exists.");
+            }
 
             return null; 
         }

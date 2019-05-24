@@ -42,7 +42,9 @@ namespace NSwag.CodeGeneration.CSharp
         public override string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint)
         {
             if (schema == null)
+            {
                 return "void";
+            }
 
             if (schema.ActualTypeSchema.IsBinary)
             {

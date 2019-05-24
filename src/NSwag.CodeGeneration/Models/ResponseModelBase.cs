@@ -113,7 +113,9 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (IsPrimarySuccessResponse)
+                {
                     return true;
+                }
 
                 var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
                 return HttpUtilities.IsSuccessStatusCode(StatusCode) && (

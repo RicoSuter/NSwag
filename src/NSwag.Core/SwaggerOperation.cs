@@ -35,7 +35,9 @@ namespace NSwag
             parameters.CollectionChanged += (sender, args) =>
             {
                 foreach (var parameter in Parameters)
+                {
                     parameter.Parent = this;
+                }
 
                 UpdateRequestBody(args);
             };
@@ -45,7 +47,9 @@ namespace NSwag
             responses.CollectionChanged += (sender, args) =>
             {
                 foreach (var response in Responses.Values)
+                {
                     response.Parent = this;
+                }
             };
             Responses = responses;
         }
@@ -185,12 +189,18 @@ namespace NSwag
             get
             {
                 if (JsonSchemaSerialization.IsWriting)
+                {
                     return Parameters;
+                }
 
                 if (JsonSchemaSerialization.CurrentSchemaType != SchemaType.Swagger2)
+                {
                     return Parameters.Where(p => p.Kind != SwaggerParameterKind.Body).ToList();
+                }
                 else
+                {
                     return Parameters;
+                }
             }
         }
 
@@ -205,7 +215,9 @@ namespace NSwag
                     if (parameter.Kind == SwaggerParameterKind.Body)
                     {
                         if (RequestBody == null)
+                        {
                             RequestBody = new OpenApiRequestBody();
+                        }
 
                         RequestBody.Name = parameter.Name;
                         RequestBody.Position = parameter.Position;
@@ -245,12 +257,16 @@ namespace NSwag
                             Parameters.RemoveAt(index);
                         }
                         else
+                        {
                             UpdateBodyParameter(bodyParameter);
+                        }
                     }
                     else
                     {
                         if (RequestBody != null)
+                        {
                             Parameters.Add(CreateBodyParameter());
+                        }
                     }
                 }
                 finally
@@ -288,9 +304,13 @@ namespace NSwag
                     .SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
 
                 if (bodyParameter != null)
+                {
                     UpdateRequestBody(bodyParameter);
+                }
                 else if (Parameters.All(p => p.Kind != SwaggerParameterKind.Body))
+                {
                     RequestBody = null;
+                }
             }
         }
     }

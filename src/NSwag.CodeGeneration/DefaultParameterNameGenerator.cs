@@ -34,7 +34,9 @@ namespace NSwag.CodeGeneration
                 .Replace("]", string.Empty), true);
 
             if (allParameters.Count(p => p.Name == parameter.Name) > 1)
+            {
                 return variableName + parameter.Kind;
+            }
 
             return variableName;
         }

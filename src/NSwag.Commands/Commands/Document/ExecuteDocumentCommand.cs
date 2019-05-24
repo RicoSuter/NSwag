@@ -28,22 +28,30 @@ namespace NSwag.Commands.Document
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             if (!string.IsNullOrEmpty(Input) && !Input.StartsWith("/") && !Input.StartsWith("-"))
+            {
                 await ExecuteDocumentAsync(host, Input);
+            }
             else
             {
                 var hasNSwagJson = await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false);
                 if (hasNSwagJson)
+                {
                     await ExecuteDocumentAsync(host, "nswag.json");
+                }
 
                 var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
                 var files = await DynamicApis.DirectoryGetFilesAsync(currentDirectory, "*.nswag").ConfigureAwait(false);
                 if (files.Any())
                 {
                     foreach (var file in files)
+                    {
                         await ExecuteDocumentAsync(host, file);
+                    }
                 }
                 else if (!hasNSwagJson)
+                {
                     host.WriteMessage("Current directory does not contain any .nswag files.");
+                }
             }
             return null;
         }

@@ -31,9 +31,13 @@ namespace NSwag.AssemblyLoader
         public Assembly Resolve(AssemblyName args)
         {
             if (!_isResolving)
+            {
                 return Load(args);
+            }
             else
+            {
                 return null;
+            }
         }
 
         protected override Assembly Load(AssemblyName args)
@@ -137,7 +141,9 @@ namespace NSwag.AssemblyLoader
                         {
                             var assembly = TryLoadByPath(assemblyName, file);
                             if (assembly != null)
+                            {
                                 return assembly;
+                            }
                         }
                     }
                     catch (Exception exception)
@@ -159,7 +165,9 @@ namespace NSwag.AssemblyLoader
                 {
                     var assembly = TryLoadByPath(assemblyName, file);
                     if (assembly != null)
+                    {
                         return assembly;
+                    }
                 }
             }
 

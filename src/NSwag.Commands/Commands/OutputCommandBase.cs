@@ -33,7 +33,9 @@ namespace NSwag.Commands
                         return await SwaggerYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
                     }
                     else
+                    {
                         return await SwaggerDocument.FromUrlAsync(input).ConfigureAwait(false);
+                    }
                 }
                 else
                 {
@@ -43,15 +45,21 @@ namespace NSwag.Commands
                         return await SwaggerYamlDocument.FromFileAsync(input).ConfigureAwait(false);
                     }
                     else
+                    {
                         return await SwaggerDocument.FromFileAsync(input).ConfigureAwait(false);
+                    }
                 }
             }
             else
             {
                 if (IsYaml(input))
+                {
                     return await SwaggerYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                }
                 else
+                {
                     return await SwaggerDocument.FromJsonAsync(input).ConfigureAwait(false);
+                }
             }
         }
 

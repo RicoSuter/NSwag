@@ -43,7 +43,10 @@ namespace NSwag.Commands.SwaggerGeneration
 
             host.WriteMessage("\r\n");
             foreach (var className in classNames)
+            {
                 host.WriteMessage(className + "\r\n");
+            }
+
             host.WriteMessage("\r\n");
 
             return classNames;

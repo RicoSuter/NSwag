@@ -38,7 +38,9 @@ namespace NSwag.SwaggerGeneration.Processors.Security
         public Task<bool> ProcessAsync(OperationProcessorContext context)
         {
             if (context.OperationDescription.Operation.Security == null)
+            {
                 context.OperationDescription.Operation.Security = new List<SwaggerSecurityRequirement>();
+            }
 
             var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
             context.OperationDescription.Operation.Security.Add(new SwaggerSecurityRequirement
@@ -60,7 +62,9 @@ namespace NSwag.SwaggerGeneration.Processors.Security
 
             var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
             if (!authorizeAttributes.Any())
+            {
                 return Enumerable.Empty<string>();
+            }
 
             return authorizeAttributes
                 .Select(a => (dynamic)a)

@@ -34,7 +34,9 @@ namespace NSwag.AspNet.Owin.Middlewares
                 }
             }
             else
+            {
                 await Next.Invoke(context);
+            }
         }
     }
 }

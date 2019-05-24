@@ -102,7 +102,9 @@ namespace NSwag
             if (schemaType == SchemaType.Swagger2)
             {
                 if (IsNullableRaw == null)
+                {
                     return fallbackValue;
+                }
 
                 return IsNullableRaw.Value;
             }

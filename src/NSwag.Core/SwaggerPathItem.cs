@@ -25,7 +25,9 @@ namespace NSwag
             CollectionChanged += (sender, args) =>
             {
                 foreach (var operation in Values)
+                {
                     operation.Parent = this;
+                }
             };
         }
 
@@ -74,7 +76,9 @@ namespace NSwag
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
                 if (reader.TokenType == JsonToken.Null)
+                {
                     return null;
+                }
 
                 var operations = new SwaggerPathItem();
                 while (reader.Read() && reader.TokenType == JsonToken.PropertyName)
@@ -83,7 +87,9 @@ namespace NSwag
                     reader.Read();
 
                     if (propertyName == "parameters")
+                    {
                         operations.Parameters = (List<SwaggerParameter>)serializer.Deserialize(reader, typeof(List<SwaggerParameter>));
+                    }
                     else
                     {
                         var value = (SwaggerOperation)serializer.Deserialize(reader, typeof(SwaggerOperation));

@@ -34,7 +34,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
 
             _template = type.GetRuntimeProperty("Template");
             if (_template == null)
+            {
                 throw new ArgumentException($"{type.FullName}  does not implement property 'Template'");
+            }
 
             Attribute = attr;
         }
@@ -54,7 +56,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
             {
                 var template = type.GetRuntimeProperty("Template");
                 if (template != null)
+                {
                     return new RouteAttributeFacade(a, template);
+                }
             }
 
             return null;

@@ -125,7 +125,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                {
                     return "string";
+                }
 
                 return string.Join(" | ", _operation.ActualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
@@ -141,7 +143,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true)
+                {
                     return "protected ";
+                }
 
                 return "";
             }
@@ -167,7 +171,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                {
                     return "FileParameter[]";
+                }
 
                 return "FileParameter";
             }

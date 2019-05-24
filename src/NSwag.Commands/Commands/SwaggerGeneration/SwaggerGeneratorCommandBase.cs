@@ -335,24 +335,36 @@ namespace NSwag.Commands.SwaggerGeneration
             }
 
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
+            {
                 Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
+            {
                 Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(ContractResolverType))
+            {
                 Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
+            }
 
             if (!string.IsNullOrEmpty(SerializerSettingsType))
+            {
                 Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
+            }
         }
 
         protected void PostprocessDocument(SwaggerDocument document)
         {
             if (ServiceHost == ".")
+            {
                 document.Host = string.Empty;
+            }
             else if (!string.IsNullOrEmpty(ServiceHost))
+            {
                 document.Host = ServiceHost;
+            }
 
             if (ServiceSchemes != null && ServiceSchemes.Any())
             {
@@ -362,7 +374,9 @@ namespace NSwag.Commands.SwaggerGeneration
             }
 
             if (!string.IsNullOrEmpty(ServiceBasePath))
+            {
                 document.BasePath = ServiceBasePath;
+            }
         }
 
         private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
@@ -374,17 +388,27 @@ namespace NSwag.Commands.SwaggerGeneration
                 {
                     var json = await DynamicApis.FileReadAllTextAsync(file).ConfigureAwait(false);
                     if (json.StartsWith("{") == false)
+                    {
                         return (await SwaggerYamlDocument.FromYamlAsync(json)).ToJson();
+                    }
                     else
+                    {
                         return json;
+                    }
                 }
                 else if (DocumentTemplate.StartsWith("{") == false)
+                {
                     return (await SwaggerYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
+                }
                 else
+                {
                     return DocumentTemplate;
+                }
             }
             else
+            {
                 return null;
+            }
         }
     }
 }

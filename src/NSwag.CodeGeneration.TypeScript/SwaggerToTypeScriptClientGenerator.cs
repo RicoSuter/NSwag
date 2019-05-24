@@ -66,13 +66,19 @@ namespace NSwag.CodeGeneration.TypeScript
         public override string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint)
         {
             if (schema == null)
+            {
                 return "void";
+            }
 
             if (schema.ActualTypeSchema.IsBinary)
+            {
                 return GetBinaryResponseTypeName();
+            }
 
             if (schema.ActualTypeSchema.IsAnyType)
+            {
                 return "any";
+            }
 
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }

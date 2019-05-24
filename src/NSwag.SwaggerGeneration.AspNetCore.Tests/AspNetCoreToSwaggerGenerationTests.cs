@@ -773,11 +773,15 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
                 public Task<bool> ProcessAsync(OperationProcessorContext context)
                 {
                     if (context.OperationDescription.Operation.ExtensionData == null)
+                    {
                         context.OperationDescription.Operation.ExtensionData = new Dictionary<string, object>();
+                    }
 
                     var data = context.OperationDescription.Operation.ExtensionData;
                     if (!data.ContainsKey(ExtensionKey))
+                    {
                         data[ExtensionKey] = new List<ReDocCodeSample>();
+                    }
 
                     var samples = (List<ReDocCodeSample>)data[ExtensionKey];
                     samples.Add(new ReDocCodeSample

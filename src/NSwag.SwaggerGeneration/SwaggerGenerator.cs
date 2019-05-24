@@ -48,7 +48,9 @@ namespace NSwag.SwaggerGeneration
             parameter.IsRequired = true;
 
             if (_settings.SchemaType == SchemaType.Swagger2)
+            {
                 parameter.IsNullableRaw = false;
+            }
 
             if (parameterType == "guid")
             {
@@ -56,11 +58,17 @@ namespace NSwag.SwaggerGeneration
                 parameter.Format = JsonFormatStrings.Guid;
             }
             else if (parameterType == "int" || parameterType == "integer" || parameterType == "short" || parameterType == "long")
+            {
                 parameter.Type = JsonObjectType.Integer;
+            }
             else if (parameterType == "number" || parameterType == "decimal" || parameterType == "double")
+            {
                 parameter.Type = JsonObjectType.Number;
+            }
             else
+            {
                 parameter.Type = JsonObjectType.String;
+            }
 
             return parameter;
         }
@@ -105,7 +113,9 @@ namespace NSwag.SwaggerGeneration
                     {
                         operationParameter.Enumeration.Clear();
                         foreach (var item in schema.ActualSchema.Enumeration)
+                        {
                             operationParameter.Enumeration.Add(item);
+                        }
                     }
                 }
                 else
@@ -163,17 +173,25 @@ namespace NSwag.SwaggerGeneration
         private bool IsParameterRequired(ParameterInfo parameter)
         {
             if (parameter == null)
+            {
                 return false;
+            }
 
             if (parameter.GetCustomAttributes().Any(a => a.GetType().Name == "RequiredAttribute"))
+            {
                 return true;
+            }
 
             if (parameter.HasDefaultValue)
+            {
                 return false;
+            }
 
             var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
             if (isNullable)
+            {
                 return false;
+            }
 
             return parameter.ParameterType.GetTypeInfo().IsValueType;
         }

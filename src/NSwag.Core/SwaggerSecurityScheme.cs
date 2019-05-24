@@ -33,7 +33,9 @@ namespace NSwag
                     Scheme = "basic";
                 }
                 else
+                {
                     _type = value;
+                }
             }
         }
 
@@ -76,9 +78,14 @@ namespace NSwag
                 if (JsonSchemaSerialization.CurrentSchemaType == SchemaType.Swagger2)
                 {
                     if (Type == SwaggerSecuritySchemeType.Http)
+                    {
                         return SwaggerSecuritySchemeType.Basic;
+                    }
+
                     if (Type == SwaggerSecuritySchemeType.OpenIdConnect)
+                    {
                         return SwaggerSecuritySchemeType.OAuth2;
+                    }
                 }
 
                 return Type;
@@ -92,7 +99,9 @@ namespace NSwag
                     Scheme = "basic";
                 }
                 else
+                {
                     Type = value;
+                }
             }
         }
 
@@ -107,13 +116,24 @@ namespace NSwag
                 if (Type == SwaggerSecuritySchemeType.OAuth2)
                 {
                     if (Flows?.Implicit != null)
+                    {
                         return SwaggerOAuth2Flow.Implicit;
+                    }
+
                     if (Flows?.Password != null)
+                    {
                         return SwaggerOAuth2Flow.Password;
+                    }
+
                     if (Flows?.ClientCredentials != null)
+                    {
                         return SwaggerOAuth2Flow.Application;
+                    }
+
                     if (Flows?.AuthorizationCode != null)
+                    {
                         return SwaggerOAuth2Flow.AccessCode;
+                    }
                 }
 
                 return SwaggerOAuth2Flow.Undefined;
@@ -155,27 +175,48 @@ namespace NSwag
             };
 
             if (flowType == SwaggerOAuth2Flow.Implicit)
+            {
                 Flows = new OpenApiOAuthFlows { Implicit = flow };
+            }
             else if (flowType == SwaggerOAuth2Flow.Password)
+            {
                 Flows = new OpenApiOAuthFlows { Password = flow };
+            }
             else if (flowType == SwaggerOAuth2Flow.Application)
+            {
                 Flows = new OpenApiOAuthFlows { ClientCredentials = flow };
+            }
             else if (flowType == SwaggerOAuth2Flow.AccessCode)
+            {
                 Flows = new OpenApiOAuthFlows { AuthorizationCode = flow };
+            }
             else
+            {
                 Flows = new OpenApiOAuthFlows { Implicit = flow }; // use Implicit as default "store"
+            }
         }
 
         private OpenApiOAuthFlow GetFlow(SwaggerOAuth2Flow flowType)
         {
             if (flowType == SwaggerOAuth2Flow.Implicit)
+            {
                 return Flows?.Implicit;
+            }
+
             if (flowType == SwaggerOAuth2Flow.Password)
+            {
                 return Flows?.Password;
+            }
+
             if (flowType == SwaggerOAuth2Flow.Application)
+            {
                 return Flows?.ClientCredentials;
+            }
+
             if (flowType == SwaggerOAuth2Flow.AccessCode)
+            {
                 return Flows?.AuthorizationCode;
+            }
 
             return Flows?.Implicit ??
                    Flows?.Password ??

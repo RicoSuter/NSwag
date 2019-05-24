@@ -40,7 +40,9 @@ namespace NSwag.Commands
             WriteBinDirectory();
 
             if (args.Length == 0)
+            {
                 _host.WriteMessage("Execute the 'help' command to show a list of all the available commands.\n");
+            }
 
             try
             {
@@ -72,9 +74,13 @@ namespace NSwag.Commands
                 dynamic entryAssembly;
                 var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
                 if (getEntryAssemblyMethod != null)
+                {
                     entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                }
                 else
+                {
                     entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
+                }
 
                 var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
                 _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
@@ -88,7 +94,9 @@ namespace NSwag.Commands
         private void WaitWhenDebuggerAttached()
         {
             if (Debugger.IsAttached)
+            {
                 _host.ReadValue("Press <enter> key to exit");
+            }
         }
     }
 }

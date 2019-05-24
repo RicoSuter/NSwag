@@ -179,18 +179,26 @@ namespace NSwag
             if (schemaType == SchemaType.Swagger2)
             {
                 if (IsNullableRaw == null)
+                {
                     return IsRequired == false;
+                }
 
                 return IsNullableRaw.Value;
             }
             else if (schemaType == SchemaType.OpenApi3)
             {
                 if (IsNullableRaw.HasValue)
+                {
                     return IsNullableRaw.Value;
+                }
                 else if (Schema != null)
+                {
                     return Schema.IsNullable(schemaType);
+                }
                 else if (CustomSchema != null)
+                {
                     return CustomSchema.IsNullable(schemaType);
+                }
             }
 
             return base.IsNullable(schemaType);

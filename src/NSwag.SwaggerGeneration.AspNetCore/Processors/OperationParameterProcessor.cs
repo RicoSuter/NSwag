@@ -203,7 +203,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         private void EnsureSingleBodyParameter(SwaggerOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+            {
                 throw new InvalidOperationException($"The operation '{operationDescription.Operation.OperationId}' has more than one body parameter.");
+            }
         }
 
         private void UpdateConsumedTypes(SwaggerOperationDescription operationDescription)
@@ -220,7 +222,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
                 if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
+                {
                     return "{" + parameterName + "}";
+                }
+
                 return string.Empty;
             }).Trim('/');
         }
@@ -229,7 +234,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
         {
             var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
             if (isNullable)
+            {
                 return false;
+            }
 
             return parameter.ParameterType.GetTypeInfo().IsValueType;
         }

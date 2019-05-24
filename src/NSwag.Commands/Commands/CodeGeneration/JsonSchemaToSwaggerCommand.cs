@@ -28,7 +28,9 @@ namespace NSwag.Commands.CodeGeneration
 
             var rootSchemaName = string.IsNullOrEmpty(Name) && Regex.IsMatch(schema.Title ?? string.Empty, "^[a-zA-Z0-9_]*$") ? schema.Title : Name;
             if (string.IsNullOrEmpty(rootSchemaName))
+            {
                 rootSchemaName = "Anonymous";
+            }
 
             document.Definitions[rootSchemaName] = schema;
             return document;
