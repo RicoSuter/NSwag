@@ -123,7 +123,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
                     }
                 }
 
-                if (extendedApiParameter.Attributes.Any(a => a.GetType().Name == "SwaggerIgnoreAttribute"))
+                if (extendedApiParameter.Attributes.GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any())
                 {
                     continue;
                 }

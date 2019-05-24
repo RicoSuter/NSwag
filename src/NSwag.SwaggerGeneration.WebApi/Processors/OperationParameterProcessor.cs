@@ -19,7 +19,6 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Infrastructure;
 
 namespace NSwag.SwaggerGeneration.WebApi.Processors
 {
@@ -45,10 +44,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
 
             var position = 1;
             foreach (var contextualParameter in parameters.Select(p => p.ToContextualParameter())
-                                                    .Where(p => p.Type != typeof(CancellationToken) &&
-                                                                p.ContextAttributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute") &&
-                                                                p.ContextAttributes.All(a => a.GetType().Name != "FromServicesAttribute") &&
-                                                                p.ContextAttributes.All(a => a.GetType().Name != "BindNeverAttribute")))
+                .Where(p => p.Type != typeof(CancellationToken) &&
+                            !p.ContextAttributes.GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any() &&
+                            !p.ContextAttributes.GetAssignableToTypeName("FromServicesAttribute", TypeNameStyle.Name).Any() &&
+                            !p.ContextAttributes.GetAssignableToTypeName("BindNeverAttribute", TypeNameStyle.Name).Any()))
             {
                 var parameterName = contextualParameter.Name;
 
@@ -364,7 +363,9 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
             {
                 foreach (var contextualProperty in contextualParameter.Type.GetContextualProperties())
                 {
-                    if (contextualProperty.ContextAttributes.All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "JsonIgnoreAttribute"))
+                    if (contextualProperty.ContextAttributes.Select(a => a.GetType()).All(a => 
+                        !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) && 
+                        !a.IsAssignableToTypeName("JsonIgnoreAttribute", TypeNameStyle.Name)))
                     {
                         var fromQueryAttribute = contextualProperty.ContextAttributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");
                         var propertyName = fromQueryAttribute.TryGetPropertyValue<string>("Name") ??

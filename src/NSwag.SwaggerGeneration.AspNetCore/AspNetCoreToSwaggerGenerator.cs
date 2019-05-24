@@ -138,7 +138,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                 var hasIgnoreAttribute = controllerType.GetTypeInfo()
                     .GetCustomAttributes()
-                    .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+                    .GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name)
+                    .Any();
 
                 if (!hasIgnoreAttribute)
                 {
@@ -148,7 +149,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
                         var apiDescription = item.Item1;
                         var method = item.Item2.MethodInfo;
 
-                        var actionHasIgnoreAttribute = method.GetCustomAttributes().Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+                        var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
                         if (actionHasIgnoreAttribute)
                         {
                             continue;
@@ -156,7 +157,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
 
                         var path = apiDescription.RelativePath;
                         if (!path.StartsWith("/", StringComparison.Ordinal))
+                        {
                             path = "/" + path;
+                        }
 
                         var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
                         var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? SwaggerOperationMethod.Get;
@@ -270,16 +273,26 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             document.SchemaType = Settings.SchemaType;
 
             if (document.Info == null)
+            {
                 document.Info = new SwaggerInfo();
+            }
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
                 if (!string.IsNullOrEmpty(Settings.Title))
+                {
                     document.Info.Title = Settings.Title;
+                }
+
                 if (!string.IsNullOrEmpty(Settings.Description))
+                {
                     document.Info.Description = Settings.Description;
+                }
+
                 if (!string.IsNullOrEmpty(Settings.Version))
+                {
                     document.Info.Version = Settings.Version;
+                }
             }
 
             return document;
@@ -296,7 +309,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
                 if (await operationProcessor.ProcessAsync(operationProcessorContext).ConfigureAwait(false) == false)
+                {
                     return false;
+                }
             }
 
             // 2. Run from class attributes

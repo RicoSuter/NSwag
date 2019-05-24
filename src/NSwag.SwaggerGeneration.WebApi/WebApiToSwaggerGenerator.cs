@@ -99,13 +99,17 @@ namespace NSwag.SwaggerGeneration.WebApi
                 var generator = new SwaggerGenerator(_schemaGenerator, Settings, schemaResolver);
                 var isIncluded = await GenerateForControllerAsync(document, controllerType, generator, schemaResolver).ConfigureAwait(false);
                 if (isIncluded)
+                {
                     usedControllerTypes.Add(controllerType);
+                }
             }
 
             document.GenerateOperationIds();
 
             foreach (var processor in Settings.DocumentProcessors)
+            {
                 await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, _schemaGenerator, Settings));
+            }
 
             return document;
         }
@@ -123,16 +127,26 @@ namespace NSwag.SwaggerGeneration.WebApi
             document.Produces = new List<string> { "application/json" };
 
             if (document.Info == null)
+            {
                 document.Info = new SwaggerInfo();
+            }
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
                 if (!string.IsNullOrEmpty(Settings.Title))
+                {
                     document.Info.Title = Settings.Title;
+                }
+
                 if (!string.IsNullOrEmpty(Settings.Description))
+                {
                     document.Info.Description = Settings.Description;
+                }
+
                 if (!string.IsNullOrEmpty(Settings.Version))
+                {
                     document.Info.Version = Settings.Version;
+                }
             }
 
             return document;
@@ -143,10 +157,13 @@ namespace NSwag.SwaggerGeneration.WebApi
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
-                .Any(a => a.GetType().Name == "SwaggerIgnoreAttribute");
+                .GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name)
+                .Any();
 
             if (hasIgnoreAttribute)
+            {
                 return false;
+            }
 
             var operations = new List<Tuple<SwaggerOperationDescription, MethodInfo>>();
 
@@ -208,7 +225,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                     var path = operation.Path.Replace("//", "/");
 
                     if (!document.Paths.ContainsKey(path))
+                    {
                         document.Paths[path] = new SwaggerPathItem();
+                    }
 
                     if (document.Paths[path].ContainsKey(operation.Method))
                     {
@@ -233,7 +252,9 @@ namespace NSwag.SwaggerGeneration.WebApi
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
                 if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                {
                     return false;
+                }
             }
 
             // 2. Run from class attributes
@@ -250,7 +271,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
                 if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                {
                     return false;
+                }
             }
 
             return true;
@@ -264,7 +287,9 @@ namespace NSwag.SwaggerGeneration.WebApi
                 m.DeclaringType == controllerType && // no inherited methods (handled in GenerateForControllerAsync)
                 m.DeclaringType != typeof(object) &&
                 m.IsStatic == false &&
-                m.GetCustomAttributes().All(a => a.GetType().Name != "SwaggerIgnoreAttribute" && a.GetType().Name != "NonActionAttribute") &&
+                m.GetCustomAttributes().Select(a => a.GetType()).All(a =>
+                    !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) &&
+                    !a.IsAssignableToTypeName("NonActionAttribute", TypeNameStyle.Name)) &&
                 m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller")
@@ -282,18 +307,24 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             dynamic swaggerOperationAttribute = method.GetCustomAttributes().FirstOrDefault(a => a.GetType().Name == "SwaggerOperationAttribute");
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
+            {
                 operationId = swaggerOperationAttribute.OperationId;
+            }
             else
             {
                 if (controllerName.EndsWith("Controller"))
+                {
                     controllerName = controllerName.Substring(0, controllerName.Length - 10);
+                }
 
                 operationId = controllerName + "_" + GetActionName(method);
             }
 
             var number = 1;
             while (document.Operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
+            {
                 number++;
+            }
 
             return operationId + (number > 1 ? number.ToString() : string.Empty);
         }
@@ -314,28 +345,46 @@ namespace NSwag.SwaggerGeneration.WebApi
                 foreach (var attribute in routeAttributes)
                 {
                     if (attribute.Template.StartsWith("~/")) // ignore route prefixes
+                    {
                         httpPaths.Add(attribute.Template.Substring(1));
+                    }
                     else if (routePrefixAttribute != null)
+                    {
                         httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
+                    }
                     else if (routeAttributeOnClass != null)
                     {
                         if (attribute.Template.StartsWith("/"))
+                        {
                             httpPaths.Add(attribute.Template);
+                        }
                         else
+                        {
                             httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                        }
                     }
                     else
+                    {
                         httpPaths.Add(attribute.Template);
+                    }
                 }
             }
             else if (routePrefixAttribute != null && routeAttributeOnClass != null)
+            {
                 httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
+            }
             else if (routePrefixAttribute != null)
+            {
                 httpPaths.Add(routePrefixAttribute.Prefix);
+            }
             else if (routeAttributeOnClass != null)
+            {
                 httpPaths.Add(routeAttributeOnClass.Template);
+            }
             else
+            {
                 httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
+            }
 
             var actionName = GetActionName(method);
             return httpPaths
@@ -364,12 +413,16 @@ namespace NSwag.SwaggerGeneration.WebApi
                     if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
                         foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                        {
                             yield return p;
+                        }
                     }
                     else
                     {
                         foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(segments.Skip(i + 1))), method))
+                        {
                             yield return p;
+                        }
                     }
 
                     yield break;
@@ -387,7 +440,9 @@ namespace NSwag.SwaggerGeneration.WebApi
 
                 var attribute = GetRouteAttributes(attributes).SingleOrDefault();
                 if (attribute != null)
+                {
                     return attribute;
+                }
 
                 type = type.GetTypeInfo().BaseType;
             } while (type != null);
@@ -403,7 +458,9 @@ namespace NSwag.SwaggerGeneration.WebApi
 
                 var attribute = GetRoutePrefixAttributes(attributes).SingleOrDefault();
                 if (attribute != null)
+                {
                     return attribute;
+                }
 
                 type = type.GetTypeInfo().BaseType;
             } while (type != null);
@@ -427,11 +484,15 @@ namespace NSwag.SwaggerGeneration.WebApi
                 .SingleOrDefault(a => a.GetType().Name == "ActionNameAttribute");
 
             if (actionNameAttribute != null)
+            {
                 return actionNameAttribute.Name;
+            }
 
             var methodName = method.Name;
             if (methodName.EndsWith("Async"))
+            {
                 methodName = methodName.Substring(0, methodName.Length - 5);
+            }
 
             return methodName;
         }
@@ -444,51 +505,83 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             var httpMethods = GetSupportedHttpMethodsFromAttributes(method).ToArray();
             foreach (var httpMethod in httpMethods)
+            {
                 yield return httpMethod;
+            }
 
             if (httpMethods.Length == 0)
             {
                 if (actionName.StartsWith("Get", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Get;
+                }
                 else if (actionName.StartsWith("Post", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Post;
+                }
                 else if (actionName.StartsWith("Put", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Put;
+                }
                 else if (actionName.StartsWith("Delete", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Delete;
+                }
                 else if (actionName.StartsWith("Patch", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Patch;
+                }
                 else if (actionName.StartsWith("Options", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Options;
+                }
                 else if (actionName.StartsWith("Head", StringComparison.OrdinalIgnoreCase))
+                {
                     yield return SwaggerOperationMethod.Head;
+                }
                 else
+                {
                     yield return SwaggerOperationMethod.Post;
+                }
             }
         }
 
         private IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
+            {
                 yield return SwaggerOperationMethod.Get;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPostAttribute"))
+            {
                 yield return SwaggerOperationMethod.Post;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPutAttribute"))
+            {
                 yield return SwaggerOperationMethod.Put;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpDeleteAttribute"))
+            {
                 yield return SwaggerOperationMethod.Delete;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpOptionsAttribute"))
+            {
                 yield return SwaggerOperationMethod.Options;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpPatchAttribute"))
+            {
                 yield return SwaggerOperationMethod.Patch;
+            }
 
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpHeadAttribute"))
+            {
                 yield return SwaggerOperationMethod.Head;
+            }
 
             dynamic acceptVerbsAttribute = method.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "AcceptVerbsAttribute");
@@ -502,19 +595,33 @@ namespace NSwag.SwaggerGeneration.WebApi
                 foreach (var verb in httpMethods)
                 {
                     if (verb == "get")
+                    {
                         yield return SwaggerOperationMethod.Get;
+                    }
                     else if (verb == "post")
+                    {
                         yield return SwaggerOperationMethod.Post;
+                    }
                     else if (verb == "put")
+                    {
                         yield return SwaggerOperationMethod.Put;
+                    }
                     else if (verb == "delete")
+                    {
                         yield return SwaggerOperationMethod.Delete;
+                    }
                     else if (verb == "options")
+                    {
                         yield return SwaggerOperationMethod.Options;
+                    }
                     else if (verb == "head")
+                    {
                         yield return SwaggerOperationMethod.Head;
+                    }
                     else if (verb == "patch")
+                    {
                         yield return SwaggerOperationMethod.Patch;
+                    }
                 }
             }
         }
