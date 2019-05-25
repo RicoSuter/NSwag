@@ -57,7 +57,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_multple_responses_with_same_status_code_are_defined_then_they_are_merged_and_common_base_type_used_as_response_schema()
         {
             /// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             /// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
@@ -92,7 +92,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_spec_is_generated_then_no_NPE_is_thrown()
         {
             /// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             /// Act
             var document = await generator.GenerateForControllerAsync<MyApiController>();

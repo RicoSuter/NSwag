@@ -7,7 +7,7 @@ using NSwag.SwaggerGeneration;
 namespace NSwag.AspNet.Owin.Middlewares
 {
     internal class SwaggerUiIndexMiddleware<T> : OwinMiddleware
-        where T : OpenApiGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
     {
         private readonly string _indexPath;
         private readonly SwaggerUiSettingsBase<T> _settings;

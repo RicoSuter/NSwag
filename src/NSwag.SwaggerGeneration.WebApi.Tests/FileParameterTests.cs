@@ -42,7 +42,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_parameter_is_from_uri_and_has_file_then_two_params_and_consumes_is_correct()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(FromUriFileParameterController));
@@ -74,7 +74,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_parameter_is_file_collection_then_type_is_correct_and_collection_format_is_multi()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(FileCollectionController));
@@ -103,7 +103,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_body_parameter_is_Stream_then_consumes_is_octet_()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<StreamBodyParameterController>();

@@ -14,12 +14,12 @@ namespace NSwag.Integration.WebAPI.Controllers
         private static readonly Lazy<string> _swagger = new Lazy<string>(() =>
         {
             var controllers = new[] { typeof(PersonsController) };
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             };
 
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = Task.Run(async () => await generator.GenerateForControllersAsync(controllers))
                 .GetAwaiter().GetResult();
 

@@ -76,8 +76,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         public async Task When_custom_operation_processor_is_added_via_attribute_then_it_is_processed()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings();
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var settings = new WebApiOpenApiDocumentGeneratorSettings();
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();

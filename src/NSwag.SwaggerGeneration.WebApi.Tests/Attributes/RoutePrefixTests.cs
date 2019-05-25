@@ -59,7 +59,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_controller_has_RoutePrefix_then_paths_are_correct()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var swagger = await generator.GenerateForControllerAsync<PersonsController>();
@@ -78,7 +78,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_route_contains_complex_path_parameter_then_it_is_correctly_parsed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var swagger = await generator.GenerateForControllerAsync<PersonsController>();
@@ -143,7 +143,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_controller_has_RoutePrefix_with_optional_parameters_then_paths_are_correct()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var swagger = await generator.GenerateForControllerAsync<UsersController>();

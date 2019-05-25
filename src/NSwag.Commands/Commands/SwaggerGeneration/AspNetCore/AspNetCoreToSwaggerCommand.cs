@@ -33,7 +33,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>The generator.</summary>
     [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer (experimental).")]
-    public class AspNetCoreToSwaggerCommand : SwaggerGeneratorCommandBase<AspNetCoreToSwaggerGeneratorSettings>
+    public class AspNetCoreToSwaggerCommand : SwaggerGeneratorCommandBase<AspNetCoreOpenApiDocumentGeneratorSettings>
     {
         private const string LauncherBinaryName = "NSwag.AspNetCore.Launcher";
 
@@ -290,7 +290,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
             var apiDescriptionProvider = host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var settings = await CreateSettingsAsync(assemblyLoader, host, currentWorkingDirectory);
-            var generator = new AspNetCoreToSwaggerGenerator(settings);
+            var generator = new AspNetCoreOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
             PostprocessDocument(document);

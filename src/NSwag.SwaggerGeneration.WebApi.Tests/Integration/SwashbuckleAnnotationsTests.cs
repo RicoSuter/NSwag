@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
         public async Task When_redundant_attributes_are_available_then_output_is_correct()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 TypeMappers =
                 {
@@ -67,7 +67,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
                 DefaultEnumHandling = EnumHandling.String,
                 IsAspNetCore = false,
             };
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<MyController>();
@@ -81,8 +81,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
         public async Task When_SwaggerResponseAttribute_is_on_class_then_it_is_applied_to_all_methods()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings();
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var settings = new WebApiOpenApiDocumentGeneratorSettings();
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<MyController>();

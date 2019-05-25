@@ -35,7 +35,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
 
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
-            var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
+            var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
             await processor.ProcessAsync(context);
@@ -70,7 +70,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
 
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
-            var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
+            var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
             await processor.ProcessAsync(context);
@@ -103,7 +103,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
 
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var context = GetContext(apiDescription);
-            var processor = new OperationResponseProcessor((AspNetCoreToSwaggerGeneratorSettings)context.Settings);
+            var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
             await processor.ProcessAsync(context);
@@ -121,9 +121,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
         private AspNetCoreOperationProcessorContext GetContext(ApiDescription apiDescription)
         {
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
-            var swaggerSettings = new AspNetCoreToSwaggerGeneratorSettings();
+            var swaggerSettings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             var document = new OpenApiDocument();
-            var generator = new AspNetCoreToSwaggerGenerator(swaggerSettings);
+            var generator = new AspNetCoreOpenApiDocumentGenerator(swaggerSettings);
             var schemaGeneratorSettings = new JsonSchemaGeneratorSettings();
             var schemaGenerator = new JsonSchemaGenerator(schemaGeneratorSettings);
             var schemaResolver = new OpenApiSchemaResolver(document, schemaGeneratorSettings);
@@ -132,7 +132,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 operationDescription,
                 GetType(),
                 GetType().GetMethod(nameof(SomeAction), BindingFlags.NonPublic | BindingFlags.Instance),
-                new OpenApiGenerator(schemaGenerator, schemaGeneratorSettings, schemaResolver),
+                new OpenApiDocumentGenerator(schemaGenerator, schemaGeneratorSettings, schemaResolver),
                 schemaGenerator,
                 schemaResolver,
                 swaggerSettings,

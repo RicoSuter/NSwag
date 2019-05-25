@@ -25,7 +25,7 @@ namespace NSwag.AspNetCore
     /// <summary>The base settings for all Swagger UIs.</summary>
 #if AspNetOwin
     public abstract class SwaggerUiSettingsBase<T> : SwaggerSettings<T>
-        where T : OpenApiGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public abstract class SwaggerUiSettingsBase : SwaggerSettings
 #endif

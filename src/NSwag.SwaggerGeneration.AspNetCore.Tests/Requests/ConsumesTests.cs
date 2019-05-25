@@ -13,7 +13,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
         public async Task When_consumes_is_defined_on_all_operations_then_it_is_added_to_the_document()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController));
@@ -30,7 +30,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
         public async Task When_consumes_is_defined_on_single_operations_then_it_is_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController));
@@ -48,7 +48,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
         public async Task When_operation_consumes_is_different_in_several_controllers_then_they_are_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController), typeof(MultipartConsumesController));

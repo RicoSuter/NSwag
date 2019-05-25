@@ -56,7 +56,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_parameter_is_from_uri_then_two_params_are_generated()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
@@ -77,7 +77,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_path_parameter_embedded_in_ComplexType_from_uri_then_path_param_is_generated()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
@@ -96,7 +96,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_parameters_are_from_uri_then_query_params_are_generated()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(FromUriParameterController));
@@ -126,7 +126,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_web_api_path_has_constraints_then_they_are_removed_in_the_swagger_spec()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(ConstrainedRoutePathController));
@@ -175,7 +175,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_class_has_RouteAttribute_with_placeholders_then_they_are_correctly_replaced()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(AccountController));
@@ -210,7 +210,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_FromUri_has_name_then_parameter_name_is_correct()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(MyApiController));
@@ -236,7 +236,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_parameter_has_JsonSchemaTypeAttribute_then_it_is_processed()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync(typeof(MyControllerWithJsonSchemaTypeParameter));

@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
         {
             //// Arrange
-            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<OptionalParameterController>();
             var clientGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {

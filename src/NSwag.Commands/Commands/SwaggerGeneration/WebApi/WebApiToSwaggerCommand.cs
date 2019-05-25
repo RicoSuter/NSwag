@@ -24,7 +24,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
 {
     /// <summary>The generator.</summary>
     [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public class WebApiToSwaggerCommand : SwaggerGeneratorCommandBase<WebApiToSwaggerGeneratorSettings>
+    public class WebApiToSwaggerCommand : SwaggerGeneratorCommandBase<WebApiOpenApiDocumentGeneratorSettings>
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
         public WebApiToSwaggerCommand()
@@ -84,7 +84,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
 
             var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
 
-            WebApiToSwaggerGeneratorSettings settings;
+            WebApiOpenApiDocumentGeneratorSettings settings;
             var workingDirectory = Directory.GetCurrentDirectory();
             if (IsAspNetCore && ResolveJsonOptions)
             {
@@ -98,7 +98,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
                 settings = await CreateSettingsAsync(assemblyLoader, null, workingDirectory);
             }
 
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(controllerTypes).ConfigureAwait(false);
 
             PostprocessDocument(document);
@@ -116,7 +116,7 @@ namespace NSwag.Commands.SwaggerGeneration.WebApi
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-                .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
+                .SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses)
                 .Select(t => t.FullName)
                 .OrderBy(c => c)
                 .ToArray();

@@ -16,7 +16,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_parameter_has_default_and_schema_type_is_OpenApi3_then_schema_default_is_set()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.OpenApi3,
                 RequireParametersWithoutDefault = true
@@ -36,7 +36,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_parameter_has_default_and_schema_type_is_OpenApi3_then_schema_default_is_set_on_oneOf_reference()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.OpenApi3,
                 RequireParametersWithoutDefault = true
@@ -57,7 +57,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_parameter_has_default_and_schema_type_is_OpenApi3_then_schema_default_is_set_and_is_string()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.OpenApi3,
                 RequireParametersWithoutDefault = true,
@@ -81,7 +81,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_parameter_has_default_and_schema_type_is_Swagger2_then_parameter_default_is_set()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.Swagger2,
                 RequireParametersWithoutDefault = true

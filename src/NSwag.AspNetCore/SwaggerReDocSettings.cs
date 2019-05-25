@@ -21,7 +21,7 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseReDoc.</summary>
 #if AspNetOwin
     public class SwaggerReDocSettings<T> : SwaggerUiSettingsBase<T>
-        where T : OpenApiGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public class SwaggerReDocSettings : SwaggerUiSettingsBase
 #endif

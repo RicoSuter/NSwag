@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_response_is_file_and_stream_is_not_used_then_byte_array_is_returned()
         {
             //// Arrange
-            var swaggerGenerator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
 
             //// Act

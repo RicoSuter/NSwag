@@ -97,7 +97,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
         public async Task When_optional_id_is_used_then_generation_works()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<ValuesController>();

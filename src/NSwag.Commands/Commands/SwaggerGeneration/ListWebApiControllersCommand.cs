@@ -62,7 +62,7 @@ namespace NSwag.Commands.SwaggerGeneration
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-                .SelectMany(WebApiToSwaggerGenerator.GetControllerClasses)
+                .SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses)
                 .Select(t => t.FullName)
                 .OrderBy(c => c)
                 .ToArray();

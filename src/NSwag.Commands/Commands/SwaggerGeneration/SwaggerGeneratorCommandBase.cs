@@ -31,7 +31,7 @@ namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
     public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
-        where TSettings : OpenApiGeneratorSettings, new()
+        where TSettings : OpenApiDocumentGeneratorSettings, new()
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
         protected SwaggerGeneratorCommandBase()

@@ -77,7 +77,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
 
                 var schemaGenerator = settings.SchemaGenerator ?? new OpenApiSchemaGenerator(settings);
-                var generator = new AspNetCoreToSwaggerGenerator(settings, schemaGenerator);
+                var generator = new AspNetCoreOpenApiDocumentGenerator(settings, schemaGenerator);
 
                 return new SwaggerDocumentRegistration(settings.DocumentName, generator);
             });

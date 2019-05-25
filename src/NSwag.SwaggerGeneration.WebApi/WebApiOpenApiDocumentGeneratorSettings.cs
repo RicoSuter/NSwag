@@ -11,11 +11,11 @@ using NSwag.SwaggerGeneration.WebApi.Processors;
 
 namespace NSwag.SwaggerGeneration.WebApi
 {
-    /// <summary>Settings for the <see cref="WebApiToSwaggerGenerator"/>.</summary>
-    public class WebApiToSwaggerGeneratorSettings : OpenApiGeneratorSettings
+    /// <summary>Settings for the <see cref="WebApiOpenApiDocumentGenerator"/>.</summary>
+    public class WebApiOpenApiDocumentGeneratorSettings : OpenApiDocumentGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
-        public WebApiToSwaggerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="WebApiOpenApiDocumentGeneratorSettings"/> class.</summary>
+        public WebApiOpenApiDocumentGeneratorSettings()
         {
             OperationProcessors.Insert(0, new ApiVersionProcessor());
             OperationProcessors.Insert(3, new OperationConsumesProcessor());

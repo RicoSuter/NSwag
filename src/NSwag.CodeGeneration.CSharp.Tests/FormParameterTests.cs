@@ -67,7 +67,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<FileUploadController>();
 
             //// Act

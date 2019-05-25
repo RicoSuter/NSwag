@@ -34,7 +34,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwagger(new[] { webApiAssembly }, configure);
         }
@@ -47,9 +47,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
+            var controllerTypes = webApiAssemblies.SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses);
             return app.UseSwagger(controllerTypes, configure);
         }
 
@@ -62,10 +62,10 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
+            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
             OpenApiSchemaGenerator schemaGenerator = null)
         {
-            var settings = new SwaggerSettings<WebApiToSwaggerGeneratorSettings>();
+            var settings = new SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
@@ -86,7 +86,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            Action<SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerUi(new[] { webApiAssembly }, configure);
         }
@@ -100,9 +100,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            Action<SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
+            var controllerTypes = webApiAssemblies.SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses);
             return app.UseSwaggerUi(controllerTypes, configure);
         }
 
@@ -113,7 +113,7 @@ namespace NSwag.AspNet.Owin
         [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
-            Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerUi(null, configure, null);
         }
@@ -128,10 +128,10 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
+            Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
             OpenApiSchemaGenerator schemaGenerator = null)
         {
-            var settings = new SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>();
+            var settings = new SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
@@ -140,7 +140,7 @@ namespace NSwag.AspNet.Owin
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
-            app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi.index.html");
+            app.Use<SwaggerUiIndexMiddleware<WebApiOpenApiDocumentGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiPath),
@@ -162,7 +162,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi3(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerUi3(new[] { webApiAssembly }, configure);
         }
@@ -175,9 +175,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi3(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
+            var controllerTypes = webApiAssemblies.SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses);
             return app.UseSwaggerUi3(controllerTypes, configure);
         }
 
@@ -187,7 +187,7 @@ namespace NSwag.AspNet.Owin
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerUi3(
             this IAppBuilder app,
-            Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerUi3(null, configure, null);
         }
@@ -201,10 +201,10 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerUi3(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null,
+            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
             OpenApiSchemaGenerator schemaGenerator = null)
         {
-            var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
+            var settings = new SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
@@ -213,7 +213,7 @@ namespace NSwag.AspNet.Owin
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
-            app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi3.index.html");
+            app.Use<SwaggerUiIndexMiddleware<WebApiOpenApiDocumentGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.SwaggerUi3.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiPath),
@@ -235,7 +235,7 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerReDoc(
             this IAppBuilder app,
             Assembly webApiAssembly,
-            Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerReDoc(new[] { webApiAssembly }, configure);
         }
@@ -248,9 +248,9 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerReDoc(
             this IAppBuilder app,
             IEnumerable<Assembly> webApiAssemblies,
-            Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            var controllerTypes = webApiAssemblies.SelectMany(WebApiToSwaggerGenerator.GetControllerClasses);
+            var controllerTypes = webApiAssemblies.SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses);
             return app.UseSwaggerReDoc(controllerTypes, configure);
         }
 
@@ -260,7 +260,7 @@ namespace NSwag.AspNet.Owin
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerReDoc(
             this IAppBuilder app,
-            Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null)
+            Action<SwaggerReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             return app.UseSwaggerReDoc(null, configure, null);
         }
@@ -274,10 +274,10 @@ namespace NSwag.AspNet.Owin
         public static IAppBuilder UseSwaggerReDoc(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
+            Action<SwaggerReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
             OpenApiSchemaGenerator schemaGenerator = null)
         {
-            var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
+            var settings = new SwaggerReDocSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
@@ -286,7 +286,7 @@ namespace NSwag.AspNet.Owin
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
-            app.Use<SwaggerUiIndexMiddleware<WebApiToSwaggerGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.ReDoc.index.html");
+            app.Use<SwaggerUiIndexMiddleware<WebApiOpenApiDocumentGeneratorSettings>>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNet.Owin.ReDoc.index.html");
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = new PathString(settings.ActualSwaggerUiPath),

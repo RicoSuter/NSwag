@@ -43,8 +43,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         public async Task When_no_IncludedVersions_are_defined_then_all_routes_are_available_and_replaced()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings();
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var settings = new WebApiOpenApiDocumentGeneratorSettings();
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllersAsync(new List<Type>
@@ -67,10 +67,10 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
         public async Task When_IncludedVersions_are_set_then_only_these_are_available_in_document()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings();
+            var settings = new WebApiOpenApiDocumentGeneratorSettings();
             settings.OperationProcessors.TryGet<ApiVersionProcessor>().IncludedVersions = new[] { "1" };
 
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllersAsync(new List<Type>

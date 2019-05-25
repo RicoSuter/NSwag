@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Operations
         public async Task When_route_is_empty_then_path_is_slash()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(EmptyPathController));
@@ -27,7 +27,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Operations
         public async Task When_route_is_not_empty_then_path_starts_with_slash()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));

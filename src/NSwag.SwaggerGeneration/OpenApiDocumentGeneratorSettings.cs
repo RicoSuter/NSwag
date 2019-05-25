@@ -19,10 +19,10 @@ using System.Threading.Tasks;
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>Settings for the Swagger generator.</summary>
-    public class OpenApiGeneratorSettings : JsonSchemaGeneratorSettings
+    public class OpenApiDocumentGeneratorSettings : JsonSchemaGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="OpenApiGeneratorSettings"/> class.</summary>
-        public OpenApiGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGeneratorSettings"/> class.</summary>
+        public OpenApiDocumentGeneratorSettings()
         {
             DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
             SchemaType = SchemaType.Swagger2;

@@ -36,7 +36,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_generating_type_with_deep_inheritance_then_allOf_has_one_item()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
@@ -67,7 +67,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_there_are_duplicate_paths_through_inheritance_then_the_base_method_is_ignored()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllersAsync(new Type[] { typeof(StandardController), typeof(SpecificController) });

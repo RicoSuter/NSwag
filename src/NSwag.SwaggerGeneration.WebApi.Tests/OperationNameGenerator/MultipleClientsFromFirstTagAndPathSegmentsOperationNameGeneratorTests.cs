@@ -49,7 +49,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
         public async Task When_operations_have_different_tags_they_are_grouped_into_different_clients()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllersAsync(new List<Type>() { typeof(PointControllerA), typeof(PointControllerB) });
             var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {
@@ -68,7 +68,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
         public async Task When_operations_have_no_tags_they_are_grouped_into_one_client()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllersAsync(new List<Type>() { typeof(PointControllerA), typeof(PointControllerB) });
 
             // Remove tags

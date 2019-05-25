@@ -39,14 +39,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
                 DefaultEnumHandling = EnumHandling.String,
                 DefaultPropertyNameHandling = PropertyNameHandling.Default,
                 SchemaType = SchemaType.Swagger2,
             };
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<FooController>();

@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_FromBody_and_xml_document_then_consumes_is_xml()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
@@ -39,7 +39,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_body_is_xml_then_correct_csharp_is_generated()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
 
             //// Act
@@ -56,7 +56,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_body_is_xml_then_correct_TypeScript_is_generated()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
 
             var settings = new SwaggerToTypeScriptClientGeneratorSettings { Template = TypeScriptTemplate.JQueryCallbacks };

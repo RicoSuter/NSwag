@@ -11,11 +11,11 @@ using NSwag.SwaggerGeneration.AspNetCore.Processors;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
-    /// <summary>Settings for the <see cref="AspNetCoreToSwaggerGenerator"/>.</summary>
-    public class AspNetCoreToSwaggerGeneratorSettings : OpenApiGeneratorSettings
+    /// <summary>Settings for the <see cref="AspNetCoreOpenApiDocumentGenerator"/>.</summary>
+    public class AspNetCoreOpenApiDocumentGeneratorSettings : OpenApiDocumentGeneratorSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> class.</summary>
-        public AspNetCoreToSwaggerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="AspNetCoreOpenApiDocumentGeneratorSettings"/> class.</summary>
+        public AspNetCoreOpenApiDocumentGeneratorSettings()
         {
             OperationProcessors.Insert(2, new OperationParameterProcessor(this));
             OperationProcessors.Insert(2, new OperationResponseProcessor(this));

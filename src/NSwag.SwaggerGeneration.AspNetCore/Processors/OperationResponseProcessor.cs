@@ -21,11 +21,11 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
     /// <summary>Generates the operation's response objects based on reflection and the ResponseTypeAttribute, SwaggerResponseAttribute and ProducesResponseTypeAttribute attributes.</summary>
     public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
     {
-        private readonly AspNetCoreToSwaggerGeneratorSettings _settings;
+        private readonly AspNetCoreOpenApiDocumentGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationParameterProcessor"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationResponseProcessor(AspNetCoreToSwaggerGeneratorSettings settings)
+        public OperationResponseProcessor(AspNetCoreOpenApiDocumentGeneratorSettings settings)
             : base(settings)
         {
             _settings = settings;

@@ -12,7 +12,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_generating_swagger_from_controller_then_all_required_operations_are_available()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<PersonsController>();
@@ -26,7 +26,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_there_is_a_ResultType_attribute_on_an_action_method_then_the_response_is_taken_from_the_given_type()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id?}"
             });

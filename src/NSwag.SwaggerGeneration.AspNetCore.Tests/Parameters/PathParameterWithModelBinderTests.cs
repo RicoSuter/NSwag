@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_model_binder_parameter_is_used_on_path_parameter_then_parameter_kind_is_path()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(PathParameterWithModelBinderController));

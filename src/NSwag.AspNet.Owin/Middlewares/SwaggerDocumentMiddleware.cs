@@ -19,7 +19,7 @@ namespace NSwag.AspNet.Owin.Middlewares
     public class SwaggerDocumentMiddleware : OwinMiddleware
     {
         private readonly string _path;
-        private readonly SwaggerSettings<WebApiToSwaggerGeneratorSettings> _settings;
+        private readonly SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> _settings;
         private readonly IEnumerable<Type> _controllerTypes;
         private readonly OpenApiSchemaGenerator _schemaGenerator;
 
@@ -33,7 +33,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
+        public SwaggerDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;
@@ -97,7 +97,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         protected virtual async Task<string> GenerateDocumentAsync(IOwinContext context)
         {
             var settings = _settings.CreateGeneratorSettings(null, null);
-            var generator = new WebApiToSwaggerGenerator(settings, _schemaGenerator);
+            var generator = new WebApiOpenApiDocumentGenerator(settings, _schemaGenerator);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
             document.Host = context.Request.Host.Value ?? "";

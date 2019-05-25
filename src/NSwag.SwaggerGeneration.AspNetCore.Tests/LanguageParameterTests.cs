@@ -12,7 +12,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_implicit_language_parameter_is_used_then_it_is_in_spec()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             settings.SchemaType = SchemaType.OpenApi3;
 
             // Act

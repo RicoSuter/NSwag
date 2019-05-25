@@ -15,17 +15,17 @@ using NJsonSchema.Infrastructure;
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>Provides services to for Swagger generators like the creation of parameters and handling of schemas.</summary>
-    public class OpenApiGenerator
+    public class OpenApiDocumentGenerator
     {
         private readonly JsonSchemaGenerator _schemaGenerator;
         private readonly JsonSchemaResolver _schemaResolver;
         private readonly JsonSchemaGeneratorSettings _settings;
 
-        /// <summary>Initializes a new instance of the <see cref="OpenApiGenerator"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGenerator"/> class.</summary>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="schemaGeneratorSettings">The schema generator settings.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        public OpenApiGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, JsonSchemaResolver schemaResolver)
+        public OpenApiDocumentGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, JsonSchemaResolver schemaResolver)
         {
             _schemaGenerator = schemaGenerator;
             _schemaResolver = schemaResolver;

@@ -90,14 +90,14 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_swagger_spec_is_generated_then_no_route_problem_is_detected()
         {
             /// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "{controller}/{id}",
                 AddMissingPathParameters = false,
             };
 
             /// Act
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllerAsync<ProductsController>();
             var swaggerSpecification = document.ToJson();
 
@@ -118,7 +118,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_path_parameter_has_wildcard_then_it_is_in_path()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<WildcardPathController>();

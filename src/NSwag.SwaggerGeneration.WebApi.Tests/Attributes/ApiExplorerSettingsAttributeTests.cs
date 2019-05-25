@@ -29,7 +29,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
         public async Task When_action_has_ApiExplorerSettingsAttribute_with_IgnoreApi_then_it_is_ignored()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings { IsAspNetCore = true });
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings { IsAspNetCore = true });
 
             //// Act
             var document = await generator.GenerateForControllerAsync<TestController>();
@@ -51,7 +51,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
             //// Arrange
 
             //// Act
-            var controllers = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ApiExplorerIgnoredController).Assembly);
+            var controllers = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ApiExplorerIgnoredController).Assembly);
 
             //// Assert
             Assert.IsFalse(controllers.Any(c => c.Name == "ApiExplorerIgnoredController"));

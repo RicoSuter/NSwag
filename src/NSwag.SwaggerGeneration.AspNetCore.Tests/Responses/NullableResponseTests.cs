@@ -13,7 +13,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
         public async Task When_handling_is_NotNull_then_response_is_not_nullable()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.OpenApi3,
                 DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull
@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
         public async Task When_handling_is_Null_then_response_is_nullable()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 SchemaType = SchemaType.OpenApi3,
                 DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null

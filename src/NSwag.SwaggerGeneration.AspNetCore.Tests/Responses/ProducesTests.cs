@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
         public async Task When_produces_is_defined_on_all_operations_then_it_is_added_to_the_document()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(TextProducesController));
@@ -29,7 +29,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
         public async Task When_operation_produces_is_different_in_several_controllers_then_they_are_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(TextProducesController), typeof(JsonProducesController));

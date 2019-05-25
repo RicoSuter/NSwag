@@ -41,7 +41,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
         public async Task When_response_is_not_nullable_then_nullable_is_false_in_spec()
         {
             /// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             /// Act
             var document = await generator.GenerateForControllerAsync<NotNullResponseTestController>();

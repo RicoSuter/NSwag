@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
         public async Task When_parameter_has_NotNullAttribute_then_it_is_not_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<NotNullParameterTestController>();

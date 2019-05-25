@@ -51,7 +51,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
 
             //// Act
-            var controllerClasses = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
+            var controllerClasses = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
 
             //// Assert
             Assert.IsTrue(controllerClasses.Contains(typeof(MyAspCore)));
@@ -64,7 +64,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
 
             //// Act
-            var controllerClasses = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
+            var controllerClasses = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
 
             //// Assert
             Assert.IsTrue(controllerClasses.Contains(typeof(MyController)));
@@ -77,7 +77,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
 
             //// Act
-            var controllerClasses = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
+            var controllerClasses = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
 
             //// Assert
             Assert.IsTrue(controllerClasses.Contains(typeof(MyWebApi)));
@@ -90,7 +90,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
 
             //// Act
-            var controllerClasses = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
+            var controllerClasses = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
 
             //// Assert
             Assert.IsFalse(controllerClasses.Contains(typeof(MyLegacyMvcController)));
@@ -103,7 +103,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
 
 
             //// Act
-            var controllerClasses = WebApiToSwaggerGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
+            var controllerClasses = WebApiOpenApiDocumentGenerator.GetControllerClasses(typeof(ControllerClassesTests).Assembly);
 
             //// Assert
             Assert.IsFalse(controllerClasses.Contains(typeof(MyAbstractController)));

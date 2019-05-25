@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_controller_has_extension_data_attributes_then_they_are_processed()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(SwaggerExtensionDataController));
@@ -27,7 +27,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_operation_has_extension_data_attributes_then_they_are_processed()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(SwaggerExtensionDataController));

@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_operation_is_HTTP_head_then_no_content_is_not_used()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<HeadRequestController>();
 
             //// Act

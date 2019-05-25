@@ -11,7 +11,7 @@ using NSwag.SwaggerGeneration.AspNetCore;
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>Settings for the AspNetCoreToSwaggerGeneratorCommand and AspNetCoreToSwaggerGeneratorCommandEntryPoint.</summary>
-    public class AspNetCoreToSwaggerGeneratorCommandSettings : AspNetCoreToSwaggerGeneratorSettings
+    public class AspNetCoreToSwaggerGeneratorCommandSettings : AspNetCoreOpenApiDocumentGeneratorSettings
     {
         public string ApplicationName { get; set; }
 

@@ -42,7 +42,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_SwaggerOperation_attribute_is_available_then_operation_id_is_correct()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<OperationIdController>();
@@ -56,7 +56,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_method_has_overload_then_operation_ids_are_still_unique()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<OperationIdController>();
@@ -84,7 +84,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         public async Task When_routes_are_same_and_http_method_different_then_operation_ids_are_still_generated_from_method_name()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
             //// Act
             var document = await generator.GenerateForControllerAsync<AccountController>();

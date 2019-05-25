@@ -62,7 +62,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         [TestMethod]
         public async Task Use_base_class_route_attribute()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<FooController>();
             var swaggerSpecification = document.ToJson();
 
@@ -72,7 +72,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         [TestMethod]
         public async Task Route_attribute_overrides_base()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<BarController>();
             var swaggerSpecification = document.ToJson();
 
@@ -82,7 +82,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         [TestMethod]
         public async Task Custom_internal_route_attribute()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<MyApiController>();
             var swaggerSpecification = document.ToJson();
 
@@ -92,7 +92,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
         [TestMethod]
         public async Task Skip_null_route_attribute_temlates()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<SkipNullController>();
             var swaggerSpecification = document.ToJson();
 

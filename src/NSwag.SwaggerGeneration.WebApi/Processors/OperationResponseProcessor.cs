@@ -18,11 +18,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
     /// <summary>Generates the operation's response objects based on reflection and the ResponseTypeAttribute, SwaggerResponseAttribute and ProducesResponseTypeAttribute attributes.</summary>
     public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
     {
-        private readonly WebApiToSwaggerGeneratorSettings _settings;
+        private readonly WebApiOpenApiDocumentGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationParameterProcessor"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationResponseProcessor(WebApiToSwaggerGeneratorSettings settings)
+        public OperationResponseProcessor(WebApiOpenApiDocumentGeneratorSettings settings)
             : base(settings)
         {
             _settings = settings;

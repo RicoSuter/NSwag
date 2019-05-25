@@ -23,7 +23,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="settings">The settings.</param>
         public DocumentProcessorContext(OpenApiDocument document, IEnumerable<Type> allControllerTypes, IEnumerable<Type> controllerTypes,
-            JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator, OpenApiGeneratorSettings settings)
+            JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator, OpenApiDocumentGeneratorSettings settings)
         {
             Document = document;
             AllControllerTypes = allControllerTypes;
@@ -49,6 +49,6 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public JsonSchemaGenerator SchemaGenerator { get; }
 
         /// <summary>Gets the settings.</summary>
-        public OpenApiGeneratorSettings Settings { get; }
+        public OpenApiDocumentGeneratorSettings Settings { get; }
     }
 }

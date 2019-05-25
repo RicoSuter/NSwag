@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Inheritance
         public async Task When_primitive_body_parameter_has_no_default_value_then_it_is_required()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ActualController));

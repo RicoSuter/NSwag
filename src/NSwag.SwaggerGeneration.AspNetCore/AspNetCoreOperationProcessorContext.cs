@@ -35,10 +35,10 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OpenApiOperationDescription operationDescription, 
             Type controllerType, 
             MethodInfo methodInfo, 
-            OpenApiGenerator swaggerGenerator, 
+            OpenApiDocumentGenerator swaggerGenerator, 
             JsonSchemaGenerator schemaGenerator, 
             JsonSchemaResolver schemaResolver, 
-            OpenApiGeneratorSettings settings, 
+            OpenApiDocumentGeneratorSettings settings, 
             IList<OpenApiOperationDescription> allOperationDescriptions) 
             : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, settings, allOperationDescriptions)
         {

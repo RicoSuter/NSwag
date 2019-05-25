@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned_web_api()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act

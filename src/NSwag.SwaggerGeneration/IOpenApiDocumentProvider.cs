@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NSwag.SwaggerGeneration
 {
-    /// <summary>The SwaggerDocumentProvider inteface.</summary>
+    /// <summary>The <see cref="IOpenApiDocumentProvider"/> interface.</summary>
     public interface IOpenApiDocumentProvider
     {
         /// <summary>Generates the specified document.</summary>

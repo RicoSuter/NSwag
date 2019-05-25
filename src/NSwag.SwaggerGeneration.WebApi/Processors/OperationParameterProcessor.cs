@@ -25,11 +25,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Processors
     /// <summary>Generates the operation's parameters.</summary>
     public class OperationParameterProcessor : IOperationProcessor
     {
-        private readonly WebApiToSwaggerGeneratorSettings _settings;
+        private readonly WebApiOpenApiDocumentGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationParameterProcessor"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationParameterProcessor(WebApiToSwaggerGeneratorSettings settings)
+        public OperationParameterProcessor(WebApiOpenApiDocumentGeneratorSettings settings)
         {
             _settings = settings;
         }

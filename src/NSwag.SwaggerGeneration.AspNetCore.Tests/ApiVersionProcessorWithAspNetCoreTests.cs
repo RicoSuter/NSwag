@@ -12,7 +12,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_api_version_parameter_should_be_ignored_then_it_is_ignored()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             settings.ApiGroupNames = new[] { "1" };
 
             // Act
@@ -28,7 +28,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_generating_v1_then_only_v1_operations_are_included()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             settings.ApiGroupNames = new[] { "1" };
 
             // Act
@@ -49,7 +49,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_generating_v2_then_only_v2_operations_are_included()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             settings.ApiGroupNames = new[] { "2" };
 
             // Act
@@ -69,7 +69,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_generating_v3_then_only_v3_operations_are_included()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             settings.ApiGroupNames = new[] { "3" };
 
             // Act
@@ -89,7 +89,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests
         public async Task When_generating_versioned_controllers_then_version_path_parameter_is_not_present()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings{};
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings{};
             settings.ApiGroupNames = new[] { "3" };
 
             // Act

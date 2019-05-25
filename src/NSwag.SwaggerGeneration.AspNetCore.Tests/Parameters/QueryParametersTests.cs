@@ -11,7 +11,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_complex_query_parameters_are_nullable_and_set_to_null_they_are_optional_in_spec()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ComplexQueryParametersController));
@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_simple_query_parameters_are_nullable_and_set_to_null_they_are_optional_in_spec()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = true };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(SimpleQueryParametersController));
@@ -50,7 +50,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
         public async Task When_simple_query_parameter_has_BindRequiredAttribute_then_it_is_required()
         {
             // Arrange
-            var settings = new AspNetCoreToSwaggerGeneratorSettings { RequireParametersWithoutDefault = false };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = false };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(SimpleQueryParametersController));

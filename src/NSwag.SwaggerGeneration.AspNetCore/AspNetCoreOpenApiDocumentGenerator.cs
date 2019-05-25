@@ -25,28 +25,28 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
     /// <summary>Generates a <see cref="OpenApiDocument"/> using <see cref="ApiDescription"/>. </summary>
-    public class AspNetCoreToSwaggerGenerator : IOpenApiGenerator
+    public class AspNetCoreOpenApiDocumentGenerator : IOpenApiDocumentGenerator
     {
         private readonly OpenApiSchemaGenerator _schemaGenerator;
 
-        /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AspNetCoreOpenApiDocumentGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public AspNetCoreToSwaggerGenerator(AspNetCoreToSwaggerGeneratorSettings settings)
+        public AspNetCoreOpenApiDocumentGenerator(AspNetCoreOpenApiDocumentGeneratorSettings settings)
             : this(settings, new OpenApiSchemaGenerator(settings))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AspNetCoreOpenApiDocumentGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public AspNetCoreToSwaggerGenerator(AspNetCoreToSwaggerGeneratorSettings settings, OpenApiSchemaGenerator schemaGenerator)
+        public AspNetCoreOpenApiDocumentGenerator(AspNetCoreOpenApiDocumentGeneratorSettings settings, OpenApiSchemaGenerator schemaGenerator)
         {
             Settings = settings;
             _schemaGenerator = schemaGenerator;
         }
 
         /// <summary>Gets the generator settings.</summary>
-        public AspNetCoreToSwaggerGeneratorSettings Settings { get; }
+        public AspNetCoreOpenApiDocumentGeneratorSettings Settings { get; }
 
         /// <summary>Generates the <see cref="OpenApiDocument"/> with services from the given service provider.</summary>
         /// <param name="serviceProvider">The service provider.</param>
@@ -128,7 +128,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OpenApiSchemaResolver schemaResolver)
         {
             var usedControllerTypes = new List<Type>();
-            var swaggerGenerator = new OpenApiGenerator(_schemaGenerator, Settings, schemaResolver);
+            var swaggerGenerator = new OpenApiDocumentGenerator(_schemaGenerator, Settings, schemaResolver);
 
             var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             foreach (var controllerApiDescriptionGroup in apiGroups)
@@ -202,7 +202,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         private async Task<List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>> AddOperationDescriptionsToDocumentAsync(
             OpenApiDocument document, Type controllerType,
             List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> operations,
-            OpenApiGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+            OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             var allOperations = operations.Select(t => t.Item1).ToList();
@@ -297,7 +297,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             return document;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             // 1. Run from settings
             var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations)

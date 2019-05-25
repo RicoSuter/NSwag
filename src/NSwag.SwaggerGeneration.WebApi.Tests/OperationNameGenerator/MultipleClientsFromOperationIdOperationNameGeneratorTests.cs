@@ -30,7 +30,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
         public async Task When_two_methods_have_same_name_then_generated_id_is_still_different()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<PointController>();
             var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
             {

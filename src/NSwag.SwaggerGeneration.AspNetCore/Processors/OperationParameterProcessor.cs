@@ -27,9 +27,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
 {
     internal class OperationParameterProcessor : IOperationProcessor
     {
-        private readonly AspNetCoreToSwaggerGeneratorSettings _settings;
+        private readonly AspNetCoreOpenApiDocumentGeneratorSettings _settings;
 
-        public OperationParameterProcessor(AspNetCoreToSwaggerGeneratorSettings settings)
+        public OperationParameterProcessor(AspNetCoreOpenApiDocumentGeneratorSettings settings)
         {
             _settings = settings;
         }
