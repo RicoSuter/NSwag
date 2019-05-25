@@ -14,7 +14,7 @@ using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using System.IO;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.OpenApiGeneration
 {
     [Command(Name = "list-types", Description = "List all types for the given assembly and settings.")]
     public class ListTypesCommand : IsolatedCommandBase<string[]>

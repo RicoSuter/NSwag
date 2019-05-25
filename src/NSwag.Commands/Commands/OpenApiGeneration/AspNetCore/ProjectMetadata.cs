@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 
-namespace NSwag.Commands.SwaggerGeneration.AspNetCore
+namespace NSwag.Commands.OpenApiGeneration.AspNetCore
 {
     internal class ProjectMetadata
     {
@@ -94,7 +94,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
                 Path.GetFileName(file) + ".NSwag.targets");
             var type = typeof(ProjectMetadata).GetTypeInfo();
 
-            using (var input = type.Assembly.GetManifestResourceStream($"NSwag.Commands.Commands.SwaggerGeneration.AspNetCore.AspNetCore.targets"))
+            using (var input = type.Assembly.GetManifestResourceStream($"NSwag.Commands.Commands.OpenApiGeneration.AspNetCore.AspNetCore.targets"))
             using (var output = File.Open(targetsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 // NB: Copy always in case it changes

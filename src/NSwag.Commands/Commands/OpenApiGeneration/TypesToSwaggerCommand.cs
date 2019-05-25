@@ -16,7 +16,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.OpenApiGeneration
 {
     /// <summary></summary>
     [Command(Name = "types2openapi")]

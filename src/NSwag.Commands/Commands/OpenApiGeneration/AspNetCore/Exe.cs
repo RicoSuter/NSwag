@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NConsole;
 
-namespace NSwag.Commands.SwaggerGeneration.AspNetCore
+namespace NSwag.Commands.OpenApiGeneration.AspNetCore
 {
     internal static class Exe
     {

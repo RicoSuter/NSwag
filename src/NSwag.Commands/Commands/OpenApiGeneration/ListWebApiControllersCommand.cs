@@ -14,9 +14,9 @@ using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.OpenApiGeneration.WebApi;
 using System.IO;
-using NSwag.Commands.SwaggerGeneration.WebApi;
+using NSwag.Commands.OpenApiGeneration.WebApi;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.OpenApiGeneration
 {
     [Command(Name = "list-controllers", Description = "List all controllers classes for the given assembly and settings.")]
     public class ListWebApiControllersCommand : IsolatedCommandBase<string[]>

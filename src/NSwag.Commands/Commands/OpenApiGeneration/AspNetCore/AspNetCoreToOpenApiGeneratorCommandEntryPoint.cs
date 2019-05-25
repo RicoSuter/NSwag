@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 
-namespace NSwag.Commands.SwaggerGeneration.AspNetCore
+namespace NSwag.Commands.OpenApiGeneration.AspNetCore
 {
     /// <summary>In-process entry point for the aspnetcore2swagger command.</summary>
     internal class AspNetCoreToOpenApiGeneratorCommandEntryPoint

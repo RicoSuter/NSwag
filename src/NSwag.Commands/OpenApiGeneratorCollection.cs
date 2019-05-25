@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
-using NSwag.Commands.SwaggerGeneration;
-using NSwag.Commands.SwaggerGeneration.AspNetCore;
-using NSwag.Commands.SwaggerGeneration.WebApi;
+using NSwag.Commands.OpenApiGeneration;
+using NSwag.Commands.OpenApiGeneration.AspNetCore;
+using NSwag.Commands.OpenApiGeneration.WebApi;
 
 namespace NSwag.Commands
 {

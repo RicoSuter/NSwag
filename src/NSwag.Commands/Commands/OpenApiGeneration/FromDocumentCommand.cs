@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.OpenApiGeneration
 {
     /// <summary>Reads a Swagger specification from JSON or an URL.</summary>
     public class FromDocumentCommand : OutputCommandBase, INotifyPropertyChanged

@@ -27,7 +27,7 @@ using NSwag.AssemblyLoader.Utilities;
 using NSwag.OpenApiGeneration;
 using NSwag.OpenApiGeneration.Processors;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.OpenApiGeneration
 {
     /// <inheritdoc />
     public abstract class OpenApiGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
