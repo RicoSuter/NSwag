@@ -17,11 +17,11 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
-using NSwag.OpenApiGeneration.AspNetCore;
+using NSwag.Generation.AspNetCore;
 using NJsonSchema.Yaml;
 using NJsonSchema;
 using Microsoft.AspNetCore.Hosting;
-using NSwag.OpenApiGeneration;
+using NSwag.Generation;
 using NJsonSchema.Generation;
 
 #if NETCOREAPP || NETSTANDARD

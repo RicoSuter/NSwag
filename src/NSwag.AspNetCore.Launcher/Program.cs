@@ -13,7 +13,7 @@ namespace NSwag.AspNetCore.Launcher
 
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;
 
-        // List of assemblies and versions referenced by NSwag.OpenApiGeneration.AspNetCore. This represents the minimum versions
+        // List of assemblies and versions referenced by NSwag.Generation.AspNetCore. This represents the minimum versions
         // required to successfully run the tool.
         private static readonly Dictionary<string, AssemblyLoadInfo> NSwagReferencedAssemblies = new Dictionary<string, AssemblyLoadInfo>(StringComparer.OrdinalIgnoreCase)
         {
@@ -53,8 +53,8 @@ namespace NSwag.AspNetCore.Launcher
             ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core.Yaml"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.OpenApiGeneration.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.OpenApiGeneration"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation"] = new AssemblyLoadInfo(NSwagVersion),
             ["System.Buffers"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Diagnostics.DiagnosticSource"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),

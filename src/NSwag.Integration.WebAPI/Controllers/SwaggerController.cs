@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NSwag.Annotations;
-using NSwag.OpenApiGeneration.WebApi;
+using NSwag.Generation.WebApi;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {

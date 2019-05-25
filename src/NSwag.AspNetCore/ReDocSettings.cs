@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.OpenApiGeneration;
+using NSwag.Generation;
 using System.Collections.Generic;
 #if AspNetOwin
 using Microsoft.Owin;

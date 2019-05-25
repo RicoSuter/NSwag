@@ -77,7 +77,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.Npm", "NSwag.Npm", "{
 		NSwag.Npm\README.md = NSwag.Npm\README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.OpenApiGeneration", "NSwag.OpenApiGeneration\NSwag.OpenApiGeneration.csproj", "{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation", "NSwag.Generation\NSwag.Generation.csproj", "{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.CSharp", "NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj", "{F0036DA5-5DD4-494C-91B0-37689E00511E}"
 EndProject
@@ -87,15 +87,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 CodeGeneration", "03 Cod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Core", "01 Core", "{1030C3AA-7549-473B-AA7E-5DFAC2F9D37A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 OpenApiGeneration", "02 OpenApiGeneration", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Generation", "02 Generation", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Frontends", "05 Frontends", "{F0F26A35-C4B6-42D0-A1DF-98CA46A5C560}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.OpenApiGeneration.WebApi", "NSwag.OpenApiGeneration.WebApi\NSwag.OpenApiGeneration.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.WebApi", "NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.CSharp.Tests", "NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj", "{C7923A8B-D0CE-4FD8-ADA0-7507D5F3F693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.OpenApiGeneration.WebApi.Tests", "NSwag.OpenApiGeneration.WebApi.Tests\NSwag.OpenApiGeneration.WebApi.Tests.csproj", "{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Generation.WebApi.Tests", "NSwag.Generation.WebApi.Tests\NSwag.Generation.WebApi.Tests.csproj", "{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.TypeScript.Tests", "NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj", "{95B83E7B-1ADF-4185-AB36-3B17459B0128}"
 EndProject
@@ -127,9 +127,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Console.x86", "NSwag.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core.Yaml", "NSwag.Core.Yaml\NSwag.Core.Yaml.csproj", "{9E74D2F4-F3E8-4E9F-AC8E-54A3D86A5FCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.OpenApiGeneration.AspNetCore", "NSwag.OpenApiGeneration.AspNetCore\NSwag.OpenApiGeneration.AspNetCore.csproj", "{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore", "NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj", "{51740C29-AF4F-40AD-BFDE-09E6F8C873D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.OpenApiGeneration.AspNetCore.Tests", "NSwag.OpenApiGeneration.AspNetCore.Tests\NSwag.OpenApiGeneration.AspNetCore.Tests.csproj", "{5A11ECF6-6783-4797-9CBD-F1F2A63493DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore.Tests", "NSwag.Generation.AspNetCore.Tests\NSwag.Generation.AspNetCore.Tests.csproj", "{5A11ECF6-6783-4797-9CBD-F1F2A63493DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNetCore.Launcher", "NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj", "{B715070B-E76E-4959-894A-623EB7639E5F}"
 EndProject
@@ -145,7 +145,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore21", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore20.Part", "NSwag.Sample.NETCore20.Part\NSwag.Sample.NETCore20.Part.csproj", "{18386943-8FCC-4414-BBEF-A1CAB1E557A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.OpenApiGeneration.AspNetCore.Tests.Web", "NSwag.OpenApiGeneration.AspNetCore.Tests.Web\NSwag.OpenApiGeneration.AspNetCore.Tests.Web.csproj", "{FDD41017-91E2-4BD8-B827-F851BDEC6B6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore.Tests.Web", "NSwag.Generation.AspNetCore.Tests.Web\NSwag.Generation.AspNetCore.Tests.Web.csproj", "{FDD41017-91E2-4BD8-B827-F851BDEC6B6E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AssemblyLoader.Tests", "NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj", "{1853262B-6D39-477B-872A-8B5473FE74BB}"
 EndProject

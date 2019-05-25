@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
-using NSwag.OpenApiGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests

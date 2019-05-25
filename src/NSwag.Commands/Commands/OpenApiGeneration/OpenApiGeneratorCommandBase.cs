@@ -24,8 +24,8 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.OpenApiGeneration;
-using NSwag.OpenApiGeneration.Processors;
+using NSwag.Generation;
+using NSwag.Generation.Processors;
 
 namespace NSwag.Commands.OpenApiGeneration
 {

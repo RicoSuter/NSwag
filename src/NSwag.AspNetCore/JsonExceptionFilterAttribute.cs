@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Converters;
-using NSwag.OpenApiGeneration.AspNetCore;
+using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
 {

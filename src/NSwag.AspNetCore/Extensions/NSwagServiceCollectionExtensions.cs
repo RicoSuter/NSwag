@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using NJsonSchema;
 using NSwag.AspNetCore;
-using NSwag.OpenApiGeneration;
-using NSwag.OpenApiGeneration.AspNetCore;
-using NSwag.OpenApiGeneration.Processors;
+using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
+using NSwag.Generation.Processors;
 using System;
 using System.Collections.Generic;
 using System.Linq;

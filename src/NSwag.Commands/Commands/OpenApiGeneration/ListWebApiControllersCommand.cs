@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.OpenApiGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using System.IO;
 using NSwag.Commands.OpenApiGeneration.WebApi;
 

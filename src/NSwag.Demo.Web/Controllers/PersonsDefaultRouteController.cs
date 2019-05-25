@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using NSwag.Annotations;
 using NSwag.Demo.Web.Models;
-using NSwag.OpenApiGeneration.WebApi;
+using NSwag.Generation.WebApi;
 
 namespace NSwag.Demo.Web.Controllers
 {
