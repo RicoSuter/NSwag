@@ -57,18 +57,16 @@ namespace NSwag.AspNet.Owin
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwagger(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
-            OpenApiSchemaGenerator schemaGenerator = null)
+            Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             var settings = new SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
-            app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
+            app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings);
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
         }
@@ -115,28 +113,26 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseSwaggerUi(null, configure, null);
+            return app.UseSwaggerUi((IEnumerable<Type>)null, configure);
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
         public static IAppBuilder UseSwaggerUi(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
-            OpenApiSchemaGenerator schemaGenerator = null)
+            Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             var settings = new SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
+                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings);
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
@@ -189,27 +185,25 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseSwaggerUi3(null, configure, null);
+            return app.UseSwaggerUi3((IEnumerable<Type>)null, configure);
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerUi3(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
-            OpenApiSchemaGenerator schemaGenerator = null)
+            Action<SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             var settings = new SwaggerUi3Settings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
+                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings);
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
@@ -262,27 +256,25 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             Action<ReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseSwaggerReDoc(null, configure, null);
+            return app.UseSwaggerReDoc((IEnumerable<Type>)null, configure);
         }
 
         /// <summary>Addes the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
         /// <param name="app">The app.</param>
         /// <param name="controllerTypes">The Web API controller types.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
         /// <returns>The app builder.</returns>
         public static IAppBuilder UseSwaggerReDoc(
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
-            Action<ReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null,
-            OpenApiSchemaGenerator schemaGenerator = null)
+            Action<ReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
             var settings = new ReDocSettings<WebApiOpenApiDocumentGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
+                app.Use<OpenApiDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings);
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);

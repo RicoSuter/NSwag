@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using NJsonSchema;
 using NJsonSchema.Generation;
 
 namespace NSwag.SwaggerGeneration.Processors.Contexts
@@ -22,7 +21,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="swaggerGenerator">The swagger generator.</param>
+        /// <param name="openApiDocumentGenerator">The swagger generator.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
@@ -32,20 +31,23 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             OpenApiOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
-            OpenApiDocumentGenerator swaggerGenerator,
+            OpenApiDocumentGenerator openApiDocumentGenerator,
             JsonSchemaGenerator schemaGenerator,
             JsonSchemaResolver schemaResolver,
             OpenApiDocumentGeneratorSettings settings,
             IList<OpenApiOperationDescription> allOperationDescriptions)
         {
             Document = document;
+
             OperationDescription = operationDescription;
             ControllerType = controllerType;
             MethodInfo = methodInfo;
-            SwaggerGenerator = swaggerGenerator;
-            SchemaResolver = schemaResolver;
-            Settings = settings;
+
+            DocumentGenerator = openApiDocumentGenerator;
             SchemaGenerator = schemaGenerator;
+            SchemaResolver = schemaResolver;
+
+            Settings = settings;
             AllOperationDescriptions = allOperationDescriptions;
         }
 
@@ -63,7 +65,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public MethodInfo MethodInfo { get; }
 
         /// <summary>Gets or sets the Swagger generator.</summary>
-        public OpenApiDocumentGenerator SwaggerGenerator { get; }
+        public OpenApiDocumentGenerator DocumentGenerator { get; }
 
         /// <summary>Gets the schema resolver.</summary>
         public JsonSchemaResolver SchemaResolver { get; }

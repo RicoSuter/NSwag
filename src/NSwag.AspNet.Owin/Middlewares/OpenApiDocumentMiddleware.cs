@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using NSwag.SwaggerGeneration;
 using NSwag.SwaggerGeneration.WebApi;
 
 namespace NSwag.AspNet.Owin.Middlewares
@@ -21,7 +20,6 @@ namespace NSwag.AspNet.Owin.Middlewares
         private readonly string _path;
         private readonly SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> _settings;
         private readonly IEnumerable<Type> _controllerTypes;
-        private readonly OpenApiSchemaGenerator _schemaGenerator;
 
         private string _schemaJson;
         private Exception _schemaException;
@@ -32,14 +30,12 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <param name="path">The path.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
-        public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
+        public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
             _path = path;
             _controllerTypes = controllerTypes;
             _settings = settings;
-            _schemaGenerator = schemaGenerator;
         }
 
         /// <summary>Process an individual request.</summary>
@@ -97,7 +93,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         protected virtual async Task<string> GenerateDocumentAsync(IOwinContext context)
         {
             var settings = _settings.CreateGeneratorSettings(null, null);
-            var generator = new WebApiOpenApiDocumentGenerator(settings, _schemaGenerator);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
             document.Host = context.Request.Host.Value ?? "";

@@ -8,6 +8,7 @@
 
 using NSwag.SwaggerGeneration.Processors;
 using NSwag.SwaggerGeneration.AspNetCore.Processors;
+using System;
 
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
@@ -22,6 +23,9 @@ namespace NSwag.SwaggerGeneration.AspNetCore
             OperationProcessors.Replace<OperationTagsProcessor>(new AspNetCoreOperationTagsProcessor());
         }
 
+        /// <summary>Gets the document name (internal identifier, default: v1).</summary>
+        public string DocumentName { get; set; } = "v1";
+
         /// <summary>Gets or sets the ASP.NET Core API Explorer group names to include (default: empty/null = all, often used to select API version).</summary>
         public string[] ApiGroupNames { get; set; }
 
@@ -29,5 +33,8 @@ namespace NSwag.SwaggerGeneration.AspNetCore
         /// (legacy, default: false).</summary>
         /// <remarks>Use BindRequiredAttribute to mark parameters as required.</remarks>
         public bool RequireParametersWithoutDefault { get; set; }
+
+        /// <summary>Gets or sets the Swagger post process action.</summary>
+        public Action<OpenApiDocument> PostProcess { get; set; }
     }
 }

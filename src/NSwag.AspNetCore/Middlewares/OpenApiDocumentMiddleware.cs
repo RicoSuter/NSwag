@@ -31,7 +31,7 @@ namespace NSwag.AspNetCore.Middlewares
         private readonly Dictionary<string, Tuple<string, Exception, DateTimeOffset>> _documentsCache
             = new Dictionary<string, Tuple<string, Exception, DateTimeOffset>>();
 
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerMiddleware"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="documentName">The document name.</param>

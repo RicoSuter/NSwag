@@ -17,19 +17,16 @@ namespace NSwag.SwaggerGeneration
     /// <summary>Provides services to for Swagger generators like the creation of parameters and handling of schemas.</summary>
     public class OpenApiDocumentGenerator
     {
-        private readonly JsonSchemaGenerator _schemaGenerator;
         private readonly JsonSchemaResolver _schemaResolver;
-        private readonly JsonSchemaGeneratorSettings _settings;
+        private readonly OpenApiDocumentGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGenerator"/> class.</summary>
-        /// <param name="schemaGenerator">The schema generator.</param>
-        /// <param name="schemaGeneratorSettings">The schema generator settings.</param>
+        /// <param name="settings">The settings.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
-        public OpenApiDocumentGenerator(JsonSchemaGenerator schemaGenerator, JsonSchemaGeneratorSettings schemaGeneratorSettings, JsonSchemaResolver schemaResolver)
+        public OpenApiDocumentGenerator(OpenApiDocumentGeneratorSettings settings, JsonSchemaResolver schemaResolver)
         {
-            _schemaGenerator = schemaGenerator;
             _schemaResolver = schemaResolver;
-            _settings = schemaGeneratorSettings;
+            _settings = settings;
         }
 
         /// <summary>Creates a path parameter for a given type.</summary>
@@ -92,7 +89,7 @@ namespace NSwag.SwaggerGeneration
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
             if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
-                var schema = await _schemaGenerator
+                var schema = await _settings.SchemaGenerator
                     .GenerateAsync(contextualParameter, _schemaResolver)
                     .ConfigureAwait(false);
 
@@ -131,7 +128,7 @@ namespace NSwag.SwaggerGeneration
             {
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
-                    operationParameter = await _schemaGenerator
+                    operationParameter = await _settings.SchemaGenerator
                         .GenerateAsync<OpenApiParameter>(contextualParameter, _schemaResolver)
                         .ConfigureAwait(false);
                 }
@@ -139,7 +136,7 @@ namespace NSwag.SwaggerGeneration
                 {
                     operationParameter = new OpenApiParameter
                     {
-                        Schema = await _schemaGenerator
+                        Schema = await _settings.SchemaGenerator
                             .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
                                 contextualParameter, typeDescription.IsNullable, _schemaResolver)
                             .ConfigureAwait(false)
@@ -156,7 +153,7 @@ namespace NSwag.SwaggerGeneration
             }
 
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            _schemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, contextualParameter.ContextAttributes);
+            _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, contextualParameter.ContextAttributes);
 
             if (description != string.Empty)
             {

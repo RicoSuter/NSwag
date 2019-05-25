@@ -23,22 +23,11 @@ namespace NSwag.SwaggerGeneration.WebApi
     /// <summary>Generates a <see cref="OpenApiDocument"/> object for the given Web API class type. </summary>
     public class WebApiOpenApiDocumentGenerator
     {
-        private readonly OpenApiSchemaGenerator _schemaGenerator;
-
         /// <summary>Initializes a new instance of the <see cref="WebApiOpenApiDocumentGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
         public WebApiOpenApiDocumentGenerator(WebApiOpenApiDocumentGeneratorSettings settings)
-            : this(settings, new OpenApiSchemaGenerator(settings))
-        {
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="WebApiOpenApiDocumentGenerator" /> class.</summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
-        public WebApiOpenApiDocumentGenerator(WebApiOpenApiDocumentGeneratorSettings settings, OpenApiSchemaGenerator schemaGenerator)
         {
             Settings = settings;
-            _schemaGenerator = schemaGenerator;
         }
 
         /// <summary>Gets all controller class types of the given assembly.</summary>
@@ -95,7 +84,7 @@ namespace NSwag.SwaggerGeneration.WebApi
             var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
             {
-                var generator = new OpenApiDocumentGenerator(_schemaGenerator, Settings, schemaResolver);
+                var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
                 var isIncluded = await GenerateForControllerAsync(document, controllerType, generator, schemaResolver).ConfigureAwait(false);
                 if (isIncluded)
                 {
@@ -107,7 +96,8 @@ namespace NSwag.SwaggerGeneration.WebApi
 
             foreach (var processor in Settings.DocumentProcessors)
             {
-                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, _schemaGenerator, Settings));
+                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes,
+                    usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
             }
 
             return document;
@@ -245,7 +235,7 @@ namespace NSwag.SwaggerGeneration.WebApi
         private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
-                methodInfo, swaggerGenerator, _schemaGenerator, schemaResolver, Settings, allOperations);
+                methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations);
 
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)

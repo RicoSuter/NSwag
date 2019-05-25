@@ -365,7 +365,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors
             var contextualParameter = extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
 
             var description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false);
-            var operationParameter = await context.SwaggerGenerator.CreatePrimitiveParameterAsync(
+            var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(
                 extendedApiParameter.ApiParameter.Name, description, contextualParameter).ConfigureAwait(false);
 
             if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)

@@ -24,9 +24,13 @@ namespace NSwag.SwaggerGeneration
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGeneratorSettings"/> class.</summary>
         public OpenApiDocumentGeneratorSettings()
         {
+            SchemaGenerator = new OpenApiSchemaGenerator(this);
             DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
             SchemaType = SchemaType.Swagger2;
         }
+
+        /// <summary>Gets or sets the JSON Schema generator.</summary>
+        public OpenApiSchemaGenerator SchemaGenerator { get; set; }
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "My Title";

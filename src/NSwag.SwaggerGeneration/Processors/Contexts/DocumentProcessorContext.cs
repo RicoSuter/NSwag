@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using NJsonSchema;
 using NJsonSchema.Generation;
 
 namespace NSwag.SwaggerGeneration.Processors.Contexts
@@ -19,6 +18,7 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         /// <summary>Initializes a new instance of the <see cref="DocumentProcessorContext" /> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="allControllerTypes">The controller types.</param>
+        /// <param name="controllerTypes">The controller types.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         /// <param name="settings">The settings.</param>
@@ -26,10 +26,13 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             JsonSchemaResolver schemaResolver, JsonSchemaGenerator schemaGenerator, OpenApiDocumentGeneratorSettings settings)
         {
             Document = document;
+
             AllControllerTypes = allControllerTypes;
             ControllerTypes = controllerTypes;
+
             SchemaResolver = schemaResolver;
             SchemaGenerator = schemaGenerator;
+
             Settings = settings;
         }
 
