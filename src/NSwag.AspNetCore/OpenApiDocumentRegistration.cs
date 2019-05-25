@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
+using NSwag.SwaggerGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
@@ -16,7 +16,7 @@ namespace NSwag.AspNetCore
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentRegistration"/> class.</summary>
         /// <param name="documentName">The document name.</param>
         /// <param name="generator">The document generator.</param>
-        public OpenApiDocumentRegistration(string documentName, IOpenApiDocumentGenerator generator)
+        public OpenApiDocumentRegistration(string documentName, AspNetCoreOpenApiDocumentGenerator generator)
         {
             DocumentName = documentName;
             Generator = generator;
@@ -26,6 +26,6 @@ namespace NSwag.AspNetCore
         public string DocumentName { get; }
 
         /// <summary>Gets the document generator.</summary>
-        public IOpenApiDocumentGenerator Generator { get; }
+        public AspNetCoreOpenApiDocumentGenerator Generator { get; }
     }
 }

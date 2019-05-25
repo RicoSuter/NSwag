@@ -81,7 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, OpenApiConfigureMvcOptions>();
 
                 // Used by UseDocumentProvider CLI setting
-                serviceCollection.AddSingleton<IOpenApiDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());
+                serviceCollection.AddSingleton<IOpenApiDocumentGenerator>(s => s.GetRequiredService<OpenApiDocumentProvider>());
 
                 // Used by the Microsoft.Extensions.ApiDescription tool
                 serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());

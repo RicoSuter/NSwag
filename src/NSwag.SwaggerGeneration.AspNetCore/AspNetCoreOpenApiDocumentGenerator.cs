@@ -25,7 +25,7 @@ using NSwag.SwaggerGeneration.Processors.Contexts;
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
     /// <summary>Generates a <see cref="OpenApiDocument"/> using <see cref="ApiDescription"/>. </summary>
-    public class AspNetCoreOpenApiDocumentGenerator : IOpenApiDocumentGenerator
+    public class AspNetCoreOpenApiDocumentGenerator
     {
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreOpenApiDocumentGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>

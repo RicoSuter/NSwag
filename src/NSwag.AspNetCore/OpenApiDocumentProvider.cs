@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore
 {
-    internal class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentProvider
+    internal class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentGenerator
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IEnumerable<OpenApiDocumentRegistration> _documents;

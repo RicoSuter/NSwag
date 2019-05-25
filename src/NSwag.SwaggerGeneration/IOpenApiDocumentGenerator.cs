@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ISwaggerGenerator.cs" company="NSwag">
+// <copyright file="ISwaggerDocumentProvider.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace NSwag.SwaggerGeneration
 {
-    /// <summary>Interface for a service provider based Swagger document generator.</summary>
+    /// <summary>The <see cref="IOpenApiDocumentGenerator"/> interface.</summary>
     public interface IOpenApiDocumentGenerator
     {
-        /// <summary>Generates the <see cref="OpenApiDocument"/>.</summary>
-        /// <param name="serviceProvider">The service provider.</param>
-        /// <returns>The document</returns>
-        Task<OpenApiDocument> GenerateAsync(object serviceProvider);
+        /// <summary>Generates the specified document.</summary>
+        /// <param name="documentName">The document name.</param>
+        /// <returns>The document.</returns>
+        Task<OpenApiDocument> GenerateAsync(string documentName);
     }
 }

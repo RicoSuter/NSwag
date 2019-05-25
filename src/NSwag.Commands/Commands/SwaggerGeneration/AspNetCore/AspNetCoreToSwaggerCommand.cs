@@ -22,7 +22,6 @@ using NJsonSchema.Yaml;
 using NJsonSchema;
 using Microsoft.AspNetCore.Hosting;
 using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.Processors;
 using NJsonSchema.Generation;
 
 #if NETCOREAPP || NETSTANDARD
@@ -277,8 +276,8 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
         {
-            var documentProvider = host.Services.GetRequiredService<IOpenApiDocumentProvider>();
-            var document = await documentProvider.GenerateAsync(DocumentName);
+            var documentGenerator = host.Services.GetRequiredService<IOpenApiDocumentGenerator>();
+            var document = await documentGenerator.GenerateAsync(DocumentName);
             return document;
         }
 
