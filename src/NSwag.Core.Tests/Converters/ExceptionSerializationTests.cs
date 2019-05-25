@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NSwag.Annotations.Converters;
+using NSwag.Converters;
 using Xunit;
 
 namespace NSwag.Core.Tests.Converters
