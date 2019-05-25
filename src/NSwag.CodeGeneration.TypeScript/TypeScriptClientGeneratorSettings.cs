@@ -14,11 +14,11 @@ using System.Reflection;
 
 namespace NSwag.CodeGeneration.TypeScript
 {
-    /// <summary>Settings for the <see cref="SwaggerToTypeScriptClientGenerator"/>.</summary>
-    public class SwaggerToTypeScriptClientGeneratorSettings : ClientGeneratorBaseSettings
+    /// <summary>Settings for the <see cref="TypeScriptClientGenerator"/>.</summary>
+    public class TypeScriptClientGeneratorSettings : ClientGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGeneratorSettings"/> class.</summary>
-        public SwaggerToTypeScriptClientGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptClientGeneratorSettings"/> class.</summary>
+        public TypeScriptClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
             Template = TypeScriptTemplate.Fetch;
@@ -38,7 +38,7 @@ namespace NSwag.CodeGeneration.TypeScript
             TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, new Assembly[]
             {
                 typeof(TypeScriptGeneratorSettings).GetTypeInfo().Assembly,
-                typeof(SwaggerToTypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
+                typeof(TypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
             });
 
             ProtectedMethods = new string[0];

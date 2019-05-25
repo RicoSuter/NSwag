@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });
@@ -78,7 +78,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });

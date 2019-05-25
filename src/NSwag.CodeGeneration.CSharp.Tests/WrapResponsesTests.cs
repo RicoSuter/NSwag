@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 WrapResponses = true
             });
@@ -50,7 +50,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 WrapResponses = true
             });

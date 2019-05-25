@@ -15,7 +15,7 @@ using NSwag.CodeGeneration.CSharp;
 namespace NSwag.Commands.CodeGeneration
 {
     public abstract class SwaggerToCSharpCommandBase<TSettings> : CodeGeneratorCommandBase<TSettings>
-         where TSettings : SwaggerToCSharpGeneratorSettings
+         where TSettings : CSharpGeneratorBaseSettings
     {
         protected SwaggerToCSharpCommandBase(TSettings settings)
             : base(settings)

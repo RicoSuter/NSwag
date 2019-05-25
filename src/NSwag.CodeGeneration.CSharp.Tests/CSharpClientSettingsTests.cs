@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 InjectHttpClient = false,
                 ConfigurationClass = "MyConfig",
@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 ConfigurationClass = "MyConfig",
                 ClientBaseClass = "MyBaseClass",
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
 
             //// Act
             var code = generator.GenerateFile();
@@ -80,7 +80,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 InjectHttpClient = false
             });
@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 HttpClientType = "CustomNamespace.CustomHttpClient",
                 InjectHttpClient = false

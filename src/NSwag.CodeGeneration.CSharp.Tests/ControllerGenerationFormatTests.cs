@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
             });
@@ -37,7 +37,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Partial,
             });
@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 UseActionResultType = true
@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Partial,
                 UseActionResultType = true
@@ -98,7 +98,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await GetSwaggerDocument();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings());
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -113,10 +113,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings();
+            var settings = new CSharpControllerGeneratorSettings();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -131,13 +131,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -152,13 +152,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 RouteNamingStrategy = CSharpControllerRouteNamingStrategy.OperationId
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -171,13 +171,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -190,13 +190,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 GenerateModelValidationAttributes = true,
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -214,14 +214,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 GenerateModelValidationAttributes = true,
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -239,13 +239,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 GenerateDtoTypes = false
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -440,7 +440,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNet,
                 ControllerStyle = CSharpControllerStyle.Abstract,
@@ -448,7 +448,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -465,13 +465,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNetCore
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -486,13 +486,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             //// Arrange
             var document = await GetSwaggerDocument();
-            var settings = new SwaggerToCSharpControllerGeneratorSettings
+            var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNet
             };
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, settings);
+            var codeGen = new CSharpControllerGenerator(document, settings);
             var code = codeGen.GenerateFile();
 
             //// Assert

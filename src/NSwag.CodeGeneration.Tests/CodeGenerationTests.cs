@@ -21,10 +21,10 @@ namespace NSwag.CodeGeneration.Tests
             var json = document.ToJson();
 
             //// Act
-            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
-            var generator = new SwaggerToCSharpClientGenerator(document, settings);
+            var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             // Assert
@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.Tests
             var document = await CreateDocumentAsync();
 
             //// Act
-            var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
                 TypeScriptGeneratorSettings = 

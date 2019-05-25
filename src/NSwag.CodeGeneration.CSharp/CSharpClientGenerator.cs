@@ -15,25 +15,25 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.CodeGeneration.CSharp
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToCSharpClientGenerator : SwaggerToCSharpGeneratorBase
+    public class CSharpClientGenerator : CSharpGeneratorBase
     {
         private readonly OpenApiDocument _document;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(OpenApiDocument document, SwaggerToCSharpClientGeneratorSettings settings)
+        public CSharpClientGenerator(OpenApiDocument document, CSharpClientGeneratorSettings settings)
             : this(document, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, document))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToCSharpClientGenerator(OpenApiDocument document, SwaggerToCSharpClientGeneratorSettings settings, CSharpTypeResolver resolver)
+        public CSharpClientGenerator(OpenApiDocument document, CSharpClientGeneratorSettings settings, CSharpTypeResolver resolver)
             : base(document, settings, resolver)
         {
             Settings = settings;
@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.CSharp
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public SwaggerToCSharpClientGeneratorSettings Settings { get; }
+        public CSharpClientGeneratorSettings Settings { get; }
 
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
@@ -75,7 +75,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The operation model.</returns>
         protected override CSharpOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new CSharpOperationModel(operation, (SwaggerToCSharpGeneratorSettings)settings, this, (CSharpTypeResolver)Resolver);
+            return new CSharpOperationModel(operation, (CSharpGeneratorBaseSettings)settings, this, (CSharpTypeResolver)Resolver);
         }
     }
 }

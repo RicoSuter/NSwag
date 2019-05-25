@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -189,7 +189,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -265,7 +265,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert

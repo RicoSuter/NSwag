@@ -14,11 +14,11 @@ using System.Reflection;
 
 namespace NSwag.CodeGeneration.CSharp
 {
-    /// <summary>Settings for the <see cref="SwaggerToCSharpGeneratorBase"/>.</summary>
-    public abstract class SwaggerToCSharpGeneratorSettings : ClientGeneratorBaseSettings
+    /// <summary>Settings for the <see cref="CSharpGeneratorBase"/>.</summary>
+    public abstract class CSharpGeneratorBaseSettings : ClientGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
-        protected SwaggerToCSharpGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientGeneratorSettings"/> class.</summary>
+        protected CSharpGeneratorBaseSettings()
         {
             CSharpGeneratorSettings = new CSharpGeneratorSettings
             {
@@ -29,7 +29,7 @@ namespace NSwag.CodeGeneration.CSharp
             CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
             {
                 typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
-                typeof(SwaggerToCSharpGeneratorSettings).GetTypeInfo().Assembly,
+                typeof(CSharpGeneratorBaseSettings).GetTypeInfo().Assembly,
             });
 
             ResponseArrayType = "System.Collections.Generic.ICollection";

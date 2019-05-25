@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -115,7 +115,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             operation.Parameters.Insert(0, lastParameter);
             var json = document.ToJson();
 
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });

@@ -16,17 +16,17 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.CodeGeneration.CSharp
 {
     /// <summary>The CSharp generator base class.</summary>
-    public abstract class SwaggerToCSharpGeneratorBase : ClientGeneratorBase<CSharpOperationModel, CSharpParameterModel, CSharpResponseModel>
+    public abstract class CSharpGeneratorBase : ClientGeneratorBase<CSharpOperationModel, CSharpParameterModel, CSharpResponseModel>
     {
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly CSharpGeneratorBaseSettings _settings;
         private readonly CSharpTypeResolver _resolver;
         private readonly OpenApiDocument _document;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpGeneratorBase"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CSharpGeneratorBase"/> class.</summary>
         /// <param name="document">The document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
-        protected SwaggerToCSharpGeneratorBase(OpenApiDocument document, SwaggerToCSharpGeneratorSettings settings, CSharpTypeResolver resolver)
+        protected CSharpGeneratorBase(OpenApiDocument document, CSharpGeneratorBaseSettings settings, CSharpTypeResolver resolver)
             : base(document, settings.CodeGeneratorSettings, resolver)
         {
             _document = document;

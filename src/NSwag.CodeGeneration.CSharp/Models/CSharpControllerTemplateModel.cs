@@ -14,7 +14,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller template model.</summary>
     public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
+        private readonly CSharpControllerGeneratorSettings _settings;
         private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             string controllerName,
             IEnumerable<CSharpOperationModel> operations,
             OpenApiDocument document,
-            SwaggerToCSharpControllerGeneratorSettings settings)
+            CSharpControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;

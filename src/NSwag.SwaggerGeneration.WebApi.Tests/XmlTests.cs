@@ -43,7 +43,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
 
             //// Act
-            var gen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var gen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = gen.GenerateFile();
 
             //// Assert
@@ -59,11 +59,11 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<MyXmlController>();
 
-            var settings = new SwaggerToTypeScriptClientGeneratorSettings { Template = TypeScriptTemplate.JQueryCallbacks };
+            var settings = new TypeScriptClientGeneratorSettings { Template = TypeScriptTemplate.JQueryCallbacks };
             settings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
 
             //// Act
-            var gen = new SwaggerToTypeScriptClientGenerator(document, settings);
+            var gen = new TypeScriptClientGenerator(document, settings);
             var code = gen.GenerateFile();
 
             //// Assert

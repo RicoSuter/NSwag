@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 UseCancellationToken = true
             });
@@ -52,7 +52,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 UseCancellationToken = true
             });
@@ -72,7 +72,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 UseCancellationToken = true
@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 UseCancellationToken = true
@@ -110,7 +110,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract
             });

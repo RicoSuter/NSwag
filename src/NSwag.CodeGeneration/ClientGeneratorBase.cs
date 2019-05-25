@@ -28,27 +28,21 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="document">The document.</param>
-        /// <param name="codeGeneratorSettings">The code generator settings.</param>
+        /// <param name="settings">The code generator settings.</param>
         /// <param name="resolver">The type resolver.</param>
-        protected ClientGeneratorBase(OpenApiDocument document, CodeGeneratorSettingsBase codeGeneratorSettings, TypeResolverBase resolver)
+        protected ClientGeneratorBase(OpenApiDocument document, CodeGeneratorSettingsBase settings, TypeResolverBase resolver)
         {
             _document = document;
             Resolver = resolver;
-            codeGeneratorSettings.SchemaType = document.SchemaType; // enforce Swagger schema output 
-        }
 
-        /// <summary>Gets the type resolver.</summary>
-        protected TypeResolverBase Resolver { get; }
-
-        /// <summary>Gets the file response type name.</summary>
-        /// <returns>The type name.</returns>
-        public virtual string GetBinaryResponseTypeName()
-        {
-            return "FileResponse";
+            settings.SchemaType = document.SchemaType; // enforce Swagger schema output 
         }
 
         /// <summary>Gets the base settings.</summary>
         public abstract ClientGeneratorBaseSettings BaseSettings { get; }
+
+        /// <summary>Gets the type resolver.</summary>
+        protected TypeResolverBase Resolver { get; }
 
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
@@ -56,6 +50,13 @@ namespace NSwag.CodeGeneration
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         public abstract string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint);
+
+        /// <summary>Gets the file response type name.</summary>
+        /// <returns>The type name.</returns>
+        public virtual string GetBinaryResponseTypeName()
+        {
+            return "FileResponse";
+        }
 
         /// <summary>Generates the the whole file containing all needed types.</summary>
         /// <returns>The code</returns>

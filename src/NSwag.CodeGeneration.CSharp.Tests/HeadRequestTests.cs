@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await generator.GenerateForControllerAsync<HeadRequestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert

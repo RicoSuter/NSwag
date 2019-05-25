@@ -28,9 +28,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             "ushort", "using", "virtual", "void", "volatile", "while"
         };
 
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly CSharpGeneratorBaseSettings _settings;
         private readonly OpenApiOperation _operation;
-        private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly CSharpGeneratorBase _generator;
         private readonly CSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
@@ -40,8 +40,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="resolver">The resolver.</param>
         public CSharpOperationModel(
             OpenApiOperation operation,
-            SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator,
+            CSharpGeneratorBaseSettings settings,
+            CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             if (settings.GenerateOptionalParameters)
             {
                 // TODO: Move to CSharpControllerOperationModel
-                if (generator is SwaggerToCSharpControllerGenerator)
+                if (generator is CSharpControllerGenerator)
                 {
                     parameters = parameters
                         .OrderBy(p => p.Position ?? 0)
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                var settings = _settings as CSharpClientGeneratorSettings;
                 if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
                 {
                     return "protected";
@@ -155,7 +155,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
+                var settings = (CSharpClientGeneratorSettings)_settings;
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 return Responses
                     .Where(r => r.ThrowsException)
@@ -196,7 +196,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpControllerGeneratorSettings;
+                var settings = _settings as CSharpControllerGeneratorSettings;
                 if (settings != null)
                 {
                     return settings.GetRouteName(_operation);

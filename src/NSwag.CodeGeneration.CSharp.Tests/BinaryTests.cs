@@ -47,7 +47,7 @@ components:
             var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGenerator.GenerateFile();
 
             //// Assert

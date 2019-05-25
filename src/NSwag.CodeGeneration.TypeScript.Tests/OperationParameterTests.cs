@@ -52,13 +52,13 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
-            var clientSettings = new SwaggerToTypeScriptClientGeneratorSettings
+            var clientSettings = new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryCallbacks
             };
             clientSettings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
 
-            var gen = new SwaggerToTypeScriptClientGenerator(document, clientSettings);
+            var gen = new TypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();
 
             //// Assert

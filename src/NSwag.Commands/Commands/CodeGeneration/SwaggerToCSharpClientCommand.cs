@@ -18,9 +18,9 @@ using NSwag.CodeGeneration.CSharp;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger specification.")]
-    public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommandBase<SwaggerToCSharpClientGeneratorSettings>
+    public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommandBase<CSharpClientGeneratorSettings>
     {
-        public SwaggerToCSharpClientCommand() : base(new SwaggerToCSharpClientGeneratorSettings())
+        public SwaggerToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
         {
         }
 
@@ -221,7 +221,7 @@ namespace NSwag.Commands.CodeGeneration
             return await Task.Run(async () =>
             {
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new SwaggerToCSharpClientGenerator(document, Settings);
+                var clientGenerator = new CSharpClientGenerator(document, Settings);
 
                 if (GenerateContractsOutput)
                 {
@@ -240,7 +240,7 @@ namespace NSwag.Commands.CodeGeneration
             });
         }
 
-        private void GenerateImplementation(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        private void GenerateImplementation(Dictionary<string, string> result, CSharpClientGenerator clientGenerator)
         {
             var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages?.ToArray();
             Settings.AdditionalNamespaceUsages =
@@ -249,7 +249,7 @@ namespace NSwag.Commands.CodeGeneration
             Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
         }
 
-        private void GenerateContracts(Dictionary<string, string> result, SwaggerToCSharpClientGenerator clientGenerator)
+        private void GenerateContracts(Dictionary<string, string> result, CSharpClientGenerator clientGenerator)
         {
             var savedNamespace = Settings.CSharpGeneratorSettings.Namespace;
             Settings.CSharpGeneratorSettings.Namespace = ContractsNamespace;

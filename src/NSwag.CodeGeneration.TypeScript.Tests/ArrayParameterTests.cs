@@ -61,8 +61,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
-            var settings = new SwaggerToTypeScriptClientGeneratorSettings { ClassName = "MyClass" };
-            var generator = new SwaggerToTypeScriptClientGenerator(document, settings);
+            var settings = new TypeScriptClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new TypeScriptClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             //// Assert

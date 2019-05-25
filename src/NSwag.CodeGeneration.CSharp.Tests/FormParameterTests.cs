@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await generator.GenerateForControllerAsync<FileUploadController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert

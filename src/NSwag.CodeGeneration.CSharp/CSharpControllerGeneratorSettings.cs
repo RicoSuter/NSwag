@@ -12,11 +12,11 @@ namespace NSwag.CodeGeneration.CSharp
 {
     // TODO: Rename to SwaggerToCSharpControllerGeneratorSettings?
 
-    /// <summary>Settings for the <see cref="SwaggerToCSharpControllerGenerator"/>.</summary>
-    public class SwaggerToCSharpControllerGeneratorSettings : SwaggerToCSharpGeneratorSettings
+    /// <summary>Settings for the <see cref="CSharpControllerGenerator"/>.</summary>
+    public class CSharpControllerGeneratorSettings : CSharpGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpControllerGeneratorSettings"/> class.</summary>
-        public SwaggerToCSharpControllerGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="CSharpControllerGeneratorSettings"/> class.</summary>
+        public CSharpControllerGeneratorSettings()
         {
             ClassName = "{controller}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";

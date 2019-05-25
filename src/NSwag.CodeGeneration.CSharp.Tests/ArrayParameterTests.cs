@@ -61,8 +61,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
-            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
-            var generator = new SwaggerToCSharpClientGenerator(document, settings);
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             //// Assert

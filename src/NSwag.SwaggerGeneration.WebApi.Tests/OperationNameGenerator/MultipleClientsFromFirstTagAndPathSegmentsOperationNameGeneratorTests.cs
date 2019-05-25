@@ -51,7 +51,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
             //// Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllersAsync(new List<Type>() { typeof(PointControllerA), typeof(PointControllerB) });
-            var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 OperationNameGenerator = new MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator()
             });
@@ -79,7 +79,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
                     operation.Tags.Clear();
                 }
             }
-            var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 OperationNameGenerator = new MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator()
             });

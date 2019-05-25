@@ -79,7 +79,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
                 GenerateClientInterfaces = true,
@@ -103,7 +103,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
                 GenerateClientInterfaces = true,
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
                 GenerateClientInterfaces = true,
@@ -155,7 +155,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
                 GenerateDtoTypes = true,
@@ -181,7 +181,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
                 TypeScriptGeneratorSettings =

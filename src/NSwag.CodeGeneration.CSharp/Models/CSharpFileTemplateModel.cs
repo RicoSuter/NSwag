@@ -18,10 +18,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
     {
         private readonly string _clientCode;
         private readonly OpenApiDocument _document;
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly CSharpGeneratorBaseSettings _settings;
         private readonly CSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
-        private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly CSharpGeneratorBase _generator;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
         /// <param name="clientTypes">The client types.</param>
@@ -36,8 +36,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
             IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
             OpenApiDocument document,
-            SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator,
+            CSharpGeneratorBaseSettings settings,
+            CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
             _outputType = outputType;
@@ -98,7 +98,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation) == true));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
-        public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+        public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                var settings = _settings as CSharpClientGeneratorSettings;
                 if (settings != null)
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)

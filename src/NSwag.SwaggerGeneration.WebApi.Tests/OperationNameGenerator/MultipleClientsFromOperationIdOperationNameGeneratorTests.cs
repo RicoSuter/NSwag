@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
             //// Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<PointController>();
-            var codeGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator()
             });

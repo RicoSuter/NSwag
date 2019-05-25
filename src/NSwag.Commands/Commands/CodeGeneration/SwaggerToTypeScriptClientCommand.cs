@@ -17,10 +17,10 @@ using NSwag.CodeGeneration.TypeScript;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger specification.")]
-    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommandBase<SwaggerToTypeScriptClientGeneratorSettings>
+    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommandBase<TypeScriptClientGeneratorSettings>
     {
         public SwaggerToTypeScriptClientCommand()
-            : base(new SwaggerToTypeScriptClientGeneratorSettings())
+            : base(new TypeScriptClientGeneratorSettings())
         {
         }
 
@@ -358,7 +358,7 @@ namespace NSwag.Commands.CodeGeneration
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new SwaggerToTypeScriptClientGenerator(document, Settings);
+                var clientGenerator = new TypeScriptClientGenerator(document, Settings);
                 return clientGenerator.GenerateFile();
             });
         }

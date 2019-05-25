@@ -17,27 +17,27 @@ using NSwag.CodeGeneration.TypeScript.Models;
 namespace NSwag.CodeGeneration.TypeScript
 {
     /// <summary>Generates the CSharp service client code. </summary>
-    public class SwaggerToTypeScriptClientGenerator : ClientGeneratorBase<TypeScriptOperationModel, TypeScriptParameterModel, TypeScriptResponseModel>
+    public class TypeScriptClientGenerator : ClientGeneratorBase<TypeScriptOperationModel, TypeScriptParameterModel, TypeScriptResponseModel>
     {
         private readonly OpenApiDocument _document;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly TypeScriptExtensionCode _extensionCode;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(OpenApiDocument document, SwaggerToTypeScriptClientGeneratorSettings settings)
+        public TypeScriptClientGenerator(OpenApiDocument document, TypeScriptClientGeneratorSettings settings)
             : this(document, settings, new TypeScriptTypeResolver(settings.TypeScriptGeneratorSettings))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToTypeScriptClientGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="TypeScriptClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
-        public SwaggerToTypeScriptClientGenerator(OpenApiDocument document, SwaggerToTypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
+        public TypeScriptClientGenerator(OpenApiDocument document, TypeScriptClientGeneratorSettings settings, TypeScriptTypeResolver resolver)
             : base(document, settings.CodeGeneratorSettings, resolver)
         {
             Settings = settings;
@@ -53,7 +53,7 @@ namespace NSwag.CodeGeneration.TypeScript
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
-        public SwaggerToTypeScriptClientGeneratorSettings Settings { get; set; }
+        public TypeScriptClientGeneratorSettings Settings { get; set; }
 
         /// <summary>Gets the base settings.</summary>
         public override ClientGeneratorBaseSettings BaseSettings => Settings;
@@ -131,7 +131,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The operation model.</returns>
         protected override TypeScriptOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new TypeScriptOperationModel(operation, (SwaggerToTypeScriptClientGeneratorSettings)settings, this, Resolver);
+            return new TypeScriptOperationModel(operation, (TypeScriptClientGeneratorSettings)settings, this, Resolver);
         }
 
         private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)

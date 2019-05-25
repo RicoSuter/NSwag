@@ -8,11 +8,11 @@
 
 namespace NSwag.CodeGeneration.CSharp
 {
-    /// <summary>Settings for the <see cref="SwaggerToCSharpClientGenerator"/>.</summary>
-    public class SwaggerToCSharpClientGeneratorSettings : SwaggerToCSharpGeneratorSettings
+    /// <summary>Settings for the <see cref="CSharpClientGenerator"/>.</summary>
+    public class CSharpClientGeneratorSettings : CSharpGeneratorBaseSettings
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerToCSharpClientGeneratorSettings"/> class.</summary>
-        public SwaggerToCSharpClientGeneratorSettings()
+        /// <summary>Initializes a new instance of the <see cref="CSharpClientGeneratorSettings"/> class.</summary>
+        public CSharpClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
 

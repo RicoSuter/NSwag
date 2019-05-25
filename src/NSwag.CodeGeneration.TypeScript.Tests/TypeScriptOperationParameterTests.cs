@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGenerator.GenerateForControllerAsync<OptionalParameterController>();
-            var clientGenerator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =
                 {

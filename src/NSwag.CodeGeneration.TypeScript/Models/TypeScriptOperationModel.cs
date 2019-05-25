@@ -16,8 +16,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
-        private readonly SwaggerToTypeScriptClientGenerator _generator;
+        private readonly TypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGenerator _generator;
         private readonly OpenApiOperation _operation;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
@@ -27,8 +27,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="resolver">The resolver.</param>
         public TypeScriptOperationModel(
             OpenApiOperation operation,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
-            SwaggerToTypeScriptClientGenerator generator,
+            TypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGenerator generator,
             TypeResolverBase resolver)
             : base(null, operation, resolver, generator, settings)
         {
@@ -194,7 +194,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value,
-                exceptionSchema, generator, resolver, (SwaggerToTypeScriptClientGeneratorSettings)settings);
+                exceptionSchema, generator, resolver, (TypeScriptClientGeneratorSettings)settings);
         }
     }
 }
