@@ -22,7 +22,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override string Title => "TypeScript Client";
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
             Model.ClientCode = result.GetGeneratorOutput<SwaggerToTypeScriptClientCommand>();
             if (result.IsRedirectedOutput)

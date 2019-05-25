@@ -30,11 +30,11 @@ using NSwag.SwaggerGeneration.Processors;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <inheritdoc />
-    public abstract class SwaggerGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
+    public abstract class OpenApiGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
         where TSettings : OpenApiDocumentGeneratorSettings, new()
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerGeneratorCommandBase{T}"/> class.</summary>
-        protected SwaggerGeneratorCommandBase()
+        /// <summary>Initializes a new instance of the <see cref="OpenApiGeneratorCommandBase{T}"/> class.</summary>
+        protected OpenApiGeneratorCommandBase()
         {
             Settings = new TSettings();
         }
@@ -84,7 +84,7 @@ namespace NSwag.Commands.SwaggerGeneration
             set => Settings.GenerateKnownTypes = value;
         }
 
-        [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false, 
+        [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false,
             Description = "Generate a description with number to enum name mappings (for integer enums only, default: false).")]
         public bool GenerateEnumMappingDescription
         {

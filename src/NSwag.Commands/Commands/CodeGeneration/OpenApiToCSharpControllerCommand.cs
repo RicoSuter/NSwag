@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.CSharp;
@@ -15,8 +16,14 @@ using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger specification.")]
-    public class SwaggerToCSharpControllerCommand : SwaggerToCSharpCommandBase<CSharpControllerGeneratorSettings>
+    [Command(Name = "openapi2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger/OpenAPI specification.")]
+    public class OpenApiToCSharpControllerCommand : SwaggerToCSharpControllerCommand
+    {
+    }
+
+    [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger/OpenAPI specification (obsolete: use openapi2cscontroller instead).")]
+    [Obsolete("Use openapi2cscontroller instead.")]
+    public class SwaggerToCSharpControllerCommand : OpenApiToCSharpCommandBase<CSharpControllerGeneratorSettings>
     {
         public SwaggerToCSharpControllerCommand() : base(new CSharpControllerGeneratorSettings())
         {

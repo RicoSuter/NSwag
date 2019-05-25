@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace NSwag.Commands
 {
     /// <summary>Stores the result of a <see cref="OpenApiDocument"/> execution.</summary>
-    public class SwaggerDocumentExecutionResult
+    public class OpenApiDocumentExecutionResult
     {
         private readonly IDictionary<Type, string> _generatorOutputs = new Dictionary<Type, string>();
 
@@ -20,7 +20,7 @@ namespace NSwag.Commands
         /// <param name="output">The command line output.</param>
         /// <param name="swaggerOutput">The Swagger JSON output.</param>
         /// <param name="isRedirectedOutput">Indicates whether the output is redirect.</param>
-        public SwaggerDocumentExecutionResult(string output, string swaggerOutput, bool isRedirectedOutput)
+        public OpenApiDocumentExecutionResult(string output, string swaggerOutput, bool isRedirectedOutput)
         {
             Output = output;
             SwaggerOutput = swaggerOutput;

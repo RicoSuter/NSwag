@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <summary>Reads a Swagger specification from JSON or an URL.</summary>
-    public class FromSwaggerCommand : OutputCommandBase, INotifyPropertyChanged
+    public class FromDocumentCommand : OutputCommandBase, INotifyPropertyChanged
     {
         private string _swagger;
         private string _url = "http://petstore.swagger.io/v2/swagger.json";

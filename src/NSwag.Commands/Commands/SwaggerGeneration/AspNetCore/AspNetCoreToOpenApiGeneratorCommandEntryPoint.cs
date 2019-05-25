@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>In-process entry point for the aspnetcore2swagger command.</summary>
-    internal class AspNetCoreToSwaggerGeneratorCommandEntryPoint
+    internal class AspNetCoreToOpenApiGeneratorCommandEntryPoint
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {

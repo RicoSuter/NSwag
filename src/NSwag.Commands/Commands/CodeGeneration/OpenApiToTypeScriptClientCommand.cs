@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -16,7 +17,13 @@ using NSwag.CodeGeneration.TypeScript;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger specification.")]
+    [Command(Name = "openapi2tsclient", Description = "Generates TypeScript client code from a Swagger/OpenAPI specification.")]
+    public class OpenApiToTypeScriptClientCommand : SwaggerToTypeScriptClientCommand
+    {
+    }
+
+    [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger/OpenAPI specification (obsolete: use openapi2tsclient instead).")]
+    [Obsolete("Use openapi2tsclient instead.")]
     public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommandBase<TypeScriptClientGeneratorSettings>
     {
         public SwaggerToTypeScriptClientCommand()
@@ -130,7 +137,7 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.GenerateOptionalParameters; }
             set { Settings.GenerateOptionalParameters = value; }
         }
-        
+
         [Argument(Name = "ExportTypes", IsRequired = false, Description = "Specifies whether the export keyword should be added to all classes, interfaces and enums (default: true).")]
         public bool ExportTypes
         {

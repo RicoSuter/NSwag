@@ -14,10 +14,10 @@ using NSwag.CodeGeneration.CSharp;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    public abstract class SwaggerToCSharpCommandBase<TSettings> : CodeGeneratorCommandBase<TSettings>
+    public abstract class OpenApiToCSharpCommandBase<TSettings> : CodeGeneratorCommandBase<TSettings>
          where TSettings : CSharpGeneratorBaseSettings
     {
-        protected SwaggerToCSharpCommandBase(TSettings settings)
+        protected OpenApiToCSharpCommandBase(TSettings settings)
             : base(settings)
         {
         }

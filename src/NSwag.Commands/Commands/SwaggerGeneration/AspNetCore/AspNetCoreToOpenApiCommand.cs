@@ -31,8 +31,14 @@ using System.Runtime.Loader;
 namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 {
     /// <summary>The generator.</summary>
-    [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer (experimental).")]
-    public class AspNetCoreToSwaggerCommand : SwaggerGeneratorCommandBase<AspNetCoreOpenApiDocumentGeneratorSettings>
+    [Command(Name = "aspnetcore2openapi", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer.")]
+    public class AspNetCoreToOpenApiCommand : AspNetCoreToSwaggerCommand
+    {
+    }
+
+    /// <summary>The generator.</summary>
+    [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer (obsolete: use aspnetcore2openapi instead).")]
+    public class AspNetCoreToSwaggerCommand : OpenApiGeneratorCommandBase<AspNetCoreOpenApiDocumentGeneratorSettings>
     {
         private const string LauncherBinaryName = "NSwag.AspNetCore.Launcher";
 

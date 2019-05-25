@@ -35,7 +35,7 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         protected NSwagDocumentBase()
         {
-            SwaggerGenerators.FromSwaggerCommand = new FromSwaggerCommand();
+            SwaggerGenerators.FromSwaggerCommand = new FromDocumentCommand();
             SwaggerGenerators.JsonSchemaToSwaggerCommand = new JsonSchemaToSwaggerCommand();
 
             SelectedSwaggerGenerator = SwaggerGenerators.FromSwaggerCommand;
@@ -53,7 +53,7 @@ namespace NSwag.Commands
 
         /// <summary>Executes the current document.</summary>
         /// <returns>The result.</returns>
-        public abstract Task<SwaggerDocumentExecutionResult> ExecuteAsync();
+        public abstract Task<OpenApiDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
         public Runtime Runtime { get; set; } = Runtime.NetCore21;
@@ -93,7 +93,7 @@ namespace NSwag.Commands
 
         /// <summary>Gets the swagger generators.</summary>
         [JsonIgnore]
-        public SwaggerGeneratorCollection SwaggerGenerators { get; } = new SwaggerGeneratorCollection();
+        public OpenApiGeneratorCollection SwaggerGenerators { get; } = new OpenApiGeneratorCollection();
 
         /// <summary>Gets the code generators.</summary>
         [JsonProperty("CodeGenerators")]

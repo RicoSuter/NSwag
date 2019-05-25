@@ -22,7 +22,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerToCSharpClientGeneratorViewModel Model => (SwaggerToCSharpClientGeneratorViewModel)Resources["ViewModel"];
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
             Model.ClientCode = result.GetGeneratorOutput<SwaggerToCSharpClientCommand>();
             if (result.IsRedirectedOutput)

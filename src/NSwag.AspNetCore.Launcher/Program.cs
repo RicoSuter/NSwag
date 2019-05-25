@@ -8,7 +8,7 @@ namespace NSwag.AspNetCore.Launcher
     internal class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
-        private const string EntryPointType = "NSwag.Commands.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
+        private const string EntryPointType = "NSwag.Commands.SwaggerGeneration.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
         private static readonly AssemblyName CommandsAssemblyName = new AssemblyName("NSwag.Commands");
 
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;

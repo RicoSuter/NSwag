@@ -8,11 +8,11 @@ using NSwag.Commands.SwaggerGeneration.WebApi;
 namespace NSwag.Commands
 {
     /// <summary></summary>
-    public class SwaggerGeneratorCollection
+    public class OpenApiGeneratorCollection
     {
         /// <summary>Gets or sets the input to swagger command.</summary>
         [JsonIgnore]
-        public FromSwaggerCommand FromSwaggerCommand { get; set; }
+        public FromDocumentCommand FromSwaggerCommand { get; set; }
 
         /// <summary>Gets or sets the json schema to swagger command.</summary>
         [JsonIgnore]

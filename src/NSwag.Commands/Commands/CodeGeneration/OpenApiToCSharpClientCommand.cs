@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,8 +18,14 @@ using NSwag.CodeGeneration.CSharp;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger specification.")]
-    public class SwaggerToCSharpClientCommand : SwaggerToCSharpCommandBase<CSharpClientGeneratorSettings>
+    [Command(Name = "openapi2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification.")]
+    public class OpenApiToCSharpClientCommand : SwaggerToCSharpClientCommand
+    {
+    }
+
+    [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification (obsolete: use openapi2csclient instead).")]
+    [Obsolete("Use openapi2csclient instead.")]
+    public class SwaggerToCSharpClientCommand : OpenApiToCSharpCommandBase<CSharpClientGeneratorSettings>
     {
         public SwaggerToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
         {
@@ -169,7 +176,7 @@ namespace NSwag.Commands.CodeGeneration
         [Argument(Name = "ContractsNamespace", IsRequired = false, Description = "The contracts .NET namespace.")]
         public string ContractsNamespace { get; set; }
 
-        [Argument(Name = "ContractsOutput", IsRequired = false, 
+        [Argument(Name = "ContractsOutput", IsRequired = false,
                   Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
         public string ContractsOutputFilePath { get; set; }
 
@@ -197,7 +204,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.SerializeTypeInformation = value; }
         }
 
-        [Argument(Name = nameof(QueryNullValue), IsRequired = false, 
+        [Argument(Name = nameof(QueryNullValue), IsRequired = false,
             Description = "The null value used for query parameters which are null (default: '').")]
         public string QueryNullValue
         {

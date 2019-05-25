@@ -12,7 +12,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public string PropertyName => ConversionUtilities.ConvertToLowerCamelCase(GetType().Name, false);
 
-        public abstract void UpdateOutput(SwaggerDocumentExecutionResult result);
+        public abstract void UpdateOutput(OpenApiDocumentExecutionResult result);
 
         public abstract bool IsSelected { get; set; }
 

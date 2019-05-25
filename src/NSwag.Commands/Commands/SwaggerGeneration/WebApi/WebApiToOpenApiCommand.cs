@@ -23,8 +23,14 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.Commands.SwaggerGeneration.WebApi
 {
     /// <summary>The generator.</summary>
-    [Command(Name = "webapi2swagger", Description = "Generates a Swagger specification for a controller or controlles contained in a .NET Web API assembly.")]
-    public class WebApiToSwaggerCommand : SwaggerGeneratorCommandBase<WebApiOpenApiDocumentGeneratorSettings>
+    [Command(Name = "webapi2openapi", Description = "Generates a Swagger/OpenAPI specification for a controller or controlles contained in a .NET Web API assembly.")]
+    public class WebApiToOpenApiCommand : WebApiToSwaggerCommand
+    {
+    }
+
+    /// <summary>The generator.</summary>
+    [Command(Name = "webapi2swagger", Description = "Generates a Swagger/OpenAPI specification for a controller or controlles contained in a .NET Web API assembly (obsolete: use webapi2openapi instead).")]
+    public class WebApiToSwaggerCommand : OpenApiGeneratorCommandBase<WebApiOpenApiDocumentGeneratorSettings>
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerCommand"/> class.</summary>
         public WebApiToSwaggerCommand()
