@@ -4,7 +4,7 @@ using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands.OpenApiGeneration;
+using NSwag.Commands.Generation;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {

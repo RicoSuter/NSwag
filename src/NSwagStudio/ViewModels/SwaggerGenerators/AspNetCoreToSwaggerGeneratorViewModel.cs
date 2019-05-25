@@ -15,7 +15,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag;
 using NSwag.Commands;
-using NSwag.Commands.OpenApiGeneration.AspNetCore;
+using NSwag.Commands.Generation.AspNetCore;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {

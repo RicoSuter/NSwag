@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;FullNet;net461</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Commands\OpenApiGeneration\AspNetCore\AspNetCore.targets" />
+    <EmbeddedResource Include="Commands\Generation\AspNetCore\AspNetCore.targets" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />

@@ -20,7 +20,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
-using NSwag.Commands.OpenApiGeneration;
+using NSwag.Commands.Generation;
 
 namespace NSwag.Commands
 {

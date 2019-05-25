@@ -28,7 +28,7 @@ using NJsonSchema.Generation;
 using System.Runtime.Loader;
 #endif
 
-namespace NSwag.Commands.OpenApiGeneration.AspNetCore
+namespace NSwag.Commands.Generation.AspNetCore
 {
     /// <summary>The generator.</summary>
     [Command(Name = "aspnetcore2openapi", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer.")]

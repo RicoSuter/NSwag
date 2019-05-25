@@ -20,7 +20,7 @@ using NSwag.AssemblyLoader.Utilities;
 using NSwag.Generation.Processors;
 using NSwag.Generation.WebApi;
 
-namespace NSwag.Commands.OpenApiGeneration.WebApi
+namespace NSwag.Commands.Generation.WebApi
 {
     /// <summary>The generator.</summary>
     [Command(Name = "webapi2openapi", Description = "Generates a Swagger/OpenAPI specification for a controller or controlles contained in a .NET Web API assembly.")]

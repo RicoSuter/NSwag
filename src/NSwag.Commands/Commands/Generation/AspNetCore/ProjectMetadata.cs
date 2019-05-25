@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using NConsole;
 
-namespace NSwag.Commands.OpenApiGeneration.AspNetCore
+namespace NSwag.Commands.Generation.AspNetCore
 {
     internal class ProjectMetadata
     {

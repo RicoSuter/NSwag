@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ListWebApiControllersCommand.cs" company="NSwag">
+// <copyright file="ListTypesCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
@@ -12,14 +12,12 @@ using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Generation.WebApi;
 using System.IO;
-using NSwag.Commands.OpenApiGeneration.WebApi;
 
-namespace NSwag.Commands.OpenApiGeneration
+namespace NSwag.Commands.Generation
 {
-    [Command(Name = "list-controllers", Description = "List all controllers classes for the given assembly and settings.")]
-    public class ListWebApiControllersCommand : IsolatedCommandBase<string[]>
+    [Command(Name = "list-types", Description = "List all types for the given assembly and settings.")]
+    public class ListTypesCommand : IsolatedCommandBase<string[]>
     {
         [Argument(Name = nameof(File), IsRequired = false, Description = "The nswag.json configuration file path.")]
         public string File { get; set; }
@@ -32,7 +30,7 @@ namespace NSwag.Commands.OpenApiGeneration
             if (!string.IsNullOrEmpty(File))
             {
                 var document = await NSwagDocument.LoadWithTransformationsAsync(File, Variables);
-                var command = (WebApiToSwaggerCommand)document.SelectedSwaggerGenerator;
+                var command = (TypesToSwaggerCommand)document.SelectedSwaggerGenerator;
 
                 AssemblyPaths = command.AssemblyPaths;
                 AssemblyConfig = command.AssemblyConfig;
@@ -62,7 +60,7 @@ namespace NSwag.Commands.OpenApiGeneration
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
-                .SelectMany(WebApiOpenApiDocumentGenerator.GetControllerClasses)
+                .SelectMany(a => a.ExportedTypes)
                 .Select(t => t.FullName)
                 .OrderBy(c => c)
                 .ToArray();

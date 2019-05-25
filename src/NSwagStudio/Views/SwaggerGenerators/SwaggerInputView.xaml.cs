@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NSwag.Commands;
-using NSwag.Commands.OpenApiGeneration;
+using NSwag.Commands.Generation;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
