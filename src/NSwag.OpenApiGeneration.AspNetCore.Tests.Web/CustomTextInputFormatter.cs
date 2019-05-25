@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web
 {
     public class CustomTextInputFormatter : TextInputFormatter
     {

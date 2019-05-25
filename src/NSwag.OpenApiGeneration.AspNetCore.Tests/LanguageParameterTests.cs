@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests
 {
     public class LanguageParameterTests : AspNetCoreTestsBase
     {

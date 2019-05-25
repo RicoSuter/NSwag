@@ -12,7 +12,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 
-namespace NSwag.SwaggerGeneration
+namespace NSwag.OpenApiGeneration
 {
     /// <summary>Provides services to for Swagger generators like the creation of parameters and handling of schemas.</summary>
     public class OpenApiDocumentGenerator

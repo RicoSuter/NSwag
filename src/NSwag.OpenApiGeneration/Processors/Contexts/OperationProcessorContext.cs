@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using NJsonSchema.Generation;
 
-namespace NSwag.SwaggerGeneration.Processors.Contexts
+namespace NSwag.OpenApiGeneration.Processors.Contexts
 {
     /// <summary>The <see cref="IOperationProcessor"/> context.</summary>
     public class OperationProcessorContext

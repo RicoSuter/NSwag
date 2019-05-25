@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.Annotations;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     [TestClass]
     public class ParameterTests

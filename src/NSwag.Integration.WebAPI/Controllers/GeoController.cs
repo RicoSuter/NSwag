@@ -10,7 +10,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Integration.WebAPI.Models;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {

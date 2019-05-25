@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Integration
 {
     [TestClass]
     public class TemplateRouteTests

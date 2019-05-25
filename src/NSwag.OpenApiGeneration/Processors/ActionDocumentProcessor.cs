@@ -8,9 +8,9 @@
 
 using System;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>A generic action/function based document processor.</summary>
     public class ActionDocumentProcessor : IDocumentProcessor

@@ -12,7 +12,7 @@ using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
 
-namespace NSwag.SwaggerGeneration
+namespace NSwag.OpenApiGeneration
 {
     /// <summary>A <see cref="JsonSchemaGenerator"/> which only generate the schema for the root type. 
     /// Referenced types are added to the service's Definitions collection. </summary>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers
 {
     [ApiVersion("1")]
     [ApiVersion("2")]

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
-using NSwag.SwaggerGeneration.Processors;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers;
+using NSwag.OpenApiGeneration.Processors;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests
 {
     public class ApiVersionProcessorWithAspNetCoreTests : AspNetCoreTestsBase
     {

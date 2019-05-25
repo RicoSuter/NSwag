@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Attributes
 {
     // See https://github.com/NSwag/NSwag/issues/48
 

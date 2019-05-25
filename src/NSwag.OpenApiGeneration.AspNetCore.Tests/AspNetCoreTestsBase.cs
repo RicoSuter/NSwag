@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests
 {
     public class AspNetCoreTestsBase : IDisposable
     {

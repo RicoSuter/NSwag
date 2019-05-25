@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Web.Http;
-using NSwag.SwaggerGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
+namespace NSwag.OpenApiGeneration.WebApi.Tests.OperationProcessors
 {
     [TestClass]
     public class ApiVersionProcessorWithWebApiTests

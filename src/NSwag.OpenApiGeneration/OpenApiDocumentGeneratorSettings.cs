@@ -10,13 +10,13 @@ using Namotion.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Collections;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Collections;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 using System;
 using System.Threading.Tasks;
 
-namespace NSwag.SwaggerGeneration
+namespace NSwag.OpenApiGeneration
 {
     /// <summary>Settings for the Swagger generator.</summary>
     public class OpenApiDocumentGeneratorSettings : JsonSchemaGeneratorSettings

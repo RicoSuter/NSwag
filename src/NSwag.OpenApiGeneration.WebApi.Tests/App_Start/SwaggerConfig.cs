@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using NSwag.SwaggerGeneration.WebApi.Tests;
+using NSwag.OpenApiGeneration.WebApi.Tests;
 using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     public class SwaggerConfig
     {
@@ -32,7 +32,7 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "NSwag.SwaggerGeneration.WebApi.Tests");
+                        c.SingleApiVersion("v1", "NSwag.OpenApiGeneration.WebApi.Tests");
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be

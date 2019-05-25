@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Responses;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Responses;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Responses
 {
     public class ProducesTests : AspNetCoreTestsBase
     {

@@ -7,10 +7,10 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Mvc.Controllers;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Processors
+namespace NSwag.OpenApiGeneration.AspNetCore.Processors
 {
     /// <summary>Processes the SwaggerTagsAttribute on the operation method.</summary>
     public class AspNetCoreOperationTagsProcessor : OperationTagsProcessor

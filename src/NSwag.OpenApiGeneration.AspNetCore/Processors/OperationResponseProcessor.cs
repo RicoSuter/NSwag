@@ -13,10 +13,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Processors
+namespace NSwag.OpenApiGeneration.AspNetCore.Processors
 {
     /// <summary>Generates the operation's response objects based on reflection and the ResponseTypeAttribute, SwaggerResponseAttribute and ProducesResponseTypeAttribute attributes.</summary>
     public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor

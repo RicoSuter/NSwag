@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

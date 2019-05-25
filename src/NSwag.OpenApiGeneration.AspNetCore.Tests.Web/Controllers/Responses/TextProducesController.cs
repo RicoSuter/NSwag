@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Responses
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Responses
 {
     [ApiController]
     [Route("api/[controller]")]

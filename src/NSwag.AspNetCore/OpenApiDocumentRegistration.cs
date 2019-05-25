@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration.AspNetCore;
+using NSwag.OpenApiGeneration.AspNetCore;
 
 namespace NSwag.AspNetCore
 {

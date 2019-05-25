@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers
 {
     [ApiController]
     [Route("api/swaggerextensiondata")]

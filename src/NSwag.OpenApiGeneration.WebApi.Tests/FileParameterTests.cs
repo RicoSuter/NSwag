@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     [TestClass]
     public class FileParameterTests

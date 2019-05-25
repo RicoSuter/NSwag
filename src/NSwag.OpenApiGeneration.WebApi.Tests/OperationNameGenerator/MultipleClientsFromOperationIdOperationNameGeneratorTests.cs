@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
+namespace NSwag.OpenApiGeneration.WebApi.Tests.OperationNameGenerator
 {
     [TestClass]
     public class MultipleClientsFromOperationIdOperationNameGeneratorTests

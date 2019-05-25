@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     [TestClass]
     public class RouteAttributeTests

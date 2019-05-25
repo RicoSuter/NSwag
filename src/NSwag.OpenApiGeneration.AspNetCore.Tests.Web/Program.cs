@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web
 {
     public class Program
     {

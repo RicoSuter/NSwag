@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Attributes
 {
     [TestClass]
     public class TagsTests

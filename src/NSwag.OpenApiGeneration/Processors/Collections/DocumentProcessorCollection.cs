@@ -9,7 +9,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace NSwag.SwaggerGeneration.Processors.Collections
+namespace NSwag.OpenApiGeneration.Processors.Collections
 {
     /// <summary>A collection of docment processors.</summary>
     public class DocumentProcessorCollection : Collection<IDocumentProcessor>

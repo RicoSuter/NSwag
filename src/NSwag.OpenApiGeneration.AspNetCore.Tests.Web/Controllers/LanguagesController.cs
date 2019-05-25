@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers
 {
     [ApiController]
     [Route("api/{language}/languages")]

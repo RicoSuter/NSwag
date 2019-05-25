@@ -15,7 +15,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Attributes
 {
     [TestClass]
     public class ComplexParametersTests

@@ -12,9 +12,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>An operation processor which replaces {version:apiVersion} route placeholders and filters the included versions.</summary>
     public class ApiVersionProcessor : IOperationProcessor

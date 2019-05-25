@@ -25,11 +25,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Moq;
 using NSwag.Annotations;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests
 {
     public class AspNetCoreToSwaggerGenerationTests
     {

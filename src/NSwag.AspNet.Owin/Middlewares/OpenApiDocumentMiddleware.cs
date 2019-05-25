@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {

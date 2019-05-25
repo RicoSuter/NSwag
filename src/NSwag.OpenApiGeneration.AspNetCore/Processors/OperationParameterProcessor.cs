@@ -20,10 +20,10 @@ using NJsonSchema;
 using NJsonSchema.Annotations;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Processors
+namespace NSwag.OpenApiGeneration.AspNetCore.Processors
 {
     internal class OperationParameterProcessor : IOperationProcessor
     {

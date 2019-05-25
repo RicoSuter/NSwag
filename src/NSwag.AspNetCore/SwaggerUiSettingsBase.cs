@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 using System;
 using System.Collections.Generic;
 using NJsonSchema;

@@ -5,9 +5,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     public class ControllerBase
     {

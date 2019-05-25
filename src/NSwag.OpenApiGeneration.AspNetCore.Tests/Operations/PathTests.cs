@@ -1,9 +1,9 @@
-﻿using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
+﻿using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Operations
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Operations
 {
     public class PathTests : AspNetCoreTestsBase
     {

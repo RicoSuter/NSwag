@@ -19,10 +19,10 @@ using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.OpenApiGeneration.AspNetCore
 {
     /// <summary>Generates a <see cref="OpenApiDocument"/> using <see cref="ApiDescription"/>. </summary>
     public class AspNetCoreOpenApiDocumentGenerator

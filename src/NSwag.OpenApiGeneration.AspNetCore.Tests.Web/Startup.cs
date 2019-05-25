@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web
 {
     public class Startup
     {

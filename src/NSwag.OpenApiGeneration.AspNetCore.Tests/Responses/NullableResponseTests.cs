@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Responses
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Responses
 {
     public class NullableResponseTests : AspNetCoreTestsBase
     {

@@ -11,9 +11,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>Processes the SwaggerExtensionDataAttribute on the controller classes.</summary>
     public class DocumentExtensionDataProcessor : IDocumentProcessor

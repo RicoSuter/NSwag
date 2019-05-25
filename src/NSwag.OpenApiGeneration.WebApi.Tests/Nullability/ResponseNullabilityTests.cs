@@ -7,7 +7,7 @@ using NJsonSchema;
 using NJsonSchema.Annotations;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Nullability
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Nullability
 {
     [TestClass]
     public class ResponseNullabilityTests

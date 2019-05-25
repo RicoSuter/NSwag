@@ -5,9 +5,9 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Attributes
 {
     [TestClass]
     public class PrimitiveQueryParametersTests

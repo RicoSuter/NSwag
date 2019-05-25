@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using NJsonSchema.Generation;
 
-namespace NSwag.SwaggerGeneration.Processors.Contexts
+namespace NSwag.OpenApiGeneration.Processors.Contexts
 {
     /// <summary>The <see cref="IDocumentProcessor"/> context.</summary>
     public class DocumentProcessorContext

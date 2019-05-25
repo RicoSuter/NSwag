@@ -9,7 +9,7 @@
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 
 #if AspNetOwin
 using Microsoft.Owin;

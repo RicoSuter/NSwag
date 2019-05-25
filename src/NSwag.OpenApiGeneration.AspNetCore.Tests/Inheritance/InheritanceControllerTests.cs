@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Inheritance;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Inheritance;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Inheritance
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Inheritance
 {
     public class InheritanceControllerTests : AspNetCoreTestsBase
     {

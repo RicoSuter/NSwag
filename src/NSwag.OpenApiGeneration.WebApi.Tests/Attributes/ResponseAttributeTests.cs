@@ -6,9 +6,9 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NSwag.Annotations;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Attributes
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Attributes
 {
     [TestClass]
     public class ResponseAttributeTests

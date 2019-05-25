@@ -8,7 +8,7 @@
 
 using System.Threading.Tasks;
 
-namespace NSwag.SwaggerGeneration
+namespace NSwag.OpenApiGeneration
 {
     /// <summary>The <see cref="IOpenApiDocumentGenerator"/> interface.</summary>
     public interface IOpenApiDocumentGenerator

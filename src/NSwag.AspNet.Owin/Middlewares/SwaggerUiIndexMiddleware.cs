@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {

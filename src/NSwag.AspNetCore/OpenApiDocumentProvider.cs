@@ -8,7 +8,7 @@
 
 using Microsoft.Extensions.ApiDescription;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 using System;
 using System.Collections.Generic;
 using System.IO;

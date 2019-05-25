@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema.Generation;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     public class B
     {
@@ -20,8 +20,8 @@ namespace NSwag.SwaggerGeneration.WebApi.Tests
             //// Arrange
             var classNames = new[]
             {
-                "NSwag.SwaggerGeneration.WebApi.Tests.B",
-                "NSwag.SwaggerGeneration.WebApi.Tests.C"
+                "NSwag.OpenApiGeneration.WebApi.Tests.B",
+                "NSwag.OpenApiGeneration.WebApi.Tests.C"
             };
 
             //// Act

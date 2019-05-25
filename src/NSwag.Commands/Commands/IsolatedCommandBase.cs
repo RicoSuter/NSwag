@@ -21,9 +21,9 @@ using NJsonSchema;
 using NSwag.Annotations;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration;
+using NSwag.OpenApiGeneration.AspNetCore;
+using NSwag.OpenApiGeneration.WebApi;
 
 namespace NSwag.Commands
 {
@@ -103,9 +103,9 @@ namespace NSwag.Commands
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NJsonSchema.dll";
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Core.dll";
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Commands.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.WebApi.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.AspNetCore.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.OpenApiGeneration.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.OpenApiGeneration.WebApi.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.OpenApiGeneration.AspNetCore.dll";
         }
 #else
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
@@ -129,9 +129,9 @@ namespace NSwag.Commands
             yield return new BindingRedirect("Namotion.Reflection", typeof(ContextualType), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NSwag.Core", typeof(OpenApiDocument), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(OpenApiSchemaGenerator), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiOpenApiDocumentGenerator), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration.AspNetCore", typeof(AspNetCoreOpenApiDocumentGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.OpenApiGeneration", typeof(OpenApiSchemaGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.OpenApiGeneration.WebApi", typeof(WebApiOpenApiDocumentGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.OpenApiGeneration.AspNetCore", typeof(AspNetCoreOpenApiDocumentGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Core.Yaml", typeof(OpenApiYamlDocument), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");

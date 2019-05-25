@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
 using NSwag.Sample.NETCore20.Part;
-using NSwag.SwaggerGeneration.Processors.Security;
+using NSwag.OpenApiGeneration.Processors.Security;
 
 namespace NSwag.Sample.NETCore20
 {

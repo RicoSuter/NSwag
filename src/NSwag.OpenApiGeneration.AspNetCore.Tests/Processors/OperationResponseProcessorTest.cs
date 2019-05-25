@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
+namespace NSwag.OpenApiGeneration.AspNetCore.Processors.Tests
 {
     public class OperationResponseProcessorTest
     {

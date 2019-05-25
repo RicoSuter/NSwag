@@ -6,10 +6,10 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NSwag.Annotations;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationProcessors
+namespace NSwag.OpenApiGeneration.WebApi.Tests.OperationProcessors
 {
     [TestClass]
     public class SwaggerOperationProcessorAttributeTests

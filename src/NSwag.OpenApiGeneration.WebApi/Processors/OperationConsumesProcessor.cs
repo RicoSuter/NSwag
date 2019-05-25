@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.OpenApiGeneration.WebApi.Processors
 {
     /// <summary>Generates the consumes clause from the operation's ConsumesAttribute.</summary>
     public class OperationConsumesProcessor : IOperationProcessor

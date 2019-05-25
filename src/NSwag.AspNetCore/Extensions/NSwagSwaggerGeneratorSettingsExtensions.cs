@@ -7,8 +7,8 @@
 //-----------------------------------------------------------------------
 
 using NSwag;
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.Processors.Security;
+using NSwag.OpenApiGeneration;
+using NSwag.OpenApiGeneration.Processors.Security;
 using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection

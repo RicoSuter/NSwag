@@ -17,8 +17,8 @@ using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.WebApi;
 
 namespace NSwag.Commands.SwaggerGeneration.WebApi
 {

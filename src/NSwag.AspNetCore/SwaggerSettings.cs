@@ -8,10 +8,10 @@
 
 using System;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 
 #if AspNetOwin
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.OpenApiGeneration.WebApi;
 using Microsoft.Owin;
 
 namespace NSwag.AspNet.Owin

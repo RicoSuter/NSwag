@@ -12,10 +12,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.OpenApiGeneration.AspNetCore
 {
     /// <summary>The <see cref="IOperationProcessor"/> context that use <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.</summary>
     public class AspNetCoreOperationProcessorContext : OperationProcessorContext

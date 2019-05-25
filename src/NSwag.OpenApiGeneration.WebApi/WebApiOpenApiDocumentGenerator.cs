@@ -14,11 +14,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
-using NSwag.SwaggerGeneration.WebApi.Infrastructure;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.WebApi.Infrastructure;
 
-namespace NSwag.SwaggerGeneration.WebApi
+namespace NSwag.OpenApiGeneration.WebApi
 {
     /// <summary>Generates a <see cref="OpenApiDocument"/> object for the given Web API class type. </summary>
     public class WebApiOpenApiDocumentGenerator

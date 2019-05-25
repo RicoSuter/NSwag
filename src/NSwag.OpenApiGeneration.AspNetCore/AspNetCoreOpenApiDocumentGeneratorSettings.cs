@@ -6,11 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.AspNetCore.Processors;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.AspNetCore.Processors;
 using System;
 
-namespace NSwag.SwaggerGeneration.AspNetCore
+namespace NSwag.OpenApiGeneration.AspNetCore
 {
     /// <summary>Settings for the <see cref="AspNetCoreOpenApiDocumentGenerator"/>.</summary>
     public class AspNetCoreOpenApiDocumentGeneratorSettings : OpenApiDocumentGeneratorSettings

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Requests
 {
     [ApiController]
     [Route("api/[controller]")]

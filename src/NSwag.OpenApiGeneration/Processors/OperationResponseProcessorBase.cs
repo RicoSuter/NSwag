@@ -15,9 +15,9 @@ using System.Xml.Linq;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>The OperationResponseProcessor base class.</summary>
     public abstract class OperationResponseProcessorBase

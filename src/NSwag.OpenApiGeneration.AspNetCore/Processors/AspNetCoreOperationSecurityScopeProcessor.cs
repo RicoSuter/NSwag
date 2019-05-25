@@ -9,13 +9,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 using Microsoft.AspNetCore.Authorization;
-using NSwag.SwaggerGeneration.AspNetCore;
+using NSwag.OpenApiGeneration.AspNetCore;
 using NJsonSchema.Infrastructure;
 using Namotion.Reflection;
 
-namespace NSwag.SwaggerGeneration.Processors.Security
+namespace NSwag.OpenApiGeneration.Processors.Security
 {
     /// <summary>Generates the OAuth2 security scopes for an operation by reflecting the AuthorizeAttribute attributes.</summary>
     public class AspNetCoreOperationSecurityScopeProcessor : IOperationProcessor

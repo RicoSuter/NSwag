@@ -7,7 +7,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.Integration
+namespace NSwag.OpenApiGeneration.WebApi.Tests.Integration
 {
     [TestClass]
     public class SwashbuckleAnnotationsTests

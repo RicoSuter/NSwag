@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
     [Route("")]
     [ApiController]

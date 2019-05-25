@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.OpenApiGeneration;
 using NJsonSchema;
 
 #if AspNetOwin

@@ -7,9 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>Post processes a generated <see cref="OpenApiDocument"/>.</summary>
     public interface IDocumentProcessor

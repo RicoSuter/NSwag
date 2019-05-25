@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace NSwag.SwaggerGeneration.WebApi.Infrastructure
+namespace NSwag.OpenApiGeneration.WebApi.Infrastructure
 {
     /// <summary>
     /// Uses reflection to provide a common interface to the following types:

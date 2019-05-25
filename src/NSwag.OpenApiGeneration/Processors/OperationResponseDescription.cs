@@ -8,7 +8,7 @@
 
 using System;
 
-namespace NSwag.SwaggerGeneration.Processors
+namespace NSwag.OpenApiGeneration.Processors
 {
     /// <summary>Describes an operation response.</summary>
     public class OperationResponseDescription

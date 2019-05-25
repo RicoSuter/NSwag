@@ -1,9 +1,9 @@
-﻿using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Requests;
+﻿using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Requests;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Requests
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Requests
 {
     public class ConsumesTests : AspNetCoreTestsBase
     {

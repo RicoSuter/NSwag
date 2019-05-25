@@ -9,7 +9,7 @@ using NSwag.CodeGeneration.TypeScript;
 using System.Windows;
 using System.Linq;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
+namespace NSwag.OpenApiGeneration.WebApi.Tests.OperationNameGenerator
 {
     /// <summary>
     /// Test class for MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator

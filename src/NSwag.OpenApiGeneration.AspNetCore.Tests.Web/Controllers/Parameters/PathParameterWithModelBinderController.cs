@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Parameters
 {
     [ApiController]
     [Route("api/[controller]")]

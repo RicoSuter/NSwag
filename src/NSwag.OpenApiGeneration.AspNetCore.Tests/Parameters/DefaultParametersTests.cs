@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
+using NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
-using static NSwag.SwaggerGeneration.AspNetCore.Tests.Web.Controllers.Parameters.DefaultParametersController;
+using static NSwag.OpenApiGeneration.AspNetCore.Tests.Web.Controllers.Parameters.DefaultParametersController;
 
-namespace NSwag.SwaggerGeneration.AspNetCore.Tests.Parameters
+namespace NSwag.OpenApiGeneration.AspNetCore.Tests.Parameters
 {
     public class DefaultParametersTests : AspNetCoreTestsBase
     {

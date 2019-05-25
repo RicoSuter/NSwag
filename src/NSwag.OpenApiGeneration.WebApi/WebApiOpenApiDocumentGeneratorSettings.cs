@@ -6,10 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.WebApi.Processors;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.WebApi.Processors;
 
-namespace NSwag.SwaggerGeneration.WebApi
+namespace NSwag.OpenApiGeneration.WebApi
 {
     /// <summary>Settings for the <see cref="WebApiOpenApiDocumentGenerator"/>.</summary>
     public class WebApiOpenApiDocumentGeneratorSettings : OpenApiDocumentGeneratorSettings

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSwag.CodeGeneration.OperationNameGenerators;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests.OperationNameGenerator
+namespace NSwag.OpenApiGeneration.WebApi.Tests.OperationNameGenerator
 {
     [TestClass]
     public class MultipleClientsFromPathSegmentsOperationNameGeneratorTests

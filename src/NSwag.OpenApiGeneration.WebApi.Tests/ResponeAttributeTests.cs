@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using NJsonSchema.Converters;
 using NSwag.Annotations;
 
-namespace NSwag.SwaggerGeneration.WebApi.Tests
+namespace NSwag.OpenApiGeneration.WebApi.Tests
 {
     [TestClass]
     public class ResponeAttributeTests

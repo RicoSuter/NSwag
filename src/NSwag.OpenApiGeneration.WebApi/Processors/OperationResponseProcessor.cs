@@ -10,10 +10,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Namotion.Reflection;
-using NSwag.SwaggerGeneration.Processors;
-using NSwag.SwaggerGeneration.Processors.Contexts;
+using NSwag.OpenApiGeneration.Processors;
+using NSwag.OpenApiGeneration.Processors.Contexts;
 
-namespace NSwag.SwaggerGeneration.WebApi.Processors
+namespace NSwag.OpenApiGeneration.WebApi.Processors
 {
     /// <summary>Generates the operation's response objects based on reflection and the ResponseTypeAttribute, SwaggerResponseAttribute and ProducesResponseTypeAttribute attributes.</summary>
     public class OperationResponseProcessor : OperationResponseProcessorBase, IOperationProcessor
