@@ -8,7 +8,7 @@ using NJsonSchema;
 
 namespace NSwag.Commands.CodeGeneration
 {
-    public class JsonSchemaToSwaggerCommand : OutputCommandBase
+    public class JsonSchemaToOpenApiCommand : OutputCommandBase
     {
         [JsonProperty("name")]
         public string Name { get; set; }

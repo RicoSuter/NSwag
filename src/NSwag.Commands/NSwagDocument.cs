@@ -35,9 +35,9 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            SwaggerGenerators.AspNetCoreToSwaggerCommand = new AspNetCoreToSwaggerCommand();
-            SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
-            SwaggerGenerators.TypesToSwaggerCommand = new TypesToSwaggerCommand();
+            SwaggerGenerators.AspNetCoreToOpenApiCommand = new AspNetCoreToOpenApiCommand();
+            SwaggerGenerators.WebApiToOpenApiCommand = new WebApiToOpenApiCommand();
+            SwaggerGenerators.TypesToOpenApiCommand = new TypesToOpenApiCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>

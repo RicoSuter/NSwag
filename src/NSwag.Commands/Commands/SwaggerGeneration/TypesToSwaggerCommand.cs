@@ -19,6 +19,12 @@ using NSwag.AssemblyLoader.Utilities;
 namespace NSwag.Commands.SwaggerGeneration
 {
     /// <summary></summary>
+    [Command(Name = "types2openapi")]
+    public class TypesToOpenApiCommand : TypesToSwaggerCommand
+    {
+    }
+
+    /// <summary></summary>
     [Command(Name = "types2swagger")]
     public class TypesToSwaggerCommand : IsolatedSwaggerOutputCommandBase<JsonSchemaGeneratorSettings>
     {

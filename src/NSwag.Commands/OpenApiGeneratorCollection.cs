@@ -16,29 +16,29 @@ namespace NSwag.Commands
 
         /// <summary>Gets or sets the json schema to swagger command.</summary>
         [JsonIgnore]
-        public JsonSchemaToSwaggerCommand JsonSchemaToSwaggerCommand { get; set; }
+        public JsonSchemaToOpenApiCommand JsonSchemaToOpenApiCommand { get; set; }
 
         /// <summary>Gets or sets the Web API to swagger command.</summary>
         [JsonIgnore]
-        public WebApiToSwaggerCommand WebApiToSwaggerCommand { get; set; }
+        public WebApiToOpenApiCommand WebApiToOpenApiCommand { get; set; }
 
         /// <summary>Gets or sets the ASP.NET Core to swagger command.</summary>
         [JsonIgnore]
-        public AspNetCoreToSwaggerCommand AspNetCoreToSwaggerCommand { get; set; }
+        public AspNetCoreToOpenApiCommand AspNetCoreToOpenApiCommand { get; set; }
 
         /// <summary>Gets or sets the assembly type to swagger command.</summary>
         [JsonIgnore]
-        public TypesToSwaggerCommand TypesToSwaggerCommand { get; set; }
+        public TypesToOpenApiCommand TypesToOpenApiCommand { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
         public IEnumerable<IOutputCommand> Items => new IOutputCommand[]
         {
             FromSwaggerCommand,
-            JsonSchemaToSwaggerCommand, 
-            WebApiToSwaggerCommand, 
-            TypesToSwaggerCommand,
-            AspNetCoreToSwaggerCommand
+            JsonSchemaToOpenApiCommand,
+            WebApiToOpenApiCommand,
+            TypesToOpenApiCommand,
+            AspNetCoreToOpenApiCommand
         };
     }
 }

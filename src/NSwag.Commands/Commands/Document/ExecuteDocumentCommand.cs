@@ -71,8 +71,8 @@ namespace NSwag.Commands.Document
                                                         "or run the file with the correct command line binary.");
                 }
 
-                if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToSwaggerCommand &&
-                    document.SwaggerGenerators.WebApiToSwaggerCommand.IsAspNetCore == false &&
+                if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToOpenApiCommand &&
+                    document.SwaggerGenerators.WebApiToOpenApiCommand.IsAspNetCore == false &&
                     document.Runtime != Runtime.Debug &&
                     document.Runtime != Runtime.WinX86 &&
                     document.Runtime != Runtime.WinX64)

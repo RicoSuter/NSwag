@@ -15,7 +15,7 @@ namespace NSwagStudio.Views.CodeGenerators
             ViewModelHelper.RegisterViewModel(Model, this);
 
             _document = document;
-            Model.Command = document.CodeGenerators.SwaggerToCSharpClientCommand;
+            Model.Command = document.CodeGenerators.OpenApiToCSharpClientCommand;
         }
 
         public override string Title => "CSharp Client";
@@ -24,20 +24,20 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
-            Model.ClientCode = result.GetGeneratorOutput<SwaggerToCSharpClientCommand>();
+            Model.ClientCode = result.GetGeneratorOutput<OpenApiToCSharpClientCommand>();
             if (result.IsRedirectedOutput)
                 TabControl.SelectedIndex = 1;
         }
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.SwaggerToCSharpClientCommand != null; }
+            get { return _document.CodeGenerators.OpenApiToCSharpClientCommand != null; }
             set
             {
                 if (value != IsSelected)
                 {
-                    _document.CodeGenerators.SwaggerToCSharpClientCommand = value ? new SwaggerToCSharpClientCommand() : null;
-                    Model.Command = _document.CodeGenerators.SwaggerToCSharpClientCommand;
+                    _document.CodeGenerators.OpenApiToCSharpClientCommand = value ? new OpenApiToCSharpClientCommand() : null;
+                    Model.Command = _document.CodeGenerators.OpenApiToCSharpClientCommand;
                     OnPropertyChanged();
                 }
             }

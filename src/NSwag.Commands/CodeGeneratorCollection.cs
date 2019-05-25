@@ -9,24 +9,24 @@ namespace NSwag.Commands
     public class CodeGeneratorCollection
     {
         /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
-        [JsonProperty("SwaggerToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]
-        public SwaggerToTypeScriptClientCommand SwaggerToTypeScriptClientCommand { get; set; }
+        [JsonProperty("OpenApiToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]
+        public OpenApiToTypeScriptClientCommand OpenApiToTypeScriptClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
-        [JsonProperty("SwaggerToCSharpClient", NullValueHandling = NullValueHandling.Ignore)]
-        public SwaggerToCSharpClientCommand SwaggerToCSharpClientCommand { get; set; }
+        [JsonProperty("OpenApiToCSharpClient", NullValueHandling = NullValueHandling.Ignore)]
+        public OpenApiToCSharpClientCommand OpenApiToCSharpClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
-        [JsonProperty("SwaggerToCSharpController", NullValueHandling = NullValueHandling.Ignore)]
-        public SwaggerToCSharpControllerCommand SwaggerToCSharpControllerCommand { get; set; }
+        [JsonProperty("OpenApiToCSharpController", NullValueHandling = NullValueHandling.Ignore)]
+        public OpenApiToCSharpControllerCommand OpenApiToCSharpControllerCommand { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
         public IEnumerable<InputOutputCommandBase> Items => new InputOutputCommandBase[]
         {
-            SwaggerToTypeScriptClientCommand,
-            SwaggerToCSharpClientCommand,
-            SwaggerToCSharpControllerCommand
+            OpenApiToTypeScriptClientCommand,
+            OpenApiToCSharpClientCommand,
+            OpenApiToCSharpControllerCommand
         }.Where(cmd => cmd != null);
     }
 }
