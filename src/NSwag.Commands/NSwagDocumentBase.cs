@@ -35,10 +35,10 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         protected NSwagDocumentBase()
         {
-            SwaggerGenerators.FromSwaggerCommand = new FromDocumentCommand();
+            SwaggerGenerators.FromDocumentCommand = new FromDocumentCommand();
             SwaggerGenerators.JsonSchemaToOpenApiCommand = new JsonSchemaToOpenApiCommand();
 
-            SelectedSwaggerGenerator = SwaggerGenerators.FromSwaggerCommand;
+            SelectedSwaggerGenerator = SwaggerGenerators.FromDocumentCommand;
         }
 
         /// <summary>Converts a path to an absolute path.</summary>
@@ -62,7 +62,7 @@ namespace NSwag.Commands
         public string DefaultVariables { get; set; }
 
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
-        [JsonProperty("OpenApiGenerator")]
+        [JsonProperty("DocumentGenerator")]
         internal JObject SelectedSwaggerGeneratorRaw
         {
             get
@@ -316,11 +316,11 @@ namespace NSwag.Commands
 
         private void ConvertToAbsolutePaths()
         {
-            if (SwaggerGenerators.FromSwaggerCommand != null)
+            if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
                 {
-                    SwaggerGenerators.FromSwaggerCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromSwaggerCommand.Url);
+                    SwaggerGenerators.FromDocumentCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
             }
 
@@ -396,11 +396,11 @@ namespace NSwag.Commands
 
         private void ConvertToRelativePaths()
         {
-            if (SwaggerGenerators.FromSwaggerCommand != null)
+            if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromSwaggerCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
                 {
-                    SwaggerGenerators.FromSwaggerCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromSwaggerCommand.Url);
+                    SwaggerGenerators.FromDocumentCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
             }
 
@@ -496,7 +496,7 @@ namespace NSwag.Commands
             // Swagger to OpenApi rename
             if (data.Contains("\"swaggerGenerator\":"))
             {
-                data = data.Replace("\"swaggerGenerator\":", "\"openApiGenerator\":");
+                data = data.Replace("\"swaggerGenerator\":", "\"documentGenerator\":");
                 saveFile = true;
             }
 

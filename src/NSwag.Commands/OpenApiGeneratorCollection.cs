@@ -12,7 +12,7 @@ namespace NSwag.Commands
     {
         /// <summary>Gets or sets the input to swagger command.</summary>
         [JsonIgnore]
-        public FromDocumentCommand FromSwaggerCommand { get; set; }
+        public FromDocumentCommand FromDocumentCommand { get; set; }
 
         /// <summary>Gets or sets the json schema to swagger command.</summary>
         [JsonIgnore]
@@ -34,7 +34,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public IEnumerable<IOutputCommand> Items => new IOutputCommand[]
         {
-            FromSwaggerCommand,
+            FromDocumentCommand,
             JsonSchemaToOpenApiCommand,
             WebApiToOpenApiCommand,
             TypesToOpenApiCommand,
