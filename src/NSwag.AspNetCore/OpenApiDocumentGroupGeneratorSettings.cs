@@ -5,7 +5,7 @@ using System;
 namespace NSwag.AspNetCore
 {
     /// <summary>Settings for the <see cref="AspNetCoreOpenApiDocumentGenerator"/>.</summary>
-    public class SwaggerDocumentSettings : AspNetCoreOpenApiDocumentGeneratorSettings
+    public class OpenApiDocumentGroupGeneratorSettings : AspNetCoreOpenApiDocumentGeneratorSettings
     {
         /// <summary>Gets the document name (internal identifier, default: v1).</summary>
         public string DocumentName { get; set; } = "v1";

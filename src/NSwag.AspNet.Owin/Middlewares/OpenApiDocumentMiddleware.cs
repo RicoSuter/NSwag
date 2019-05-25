@@ -16,7 +16,7 @@ using NSwag.SwaggerGeneration.WebApi;
 namespace NSwag.AspNet.Owin.Middlewares
 {
     /// <summary>Generates a Swagger specification on a given path.</summary>
-    public class SwaggerDocumentMiddleware : OwinMiddleware
+    public class OpenApiDocumentMiddleware : OwinMiddleware
     {
         private readonly string _path;
         private readonly SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> _settings;
@@ -27,13 +27,13 @@ namespace NSwag.AspNet.Owin.Middlewares
         private Exception _schemaException;
         private DateTimeOffset _schemaTimestamp;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentMiddleware"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
         /// <param name="next">The next middleware.</param>
         /// <param name="path">The path.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
+        public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;

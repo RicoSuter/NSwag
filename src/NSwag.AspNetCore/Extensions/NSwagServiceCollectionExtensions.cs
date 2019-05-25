@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for OpenAPI 3.0 generation (change document settings to generate Swagger 2.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure)
+        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<OpenApiDocumentGroupGeneratorSettings> configure)
         {
             return AddOpenApiDocument(serviceCollection, (settings, services) =>
             {
@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings, IServiceProvider> configure = null)
+        public static IServiceCollection AddOpenApiDocument(this IServiceCollection serviceCollection, Action<OpenApiDocumentGroupGeneratorSettings, IServiceProvider> configure = null)
         {
             return AddSwaggerDocument(serviceCollection, (settings, services) =>
             {
@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure)
+        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<OpenApiDocumentGroupGeneratorSettings> configure)
         {
             return AddSwaggerDocument(serviceCollection, (settings, services) =>
             {
@@ -51,11 +51,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>Adds services required for Swagger 2.0 generation (change document settings to generate OpenAPI 3.0).</summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
-        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings, IServiceProvider> configure = null)
+        public static IServiceCollection AddSwaggerDocument(this IServiceCollection serviceCollection, Action<OpenApiDocumentGroupGeneratorSettings, IServiceProvider> configure = null)
         {
             serviceCollection.AddSingleton(services =>
             {
-                var settings = new SwaggerDocumentSettings();
+                var settings = new OpenApiDocumentGroupGeneratorSettings();
                 settings.SchemaType = SchemaType.Swagger2;
 
                 configure?.Invoke(settings, services);
@@ -79,20 +79,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 var schemaGenerator = settings.SchemaGenerator ?? new OpenApiSchemaGenerator(settings);
                 var generator = new AspNetCoreOpenApiDocumentGenerator(settings, schemaGenerator);
 
-                return new SwaggerDocumentRegistration(settings.DocumentName, generator);
+                return new OpenApiDocumentRegistration(settings.DocumentName, generator);
             });
 
-            var descriptor = serviceCollection.SingleOrDefault(d => d.ServiceType == typeof(SwaggerDocumentProvider));
+            var descriptor = serviceCollection.SingleOrDefault(d => d.ServiceType == typeof(OpenApiDocumentProvider));
             if (descriptor == null)
             {
-                serviceCollection.AddSingleton<SwaggerDocumentProvider>();
-                serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, SwaggerConfigureMvcOptions>();
+                serviceCollection.AddSingleton<OpenApiDocumentProvider>();
+                serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, OpenApiConfigureMvcOptions>();
 
                 // Used by UseDocumentProvider CLI setting
-                serviceCollection.AddSingleton<IOpenApiDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
+                serviceCollection.AddSingleton<IOpenApiDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());
 
                 // Used by the Microsoft.Extensions.ApiDescription tool
-                serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
+                serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());
             }
 
             return serviceCollection;
@@ -102,7 +102,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="serviceCollection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configure">Configure the document.</param>
         [Obsolete("Use " + nameof(AddSwaggerDocument) + "() instead.")]
-        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection, Action<SwaggerDocumentSettings> configure = null)
+        public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection, Action<OpenApiDocumentGroupGeneratorSettings> configure = null)
         {
             return AddSwaggerDocument(serviceCollection, configure);
         }

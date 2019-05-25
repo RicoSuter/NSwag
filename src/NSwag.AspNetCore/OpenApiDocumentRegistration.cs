@@ -11,12 +11,12 @@ using NSwag.SwaggerGeneration;
 namespace NSwag.AspNetCore
 {
     /// <summary>A Swagger/OpenAPI document generator registration.</summary>
-    public class SwaggerDocumentRegistration
+    public class OpenApiDocumentRegistration
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentRegistration"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentRegistration"/> class.</summary>
         /// <param name="documentName">The document name.</param>
         /// <param name="generator">The document generator.</param>
-        public SwaggerDocumentRegistration(string documentName, IOpenApiDocumentGenerator generator)
+        public OpenApiDocumentRegistration(string documentName, IOpenApiDocumentGenerator generator)
         {
             DocumentName = documentName;
             Generator = generator;

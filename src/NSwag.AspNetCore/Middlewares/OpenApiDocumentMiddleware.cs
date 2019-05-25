@@ -17,14 +17,14 @@ using System.Threading.Tasks;
 namespace NSwag.AspNetCore.Middlewares
 {
     /// <summary>Generates a Swagger specification on a given path.</summary>
-    public class SwaggerDocumentMiddleware
+    public class OpenApiDocumentMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _documentName;
         private readonly string _path;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
-        private readonly SwaggerDocumentProvider _documentProvider;
-        private readonly SwaggerDocumentMiddlewareSettings _settings;
+        private readonly OpenApiDocumentProvider _documentProvider;
+        private readonly OpenApiDocumentMiddlewareSettings _settings;
 
         private int _version;
         private readonly object _documentsCacheLock = new object();
@@ -37,7 +37,7 @@ namespace NSwag.AspNetCore.Middlewares
         /// <param name="documentName">The document name.</param>
         /// <param name="path">The document path.</param>
         /// <param name="settings">The settings.</param>
-        public SwaggerDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, SwaggerDocumentMiddlewareSettings settings)
+        public OpenApiDocumentMiddleware(RequestDelegate nextDelegate, IServiceProvider serviceProvider, string documentName, string path, OpenApiDocumentMiddlewareSettings settings)
         {
             _nextDelegate = nextDelegate;
 
@@ -46,7 +46,7 @@ namespace NSwag.AspNetCore.Middlewares
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
-            _documentProvider = serviceProvider.GetService<SwaggerDocumentProvider>() ??
+            _documentProvider = serviceProvider.GetService<OpenApiDocumentProvider>() ??
                 throw new InvalidOperationException("The NSwag DI services are not registered: Call " + nameof(NSwagServiceCollectionExtensions.AddSwaggerDocument) + "() in ConfigureServices().");
 
             _settings = settings;

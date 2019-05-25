@@ -2,7 +2,7 @@
 
 namespace NSwag.AspNetCore
 {
-    internal class SwaggerMvcApplicationModelConvention : IApplicationModelConvention
+    internal class OpenApiMvcApplicationModelConvention : IApplicationModelConvention
     {
         public void Apply(ApplicationModel application)
         {

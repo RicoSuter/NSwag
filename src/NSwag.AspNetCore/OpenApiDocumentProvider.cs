@@ -17,12 +17,12 @@ using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore
 {
-    internal class SwaggerDocumentProvider : IDocumentProvider, IOpenApiDocumentProvider
+    internal class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentProvider
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IEnumerable<SwaggerDocumentRegistration> _documents;
+        private readonly IEnumerable<OpenApiDocumentRegistration> _documents;
 
-        public SwaggerDocumentProvider(IServiceProvider serviceProvider, IEnumerable<SwaggerDocumentRegistration> documents)
+        public OpenApiDocumentProvider(IServiceProvider serviceProvider, IEnumerable<OpenApiDocumentRegistration> documents)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _documents = documents ?? throw new ArgumentNullException(nameof(documents));

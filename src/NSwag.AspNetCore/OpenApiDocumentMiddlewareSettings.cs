@@ -12,7 +12,7 @@ using System;
 namespace NSwag.AspNetCore
 {
     /// <summary>The Swagger middleware settings.</summary>
-    public class SwaggerDocumentMiddlewareSettings
+    public class OpenApiDocumentMiddlewareSettings
     {
         /// <summary>Gets the document name (internal identifier, default: v1).</summary>
         /// <remarks>Ignored when <see cref="Path"/> contains '{documentName}' placeholder.</remarks>
