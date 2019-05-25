@@ -35,7 +35,7 @@ namespace NSwag.Annotations.Converters
         /// <param name="searchedNamespaces">The namespaces to search for exception types.</param>
         public JsonExceptionConverter(bool hideStackTrace, IDictionary<string, Assembly> searchedNamespaces)
         {
-            _hideStackTrace = hideStackTrace; 
+            _hideStackTrace = hideStackTrace;
             _searchedNamespaces = searchedNamespaces;
         }
 

@@ -12,6 +12,17 @@ namespace NSwag.Annotations
 {
     /// <summary>Specifies the tags for an operation.</summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+    public class OpenApiTagAttribute : SwaggerTagAttribute
+    {
+        /// <summary>Initializes a new instance of the <see cref="SwaggerTagAttribute"/> class.</summary>
+        public OpenApiTagAttribute(string name) : base(name)
+        {
+        }
+    }
+
+    /// <summary>Specifies the tags for an operation.</summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+    [Obsolete("Use " + nameof(OpenApiTagAttribute) + " instead.")]
     public class SwaggerTagAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerTagAttribute"/> class.</summary>

@@ -12,6 +12,13 @@ namespace NSwag.Annotations
 {
     /// <summary>Specifies a parameter or class to be handled as file.</summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+    public class OpenApiFileAttribute : SwaggerFileAttribute
+    {
+    }
+
+    /// <summary>Specifies a parameter or class to be handled as file.</summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+    [Obsolete("Use " + nameof(OpenApiFileAttribute) + " instead.")]
     public class SwaggerFileAttribute : Attribute
     {
     }
