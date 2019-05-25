@@ -38,7 +38,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration.AspNetCore\NSwag.OpenApiGeneration.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration\NSwag.OpenApiGeneration.csproj" />
   </ItemGroup>
 </Project>

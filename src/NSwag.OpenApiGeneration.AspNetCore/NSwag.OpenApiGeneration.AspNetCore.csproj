@@ -31,6 +31,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration\NSwag.OpenApiGeneration.csproj" />
   </ItemGroup>
 </Project>

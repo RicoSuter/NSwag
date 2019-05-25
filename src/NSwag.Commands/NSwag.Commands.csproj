@@ -83,9 +83,9 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration.AspNetCore\NSwag.OpenApiGeneration.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration.WebApi\NSwag.OpenApiGeneration.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.OpenApiGeneration\NSwag.OpenApiGeneration.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
     <PackageReference Include="System.Diagnostics.Process">
