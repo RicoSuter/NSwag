@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>The SwaggerDocumentProvider inteface.</summary>
-    public interface ISwaggerDocumentProvider
+    public interface IOpenApiDocumentProvider
     {
         /// <summary>Generates the specified document.</summary>
         /// <param name="documentName">The document name.</param>

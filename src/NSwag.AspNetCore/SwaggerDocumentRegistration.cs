@@ -16,7 +16,7 @@ namespace NSwag.AspNetCore
         /// <summary>Initializes a new instance of the <see cref="SwaggerDocumentRegistration"/> class.</summary>
         /// <param name="documentName">The document name.</param>
         /// <param name="generator">The document generator.</param>
-        public SwaggerDocumentRegistration(string documentName, ISwaggerGenerator generator)
+        public SwaggerDocumentRegistration(string documentName, IOpenApiGenerator generator)
         {
             DocumentName = documentName;
             Generator = generator;
@@ -26,6 +26,6 @@ namespace NSwag.AspNetCore
         public string DocumentName { get; }
 
         /// <summary>Gets the document generator.</summary>
-        public ISwaggerGenerator Generator { get; }
+        public IOpenApiGenerator Generator { get; }
     }
 }

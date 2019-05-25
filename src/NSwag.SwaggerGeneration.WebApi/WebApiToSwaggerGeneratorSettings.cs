@@ -12,7 +12,7 @@ using NSwag.SwaggerGeneration.WebApi.Processors;
 namespace NSwag.SwaggerGeneration.WebApi
 {
     /// <summary>Settings for the <see cref="WebApiToSwaggerGenerator"/>.</summary>
-    public class WebApiToSwaggerGeneratorSettings : SwaggerGeneratorSettings
+    public class WebApiToSwaggerGeneratorSettings : OpenApiGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorSettings"/> class.</summary>
         public WebApiToSwaggerGeneratorSettings()

@@ -11,7 +11,7 @@ namespace NSwag.AspNetCore
         public string DocumentName { get; set; } = "v1";
 
         /// <summary>Gets or sets the JSON Schema generator.</summary>
-        public SwaggerJsonSchemaGenerator SchemaGenerator { get; set; }
+        public OpenApiSchemaGenerator SchemaGenerator { get; set; }
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
         public Action<OpenApiDocument> PostProcess { get; set; }

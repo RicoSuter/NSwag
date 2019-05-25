@@ -32,10 +32,10 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
             OpenApiOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
-            SwaggerGenerator swaggerGenerator,
+            OpenApiGenerator swaggerGenerator,
             JsonSchemaGenerator schemaGenerator,
             JsonSchemaResolver schemaResolver,
-            SwaggerGeneratorSettings settings,
+            OpenApiGeneratorSettings settings,
             IList<OpenApiOperationDescription> allOperationDescriptions)
         {
             Document = document;
@@ -63,13 +63,13 @@ namespace NSwag.SwaggerGeneration.Processors.Contexts
         public MethodInfo MethodInfo { get; }
 
         /// <summary>Gets or sets the Swagger generator.</summary>
-        public SwaggerGenerator SwaggerGenerator { get; }
+        public OpenApiGenerator SwaggerGenerator { get; }
 
         /// <summary>Gets the schema resolver.</summary>
         public JsonSchemaResolver SchemaResolver { get; }
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerGeneratorSettings Settings { get; }
+        public OpenApiGeneratorSettings Settings { get; }
 
         /// <summary>Gets the schema generator.</summary>
         public JsonSchemaGenerator SchemaGenerator { get; }

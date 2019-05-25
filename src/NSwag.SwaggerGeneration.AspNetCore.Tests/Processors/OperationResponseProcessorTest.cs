@@ -132,7 +132,7 @@ namespace NSwag.SwaggerGeneration.AspNetCore.Processors.Tests
                 operationDescription,
                 GetType(),
                 GetType().GetMethod(nameof(SomeAction), BindingFlags.NonPublic | BindingFlags.Instance),
-                new SwaggerGenerator(schemaGenerator, schemaGeneratorSettings, schemaResolver),
+                new OpenApiGenerator(schemaGenerator, schemaGeneratorSettings, schemaResolver),
                 schemaGenerator,
                 schemaResolver,
                 swaggerSettings,

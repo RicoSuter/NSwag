@@ -76,7 +76,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     settings.OperationProcessors.Add(operationProcessor);
                 }
 
-                var schemaGenerator = settings.SchemaGenerator ?? new SwaggerJsonSchemaGenerator(settings);
+                var schemaGenerator = settings.SchemaGenerator ?? new OpenApiSchemaGenerator(settings);
                 var generator = new AspNetCoreToSwaggerGenerator(settings, schemaGenerator);
 
                 return new SwaggerDocumentRegistration(settings.DocumentName, generator);
@@ -89,7 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, SwaggerConfigureMvcOptions>();
 
                 // Used by UseDocumentProvider CLI setting
-                serviceCollection.AddSingleton<ISwaggerDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
+                serviceCollection.AddSingleton<IOpenApiDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());
 
                 // Used by the Microsoft.Extensions.ApiDescription tool
                 serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<SwaggerDocumentProvider>());

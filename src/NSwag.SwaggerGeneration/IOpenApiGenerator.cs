@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>Interface for a service provider based Swagger document generator.</summary>
-    public interface ISwaggerGenerator
+    public interface IOpenApiGenerator
     {
         /// <summary>Generates the <see cref="OpenApiDocument"/>.</summary>
         /// <param name="serviceProvider">The service provider.</param>

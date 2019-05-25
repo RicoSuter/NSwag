@@ -22,11 +22,11 @@ namespace NSwag.SwaggerGeneration.Processors
     /// <summary>The OperationResponseProcessor base class.</summary>
     public abstract class OperationResponseProcessorBase
     {
-        private readonly SwaggerGeneratorSettings _settings;
+        private readonly OpenApiGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="OperationResponseProcessorBase"/> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OperationResponseProcessorBase(SwaggerGeneratorSettings settings)
+        public OperationResponseProcessorBase(OpenApiGeneratorSettings settings)
         {
             _settings = settings;
         }

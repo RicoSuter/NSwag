@@ -277,7 +277,7 @@ namespace NSwag.Commands.SwaggerGeneration.AspNetCore
 
         private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
         {
-            var documentProvider = host.Services.GetRequiredService<ISwaggerDocumentProvider>();
+            var documentProvider = host.Services.GetRequiredService<IOpenApiDocumentProvider>();
             var document = await documentProvider.GenerateAsync(DocumentName);
             return document;
         }

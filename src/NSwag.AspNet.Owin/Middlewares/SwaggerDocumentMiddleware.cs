@@ -21,7 +21,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         private readonly string _path;
         private readonly SwaggerSettings<WebApiToSwaggerGeneratorSettings> _settings;
         private readonly IEnumerable<Type> _controllerTypes;
-        private readonly SwaggerJsonSchemaGenerator _schemaGenerator;
+        private readonly OpenApiSchemaGenerator _schemaGenerator;
 
         private string _schemaJson;
         private Exception _schemaException;
@@ -33,7 +33,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <param name="controllerTypes">The controller types.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
-        public SwaggerDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, SwaggerJsonSchemaGenerator schemaGenerator)
+        public SwaggerDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiToSwaggerGeneratorSettings> settings, OpenApiSchemaGenerator schemaGenerator)
             : base(next)
         {
             _path = path;

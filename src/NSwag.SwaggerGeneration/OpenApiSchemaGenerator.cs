@@ -7,24 +7,22 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NJsonSchema.Infrastructure;
 
 namespace NSwag.SwaggerGeneration
 {
     /// <summary>A <see cref="JsonSchemaGenerator"/> which only generate the schema for the root type. 
     /// Referenced types are added to the service's Definitions collection. </summary>
-    public class SwaggerJsonSchemaGenerator : JsonSchemaGenerator
+    public class OpenApiSchemaGenerator : JsonSchemaGenerator
     {
         private bool _isRootType = true;
 
-        /// <summary>Initializes a new instance of the <see cref="SwaggerJsonSchemaGenerator" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public SwaggerJsonSchemaGenerator(JsonSchemaGeneratorSettings settings) : base(settings)
+        public OpenApiSchemaGenerator(JsonSchemaGeneratorSettings settings) : base(settings)
         {
         }
 

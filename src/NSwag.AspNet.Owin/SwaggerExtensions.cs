@@ -63,12 +63,12 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
             Action<SwaggerSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
+            OpenApiSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
-            app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+            app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
             app.UseStageMarker(PipelineStage.MapHandler);
             return app;
         }
@@ -129,14 +129,14 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
             Action<SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
+            OpenApiSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUiSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
@@ -202,14 +202,14 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
             Action<SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
+            OpenApiSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerUi3Settings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
@@ -275,14 +275,14 @@ namespace NSwag.AspNet.Owin
             this IAppBuilder app,
             IEnumerable<Type> controllerTypes,
             Action<SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>> configure = null,
-            SwaggerJsonSchemaGenerator schemaGenerator = null)
+            OpenApiSchemaGenerator schemaGenerator = null)
         {
             var settings = new SwaggerReDocSettings<WebApiToSwaggerGeneratorSettings>();
             configure?.Invoke(settings);
 
             if (controllerTypes != null)
             {
-                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new SwaggerJsonSchemaGenerator(settings.GeneratorSettings));
+                app.Use<SwaggerDocumentMiddleware>(settings.ActualSwaggerDocumentPath, controllerTypes, settings, schemaGenerator ?? new OpenApiSchemaGenerator(settings.GeneratorSettings));
             }
 
             app.Use<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);

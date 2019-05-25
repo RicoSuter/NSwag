@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore
 {
-    internal class SwaggerDocumentProvider : IDocumentProvider, ISwaggerDocumentProvider
+    internal class SwaggerDocumentProvider : IDocumentProvider, IOpenApiDocumentProvider
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IEnumerable<SwaggerDocumentRegistration> _documents;

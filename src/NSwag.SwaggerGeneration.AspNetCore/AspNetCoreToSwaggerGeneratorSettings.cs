@@ -12,7 +12,7 @@ using NSwag.SwaggerGeneration.AspNetCore.Processors;
 namespace NSwag.SwaggerGeneration.AspNetCore
 {
     /// <summary>Settings for the <see cref="AspNetCoreToSwaggerGenerator"/>.</summary>
-    public class AspNetCoreToSwaggerGeneratorSettings : SwaggerGeneratorSettings
+    public class AspNetCoreToSwaggerGeneratorSettings : OpenApiGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreToSwaggerGeneratorSettings"/> class.</summary>
         public AspNetCoreToSwaggerGeneratorSettings()
