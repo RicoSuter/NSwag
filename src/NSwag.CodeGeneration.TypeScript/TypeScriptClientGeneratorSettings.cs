@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript
         public TypeScriptClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
+            ExceptionClass = "ApiException";
             Template = TypeScriptTemplate.Fetch;
             PromiseType = PromiseType.Promise;
             BaseUrlTokenName = "API_BASE_URL";
@@ -86,6 +87,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
         public string QueryNullValue { get; set; }
+
+        /// <summary>Gets or sets the name of the exception class (default 'ApiException').</summary>
+        public string ExceptionClass { get; set; }
 
         // TODO: Angular specific => move
 

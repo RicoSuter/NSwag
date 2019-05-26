@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CSharp
             ClassName = "{controller}Client";
 
             GenerateExceptionClasses = true;
-            ExceptionClass = "SwaggerException";
+            ExceptionClass = "ApiException";
             ClientClassAccessModifier = "public";
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses { get; set; }
 
-        /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder, default 'SwaggerException').</summary>
+        /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder, default 'ApiException').</summary>
         public string ExceptionClass { get; set; }
 
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client (default: true).</summary>

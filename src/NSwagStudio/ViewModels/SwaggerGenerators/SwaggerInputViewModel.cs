@@ -30,7 +30,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
             });
 
-            Command.Swagger = json;
+            Command.Json = json;
         }
 
         public async Task<string> GenerateSwaggerAsync()

@@ -139,10 +139,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
 
+        /// <summary>Gets the exception class name.</summary>
+        public string ExceptionClassName => _settings.ExceptionClass;
+
         /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
-        public bool RequiresSwaggerExceptionClass =>
+        public bool RequiresExceptionClass =>
             RequiresClientFunctions &&
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains(_settings.ExceptionClass);
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;

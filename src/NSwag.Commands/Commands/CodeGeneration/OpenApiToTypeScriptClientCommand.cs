@@ -152,6 +152,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.WrapDtoExceptions = value; }
         }
 
+        [Argument(Name = "ExceptionClass", IsRequired = false, Description = "The exception class (default 'ApiException').")]
+        public string ExceptionClass
+        {
+            get { return Settings.ExceptionClass; }
+            set { Settings.ExceptionClass = value; }
+        }
+
         [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The base class of the generated client classes (optional, must be imported or implemented in the extension code).")]
         public string ClientBaseClass
         {

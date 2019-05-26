@@ -17,17 +17,17 @@ namespace NSwag.Commands.Generation
     /// <summary>Reads a Swagger specification from JSON or an URL.</summary>
     public class FromDocumentCommand : OutputCommandBase, INotifyPropertyChanged
     {
-        private string _swagger;
+        private string _json;
         private string _url = "http://petstore.swagger.io/v2/swagger.json";
 
         /// <summary>Gets or sets the input Swagger specification.</summary>
         [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]
-        public string Swagger
+        public string Json
         {
-            get { return _swagger; }
+            get { return _json; }
             set
             {
-                _swagger = value;
+                _json = value;
                 OnPropertyChanged();
             }
         }
@@ -58,7 +58,7 @@ namespace NSwag.Commands.Generation
         /// <summary>Loads the Swagger spec.</summary>
         public async Task<OpenApiDocument> RunAsync()
         {
-            var input = !string.IsNullOrEmpty(Swagger) ? Swagger : Url;
+            var input = !string.IsNullOrEmpty(Json) ? Json : Url;
             return await ReadSwaggerDocumentAsync(input);
         }
 
