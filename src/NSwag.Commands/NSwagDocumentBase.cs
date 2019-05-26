@@ -173,10 +173,15 @@ namespace NSwag.Commands
         {
             return Task.Run(async () =>
             {
-                var saveFile = false;
-
                 var data = DynamicApis.FileReadAllText(filePath);
-                data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
+                data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
+
+                if (requiredLegacyTransformations)
+                {
+                    // Save now to avoid transformations
+                    var document = LoadDocument<TDocument>(filePath, mappings, data);
+                    await document.SaveAsync();
+                }
 
                 if (applyTransformations)
                 {
@@ -198,18 +203,18 @@ namespace NSwag.Commands
                     }
                 }
 
-                var settings = GetSerializerSettings();
-                settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
-
-                var document = FromJson<TDocument>(filePath, data);
-
-                if (saveFile)
-                {
-                    await document.SaveAsync();
-                }
-
-                return document;
+                return LoadDocument<TDocument>(filePath, mappings, data);
             });
+        }
+
+        private static TDocument LoadDocument<TDocument>(string filePath, IDictionary<Type, Type> mappings, string data)
+            where TDocument : NSwagDocumentBase, new()
+        {
+            var settings = GetSerializerSettings();
+            settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
+
+            var document = FromJson<TDocument>(filePath, data);
+            return document;
         }
 
         /// <summary>Converts the document to JSON.</summary>
