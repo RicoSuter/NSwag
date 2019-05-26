@@ -499,6 +499,12 @@ namespace NSwag.Commands
             saveFile = false;
 
             // Swagger to OpenApi rename
+            if (data.Contains("\"typeScriptVersion\":") && !data.ToLowerInvariant().Contains("ExceptionClass".ToLowerInvariant()))
+            {
+                data = data.Replace("\"typeScriptVersion\":", "\"exceptionClass\": \"SwaggerException\", \"typeScriptVersion\":");
+                saveFile = true;
+            }
+
             if (data.Contains("\"swaggerGenerator\":"))
             {
                 data = data.Replace("\"swaggerGenerator\":", "\"documentGenerator\":");
