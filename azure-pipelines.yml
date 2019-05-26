@@ -27,12 +27,12 @@ steps:
     script: 'npm i -g dotnettools'
 
 # Patch project versions (on master only)
-- task: CmdLine@2
-  displayName: 'Update project version patch'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  inputs:
-    script: 'dnt bump-versions patch'
-    failOnStderr: true
+# - task: CmdLine@2
+#   displayName: 'Update project version patch'
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#   inputs:
+#     script: 'dnt bump-versions patch'
+#     failOnStderr: true
 - task: CmdLine@2
   displayName: 'Patch project version preview'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
