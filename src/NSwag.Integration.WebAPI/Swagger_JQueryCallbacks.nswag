@@ -75,6 +75,7 @@
       "generateOptionalParameters": false,
       "exportTypes": true,
       "wrapDtoExceptions": false,
+      "exceptionClass": "SwaggerException",
       "clientBaseClass": null,
       "wrapResponses": false,
       "wrapResponseMethods": [],
