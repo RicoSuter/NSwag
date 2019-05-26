@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -39,26 +39,26 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
             //// Arrange
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
                 DefaultEnumHandling = EnumHandling.String,
                 DefaultPropertyNameHandling = PropertyNameHandling.Default,
                 SchemaType = SchemaType.Swagger2,
             };
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
 
             //// Act
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
-            var clientSettings = new SwaggerToTypeScriptClientGeneratorSettings
+            var clientSettings = new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryCallbacks
             };
             clientSettings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
 
-            var gen = new SwaggerToTypeScriptClientGenerator(document, clientSettings);
+            var gen = new TypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();
 
             //// Assert

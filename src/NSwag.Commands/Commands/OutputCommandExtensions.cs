@@ -22,10 +22,10 @@ namespace NSwag.Commands
             return TryWriteFileOutputAsync(command, command.OutputFilePath, host, generator);
         }
 
-        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, Func<SwaggerDocument> generator)
+        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, Func<OpenApiDocument> generator)
         {
             return TryWriteFileOutputAsync(command, command.OutputFilePath, host, () =>
-                command.OutputFilePath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ? SwaggerYamlDocument.ToYaml(generator()) : generator().ToJson());
+                command.OutputFilePath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ? OpenApiYamlDocument.ToYaml(generator()) : generator().ToJson());
         }
 
         public static async Task<bool> TryWriteFileOutputAsync(this IOutputCommand command, string path, IConsoleHost host, Func<string> generator)
@@ -33,15 +33,15 @@ namespace NSwag.Commands
             if (!string.IsNullOrEmpty(path))
             {
                 var directory = DynamicApis.PathGetDirectoryName(path);
-                if (!string.IsNullOrEmpty(directory) && await DynamicApis.DirectoryExistsAsync(directory).ConfigureAwait(false) == false)
+                if (!string.IsNullOrEmpty(directory) && DynamicApis.DirectoryExists(directory) == false)
                 {
-                    await DynamicApis.DirectoryCreateDirectoryAsync(directory).ConfigureAwait(false);
+                    DynamicApis.DirectoryCreateDirectory(directory);
                 }
 
                 var data = generator();
-                if (!await DynamicApis.FileExistsAsync(path) || await DynamicApis.FileReadAllTextAsync(path) != data)
+                if (!DynamicApis.FileExists(path) || DynamicApis.FileReadAllText(path) != data)
                 {
-                    await DynamicApis.FileWriteAllTextAsync(path, data).ConfigureAwait(false);
+                    DynamicApis.FileWriteAllText(path, data);
                     host?.WriteMessage("Code has been successfully written to file.\n");
                 }
                 else

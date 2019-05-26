@@ -28,9 +28,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             "ushort", "using", "virtual", "void", "volatile", "while"
         };
 
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
-        private readonly SwaggerOperation _operation;
-        private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly CSharpGeneratorBaseSettings _settings;
+        private readonly OpenApiOperation _operation;
+        private readonly CSharpGeneratorBase _generator;
         private readonly CSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
@@ -39,9 +39,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpOperationModel(
-            SwaggerOperation operation,
-            SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator,
+            OpenApiOperation operation,
+            CSharpGeneratorBaseSettings settings,
+            CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
             : base(resolver.ExceptionSchema, operation, resolver, generator, settings)
         {
@@ -55,7 +55,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             if (settings.GenerateOptionalParameters)
             {
                 // TODO: Move to CSharpControllerOperationModel
-                if (generator is SwaggerToCSharpControllerGenerator)
+                if (generator is CSharpControllerGenerator)
                 {
                     parameters = parameters
                         .OrderBy(p => p.Position ?? 0)
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                var settings = _settings as CSharpClientGeneratorSettings;
                 if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
                 {
                     return "protected";
@@ -155,7 +155,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = (SwaggerToCSharpClientGeneratorSettings)_settings;
+                var settings = (CSharpClientGeneratorSettings)_settings;
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 return Responses
                     .Where(r => r.ThrowsException)
@@ -196,7 +196,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpControllerGeneratorSettings;
+                var settings = _settings as CSharpControllerGeneratorSettings;
                 if (settings != null)
                 {
                     return settings.GetRouteName(_operation);
@@ -210,7 +210,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter variable name.</returns>
-        protected override string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
+        protected override string GetParameterVariableName(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
             var name = base.GetParameterVariableName(parameter, allParameters);
             return ReservedKeywords.Contains(name) ? "@" + name : name;
@@ -219,7 +219,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter)
+        protected override string ResolveParameterType(OpenApiParameter parameter)
         {
             if (parameter.IsBinaryBodyParameter)
             {
@@ -229,7 +229,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
-                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 {
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
                 }
@@ -251,7 +251,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override CSharpResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
+        protected override CSharpResponseModel CreateResponseModel(OpenApiOperation operation, string statusCode, OpenApiResponse response, JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
             return new CSharpResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value, exceptionSchema, generator, resolver, settings.CodeGeneratorSettings);
         }

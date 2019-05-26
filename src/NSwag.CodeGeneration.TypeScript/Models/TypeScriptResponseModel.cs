@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript response model.</summary>
     public class TypeScriptResponseModel : ResponseModelBase
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptResponseModel" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
@@ -28,8 +28,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
-        public TypeScriptResponseModel(IOperationModel operationModel, SwaggerOperation operation, string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
-            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, SwaggerToTypeScriptClientGeneratorSettings settings) 
+        public TypeScriptResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse, 
+            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, TypeScriptClientGeneratorSettings settings) 
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;

@@ -16,9 +16,9 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             var json2 = document.ToJson();
-            var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
+            var reference = document.Paths["/pets"][OpenApiOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
 
             //// Assert
             Assert.NotNull(json2);
@@ -36,7 +36,7 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             document.GenerateOperationIds();
 
             //// Assert
@@ -50,7 +50,7 @@ namespace NSwag.Core.Tests
             var json = _jsonVendorExtensionData;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
             Assert.NotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
@@ -71,7 +71,7 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             var j = document.ToJson();
 
             //// Assert

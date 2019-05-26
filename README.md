@@ -101,11 +101,11 @@ Specification:
 
 Swagger generation:
 
-- **[NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.SwaggerGeneration/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
+- **[NSwag.Generation](https://www.nuget.org/packages/NSwag.Generation/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications
-- **[NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.SwaggerGeneration.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
+- **[NSwag.Generation.WebApi](https://www.nuget.org/packages/NSwag.Generation.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications from Web API controllers, see [WebApiToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/WebApiToSwaggerGenerator)
-- **[NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
+- **[NSwag.Generation.AspNetCore](https://www.nuget.org/packages/NSwag.Generation.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
 Code generation:

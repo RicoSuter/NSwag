@@ -15,10 +15,10 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.Swagger2);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             Assert.Equal("foo", requestBody.Name);
         }
 
@@ -30,10 +30,10 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             Assert.Equal("foo", requestBody.Name);
         }
 
@@ -45,15 +45,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             parameter.IsRequired = true;
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.True(requestBody.IsRequired);
             Assert.True(parameter.IsRequired);
@@ -67,15 +67,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             parameter.Name = parameter.Name + "123";
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("foo123", requestBody.Name);
         }
@@ -88,15 +88,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             parameter.Schema = new JsonSchema { Title = "blub" };
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("blub", requestBody.Content["application/json"].Schema.Title);
         }
@@ -109,15 +109,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             parameter.Description = parameter.Description + "123";
 
             //// Assert
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("bar123", requestBody.Description);
         }
@@ -130,15 +130,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             requestBody.Name = requestBody.Name + "123";
 
             //// Assert
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             Assert.Equal("foo123", parameter.Name);
         }
@@ -151,15 +151,15 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             requestBody.IsRequired = true;
 
             //// Assert
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             Assert.True(parameter.IsRequired);
             Assert.True(requestBody.IsRequired);
@@ -173,17 +173,17 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             requestBody.Content["application/json"] = new OpenApiMediaType
             {
                 Schema = new JsonSchema { Title = "blub" }
             };
 
             //// Assert
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             Assert.Equal("blub", parameter.Schema.Title);
         }
@@ -196,36 +196,36 @@ namespace NSwag.Core.Tests.Serialization
 
             //// Act
             var json = document.ToJson(SchemaType.OpenApi3);
-            document = await SwaggerDocument.FromJsonAsync(json);
+            document = await OpenApiDocument.FromJsonAsync(json);
 
-            var requestBody = document.Paths["/baz"][SwaggerOperationMethod.Get].RequestBody;
+            var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             requestBody.Description = requestBody.Description + "123";
 
             //// Assert
-            var parameter = document.Paths["/baz"][SwaggerOperationMethod.Get].Parameters
-                .Single(p => p.Kind == SwaggerParameterKind.Body);
+            var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
+                .Single(p => p.Kind == OpenApiParameterKind.Body);
 
             Assert.Equal("bar123", parameter.Description);
         }
 
-        private static SwaggerDocument CreateDocument()
+        private static OpenApiDocument CreateDocument()
         {
             var schema = new JsonSchema
             {
                 Type = JsonObjectType.String
             };
 
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {
                     {
                         "/baz",
-                        new SwaggerPathItem
+                        new OpenApiPathItem
                         {
                             {
-                                SwaggerOperationMethod.Get,
-                                new SwaggerOperation
+                                OpenApiOperationMethod.Get,
+                                new OpenApiOperation
                                 {
                                     RequestBody = new OpenApiRequestBody
                                     {

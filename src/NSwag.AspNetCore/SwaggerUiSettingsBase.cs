@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 using System;
 using System.Collections.Generic;
 using NJsonSchema;
@@ -25,7 +25,7 @@ namespace NSwag.AspNetCore
     /// <summary>The base settings for all Swagger UIs.</summary>
 #if AspNetOwin
     public abstract class SwaggerUiSettingsBase<T> : SwaggerSettings<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public abstract class SwaggerUiSettingsBase : SwaggerSettings
 #endif

@@ -20,9 +20,9 @@ namespace Microsoft.AspNetCore.Builder
         /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure = null)
         {
-            return UseSwaggerWithApiExplorerCore(app, configure);
+            return UseOpenApiWithApiExplorerCore(app, configure);
         }
 
         /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
@@ -32,29 +32,29 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
         [Obsolete("Use UseOpenApi() instead.")]
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure = null)
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure = null)
         {
-            return UseSwaggerWithApiExplorerCore(app, configure);
+            return UseOpenApiWithApiExplorerCore(app, configure);
         }
 
-        private static IApplicationBuilder UseSwaggerWithApiExplorerCore(IApplicationBuilder app, Action<SwaggerDocumentMiddlewareSettings> configure)
+        private static IApplicationBuilder UseOpenApiWithApiExplorerCore(IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure)
         {
-            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerDocumentMiddlewareSettings>>()?.Value : null ?? new SwaggerDocumentMiddlewareSettings();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<OpenApiDocumentMiddlewareSettings>>()?.Value : null ?? new OpenApiDocumentMiddlewareSettings();
             configure?.Invoke(settings);
 
             if (settings.Path.Contains("{documentName}"))
             {
-                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
+                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<OpenApiDocumentRegistration>>();
                 foreach (var document in documents)
                 {
-                    app = app.UseMiddleware<SwaggerDocumentMiddleware>(document.DocumentName, settings.Path.Replace("{documentName}", document.DocumentName), settings);
+                    app = app.UseMiddleware<OpenApiDocumentMiddleware>(document.DocumentName, settings.Path.Replace("{documentName}", document.DocumentName), settings);
                 }
 
                 return app;
             }
             else
             {
-                return app.UseMiddleware<SwaggerDocumentMiddleware>(settings.DocumentName, settings.Path, settings);
+                return app.UseMiddleware<OpenApiDocumentMiddleware>(settings.DocumentName, settings.Path, settings);
             }
         }
 
@@ -104,9 +104,9 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The app builder.</returns>
         public static IApplicationBuilder UseReDoc(
             this IApplicationBuilder app,
-            Action<SwaggerReDocSettings> configure = null)
+            Action<ReDocSettings> configure = null)
         {
-            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerReDocSettings>>()?.Value : null ?? new SwaggerReDocSettings();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<ReDocSettings>>()?.Value : null ?? new ReDocSettings();
             configure?.Invoke(settings);
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
@@ -150,11 +150,11 @@ namespace Microsoft.AspNetCore.Builder
         private static void UseSwaggerUiWithDocumentNamePlaceholderExpanding(IApplicationBuilder app,
             SwaggerUiSettingsBase settings,
             Action<string, string> register,
-            Func<IEnumerable<SwaggerDocumentRegistration>, bool> registerMultiple)
+            Func<IEnumerable<OpenApiDocumentRegistration>, bool> registerMultiple)
         {
             if (settings.ActualSwaggerDocumentPath.Contains("{documentName}"))
             {
-                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<SwaggerDocumentRegistration>>();
+                var documents = app.ApplicationServices.GetRequiredService<IEnumerable<OpenApiDocumentRegistration>>();
                 if (settings.ActualSwaggerUiPath.Contains("{documentName}"))
                 {
                     // Register multiple uis for each document

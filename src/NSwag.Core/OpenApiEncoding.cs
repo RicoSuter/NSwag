@@ -19,7 +19,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers.</summary>
         [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SwaggerHeaders Headers { get; } = new SwaggerHeaders();
+        public OpenApiHeaders Headers { get; } = new OpenApiHeaders();
 
         /// <summary>Gets or sets the encoding type.</summary>
         [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]

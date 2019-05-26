@@ -14,15 +14,15 @@ using System.Collections.Generic;
 namespace NSwag
 {
     /// <summary>Describes an OpenAPI callback.</summary>
-    public class OpenApiCallback : JsonReferenceBase<OpenApiCallback>, IJsonReference, IDictionary<string, SwaggerPathItem>
+    public class OpenApiCallback : JsonReferenceBase<OpenApiCallback>, IJsonReference, IDictionary<string, OpenApiPathItem>
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        private IDictionary<string, SwaggerPathItem> _dictionary = new Dictionary<string, SwaggerPathItem>();
+        private IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
 
         #region IDictionary
 
-        public SwaggerPathItem this[string key]
+        public OpenApiPathItem this[string key]
         {
             get => _dictionary[key];
             set => _dictionary[key] = value;
@@ -30,18 +30,18 @@ namespace NSwag
 
         public ICollection<string> Keys => _dictionary.Keys;
 
-        public ICollection<SwaggerPathItem> Values => _dictionary.Values;
+        public ICollection<OpenApiPathItem> Values => _dictionary.Values;
 
         public int Count => _dictionary.Count;
 
         public bool IsReadOnly => false;
 
-        public void Add(string key, SwaggerPathItem value)
+        public void Add(string key, OpenApiPathItem value)
         {
             _dictionary.Add(key, value);
         }
 
-        public void Add(KeyValuePair<string, SwaggerPathItem> item)
+        public void Add(KeyValuePair<string, OpenApiPathItem> item)
         {
             _dictionary.Add(item);
         }
@@ -51,7 +51,7 @@ namespace NSwag
             _dictionary.Clear();
         }
 
-        public bool Contains(KeyValuePair<string, SwaggerPathItem> item)
+        public bool Contains(KeyValuePair<string, OpenApiPathItem> item)
         {
             return _dictionary.Contains(item);
         }
@@ -61,12 +61,12 @@ namespace NSwag
             return _dictionary.ContainsKey(key);
         }
 
-        public void CopyTo(KeyValuePair<string, SwaggerPathItem>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<string, OpenApiPathItem>[] array, int arrayIndex)
         {
             _dictionary.CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<KeyValuePair<string, SwaggerPathItem>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, OpenApiPathItem>> GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }
@@ -76,12 +76,12 @@ namespace NSwag
             return _dictionary.Remove(key);
         }
 
-        public bool Remove(KeyValuePair<string, SwaggerPathItem> item)
+        public bool Remove(KeyValuePair<string, OpenApiPathItem> item)
         {
             return _dictionary.Remove(item);
         }
 
-        public bool TryGetValue(string key, out SwaggerPathItem value)
+        public bool TryGetValue(string key, out OpenApiPathItem value)
         {
             return _dictionary.TryGetValue(key, out value);
         }

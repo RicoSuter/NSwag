@@ -31,9 +31,9 @@ namespace NSwag.Commands
         public string[] ServiceSchemes { get; set; }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<SwaggerDocument> GetInputSwaggerDocument()
+        protected async Task<OpenApiDocument> GetInputSwaggerDocument()
         {
-            var document = Input as SwaggerDocument;
+            var document = Input as OpenApiDocument;
             if (document == null)
             {
                 var input = Input.ToString();
@@ -60,7 +60,7 @@ namespace NSwag.Commands
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
                 {
-                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true)).ToList();
                 }
             }
 
@@ -81,7 +81,7 @@ namespace NSwag.Commands
                 return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
             }
 
-            if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
+            if (DynamicApis.FileExists(input))
             {
                 return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
             }

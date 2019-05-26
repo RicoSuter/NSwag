@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter name.</returns>
-        public string Generate(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
+        public string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
             if (string.IsNullOrEmpty(parameter.Name))
             {

@@ -15,29 +15,29 @@ namespace NSwagStudio.Views.CodeGenerators
             ViewModelHelper.RegisterViewModel(Model, this);
 
             _document = document;
-            Model.Command = document.CodeGenerators.SwaggerToCSharpControllerCommand;
+            Model.Command = document.CodeGenerators.OpenApiToCSharpControllerCommand;
         }
 
         public override string Title => "CSharp Controller";
 
         private SwaggerToCSharpControllerGeneratorViewModel Model => (SwaggerToCSharpControllerGeneratorViewModel)Resources["ViewModel"];
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
-            Model.ClientCode = result.GetGeneratorOutput<SwaggerToCSharpControllerCommand>();
+            Model.ClientCode = result.GetGeneratorOutput<OpenApiToCSharpControllerCommand>();
             if (result.IsRedirectedOutput)
                 TabControl.SelectedIndex = 1;
         }
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.SwaggerToCSharpControllerCommand != null; }
+            get { return _document.CodeGenerators.OpenApiToCSharpControllerCommand != null; }
             set
             {
                 if (value != IsSelected)
                 {
-                    _document.CodeGenerators.SwaggerToCSharpControllerCommand = value ? new SwaggerToCSharpControllerCommand() : null;
-                    Model.Command = _document.CodeGenerators.SwaggerToCSharpControllerCommand;
+                    _document.CodeGenerators.OpenApiToCSharpControllerCommand = value ? new OpenApiToCSharpControllerCommand() : null;
+                    Model.Command = _document.CodeGenerators.OpenApiToCSharpControllerCommand;
                     OnPropertyChanged();
                 }
             }

@@ -12,7 +12,7 @@ namespace NSwag.Core.Tests
 
 
             //// Act
-            var document = await SwaggerDocument.FromUrlAsync("http://petstore.swagger.io/v2/swagger.json");
+            var document = await OpenApiDocument.FromUrlAsync("http://petstore.swagger.io/v2/swagger.json");
 
             //// Assert
             Assert.NotNull(document);
@@ -25,7 +25,7 @@ namespace NSwag.Core.Tests
 
 
             //// Act
-            var document = await SwaggerDocument.FromUrlAsync("http://petstore.swagger.io/v2/swagger.json");
+            var document = await OpenApiDocument.FromUrlAsync("http://petstore.swagger.io/v2/swagger.json");
 
             //// Assert
             Assert.True(document.SchemaType == NJsonSchema.SchemaType.Swagger2);
@@ -39,7 +39,7 @@ namespace NSwag.Core.Tests
 
 
             //// Act
-            var document = await SwaggerDocument.FromUrlAsync("https://api.percipio.com/common/swagger.json");
+            var document = await OpenApiDocument.FromUrlAsync("https://api.percipio.com/common/swagger.json");
 
             //// Assert
             Assert.True(document.SchemaType == NJsonSchema.SchemaType.OpenApi3);

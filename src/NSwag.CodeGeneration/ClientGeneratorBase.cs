@@ -24,31 +24,25 @@ namespace NSwag.CodeGeneration
         where TResponseModel : ResponseModelBase
         where TParameterModel : ParameterModelBase
     {
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="ClientGeneratorBase{TOperationModel, TParameterModel, TResponseModel}"/> class.</summary>
         /// <param name="document">The document.</param>
-        /// <param name="codeGeneratorSettings">The code generator settings.</param>
+        /// <param name="settings">The code generator settings.</param>
         /// <param name="resolver">The type resolver.</param>
-        protected ClientGeneratorBase(SwaggerDocument document, CodeGeneratorSettingsBase codeGeneratorSettings, TypeResolverBase resolver)
+        protected ClientGeneratorBase(OpenApiDocument document, CodeGeneratorSettingsBase settings, TypeResolverBase resolver)
         {
             _document = document;
             Resolver = resolver;
-            codeGeneratorSettings.SchemaType = document.SchemaType; // enforce Swagger schema output 
-        }
 
-        /// <summary>Gets the type resolver.</summary>
-        protected TypeResolverBase Resolver { get; }
-
-        /// <summary>Gets the file response type name.</summary>
-        /// <returns>The type name.</returns>
-        public virtual string GetBinaryResponseTypeName()
-        {
-            return "FileResponse";
+            settings.SchemaType = document.SchemaType; // enforce Swagger schema output 
         }
 
         /// <summary>Gets the base settings.</summary>
         public abstract ClientGeneratorBaseSettings BaseSettings { get; }
+
+        /// <summary>Gets the type resolver.</summary>
+        protected TypeResolverBase Resolver { get; }
 
         /// <summary>Gets the type.</summary>
         /// <param name="schema">The schema.</param>
@@ -56,6 +50,13 @@ namespace NSwag.CodeGeneration
         /// <param name="typeNameHint">The type name hint.</param>
         /// <returns>The type name.</returns>
         public abstract string GetTypeName(JsonSchema schema, bool isNullable, string typeNameHint);
+
+        /// <summary>Gets the file response type name.</summary>
+        /// <returns>The type name.</returns>
+        public virtual string GetBinaryResponseTypeName()
+        {
+            return "FileResponse";
+        }
 
         /// <summary>Generates the the whole file containing all needed types.</summary>
         /// <returns>The code</returns>
@@ -138,9 +139,9 @@ namespace NSwag.CodeGeneration
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The operation model.</returns>
-        protected abstract TOperationModel CreateOperationModel(SwaggerOperation operation, ClientGeneratorBaseSettings settings);
+        protected abstract TOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings);
 
-        private List<TOperationModel> GetOperations(SwaggerDocument document)
+        private List<TOperationModel> GetOperations(OpenApiDocument document)
         {
             document.GenerateOperationIds();
 

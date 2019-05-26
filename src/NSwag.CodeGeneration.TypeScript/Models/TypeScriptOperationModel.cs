@@ -16,9 +16,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
-        private readonly SwaggerToTypeScriptClientGenerator _generator;
-        private readonly SwaggerOperation _operation;
+        private readonly TypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGenerator _generator;
+        private readonly OpenApiOperation _operation;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -26,9 +26,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptOperationModel(
-            SwaggerOperation operation,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
-            SwaggerToTypeScriptClientGenerator generator,
+            OpenApiOperation operation,
+            TypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGenerator generator,
             TypeResolverBase resolver)
             : base(null, operation, resolver, generator, settings)
         {
@@ -160,7 +160,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter)
+        protected override string ResolveParameterType(OpenApiParameter parameter)
         {
             if (parameter.IsBinaryBodyParameter)
             {
@@ -170,7 +170,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
-                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 {
                     return "FileParameter[]";
                 }
@@ -190,11 +190,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override TypeScriptResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response,
+        protected override TypeScriptResponseModel CreateResponseModel(OpenApiOperation operation, string statusCode, OpenApiResponse response,
             JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value,
-                exceptionSchema, generator, resolver, (SwaggerToTypeScriptClientGeneratorSettings)settings);
+                exceptionSchema, generator, resolver, (TypeScriptClientGeneratorSettings)settings);
         }
     }
 }

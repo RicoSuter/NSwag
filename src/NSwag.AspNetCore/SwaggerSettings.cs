@@ -8,10 +8,10 @@
 
 using System;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 #if AspNetOwin
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Microsoft.Owin;
 
 namespace NSwag.AspNet.Owin
@@ -24,7 +24,7 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwagger.</summary>
 #if AspNetOwin
     public class SwaggerSettings<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public class SwaggerSettings
 #endif
@@ -59,7 +59,7 @@ namespace NSwag.AspNetCore
 
 #if AspNetOwin
         /// <summary>Gets or sets the Swagger post process action.</summary>
-        public Action<SwaggerDocument> PostProcess { get; set; }
+        public Action<OpenApiDocument> PostProcess { get; set; }
 
         /// <summary>Gets or sets for how long a <see cref="Exception"/> caught during schema generation is cached.</summary>
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);

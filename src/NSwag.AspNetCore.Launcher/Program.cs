@@ -8,12 +8,12 @@ namespace NSwag.AspNetCore.Launcher
     internal class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
-        private const string EntryPointType = "NSwag.Commands.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
+        private const string EntryPointType = "NSwag.Commands.Generation.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
         private static readonly AssemblyName CommandsAssemblyName = new AssemblyName("NSwag.Commands");
 
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;
 
-        // List of assemblies and versions referenced by NSwag.SwaggerGeneration.AspNetCore. This represents the minimum versions
+        // List of assemblies and versions referenced by NSwag.Generation.AspNetCore. This represents the minimum versions
         // required to successfully run the tool.
         private static readonly Dictionary<string, AssemblyLoadInfo> NSwagReferencedAssemblies = new Dictionary<string, AssemblyLoadInfo>(StringComparer.OrdinalIgnoreCase)
         {
@@ -53,8 +53,8 @@ namespace NSwag.AspNetCore.Launcher
             ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core.Yaml"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.SwaggerGeneration.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.SwaggerGeneration"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation"] = new AssemblyLoadInfo(NSwagVersion),
             ["System.Buffers"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Diagnostics.DiagnosticSource"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),

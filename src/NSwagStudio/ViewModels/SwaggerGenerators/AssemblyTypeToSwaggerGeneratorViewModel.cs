@@ -17,7 +17,7 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.Generation;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -145,7 +145,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(async () =>
                 {
-                    var document = (SwaggerDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
+                    var document = (OpenApiDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
                     return document?.ToJson();
                 });
             });

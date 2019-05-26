@@ -13,9 +13,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>Framework specific information.</summary>
     public class TypeScriptFrameworkModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
-        internal TypeScriptFrameworkModel(SwaggerToTypeScriptClientGeneratorSettings settings)
+        internal TypeScriptFrameworkModel(TypeScriptClientGeneratorSettings settings)
         {
             _settings = settings;
 

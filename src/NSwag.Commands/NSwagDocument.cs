@@ -15,9 +15,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.SwaggerGeneration;
-using NSwag.Commands.SwaggerGeneration.AspNetCore;
-using NSwag.Commands.SwaggerGeneration.WebApi;
+using NSwag.Commands.Generation;
+using NSwag.Commands.Generation.AspNetCore;
+using NSwag.Commands.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -35,9 +35,9 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            SwaggerGenerators.AspNetCoreToSwaggerCommand = new AspNetCoreToSwaggerCommand();
-            SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
-            SwaggerGenerators.TypesToSwaggerCommand = new TypesToSwaggerCommand();
+            SwaggerGenerators.AspNetCoreToOpenApiCommand = new AspNetCoreToOpenApiCommand();
+            SwaggerGenerators.WebApiToOpenApiCommand = new WebApiToOpenApiCommand();
+            SwaggerGenerators.TypesToOpenApiCommand = new TypesToOpenApiCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -76,7 +76,7 @@ namespace NSwag.Commands
 
         /// <summary>Executes the document.</summary>
         /// <returns>The task.</returns>
-        public override async Task<SwaggerDocumentExecutionResult> ExecuteAsync()
+        public override async Task<OpenApiDocumentExecutionResult> ExecuteAsync()
         {
             var document = await GenerateSwaggerDocumentAsync();
             foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
@@ -86,13 +86,13 @@ namespace NSwag.Commands
                 codeGenerator.Input = null;
             }
 
-            return new SwaggerDocumentExecutionResult(null, null, true);
+            return new OpenApiDocumentExecutionResult(null, null, true);
         }
 
         /// <summary>Executes the document via command line.</summary>
         /// <param name="redirectOutput">Indicates whether to redirect the outputs.</param>
         /// <returns>The result.</returns>
-        public async Task<SwaggerDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
+        public async Task<OpenApiDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
         {
             return await Task.Run(async () =>
             {
@@ -228,10 +228,10 @@ namespace NSwag.Commands
                 .ToArray();
         }
 
-        private SwaggerDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
+        private OpenApiDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
         {
             var swaggerOutput = ReadFileIfExists(SelectedSwaggerGenerator.OutputFilePath);
-            var result = new SwaggerDocumentExecutionResult(output, swaggerOutput, redirectOutput);
+            var result = new OpenApiDocumentExecutionResult(output, swaggerOutput, redirectOutput);
             foreach (var command in CodeGenerators.Items.Where(c => c != null))
             {
                 if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))

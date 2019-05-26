@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -37,10 +37,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     }
   }
 }";
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });
@@ -75,10 +75,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     }
   }
 }";
-            var document = await SwaggerDocument.FromJsonAsync(swagger);
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });

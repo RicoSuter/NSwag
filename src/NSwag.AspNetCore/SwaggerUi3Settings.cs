@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 using NJsonSchema;
 
 #if AspNetOwin
@@ -28,7 +28,7 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwaggerUi3.</summary>
 #if AspNetOwin
     public class SwaggerUi3Settings<T> : SwaggerUiSettingsBase<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public class SwaggerUi3Settings : SwaggerUiSettingsBase
 #endif

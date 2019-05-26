@@ -17,8 +17,8 @@ namespace NSwag.CodeGeneration.Models
     /// <summary>The parameter template model.</summary>
     public abstract class ParameterModelBase
     {
-        private readonly SwaggerParameter _parameter;
-        private readonly IList<SwaggerParameter> _allParameters;
+        private readonly OpenApiParameter _parameter;
+        private readonly IList<OpenApiParameter> _allParameters;
         private readonly CodeGeneratorSettingsBase _settings;
         private readonly IClientGenerator _generator;
         private readonly TypeResolverBase _typeResolver;
@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="generator">The client generator base.</param>
         /// <param name="typeResolver">The type resolver.</param>
         protected ParameterModelBase(string parameterName, string variableName, string typeName,
-            SwaggerParameter parameter, IList<SwaggerParameter> allParameters, CodeGeneratorSettingsBase settings,
+            OpenApiParameter parameter, IList<OpenApiParameter> allParameters, CodeGeneratorSettingsBase settings,
             IClientGenerator generator, TypeResolverBase typeResolver)
         {
             _allParameters = allParameters;
@@ -72,16 +72,16 @@ namespace NSwag.CodeGeneration.Models
             null;
 
         /// <summary>Gets the parameter kind.</summary>
-        public SwaggerParameterKind Kind => _parameter.Kind;
+        public OpenApiParameterKind Kind => _parameter.Kind;
 
         /// <summary>Gets the parameter style.</summary>
-        public SwaggerParameterStyle Style => _parameter.Style;
+        public OpenApiParameterStyle Style => _parameter.Style;
 
         /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
         public bool Explode => _parameter.Explode;
 
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
-        public bool IsDeepObject => _parameter.Style == SwaggerParameterStyle.DeepObject;
+        public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
         
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
         public IEnumerable<PropertyModel> PropertyNames
@@ -135,7 +135,7 @@ namespace NSwag.CodeGeneration.Models
             _generator.GetTypeName(Schema, IsNullable, null) != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
-        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi;
+        public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi;
 
         /// <summary>Gets a value indicating whether the parameter is a string array.</summary>
         public bool IsStringArray => IsArray && Schema.Item?.ActualSchema.Type.HasFlag(JsonObjectType.String) == true;
@@ -159,10 +159,10 @@ namespace NSwag.CodeGeneration.Models
              Schema.Item?.ActualSchema.IsAnyType == true);
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
-        public bool IsBody => Kind == SwaggerParameterKind.Body;
+        public bool IsBody => Kind == OpenApiParameterKind.Body;
 
         /// <summary>Gets a value indicating whether the parameter is supplied through the request headers.</summary>
-        public bool IsHeader => Kind == SwaggerParameterKind.Header;
+        public bool IsHeader => Kind == OpenApiParameterKind.Header;
 
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;

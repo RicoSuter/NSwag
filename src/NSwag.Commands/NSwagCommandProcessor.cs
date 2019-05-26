@@ -33,7 +33,7 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public int Process(string[] args)
         {
-            _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
+            _host.WriteMessage("toolchain v" + OpenApiDocument.ToolchainVersion +
                 " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 

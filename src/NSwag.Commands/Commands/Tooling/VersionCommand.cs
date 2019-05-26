@@ -22,7 +22,7 @@ namespace NSwag.Commands.Tooling
         /// <returns>The output.</returns>
         public Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            host.WriteMessage("\nNSwag version: " + SwaggerDocument.ToolchainVersion + "\n");
+            host.WriteMessage("\nNSwag version: " + OpenApiDocument.ToolchainVersion + "\n");
             host.WriteMessage("NJsonSchema version: " + JsonSchema.ToolchainVersion + "\n");
             return Task.FromResult<object>(null);
         }

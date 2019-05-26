@@ -20,7 +20,7 @@ namespace NSwag.Commands.Document
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false) == false)
+            if (DynamicApis.FileExists("nswag.json"))
             {
                 await CreateDocumentAsync("nswag.json");
                 host.WriteMessage("nswag.json file created.");
@@ -38,9 +38,9 @@ namespace NSwag.Commands.Document
             var document = new NSwagDocument();
             document.Path = filePath;
 
-            document.CodeGenerators.SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
-            document.CodeGenerators.SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
-            document.CodeGenerators.SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
+            document.CodeGenerators.OpenApiToCSharpControllerCommand = new OpenApiToCSharpControllerCommand();
+            document.CodeGenerators.OpenApiToCSharpClientCommand = new OpenApiToCSharpClientCommand();
+            document.CodeGenerators.OpenApiToTypeScriptClientCommand = new OpenApiToTypeScriptClientCommand();
 
             await document.SaveAsync();
         }

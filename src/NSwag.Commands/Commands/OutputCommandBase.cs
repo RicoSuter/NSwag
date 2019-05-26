@@ -21,7 +21,7 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected async Task<SwaggerDocument> ReadSwaggerDocumentAsync(string input)
+        protected async Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
         {
             if (!IsJson(input) && !IsYaml(input))
             {
@@ -30,11 +30,11 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
                     }
                     else
                     {
-                        return await SwaggerDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return await OpenApiDocument.FromUrlAsync(input).ConfigureAwait(false);
                     }
                 }
                 else
@@ -42,11 +42,11 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromFileAsync(input).ConfigureAwait(false);
                     }
                     else
                     {
-                        return await SwaggerDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return await OpenApiDocument.FromFileAsync(input).ConfigureAwait(false);
                     }
                 }
             }
@@ -54,11 +54,11 @@ namespace NSwag.Commands
             {
                 if (IsYaml(input))
                 {
-                    return await SwaggerYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                    return await OpenApiYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
                 }
                 else
                 {
-                    return await SwaggerDocument.FromJsonAsync(input).ConfigureAwait(false);
+                    return await OpenApiDocument.FromJsonAsync(input).ConfigureAwait(false);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace NSwag.Commands
             return OutputCommandExtensions.TryWriteFileOutputAsync(this, host, generator);
         }
 
-        protected Task<bool> TryWriteDocumentOutputAsync(IConsoleHost host, Func<SwaggerDocument> generator)
+        protected Task<bool> TryWriteDocumentOutputAsync(IConsoleHost host, Func<OpenApiDocument> generator)
         {
             return OutputCommandExtensions.TryWriteDocumentOutputAsync(this, host, generator);
         }

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;net461</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>12.3.1</Version>
+    <Version>13.0.0</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2019</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;RELEASE;FullNet;net461</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Commands\SwaggerGeneration\AspNetCore\AspNetCore.targets" />
+    <EmbeddedResource Include="Commands\Generation\AspNetCore\AspNetCore.targets" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
@@ -66,11 +66,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="NJsonSchema" Version="10.0.5" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.0.5" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.5" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.0.5" />
-    <PackageReference Include="NJsonSchema.Yaml" Version="10.0.5" />
+    <PackageReference Include="NJsonSchema" Version="10.0.6" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.0.6" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.6" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.0.6" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="10.0.6" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="Microsoft.CSharp" />
@@ -83,9 +83,9 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj" />
-    <ProjectReference Include="..\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
     <PackageReference Include="System.Diagnostics.Process">

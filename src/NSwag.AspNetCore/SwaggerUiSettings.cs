@@ -9,7 +9,7 @@
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -24,7 +24,7 @@ namespace NSwag.AspNetCore
     /// <summary>The settings for UseSwaggerUi.</summary>
 #if AspNetOwin
     public class SwaggerUiSettings<T> : SwaggerUiSettingsBase<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
 #else
     public class SwaggerUiSettings : SwaggerUiSettingsBase
 #endif

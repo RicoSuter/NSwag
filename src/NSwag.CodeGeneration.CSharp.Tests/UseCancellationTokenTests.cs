@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.CodeGeneration.CSharp.Models;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -28,11 +28,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 UseCancellationToken = true
             });
@@ -48,11 +48,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 UseCancellationToken = true
             });
@@ -68,11 +68,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 UseCancellationToken = true
@@ -87,11 +87,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
                 UseCancellationToken = true
@@ -106,11 +106,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_usecancellationtokenparameter_notsetted_then_cancellationtoken_isnot_added()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpControllerGenerator(document, new SwaggerToCSharpControllerGeneratorSettings
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract
             });

@@ -14,17 +14,17 @@ namespace NSwag.CodeGeneration.Tests
     public class CodeGenerationTests
     {
         [Fact]
-        public async Task When_generating_CSharp_code_then_output_contains_expected_classes()
+        public void When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
             var json = document.ToJson();
 
             //// Act
-            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
-            var generator = new SwaggerToCSharpClientGenerator(document, settings);
+            var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             // Assert
@@ -35,13 +35,13 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
-        public async Task When_generating_TypeScript_code_then_output_contains_expected_classes()
+        public void When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
 
             //// Act
-            var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
                 TypeScriptGeneratorSettings = 
@@ -89,7 +89,7 @@ namespace NSwag.CodeGeneration.Tests
 
             //// Act
             var schema = await JsonSchema.FromJsonAsync(jsonSchema);
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             document.Definitions["Foo"] = schema;
 
             //// Assert
@@ -111,23 +111,23 @@ namespace NSwag.CodeGeneration.Tests
             Assert.False(string.IsNullOrWhiteSpace(operationName));
         }
 
-        private static async Task<SwaggerDocument> CreateDocumentAsync()
+        private static OpenApiDocument CreateDocument()
         {
-            var document = new SwaggerDocument();
+            var document = new OpenApiDocument();
             var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new SwaggerPathItem();
-            document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
+            document.Paths["/Person"] = new OpenApiPathItem();
+            document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
             {
                 Responses = 
                 {
                     {
-                        "200", new SwaggerResponse
+                        "200", new OpenApiResponse
                         {
                             Schema = new JsonSchema
                             {
-                                Reference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                                Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
                             }
                         }
                     }

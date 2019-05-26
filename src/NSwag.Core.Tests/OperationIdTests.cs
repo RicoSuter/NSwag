@@ -9,16 +9,16 @@ namespace NSwag.Core.Tests
         public void When_generating_operation_ids_then_all_are_set()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["path"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["path"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation { }
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation { }
                 },
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation { }
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation { }
                 }
             };
 

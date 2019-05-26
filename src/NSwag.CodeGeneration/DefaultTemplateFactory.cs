@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration
         /// <returns>The toolchain version.</returns>
         protected override string GetToolchainVersion()
         {
-            return SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + base.GetToolchainVersion() + ")";
+            return OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + base.GetToolchainVersion() + ")";
         }
 
         /// <summary>Tries to load an embedded Liquid template.</summary>
