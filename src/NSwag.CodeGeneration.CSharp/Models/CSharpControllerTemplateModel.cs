@@ -14,8 +14,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller template model.</summary>
     public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
-        private readonly SwaggerDocument _document;
+        private readonly CSharpControllerGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -25,8 +25,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public CSharpControllerTemplateModel(
             string controllerName,
             IEnumerable<CSharpOperationModel> operations,
-            SwaggerDocument document,
-            SwaggerToCSharpControllerGeneratorSettings settings)
+            OpenApiDocument document,
+            CSharpControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;
@@ -86,7 +86,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to allow adding model validation attributes</summary>
         public bool GenerateModelValidationAttributes => _settings.GenerateModelValidationAttributes;
 
-        /// <summary>Gets the type of the attribte used to specify a parameter as required.</summary>
+        /// <summary>Gets the type of the attribute used to specify a parameter as required.</summary>
         public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
 
         /// <summary>Gets the Title.</summary>

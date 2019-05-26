@@ -17,7 +17,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Newtonsoft.Json;
 using NSwag.Annotations;
-using NSwag.Annotations.Converters;
+using NSwag.Converters;
 
 namespace NSwag.AspNet.WebApi
 {
@@ -74,7 +74,9 @@ namespace NSwag.AspNet.WebApi
                 };
             }
             else
+            {
                 base.OnActionExecuted(context);
+            }
         }
 
         private int GetStatusCode(Exception exception, HttpActionExecutedContext context)

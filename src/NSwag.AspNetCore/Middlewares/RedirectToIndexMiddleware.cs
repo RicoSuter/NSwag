@@ -54,7 +54,9 @@ namespace NSwag.AspNetCore.Middlewares
                 }
             }
             else
+            {
                 await _nextDelegate.Invoke(context);
+            }
         }
     }
 }

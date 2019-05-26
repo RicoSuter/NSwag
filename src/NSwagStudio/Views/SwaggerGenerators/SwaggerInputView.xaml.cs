@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
-using NSwag.CodeGeneration;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.Generation;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class SwaggerInputView : ISwaggerGeneratorView
     {
-        private readonly FromSwaggerCommand _command;
+        private readonly FromDocumentCommand _command;
 
-        public SwaggerInputView(FromSwaggerCommand command)
+        public SwaggerInputView(FromDocumentCommand command)
         {
             _command = command;
             InitializeComponent();

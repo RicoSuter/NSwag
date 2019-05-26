@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript parameter model.</summary>
     public class TypeScriptParameterModel : ParameterModelBase
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptParameterModel" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -31,10 +31,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             string parameterName,
             string variableName,
             string typeName,
-            SwaggerParameter parameter,
-            IList<SwaggerParameter> allParameters,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
-            SwaggerToTypeScriptClientGenerator generator,
+            OpenApiParameter parameter,
+            IList<OpenApiParameter> allParameters,
+            TypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGenerator generator,
             TypeResolverBase typeResolver)
             : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator, typeResolver)
         {

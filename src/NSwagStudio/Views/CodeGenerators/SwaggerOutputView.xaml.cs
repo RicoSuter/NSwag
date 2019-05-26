@@ -14,7 +14,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
             Model.SwaggerCode = result.SwaggerOutput;
         }

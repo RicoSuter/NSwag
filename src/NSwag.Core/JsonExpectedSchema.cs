@@ -20,6 +20,6 @@ namespace NSwag
 
         /// <summary>Gets or sets the schema.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema { get; set; }
+        public JsonSchema Schema { get; set; }
     }
 }

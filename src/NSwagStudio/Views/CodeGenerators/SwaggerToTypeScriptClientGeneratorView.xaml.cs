@@ -15,29 +15,29 @@ namespace NSwagStudio.Views.CodeGenerators
             ViewModelHelper.RegisterViewModel(Model, this);
 
             _document = document;
-            Model.Command = document.CodeGenerators.SwaggerToTypeScriptClientCommand;
+            Model.Command = document.CodeGenerators.OpenApiToTypeScriptClientCommand;
         }
 
         private SwaggerToTypeScriptClientGeneratorViewModel Model => (SwaggerToTypeScriptClientGeneratorViewModel)Resources["ViewModel"];
 
         public override string Title => "TypeScript Client";
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
-            Model.ClientCode = result.GetGeneratorOutput<SwaggerToTypeScriptClientCommand>();
+            Model.ClientCode = result.GetGeneratorOutput<OpenApiToTypeScriptClientCommand>();
             if (result.IsRedirectedOutput)
                 TabControl.SelectedIndex = 1;
         }
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.SwaggerToTypeScriptClientCommand != null; }
+            get { return _document.CodeGenerators.OpenApiToTypeScriptClientCommand != null; }
             set
             {
                 if (value != IsSelected)
                 {
-                    _document.CodeGenerators.SwaggerToTypeScriptClientCommand = value ? new SwaggerToTypeScriptClientCommand() : null;
-                    Model.Command = _document.CodeGenerators.SwaggerToTypeScriptClientCommand;
+                    _document.CodeGenerators.OpenApiToTypeScriptClientCommand = value ? new OpenApiToTypeScriptClientCommand() : null;
+                    Model.Command = _document.CodeGenerators.OpenApiToTypeScriptClientCommand;
                     OnPropertyChanged();
                 }
             }

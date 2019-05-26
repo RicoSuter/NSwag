@@ -37,7 +37,7 @@ namespace NSwag
         }
 
         [JsonIgnore]
-        internal SwaggerOperation Parent { get; set; }
+        internal OpenApiOperation Parent { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

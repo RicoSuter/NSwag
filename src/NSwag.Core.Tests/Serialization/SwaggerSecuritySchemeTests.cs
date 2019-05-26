@@ -71,32 +71,32 @@ namespace NSwag.Core.Tests.Serialization
             Assert.DoesNotContain(@"""flow""", json);
         }
 
-        private static SwaggerDocument CreateSwaggerDocument()
+        private static OpenApiDocument CreateSwaggerDocument()
         {
-            var document = new SwaggerDocument();
-            document.SecurityDefinitions.Add("foo", new SwaggerSecurityScheme
+            var document = new OpenApiDocument();
+            document.SecurityDefinitions.Add("foo", new OpenApiSecurityScheme
             {
                 Name = "Baz",
                 Description = "Bar",
-                Type = SwaggerSecuritySchemeType.Basic,
-                Flow = SwaggerOAuth2Flow.Application,
-                In = SwaggerSecurityApiKeyLocation.Header,
+                Type = OpenApiSecuritySchemeType.Basic,
+                Flow = OpenApiOAuth2Flow.Application,
+                In = OpenApiSecurityApiKeyLocation.Header,
                 AuthorizationUrl = "AuthUrl",
             });
 
             return document;
         }
 
-        private static SwaggerDocument CreateOpenApiDocument()
+        private static OpenApiDocument CreateOpenApiDocument()
         {
-            var document = new SwaggerDocument();
-            document.SecurityDefinitions.Add("foo", new SwaggerSecurityScheme
+            var document = new OpenApiDocument();
+            document.SecurityDefinitions.Add("foo", new OpenApiSecurityScheme
             {
                 Name = "Baz",
                 Description = "Bar",
-                Type = SwaggerSecuritySchemeType.Http,
+                Type = OpenApiSecuritySchemeType.Http,
                 Scheme = "basic",
-                In = SwaggerSecurityApiKeyLocation.Cookie,
+                In = OpenApiSecurityApiKeyLocation.Cookie,
                 Flows = new OpenApiOAuthFlows
                 {
                     AuthorizationCode = new OpenApiOAuthFlow
