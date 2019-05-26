@@ -70,7 +70,7 @@
         public string ResponseText { get; }
     }
 
-	{% template Client.Class.ReadObjectResponse %}
+    {% template Client.Class.ReadObjectResponse %}
 
 {% for operation in Operations -%}
 {%     if GenerateOptionalParameters == false -%}
