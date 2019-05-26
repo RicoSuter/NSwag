@@ -16,6 +16,6 @@ namespace NSwag.Generation.Processors
     {
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context">The processor context.</param>
-        Task ProcessAsync(DocumentProcessorContext context);
+        void Process(DocumentProcessorContext context);
     }
 }

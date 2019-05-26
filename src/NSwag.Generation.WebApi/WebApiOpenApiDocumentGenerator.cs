@@ -85,7 +85,7 @@ namespace NSwag.Generation.WebApi
             foreach (var controllerType in controllerTypes)
             {
                 var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
-                var isIncluded = await GenerateForControllerAsync(document, controllerType, generator, schemaResolver).ConfigureAwait(false);
+                var isIncluded = GenerateForController(document, controllerType, generator, schemaResolver);
                 if (isIncluded)
                 {
                     usedControllerTypes.Add(controllerType);
@@ -96,7 +96,7 @@ namespace NSwag.Generation.WebApi
 
             foreach (var processor in Settings.DocumentProcessors)
             {
-                await processor.ProcessAsync(new DocumentProcessorContext(document, controllerTypes,
+                processor.Process(new DocumentProcessorContext(document, controllerTypes,
                     usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
             }
 
@@ -142,7 +142,7 @@ namespace NSwag.Generation.WebApi
         }
 
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
-        private async Task<bool> GenerateForControllerAsync(OpenApiDocument document, Type controllerType, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool GenerateForController(OpenApiDocument document, Type controllerType, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var hasIgnoreAttribute = controllerType.GetTypeInfo()
                 .GetCustomAttributes()
@@ -196,10 +196,10 @@ namespace NSwag.Generation.WebApi
                 currentControllerType = currentControllerType.GetTypeInfo().BaseType;
             }
 
-            return await AddOperationDescriptionsToDocumentAsync(document, controllerType, operations, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+            return AddOperationDescriptionsToDocument(document, controllerType, operations, swaggerGenerator, schemaResolver);
         }
 
-        private async Task<bool> AddOperationDescriptionsToDocumentAsync(OpenApiDocument document, Type controllerType, List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool AddOperationDescriptionsToDocument(OpenApiDocument document, Type controllerType, List<Tuple<OpenApiOperationDescription, MethodInfo>> operations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = 0;
             var allOperation = operations.Select(t => t.Item1).ToList();
@@ -208,7 +208,7 @@ namespace NSwag.Generation.WebApi
                 var operation = tuple.Item1;
                 var method = tuple.Item2;
 
-                var addOperation = await RunOperationProcessorsAsync(document, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver).ConfigureAwait(false);
+                var addOperation = RunOperationProcessors(document, controllerType, method, operation, allOperation, swaggerGenerator, schemaResolver);
                 if (addOperation)
                 {
                     var path = operation.Path.Replace("//", "/");
@@ -232,7 +232,7 @@ namespace NSwag.Generation.WebApi
             return addedOperations > 0;
         }
 
-        private async Task<bool> RunOperationProcessorsAsync(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
                 methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations);
@@ -240,7 +240,7 @@ namespace NSwag.Generation.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                if (operationProcessor.Process(context)== false)
                 {
                     return false;
                 }
@@ -259,7 +259,7 @@ namespace NSwag.Generation.WebApi
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                if (await operationProcessor.ProcessAsync(context).ConfigureAwait(false) == false)
+                if (operationProcessor.Process(context) == false)
                 {
                     return false;
                 }

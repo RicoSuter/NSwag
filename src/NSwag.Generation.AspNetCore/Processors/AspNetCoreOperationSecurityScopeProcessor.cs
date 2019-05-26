@@ -37,7 +37,7 @@ namespace NSwag.Generation.Processors.Security
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
 
@@ -47,13 +47,13 @@ namespace NSwag.Generation.Processors.Security
                 var allowAnonymous = endpointMetadata.OfType<AllowAnonymousAttribute>().Any();
                 if (allowAnonymous)
                 {
-                    return Task.FromResult(true);
+                    return true;
                 }
 
                 var authorizeAttributes = endpointMetadata.OfType<AuthorizeAttribute>().ToList();
                 if (!authorizeAttributes.Any())
                 {
-                    return Task.FromResult(true);
+                    return true;
                 }
 
                 if (context.OperationDescription.Operation.Security == null)
@@ -68,7 +68,7 @@ namespace NSwag.Generation.Processors.Security
                 });
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
         /// <summary>Gets the security scopes for an operation.</summary>

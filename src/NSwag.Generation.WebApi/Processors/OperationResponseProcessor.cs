@@ -8,7 +8,6 @@
 
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -31,7 +30,7 @@ namespace NSwag.Generation.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var responseTypeAttributes = context.MethodInfo.GetCustomAttributes()
                 .Where(a => a.GetType().IsAssignableToTypeName("ResponseTypeAttribute", TypeNameStyle.Name) ||
@@ -47,8 +46,8 @@ namespace NSwag.Generation.WebApi.Processors
 
             var attributes = responseTypeAttributes.Concat(producesResponseTypeAttributes);
 
-            await ProcessResponseTypeAttributes(context, attributes);
-            await UpdateResponseDescriptionAsync(context);
+            ProcessResponseTypeAttributes(context, attributes);
+            UpdateResponseDescription(context);
 
             return true;
         }

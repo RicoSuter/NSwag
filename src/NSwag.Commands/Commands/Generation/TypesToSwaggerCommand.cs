@@ -108,7 +108,7 @@ namespace NSwag.Commands.Generation
             var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
@@ -121,7 +121,7 @@ namespace NSwag.Commands.Generation
             foreach (var className in matchedClassNames)
             {
                 var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
-                await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
+                generator.Generate(type, schemaResolver);
             }
 
             return document.ToJson(OutputType);

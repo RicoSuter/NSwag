@@ -175,7 +175,7 @@ namespace NSwag.Commands
             {
                 var saveFile = false;
 
-                var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
+                var data = DynamicApis.FileReadAllText(filePath);
                 data = TransformLegacyDocument(data, out saveFile); // TODO: Remove this legacy stuff later
 
                 if (applyTransformations)
@@ -238,9 +238,9 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
-            return Task.Run(async () =>
+            return Task.Run(() =>
             {
-                await DynamicApis.FileWriteAllTextAsync(Path, ToJsonWithRelativePaths()).ConfigureAwait(false);
+                DynamicApis.FileWriteAllText(Path, ToJsonWithRelativePaths());
                 _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             });
         }

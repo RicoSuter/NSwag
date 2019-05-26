@@ -181,7 +181,7 @@ namespace NSwag.AssemblyLoader
                 if (!file.EndsWith("/refs/" + assemblyName + ".dll") &&
                     !file.EndsWith("\\refs\\" + assemblyName + ".dll"))
                 {
-                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
                     return LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
                 }
             }

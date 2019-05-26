@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -20,18 +19,16 @@ namespace NSwag.Generation.Processors
     {
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context"></param>
-#pragma warning disable 1998
-        public async Task ProcessAsync(DocumentProcessorContext context)
-#pragma warning restore 1998
+        public void Process(DocumentProcessorContext context)
         {
             foreach (var controllerType in context.ControllerTypes)
             {
-                ProcessSwaggerTagsAttribute(context.Document, controllerType);
-                ProcessSwaggerTagAttributes(context.Document, controllerType);
+                ProcessTagsAttribute(context.Document, controllerType);
+                ProcessTagAttributes(context.Document, controllerType);
             }
         }
 
-        private static void ProcessSwaggerTagsAttribute(OpenApiDocument document, Type controllerType)
+        private static void ProcessTagsAttribute(OpenApiDocument document, Type controllerType)
         {
             dynamic tagsAttribute = controllerType.ToCachedType()
                 .TypeAttributes
@@ -60,7 +57,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private static void ProcessSwaggerTagAttributes(OpenApiDocument document, Type controllerType)
+        private static void ProcessTagAttributes(OpenApiDocument document, Type controllerType)
         {
             var tagAttributes = controllerType
                 .ToCachedType().TypeAttributes
@@ -72,12 +69,12 @@ namespace NSwag.Generation.Processors
             {
                 foreach (var tagAttribute in tagAttributes)
                 {
-                    AddTagFromSwaggerTagAttribute(document, tagAttribute);
+                    ProcessTagAttribute(document, tagAttribute);
                 }
             }
         }
 
-        internal static void AddTagFromSwaggerTagAttribute(OpenApiDocument document, dynamic tagAttribute)
+        internal static void ProcessTagAttribute(OpenApiDocument document, dynamic tagAttribute)
         {
             if (document.Tags == null)
             {

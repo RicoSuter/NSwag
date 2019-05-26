@@ -69,7 +69,7 @@ namespace NSwag.Generation
 
         /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
         /// <param name="filter">The processor filter.</param>
-        public void AddOperationFilter(Func<OperationProcessorContext, Task<bool>> filter)
+        public void AddOperationFilter(Func<OperationProcessorContext, bool> filter)
         {
             OperationProcessors.Insert(0, new OperationProcessor(filter));
         }

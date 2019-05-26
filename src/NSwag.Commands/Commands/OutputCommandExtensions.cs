@@ -33,15 +33,15 @@ namespace NSwag.Commands
             if (!string.IsNullOrEmpty(path))
             {
                 var directory = DynamicApis.PathGetDirectoryName(path);
-                if (!string.IsNullOrEmpty(directory) && await DynamicApis.DirectoryExistsAsync(directory).ConfigureAwait(false) == false)
+                if (!string.IsNullOrEmpty(directory) && DynamicApis.DirectoryExists(directory) == false)
                 {
-                    await DynamicApis.DirectoryCreateDirectoryAsync(directory).ConfigureAwait(false);
+                    DynamicApis.DirectoryCreateDirectory(directory);
                 }
 
                 var data = generator();
-                if (!await DynamicApis.FileExistsAsync(path) || await DynamicApis.FileReadAllTextAsync(path) != data)
+                if (!DynamicApis.FileExists(path) || DynamicApis.FileReadAllText(path) != data)
                 {
-                    await DynamicApis.FileWriteAllTextAsync(path, data).ConfigureAwait(false);
+                    DynamicApis.FileWriteAllText(path, data);
                     host?.WriteMessage("Code has been successfully written to file.\n");
                 }
                 else

@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Threading.Tasks;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors
@@ -15,29 +14,18 @@ namespace NSwag.Generation.Processors
     /// <summary>A generic action/function based document processor.</summary>
     public class ActionDocumentProcessor : IDocumentProcessor
     {
-        private readonly Func<DocumentProcessorContext, Task> _action;
-
+        private readonly Action<DocumentProcessorContext> _action;
         /// <summary>Initializes a new instance of the <see cref="ActionDocumentProcessor"/> class.</summary>
         public ActionDocumentProcessor(Action<DocumentProcessorContext> action)
-        {
-            _action = (context) =>
-            {
-                action(context);
-                return Task.FromResult<object>(null);
-            };
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ActionDocumentProcessor"/> class.</summary>
-        public ActionDocumentProcessor(Func<DocumentProcessorContext, Task> action)
         {
             _action = action;
         }
 
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context">The processor context.</param>
-        public async Task ProcessAsync(DocumentProcessorContext context)
+        public void Process(DocumentProcessorContext context)
         {
-            await _action(context);
+            _action(context);
         }
     }
 }

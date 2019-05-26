@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -22,7 +21,7 @@ namespace NSwag.Generation.Processors
         /// Processes the specified Swagger document.
         /// </summary>
         /// <param name="context">The processor context.</param>
-        public Task ProcessAsync(DocumentProcessorContext context)
+        public void Process(DocumentProcessorContext context)
         {
             if (context.Document.ExtensionData == null)
             {
@@ -40,8 +39,6 @@ namespace NSwag.Generation.Processors
 
                 context.Document.ExtensionData[key] = value;
             }
-
-            return Task.FromResult(true);
         }
     }
 }

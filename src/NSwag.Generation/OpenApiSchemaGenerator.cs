@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -32,12 +31,12 @@ namespace NSwag.Generation
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override async Task GenerateObjectAsync(Type type, JsonTypeDescription typeDescription, JsonSchema schema, JsonSchemaResolver schemaResolver)
+        protected override void GenerateObject(Type type, JsonTypeDescription typeDescription, JsonSchema schema, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                await base.GenerateObjectAsync(type, typeDescription, schema, schemaResolver);
+                base.GenerateObject(type, typeDescription, schema, schemaResolver);
                 _isRootType = true;
             }
             else
@@ -45,7 +44,7 @@ namespace NSwag.Generation
                 if (!schemaResolver.HasSchema(type, false))
                 {
                     _isRootType = true;
-                    await GenerateAsync(type, schemaResolver);
+                    Generate(type, schemaResolver);
                     _isRootType = false;
                 }
 
@@ -60,9 +59,9 @@ namespace NSwag.Generation
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="transformation">An action to transform the resulting schema (e.g. property or parameter) before the type of reference is determined (with $ref or allOf/oneOf).</param>
         /// <returns>The requested schema object.</returns>
-        public override async Task<TSchemaType> GenerateWithReferenceAndNullabilityAsync<TSchemaType>(
+        public override TSchemaType GenerateWithReferenceAndNullability<TSchemaType>(
             ContextualType contextualType, bool isNullable,
-            JsonSchemaResolver schemaResolver, Func<TSchemaType, JsonSchema, Task> transformation = null)
+            JsonSchemaResolver schemaResolver, Action<TSchemaType, JsonSchema> transformation = null)
         {
             if (contextualType.TypeName == "Task`1")
             {
@@ -89,7 +88,7 @@ namespace NSwag.Generation
                 }
             }
 
-            return await base.GenerateWithReferenceAndNullabilityAsync(contextualType, isNullable, schemaResolver, transformation);
+            return base.GenerateWithReferenceAndNullability(contextualType, isNullable, schemaResolver, transformation);
         }
 
         private bool IsFileResponse(Type returnType)

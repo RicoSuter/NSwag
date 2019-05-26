@@ -14,10 +14,10 @@ namespace NSwag.CodeGeneration.Tests
     public class CodeGenerationTests
     {
         [Fact]
-        public async Task When_generating_CSharp_code_then_output_contains_expected_classes()
+        public void When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
             var json = document.ToJson();
 
             //// Act
@@ -35,10 +35,10 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
-        public async Task When_generating_TypeScript_code_then_output_contains_expected_classes()
+        public void When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
 
             //// Act
             var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -111,7 +111,7 @@ namespace NSwag.CodeGeneration.Tests
             Assert.False(string.IsNullOrWhiteSpace(operationName));
         }
 
-        private static async Task<OpenApiDocument> CreateDocumentAsync()
+        private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();
             var settings = new JsonSchemaGeneratorSettings();
@@ -127,7 +127,7 @@ namespace NSwag.CodeGeneration.Tests
                         {
                             Schema = new JsonSchema
                             {
-                                Reference = await generator.GenerateAsync(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
                             }
                         }
                     }

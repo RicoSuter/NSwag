@@ -118,7 +118,7 @@ namespace NSwag.Commands.Generation.WebApi
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
-            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif
@@ -136,7 +136,7 @@ namespace NSwag.Commands.Generation.WebApi
                 throw new InvalidOperationException("No assembly paths have been provided.");
             }
 
-            var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader);
+            var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
 
             var allExportedNames = assemblies.SelectMany(a => a.ExportedTypes).Select(t => t.FullName).ToList();
             var matchedControllerNames = controllerNames

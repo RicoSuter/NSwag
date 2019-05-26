@@ -33,14 +33,14 @@ namespace NSwag.Commands.Document
             }
             else
             {
-                var hasNSwagJson = await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false);
+                var hasNSwagJson = DynamicApis.FileExists("nswag.json");
                 if (hasNSwagJson)
                 {
                     await ExecuteDocumentAsync(host, "nswag.json");
                 }
 
-                var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
-                var files = await DynamicApis.DirectoryGetFilesAsync(currentDirectory, "*.nswag").ConfigureAwait(false);
+                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
+                var files = DynamicApis.DirectoryGetFiles(currentDirectory, "*.nswag");
                 if (files.Any())
                 {
                     foreach (var file in files)

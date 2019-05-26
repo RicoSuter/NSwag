@@ -18,7 +18,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
     public class OperationResponseProcessorTest
     {
         [Fact]
-        public async Task ProcessAsync_AddsResponseFor200StatusCode()
+        public void ProcessAsync_AddsResponseFor200StatusCode()
         {
             // Arrange
             var apiDescription = new ApiDescription
@@ -38,7 +38,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
             var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
-            await processor.ProcessAsync(context);
+            processor.Process(context);
 
             // Assert
             Assert.Collection(
@@ -51,7 +51,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
         }
 
         [Fact]
-        public async Task ProcessAsync_AddsResponseForDefaultStatusCode()
+        public void ProcessAsync_AddsResponseForDefaultStatusCode()
         {
             // Arrange
             var apiDescription = new ApiDescription
@@ -73,7 +73,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
             var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
-            await processor.ProcessAsync(context);
+            processor.Process(context);
 
             // Assert
             Assert.Collection(
@@ -86,7 +86,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
         }
 
         [Fact]
-        public async Task ProcessAsync_Adds200StatusCodeForVoidResponse()
+        public void ProcessAsync_Adds200StatusCodeForVoidResponse()
         {
             // Arrange
             var apiDescription = new ApiDescription
@@ -106,7 +106,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
             var processor = new OperationResponseProcessor((AspNetCoreOpenApiDocumentGeneratorSettings)context.Settings);
 
             // Act
-            await processor.ProcessAsync(context);
+            processor.Process(context);
 
             // Assert
             Assert.Collection(

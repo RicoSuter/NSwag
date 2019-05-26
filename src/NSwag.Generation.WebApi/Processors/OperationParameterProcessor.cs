@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -37,7 +36,7 @@ namespace NSwag.Generation.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var httpPath = context.OperationDescription.Path;
             var parameters = context.MethodInfo.GetParameters();
@@ -69,7 +68,7 @@ namespace NSwag.Generation.WebApi.Processors
                 if (lowerHttpPath.Contains("{" + uriParameterNameLower + "}") ||
                     lowerHttpPath.Contains("{" + uriParameterNameLower + ":")) // path parameter
                 {
-                    operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(uriParameterName, contextualParameter).ConfigureAwait(false);
+                    operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(uriParameterName, contextualParameter);
                     operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // Path is always required => property not needed
 
@@ -84,14 +83,14 @@ namespace NSwag.Generation.WebApi.Processors
                 {
                     var parameterInfo = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
 
-                    operationParameter = await TryAddFileParameterAsync(context, parameterInfo, contextualParameter).ConfigureAwait(false);
+                    operationParameter = TryAddFileParameter(context, parameterInfo, contextualParameter);
                     if (operationParameter == null)
                     {
                         if (fromRouteAttribute != null)
                         {
                             parameterName = !string.IsNullOrEmpty(fromRouteAttribute.Name) ? fromRouteAttribute.Name : contextualParameter.Name;
 
-                            operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(parameterName, contextualParameter).ConfigureAwait(false);
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(parameterName, contextualParameter);
                             operationParameter.Kind = OpenApiParameterKind.Path;
                             operationParameter.IsNullableRaw = false;
                             operationParameter.IsRequired = true;
@@ -102,14 +101,14 @@ namespace NSwag.Generation.WebApi.Processors
                         {
                             parameterName = !string.IsNullOrEmpty(fromHeaderAttribute.Name) ? fromHeaderAttribute.Name : contextualParameter.Name;
 
-                            operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(parameterName, contextualParameter).ConfigureAwait(false);
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(parameterName, contextualParameter);
                             operationParameter.Kind = OpenApiParameterKind.Header;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
                         }
                         else if (fromFormAttribute != null)
                         {
-                            operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(parameterName, contextualParameter).ConfigureAwait(false);
+                            operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(parameterName, contextualParameter);
                             operationParameter.Kind = OpenApiParameterKind.FormData;
 
                             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -128,7 +127,7 @@ namespace NSwag.Generation.WebApi.Processors
 
                                     if (willReadBodyAttribute == null)
                                     {
-                                        operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                        operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                     }
                                     else
                                     {
@@ -137,36 +136,36 @@ namespace NSwag.Generation.WebApi.Processors
                                         var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
                                         if (willReadBody)
                                         {
-                                            operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                            operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                         }
                                         else
                                         {
                                             // If we are not reading from the body, then treat this as a primitive.
                                             // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
                                             // In this case, the API author should use a TypeMapper to define the parameter
-                                            operationParameter = await AddPrimitiveParameterAsync(uriParameterName, context, contextualParameter).ConfigureAwait(false);
+                                            operationParameter = AddPrimitiveParameter(uriParameterName, context, contextualParameter);
                                         }
                                     }
                                 }
                                 else if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
                                 {
-                                    operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                    operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                 }
                                 else
                                 {
-                                    operationParameter = await AddPrimitiveParametersFromUriAsync(
-                                        context, httpPath, uriParameterName, contextualParameter, parameterInfo).ConfigureAwait(false);
+                                    operationParameter = AddPrimitiveParametersFromUri(
+                                        context, httpPath, uriParameterName, contextualParameter, parameterInfo);
                                 }
                             }
                             else
                             {
                                 if (fromBodyAttribute != null)
                                 {
-                                    operationParameter = await AddBodyParameterAsync(context, bodyParameterName, contextualParameter).ConfigureAwait(false);
+                                    operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                 }
                                 else
                                 {
-                                    operationParameter = await AddPrimitiveParameterAsync(uriParameterName, context, contextualParameter).ConfigureAwait(false);
+                                    operationParameter = AddPrimitiveParameter(uriParameterName, context, contextualParameter);
                                 }
                             }
                         }
@@ -239,7 +238,7 @@ namespace NSwag.Generation.WebApi.Processors
             }).TrimEnd('/');
         }
 
-        private async Task<OpenApiParameter> TryAddFileParameterAsync(
+        private OpenApiParameter TryAddFileParameter(
             OperationProcessorContext context, JsonTypeDescription typeInfo, ContextualParameterInfo contextualParameter)
         {
             var isFileArray = IsFileArray(contextualParameter.Type, typeInfo);
@@ -251,18 +250,18 @@ namespace NSwag.Generation.WebApi.Processors
                 hasSwaggerFileAttribute ||
                 isFileArray)
             {
-                return await AddFileParameterAsync(context, contextualParameter, isFileArray).ConfigureAwait(false);
+                return AddFileParameter(context, contextualParameter, isFileArray);
             }
 
             return null;
         }
 
-        private async Task<OpenApiParameter> AddFileParameterAsync(OperationProcessorContext context, ContextualParameterInfo contextualParameter, bool isFileArray)
+        private OpenApiParameter AddFileParameter(OperationProcessorContext context, ContextualParameterInfo contextualParameter, bool isFileArray)
         {
             // TODO: Check if there is a way to control the property name
-            var parameterDocumentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
-            var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(
-                contextualParameter.Name, parameterDocumentation, contextualParameter).ConfigureAwait(false);
+            var parameterDocumentation = contextualParameter.GetDescription();
+            var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
+                contextualParameter.Name, parameterDocumentation, contextualParameter);
 
             InitializeFileParameter(operationParameter, isFileArray);
             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -290,7 +289,7 @@ namespace NSwag.Generation.WebApi.Processors
             return false;
         }
 
-        private async Task<OpenApiParameter> AddBodyParameterAsync(OperationProcessorContext context, string name, ContextualParameterInfo contextualParameter)
+        private OpenApiParameter AddBodyParameter(OperationProcessorContext context, string name, ContextualParameterInfo contextualParameter)
         {
             OpenApiParameter operationParameter;
 
@@ -312,7 +311,7 @@ namespace NSwag.Generation.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = contextualParameter.ParameterInfo.HasDefaultValue == false,
-                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false)
+                    Description = contextualParameter.GetDescription()
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -331,7 +330,7 @@ namespace NSwag.Generation.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = contextualParameter.ParameterInfo.HasDefaultValue == false,
-                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false)
+                    Description = contextualParameter.GetDescription()
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -343,9 +342,9 @@ namespace NSwag.Generation.WebApi.Processors
                     Kind = OpenApiParameterKind.Body,
                     IsRequired = true, // FromBody parameters are always required
                     IsNullableRaw = isNullable,
-                    Description = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
-                        contextualParameter, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                    Description = contextualParameter.GetDescription(),
+                    Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                        contextualParameter, isNullable, schemaResolver: context.SchemaResolver)
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -353,16 +352,16 @@ namespace NSwag.Generation.WebApi.Processors
             return operationParameter;
         }
 
-        private async Task<OpenApiParameter> AddPrimitiveParametersFromUriAsync(
+        private OpenApiParameter AddPrimitiveParametersFromUri(
             OperationProcessorContext context, string httpPath, string name, ContextualParameterInfo contextualParameter, JsonTypeDescription typeDescription)
         {
             var operation = context.OperationDescription.Operation;
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var parameterDocumentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
-                var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(
-                    name, parameterDocumentation, contextualParameter).ConfigureAwait(false);
+                var parameterDocumentation = contextualParameter.GetDescription();
+                var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
+                    name, parameterDocumentation, contextualParameter);
 
                 operationParameter.Kind = OpenApiParameterKind.Query;
                 operation.Parameters.Add(operationParameter);
@@ -392,8 +391,8 @@ namespace NSwag.Generation.WebApi.Processors
                             propertyName = fromHeaderAttribute?.Name;
                         }
 
-                        var propertySummary = await contextualProperty.PropertyInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
-                        var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(propertyName, propertySummary, contextualProperty).ConfigureAwait(false);
+                        var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary();
+                        var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(propertyName, propertySummary, contextualProperty);
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
@@ -429,10 +428,10 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private async Task<OpenApiParameter> AddPrimitiveParameterAsync(
+        private OpenApiParameter AddPrimitiveParameter(
             string name, OperationProcessorContext context, ContextualParameterInfo contextualParameter)
         {
-            var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(name, contextualParameter).ConfigureAwait(false);
+            var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(name, contextualParameter);
             operationParameter.Kind = OpenApiParameterKind.Query;
             operationParameter.IsRequired = operationParameter.IsRequired || contextualParameter.ParameterInfo.HasDefaultValue == false;
 

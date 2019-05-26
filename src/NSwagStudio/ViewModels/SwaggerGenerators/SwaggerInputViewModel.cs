@@ -24,9 +24,9 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             var json = string.Empty;
             await RunTaskAsync(async () =>
             {
-                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || 
-                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ? 
-                    await DynamicApis.HttpGetAsync(url) : await DynamicApis.FileReadAllTextAsync(url);
+                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
+                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
+                    await DynamicApis.HttpGetAsync(url) : DynamicApis.FileReadAllText(url);
                 json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
             });
 

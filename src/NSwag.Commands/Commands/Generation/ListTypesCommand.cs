@@ -56,7 +56,7 @@ namespace NSwag.Commands.Generation
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
-            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(p => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(p, currentDirectory)))
 #endif

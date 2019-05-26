@@ -20,7 +20,7 @@ namespace NSwag.Generation.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context">The operation processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             dynamic descriptionAttribute = context.MethodInfo.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
@@ -31,14 +31,14 @@ namespace NSwag.Generation.Processors
             }
             else
             {
-                var summary = await context.MethodInfo.GetXmlDocsSummaryAsync().ConfigureAwait(false);
+                var summary = context.MethodInfo.GetXmlDocsSummary();
                 if (summary != string.Empty)
                 {
                     context.OperationDescription.Operation.Summary = summary;
                 }
             }
 
-            var remarks = await context.MethodInfo.GetXmlDocsRemarksAsync().ConfigureAwait(false);
+            var remarks = context.MethodInfo.GetXmlDocsRemarks();
             if (remarks != string.Empty)
             {
                 context.OperationDescription.Operation.Description = remarks;

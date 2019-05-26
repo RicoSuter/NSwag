@@ -15,11 +15,11 @@ namespace NSwag.Generation.Processors
     /// <summary>A function based operation processor.</summary>
     public class OperationProcessor : IOperationProcessor
     {
-        private readonly Func<OperationProcessorContext, Task<bool>> _func;
+        private readonly Func<OperationProcessorContext, bool> _func;
 
         /// <summary>Initializes a new instance of the <see cref="OperationProcessor"/> class.</summary>
         /// <param name="func">The processor function.</param>
-        public OperationProcessor(Func<OperationProcessorContext, Task<bool>> func)
+        public OperationProcessor(Func<OperationProcessorContext, bool> func)
         {
             _func = func;
         }
@@ -27,9 +27,9 @@ namespace NSwag.Generation.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context">The processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
-            return await _func(context);
+            return _func(context);
         }
     }
 }

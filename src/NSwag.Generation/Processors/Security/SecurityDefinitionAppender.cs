@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors.Security
@@ -44,9 +43,7 @@ namespace NSwag.Generation.Processors.Security
 
         /// <summary>Processes the specified Swagger document.</summary>
         /// <param name="context"></param>
-#pragma warning disable 1998
-        public async Task ProcessAsync(DocumentProcessorContext context)
-#pragma warning restore 1998
+        public void Process(DocumentProcessorContext context)
         {
             context.Document.SecurityDefinitions[_name] = _swaggerSecurityScheme;
 

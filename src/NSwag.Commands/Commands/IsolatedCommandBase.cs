@@ -49,7 +49,7 @@ namespace NSwag.Commands
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
-            
+
             if (UseNuGetCache)
             {
                 var defaultNugetPackages = LoadDefaultNugetCache();
@@ -84,7 +84,7 @@ namespace NSwag.Commands
                 .Distinct()
                 .ToArray();
         }
-        
+
         private static string[] LoadDefaultNugetCache()
         {
             var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";

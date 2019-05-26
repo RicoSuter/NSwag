@@ -15,7 +15,7 @@ namespace NSwag.Generation.WebApi.Tests
     public class TypesToSwaggerTests
     {
         [TestMethod]
-        public async Task When_generating_multiple_types_then_they_are_appended_to_the_definitions()
+        public void When_generating_multiple_types_then_they_are_appended_to_the_definitions()
         {
             //// Arrange
             var classNames = new[]
@@ -32,7 +32,7 @@ namespace NSwag.Generation.WebApi.Tests
             foreach (var className in classNames)
             {
                 var type = typeof(TypesToSwaggerTests).Assembly.GetType(className);
-                await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
+                generator.Generate(type, schemaResolver);
             }
             var json = document.ToJson();
 

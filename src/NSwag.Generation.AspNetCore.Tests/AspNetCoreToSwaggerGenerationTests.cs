@@ -668,10 +668,10 @@ namespace NSwag.Generation.AspNetCore.Tests
 
             public string Value { get; }
 
-            public Task<bool> ProcessAsync(OperationProcessorContext context)
+            public bool Process(OperationProcessorContext context)
             {
                 context.Document.Info.Title = Value;
-                return Task.FromResult(true);
+                return true;
             }
         }
 
@@ -770,7 +770,7 @@ namespace NSwag.Generation.AspNetCore.Tests
                     _source = source;
                 }
 
-                public Task<bool> ProcessAsync(OperationProcessorContext context)
+                public bool Process(OperationProcessorContext context)
                 {
                     if (context.OperationDescription.Operation.ExtensionData == null)
                     {
@@ -790,7 +790,7 @@ namespace NSwag.Generation.AspNetCore.Tests
                         Source = _source,
                     });
 
-                    return Task.FromResult(true);
+                    return true;
                 }
             }
 

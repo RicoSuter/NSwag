@@ -42,7 +42,7 @@ namespace NSwag.Generation.WebApi.Tests.OperationProcessors
                     _source = source;
                 }
 
-                public Task<bool> ProcessAsync(OperationProcessorContext context)
+                public bool Process(OperationProcessorContext context)
                 {
                     if (context.OperationDescription.Operation.ExtensionData == null)
                         context.OperationDescription.Operation.ExtensionData = new Dictionary<string, object>();
@@ -58,7 +58,7 @@ namespace NSwag.Generation.WebApi.Tests.OperationProcessors
                         Source = _source,
                     });
 
-                    return Task.FromResult(true);
+                    return true;
                 }
             }
 

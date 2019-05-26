@@ -21,7 +21,7 @@ namespace NSwag.Generation.WebApi.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             // Check if the action method itself has the Consumes Attribute
             dynamic consumesAttribute = context.MethodInfo
@@ -49,7 +49,7 @@ namespace NSwag.Generation.WebApi.Processors
                 }
             }
 
-            return Task.FromResult(true);
+            return true;
         }
     }
 }

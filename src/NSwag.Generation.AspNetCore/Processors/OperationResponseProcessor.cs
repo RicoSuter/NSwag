@@ -34,7 +34,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationProcessorContext"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext operationProcessorContext)
+        public bool Process(OperationProcessorContext operationProcessorContext)
         {
             if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
             {
@@ -54,7 +54,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             if (responseTypeAttributes.Count > 0)
             {
                 // if SwaggerResponseAttribute \ ResponseTypeAttributes are present, we'll only use those.
-                await ProcessResponseTypeAttributes(context, responseTypeAttributes);
+                ProcessResponseTypeAttributes(context, responseTypeAttributes);
             }
             else
             {
@@ -86,9 +86,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                             contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
 
                         response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = await context.SchemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver)
-                            .ConfigureAwait(false);
+                        response.Schema = context.SchemaGenerator
+                            .GenerateWithReferenceAndNullability<JsonSchema>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;
@@ -108,7 +107,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 };
             }
 
-            await UpdateResponseDescriptionAsync(context);
+            UpdateResponseDescription(context);
             return true;
         }
 

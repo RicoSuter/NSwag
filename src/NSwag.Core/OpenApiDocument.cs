@@ -206,7 +206,7 @@ namespace NSwag
         /// <returns>The <see cref="OpenApiDocument" />.</returns>
         public static async Task<OpenApiDocument> FromFileAsync(string filePath)
         {
-            var data = await DynamicApis.FileReadAllTextAsync(filePath).ConfigureAwait(false);
+            var data = DynamicApis.FileReadAllText(filePath);
             return await FromJsonAsync(data, filePath).ConfigureAwait(false);
         }
 

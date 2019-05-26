@@ -81,7 +81,7 @@ namespace NSwag.Commands
                 return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
             }
 
-            if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
+            if (DynamicApis.FileExists(input))
             {
                 return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
             }

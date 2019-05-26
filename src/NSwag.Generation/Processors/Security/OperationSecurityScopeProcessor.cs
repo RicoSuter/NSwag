@@ -9,8 +9,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors.Security
@@ -35,7 +33,7 @@ namespace NSwag.Generation.Processors.Security
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             if (context.OperationDescription.Operation.Security == null)
             {
@@ -48,7 +46,7 @@ namespace NSwag.Generation.Processors.Security
                 { _name, scopes }
             });
 
-            return Task.FromResult(true);
+            return true;
         }
 
         /// <summary>Gets the security scopes for an operation.</summary>

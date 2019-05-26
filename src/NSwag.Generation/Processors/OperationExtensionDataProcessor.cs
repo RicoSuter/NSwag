@@ -23,7 +23,7 @@ namespace NSwag.Generation.Processors
         /// </summary>
         /// <param name="context">The processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             var operation = context.OperationDescription.Operation;
             if (operation.ExtensionData == null)
@@ -63,7 +63,7 @@ namespace NSwag.Generation.Processors
                 }
             }
 
-            return Task.FromResult(true);
+            return true;
         }
     }
 }

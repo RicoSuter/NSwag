@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NJsonSchema;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.CodeGeneration.OperationNameGenerators;
@@ -11,10 +10,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     public class ControllerGenerationFormatTests
     {
         [Fact]
-        public async Task When_controllergenerationformat_abstract_then_abstractcontroller_is_generated()
+        public void When_controllergenerationformat_abstract_then_abstractcontroller_is_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
 
             //// Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
@@ -31,10 +30,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllergenerationformat_partial_then_partialcontroller_is_generated()
+        public void When_controllergenerationformat_partial_then_partialcontroller_is_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
 
             //// Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
@@ -44,7 +43,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-
             Assert.Contains("partial class TestController", code);
             Assert.Contains("ITestController", code);
             Assert.Contains("private ITestController _implementation;", code);
@@ -52,10 +50,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_aspnet_actiontype_inuse_with_abstract_then_actiontype_is_generated()
+        public void When_aspnet_actiontype_inuse_with_abstract_then_actiontype_is_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
 
             //// Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
@@ -71,10 +69,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_aspnet_actiontype_inuse_with_partial_then_actiontype_is_generated()
+        public void When_aspnet_actiontype_inuse_with_partial_then_actiontype_is_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
 
             //// Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
@@ -92,10 +90,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
+        public void When_controllergenerationformat_notsetted_then_partialcontroller_is_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
 
             //// Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings());
@@ -109,10 +107,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controller_has_operation_with_complextype_then_partialcontroller_is_generated_with_frombody_attribute()
+        public void When_controller_has_operation_with_complextype_then_partialcontroller_is_generated_with_frombody_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings();
 
             //// Act
@@ -127,10 +125,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controller_has_operation_with_complextype_then_abstractcontroller_is_generated_with_frombody_attribute()
+        public void When_controller_has_operation_with_complextype_then_abstractcontroller_is_generated_with_frombody_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
@@ -148,10 +146,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllerroutenamingstrategy_operationid_then_route_attribute_name_specified()
+        public void When_controllerroutenamingstrategy_operationid_then_route_attribute_name_specified()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 RouteNamingStrategy = CSharpControllerRouteNamingStrategy.OperationId
@@ -167,10 +165,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllerroutenamingstrategy_none_then_route_attribute_name_not_specified()
+        public void When_controllerroutenamingstrategy_none_then_route_attribute_name_not_specified()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 RouteNamingStrategy = CSharpControllerRouteNamingStrategy.None
@@ -186,10 +184,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controller_has_operations_with_required_parameters_then_partialcontroller_is_generated_with_bindrequired_attribute()
+        public void When_controller_has_operations_with_required_parameters_then_partialcontroller_is_generated_with_bindrequired_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 GenerateModelValidationAttributes = true,
@@ -210,10 +208,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controller_has_operations_with_required_parameters_then_abstractcontroller_is_generated_with_bindrequired_attribute()
+        public void When_controller_has_operations_with_required_parameters_then_abstractcontroller_is_generated_with_bindrequired_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerStyle = CSharpControllerStyle.Abstract,
@@ -235,10 +233,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_the_generation_of_dto_classes_are_disabled_then_file_is_generated_without_any_dto_clasess()
+        public void When_the_generation_of_dto_classes_are_disabled_then_file_is_generated_without_any_dto_clasess()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 GenerateDtoTypes = false
@@ -253,7 +251,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("public partial class ComplexTypeResponse", code);
         }
 
-        private async Task<OpenApiDocument> GetSwaggerDocument()
+        private OpenApiDocument GetOpenApiDocument()
         {
             JsonSchema complexTypeSchema = new JsonSchema();
             complexTypeSchema.Title = "ComplexType";
@@ -269,7 +267,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             complexTypeReponseSchema.Properties["Prop3"] = new JsonSchemaProperty { Type = JsonObjectType.Boolean, IsRequired = true };
             complexTypeReponseSchema.Properties["Prop4"] = new JsonSchemaProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
-            var typeString = await JsonSchema.FromTypeAsync(typeof(string));
+            var typeString = JsonSchema.FromType(typeof(string));
 
             var document = new OpenApiDocument();
             document.Paths["Foo"] = new OpenApiPathItem
@@ -294,7 +292,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                         },
                         Responses =
                         {
-                            new System.Collections.Generic.KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
+                            new KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
                             {
                                 Schema = typeString
                             })
@@ -325,7 +323,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                         },
                         Responses =
                         {
-                            new System.Collections.Generic.KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
+                            new KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
                             {
                                 Schema = typeString
                             })
@@ -436,10 +434,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllertarget_aspnet_and_multiple_controllers_then_only_single_custom_fromheader_generated()
+        public void When_controllertarget_aspnet_and_multiple_controllers_then_only_single_custom_fromheader_generated()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNet,
@@ -461,10 +459,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controllertarget_aspnetcore_then_use_builtin_fromheader()
+        public void When_controllertarget_aspnetcore_then_use_builtin_fromheader()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNetCore
@@ -482,10 +480,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_controller_has_operation_with_header_parameter_then_partialcontroller_is_generated_with_fromheader_attribute()
+        public void When_controller_has_operation_with_header_parameter_then_partialcontroller_is_generated_with_fromheader_attribute()
         {
             //// Arrange
-            var document = await GetSwaggerDocument();
+            var document = GetOpenApiDocument();
             var settings = new CSharpControllerGeneratorSettings
             {
                 ControllerTarget = CSharpControllerTarget.AspNet

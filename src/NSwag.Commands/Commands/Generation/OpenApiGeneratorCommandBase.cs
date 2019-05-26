@@ -269,7 +269,7 @@ namespace NSwag.Commands.Generation
                 try
                 {
                     // Search Program class and use CreateWebHostBuilder method
-                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
                     var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
 
                     var programType = firstAssembly.ExportedTypes.First(t => t.Name == "Program") ??
@@ -296,7 +296,7 @@ namespace NSwag.Commands.Generation
                 catch
                 {
                     // Search Startup class as fallback
-                    var assemblies = await LoadAssembliesAsync(AssemblyPaths, assemblyLoader).ConfigureAwait(false);
+                    var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
                     var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
 
                     var startupType = firstAssembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
@@ -384,9 +384,9 @@ namespace NSwag.Commands.Generation
             if (!string.IsNullOrEmpty(DocumentTemplate))
             {
                 var file = PathUtilities.MakeAbsolutePath(DocumentTemplate, workingDirectory);
-                if (await DynamicApis.FileExistsAsync(file).ConfigureAwait(false))
+                if (DynamicApis.FileExists(file))
                 {
-                    var json = await DynamicApis.FileReadAllTextAsync(file).ConfigureAwait(false);
+                    var json = DynamicApis.FileReadAllText(file);
                     if (json.StartsWith("{") == false)
                     {
                         return (await OpenApiYamlDocument.FromYamlAsync(json)).ToJson();

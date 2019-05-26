@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -37,7 +36,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="operationProcessorContext"></param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public async Task<bool> ProcessAsync(OperationProcessorContext operationProcessorContext)
+        public bool Process(OperationProcessorContext operationProcessorContext)
         {
             if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
             {
@@ -133,7 +132,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     (apiParameter.Source == BindingSource.Custom &&
                      httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
-                    operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                     operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
@@ -141,34 +140,34 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else if (apiParameter.Source == BindingSource.Header)
                 {
-                    operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                     operationParameter.Kind = OpenApiParameterKind.Header;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (apiParameter.Source == BindingSource.Query)
                 {
-                    operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                     operationParameter.Kind = OpenApiParameterKind.Query;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else if (apiParameter.Source == BindingSource.Body)
                 {
-                    operationParameter = await AddBodyParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter = AddBodyParameter(context, extendedApiParameter);
                 }
                 else if (apiParameter.Source == BindingSource.Form)
                 {
-                    operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                     operationParameter.Kind = OpenApiParameterKind.FormData;
 
                     context.OperationDescription.Operation.Parameters.Add(operationParameter);
                 }
                 else
                 {
-                    if (await TryAddFileParameterAsync(context, extendedApiParameter).ConfigureAwait(false) == false)
+                    if (TryAddFileParameter(context, extendedApiParameter) == false)
                     {
-                        operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+                        operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                         operationParameter.Kind = OpenApiParameterKind.Query;
 
                         context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -241,7 +240,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
 
-        private async Task<bool> TryAddFileParameterAsync(
+        private bool TryAddFileParameter(
             OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
             var typeInfo = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes), _settings);
@@ -258,16 +257,16 @@ namespace NSwag.Generation.AspNetCore.Processors
                 hasSwaggerFileAttribute ||
                 isFileArray)
             {
-                await AddFileParameterAsync(context, extendedApiParameter, isFileArray).ConfigureAwait(false);
+                AddFileParameter(context, extendedApiParameter, isFileArray);
                 return true;
             }
 
             return false;
         }
 
-        private async Task AddFileParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
+        private void AddFileParameter(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
         {
-            var operationParameter = await CreatePrimitiveParameterAsync(context, extendedApiParameter).ConfigureAwait(false);
+            var operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
             InitializeFileParameter(operationParameter, isFileArray);
 
             context.OperationDescription.Operation.Parameters.Add(operationParameter);
@@ -293,7 +292,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return false;
         }
 
-        private async Task<OpenApiParameter> AddBodyParameterAsync(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
+        private OpenApiParameter AddBodyParameter(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
             OpenApiParameter operationParameter;
 
@@ -319,7 +318,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
-                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
+                    Description = extendedApiParameter.GetDocumentation()
                 };
             }
             else if (parameterType.IsAssignableToTypeName("System.IO.Stream", TypeNameStyle.FullName))
@@ -337,7 +336,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
-                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false)
+                    Description = extendedApiParameter.GetDocumentation()
                 };
             }
             else // body from type
@@ -348,9 +347,9 @@ namespace NSwag.Generation.AspNetCore.Processors
                     Kind = OpenApiParameterKind.Body,
                     IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault),
                     IsNullableRaw = isNullable,
-                    Description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false),
-                    Schema = await context.SchemaGenerator.GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
-                        contextualParameterType, isNullable, schemaResolver: context.SchemaResolver).ConfigureAwait(false)
+                    Description = extendedApiParameter.GetDocumentation(),
+                    Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                        contextualParameterType, isNullable, schemaResolver: context.SchemaResolver)
                 };
             }
 
@@ -358,15 +357,15 @@ namespace NSwag.Generation.AspNetCore.Processors
             return operationParameter;
         }
 
-        private async Task<OpenApiParameter> CreatePrimitiveParameterAsync(
+        private OpenApiParameter CreatePrimitiveParameter(
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
             var contextualParameter = extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
 
-            var description = await extendedApiParameter.GetDocumentationAsync().ConfigureAwait(false);
-            var operationParameter = await context.DocumentGenerator.CreatePrimitiveParameterAsync(
-                extendedApiParameter.ApiParameter.Name, description, contextualParameter).ConfigureAwait(false);
+            var description = extendedApiParameter.GetDocumentation();
+            var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
+                extendedApiParameter.ApiParameter.Name, description, contextualParameter);
 
             if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
             {
@@ -451,16 +450,16 @@ namespace NSwag.Generation.AspNetCore.Processors
                 return isRequired || (requireParametersWithoutDefault && ParameterInfo?.HasDefaultValue != true);
             }
 
-            public async Task<string> GetDocumentationAsync()
+            public string GetDocumentation()
             {
                 var parameterDocumentation = string.Empty;
                 if (ParameterInfo != null)
                 {
-                    parameterDocumentation = await ParameterInfo.ToContextualParameter().GetDescriptionAsync().ConfigureAwait(false);
+                    parameterDocumentation = ParameterInfo.ToContextualParameter().GetDescription();
                 }
                 else if (PropertyInfo != null)
                 {
-                    parameterDocumentation = await PropertyInfo.ToContextualProperty().GetDescriptionAsync().ConfigureAwait(false);
+                    parameterDocumentation = PropertyInfo.ToContextualProperty().GetDescription();
                 }
 
                 return parameterDocumentation;

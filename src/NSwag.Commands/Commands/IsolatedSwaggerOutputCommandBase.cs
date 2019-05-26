@@ -50,13 +50,13 @@ namespace NSwag.Commands
             return document;
         }
 
-        protected async Task<Assembly[]> LoadAssembliesAsync(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected Assembly[] LoadAssemblies(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
         {
 #if FullNet
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory)))
                 .ToArray();

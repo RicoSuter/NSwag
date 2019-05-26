@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -70,10 +69,10 @@ namespace NSwag.Generation
         /// <param name="name">The name.</param>
         /// <param name="contextualParameter">The parameter.</param>
         /// <returns>The parameter.</returns>
-        public async Task<OpenApiParameter> CreatePrimitiveParameterAsync(string name, ContextualParameterInfo contextualParameter)
+        public OpenApiParameter CreatePrimitiveParameter(string name, ContextualParameterInfo contextualParameter)
         {
-            var documentation = await contextualParameter.GetDescriptionAsync().ConfigureAwait(false);
-            return await CreatePrimitiveParameterAsync(name, documentation, contextualParameter).ConfigureAwait(false);
+            var documentation = contextualParameter.GetDescription();
+            return CreatePrimitiveParameter(name, documentation, contextualParameter);
         }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
@@ -81,7 +80,7 @@ namespace NSwag.Generation
         /// <param name="description">The description.</param>
         /// <param name="contextualParameter">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
-        public async Task<OpenApiParameter> CreatePrimitiveParameterAsync(
+        public OpenApiParameter CreatePrimitiveParameter(
             string name, string description, ContextualType contextualParameter)
         {
             OpenApiParameter operationParameter;
@@ -89,9 +88,8 @@ namespace NSwag.Generation
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
             if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
             {
-                var schema = await _settings.SchemaGenerator
-                    .GenerateAsync(contextualParameter, _schemaResolver)
-                    .ConfigureAwait(false);
+                var schema = _settings.SchemaGenerator
+                    .Generate(contextualParameter, _schemaResolver);
 
                 operationParameter = new OpenApiParameter();
 
@@ -128,18 +126,16 @@ namespace NSwag.Generation
             {
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
-                    operationParameter = await _settings.SchemaGenerator
-                        .GenerateAsync<OpenApiParameter>(contextualParameter, _schemaResolver)
-                        .ConfigureAwait(false);
+                    operationParameter = _settings.SchemaGenerator
+                        .Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
                 }
                 else
                 {
                     operationParameter = new OpenApiParameter
                     {
-                        Schema = await _settings.SchemaGenerator
-                            .GenerateWithReferenceAndNullabilityAsync<JsonSchema>(
+                        Schema = _settings.SchemaGenerator
+                            .GenerateWithReferenceAndNullability<JsonSchema>(
                                 contextualParameter, typeDescription.IsNullable, _schemaResolver)
-                            .ConfigureAwait(false)
                     };
                 }
             }

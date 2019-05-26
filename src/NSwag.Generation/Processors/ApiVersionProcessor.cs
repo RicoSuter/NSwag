@@ -10,7 +10,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -28,7 +27,7 @@ namespace NSwag.Generation.Processors
         /// <summary>Processes the specified method information.</summary>
         /// <param name="context">The processor context.</param>
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
-        public Task<bool> ProcessAsync(OperationProcessorContext context)
+        public bool Process(OperationProcessorContext context)
         {
             if (UseVersionedApiExplorer(context))
             {
@@ -41,7 +40,7 @@ namespace NSwag.Generation.Processors
                     RemoveApiVersionPathParameter(context, version);
                 }
 
-                return Task.FromResult(isIncluded);
+                return isIncluded;
             }
             else
             {
@@ -61,18 +60,18 @@ namespace NSwag.Generation.Processors
                         if (version != null)
                         {
                             RemoveApiVersionPathParameter(context, version);
-                            return Task.FromResult(true);
+                            return true;
                         }
                         else
                         {
-                            return Task.FromResult(false);
+                            return false;
                         }
                     }
 
-                    return Task.FromResult(false);
+                    return false;
                 }
 
-                return Task.FromResult(true);
+                return true;
             }
         }
 
