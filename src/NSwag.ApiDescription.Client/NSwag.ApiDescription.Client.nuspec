@@ -14,7 +14,7 @@
     <copyright>Copyright © Rico Suter, 2019</copyright>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview5-19227-01" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview6.19307.2" />
       <dependency id="NSwag.MSBuild" version="13.0.3" />
     </dependencies>
     <references />

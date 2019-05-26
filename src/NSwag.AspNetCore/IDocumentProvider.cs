@@ -6,15 +6,18 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.Extensions.ApiDescription
+namespace Microsoft.Extensions.ApiDescriptions
 {
     // This service will be looked up by name from the service collection when using
-    // the Microsoft.Extensions.ApiDescription tool
+    // the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.
     internal interface IDocumentProvider
     {
+        IEnumerable<string> GetDocumentNames();
+
         Task GenerateAsync(string documentName, TextWriter writer);
     }
 }

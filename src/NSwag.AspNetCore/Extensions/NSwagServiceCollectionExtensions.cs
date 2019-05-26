@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//-----------------------------------------------------------------------
+// <copyright file="NSwagServiceCollectionExtensions.cs" company="NSwag">
+//     Copyright (c) Rico Suter. All rights reserved.
+// </copyright>
+// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <author>Rico Suter, mail@rsuter.com</author>
+//-----------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
 using NSwag.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -55,8 +64,10 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             serviceCollection.AddSingleton(services =>
             {
-                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
-                settings.SchemaType = SchemaType.Swagger2;
+                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+                {
+                    SchemaType = SchemaType.Swagger2,
+                };
 
                 configure?.Invoke(settings, services);
 
@@ -83,8 +94,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 // Used by UseDocumentProvider CLI setting
                 serviceCollection.AddSingleton<IOpenApiDocumentGenerator>(s => s.GetRequiredService<OpenApiDocumentProvider>());
 
-                // Used by the Microsoft.Extensions.ApiDescription tool
-                serviceCollection.AddSingleton<ApiDescription.IDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());
+                // Used by the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.
+                serviceCollection.AddSingleton<IDocumentProvider>(s => s.GetRequiredService<OpenApiDocumentProvider>());
             }
 
             return serviceCollection;
