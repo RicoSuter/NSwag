@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 using System;
 using System.Collections.Generic;
 using NJsonSchema;
@@ -23,13 +23,22 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The base settings for all Swagger UIs.</summary>
+#if AspNetOwin
     public abstract class SwaggerUiSettingsBase<T> : SwaggerSettings<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
+#else
+    public abstract class SwaggerUiSettingsBase : SwaggerSettings
+#endif
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerUiSettingsBase{T}"/> class.</summary>
         public SwaggerUiSettingsBase()
         {
-            TransformToExternalPath = (internalUiRoute, request) => internalUiRoute;
+            TransformToExternalPath = (internalUiRoute, request) =>
+            {
+                return internalUiRoute.StartsWith("/") && internalUiRoute.StartsWith(request.PathBase.ToString()) == false
+                    ? request.PathBase + internalUiRoute
+                    : internalUiRoute;
+            };
         }
 
         /// <summary>Gets or sets the internal swagger UI route (must start with '/').</summary>
@@ -78,7 +87,7 @@ namespace NSwag.AspNetCore
             {
                 return string.Empty;
             }
-            
+
             var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
 
             return $"<script src=\"{uriString}\"></script>";

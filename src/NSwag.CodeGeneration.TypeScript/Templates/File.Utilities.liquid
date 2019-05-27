@@ -2,36 +2,36 @@
 {% if Framework.IsAngular -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
-    return {{ Framework.RxJs.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
+    return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
     if(result !== null && result !== undefined)
         return {{ Framework.RxJs.ObservableThrowMethod }}(result);
     else
-        return {{ Framework.RxJs.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, null));
+        return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, null));
 {%     endif -%}
 }
 
 {% elseif Framework.IsAngularJS -%}
 function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 {%     if WrapDtoExceptions -%}
-    return q.reject(new SwaggerException(message, status, response, headers, result));
+    return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
     if(result !== null && result !== undefined)
         return q.reject(result);
     else
-        return q.reject(new SwaggerException(message, status, response, headers, null));
+        return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, null));
 {%     endif -%}
 }
 
 {% else -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
 {%     if WrapDtoExceptions -%}
-    throw new SwaggerException(message, status, response, headers, result);
+    throw new {{ ExceptionClassName }}(message, status, response, headers, result);
 {%     else -%}
     if(result !== null && result !== undefined)
         throw result;
     else
-        throw new SwaggerException(message, status, response, headers, null);
+        throw new {{ ExceptionClassName }}(message, status, response, headers, null);
 {%     endif -%}
 }
 

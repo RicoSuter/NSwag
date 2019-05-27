@@ -31,15 +31,17 @@ namespace NSwag.Commands
         public string[] ServiceSchemes { get; set; }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<SwaggerDocument> GetInputSwaggerDocument()
+        protected async Task<OpenApiDocument> GetInputSwaggerDocument()
         {
-            var document = Input as SwaggerDocument;
+            var document = Input as OpenApiDocument;
             if (document == null)
             {
                 var input = Input.ToString();
 
                 if (string.IsNullOrEmpty(input))
+                {
                     throw new ArgumentException("The argument 'Input' was empty.");
+                }
 
                 document = await ReadSwaggerDocumentAsync(input);
             }
@@ -52,29 +54,39 @@ namespace NSwag.Commands
             else
             {
                 if (!string.IsNullOrEmpty(ServiceHost))
+                {
                     document.Host = ServiceHost;
+                }
 
                 if (ServiceSchemes != null && ServiceSchemes.Any())
-                    document.Schemes = ServiceSchemes.Select(s => (SwaggerSchema)Enum.Parse(typeof(SwaggerSchema), s, true)).ToList();
+                {
+                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true)).ToList();
+                }
             }
 
             return document;
         }
 
         /// <exception cref="ArgumentException">The argument 'Input' was empty.</exception>
-        protected async Task<JsonSchema4> GetJsonSchemaAsync()
+        protected async Task<JsonSchema> GetJsonSchemaAsync()
         {
             var input = Input.ToString();
             if (string.IsNullOrEmpty(input))
+            {
                 throw new ArgumentException("The argument 'Input' was empty.");
+            }
 
             if (IsJson(input))
-                return await JsonSchema4.FromJsonAsync(input).ConfigureAwait(false);
+            {
+                return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
+            }
 
-            if (await DynamicApis.FileExistsAsync(input).ConfigureAwait(false))
-                return await JsonSchema4.FromFileAsync(input).ConfigureAwait(false);
+            if (DynamicApis.FileExists(input))
+            {
+                return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
+            }
 
-            return await JsonSchema4.FromUrlAsync(input).ConfigureAwait(false);
+            return await JsonSchema.FromUrlAsync(input).ConfigureAwait(false);
         }
     }
 }

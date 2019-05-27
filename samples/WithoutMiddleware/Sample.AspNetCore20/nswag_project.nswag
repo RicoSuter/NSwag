@@ -1,8 +1,8 @@
 ﻿{
   "runtime": "NetCore20",
   "defaultVariables": "configuration=Debug",
-  "swaggerGenerator": {
-    "aspNetCoreToSwagger": {
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
       "project": "Sample.AspNetCore20.csproj",
       "msBuildProjectExtensionsPath": null,
       "configuration": null,
@@ -12,13 +12,17 @@
       "verbose": true,
       "workingDirectory": null,
       "requireParametersWithoutDefault": true,
+      "apiGroupNames": null,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
+      "defaultResponseReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,
+      "generateEnumMappingDescription": false,
       "generateXmlObjects": false,
       "generateAbstractProperties": false,
+      "generateAbstractSchemas": true,
       "ignoreObsoleteProperties": false,
       "allowReferencesWithProperties": false,
       "excludedTypeNames": [],
@@ -28,7 +32,6 @@
       "infoTitle": "My Title",
       "infoDescription": null,
       "infoVersion": "1.0.0",
-      "includedVersions": null,
       "documentTemplate": null,
       "documentProcessorTypes": [],
       "operationProcessorTypes": [],
@@ -37,7 +40,11 @@
       "contractResolverType": null,
       "serializerSettingsType": null,
       "useDocumentProvider": false,
+      "documentName": "v1",
+      "aspNetCoreEnvironment": null,
+      "createWebHostBuilderMethod": null,
       "startupType": null,
+      "allowNullableBodyParameters": true,
       "output": "nswag_project_swagger.json",
       "outputType": "Swagger2",
       "assemblyPaths": [],

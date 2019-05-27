@@ -45,13 +45,19 @@ namespace NSwag.Commands.CodeGeneration
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(PropertyNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.PropertyNameGenerator = (IPropertyNameGenerator)assemblyLoader.CreateInstance(PropertyNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(EnumNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.EnumNameGenerator = (IEnumNameGenerator)assemblyLoader.CreateInstance(EnumNameGeneratorType);
+            }
         }
     }
 }

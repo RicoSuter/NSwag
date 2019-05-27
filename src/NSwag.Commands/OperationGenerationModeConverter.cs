@@ -16,36 +16,68 @@ namespace NSwag.Commands
         internal static OperationGenerationMode GetOperationGenerationMode(IOperationNameGenerator operationNameGenerator)
         {
             if (operationNameGenerator is MultipleClientsFromOperationIdOperationNameGenerator)
+            {
                 return OperationGenerationMode.MultipleClientsFromOperationId;
+            }
+
             if (operationNameGenerator is MultipleClientsFromPathSegmentsOperationNameGenerator)
+            {
                 return OperationGenerationMode.MultipleClientsFromPathSegments;
+            }
+
             if (operationNameGenerator is MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator)
+            {
                 return OperationGenerationMode.MultipleClientsFromFirstTagAndPathSegments;
+            }
+
             if (operationNameGenerator is MultipleClientsFromFirstTagAndOperationIdGenerator)
+            {
                 return OperationGenerationMode.MultipleClientsFromFirstTagAndOperationId;
+            }
+
             if (operationNameGenerator is SingleClientFromOperationIdOperationNameGenerator)
+            {
                 return OperationGenerationMode.SingleClientFromOperationId;
+            }
+
             if (operationNameGenerator is SingleClientFromPathSegmentsOperationNameGenerator)
+            {
                 return OperationGenerationMode.SingleClientFromPathSegments;
+            }
+
             return OperationGenerationMode.MultipleClientsFromOperationId;
         }
 
         internal static IOperationNameGenerator GetOperationNameGenerator(OperationGenerationMode operationGenerationMode)
         {
             if (operationGenerationMode == OperationGenerationMode.MultipleClientsFromOperationId)
+            {
                 return new MultipleClientsFromOperationIdOperationNameGenerator();
+            }
             else if (operationGenerationMode == OperationGenerationMode.MultipleClientsFromPathSegments)
+            {
                 return new MultipleClientsFromPathSegmentsOperationNameGenerator();
+            }
             else if (operationGenerationMode == OperationGenerationMode.MultipleClientsFromFirstTagAndPathSegments)
+            {
                 return new MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator();
+            }
             else if (operationGenerationMode == OperationGenerationMode.MultipleClientsFromFirstTagAndOperationId)
+            {
                 return new MultipleClientsFromFirstTagAndOperationIdGenerator();
+            }
             else if (operationGenerationMode == OperationGenerationMode.SingleClientFromOperationId)
+            {
                 return new SingleClientFromOperationIdOperationNameGenerator();
+            }
             else if (operationGenerationMode == OperationGenerationMode.SingleClientFromPathSegments)
+            {
                 return new SingleClientFromPathSegmentsOperationNameGenerator();
+            }
             else
+            {
                 return new MultipleClientsFromOperationIdOperationNameGenerator();
+            }
         }
     }
 }

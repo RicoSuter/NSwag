@@ -113,8 +113,8 @@ namespace {{ Namespace }} {
 }
 
 {% endif -%}
-{% if RequiresSwaggerExceptionClass -%}
-{% if ExportTypes %}export {% endif %}class SwaggerException extends Error {
+{% if RequiresExceptionClass -%}
+{% if ExportTypes %}export {% endif %}class {{ ExceptionClassName }} extends Error {
     message: string;
     status: number; 
     response: string; 
@@ -131,10 +131,10 @@ namespace {{ Namespace }} {
         this.result = result;
     }
 
-    protected isSwaggerException = true;
+    protected is{{ ExceptionClassName }} = true;
 
-    static isSwaggerException(obj: any): obj is SwaggerException {
-        return obj.isSwaggerException === true;
+    static is{{ ExceptionClassName }}(obj: any): obj is {{ ExceptionClassName }} {
+        return obj.is{{ ExceptionClassName }} === true;
     }
 }
 

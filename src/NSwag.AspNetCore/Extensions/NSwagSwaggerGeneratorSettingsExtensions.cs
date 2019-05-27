@@ -7,14 +7,14 @@
 //-----------------------------------------------------------------------
 
 using NSwag;
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.Processors.Security;
+using NSwag.Generation;
+using NSwag.Generation.Processors.Security;
 using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Extensions for the <see cref="SwaggerGeneratorSettings"/>.
+    /// Extensions for the <see cref="OpenApiDocumentGeneratorSettings"/>.
     /// </summary>
     public static class NSwagSwaggerGeneratorSettingsExtensions
     {
@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="name">The name/key of the security scheme/definition.</param>
         /// <param name="scopeNames">The scope names to add to as security requirement with the scheme name in the 'security' property (can be an empty list).</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
-        public static SwaggerGeneratorSettings AddSecurity(this SwaggerGeneratorSettings settings, string name, IEnumerable<string> scopeNames, SwaggerSecurityScheme swaggerSecurityScheme)
+        public static OpenApiDocumentGeneratorSettings AddSecurity(this OpenApiDocumentGeneratorSettings settings, string name, IEnumerable<string> scopeNames, OpenApiSecurityScheme swaggerSecurityScheme)
         {
             settings.DocumentProcessors.Add(new SecurityDefinitionAppender(name, scopeNames, swaggerSecurityScheme));
             return settings;

@@ -13,15 +13,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller operation model.</summary>
     public class CSharpControllerOperationModel : CSharpOperationModel
     {
-        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
+        private readonly CSharpControllerGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
-        public CSharpControllerOperationModel(SwaggerOperation operation, SwaggerToCSharpControllerGeneratorSettings settings, 
-            SwaggerToCSharpControllerGenerator generator, CSharpTypeResolver resolver) 
+        public CSharpControllerOperationModel(OpenApiOperation operation, CSharpControllerGeneratorSettings settings, 
+            CSharpControllerGenerator generator, CSharpTypeResolver resolver) 
             : base(operation, settings, generator, resolver)
         {
             _settings = settings;

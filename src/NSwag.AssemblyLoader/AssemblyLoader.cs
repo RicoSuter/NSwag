@@ -59,7 +59,9 @@ namespace NSwag.AssemblyLoader
                 {
                     var type = assembly.GetType(typeName, false, true);
                     if (type != null)
+                    {
                         return type;
+                    }
                 }
 
                 throw new InvalidOperationException("Could not find the type '" + typeName + "'.");
@@ -122,26 +124,36 @@ namespace NSwag.AssemblyLoader
 
                 var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
+                {
                     return existingAssembly;
+                }
 
                 if (version != null)
                 {
                     var assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
 
                     assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + "." + version.Minor + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
 
                     assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
                 }
 
                 var assembly = TryLoadByName(allReferencePaths, assemblyName);
                 if (assembly != null)
+                {
                     return assembly;
+                }
 
                 return null;
             };
