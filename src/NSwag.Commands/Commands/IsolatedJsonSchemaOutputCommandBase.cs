@@ -34,11 +34,11 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            JsonReferenceResolver ReferenceResolverFactory(JsonSchema4 d) =>
+            JsonReferenceResolver ReferenceResolverFactory(JsonSchema d) =>
                 new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
 
             var documentJson = await RunIsolatedAsync((string)null);
-            var document = await JsonSchema4.FromJsonAsync(documentJson, null, ReferenceResolverFactory).ConfigureAwait(false);
+            var document = await JsonSchema.FromJsonAsync(documentJson, null, ReferenceResolverFactory).ConfigureAwait(false);
             await OutputCommandExtensions.TryWriteFileOutputAsync(this, this.OutputFilePath, host, () => document.ToJson()).ConfigureAwait(false);
             return document;
         }
@@ -49,7 +49,7 @@ namespace NSwag.Commands
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory)))
                 .ToArray();

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="TypesToSwaggerCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -18,9 +16,9 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 
-namespace NSwag.Commands.SwaggerGeneration
+namespace NSwag.Commands.Commands.Generation
 {
-    /// <summary></summary>
+    /// <summary>Generates a JSON Schema from multiple .NET types.</summary>
     [Command(Name = "types2jsonschema")]
     public class TypesToJsonSchemaCommand : IsolatedJsonSchemaOutputCommandBase<JsonSchemaGeneratorSettings>
     {
@@ -94,20 +92,19 @@ namespace NSwag.Commands.SwaggerGeneration
             set { Settings.GenerateXmlObjects = value; }
         }
 
-        [Argument(Name = nameof(AllowAdditionalProperties), IsRequired = false, Description = "If `additionalProperties` on all possible definitions and references are allowed (default: false).")]
-        public bool AllowAdditionalProperties { get; set; }
+        // TODO: Add new AllowAdditionalProperties setting
 
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-            var document = new NJsonSchema.JsonSchema4();
-            var generator = new JsonSchemaGenerator(Settings);
-            var schemaResolver = new JsonSchemaResolver(document, Settings);
+            var schema = new JsonSchema();
+            var schemaGenerator = new JsonSchemaGenerator(Settings);
+            var schemaResolver = new JsonSchemaResolver(schema, Settings);
 
 #if FullNet
             var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             var assemblies = PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory))).ToArray();
 #endif
@@ -119,35 +116,22 @@ namespace NSwag.Commands.SwaggerGeneration
 
             foreach (var className in matchedClassNames)
             {
-                var type = assemblies.Select(a => a.GetType(className)).FirstOrDefault(t => t != null);
-                await generator.GenerateAsync(type, schemaResolver).ConfigureAwait(false);
+                var type = assemblies
+                    .Select(a => a.GetType(className))
+                    .FirstOrDefault(t => t != null);
+
+                if (type != null)
+                {
+                    schemaGenerator.Generate(type, schemaResolver);
+                }
             }
 
-            document.AllOf.Add(new JsonSchema4
+            schema.AllOf.Add(new JsonSchema
             {
-                Reference = document.Definitions.First().Value
+                Reference = schema.Definitions.First().Value
             });
 
-            SetAllowAdditionalProperties(document);
-
-            return document.ToJson();
-        }
-
-        private void SetAllowAdditionalProperties(JsonSchema4 document)
-        {
-            foreach (var definition in document.Definitions.Values)
-                SetAllowAdditionalProperties(definition);
-
-            foreach (var definition in document.OneOf)
-                SetAllowAdditionalProperties(definition);
-
-            foreach (var definition in document.AllOf)
-                SetAllowAdditionalProperties(definition);
-
-            foreach (var definition in document.AnyOf)
-                SetAllowAdditionalProperties(definition);
-
-            document.AllowAdditionalProperties = AllowAdditionalProperties;
+            return schema.ToJson();
         }
     }
 }
