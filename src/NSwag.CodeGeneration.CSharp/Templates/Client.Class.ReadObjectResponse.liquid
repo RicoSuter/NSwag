@@ -1,4 +1,4 @@
-﻿protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string,System.Collections.Generic.IEnumerable<string>> responseHeadersAsDictionary)
+﻿protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
 {
 #if NSWAG_STRING_RESPONSES // Define this symbol in your project properties to enable inspecting response bodies as strings.
     var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -10,7 +10,7 @@
     catch (Newtonsoft.Json.JsonException exception)
     {
         var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, objectBodyAsString, responseHeadersAsDictionary, exception);
+        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, objectBodyAsString, headers, exception);
     }
 #else
     try
@@ -27,7 +27,7 @@
     catch (Newtonsoft.Json.JsonException exception)
     {
         var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, null, responseHeadersAsDictionary, exception);
+        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, null, headers, exception);
     }
 #endif
 }

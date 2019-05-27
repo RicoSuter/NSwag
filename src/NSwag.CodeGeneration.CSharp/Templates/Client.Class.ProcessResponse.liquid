@@ -13,25 +13,24 @@ throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)respo
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, responseText); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, objectResponse_.ResponseObject); 
 {%             else -%}
 return objectResponse_.ResponseObject; 
 {%             endif -%}
 {%         endif -%}
 {%         if response.IsSuccess == false -%}
 {%             if response.InheritsExceptionSchema -%}
-if (result_ == null)
-    result_ = new {{ response.Type }}();
-result_.Data.Add("HttpStatus", status_);
-result_.Data.Add("HttpHeaders", headers_);
-result_.Data.Add("HttpResponse", responseText);
+var responseObject_ = objectResponse_.ResponseObject != null ? objectResponse_.ResponseObject : new {{ response.Type }}();
+responseObject_.Data.Add("HttpStatus", status_);
+responseObject_.Data.Add("HttpHeaders", headers_);
+responseObject_.Data.Add("HttpResponse", objectResponse_.ResponseText);
 {%                 if WrapDtoExceptions -%}
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, responseObject_);
 {%                 else -%}
-throw result_;
+throw objectResponse_.ResponseObject;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject, null);
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}
