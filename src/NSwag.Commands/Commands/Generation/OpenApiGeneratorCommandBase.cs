@@ -187,7 +187,7 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger(), most CLI settings will be ignored).")]
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), most CLI settings will be ignored).")]
         public bool UseDocumentProvider { get; set; } = true;
 
         [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]

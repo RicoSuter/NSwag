@@ -122,7 +122,7 @@
                      Margin="0,0,0,12" />
 
             <CheckBox IsChecked="{Binding Command.UseDocumentProvider, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseDocumentProvider">
-                <TextBlock Text="Use document provider (configuration from AddSwagger(), recommended)" TextWrapping="Wrap" />
+                <TextBlock Text="Use document provider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), recommended)" TextWrapping="Wrap" />
             </CheckBox>
 
             <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource VisibilityConverter}}">
