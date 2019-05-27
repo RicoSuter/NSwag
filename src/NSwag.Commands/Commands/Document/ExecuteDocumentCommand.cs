@@ -58,7 +58,7 @@ namespace NSwag.Commands.Document
 
         private async Task ExecuteDocumentAsync(IConsoleHost host, string filePath)
         {
-            host.WriteMessage("\nExecuting file '" + filePath + "'...\n");
+            host.WriteMessage("\nExecuting file '" + filePath + "' with variables '" + Variables + "'...\n");
 
             var document = await NSwagDocument.LoadWithTransformationsAsync(filePath, Variables);
             if (document.Runtime != Runtime.Default)
