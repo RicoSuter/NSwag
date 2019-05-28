@@ -49,7 +49,7 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultPropertyNameHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Default, Null or NotNull).")]
         public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
         {
             get => Settings.DefaultReferenceTypeNullHandling;
