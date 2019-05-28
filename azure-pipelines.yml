@@ -49,6 +49,14 @@ steps:
     arguments: '--configuration $(BuildConfiguration)'
     feedsToUse: 'select'
     versioningScheme: 'off'
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests'
+  inputs:
+    command: 'test'
+    projects: '$(Projects)'
+    arguments: '--configuration $(BuildConfiguration)'
+    feedsToUse: 'select'
+    versioningScheme: 'off'
 
 # Publish artifacts
 - task: CopyFiles@2
