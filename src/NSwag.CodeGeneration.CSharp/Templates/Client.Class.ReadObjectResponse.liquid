@@ -10,7 +10,7 @@
     catch (Newtonsoft.Json.JsonException exception)
     {
         var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, objectBodyAsString, headers, exception);
+        throw new {{ ExceptionClass }}(message: message, (int)response.StatusCode, responseText, headers, exception);
     }
 #else
     try
