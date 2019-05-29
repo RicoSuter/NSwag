@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.AspNetCore;
 using System.Linq;
 
 namespace SimpleApp
@@ -53,7 +52,7 @@ namespace SimpleApp
             // both URLs should be correctly served...
 
             // Config with support for multiple documents
-            app.UseSwagger(config => config.PostProcess = (document, request) =>
+            app.UseOpenApi(config => config.PostProcess = (document, request) =>
             {
                 if (request.Headers.ContainsKey("X-External-Host"))
                 {

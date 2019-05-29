@@ -72,3 +72,4 @@ NSwagStudio*.nupkg
 
 
 .editorconfig
+/samples/packages
