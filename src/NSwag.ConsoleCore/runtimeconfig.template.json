@@ -1,3 +1,4 @@
 {
-  "applyPatches": true
+  "applyPatches": true,
+  "rollForwardOnNoCandidateFx": 2
 }
