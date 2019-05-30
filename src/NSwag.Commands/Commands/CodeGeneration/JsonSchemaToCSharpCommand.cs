@@ -46,6 +46,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.RequiredPropertiesMustBeDefined = value; }
         }
 
+        [Argument(Name = "AnyType", IsRequired = false, Description = "The any .NET type (default: 'object').")]
+        public string AnyType
+        {
+            get { return Settings.AnyType; }
+            set { Settings.AnyType = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
         public string DateTimeType
         {

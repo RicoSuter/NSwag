@@ -161,6 +161,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.JsonConverters = value; }
         }
 
+        [Argument(Name = "AnyType", IsRequired = false, Description = "The any .NET type (default: 'object').")]
+        public string AnyType
+        {
+            get { return Settings.CSharpGeneratorSettings.AnyType; }
+            set { Settings.CSharpGeneratorSettings.AnyType = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTimeOffset').")]
         public string DateTimeType
         {
