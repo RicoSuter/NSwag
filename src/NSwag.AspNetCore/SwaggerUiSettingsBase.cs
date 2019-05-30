@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using NJsonSchema;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Linq;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -35,12 +36,7 @@ namespace NSwag.AspNetCore
         {
             TransformToExternalPath = (internalUiRoute, request) =>
             {
-                if (request.PathBase.HasValue)
-                {
-                    return request.PathBase + internalUiRoute;
-                }
-
-                return internalUiRoute;
+                return request.GetBasePath() + internalUiRoute;
             };
         }
 
