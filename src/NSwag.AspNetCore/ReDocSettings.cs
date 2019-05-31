@@ -36,8 +36,8 @@ namespace NSwag.AspNetCore
 #endif
         {
             html = html.Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings));
-            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
-            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
             return html;
         }
     }
