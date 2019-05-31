@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -61,7 +62,7 @@ namespace NSwag.Sample
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<Pet>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<Pet>>> FindByCategory([BindRequired] string category)
+        public async Task<ActionResult<IEnumerable<Pet>>> FindByCategory([BindRequired] string category = "foo")
         {
             await Task.Delay(0);
             return new ObjectResult(Array.Empty<Pet>());
@@ -94,7 +95,7 @@ namespace NSwag.Sample
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> EditPet(int petId, [FromForm] Pet pet)
+        public async Task<IActionResult> EditPet([Range(5, 500)]int petId, [FromForm] Pet pet)
         {
             if (petId == 0)
             {

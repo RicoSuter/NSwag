@@ -136,6 +136,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "default": "foo",
               "nullable": true
             },
             "x-position": 1
@@ -254,7 +255,9 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 1
+            "x-position": 1,
+            "maximum": 500.0,
+            "minimum": 5.0
           },
           {
             "name": "Id",

@@ -131,6 +131,7 @@
             "name": "category",
             "in": "query",
             "required": true,
+            "default": "foo",
             "x-nullable": true
           }
         ],
@@ -207,6 +208,8 @@
             "in": "path",
             "required": true,
             "format": "int32",
+            "maximum": 500.0,
+            "minimum": 5.0,
             "x-nullable": false
           },
           {
