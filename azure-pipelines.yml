@@ -35,7 +35,7 @@ steps:
 #     failOnStderr: true
 - task: CmdLine@2
   displayName: 'Patch project version preview'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/release'))
   inputs:
     script: 'dnt bump-versions preview "$(Build.BuildNumber)"'
     failOnStderr: true
@@ -61,14 +61,14 @@ steps:
 # Publish artifacts
 - task: CopyFiles@2
   displayName: 'Copy packages'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+#  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     Contents: '**/*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+#  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
