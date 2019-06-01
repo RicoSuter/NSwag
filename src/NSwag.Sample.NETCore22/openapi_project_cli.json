@@ -253,11 +253,11 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "maximum": 500.0,
+              "minimum": 5.0
             },
-            "x-position": 1,
-            "maximum": 500.0,
-            "minimum": 5.0
+            "x-position": 1
           },
           {
             "name": "Id",
@@ -273,11 +273,11 @@
             "in": "formData",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "maximum": 150.0,
+              "minimum": 0.0
             },
-            "x-position": 3,
-            "maximum": 150.0,
-            "minimum": 0.0
+            "x-position": 3
           },
           {
             "name": "Category.Id",
@@ -310,11 +310,11 @@
             "in": "formData",
             "schema": {
               "type": "string",
+              "maxLength": 50,
+              "minLength": 2,
               "nullable": true
             },
-            "x-position": 7,
-            "maxLength": 50,
-            "minLength": 2
+            "x-position": 7
           },
           {
             "name": "Images",
