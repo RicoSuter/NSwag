@@ -4,10 +4,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
 WORKDIR /src
-COPY ["Sample.AspNetCore21.Nginx.csproj", ""]
-RUN dotnet restore "Sample.AspNetCore21.Nginx.csproj"
+COPY ["Sample.AspNetCore21.Nginx.csproj", "./"]
+RUN dotnet restore "/Sample.AspNetCore21.Nginx.csproj"
 COPY . .
-WORKDIR "/src"
+WORKDIR "/src/"
 RUN dotnet build "Sample.AspNetCore21.Nginx.csproj" -c Release -o /app
 
 FROM build AS publish
