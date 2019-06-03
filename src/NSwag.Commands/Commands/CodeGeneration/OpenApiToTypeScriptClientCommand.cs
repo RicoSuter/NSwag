@@ -352,6 +352,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.InlineNamedDictionaries = value; }
         }
 
+        [Argument(Name = "InlineNamedAny", Description = "Inline named any types (default: false).", IsRequired = false)]
+        public bool InlineNamedAny
+        {
+            get { return Settings.TypeScriptGeneratorSettings.InlineNamedAny; }
+            set { Settings.TypeScriptGeneratorSettings.InlineNamedAny = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

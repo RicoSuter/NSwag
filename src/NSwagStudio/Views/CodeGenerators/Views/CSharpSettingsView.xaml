@@ -7,13 +7,13 @@
              xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
         <localConverters:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
-    
+
     <GroupBox Header="DTO Classes" Margin="0,0,0,12">
         <StackPanel Margin="4,8,4,-8">
             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
@@ -57,6 +57,26 @@
                 <CheckBox IsChecked="{Binding Command.EnforceFlagEnums, Mode=TwoWay}" 
                           ToolTip="EnforceFlagEnums" Margin="0,0,0,12">
                     <TextBlock Text="Always generate enums as bit flags (with [Flags] attribute)" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedArrays, Mode=TwoWay}" 
+                          ToolTip="InlineNamedArrays" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named arrays" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" 
+                          ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedTuples, Mode=TwoWay}" 
+                          ToolTip="InlineNamedTuples" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named tuples" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" 
+                          ToolTip="InlineNamedAny" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named any schemas" TextWrapping="Wrap" />
                 </CheckBox>
 
                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />

@@ -41,6 +41,16 @@
                               ToolTip="TypeScriptVersion"
                               ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" 
+                          ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
+                        <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
+                    </CheckBox>
+
+                    <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" 
+                          ToolTip="InlineNamedAny" Margin="0,0,0,12">
+                        <TextBlock Text="Inline named any schemas" TextWrapping="Wrap" />
+                    </CheckBox>
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
                             <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 

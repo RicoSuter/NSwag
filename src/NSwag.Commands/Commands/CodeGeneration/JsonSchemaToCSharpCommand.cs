@@ -9,7 +9,6 @@
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 
 #pragma warning disable 1591

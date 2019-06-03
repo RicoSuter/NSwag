@@ -297,12 +297,12 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = value; }
         }
 
-        //[Argument(Name = "InlineNamedArrays", Description = "Inline named arrays (default: false).", IsRequired = false)]
-        //public bool InlineNamedArrays
-        //{
-        //    get { return Settings.CSharpGeneratorSettings.InlineNamedArrays; }
-        //    set { Settings.CSharpGeneratorSettings.InlineNamedArrays = value; }
-        //}
+        [Argument(Name = "InlineNamedArrays", Description = "Inline named arrays (default: false).", IsRequired = false)]
+        public bool InlineNamedArrays
+        {
+            get { return Settings.CSharpGeneratorSettings.InlineNamedArrays; }
+            set { Settings.CSharpGeneratorSettings.InlineNamedArrays = value; }
+        }
 
         [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
         public bool InlineNamedDictionaries
@@ -316,6 +316,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.CSharpGeneratorSettings.InlineNamedTuples; }
             set { Settings.CSharpGeneratorSettings.InlineNamedTuples = value; }
+        }
+
+        [Argument(Name = "InlineNamedAny", Description = "Inline named any types (default: false).", IsRequired = false)]
+        public bool InlineNamedAny
+        {
+            get { return Settings.CSharpGeneratorSettings.InlineNamedAny; }
+            set { Settings.CSharpGeneratorSettings.InlineNamedAny = value; }
         }
 
         [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]
