@@ -19,6 +19,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Templates\Client.Class.BeforeSend.liquid" />
+    <None Remove="Templates\Client.Class.Body.liquid" />
+    <None Remove="Templates\Client.Class.Constructor.liquid" />
     <None Remove="Templates\Client.Class.ConvertToString.liquid" />
     <None Remove="Templates\Client.Class.HeaderParameter.liquid" />
     <None Remove="Templates\Client.Class.PathParameter.liquid" />
@@ -27,6 +29,8 @@
     <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
+    <EmbeddedResource Include="Templates\Client.Class.Constructor.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.HeaderParameter.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.liquid" />
