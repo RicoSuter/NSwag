@@ -31,7 +31,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -69,7 +69,7 @@ export class Client {
             body: content_,
             method: "PUT",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -278,7 +278,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded", 
+                "Content-Type": "application/x-www-form-urlencoded",
             }
         };
 
@@ -317,7 +317,7 @@ export class Client {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "", 
+                "api_key": api_key !== undefined && api_key !== null ? "" + api_key : "",
             }
         };
 
@@ -455,7 +455,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -593,7 +593,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -627,7 +627,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -661,7 +661,7 @@ export class Client {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -829,7 +829,7 @@ export class Client {
             body: content_,
             method: "PUT",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 

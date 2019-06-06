@@ -31,7 +31,7 @@ export class GeoClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -103,7 +103,7 @@ export class GeoClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -313,7 +313,7 @@ export class GeoClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -479,7 +479,7 @@ export class PersonsClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             }
         };
 
@@ -673,7 +673,7 @@ export class PersonsClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -805,7 +805,7 @@ export class PersonsClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/xml", 
+                "Content-Type": "application/xml",
                 "Accept": "application/json"
             }
         };
@@ -843,7 +843,7 @@ export class PersonsClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/octet-stream", 
+                "Content-Type": "application/octet-stream",
                 "Accept": "application/json"
             }
         };

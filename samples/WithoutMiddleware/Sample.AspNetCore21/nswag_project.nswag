@@ -5,7 +5,7 @@
     "aspNetCoreToOpenApi": {
       "project": "Sample.AspNetCore21.csproj",
       "msBuildProjectExtensionsPath": null,
-      "configuration": "",
+      "configuration": "$(configuration)",
       "runtime": null,
       "targetFramework": null,
       "noBuild": false,
