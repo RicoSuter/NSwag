@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using NJsonSchema.Converters;
 using NSwag.Annotations;
-using NSwag.Converters;
 using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
