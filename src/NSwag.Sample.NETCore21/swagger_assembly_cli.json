@@ -1,14 +1,45 @@
 ﻿{
-  "x-generator": "NSwag v12.0.18.0 (NJsonSchema v9.13.27.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.13.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "ljlkjlkj",
     "version": "1.0.0"
   },
-  "produces": [
-    "application/json"
-  ],
   "paths": {
+    "/pet/createOrder": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "summary": "Creates an order ",
+        "operationId": "Pet_CreateOrder",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "201": {
+            "x-nullable": false,
+            "description": "Order created",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "Order invalid",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "/pet": {
       "post": {
         "tags": [
@@ -16,6 +47,9 @@
         ],
         "operationId": "Pet_AddPet",
         "consumes": [
+          "application/json"
+        ],
+        "produces": [
           "application/json"
         ],
         "parameters": [
@@ -31,7 +65,7 @@
         ],
         "responses": {
           "204": {
-            "description": ""
+            "description": "My success response description."
           },
           "400": {
             "x-nullable": true,
@@ -48,6 +82,9 @@
         ],
         "operationId": "Pet_EditPet",
         "consumes": [
+          "application/json"
+        ],
+        "produces": [
           "application/json"
         ],
         "parameters": [
@@ -81,6 +118,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByStatus",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "array",
@@ -114,6 +154,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -150,6 +193,9 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -185,6 +231,9 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -294,6 +343,9 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -329,6 +381,9 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
         ],
         "parameters": [
           {
@@ -393,7 +448,6 @@
     },
     "Pet": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id",
         "age",
@@ -443,7 +497,6 @@
     },
     "Category": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -459,7 +512,6 @@
     },
     "Image": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -475,7 +527,6 @@
     },
     "Tag": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -491,7 +542,6 @@
     },
     "ApiResponse": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "code"
       ],

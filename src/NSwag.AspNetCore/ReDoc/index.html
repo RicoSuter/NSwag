@@ -11,6 +11,7 @@
             padding: 0;
         }
     </style>
+    {CustomStyle}
 </head>
 <body>
     <div id="redoc-container"></div>
@@ -23,8 +24,11 @@
             url = undefined;
         }
 
-        var options = {};
+        var options = {
+            {AdditionalSettings}
+        };
         Redoc.init(url, options, document.getElementById('redoc-container'));
     </script>
+    {CustomScript}
 </body>
 </html>

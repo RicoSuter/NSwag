@@ -12,7 +12,7 @@ namespace NSwag.Core.Tests.Serialization
             var json = @"{ ""definitions"": { ""definitions"": null } }";
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
             Assert.True(document.Definitions.Count == 0);

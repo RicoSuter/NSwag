@@ -14,8 +14,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller template model.</summary>
     public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
-        private readonly SwaggerDocument _document;
+        private readonly CSharpControllerGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -25,8 +25,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public CSharpControllerTemplateModel(
             string controllerName,
             IEnumerable<CSharpOperationModel> operations,
-            SwaggerDocument document,
-            SwaggerToCSharpControllerGeneratorSettings settings)
+            OpenApiDocument document,
+            CSharpControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;
@@ -45,7 +45,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
 
         /// <summary>Gets the ASP.NET framework namespace.</summary>
-        public string AspNetNamespace => _settings.AspNetNamespace;
+        public string AspNetNamespace => IsAspNetCore ? "Microsoft.AspNetCore.Mvc" : "System.Web.Http";
+
+        /// <summary>Gets or sets a value indicating whether the output should target ASP.NET Core.</summary>
+        public bool IsAspNetCore => _settings.ControllerTarget == CSharpControllerTarget.AspNetCore;
+
+        /// <summary>Gets or sets a value indicating whether the output should target ASP.NET MVC.</summary>
+        public bool IsAspNet => _settings.ControllerTarget == CSharpControllerTarget.AspNet;
 
         /// <summary>Gets the base class.</summary>
         public string BaseClass { get; }
@@ -76,6 +82,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to allow adding cancellation token.</summary>
         public bool UseCancellationToken => _settings.UseCancellationToken;
+
+        /// <summary>Gets a value indicating whether to allow adding model validation attributes</summary>
+        public bool GenerateModelValidationAttributes => _settings.GenerateModelValidationAttributes;
+
+        /// <summary>Gets the type of the attribute used to specify a parameter as required.</summary>
+        public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
 
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;

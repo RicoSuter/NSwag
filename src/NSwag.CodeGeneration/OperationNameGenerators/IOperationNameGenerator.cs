@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        string GetClientName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation);
+        string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation);
 
         /// <summary>Gets the operation name for a given operation.</summary>
         /// <param name="document">The Swagger document.</param>
@@ -28,6 +28,6 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        string GetOperationName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation);
+        string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation);
     }
 }

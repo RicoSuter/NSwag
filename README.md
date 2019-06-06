@@ -1,10 +1,9 @@
-## NSwag: The Swagger/OpenAPI toolchain for .NET, Web API and TypeScript
+## NSwag: The Swagger/OpenAPI toolchain for .NET, ASP.NET Core and TypeScript
 
  [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
-[![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag)
-[![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag-25x6o.svg?label=CI+build)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
-[![MyGet CI](https://img.shields.io/myget/nswag-ci/vpre/NSwag.Core.svg?label=CI+nuget)](https://www.myget.org/gallery/nswag-ci)
+[![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag-25x6o.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
+[![MyGet](https://img.shields.io/myget/nswag/v/NSwag.Core.svg?label=preview%20nuget)](https://www.myget.org/feed/Packages/nswag)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/rsuter/nswag/wiki)
@@ -23,8 +22,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 **Features:**
 
-- Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers
-- Serve the specs via ASP.NET (Core) middleware, optionally with Swagger UI or ReDoc
+- [Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers](https://github.com/RicoSuter/NSwag/wiki/Middlewares)
+- Serve the specs via ASP.NET (Core) middleware, optionally with [Swagger UI](https://github.com/swagger-api/swagger-ui) or [ReDoc](https://github.com/Rebilly/ReDoc)
 - Generate C# or TypeScript clients/proxies from these specs
 - Everything can be automated via CLI (distributed via NuGet tool or build target; or NPM)
 - CLI configured via JSON file or NSwagStudio Windows UI
@@ -32,11 +31,12 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](http://swagger.io/swagger-ui)) (recommended)
+- By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](https://github.com/swagger-api/swagger-ui)) (recommended)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
 - With [ServiceProjectReference](https://github.com/NSwag/NSwag/wiki/ServiceProjectReference) tags in your .csproj (preview)
+- In your [Azure V2 Functions](https://github.com/Jusas/NSwag.AzureFunctionsV2) (external project, might not use latest NSwag version)
 
 **Tutorials:**
 
@@ -49,12 +49,12 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - ASP.NET Web API assembly to Swagger (supports .NET Core)
     - [AspNetCoreToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/AspNetCoreToSwaggerGenerator)
     - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
-        - Generates a Swagger specification for Web API controllers
+        - Generates a OpenAPI/Swagger specification for Web API controllers
     - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
-        - Generates a Swagger specification for controllers in an external Web API assembly
+        - Generates a OpenAPI/Swagger specification for controllers in an external Web API assembly
         - [Also supports loading of .NET Core assemblies](https://github.com/RSuter/NSwag/wiki/Assembly-loading)
     - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-         - Generates a Swagger specification containing only types from .NET assemblies
+        - Generates a OpenAPI/Swagger specification containing only types from .NET assemblies
 
 **Code Generators:** 
 
@@ -101,11 +101,11 @@ Specification:
 
 Swagger generation:
 
-- **[NSwag.SwaggerGeneration](https://www.nuget.org/packages/NSwag.SwaggerGeneration/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
+- **[NSwag.Generation](https://www.nuget.org/packages/NSwag.Generation/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications
-- **[NSwag.SwaggerGeneration.WebApi](https://www.nuget.org/packages/NSwag.SwaggerGeneration.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
+- **[NSwag.Generation.WebApi](https://www.nuget.org/packages/NSwag.Generation.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
     - Classes to generate Swagger specifications from Web API controllers, see [WebApiToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/WebApiToSwaggerGenerator)
-- **[NSwag.SwaggerGeneration.AspNetCore](https://www.nuget.org/packages/NSwag.SwaggerGeneration.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
+- **[NSwag.Generation.AspNetCore](https://www.nuget.org/packages/NSwag.Generation.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
 Code generation:
@@ -155,15 +155,17 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSwaggerDocument();
+        services.AddOpenApiDocument(); // add OpenAPI v3 document
+//      services.AddSwaggerDocument(); // add Swagger v2 document
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
         ...
 
-        app.UseSwagger();
-        app.UseSwaggerUi3();
+        app.UseSwagger(); // serve OpenAPI/Swagger documents
+        app.UseSwaggerUi3(); // serve Swagger UI
+	app.UseReDoc(); // serve ReDoc UI
     }
 }
 ```
@@ -241,5 +243,3 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/NSwag/sponsor/7/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/7/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/8/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/9/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/9/avatar.svg"></a>
-
-

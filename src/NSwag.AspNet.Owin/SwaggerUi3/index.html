@@ -28,6 +28,7 @@
         background: #fafafa;
       }
     </style>
+    {CustomStyle}
   </head>
 
   <body>
@@ -43,7 +44,7 @@ window.onload = function() {
   } else {
     url = undefined;
   }
-var urls = {Urls};
+  var urls = {Urls};
 
   const disableTryItOutPlugin = function() {
     return {
@@ -67,12 +68,8 @@ var urls = {Urls};
     urls: urls,  
     validatorUrl: {ValidatorUrl},
     oauth2RedirectUrl: {RedirectUrl},
-    docExpansion: "{DocExpansion}",
-    operationsSorter: "{OperationsSorter}",
-    defaultModelsExpandDepth: {DefaultModelsExpandDepth},
-    defaultModelExpandDepth: {DefaultModelExpandDepth},
-    tagsSorter: "{TagsSorter}",
 
+    {AdditionalSettings}
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
@@ -98,7 +95,8 @@ var urls = {Urls};
   }
 
   window.ui = ui;
-}  
+}
     </script>
+    {CustomScript}
   </body>
 </html>

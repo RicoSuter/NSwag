@@ -19,7 +19,7 @@ namespace NSwag.CodeGeneration.Models
         where TParameterModel : ParameterModelBase
         where TResponseModel : ResponseModelBase
     {
-        private readonly SwaggerOperation _operation;
+        private readonly OpenApiOperation _operation;
         private readonly TypeResolverBase _resolver;
         private readonly IClientGenerator _generator;
         private readonly ClientGeneratorBaseSettings _settings;
@@ -30,7 +30,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="settings">The settings.</param>
-        protected OperationModelBase(JsonSchema4 exceptionSchema, SwaggerOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
+        protected OperationModelBase(JsonSchema exceptionSchema, OpenApiOperation operation, TypeResolverBase resolver, IClientGenerator generator, ClientGeneratorBaseSettings settings)
         {
             _operation = operation;
             _resolver = resolver;
@@ -43,7 +43,9 @@ namespace NSwag.CodeGeneration.Models
 
             var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
             if (defaultResponse != null)
+            {
                 responses.Remove(defaultResponse);
+            }
 
             Responses = responses;
             DefaultResponse = defaultResponse;
@@ -58,7 +60,7 @@ namespace NSwag.CodeGeneration.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns>The response model.</returns>
-        protected abstract TResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response, JsonSchema4 exceptionSchema, IClientGenerator generator,
+        protected abstract TResponseModel CreateResponseModel(OpenApiOperation operation, string statusCode, OpenApiResponse response, JsonSchema exceptionSchema, IClientGenerator generator,
             TypeResolverBase resolver, ClientGeneratorBaseSettings settings);
 
         /// <summary>Gets the operation ID.</summary>
@@ -84,12 +86,12 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE or HEAD.</summary>
         public bool IsGetOrDeleteOrHead =>
-            HttpMethod == SwaggerOperationMethod.Get ||
-            HttpMethod == SwaggerOperationMethod.Delete ||
-            HttpMethod == SwaggerOperationMethod.Head;
+            HttpMethod == OpenApiOperationMethod.Get ||
+            HttpMethod == OpenApiOperationMethod.Delete ||
+            HttpMethod == OpenApiOperationMethod.Head;
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
-        public bool IsGetOrHead => HttpMethod == SwaggerOperationMethod.Get || HttpMethod == SwaggerOperationMethod.Head;
+        public bool IsGetOrHead => HttpMethod == OpenApiOperationMethod.Get || HttpMethod == OpenApiOperationMethod.Head;
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
@@ -115,7 +117,7 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.Schema, isNullable, "Response");
+                return _generator.GetTypeName(response.Value.Schema, isNullable, !response.Value.Schema.HasTypeNameTitle ? "Response" : null);
             }
         }
 
@@ -179,30 +181,32 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                if (Parameters.Count(p => p.Kind == SwaggerParameterKind.Body) > 1)
+                if (Parameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
+                {
                     throw new InvalidOperationException("Multiple body parameters found in operation '" + _operation.OperationId + "'.");
+                }
 
-                return Parameters.SingleOrDefault(p => p.Kind == SwaggerParameterKind.Body);
+                return Parameters.SingleOrDefault(p => p.Kind == OpenApiParameterKind.Body);
             }
         }
 
         /// <summary>Gets the path parameters.</summary>
-        public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Path);
+        public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Path);
 
         /// <summary>Gets the query parameters.</summary>
-        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Query || p.Kind == SwaggerParameterKind.ModelBinding);
+        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Query || p.Kind == OpenApiParameterKind.ModelBinding);
 
         /// <summary>Gets a value indicating whether the operation has query parameters.</summary>
         public bool HasQueryParameters => QueryParameters.Any();
 
         /// <summary>Gets the header parameters.</summary>
-        public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.Header);
+        public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Header);
 
         /// <summary>Gets or sets a value indicating whether the accept header is defined in a parameter.</summary>
         public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
 
         /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
-        public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == SwaggerParameterKind.FormData);
+        public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesFormUrlEncoded =>
@@ -210,7 +214,7 @@ namespace NSwag.CodeGeneration.Models
             _operation.RequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
 
         /// <summary>Gets the form parameters.</summary>
-        public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == SwaggerParameterKind.FormData);
+        public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation has summary.</summary>
         public bool HasSummary => !string.IsNullOrEmpty(Summary);
@@ -236,9 +240,13 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (_operation.ActualConsumes?.Contains("application/json") == true)
+                {
                     return "application/json";
+                }
 
-                return _operation.ActualConsumes?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualConsumes?.FirstOrDefault() ??
+                    _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
+                    "application/json";
             }
         }
 
@@ -248,9 +256,13 @@ namespace NSwag.CodeGeneration.Models
             get
             {
                 if (_operation.ActualProduces?.Contains("application/json") == true)
+                {
                     return "application/json";
+                }
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? "application/json";
+                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                    SuccessResponse?.Produces ??
+                    "application/json";
             }
         }
 
@@ -268,23 +280,27 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
-        protected KeyValuePair<string, SwaggerResponse> GetSuccessResponse()
+        protected KeyValuePair<string, OpenApiResponse> GetSuccessResponse()
         {
             if (_operation.ActualResponses.Any(r => r.Key == "200"))
-                return new KeyValuePair<string, SwaggerResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
+            {
+                return new KeyValuePair<string, OpenApiResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
+            }
 
             var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key));
             if (response.Value != null)
-                return new KeyValuePair<string, SwaggerResponse>(response.Key, response.Value);
+            {
+                return new KeyValuePair<string, OpenApiResponse>(response.Key, response.Value);
+            }
 
-            return new KeyValuePair<string, SwaggerResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+            return new KeyValuePair<string, OpenApiResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter variable name.</returns>
-        protected virtual string GetParameterVariableName(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters)
+        protected virtual string GetParameterVariableName(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
             return _settings.ParameterNameGenerator.Generate(parameter, allParameters);
         }
@@ -292,20 +308,32 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type name.</returns>
-        protected virtual string ResolveParameterType(SwaggerParameter parameter)
+        protected virtual string ResolveParameterType(OpenApiParameter parameter)
         {
             var schema = parameter.ActualSchema;
 
             if (parameter.IsXmlBodyParameter)
+            {
                 return "string";
+            }
 
-            if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
-                schema = new JsonSchema4 { Type = JsonObjectType.Array, Item = schema };
+            if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+            {
+                schema = new JsonSchema { Type = JsonObjectType.Array, Item = schema };
+            }
 
-            var typeNameHint = ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true);
+            var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
             var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-
             return _resolver.Resolve(schema, isNullable, typeNameHint);
+        }
+
+        /// <summary>Gets the actual parameters ignoring the excluded ones.</summary>
+        /// <returns>The parameters.</returns>
+        protected IList<OpenApiParameter> GetActualParameters()
+        {
+            return _operation.ActualParameters
+                .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
+                .ToList();
         }
     }
 };

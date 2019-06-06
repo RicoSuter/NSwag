@@ -11,9 +11,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>Angular specific information.</summary>
     public class TypeScriptFrameworkAngularModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
-        internal TypeScriptFrameworkAngularModel(SwaggerToTypeScriptClientGeneratorSettings settings)
+        internal TypeScriptFrameworkAngularModel(TypeScriptClientGeneratorSettings settings)
         {
             _settings = settings;
         }

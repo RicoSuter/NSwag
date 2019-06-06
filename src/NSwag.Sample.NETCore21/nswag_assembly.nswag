@@ -1,8 +1,8 @@
 ﻿{
   "runtime": "NetCore21",
   "defaultVariables": null,
-  "swaggerGenerator": {
-    "aspNetCoreToSwagger": {
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
       "project": "",
       "msBuildProjectExtensionsPath": null,
       "configuration": null,
@@ -15,11 +15,14 @@
       "apiGroupNames": null,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
+      "defaultResponseReferenceTypeNullHandling": "Null",
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,
+      "generateEnumMappingDescription": false,
       "generateXmlObjects": false,
       "generateAbstractProperties": false,
+      "generateAbstractSchemas": true,
       "ignoreObsoleteProperties": false,
       "allowReferencesWithProperties": false,
       "excludedTypeNames": [],

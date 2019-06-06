@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>12.0.18</version>
+    <version>13.0.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
-    <copyright>Copyright © Rico Suter, 2018</copyright>
+    <copyright>Copyright © Rico Suter, 2019</copyright>
     <developmentDependency>true</developmentDependency>
     <dependencies />
     <references />

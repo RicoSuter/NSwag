@@ -1,0 +1,9 @@
+﻿public class FromHeaderAttribute : System.Web.Http.ParameterBindingAttribute
+{
+    public string Name { get; set; }
+
+    public override System.Web.Http.Controllers.HttpParameterBinding GetBinding(System.Web.Http.Controllers.HttpParameterDescriptor parameter)
+    {
+        return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
+    }
+}
