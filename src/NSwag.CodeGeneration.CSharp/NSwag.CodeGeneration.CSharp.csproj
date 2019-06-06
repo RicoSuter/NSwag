@@ -19,6 +19,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Templates\Client.Class.BeforeSend.liquid" />
+    <None Remove="Templates\Client.Class.Body.liquid" />
+    <None Remove="Templates\Client.Class.Constructor.liquid" />
     <None Remove="Templates\Client.Class.ConvertToString.liquid" />
     <None Remove="Templates\Client.Class.HeaderParameter.liquid" />
     <None Remove="Templates\Client.Class.PathParameter.liquid" />
@@ -27,6 +29,8 @@
     <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
+    <EmbeddedResource Include="Templates\Client.Class.Constructor.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.HeaderParameter.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.liquid" />
@@ -53,6 +57,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.6" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.0.13" />
   </ItemGroup>
 </Project>

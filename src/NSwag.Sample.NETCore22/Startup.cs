@@ -49,7 +49,7 @@ namespace NSwag.Sample.NETCore22
             // - http://localhost:32367/swagger/b/swagger.json
             // - http://localhost:32367/swagger
 
-            app.UseSwagger(); // registers the two documents in separate routes
+            app.UseOpenApi(); // registers the two documents in separate routes
             app.UseSwaggerUi3(); // registers a single Swagger UI (v3) with the two documents
             app.UseReDoc(config =>
             {

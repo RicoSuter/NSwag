@@ -31,12 +31,12 @@ namespace NSwag.Generation
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override void GenerateObject(Type type, JsonTypeDescription typeDescription, JsonSchema schema, JsonSchemaResolver schemaResolver)
+        protected override void GenerateObject(JsonSchema schema, Type type, JsonTypeDescription typeDescription, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                base.GenerateObject(type, typeDescription, schema, schemaResolver);
+                base.GenerateObject(schema, type, typeDescription, schemaResolver);
                 _isRootType = true;
             }
             else

@@ -69,8 +69,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false");
             html = html.Replace("{DefaultModelRendering}", DefaultModelRendering);
             html = html.Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false");
-            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
-            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
 
             return html;
         }

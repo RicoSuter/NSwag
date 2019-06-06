@@ -96,9 +96,20 @@ namespace NSwag.AspNet.Owin.Middlewares
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 
-            document.Host = context.Request.Host.Value ?? "";
-            document.Schemes.Add(context.Request.Scheme == "http" ? OpenApiSchema.Http : OpenApiSchema.Https);
-            document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
+            if (_settings.MiddlewareBasePath != null)
+            {
+                document.Host = context.Request.Host.Value ?? "";
+                document.Schemes.Add(context.Request.Scheme == "http" ? OpenApiSchema.Http : OpenApiSchema.Https);
+                document.BasePath = context.Request.PathBase.Value?.Substring(0, context.Request.PathBase.Value.Length - (_settings.MiddlewareBasePath?.Length ?? 0)) ?? "";
+            }
+            else
+            {
+                document.Servers.Clear();
+                document.Servers.Add(new OpenApiServer
+                {
+                    Url = context.Request.GetServerUrl()
+                });
+            }
 
             _settings.PostProcess?.Invoke(document);
             var schemaJson = document.ToJson();
