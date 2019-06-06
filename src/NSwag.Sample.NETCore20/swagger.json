@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.14.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.6.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
@@ -586,6 +586,7 @@
     },
     "Pet": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id",
         "age",
@@ -635,6 +636,7 @@
     },
     "Category": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -650,6 +652,7 @@
     },
     "Image": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -665,6 +668,7 @@
     },
     "Tag": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -680,6 +684,7 @@
     },
     "ApiResponse": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "code"
       ],

@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.14.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.6.0 (Newtonsoft.Json v11.0.0.0))",
   "info": {
     "title": "Swagger specification",
     "version": "1.0.0"
@@ -650,6 +650,7 @@
   "definitions": {
     "GeoPoint": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "Latitude",
         "Longitude"
@@ -667,6 +668,7 @@
     },
     "Exception": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "Message": {
           "type": "string"
@@ -684,6 +686,7 @@
     },
     "GenericRequestOfAddressAndPerson": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "Item1": {
           "$ref": "#/definitions/Address"
@@ -695,6 +698,7 @@
     },
     "Address": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "IsPrimary"
       ],
@@ -710,6 +714,7 @@
     "Person": {
       "type": "object",
       "discriminator": "discriminator",
+      "additionalProperties": false,
       "required": [
         "Id",
         "FirstName",
@@ -817,6 +822,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "SkillLevel"
           ],
@@ -843,6 +849,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "id"
           ],

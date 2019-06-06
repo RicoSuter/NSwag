@@ -115,14 +115,9 @@
             <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
             <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
-            <TextBlock Margin="0,0,0,6" Text="The default reference type null handling" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+            <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
-            <TextBlock Margin="0,0,0,6" Text="The default reference type null handling of dictionary value types" TextWrapping="Wrap" FontWeight="Bold" />
-            <ComboBox SelectedItem="{Binding Command.DefaultDictionaryValueReferenceTypeNullHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultDictionaryValueReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
-            
             <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
                 <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
             </CheckBox>
