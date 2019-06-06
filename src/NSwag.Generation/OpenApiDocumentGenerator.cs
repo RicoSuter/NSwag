@@ -149,7 +149,7 @@ namespace NSwag.Generation
             }
 
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, contextualParameter.ContextAttributes);
+            _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, contextualParameter, typeDescription);
 
             if (description != string.Empty)
             {
