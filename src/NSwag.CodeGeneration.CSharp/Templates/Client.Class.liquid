@@ -39,6 +39,7 @@
             UpdateJsonSerializerSettings(settings);
             return settings;
         });
+        {% template Client.Class.Constructor %}
     }
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
@@ -291,4 +292,5 @@
 
 {% endfor -%}
     {% template Client.Class.ConvertToString %}
+    {% template Client.Class.Body %}
 }
