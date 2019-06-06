@@ -32,6 +32,7 @@ public interface I{{ Class }}Controller
 {%     endif -%}
 {% endif -%}
 {% if GeneratePartialControllers -%}
+{% template Controller.Class.Annotations %}
 public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }}{% else %}{{ AspNetNamespace }}.ApiController{% endif %}
 {
     private I{{ Class }}Controller _implementation;
@@ -78,6 +79,7 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 {%     endfor -%}
 }
 {% elseif GenerateAbstractControllers -%}
+{% template Controller.Class.Annotations %}
 public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseClass }}{% else %}{{ AspNetNamespace }}.ApiController{% endif %}
 {
 {%     for operation in Operations -%}
