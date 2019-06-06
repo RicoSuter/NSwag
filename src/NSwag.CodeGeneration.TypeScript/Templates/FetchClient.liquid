@@ -22,7 +22,7 @@
 {%     endif -%}
         this.http = http ? http : <any>window;
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl  && baseUrl !== "" ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%     else -%}
         this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
