@@ -243,7 +243,7 @@
             "description": ""
           },
           "450": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "A custom error occured.",
             "schema": {
               "$ref": "#/definitions/Exception"
@@ -445,7 +445,7 @@
         ],
         "responses": {
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
@@ -528,14 +528,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Person"
             }
           },
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
@@ -564,14 +564,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "The person's name.",
             "schema": {
               "type": "string"
             }
           },
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"

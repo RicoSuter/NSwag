@@ -25,7 +25,7 @@ namespace NSwag.Generation
         public OpenApiDocumentGeneratorSettings()
         {
             SchemaGenerator = new OpenApiSchemaGenerator(this);
-            DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
+            DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
             SchemaType = SchemaType.Swagger2;
         }
 

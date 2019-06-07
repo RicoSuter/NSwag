@@ -333,7 +333,7 @@ export class GeoClient {
             return response.text().then((_responseText) => {
             let result450: any = null;
             let resultData450 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result450 = resultData450 ? Exception.fromJS(resultData450) : <any>null;
+            result450 = resultData450 ? Exception.fromJS(resultData450) : new Exception();
             return throwException("A server error occurred.", status, _responseText, _headers, result450);
             });
         } else if (status !== 200 && status !== 204) {
@@ -612,7 +612,7 @@ export class PersonsClient {
             return response.text().then((_responseText) => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status === 200) {
@@ -701,7 +701,7 @@ export class PersonsClient {
         return Promise.resolve<Person | null>(<any>null);
     }
 
-    throw(id: string): Promise<Person | null> {
+    throw(id: string): Promise<Person> {
         let url_ = this.baseUrl + "/api/Persons/Throw?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined and cannot be null.");
@@ -721,21 +721,21 @@ export class PersonsClient {
         });
     }
 
-    protected processThrow(response: Response): Promise<Person | null> {
+    protected processThrow(response: Response): Promise<Person> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Person.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? Person.fromJS(resultData200) : new Person();
             return result200;
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
@@ -743,7 +743,7 @@ export class PersonsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Person | null>(<any>null);
+        return Promise.resolve<Person>(<any>null);
     }
 
     /**
@@ -751,7 +751,7 @@ export class PersonsClient {
      * @param id The person ID.
      * @return The person's name.
      */
-    getName(id: string): Promise<string | null> {
+    getName(id: string): Promise<string> {
         let url_ = this.baseUrl + "/api/Persons/{id}/Name";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -770,7 +770,7 @@ export class PersonsClient {
         });
     }
 
-    protected processGetName(response: Response): Promise<string | null> {
+    protected processGetName(response: Response): Promise<string> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -784,7 +784,7 @@ export class PersonsClient {
             return response.text().then((_responseText) => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             });
         } else if (status !== 200 && status !== 204) {
@@ -792,7 +792,7 @@ export class PersonsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(<any>null);
+        return Promise.resolve<string>(<any>null);
     }
 
     addXml(person: string | null): Promise<string | null> {

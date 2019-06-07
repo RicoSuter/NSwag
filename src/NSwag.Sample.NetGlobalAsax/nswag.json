@@ -13,7 +13,7 @@
       "includedVersions": null,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
-      "defaultResponseReferenceTypeNullHandling": "Null",
+      "defaultResponseReferenceTypeNullHandling": "NotNull",
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,

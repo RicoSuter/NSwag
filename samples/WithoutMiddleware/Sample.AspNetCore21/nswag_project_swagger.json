@@ -19,7 +19,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -82,7 +82,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "string"

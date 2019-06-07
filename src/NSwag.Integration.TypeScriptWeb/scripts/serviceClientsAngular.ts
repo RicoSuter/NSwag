@@ -493,7 +493,7 @@ export class GeoClient extends MyBaseClass {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result450: any = null;
             let resultData450 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result450 = resultData450 ? Exception.fromJS(resultData450, _mappings) : <any>null;
+            result450 = resultData450 ? Exception.fromJS(resultData450, _mappings) : new Exception();
             return throwException("A server error occurred.", status, _responseText, _headers, result450);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -889,7 +889,7 @@ export class PersonsClient extends MyBaseClass {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             }));
         } else if (status === 200) {
@@ -1011,7 +1011,7 @@ export class PersonsClient extends MyBaseClass {
         return _observableOf<Person | null>(<any>null);
     }
 
-    throw(id: string): Observable<Person | null> {
+    throw(id: string): Observable<Person> {
         let url_ = this.baseUrl + "/api/Persons/Throw?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined and cannot be null.");
@@ -1036,14 +1036,14 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processThrow(<any>r));
                 } catch (e) {
-                    return <Observable<Person | null>><any>_observableThrow(e);
+                    return <Observable<Person>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<Person | null>><any>_observableThrow(response_);
+                return <Observable<Person>><any>_observableThrow(response_);
         }));
     }
 
-    protected processThrow(response: HttpResponseBase): Observable<Person | null> {
+    protected processThrow(response: HttpResponseBase): Observable<Person> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1055,14 +1055,14 @@ export class PersonsClient extends MyBaseClass {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Person.fromJS(resultData200, _mappings) : <any>null;
+            result200 = resultData200 ? Person.fromJS(resultData200, _mappings) : new Person();
             return _observableOf(result200);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1070,7 +1070,7 @@ export class PersonsClient extends MyBaseClass {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Person | null>(<any>null);
+        return _observableOf<Person>(<any>null);
     }
 
     /**
@@ -1078,7 +1078,7 @@ export class PersonsClient extends MyBaseClass {
      * @param id The person ID.
      * @return The person's name.
      */
-    getName(id: string): Observable<string | null> {
+    getName(id: string): Observable<string> {
         let url_ = this.baseUrl + "/api/Persons/{id}/Name";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1102,14 +1102,14 @@ export class PersonsClient extends MyBaseClass {
                 try {
                     return this.transformResult(url_, response_, (r) => this.processGetName(<any>r));
                 } catch (e) {
-                    return <Observable<string | null>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string | null>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetName(response: HttpResponseBase): Observable<string | null> {
+    protected processGetName(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1128,7 +1128,7 @@ export class PersonsClient extends MyBaseClass {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500, _mappings) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1136,7 +1136,7 @@ export class PersonsClient extends MyBaseClass {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string | null>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     addXml(person: string | null): Observable<string | null> {
