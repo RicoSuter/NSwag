@@ -173,6 +173,16 @@ namespace NSwag.Generation.WebApi
                 }
             }
 
+            //If this is the end of the namespace for a type, assign the last part
+            foreach (var typeNameWrapper in typeNameWrappers)
+            {
+                if(typeNameWrapper.parts.Count == depth + 1)
+                {
+                    typeNameWrapper.differentDepth = depth;
+                    typeNameWrapper.depthsToIgnore.Remove(depth);
+                }
+            }
+
             //Only continue with paths that are not assigned a desired depth
             var eligiblePaths = typeNameWrappers.Where(p => p.differentDepth == 0).ToList();
 
