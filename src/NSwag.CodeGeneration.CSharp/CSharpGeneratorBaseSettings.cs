@@ -66,5 +66,25 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
         public string ParameterDictionaryType { get; set; }
+
+        private bool _preservePropertyNameCasing = false;
+
+        /// <summary>Gets or sets a value indicating whether to preserve the casing for the first letter of properties. Default is false, resulting in UpperCamelCase.</summary>
+        public override bool PreservePropertyNameCasing
+        {
+            get { return _preservePropertyNameCasing; }
+            set
+            {
+                _preservePropertyNameCasing = value;
+                if (value)
+                {
+                    CodeGeneratorSettings.PropertyNameGenerator = new CasePreservingPropertyNameGenerator();
+                }
+                else
+                {
+                    CodeGeneratorSettings.PropertyNameGenerator = new CSharpPropertyNameGenerator();
+                }
+            }
+        }
     }
 }
