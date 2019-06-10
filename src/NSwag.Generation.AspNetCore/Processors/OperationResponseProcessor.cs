@@ -82,12 +82,14 @@ namespace NSwag.Generation.AspNetCore.Processors
                         var returnTypeAttributes = context.MethodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
-                        var typeDescription = _settings.ReflectionService.GetDescription(
-                            contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
+                        var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
+                        var isResponseNullable = nullableXmlAttribute != null ?
+                                                 nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                                                 _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
 
-                        response.IsNullableRaw = typeDescription.IsNullable;
-                        response.Schema = context.SchemaGenerator
-                            .GenerateWithReferenceAndNullability<JsonSchema>(contextualReturnType, typeDescription.IsNullable, context.SchemaResolver);
+                        response.IsNullableRaw = isResponseNullable;
+                        response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                            contextualReturnType, isResponseNullable, context.SchemaResolver);
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;

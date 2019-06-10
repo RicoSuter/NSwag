@@ -34,7 +34,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -63,7 +63,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -92,7 +92,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -102,7 +102,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -147,7 +147,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -157,7 +157,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -183,7 +183,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -193,7 +193,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -220,14 +220,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Pet"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -267,7 +267,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -295,7 +295,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -335,14 +335,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"

@@ -33,12 +33,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -71,12 +66,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -112,7 +102,6 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "nullable": true,
                   "items": {
                     "$ref": "#/components/schemas/Pet"
                   }
@@ -149,7 +138,6 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "nullable": true,
                   "items": {
                     "$ref": "#/components/schemas/Pet"
                   }
@@ -162,12 +150,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -199,12 +182,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/Pet"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/Pet"
                 }
               }
             }
@@ -214,12 +192,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -229,12 +202,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -361,12 +329,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -376,12 +339,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -414,12 +372,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -429,12 +382,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -477,12 +425,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponse"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -492,12 +435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SerializableError"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/SerializableError"
                 }
               }
             }
@@ -507,12 +445,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }

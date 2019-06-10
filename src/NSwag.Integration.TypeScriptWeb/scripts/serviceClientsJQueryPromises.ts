@@ -504,7 +504,7 @@ export class GeoClient {
             const _responseText = xhr.responseText;
             let result450: any = null;
             let resultData450 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result450 = resultData450 ? Exception.fromJS(resultData450) : <any>null;
+            result450 = resultData450 ? Exception.fromJS(resultData450) : new Exception();
             return throwException("A server error occurred.", status, _responseText, _headers, result450);
         } else if (status !== 200 && status !== 204) {
             const _responseText = xhr.responseText;
@@ -916,7 +916,7 @@ export class PersonsClient {
             const _responseText = xhr.responseText;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
         } else if (status === 200) {
             const _responseText = xhr.responseText;
@@ -1041,12 +1041,12 @@ export class PersonsClient {
     }
 
     throw(id: string) {
-        return new Promise<Person | null>((resolve, reject) => {
+        return new Promise<Person>((resolve, reject) => {
             this.throwWithCallbacks(id, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private throwWithCallbacks(id: string, onSuccess?: (result: Person | null) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
+    private throwWithCallbacks(id: string, onSuccess?: (result: Person) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Persons/Throw?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined and cannot be null.");
@@ -1080,7 +1080,7 @@ export class PersonsClient {
         }
     }
 
-    protected processThrow(xhr: any): Person | null | null {
+    protected processThrow(xhr: any): Person | null {
         const status = xhr.status; 
 
         let _headers: any = {};
@@ -1088,13 +1088,13 @@ export class PersonsClient {
             const _responseText = xhr.responseText;
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Person.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? Person.fromJS(resultData200) : new Person();
             return result200;
         } else if (status === 500) {
             const _responseText = xhr.responseText;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
             const _responseText = xhr.responseText;
@@ -1109,12 +1109,12 @@ export class PersonsClient {
      * @return The person's name.
      */
     getName(id: string) {
-        return new Promise<string | null>((resolve, reject) => {
+        return new Promise<string>((resolve, reject) => {
             this.getNameWithCallbacks(id, (result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
     
-    private getNameWithCallbacks(id: string, onSuccess?: (result: string | null) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
+    private getNameWithCallbacks(id: string, onSuccess?: (result: string) => void, onFail?: (exception: PersonNotFoundException | string, reason: string) => void) {
         let url_ = this.baseUrl + "/api/Persons/{id}/Name";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1147,7 +1147,7 @@ export class PersonsClient {
         }
     }
 
-    protected processGetName(xhr: any): string | null | null {
+    protected processGetName(xhr: any): string | null {
         const status = xhr.status; 
 
         let _headers: any = {};
@@ -1161,7 +1161,7 @@ export class PersonsClient {
             const _responseText = xhr.responseText;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException("A server error occurred.", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
             const _responseText = xhr.responseText;

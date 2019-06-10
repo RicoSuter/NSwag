@@ -28,7 +28,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "Order invalid",
             "schema": {
               "type": "object",
@@ -68,7 +68,7 @@
             "description": "My success response description."
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -103,7 +103,7 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -136,7 +136,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -168,7 +168,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -178,7 +178,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -208,14 +208,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Pet"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -327,7 +327,7 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -361,7 +361,7 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -404,14 +404,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"

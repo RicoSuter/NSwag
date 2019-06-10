@@ -379,7 +379,7 @@ export class GeoClient {
             const _responseText = response.data;
             let result450: any = null;
             let resultData450 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result450 = resultData450 ? Exception.fromJS(resultData450) : <any>null;
+            result450 = resultData450 ? Exception.fromJS(resultData450) : new Exception();
             return throwException(this.q, "A server error occurred.", status, _responseText, _headers, result450);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -697,7 +697,7 @@ export class PersonsClient {
             const _responseText = response.data;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException(this.q, "A server error occurred.", status, _responseText, _headers, result500);
         } else if (status === 200) {
             const _responseText = response.data;
@@ -793,7 +793,7 @@ export class PersonsClient {
         return this.q.resolve<Person | null>(<any>null);
     }
 
-    throw(id: string): ng.IPromise<Person | null> {
+    throw(id: string): ng.IPromise<Person> {
         let url_ = this.baseUrl + "/api/Persons/Throw?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined and cannot be null.");
@@ -819,7 +819,7 @@ export class PersonsClient {
         });
     }
 
-    protected processThrow(response: any): ng.IPromise<Person | null> {
+    protected processThrow(response: any): ng.IPromise<Person> {
         const status = response.status; 
 
         let _headers: any = {};
@@ -827,19 +827,19 @@ export class PersonsClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Person.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? Person.fromJS(resultData200) : new Person();
             return this.q.resolve(result200);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException(this.q, "A server error occurred.", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException(this.q, "An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return this.q.resolve<Person | null>(<any>null);
+        return this.q.resolve<Person>(<any>null);
     }
 
     /**
@@ -847,7 +847,7 @@ export class PersonsClient {
      * @param id The person ID.
      * @return The person's name.
      */
-    getName(id: string): ng.IPromise<string | null> {
+    getName(id: string): ng.IPromise<string> {
         let url_ = this.baseUrl + "/api/Persons/{id}/Name";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -872,7 +872,7 @@ export class PersonsClient {
         });
     }
 
-    protected processGetName(response: any): ng.IPromise<string | null> {
+    protected processGetName(response: any): ng.IPromise<string> {
         const status = response.status; 
 
         let _headers: any = {};
@@ -886,13 +886,13 @@ export class PersonsClient {
             const _responseText = response.data;
             let result500: any = null;
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : <any>null;
+            result500 = resultData500 ? PersonNotFoundException.fromJS(resultData500) : new PersonNotFoundException();
             return throwException(this.q, "A server error occurred.", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException(this.q, "An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return this.q.resolve<string | null>(<any>null);
+        return this.q.resolve<string>(<any>null);
     }
 
     addXml(person: string | null): ng.IPromise<string | null> {
