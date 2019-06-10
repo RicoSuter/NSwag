@@ -6,45 +6,31 @@ var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, respon
 client_ = null; response_ = null; // response and client are disposed by FileResponse
 return fileResponse_;
 {%         else -%}
-var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
+var objectResponse_ = await ReadJsonObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object);
 {%         endif -%}
 {%     else -%}
-var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-var result_ = default({{ response.Type }}); 
-try
-{
-{%    if response.IsPlainText -%}
-    result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
-{%    else -%}
-    result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<{{ response.Type }}>(responseData_, _settings.Value);
-{%    endif -%}
+var objectResponse_ = await ReadJsonObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, result_); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, objectResponse_.Object); 
 {%             else -%}
-    return result_; 
+return objectResponse_.Object; 
 {%             endif -%}
 {%         endif -%}
-} 
-catch (System.Exception exception_) 
-{
-    throw new {{ ExceptionClass }}("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-}
 {%         if response.IsSuccess == false -%}
 {%             if response.InheritsExceptionSchema -%}
-if (result_ == null)
-    result_ = new {{ response.Type }}();
-result_.Data.Add("HttpStatus", status_);
-result_.Data.Add("HttpHeaders", headers_);
-result_.Data.Add("HttpResponse", responseData_);
+var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new {{ response.Type }}();
+responseObject_.Data.Add("HttpStatus", status_);
+responseObject_.Data.Add("HttpHeaders", headers_);
+responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
 {%                 if WrapDtoExceptions -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, result_, result_);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
 {%                 else -%}
-throw result_;
+throw objectResponse_.Object;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, result_, null);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}
@@ -62,7 +48,7 @@ return new {{ ResponseClass }}((int)response_.StatusCode, headers_);
 return;
 {%         endif -%}
 {%     endif -%}
-{% else -%}
-var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseData_, headers_, null);
+{% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
+string responseText_ = ( response_.Content == null ) ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseText_, headers_, null);
 {% endif -%}

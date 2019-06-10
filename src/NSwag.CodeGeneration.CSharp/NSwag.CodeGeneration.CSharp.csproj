@@ -25,6 +25,7 @@
     <None Remove="Templates\Client.Class.HeaderParameter.liquid" />
     <None Remove="Templates\Client.Class.PathParameter.liquid" />
     <None Remove="Templates\Client.Class.QueryParameter.liquid" />
+    <None Remove="Templates\Client.Class.ReadObjectResponse.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
   </ItemGroup>
@@ -38,6 +39,7 @@
     <EmbeddedResource Include="Templates\Client.Class.ProcessResponse.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.ConvertToString.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.QueryParameter.liquid" />
+    <EmbeddedResource Include="Templates\Client.Class.ReadObjectResponse.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
