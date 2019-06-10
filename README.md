@@ -12,9 +12,9 @@
 
 **[NSwag v12 released!](https://github.com/RSuter/NSwag/releases/tag/NSwag-Build-1032)**
 
-NSwag is a Swagger/OpenAPI 2.0 and 3.0 toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS and more) and other platforms, written in C#. The [Swagger specification](http://swagger.io) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate Swagger specifications from existing ASP.NET Web API controllers and client code from these Swagger specifications. 
+NSwag is a Swagger/OpenAPI 2.0 and 3.0 toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS and more) and other platforms, written in C#. The [OpenAPI/Swagger specification](https://github.com/OAI/OpenAPI-Specification) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate OpenAPI specifications from existing ASP.NET Web API controllers and client code from these OpenAPI specifications. 
 
-The project combines the functionality of Swashbuckle (Swagger generation) and AutoRest (client generation) in one toolchain. This way a lot of incompatibilites can be avoided and features which are not well described by the Swagger specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
+The project combines the functionality of Swashbuckle (OpenAPI/Swagger generation) and AutoRest (client generation) in one toolchain. This way a lot of incompatibilites can be avoided and features which are not well described by the OpenAPI specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
 
 ![ToolchainDiagram](assets/ToolchainDiagram.png)
 
@@ -31,7 +31,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 **Ways to use the toolchain:** 
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/NSwag/NSwag/wiki/NSwagStudio)
-- By using the [Swagger or Swagger UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](https://github.com/swagger-api/swagger-ui)) (recommended)
+- By using the [OpenAPI or OpenAPI UI OWIN and ASP.NET Core Middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) (also serves the [Swagger UI](https://github.com/swagger-api/swagger-ui)) (recommended)
 - Via [command line](https://github.com/NSwag/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
 - In your [MSBuild targets](https://github.com/NSwag/NSwag/wiki/MSBuild)
@@ -44,31 +44,31 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - [Integrate the NSwag toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
 - [Generate an Angular TypeScript client from an existing ASP.NET Web API web assembly](https://blog.rsuter.com/nswag-tutorial-generate-an-angular-2-typescript-client-from-an-existing-asp-net-web-api-web-assembly/)
 
-**Swagger Generators:**
+**OpenAPI/Swagger Generators:**
 
-- ASP.NET Web API assembly to Swagger (supports .NET Core)
-    - [AspNetCoreToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/AspNetCoreToSwaggerGenerator)
-    - [WebApiToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiToSwaggerGenerator)
-        - Generates a OpenAPI/Swagger specification for Web API controllers
-    - [WebApiAssemblyToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/WebApiAssemblyToSwaggerGenerator)
-        - Generates a OpenAPI/Swagger specification for controllers in an external Web API assembly
+- ASP.NET Web API assembly to OpenAPI (supports .NET Core)
+    - [AspNetCoreOpenApiDocumentGenerator](https://github.com/RSuter/NSwag/wiki/AspNetCoreOpenApiDocumentGenerator)
+    - [WebApiOpenApiDocumentGenerator](https://github.com/NSwag/NSwag/wiki/WebApiOpenApiDocumentGenerator)
+        - Generates an OpenAPI specification for Web API controllers
+    - [WebApiToOpenApiCommand](https://github.com/NSwag/NSwag/wiki/WebApiToOpenApiCommand)
+        - Generates an OpenAPI specification for controllers in an external Web API assembly
         - [Also supports loading of .NET Core assemblies](https://github.com/RSuter/NSwag/wiki/Assembly-loading)
-    - [AssemblyTypeToSwaggerGenerator](https://github.com/NSwag/NSwag/wiki/AssemblyTypeToSwaggerGenerator)
-        - Generates a OpenAPI/Swagger specification containing only types from .NET assemblies
+    - [TypesToOpenApiCommand](https://github.com/NSwag/NSwag/wiki/TypesToOpenApiCommand)
+        - Generates an OpenAPI specification containing only types from .NET assemblies
 
 **Code Generators:** 
 
 - **CSharp Client**
-	- [SwaggerToCSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpClientGenerator)
-		- Generates C# clients from a Swagger specification
+	- [CSharpClientGenerator](https://github.com/NSwag/NSwag/wiki/CSharpClientGenerator)
+		- Generates C# clients from an OpenAPI specification
 		- Generates POCOs or classes implementing [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) supporting DTOs
 		- The generated clients can be used with full .NET, .NET Core, Xamarin and .NET Standard 1.4 in general
 - **CSharp Controllers** (contract first/schema first development)
-	- [SwaggerToCSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToCSharpControllerGenerator)
-	    - Generates Web API Controllers based on a Swagger specification (ASP.NET Web API and ASP.NET Core)
+	- [CSharpControllerGenerator](https://github.com/NSwag/NSwag/wiki/CSharpControllerGenerator)
+	    - Generates Web API Controllers based on a OpenAPI specification (ASP.NET Web API and ASP.NET Core)
 - **TypeScript Client**
-	- [SwaggerToTypeScriptClientGenerator](https://github.com/NSwag/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
-		- Generates TypeScript clients from a Swagger specification
+	- [TypeScriptClientGenerator](https://github.com/NSwag/NSwag/wiki/TypeScriptClientGenerator)
+		- Generates TypeScript clients from a OpenAPI specification
 		- Available templates/supported libraries: 
 			- JQuery with Callbacks, `JQueryCallbacks`
 			- JQuery with promises `JQueryPromises`
@@ -93,42 +93,42 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 Specification:
 
 - **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
-    - The Swagger reader and writer classes, see [SwaggerDocument](https://github.com/RSuter/NSwag/wiki/SwaggerDocument)
+    - The OpenAPI/Swagger reader and writer classes, see [OpenApiDocument](https://github.com/RSuter/NSwag/wiki/OpenApiDocument)
 - **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Core.Yaml/)** (.NET Standard 1.3 / 2.0 and .NET 4.5): 
-    - Extensions to read and write YAML Swagger specifications
+    - Extensions to read and write YAML OpenAPI specifications
 - **[NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
-    - Attributes to decorate Web API controllers to control the Swagger generation
+    - Attributes to decorate Web API controllers to control the OpenAPI generation
 
-Swagger generation:
+OpenAPI generation:
 
 - **[NSwag.Generation](https://www.nuget.org/packages/NSwag.Generation/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
-    - Classes to generate Swagger specifications
+    - Classes to generate OpenAPI specifications
 - **[NSwag.Generation.WebApi](https://www.nuget.org/packages/NSwag.Generation.WebApi/)** (.NET Standard 1.0 / 2.0 and .NET 4.5): 
-    - Classes to generate Swagger specifications from Web API controllers, see [WebApiToSwaggerGenerator](https://github.com/RSuter/NSwag/wiki/WebApiToSwaggerGenerator)
+    - Classes to generate OpenAPI specifications from Web API controllers, see [WebApiOpenApiDocumentGenerator](https://github.com/RSuter/NSwag/wiki/WebApiOpenApiDocumentGenerator)
 - **[NSwag.Generation.AspNetCore](https://www.nuget.org/packages/NSwag.Generation.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
-    - (Experimental) Classes to generate Swagger specifications from ASP.NET Core MVC controllers using the ApiExplorer
+    - (Experimental) Classes to generate OpenAPI specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
 Code generation:
 
 - **[NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** (.NET Standard 1.3 / 2.0 / .NET 4.5.1): 
-    - Base classes to generate clients from Swagger specifications
+    - Base classes to generate clients from OpenAPI specifications
 - **[NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/)** (.NET Standard 1.3 and .NET 4.5.1): 
-    - Classes to generate C# clients from Swagger specifications, see [SwaggerToCSharpClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpClientGenerator) and [SwaggerToCSharpControllerGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToCSharpControllerGenerator)
+    - Classes to generate C# clients from OpenAPI specifications, see [CSharpClientGenerator](https://github.com/RSuter/NSwag/wiki/CSharpClientGenerator) and [CSharpControllerGenerator](https://github.com/RSuter/NSwag/wiki/CSharpControllerGenerator)
 - **[NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/)** (.NET Standard 1.3 and .NET 4.5.1): 
-    - Classes to generate TypeScript clients from Swagger specifications, see [SwaggerToTypeScriptClientGenerator](https://github.com/RSuter/NSwag/wiki/SwaggerToTypeScriptClientGenerator)
+    - Classes to generate TypeScript clients from OpenAPI specifications, see [TypeScriptClientGenerator](https://github.com/RSuter/NSwag/wiki/TypeScriptClientGenerator)
 
 ASP.NET and ASP.NET Core:
 
 - **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
 - **[NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/)** (.NET 4.5+): 
-    - [ASP.NET Core/OWIN middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) for serving Swagger specifications and Swagger UI
+    - [ASP.NET Core/OWIN middlewares](https://github.com/NSwag/NSwag/wiki/Middlewares) for serving OpenAPI specifications and Swagger UI
 - **[NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/)** (.NET 4.5+): 
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/NSwag/NSwag/wiki/JsonExceptionFilterAttribute))
 
 Frontends:
 
 - **[NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
-    - Classes to load assemblies in an isolated AppDomain and generate Swagger specs from Web API controllers
+    - Classes to load assemblies in an isolated AppDomain and generate OpenAPI specs from Web API controllers
 - **[NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
     - Commands for the command line tool implementations and UI
 - **[NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/)** (MSBuild .targets): 
@@ -146,7 +146,7 @@ The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** 
 
 ### Usage in C&#35;
 
-To register the [middlewares](https://github.com/RSuter/NSwag/wiki/AspNetCoreToSwaggerGenerator) to generate a Swagger spec and render the UI, register NSwag in `Startup.cs`: 
+To register the [middlewares](https://github.com/RSuter/NSwag/wiki/AspNetCoreOpenApiDocumentGenerator) to generate a OpenAPI spec and render the UI, register NSwag in `Startup.cs`: 
 
 ```csharp
 public class Startup
@@ -163,22 +163,18 @@ public class Startup
     {
         ...
 
-        app.UseSwagger(); // serve OpenAPI/Swagger documents
+        app.UseOpenApi(); // serve OpenAPI/Swagger documents
         app.UseSwaggerUi3(); // serve Swagger UI
-	app.UseReDoc(); // serve ReDoc UI
+	      app.UseReDoc(); // serve ReDoc UI
     }
 }
 ```
 
-The following code shows how to read a Swagger specification and generate C# client classes to call the described web services: 
+The following code shows how to read an OpenAPI/Swagger specification and generate C# client classes to call the described web services: 
 	
 ```cs
-var swaggerSettings = new WebApiToSwaggerGeneratorSettings();
-var swaggerGenerator = new WebApiToSwaggerGenerator(swaggerSettings);
-
-var document = await swaggerGenerator.GenerateForControllerAsync<PersonsController>();
-
-var clientSettings = new SwaggerToCSharpClientGeneratorSettings 
+var document = await OpenApiDocument.FromFileAsync("openapi.json");
+var clientSettings = new CSharpClientGeneratorSettings 
 {
     ClassName = "MyClass",
     CSharpGeneratorSettings = 
@@ -186,8 +182,8 @@ var clientSettings = new SwaggerToCSharpClientGeneratorSettings
         Namespace = "MyNamespace"
     }
 };
-var clientGenerator = new SwaggerToCSharpClientGenerator(document, clientSettings);
 
+var clientGenerator = new CSharpClientGenerator(document, clientSettings);
 var code = clientGenerator.GenerateFile();
 ```
 
