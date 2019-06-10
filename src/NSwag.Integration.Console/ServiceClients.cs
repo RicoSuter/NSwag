@@ -6,10 +6,14 @@
 
 using NSwag.Integration.Console.Contracts;
 
+#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
+#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
+#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
+#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
+#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
+
 namespace NSwag.Integration.Console
 {
-    #pragma warning disable
-
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.0.0.0 (NJsonSchema v10.0.17.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class GeoClient 
     {
@@ -38,8 +42,8 @@ namespace NSwag.Integration.Console
             return FromBodyTestAsync(location, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task FromBodyTestAsync(GeoPoint location, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -104,8 +108,8 @@ namespace NSwag.Integration.Console
             return FromUriTestAsync(latitude, longitude, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task FromUriTestAsync(double? latitude, double? longitude, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -177,8 +181,8 @@ namespace NSwag.Integration.Console
             return AddPolygonAsync(points, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task AddPolygonAsync(System.Collections.Generic.IEnumerable<GeoPoint> points, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -243,8 +247,8 @@ namespace NSwag.Integration.Console
             return FilterAsync(currentStates, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task FilterAsync(System.Collections.Generic.IEnumerable<string> currentStates, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -312,8 +316,8 @@ namespace NSwag.Integration.Console
             return ReverseAsync(values, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> ReverseAsync(System.Collections.Generic.IEnumerable<string> values, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -353,17 +357,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.Generic.ICollection<string>); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<string>>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<System.Collections.Generic.ICollection<string>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -394,8 +389,8 @@ namespace NSwag.Integration.Console
             return RefreshAsync(System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task RefreshAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -458,8 +453,8 @@ namespace NSwag.Integration.Console
             return UploadFileAsync(file, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<bool> UploadFileAsync(FileParameter file, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -505,17 +500,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(bool); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<bool>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -546,8 +532,8 @@ namespace NSwag.Integration.Console
             return UploadFilesAsync(files, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task UploadFilesAsync(System.Collections.Generic.IEnumerable<FileParameter> files, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -625,9 +611,9 @@ namespace NSwag.Integration.Console
             return SaveItemsAsync(request, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <exception cref="SwaggerException{System.Exception}">A custom error occured.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -668,22 +654,12 @@ namespace NSwag.Integration.Console
                         else
                         if (status_ == "450") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Exception); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Exception>(responseData_, _settings.Value);
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
-                            if (result_ == null)
-                                result_ = new System.Exception();
-                            result_.Data.Add("HttpStatus", status_);
-                            result_.Data.Add("HttpHeaders", headers_);
-                            result_.Data.Add("HttpResponse", responseData_);
-                            throw new SwaggerException<System.Exception>("A custom error occured.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<System.Exception>(response_, headers_).ConfigureAwait(false);
+                            var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new System.Exception();
+                            responseObject_.Data.Add("HttpStatus", status_);
+                            responseObject_.Data.Add("HttpHeaders", headers_);
+                            responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
+                            throw new SwaggerException("A custom error occured.", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -712,8 +688,8 @@ namespace NSwag.Integration.Console
             return GetUploadedFileAsync(id, @override, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<FileResponse> GetUploadedFileAsync(int id, bool? @override, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -790,8 +766,8 @@ namespace NSwag.Integration.Console
             return PostDoubleAsync(value, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<double?> PostDoubleAsync(double? value, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -831,17 +807,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(double?); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<double?>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<double?>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -863,6 +830,58 @@ namespace NSwag.Integration.Console
             {
                 if (client_ != null)
                     client_.Dispose();
+            }
+        }
+    
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+    
+            public T Object { get; }
+    
+            public string Text { get; }
+        }
+    
+        public bool ReadResponseAsString { get; set; }
+        
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadJsonObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        {
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new SwaggerException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, null);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new SwaggerException(message: message, (int)response.StatusCode, null, headers, exception);
+                }
             }
         }
     
@@ -930,8 +949,8 @@ namespace NSwag.Integration.Console
             return GetAllAsync(System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -965,17 +984,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.Generic.ICollection<Person>); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<Person>>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1006,8 +1016,8 @@ namespace NSwag.Integration.Console
             return AddAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task AddAsync(Person person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1072,8 +1082,8 @@ namespace NSwag.Integration.Console
             return FindAsync(gender, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> FindAsync(Gender gender, System.Threading.CancellationToken cancellationToken)
         {
             if (gender == null)
@@ -1112,17 +1122,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.Generic.ICollection<Person>); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<Person>>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1153,8 +1154,8 @@ namespace NSwag.Integration.Console
             return FindOptionalAsync(gender, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Person>> FindOptionalAsync(Gender? gender, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1191,17 +1192,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(System.Collections.Generic.ICollection<Person>); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.ICollection<Person>>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1233,9 +1225,9 @@ namespace NSwag.Integration.Console
             return GetAsync(id, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<Person> GetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1273,37 +1265,18 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "500") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(PersonNotFoundException); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
-                            if (result_ == null)
-                                result_ = new PersonNotFoundException();
-                            result_.Data.Add("HttpStatus", status_);
-                            result_.Data.Add("HttpHeaders", headers_);
-                            result_.Data.Add("HttpResponse", responseData_);
-                            throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new PersonNotFoundException();
+                            responseObject_.Data.Add("HttpStatus", status_);
+                            responseObject_.Data.Add("HttpHeaders", headers_);
+                            responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
+                            throw new SwaggerException("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Person); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1334,8 +1307,8 @@ namespace NSwag.Integration.Console
             return DeleteAsync(id, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1401,8 +1374,8 @@ namespace NSwag.Integration.Console
             return TransformAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<Person> TransformAsync(Person person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1439,17 +1412,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Person); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1481,9 +1445,9 @@ namespace NSwag.Integration.Console
             return ThrowAsync(id, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<Person> ThrowAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1523,37 +1487,18 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Person); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == "500") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(PersonNotFoundException); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
-                            if (result_ == null)
-                                result_ = new PersonNotFoundException();
-                            result_.Data.Add("HttpStatus", status_);
-                            result_.Data.Add("HttpHeaders", headers_);
-                            result_.Data.Add("HttpResponse", responseData_);
-                            throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new PersonNotFoundException();
+                            responseObject_.Data.Add("HttpStatus", status_);
+                            responseObject_.Data.Add("HttpHeaders", headers_);
+                            responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
+                            throw new SwaggerException("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1588,12 +1533,12 @@ namespace NSwag.Integration.Console
             return GetNameAsync(id, System.Threading.CancellationToken.None);
         }
     
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Gets the name of a person.</summary>
         /// <param name="id">The person ID.</param>
         /// <returns>The person's name.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <exception cref="SwaggerException{PersonNotFoundException}">A server side error occurred.</exception>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         public async System.Threading.Tasks.Task<string> GetNameAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
@@ -1631,37 +1576,18 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(string); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<string>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == "500") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(PersonNotFoundException); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<PersonNotFoundException>(responseData_, _settings.Value);
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
-                            if (result_ == null)
-                                result_ = new PersonNotFoundException();
-                            result_.Data.Add("HttpStatus", status_);
-                            result_.Data.Add("HttpHeaders", headers_);
-                            result_.Data.Add("HttpResponse", responseData_);
-                            throw new SwaggerException<PersonNotFoundException>("A server side error occurred.", (int)response_.StatusCode, responseData_, headers_, result_, result_);
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new PersonNotFoundException();
+                            responseObject_.Data.Add("HttpStatus", status_);
+                            responseObject_.Data.Add("HttpHeaders", headers_);
+                            responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
+                            throw new SwaggerException("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1692,8 +1618,8 @@ namespace NSwag.Integration.Console
             return AddXmlAsync(person, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<string> AddXmlAsync(string person, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1730,17 +1656,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(string); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<string>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1771,8 +1688,8 @@ namespace NSwag.Integration.Console
             return UploadAsync(data, System.Threading.CancellationToken.None);
         }
     
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<byte[]> UploadAsync(System.IO.Stream data, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -1809,17 +1726,8 @@ namespace NSwag.Integration.Console
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(byte[]); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<byte[]>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+                            var objectResponse_ = await ReadJsonObjectResponseAsync<byte[]>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1841,6 +1749,58 @@ namespace NSwag.Integration.Console
             {
                 if (client_ != null)
                     client_.Dispose();
+            }
+        }
+    
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+    
+            public T Object { get; }
+    
+            public string Text { get; }
+        }
+    
+        public bool ReadResponseAsString { get; set; }
+        
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadJsonObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        {
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new SwaggerException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, null);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new SwaggerException(message: message, (int)response.StatusCode, null, headers, exception);
+                }
             }
         }
     
@@ -2033,5 +1993,10 @@ namespace NSwag.Integration.Console
         }
     }
 
-    #pragma warning restore
 }
+
+#pragma warning restore 1591
+#pragma warning restore 1573
+#pragma warning restore  472
+#pragma warning restore  114
+#pragma warning restore  108
