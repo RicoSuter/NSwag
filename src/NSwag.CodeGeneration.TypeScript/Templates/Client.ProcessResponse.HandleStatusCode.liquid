@@ -23,7 +23,7 @@ return response.blob().then(blob => { return new {{ operation.ResponseClass }}(s
 return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
 {%         elseif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
-{%		   elseif Framework.IsAxios -%}
+{%         elseif Framework.IsAxios -%}
 return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
