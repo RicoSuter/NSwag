@@ -2,7 +2,8 @@
 <Project>
   <PropertyGroup>
     <_NSwagCommand>$(NSwagExe)</_NSwagCommand>
-    <_NSwagCommand Condition="'$(MSBuildRuntimeType)' == 'Core'">$(NSwagExe_Core21)</_NSwagCommand>
+    <_NSwagCommand
+        Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 $(NSwagDir_Core21)/dotnet-nswag.dll</_NSwagCommand>
   </PropertyGroup>
 
   <!-- OpenApiReference support for C# -->
@@ -11,7 +12,7 @@
     <ItemGroup>
       <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
       <CurrentOpenApiReference>
-        <Command>$(_NSwagCommand) swagger2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+        <Command>$(_NSwagCommand) openapi2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>

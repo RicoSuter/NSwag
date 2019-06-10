@@ -61,7 +61,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
         }
 
-        public class UrlEncodedRequestConsumingController: Controller
+        public class UrlEncodedRequestConsumingController : Controller
         {
             [HttpPost]
             [Consumes("application/x-www-form-urlencoded")]
@@ -169,9 +169,9 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             //// Assert
             Assert.Contains("this.request = new RequestBodyBase()", code);
-            Assert.Contains("this.request = new RequestBody()",     code);
+            Assert.Contains("this.request = new RequestBody()", code);
         }
-                
+
         [Fact]
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {

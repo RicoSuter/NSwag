@@ -75,11 +75,6 @@ namespace NSwag.CodeGeneration.TypeScript
                 return GetBinaryResponseTypeName();
             }
 
-            if (schema.ActualTypeSchema.IsAnyType)
-            {
-                return "any";
-            }
-
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }
 

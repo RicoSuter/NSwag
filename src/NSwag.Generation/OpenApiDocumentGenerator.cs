@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using Namotion.Reflection;
+using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -80,65 +81,13 @@ namespace NSwag.Generation
         /// <param name="description">The description.</param>
         /// <param name="contextualParameter">Type of the parameter.</param>
         /// <returns>The parameter.</returns>
-        public OpenApiParameter CreatePrimitiveParameter(
-            string name, string description, ContextualType contextualParameter)
+        public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter)
         {
-            OpenApiParameter operationParameter;
-
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
-            {
-                var schema = _settings.SchemaGenerator
-                    .Generate(contextualParameter, _schemaResolver);
 
-                operationParameter = new OpenApiParameter();
-
-                if (_settings.SchemaType == SchemaType.Swagger2)
-                {
-                    operationParameter.Type = typeDescription.Type;
-                    operationParameter.CustomSchema = new JsonSchema { Reference = schema.ActualSchema };
-
-                    // Copy enumeration for compatibility with other tools which do not understand x-schema.
-                    // The enumeration will be ignored by NSwag and only the x-schema is processed
-                    if (schema.ActualSchema.IsEnumeration)
-                    {
-                        operationParameter.Enumeration.Clear();
-                        foreach (var item in schema.ActualSchema.Enumeration)
-                        {
-                            operationParameter.Enumeration.Add(item);
-                        }
-                    }
-                }
-                else
-                {
-                    if (typeDescription.IsNullable)
-                    {
-                        operationParameter.Schema = new JsonSchema { IsNullableRaw = true };
-                        operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = schema.ActualSchema });
-                    }
-                    else
-                    {
-                        operationParameter.Schema = new JsonSchema { Reference = schema.ActualSchema };
-                    }
-                }
-            }
-            else
-            {
-                if (_settings.SchemaType == SchemaType.Swagger2)
-                {
-                    operationParameter = _settings.SchemaGenerator
-                        .Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
-                }
-                else
-                {
-                    operationParameter = new OpenApiParameter
-                    {
-                        Schema = _settings.SchemaGenerator
-                            .GenerateWithReferenceAndNullability<JsonSchema>(
-                                contextualParameter, typeDescription.IsNullable, _schemaResolver)
-                    };
-                }
-            }
+            var operationParameter = _settings.SchemaType == SchemaType.Swagger2
+                ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)
+                : CreatePrimitiveOpenApiParameter(contextualParameter, typeDescription);
 
             operationParameter.Name = name;
             operationParameter.IsRequired = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
@@ -149,11 +98,80 @@ namespace NSwag.Generation
             }
 
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
-            _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription, contextualParameter.ContextAttributes);
 
             if (description != string.Empty)
             {
                 operationParameter.Description = description;
+            }
+
+            return operationParameter;
+        }
+
+        private OpenApiParameter CreatePrimitiveOpenApiParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
+        {
+            OpenApiParameter operationParameter;
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            {
+                operationParameter = new OpenApiParameter();
+                operationParameter.Schema = new JsonSchema();
+
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, contextualParameter, typeDescription);
+
+                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+
+                var hasSchemaAnnotations = JsonConvert.SerializeObject(operationParameter.Schema) != "{}";
+                if (hasSchemaAnnotations || typeDescription.IsNullable)
+                {
+                    operationParameter.Schema.IsNullableRaw = true;
+                    operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = referencedSchema.ActualSchema });
+                }
+                else
+                {
+                    operationParameter.Schema = new JsonSchema { Reference = referencedSchema.ActualSchema };
+                }
+            }
+            else
+            {
+                operationParameter = new OpenApiParameter();
+                operationParameter.Schema = _settings.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                    contextualParameter, typeDescription.IsNullable, _schemaResolver);
+
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, contextualParameter, typeDescription);
+            }
+
+            return operationParameter;
+        }
+
+        private OpenApiParameter CreatePrimitiveSwaggerParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
+        {
+            OpenApiParameter operationParameter;
+            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            {
+                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+
+                operationParameter = new OpenApiParameter
+                {
+                    Type = typeDescription.Type,
+                    CustomSchema = new JsonSchema { Reference = referencedSchema.ActualSchema }
+                };
+
+                // Copy enumeration for compatibility with other tools which do not understand x-schema.
+                // The enumeration will be ignored by NSwag and only the x-schema is processed
+                if (referencedSchema.ActualSchema.IsEnumeration)
+                {
+                    operationParameter.Enumeration.Clear();
+                    foreach (var item in referencedSchema.ActualSchema.Enumeration)
+                    {
+                        operationParameter.Enumeration.Add(item);
+                    }
+                }
+
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, contextualParameter, typeDescription);
+            }
+            else
+            {
+                operationParameter = _settings.SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, contextualParameter, typeDescription);
             }
 
             return operationParameter;

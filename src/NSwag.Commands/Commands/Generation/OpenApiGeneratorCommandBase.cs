@@ -49,14 +49,21 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultPropertyNameHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (Null (default) or NotNull).")]
         public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
         {
             get => Settings.DefaultReferenceTypeNullHandling;
             set => Settings.DefaultReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Default, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultDictionaryValueReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling of dictionary value types (NotNull (default) or Null).")]
+        public ReferenceTypeNullHandling DefaultDictionaryValueReferenceTypeNullHandling
+        {
+            get => Settings.DefaultDictionaryValueReferenceTypeNullHandling;
+            set => Settings.DefaultDictionaryValueReferenceTypeNullHandling = value;
+        }
+
+        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: Null (default) or NotNull).")]
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
         {
             get => Settings.DefaultResponseReferenceTypeNullHandling;
@@ -187,7 +194,7 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddSwagger(), most CLI settings will be ignored).")]
+        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), most CLI settings will be ignored).")]
         public bool UseDocumentProvider { get; set; } = true;
 
         [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]

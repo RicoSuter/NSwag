@@ -48,11 +48,18 @@ namespace NSwag.Commands.Generation
             set { Settings.DefaultPropertyNameHandling = value; }
         }
 
-        [Argument(Name = "DefaultReferenceTypeNullHandling", IsRequired = false, Description = "The default null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Null, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (Null (default) or NotNull).")]
         public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
         {
-            get { return Settings.DefaultReferenceTypeNullHandling; }
-            set { Settings.DefaultReferenceTypeNullHandling = value; }
+            get => Settings.DefaultReferenceTypeNullHandling;
+            set => Settings.DefaultReferenceTypeNullHandling = value;
+        }
+
+        [Argument(Name = nameof(DefaultDictionaryValueReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling of dictionary value types (NotNull (default) or Null).")]
+        public ReferenceTypeNullHandling DefaultDictionaryValueReferenceTypeNullHandling
+        {
+            get => Settings.DefaultDictionaryValueReferenceTypeNullHandling;
+            set => Settings.DefaultDictionaryValueReferenceTypeNullHandling = value;
         }
 
         [Argument(Name = "DefaultEnumHandling", IsRequired = false, Description = "The default enum handling ('String' or 'Integer'), default: Integer.")]

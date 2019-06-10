@@ -1,25 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNetCore21.Nginx", "Sample.AspNetCore21.Nginx.csproj", "{1D7FCD75-55BD-4D44-823B-AE3787BDE313}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{3093F9F5-4FEC-4238-A84D-7B6BB5D9EA1C}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D3520430-6663-47A9-A7D1-ED43F33508BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNetCore", "..\..\..\src\NSwag.AspNetCore\NSwag.AspNetCore.csproj", "{48CEB61F-A6EC-473B-A097-A03AAF127CA3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Annotations", "..\..\..\src\NSwag.Annotations\NSwag.Annotations.csproj", "{BFA5720C-246B-416F-B6EC-BAC139517BF8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Core", "..\..\..\src\NSwag.Core\NSwag.Core.csproj", "{798471D1-631C-4426-8C0D-D566EC6587D2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration", "..\..\..\src\NSwag.SwaggerGeneration\NSwag.SwaggerGeneration.csproj", "{490E6D93-6E51-4130-96D5-FE350CE0AA3E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.WebApi", "..\..\..\src\NSwag.SwaggerGeneration.WebApi\NSwag.SwaggerGeneration.WebApi.csproj", "{E5F6FAE1-6957-45E0-A71D-07F198ACA97B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.SwaggerGeneration.AspNetCore", "..\..\..\src\NSwag.SwaggerGeneration.AspNetCore\NSwag.SwaggerGeneration.AspNetCore.csproj", "{005B89AC-649E-4E1E-89EB-48E60AAD692D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag", "NSwag", "{522B6825-350D-4A96-940D-F4BC31FBB5CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNetCore", "..\..\..\src\NSwag.AspNetCore\NSwag.AspNetCore.csproj", "{57BA5313-3983-4C01-ADD2-AB0CAFC02442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,45 +19,17 @@ Global
 		{1D7FCD75-55BD-4D44-823B-AE3787BDE313}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D7FCD75-55BD-4D44-823B-AE3787BDE313}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D7FCD75-55BD-4D44-823B-AE3787BDE313}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3093F9F5-4FEC-4238-A84D-7B6BB5D9EA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3093F9F5-4FEC-4238-A84D-7B6BB5D9EA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3093F9F5-4FEC-4238-A84D-7B6BB5D9EA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3093F9F5-4FEC-4238-A84D-7B6BB5D9EA1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48CEB61F-A6EC-473B-A097-A03AAF127CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48CEB61F-A6EC-473B-A097-A03AAF127CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48CEB61F-A6EC-473B-A097-A03AAF127CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48CEB61F-A6EC-473B-A097-A03AAF127CA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFA5720C-246B-416F-B6EC-BAC139517BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFA5720C-246B-416F-B6EC-BAC139517BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFA5720C-246B-416F-B6EC-BAC139517BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFA5720C-246B-416F-B6EC-BAC139517BF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{798471D1-631C-4426-8C0D-D566EC6587D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{798471D1-631C-4426-8C0D-D566EC6587D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{798471D1-631C-4426-8C0D-D566EC6587D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{798471D1-631C-4426-8C0D-D566EC6587D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{490E6D93-6E51-4130-96D5-FE350CE0AA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{490E6D93-6E51-4130-96D5-FE350CE0AA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{490E6D93-6E51-4130-96D5-FE350CE0AA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{490E6D93-6E51-4130-96D5-FE350CE0AA3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5F6FAE1-6957-45E0-A71D-07F198ACA97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5F6FAE1-6957-45E0-A71D-07F198ACA97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5F6FAE1-6957-45E0-A71D-07F198ACA97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5F6FAE1-6957-45E0-A71D-07F198ACA97B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{005B89AC-649E-4E1E-89EB-48E60AAD692D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{005B89AC-649E-4E1E-89EB-48E60AAD692D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{005B89AC-649E-4E1E-89EB-48E60AAD692D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{005B89AC-649E-4E1E-89EB-48E60AAD692D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3520430-6663-47A9-A7D1-ED43F33508BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3520430-6663-47A9-A7D1-ED43F33508BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3520430-6663-47A9-A7D1-ED43F33508BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3520430-6663-47A9-A7D1-ED43F33508BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BA5313-3983-4C01-ADD2-AB0CAFC02442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BA5313-3983-4C01-ADD2-AB0CAFC02442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BA5313-3983-4C01-ADD2-AB0CAFC02442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BA5313-3983-4C01-ADD2-AB0CAFC02442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{48CEB61F-A6EC-473B-A097-A03AAF127CA3} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
-		{BFA5720C-246B-416F-B6EC-BAC139517BF8} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
-		{798471D1-631C-4426-8C0D-D566EC6587D2} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
-		{490E6D93-6E51-4130-96D5-FE350CE0AA3E} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
-		{E5F6FAE1-6957-45E0-A71D-07F198ACA97B} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
-		{005B89AC-649E-4E1E-89EB-48E60AAD692D} = {522B6825-350D-4A96-940D-F4BC31FBB5CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4533C7E-C2A0-4845-9A3D-2408380AED4C}

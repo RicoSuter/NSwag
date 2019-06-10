@@ -8,7 +8,7 @@
 {% endif -%}
 
 {% if UseAureliaHttpInjection -%}
-@inject(String, HttpClient)
+@inject({% if HasConfigurationClass %}{{ ConfigurationClass }}, {% endif %}String, HttpClient)
 {% endif -%}
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
@@ -22,7 +22,7 @@
 {%     endif -%}
         this.http = http ? http : <any>window;
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%     else -%}
         this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
@@ -49,10 +49,10 @@
             method: "{{ operation.HttpMethodUpper | upcase }}",
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
 {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"

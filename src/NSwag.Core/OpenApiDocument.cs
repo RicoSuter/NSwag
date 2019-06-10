@@ -109,6 +109,7 @@ namespace NSwag
         /// <summary>Converts the description object to JSON.</summary>
         /// <param name="schemaType">The schema type.</param>
         /// <returns>The JSON string.</returns>
+        [Obsolete("Do not use this method but only ToJson(). Use the correct generator settings to generate a document in the correct format.")]
         public string ToJson(SchemaType schemaType)
         {
             return ToJson(schemaType, Formatting.Indented);

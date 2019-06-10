@@ -153,9 +153,13 @@
                 <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
                           ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
 
-                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
                           ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
+                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling of dictionary value types" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultDictionaryValueReferenceTypeNullHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultDictionaryValueReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
                 <TextBlock Margin="0,0,0,6" Text="The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultResponseReferenceTypeNullHandling, Mode=TwoWay}" 

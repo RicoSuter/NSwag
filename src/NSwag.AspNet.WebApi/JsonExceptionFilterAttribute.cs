@@ -16,8 +16,8 @@ using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Newtonsoft.Json;
+using NJsonSchema.Converters;
 using NSwag.Annotations;
-using NSwag.Converters;
 
 namespace NSwag.AspNet.WebApi
 {

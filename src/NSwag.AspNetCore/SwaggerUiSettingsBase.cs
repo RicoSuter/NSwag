@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using NJsonSchema;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Linq;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -30,14 +31,12 @@ namespace NSwag.AspNetCore
     public abstract class SwaggerUiSettingsBase : SwaggerSettings
 #endif
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerUiSettingsBase{T}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerUiSettingsBase"/> class.</summary>
         public SwaggerUiSettingsBase()
         {
             TransformToExternalPath = (internalUiRoute, request) =>
             {
-                return internalUiRoute.StartsWith("/") && internalUiRoute.StartsWith(request.PathBase.ToString()) == false
-                    ? request.PathBase + internalUiRoute
-                    : internalUiRoute;
+                return request.GetBasePath() + internalUiRoute;
             };
         }
 
@@ -47,10 +46,10 @@ namespace NSwag.AspNetCore
         internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
 
         /// <summary>Gets or sets a URI to load a custom CSS Stylesheet into the index.html</summary>
-        public Uri CustomStylesheetUri { get; set; }
+        public string CustomStylesheetPath { get; set; }
 
         /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
-        public Uri CustomJavaScriptUri { get; set; }
+        public string CustomJavaScriptPath { get; set; }
 
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
 #if AspNetOwin
@@ -66,30 +65,36 @@ namespace NSwag.AspNetCore
         /// <summary>
         /// Gets an HTML snippet for including custom StyleSheet in swagger UI.
         /// </summary>
-        protected string GetCustomStyleHtml()
+#if AspNetOwin
+        protected string GetCustomStyleHtml(IOwinRequest request)
+#else
+        protected string GetCustomStyleHtml(HttpRequest request)
+#endif
         {
-            if (CustomStylesheetUri == null)
+            if (CustomStylesheetPath == null)
             {
                 return string.Empty;
             }
 
-            var uriString = System.Net.WebUtility.HtmlEncode(CustomStylesheetUri.OriginalString);
-
+            var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomStylesheetPath, request));
             return $"<link rel=\"stylesheet\" href=\"{uriString}\">";
         }
 
         /// <summary>
         /// Gets an HTML snippet for including custom JavaScript in swagger UI.
         /// </summary>
-        protected string GetCustomScriptHtml()
+#if AspNetOwin
+        protected string GetCustomScriptHtml(IOwinRequest request)
+#else
+        protected string GetCustomScriptHtml(HttpRequest request)
+#endif
         {
-            if (CustomJavaScriptUri == null)
+            if (CustomJavaScriptPath == null)
             {
                 return string.Empty;
             }
 
-            var uriString = System.Net.WebUtility.HtmlEncode(CustomJavaScriptUri.OriginalString);
-
+            var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomJavaScriptPath, request));
             return $"<script src=\"{uriString}\"></script>";
         }
 

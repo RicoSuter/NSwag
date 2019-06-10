@@ -9,7 +9,6 @@
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 
 #pragma warning disable 1591
@@ -44,6 +43,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.RequiredPropertiesMustBeDefined; }
             set { Settings.RequiredPropertiesMustBeDefined = value; }
+        }
+
+        [Argument(Name = "AnyType", IsRequired = false, Description = "The any .NET type (default: 'object').")]
+        public string AnyType
+        {
+            get { return Settings.AnyType; }
+            set { Settings.AnyType = value; }
         }
 
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]

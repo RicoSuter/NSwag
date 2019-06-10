@@ -48,7 +48,7 @@
       "output": "nswag_assembly_swagger.json",
       "outputType": "Swagger2",
       "assemblyPaths": [
-        "bin/Release/netcoreapp2.1/Sample.AspNetCore21.dll"
+        "bin/$(configuration)/netcoreapp2.1/Sample.AspNetCore21.dll"
       ],
       "assemblyConfig": null,
       "referencePaths": [],
