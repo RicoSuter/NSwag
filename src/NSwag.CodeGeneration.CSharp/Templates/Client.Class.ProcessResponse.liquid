@@ -7,30 +7,30 @@ client_ = null; response_ = null; // response and client are disposed by FileRes
 return fileResponse_;
 {%         else -%}
 var objectResponse_ = await ReadJsonObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object);
 {%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadJsonObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, objectResponse_.ResponseObject); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, objectResponse_.Object); 
 {%             else -%}
-return objectResponse_.ResponseObject; 
+return objectResponse_.Object; 
 {%             endif -%}
 {%         endif -%}
 {%         if response.IsSuccess == false -%}
 {%             if response.InheritsExceptionSchema -%}
-var responseObject_ = objectResponse_.ResponseObject != null ? objectResponse_.ResponseObject : new {{ response.Type }}();
+var responseObject_ = objectResponse_.Object != null ? objectResponse_.Object : new {{ response.Type }}();
 responseObject_.Data.Add("HttpStatus", status_);
 responseObject_.Data.Add("HttpHeaders", headers_);
-responseObject_.Data.Add("HttpResponse", objectResponse_.ResponseText);
+responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
 {%                 if WrapDtoExceptions -%}
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, responseObject_);
+throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
 {%                 else -%}
-throw objectResponse_.ResponseObject;
+throw objectResponse_.Object;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.ResponseText, headers_, objectResponse_.ResponseObject, null);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}

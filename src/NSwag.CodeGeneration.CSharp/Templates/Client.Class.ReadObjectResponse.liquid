@@ -1,4 +1,4 @@
-﻿protected virtual bool ReadResponseAsString { get; set; }
+﻿public bool ReadResponseAsString { get; set; }
 
 protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadJsonObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
 {
@@ -7,7 +7,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         try
         {
-            var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, this.JsonSerializerSettings);
+            var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
             return new ObjectResponseResult<T>(typedBody, responseText);
         }
         catch (Newtonsoft.Json.JsonException exception)
@@ -24,7 +24,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
             using (var streamReader = new System.IO.StreamReader(responseStream))
             using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(this.JsonSerializerSettings);
+                var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
                 var typedBody = serializer.Deserialize<T>(jsonTextReader);
                 return new ObjectResponseResult<T>(typedBody, null);
             }
