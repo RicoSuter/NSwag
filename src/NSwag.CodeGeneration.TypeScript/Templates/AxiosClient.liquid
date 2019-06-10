@@ -43,6 +43,9 @@
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
+{%     if operation.IsFile -%}
+            responseType: "arraybuffer",
+{%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
             url: url_,
             headers: {
