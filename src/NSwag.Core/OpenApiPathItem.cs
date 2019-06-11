@@ -16,7 +16,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>A Swagger path, the key is usually a value of <see cref="OpenApiOperationMethod"/>.</summary>
-    [JsonConverter(typeof(SwaggerPathItemConverter))]
+    [JsonConverter(typeof(OpenApiPathItemConverter))]
     public class OpenApiPathItem : ObservableDictionary<string, OpenApiOperation>
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
@@ -52,7 +52,7 @@ namespace NSwag
         public ICollection<OpenApiParameter> Parameters { get; set; } = new Collection<OpenApiParameter>();
 
         // Needed to convert dictionary keys to lower case
-        internal class SwaggerPathItemConverter : JsonConverter
+        internal class OpenApiPathItemConverter : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
@@ -63,6 +63,12 @@ namespace NSwag
                 {
                     writer.WritePropertyName("parameters");
                     serializer.Serialize(writer, operations.Parameters);
+                }
+
+                if (operations.Servers != null && operations.Servers.Any())
+                {
+                    writer.WritePropertyName("servers");
+                    serializer.Serialize(writer, operations.Servers);
                 }
 
                 foreach (var pair in operations)
@@ -88,7 +94,11 @@ namespace NSwag
 
                     if (propertyName == "parameters")
                     {
-                        operations.Parameters = (List<OpenApiParameter>)serializer.Deserialize(reader, typeof(List<OpenApiParameter>));
+                        operations.Parameters = (Collection<OpenApiParameter>)serializer.Deserialize(reader, typeof(Collection<OpenApiParameter>));
+                    }
+                    else if (propertyName == "servers")
+                    {
+                        operations.Servers = (Collection<OpenApiServer>)serializer.Deserialize(reader, typeof(Collection<OpenApiServer>));
                     }
                     else
                     {
