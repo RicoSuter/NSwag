@@ -88,5 +88,60 @@ namespace NSwag.Core.Tests
             Assert.Equal("foo", document.Operations.First().Operation.ActualParameters.First().Name);
             Assert.Contains(@"""$ref"": ""#/parameters/Foo""", json);
         }
+
+        [Fact]
+        public async Task When_parameter_references_schema_then_it_is_resolved()
+        {
+            //// Arrange
+            var json = @"{
+  ""openapi"": ""3.0.0"",
+  ""servers"": [
+    {
+      ""url"": ""/api/v2"",
+      ""description"": ""server""
+    }
+  ],
+  ""paths"": {
+    ""/subscriptions/{subscriptionId}"": {
+      ""get"": {
+        ""tags"": [
+          ""subscriptions""
+        ],
+        ""summary"": ""get subscription details"",
+        ""operationId"": ""subscriptions_details"",
+        ""responses"": {
+          
+        }
+      },
+      ""parameters"": [
+        {
+          ""name"": ""subscriptionId"",
+          ""in"": ""path"",
+          ""required"": true,
+          ""schema"": {
+            ""$ref"": ""#/components/schemas/EntityId""
+          }
+        }
+      ]
+    }
+  },
+  ""components"": {
+    ""schemas"": {
+      ""EntityId"": {
+        ""format"": ""secret"",
+        ""type"": ""string"",
+        ""example"": ""851D64D0-86DF-4BEC-8BA0-C81E326D735A""
+      }
+    }
+  }
+}";
+
+            //// Act
+            var document = await OpenApiDocument.FromJsonAsync(json);
+            json = document.ToJson();
+
+            //// Assert
+            Assert.Equal("secret", document.Operations.First().Operation.ActualParameters.First().ActualSchema.Format);
+        }
     }
 }
