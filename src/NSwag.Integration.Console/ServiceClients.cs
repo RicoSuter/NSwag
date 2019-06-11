@@ -861,7 +861,7 @@ namespace NSwag.Integration.Console
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new SwaggerException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                    throw new SwaggerException(message, (int)response.StatusCode, responseText, headers, exception);
                 }
             }
             else
@@ -880,7 +880,7 @@ namespace NSwag.Integration.Console
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new SwaggerException(message: message, (int)response.StatusCode, null, headers, exception);
+                    throw new SwaggerException(message, (int)response.StatusCode, null, headers, exception);
                 }
             }
         }
@@ -1780,7 +1780,7 @@ namespace NSwag.Integration.Console
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new SwaggerException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                    throw new SwaggerException(message, (int)response.StatusCode, responseText, headers, exception);
                 }
             }
             else
@@ -1799,7 +1799,7 @@ namespace NSwag.Integration.Console
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new SwaggerException(message: message, (int)response.StatusCode, null, headers, exception);
+                    throw new SwaggerException(message, (int)response.StatusCode, null, headers, exception);
                 }
             }
         }

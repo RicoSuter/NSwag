@@ -861,7 +861,7 @@ namespace NSwag.Integration.ClientPCL
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new GeoClientException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                    throw new GeoClientException(message, (int)response.StatusCode, responseText, headers, exception);
                 }
             }
             else
@@ -880,7 +880,7 @@ namespace NSwag.Integration.ClientPCL
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new GeoClientException(message: message, (int)response.StatusCode, null, headers, exception);
+                    throw new GeoClientException(message, (int)response.StatusCode, null, headers, exception);
                 }
             }
         }
@@ -1770,7 +1770,7 @@ namespace NSwag.Integration.ClientPCL
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new PersonsClientException(message: message, (int)response.StatusCode, responseText, headers, exception);
+                    throw new PersonsClientException(message, (int)response.StatusCode, responseText, headers, exception);
                 }
             }
             else
@@ -1789,7 +1789,7 @@ namespace NSwag.Integration.ClientPCL
                 catch (Newtonsoft.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new PersonsClientException(message: message, (int)response.StatusCode, null, headers, exception);
+                    throw new PersonsClientException(message, (int)response.StatusCode, null, headers, exception);
                 }
             }
         }
