@@ -41,7 +41,7 @@
             <avalonedit:TextEditor Padding="8" FontFamily="Consolas" Background="GhostWhite" ShowLineNumbers="True"
                                    SyntaxHighlighting="JavaScript" FontSize="10pt">
                 <i:Interaction.Behaviors>
-                    <controls:AvalonEditBehavior Text="{Binding Command.Swagger, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <controls:AvalonEditBehavior Text="{Binding Command.Json, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </i:Interaction.Behaviors>
             </avalonedit:TextEditor>
         </Border>

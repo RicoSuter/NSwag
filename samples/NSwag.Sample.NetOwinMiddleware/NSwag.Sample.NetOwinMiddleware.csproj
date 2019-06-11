@@ -65,11 +65,11 @@
     <Reference Include="NSwag.Core, Version=12.0.13.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
       <HintPath>..\packages\NSwag.Core.12.0.13\lib\net45\NSwag.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NSwag.SwaggerGeneration, Version=12.0.13.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSwag.SwaggerGeneration.12.0.13\lib\net45\NSwag.SwaggerGeneration.dll</HintPath>
+    <Reference Include="NSwag.Generation, Version=12.0.13.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSwag.Generation.12.0.13\lib\net45\NSwag.Generation.dll</HintPath>
     </Reference>
-    <Reference Include="NSwag.SwaggerGeneration.WebApi, Version=12.0.13.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSwag.SwaggerGeneration.WebApi.12.0.13\lib\net45\NSwag.SwaggerGeneration.WebApi.dll</HintPath>
+    <Reference Include="NSwag.Generation.WebApi, Version=12.0.13.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSwag.Generation.WebApi.12.0.13\lib\net45\NSwag.Generation.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>

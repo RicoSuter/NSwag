@@ -17,6 +17,6 @@ namespace NSwag.CodeGeneration
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter name.</returns>
-        string Generate(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters);
+        string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters);
     }
 }

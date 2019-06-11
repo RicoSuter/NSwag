@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v12.3.1.0 (NJsonSchema v9.14.1.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v13.0.0.0 (NJsonSchema v10.0.18.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -19,7 +19,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -82,7 +82,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "string"

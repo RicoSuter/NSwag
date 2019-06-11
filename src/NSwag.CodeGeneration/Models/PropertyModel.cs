@@ -15,7 +15,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>
         /// The <see cref="JsonProperty"/> represented by this <see cref="PropertyModel"/>
         /// </summary>
-        public JsonProperty JsonProperty { get; }
+        public JsonSchemaProperty JsonProperty { get; }
 
         /// <summary>
         /// The generated property name suitable for use in the target language
@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsCollection => JsonProperty.Type == JsonObjectType.Array;
 
         /// <inheritdoc />
-        public PropertyModel(string key, JsonProperty jsonProperty, string name)
+        public PropertyModel(string key, JsonSchemaProperty jsonProperty, string name)
         {
             Key = key;
             JsonProperty = jsonProperty;

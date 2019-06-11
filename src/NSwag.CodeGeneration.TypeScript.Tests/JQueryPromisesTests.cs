@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -33,12 +33,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryPromises,
                 GenerateClientInterfaces = true,
@@ -59,12 +59,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryPromises,
                 GenerateClientInterfaces = true,
@@ -85,12 +85,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.JQueryPromises,
                 TypeScriptGeneratorSettings =

@@ -9,22 +9,22 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get, new SwaggerOperation
+                    OpenApiOperationMethod.Get, new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Name = "foo"
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Name = "foo"
                             },
                         }
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -104,10 +104,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -186,10 +186,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -262,10 +262,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert

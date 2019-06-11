@@ -4,7 +4,7 @@ using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.Generation;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -15,7 +15,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             LoadSwaggerUrlCommand = new AsyncRelayCommand<string>(async url => await LoadSwaggerUrlAsync(url));
         }
 
-        public FromSwaggerCommand Command { get; set; }
+        public FromDocumentCommand Command { get; set; }
 
         public ICommand LoadSwaggerUrlCommand { get; }
 
@@ -24,13 +24,13 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             var json = string.Empty;
             await RunTaskAsync(async () =>
             {
-                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || 
-                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ? 
-                    await DynamicApis.HttpGetAsync(url) : await DynamicApis.FileReadAllTextAsync(url);
+                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
+                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
+                    await DynamicApis.HttpGetAsync(url) : DynamicApis.FileReadAllText(url);
                 json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
             });
 
-            Command.Swagger = json;
+            Command.Json = json;
         }
 
         public async Task<string> GenerateSwaggerAsync()

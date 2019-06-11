@@ -9,7 +9,7 @@
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -22,8 +22,12 @@ namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
+#if AspNetOwin
     public class SwaggerUiSettings<T> : SwaggerUiSettingsBase<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
+#else
+    public class SwaggerUiSettings : SwaggerUiSettingsBase
+#endif
     {
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
         public bool ValidateSpecification { get; set; } = true;
@@ -65,8 +69,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false");
             html = html.Replace("{DefaultModelRendering}", DefaultModelRendering);
             html = html.Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false");
-            html = html.Replace("{CustomStyle}", GetCustomStyleHtml());
-            html = html.Replace("{CustomScript}", GetCustomScriptHtml());
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
 
             return html;
         }

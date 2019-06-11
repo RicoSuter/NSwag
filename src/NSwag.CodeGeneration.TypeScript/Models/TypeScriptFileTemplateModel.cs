@@ -16,11 +16,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript file template model.</summary>
     public class TypeScriptFileTemplateModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
-        private readonly SwaggerDocument _document;
+        private readonly OpenApiDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptFileTemplateModel" /> class.</summary>
@@ -33,9 +33,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public TypeScriptFileTemplateModel(
             IEnumerable<CodeArtifact> clientTypes,
             IEnumerable<CodeArtifact> dtoTypes,
-            SwaggerDocument document,
+            OpenApiDocument document,
             TypeScriptExtensionCode extensionCode,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGeneratorSettings settings,
             TypeScriptTypeResolver resolver)
         {
             _document = document;
@@ -139,10 +139,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
 
+        /// <summary>Gets the exception class name.</summary>
+        public string ExceptionClassName => _settings.ExceptionClass;
+
         /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
-        public bool RequiresSwaggerExceptionClass =>
+        public bool RequiresExceptionClass =>
             RequiresClientFunctions &&
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains(_settings.ExceptionClass);
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
