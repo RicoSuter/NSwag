@@ -10,7 +10,7 @@
 [![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/NSwag/sponsors/badge.svg)](#sponsors)
 
-**[NSwag v12 released!](https://github.com/RSuter/NSwag/releases/tag/NSwag-Build-1032)**
+**[NSwag v13 released!](https://github.com/RicoSuter/NSwag/releases/tag/NSwag-Build-1067)**
 
 NSwag is a Swagger/OpenAPI 2.0 and 3.0 toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS and more) and other platforms, written in C#. The [OpenAPI/Swagger specification](https://github.com/OAI/OpenAPI-Specification) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate OpenAPI specifications from existing ASP.NET Web API controllers and client code from these OpenAPI specifications. 
 
