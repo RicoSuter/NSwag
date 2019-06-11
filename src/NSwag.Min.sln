@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 CodeGeneration", "03 Cod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Core", "01 Core", "{1030C3AA-7549-473B-AA7E-5DFAC2F9D37A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 SwaggerGeneration", "02 SwaggerGeneration", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Generation", "02 Generation", "{48E8B044-3374-4F39-A180-9E01F7A10785}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.WebApi", "NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj", "{8A547CB0-930F-466D-92EB-E780FF14C0A6}"
 EndProject
