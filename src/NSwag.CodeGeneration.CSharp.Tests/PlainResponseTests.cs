@@ -48,7 +48,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("public async System.Threading.Tasks.Task<string> PlainAsync(", code);
-            Assert.Contains("result_ = (string)System.Convert", code);
         }
 
         [Fact]
@@ -86,7 +85,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             //// Assert
             Assert.Contains("public async System.Threading.Tasks.Task<string> PlainAsync(", code);
-            Assert.Contains("result_ = (string)System.Convert", code);
         }
     }
 }
