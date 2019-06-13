@@ -4,7 +4,7 @@
   "optionalDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NSwag/NSwag.git"
+    "url": "git+https://github.com/RicoSuter/NSwag.git"
   },
   "scripts": {},
   "author": {
@@ -16,7 +16,7 @@
     "nswag": "bin/nswag.js"
   },
   "bugs": {
-    "url": "https://github.com/NSwag/NSwag/issues"
+    "url": "https://github.com/RicoSuter/NSwag/issues"
   },
   "engines": {
     "npm": ">=3.10.8"

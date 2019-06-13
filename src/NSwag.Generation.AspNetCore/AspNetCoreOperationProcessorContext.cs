@@ -2,7 +2,7 @@
 // <copyright file="OperationProcessorCollection.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -31,15 +31,15 @@ namespace NSwag.Generation.AspNetCore
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
         /// <param name="schemaGenerator">The schema generator.</param>
         public AspNetCoreOperationProcessorContext(
-            OpenApiDocument document, 
-            OpenApiOperationDescription operationDescription, 
-            Type controllerType, 
-            MethodInfo methodInfo, 
-            OpenApiDocumentGenerator swaggerGenerator, 
-            JsonSchemaGenerator schemaGenerator, 
-            JsonSchemaResolver schemaResolver, 
-            OpenApiDocumentGeneratorSettings settings, 
-            IList<OpenApiOperationDescription> allOperationDescriptions) 
+            OpenApiDocument document,
+            OpenApiOperationDescription operationDescription,
+            Type controllerType,
+            MethodInfo methodInfo,
+            OpenApiDocumentGenerator swaggerGenerator,
+            JsonSchemaGenerator schemaGenerator,
+            JsonSchemaResolver schemaResolver,
+            OpenApiDocumentGeneratorSettings settings,
+            IList<OpenApiOperationDescription> allOperationDescriptions)
             : base(document, operationDescription, controllerType, methodInfo, swaggerGenerator, schemaGenerator, schemaResolver, settings, allOperationDescriptions)
         {
         }

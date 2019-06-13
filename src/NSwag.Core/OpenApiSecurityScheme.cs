@@ -2,7 +2,7 @@
 // <copyright file="SwaggerSecurityScheme.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ namespace NSwag
             }
         }
 
-        // Swagger only: 
+        // Swagger only:
 
         /// <summary>Gets or sets the used by the OAuth2 security scheme (Swagger only).</summary>
         [JsonProperty(PropertyName = "flow", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

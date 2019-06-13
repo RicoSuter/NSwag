@@ -2,7 +2,7 @@
 // <copyright file="ResponseModelBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -62,8 +62,8 @@ namespace NSwag.CodeGeneration.Models
         public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
 
         /// <summary>Gets the type of the response.</summary>
-        public string Type => 
-            _response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() : 
+        public string Type =>
+            _response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() :
             _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>

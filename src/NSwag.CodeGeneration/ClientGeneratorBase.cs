@@ -2,7 +2,7 @@
 // <copyright file="ClientGeneratorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ namespace NSwag.CodeGeneration
             _document = document;
             Resolver = resolver;
 
-            settings.SchemaType = document.SchemaType; // enforce Swagger schema output 
+            settings.SchemaType = document.SchemaType; // enforce Swagger schema output
         }
 
         /// <summary>Gets the base settings.</summary>
@@ -76,14 +76,14 @@ namespace NSwag.CodeGeneration
                 GenerateDtoTypes() :
                 Enumerable.Empty<CodeArtifact>();
 
-            clientTypes = 
-                outputType == ClientGeneratorOutputType.Full ? clientTypes : 
+            clientTypes =
+                outputType == ClientGeneratorOutputType.Full ? clientTypes :
                 outputType == ClientGeneratorOutputType.Implementation ? clientTypes.Where(t => t.Category != CodeArtifactCategory.Contract) :
                 outputType == ClientGeneratorOutputType.Contracts ? clientTypes.Where(t => t.Category == CodeArtifactCategory.Contract) :
                 Enumerable.Empty<CodeArtifact>();
 
             dtoTypes =
-                outputType == ClientGeneratorOutputType.Full || 
+                outputType == ClientGeneratorOutputType.Full ||
                 outputType == ClientGeneratorOutputType.Contracts ? dtoTypes : Enumerable.Empty<CodeArtifact>();
 
             return GenerateFile(clientTypes, dtoTypes, outputType)

@@ -6,8 +6,8 @@
         <authors>$authors$</authors>
         <description>$description$</description>
         <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
-        <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
-        <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
+        <licenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</licenseUrl>
         <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
         <dependencies>
             <group targetFramework=".NETFramework4.5.1">

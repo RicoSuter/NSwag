@@ -2,7 +2,7 @@
 // <copyright file="TypeScriptFrameworkAngularModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -28,11 +28,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string HttpClass => UseHttpClient ? "HttpClient" : "Http";
 
         /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
-        public bool UseHttpClient => _settings.Template == TypeScriptTemplate.Angular && 
+        public bool UseHttpClient => _settings.Template == TypeScriptTemplate.Angular &&
                                      _settings.HttpClass == TypeScript.HttpClass.HttpClient;
 
         /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
-        public bool UseSingletonProvider => _settings.Template == TypeScriptTemplate.Angular && 
+        public bool UseSingletonProvider => _settings.Template == TypeScriptTemplate.Angular &&
                                             _settings.UseSingletonProvider;
 
         /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>

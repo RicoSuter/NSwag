@@ -4,7 +4,7 @@
         xmlns:viewModels="clr-namespace:NSwagStudio.ViewModels"
         xmlns:views="clr-namespace:NSwagStudio.Views"
         xmlns:controls="clr-namespace:NSwagStudio.Controls"
-        Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript" 
+        Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript"
         MinHeight="650" MinWidth="1000" UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         Height="650" Width="1000">
@@ -23,10 +23,10 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" InputGestureText="Ctrl-N" />
                 <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" InputGestureText="Ctrl-O" />
-                <MenuItem Header="_Close" InputGestureText="Ctrl-W" 
-                          Command="{Binding CloseDocumentCommand}" 
+                <MenuItem Header="_Close" InputGestureText="Ctrl-W"
+                          Command="{Binding CloseDocumentCommand}"
                           CommandParameter="{Binding SelectedDocument}" />
-                <MenuItem Header="_Save" InputGestureText="Ctrl-S" 
+                <MenuItem Header="_Save" InputGestureText="Ctrl-S"
                           Command="{Binding SaveDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
                 <MenuItem Header="Save As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
             </MenuItem>
@@ -36,7 +36,7 @@
             <!-- Documents -->
             <TabItem Header="Documents" HeaderTemplate="{StaticResource RotatedTabItem}">
                 <TabControl ItemsSource="{Binding Documents}" controls:TabContent.IsCached="True"
-                            SelectedItem="{Binding SelectedDocument, Mode=TwoWay}" 
+                            SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
                             Margin="8">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
@@ -47,9 +47,9 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding Document.Name}" VerticalAlignment="Center" Margin="0,2,0,0" />
-                                <Button Grid.Column="1" 
+                                <Button Grid.Column="1"
                                         Content="X" Padding="6,2,6,2" Margin="8,3,0,2"
-                                        CommandParameter="{Binding}" 
+                                        CommandParameter="{Binding}"
                                         Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}" />
                             </Grid>
                         </DataTemplate>
@@ -68,13 +68,13 @@
                         <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The Swagger API toolchain for .NET and TypeScript</Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap">
-                        NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#. 
+                        NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#.
                         The OpenAPI/Swagger specification uses JSON and JSON Schema to describe a RESTful web API. 
-                        The project provides tools to automatically generate client code from these Swagger 
+                        The project provides tools to automatically generate client code from these Swagger
                         specifications and integrate this generation into existing processes.
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8" FontSize="14">
-                        NSwag and NSwagStudio have been developed by 
+                        NSwag and NSwagStudio have been developed by
                         <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink> and other contributors.
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
@@ -82,7 +82,7 @@
                         NJsonSchema Version: <Run Text="{Binding NJsonSchemaVersion, Mode=OneWay}" />
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8">
-                        License: <Hyperlink NavigateUri="https://github.com/NSwag/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">MIT</Hyperlink>
+                        License: <Hyperlink NavigateUri="https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md" Click="OnOpenHyperlink">MIT</Hyperlink>
                     </TextBlock>
                 </StackPanel>
             </TabItem>

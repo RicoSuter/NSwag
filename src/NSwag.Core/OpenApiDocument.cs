@@ -2,7 +2,7 @@
 // <copyright file="SwaggerDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -254,8 +254,8 @@ namespace NSwag
                 {
                     // Append "All" if possible
                     var arrayResponseOperation = operations.FirstOrDefault(
-                        o => o.Operation.ActualResponses.Any(r => 
-                            HttpUtilities.IsSuccessStatusCode(r.Key) && 
+                        o => o.Operation.ActualResponses.Any(r =>
+                            HttpUtilities.IsSuccessStatusCode(r.Key) &&
                             r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
 
                     if (arrayResponseOperation != null)
