@@ -67,9 +67,24 @@ namespace NSwag.CodeGeneration.Models
         public bool HasDefault => Default != null;
 
         /// <summary>The default value for the variable.</summary>
-        public string Default => !_parameter.IsRequired && _parameter.Default != null ?
-            _settings.ValueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
-            null;
+        public string Default
+        {
+            get
+            {
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    return !_parameter.IsRequired && _parameter.Default != null ?
+                        _settings.ValueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
+                        null;
+                }
+                else
+                {
+                    return !_parameter.IsRequired && _parameter.ActualSchema.Default != null ?
+                        _settings.ValueGenerator?.GetDefaultValue(_parameter.ActualSchema, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
+                        null;
+                }
+            }
+        }
 
         /// <summary>Gets the parameter kind.</summary>
         public OpenApiParameterKind Kind => _parameter.Kind;
@@ -82,7 +97,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
-        
+
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
         public IEnumerable<PropertyModel> PropertyNames
         {

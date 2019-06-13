@@ -63,7 +63,7 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultDictionaryValueReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: Null (default) or NotNull).")]
+        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: NotNull (default) or Null).")]
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
         {
             get => Settings.DefaultResponseReferenceTypeNullHandling;
