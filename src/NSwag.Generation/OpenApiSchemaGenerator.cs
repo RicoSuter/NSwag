@@ -26,29 +26,28 @@ namespace NSwag.Generation
         }
 
         /// <summary>Generates the properties for the given type and schema.</summary>
-        /// <param name="type">The types.</param>
         /// <param name="typeDescription">The type desription.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
-        protected override void GenerateObject(JsonSchema schema, Type type, JsonTypeDescription typeDescription, JsonSchemaResolver schemaResolver)
+        protected override void GenerateObject(JsonSchema schema, JsonTypeDescription typeDescription, JsonSchemaResolver schemaResolver)
         {
             if (_isRootType)
             {
                 _isRootType = false;
-                base.GenerateObject(schema, type, typeDescription, schemaResolver);
+                base.GenerateObject(schema, typeDescription, schemaResolver);
                 _isRootType = true;
             }
             else
             {
-                if (!schemaResolver.HasSchema(type, false))
+                if (!schemaResolver.HasSchema(typeDescription.ContextualType.OriginalType, false))
                 {
                     _isRootType = true;
-                    Generate(type, schemaResolver);
+                    Generate(typeDescription.ContextualType.OriginalType, schemaResolver);
                     _isRootType = false;
                 }
 
-                schema.Reference = schemaResolver.GetSchema(type, false);
+                schema.Reference = schemaResolver.GetSchema(typeDescription.ContextualType.OriginalType, false);
             }
         }
 
