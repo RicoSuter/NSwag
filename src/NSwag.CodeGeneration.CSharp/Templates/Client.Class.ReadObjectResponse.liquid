@@ -26,7 +26,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
             {
                 var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
                 var typedBody = serializer.Deserialize<T>(jsonTextReader);
-                return new ObjectResponseResult<T>(typedBody, null);
+                return new ObjectResponseResult<T>(typedBody, string.Empty);
             }
         }
         catch (Newtonsoft.Json.JsonException exception)
