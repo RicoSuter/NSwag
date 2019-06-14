@@ -38,6 +38,8 @@ namespace NSwag.CodeGeneration.CSharp
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
             ParameterDictionaryType = "System.Collections.Generic.IDictionary";
 
+            ParameterBinaryBodyType = "System.IO.Stream";
+
             AdditionalNamespaceUsages = new string[0];
             AdditionalContractNamespaceUsages = new string[0];
         }
@@ -66,5 +68,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
         public string ParameterDictionaryType { get; set; }
+
+        /// <summary>Gets or sets the binary body type of operation parameters.</summary>
+        public string ParameterBinaryBodyType { get; set; }
+
     }
 }

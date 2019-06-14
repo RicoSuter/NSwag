@@ -223,7 +223,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             if (parameter.IsBinaryBodyParameter)
             {
-                return "System.IO.Stream";
+                return _settings.ParameterBinaryBodyType;
             }
 
             var schema = parameter.ActualSchema;

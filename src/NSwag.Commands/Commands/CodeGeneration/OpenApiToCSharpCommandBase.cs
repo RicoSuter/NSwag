@@ -88,6 +88,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ParameterDictionaryType = value; }
         }
 
+        [Argument(Name = "ParameterBinaryBodyType", IsRequired = false, Description = "The type for binary body operation parameters (default: 'Stream').")]
+        public string ParameterBinaryBodyType
+        {
+            get { return Settings.ParameterBinaryBodyType; }
+            set { Settings.ParameterBinaryBodyType = value; }
+        }
+
         [Argument(Name = "ResponseArrayType", IsRequired = false, Description = "The generic array .NET type of operation responses (default: 'ICollection').")]
         public string ResponseArrayType
         {
