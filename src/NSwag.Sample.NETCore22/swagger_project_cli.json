@@ -1,16 +1,12 @@
 ﻿{
-  "x-generator": "NSwag v12.0.11.0 (NJsonSchema v9.13.13.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.0.1.0 (NJsonSchema v10.0.19.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json-patch+json",
-    "application/json",
-    "application/*+json",
-    "text/json",
-    "multipart/form-data"
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/pet": {
@@ -23,9 +19,6 @@
           "application/json-patch+json",
           "application/json",
           "application/*+json"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -43,7 +36,7 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -61,9 +54,6 @@
           "application/json",
           "application/*+json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "pet",
@@ -80,7 +70,7 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -101,9 +91,6 @@
           "text/json",
           "application/*+json"
         ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "status",
@@ -120,7 +107,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -138,21 +125,19 @@
           "Pet"
         ],
         "operationId": "Pet_FindByCategory",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "string",
             "name": "category",
             "in": "query",
             "required": true,
+            "default": "foo",
             "x-nullable": true
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -162,7 +147,7 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -177,9 +162,6 @@
           "Pet"
         ],
         "operationId": "Pet_FindById",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -192,21 +174,21 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Pet"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           },
           "404": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
@@ -219,9 +201,6 @@
           "Pet"
         ],
         "operationId": "Pet_EditPet2",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -229,6 +208,8 @@
             "in": "path",
             "required": true,
             "format": "int32",
+            "maximum": 500.0,
+            "minimum": 5.0,
             "x-nullable": false
           },
           {
@@ -315,14 +296,14 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           },
           "404": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
@@ -335,9 +316,6 @@
           "Pet"
         ],
         "operationId": "Pet_DeletePet",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "type": "integer",
@@ -353,14 +331,14 @@
             "description": ""
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           },
           "404": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
@@ -377,9 +355,6 @@
         "operationId": "Pet_UploadImage",
         "consumes": [
           "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
         ],
         "parameters": [
           {
@@ -400,21 +375,21 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           },
           "404": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ProblemDetails"
@@ -431,7 +406,6 @@
     },
     "Pet": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id",
         "age",
@@ -481,7 +455,6 @@
     },
     "Category": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -497,7 +470,6 @@
     },
     "Image": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -513,7 +485,6 @@
     },
     "Tag": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -551,7 +522,6 @@
     },
     "ApiResponse": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "code"
       ],

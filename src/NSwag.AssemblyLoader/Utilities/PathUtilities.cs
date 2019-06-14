@@ -42,7 +42,9 @@ namespace NSwag.AssemblyLoader.Utilities
 
                     var rootIndex = path.Substring(0, starIndex).LastIndexOf("\\", StringComparison.Ordinal);
                     if (rootIndex == -1)
+                    {
                         rootIndex = path.Substring(0, starIndex).LastIndexOf("/", StringComparison.Ordinal);
+                    }
 
                     var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();
                     var files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
@@ -50,7 +52,9 @@ namespace NSwag.AssemblyLoader.Utilities
                     allFiles.AddRange(FindWildcardMatches(path, files.Select(f => f.Replace("\\", "/")), '/').Select(Path.GetFullPath));
                 }
                 else
+                {
                     allFiles.Add(path);
+                }
             }
 
             return allFiles.Distinct();
@@ -86,7 +90,9 @@ namespace NSwag.AssemblyLoader.Utilities
         {
             // TODO: Rename to ToAbsolutePath, switch parameters
             if (Path.IsPathRooted(relativePath))
+            {
                 return relativePath;
+            }
 
             var absolutePath = Path.Combine(relativeTo, relativePath);
             return Path.GetFullPath(absolutePath);
@@ -118,14 +124,20 @@ namespace NSwag.AssemblyLoader.Utilities
             for (index = 0; index < len; index++)
             {
                 if (absParts[index].Equals(relParts[index], StringComparison.OrdinalIgnoreCase))
+                {
                     lastCommonRoot = index;
+                }
                 else
+                {
                     break;
+                }
             }
 
             // If we didn't find a common prefix then throw
             if (lastCommonRoot == -1)
+            {
                 return absolutePath;
+            }
 
             // Build up the relative path
             var relativePath = new StringBuilder();

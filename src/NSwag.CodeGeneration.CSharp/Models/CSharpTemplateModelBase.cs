@@ -12,12 +12,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public abstract class CSharpTemplateModelBase
     {
         private readonly string _controllerName;
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly CSharpGeneratorBaseSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpTemplateModelBase"/> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="settings">The settings.</param>
-        protected CSharpTemplateModelBase(string controllerName, SwaggerToCSharpGeneratorSettings settings)
+        protected CSharpTemplateModelBase(string controllerName, CSharpGeneratorBaseSettings settings)
         {
             _controllerName = controllerName;
             _settings = settings;

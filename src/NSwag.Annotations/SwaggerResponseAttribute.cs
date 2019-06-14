@@ -12,10 +12,12 @@ using System.Net;
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the result type of a HTTP operation to correctly generate a Swagger definition.</summary>
+    /// <remarks>Use ASP.NET Core native attributes (ProducesResponseType) instead of this attribute.</remarks>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class SwaggerResponseAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerResponseAttribute"/> class.</summary>
+        /// <remarks>Use ASP.NET Core native attributes (ProducesResponseType) instead of this attribute.</remarks>
         /// <param name="responseType">The JSON result type of the MVC or Web API action method.</param>
         public SwaggerResponseAttribute(Type responseType)
         {

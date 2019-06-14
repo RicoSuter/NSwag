@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -17,17 +18,31 @@ namespace NSwag.Sample
     [Route("/pet")]
     public class PetController : ControllerBase
     {
+        /// <summary>
+        /// Creates an order 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <response code="201">Order created</response>
+        /// <response code="400">Order invalid</response>
+        [HttpPost("createOrder")]
+        [ProducesResponseType(typeof(int), 201)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        public void CreateOrder()
+        {
+
+        }
+
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
+        [return: Description("My success response description.")]
         public async Task<IActionResult> AddPet([FromBody] Pet pet)
         {
             await Task.Delay(0);
             return new EmptyResult();
         }
-
 
         [HttpPut]
         [Consumes("application/json")]
@@ -136,6 +151,12 @@ namespace NSwag.Sample
 
             await Task.Delay(0);
             return Ok(new ApiResponse());
+        }
+
+        [HttpPost("file")]
+        public ActionResult GetFile()
+        {
+            return NoContent();
         }
     }
 }

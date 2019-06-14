@@ -119,6 +119,11 @@
                                           ToolTip="GenerateOptionalParameters"
                                           Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ExcludedParameterNames" 
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />

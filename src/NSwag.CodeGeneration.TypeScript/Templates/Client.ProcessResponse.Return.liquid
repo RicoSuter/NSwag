@@ -4,6 +4,12 @@ return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClas
 {%     else -%}
 return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
+{% elseif Framework.IsAxios -%}
+{%     if operation.WrapResponse -%}
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+{%     else -%}
+return Promise.resolve<{{ operation.ResultType }}>(<any>null);
+{%     endif -%}
 {% elseif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));

@@ -13,9 +13,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>Framework specific information.</summary>
     public class TypeScriptFrameworkModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
-        internal TypeScriptFrameworkModel(SwaggerToTypeScriptClientGeneratorSettings settings)
+        internal TypeScriptFrameworkModel(TypeScriptClientGeneratorSettings settings)
         {
             _settings = settings;
 
@@ -41,6 +41,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
+
+        /// <summary>Gets a value indicating whether to render for Axios.</summary>
+        public bool IsAxios => _settings.Template == TypeScriptTemplate.Axios;
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
         public bool UseMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS ||

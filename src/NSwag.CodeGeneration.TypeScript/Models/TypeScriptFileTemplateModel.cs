@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -16,35 +16,37 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript file template model.</summary>
     public class TypeScriptFileTemplateModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
-        private readonly SwaggerDocument _document;
+        private readonly IEnumerable<CodeArtifact> _clientTypes;
+        private readonly OpenApiDocument _document;
         private readonly TypeScriptExtensionCode _extensionCode;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptFileTemplateModel" /> class.</summary>
-        /// <param name="clientCode">The client code.</param>
-        /// <param name="clientClasses">The client classes.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="extensionCode">The extension code.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptFileTemplateModel(
-            string clientCode,
-            IEnumerable<string> clientClasses,
-            SwaggerDocument document,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
+            OpenApiDocument document,
             TypeScriptExtensionCode extensionCode,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGeneratorSettings settings,
             TypeScriptTypeResolver resolver)
         {
             _document = document;
             _extensionCode = extensionCode;
             _settings = settings;
             _resolver = resolver;
-            _clientCode = clientCode;
-            ClientClasses = clientClasses.ToArray();
 
-            Types = GenerateDtoTypes();
+            _clientCode = clientTypes.OrderByBaseDependency().Concatenate();
+            _clientTypes = clientTypes;
+
+            Types = dtoTypes.OrderByBaseDependency().Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
         }
@@ -124,26 +126,26 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
-            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+            _document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary));
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>
             _settings.GenerateClientClasses &&
             !string.IsNullOrEmpty(Clients);
 
-        /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
-        public bool RequiresSwaggerExceptionClass =>
-            RequiresClientFunctions &&
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("SwaggerException");
+        /// <summary>Gets the exception class name.</summary>
+        public string ExceptionClassName => _settings.ExceptionClass;
 
-        /// <summary>Table containing list of the generated classes.</summary>
-        public string[] ClientClasses { get; }
+        /// <summary>Gets a value indicating whether the SwaggerException class is required. Note that if RequiresClientFunctions returns true this returns true since the client functions require it. </summary>
+        public bool RequiresExceptionClass =>
+            RequiresClientFunctions &&
+            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains(_settings.ExceptionClass);
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
@@ -151,15 +153,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
         public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
 
-        private string GenerateDtoTypes()
-        {
-            var generator = new TypeScriptGenerator(_document, _settings.TypeScriptGeneratorSettings, _resolver);
-            return _settings.GenerateDtoTypes ? generator.GenerateTypes(_extensionCode).Concatenate() : string.Empty;
-        }
-
         private string GenerateExtensionCodeAfter()
         {
-            var clientClassesVariable = "{" + string.Join(", ", ClientClasses.Select(c => "'" + c + "': " + c)) + "}";
+            var clientClassesVariable = "{" + string.Join(", ", _clientTypes
+                .Where(c => c.Category != CodeArtifactCategory.Utility)
+                .Select(c => "'" + c.TypeName + "': " + c.TypeName)) + "}";
+
             return _extensionCode.BottomCode.Replace("{clientClasses}", clientClassesVariable);
         }
     }

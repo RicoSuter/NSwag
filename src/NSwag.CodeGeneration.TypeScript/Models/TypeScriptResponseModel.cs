@@ -16,10 +16,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript response model.</summary>
     public class TypeScriptResponseModel : ResponseModelBase
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptResponseModel" /> class.</summary>
         /// <param name="operationModel">The operation model.</param>
+        /// <param name="operation">The operation.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="response">The response.</param>
         /// <param name="isPrimarySuccessResponse">if set to <c>true</c> [is success response].</param>
@@ -27,9 +28,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
-        public TypeScriptResponseModel(IOperationModel operationModel, string statusCode, SwaggerResponse response, bool isPrimarySuccessResponse, 
-            JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, SwaggerToTypeScriptClientGeneratorSettings settings) 
-            : base(operationModel, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
+        public TypeScriptResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse, 
+            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, TypeScriptClientGeneratorSettings settings) 
+            : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;
         }

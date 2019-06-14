@@ -21,7 +21,7 @@ namespace NSwag.Core.Yaml.Tests.References
             var path = GetTestDirectory() + relativePath;
 
             //// Act
-            var document = await SwaggerYamlDocument.FromFileAsync(path);
+            var document = await OpenApiYamlDocument.FromFileAsync(path);
             var json = document.ToJson();
 
             //// Assert

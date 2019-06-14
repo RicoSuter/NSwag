@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -17,35 +17,37 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public class CSharpFileTemplateModel
     {
         private readonly string _clientCode;
-        private readonly SwaggerDocument _document;
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
+        private readonly CSharpGeneratorBaseSettings _settings;
         private readonly CSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
-        private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly CSharpGeneratorBase _generator;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
-        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpFileTemplateModel(
-            string clientCode,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
-            SwaggerDocument document,
-            SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator,
+            OpenApiDocument document,
+            CSharpGeneratorBaseSettings settings,
+            CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
-            _clientCode = clientCode;
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+            _clientCode = clientTypes.Concatenate();
 
-            Classes = GenerateDtoTypes();
+            Classes = dtoTypes.Concatenate();
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -81,24 +83,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the exception model class.</summary>
         public string ExceptionModelClass => JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception";
 
-        private IEnumerable<string> JsonExceptionTypes => ResponsesInheritingFromException.Select(r =>
-            _generator.GetTypeName(r.ActualResponseSchema, r.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));
-
-        private IEnumerable<SwaggerResponse> ResponsesInheritingFromException =>
-            _document.Operations.SelectMany(o => o.Operation.ActualResponses.Values.Where(r => r.ActualResponseSchema?.InheritsSchema(_resolver.ExceptionSchema) == true));
+        private IEnumerable<string> JsonExceptionTypes => _document.Operations
+            .SelectMany(o => o.Operation.ActualResponses.Where(r => r.Value.Schema?.InheritsSchema(_resolver.ExceptionSchema) == true).Select(r => new { o.Operation, Response = r.Value }))
+            .Select(t => _generator.GetTypeName(t.Response.Schema, t.Response.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
         public bool RequiresFileParameterType =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileParameter") != true &&
-            _document.Operations.Any(o => o.Operation.Parameters.Any(p => p.Type.HasFlag(JsonObjectType.File)));
+            _document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary));
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.ActualResponseSchema?.Type == JsonObjectType.File));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation) == true));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
-        public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+        public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                var settings = _settings as CSharpClientGeneratorSettings;
                 if (settings != null)
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)
@@ -141,16 +141,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                             .Distinct();
                     }
                     else
+                    {
                         return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                    }
                 }
                 return new string[] { };
             }
-        }
-
-        private string GenerateDtoTypes()
-        {
-            var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
-            return _settings.GenerateDtoTypes ? generator.GenerateTypes().Concatenate() : string.Empty;
         }
     }
 }

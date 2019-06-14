@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net451</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;net451;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>12.0.11</Version>
+    <Version>13.0.1</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
-    <Copyright>Copyright © Rico Suter, 2018</Copyright>
+    <Copyright>Copyright © Rico Suter, 2019</Copyright>
     <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -18,8 +18,12 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\AxiosClient.liquid" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Templates\AngularClient.liquid" />
     <EmbeddedResource Include="Templates\AngularJSClient.liquid" />
+    <EmbeddedResource Include="Templates\AxiosClient.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleStatusCode.liquid" />
     <EmbeddedResource Include="Templates\Client.ProcessResponse.liquid" />
@@ -35,9 +39,6 @@
     <EmbeddedResource Include="Templates\JQueryCallbacksClient.liquid" />
     <EmbeddedResource Include="Templates\JQueryPromisesClient.liquid" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="9.13.13" />
-  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
@@ -46,5 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.0.19" />
   </ItemGroup>
 </Project>

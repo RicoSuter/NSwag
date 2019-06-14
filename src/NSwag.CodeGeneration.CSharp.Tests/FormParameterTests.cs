@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -12,29 +12,29 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_form_parameters_are_defined_then_MultipartFormDataContent_is_generated()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "foo",
                                 IsRequired = false,
                                 IsNullableRaw = true,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "bar",
                                 IsRequired = true,
                                 IsNullableRaw = false,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }
                         }
@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -67,11 +67,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_action_has_file_parameter_then_Stream_is_generated_in_CSharp_code()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<FileUploadController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
@@ -84,30 +84,30 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_form_parameters_are_defined_then_FormUrlEncodedContent_is_generated()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["foo/bar"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo/bar"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Post,
-                    new SwaggerOperation
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation
                     {
                         Consumes = new System.Collections.Generic.List<string> { "application/x-www-form-urlencoded" },
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "foo",
                                 IsRequired = false,
                                 IsNullableRaw = true,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
                                 Name = "bar",
                                 IsRequired = true,
                                 IsNullableRaw = false,
-                                Kind = SwaggerParameterKind.FormData,
+                                Kind = OpenApiParameterKind.FormData,
                                 Type = JsonObjectType.String
                             }
                         }
@@ -116,7 +116,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert

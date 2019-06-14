@@ -1,13 +1,10 @@
 ﻿{
-  "x-generator": "NSwag v12.0.11.0 (NJsonSchema v9.13.13.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v13.0.1.0 (NJsonSchema v10.0.19.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json"
-  ],
   "paths": {
     "/pet": {
       "post": {
@@ -34,13 +31,18 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -66,13 +68,18 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus": {
@@ -98,7 +105,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -108,13 +115,18 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByStatus/{skip}/{sortOrder}": {
@@ -156,7 +168,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -166,13 +178,18 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/findByCategory": {
@@ -194,7 +211,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -204,13 +221,18 @@
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}": {
@@ -234,14 +256,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Pet"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -250,7 +272,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -341,7 +368,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -350,7 +377,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -372,7 +404,7 @@
         ],
         "responses": {
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -381,7 +413,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/{petId}/uploadImage": {
@@ -414,14 +451,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/SerializableError"
@@ -430,7 +467,12 @@
           "404": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/pet/RequiredAndOptional": {
@@ -501,7 +543,12 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     },
     "/sample": {
@@ -517,13 +564,18 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "string"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "TEST_APIKEY": []
+          }
+        ]
       }
     }
   },
@@ -534,7 +586,6 @@
     },
     "Pet": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id",
         "age",
@@ -584,7 +635,6 @@
     },
     "Category": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -600,7 +650,6 @@
     },
     "Image": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -616,7 +665,6 @@
     },
     "Tag": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "id"
       ],
@@ -632,7 +680,6 @@
     },
     "ApiResponse": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "code"
       ],
@@ -651,9 +698,9 @@
     }
   },
   "securityDefinitions": {
-    "TEST_HEADER": {
+    "TEST_APIKEY": {
       "type": "apiKey",
-      "description": "TEST_HEADER",
+      "description": "TEST_DESCRIPTION",
       "name": "TEST_HEADER",
       "in": "header"
     }

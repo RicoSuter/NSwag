@@ -51,7 +51,9 @@ namespace NSwag.AssemblyLoader
 
             var content = !string.IsNullOrEmpty(configurationPath) ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
             foreach (var br in bindingRedirects)
+            {
                 content = UpdateOrAddBindingRedirect(content, br.Name, br.NewVersion, br.PublicKeyToken);
+            }
 
             return Encoding.UTF8.GetBytes(content);
         }
@@ -74,26 +76,34 @@ namespace NSwag.AssemblyLoader
                 return content;
             }
             else
+            {
                 return content.Replace("</assemblyBinding>", AssemblyBinding
                     .Replace("{name}", name)
                     .Replace("{publicKeyToken}", publicKeyToken)
                     .Replace("{newVersion}", newVersion) +
                     "</assemblyBinding>");
+            }
         }
 
         private static string TryFindConfigurationPath(string assemblyDirectory)
         {
             var config = Path.Combine(assemblyDirectory, "App.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             config = Path.Combine(assemblyDirectory, "Web.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             config = Path.Combine(assemblyDirectory, "../Web.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             return null;
         }

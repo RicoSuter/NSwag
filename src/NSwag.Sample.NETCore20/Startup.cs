@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.AspNetCore;
 using NSwag.Sample.NETCore20.Part;
-using NSwag.SwaggerGeneration.Processors.Security;
+using NSwag.Generation.Processors.Security;
 
 namespace NSwag.Sample.NETCore20
 {
@@ -31,13 +31,15 @@ namespace NSwag.Sample.NETCore20
                 .AddSwaggerDocument(document =>
                 {
                     document.DocumentName = "swagger";
+                    // Add operation security scope processor
+                    document.OperationProcessors.Add(new OperationSecurityScopeProcessor("TEST_APIKEY"));
                     // Add custom document processors, etc.
-                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_HEADER", new SwaggerSecurityScheme
+                    document.DocumentProcessors.Add(new SecurityDefinitionAppender("TEST_APIKEY", new OpenApiSecurityScheme
                     {
-                        Type = SwaggerSecuritySchemeType.ApiKey,
+                        Type = OpenApiSecuritySchemeType.ApiKey,
                         Name = "TEST_HEADER",
-                        In = SwaggerSecurityApiKeyLocation.Header,
-                        Description = "TEST_HEADER"
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "TEST_DESCRIPTION"
                     }));
                     // Post process the generated document
                     document.PostProcess = d => d.Info.Title = "Hello world!";

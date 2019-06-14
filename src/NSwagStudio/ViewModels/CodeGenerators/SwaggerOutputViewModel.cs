@@ -15,7 +15,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     {
         private string _swaggerCode;
 
-        public async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public async Task GenerateClientAsync(OpenApiDocument document, string documentPath)
         {
             if (document != null)
                 SwaggerCode = await RunTaskAsync(Task.Run(() => document.ToJson()));

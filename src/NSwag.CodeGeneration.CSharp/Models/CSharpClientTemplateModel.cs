@@ -16,9 +16,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp client template model.</summary>
     public class CSharpClientTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerDocument _document;
-        private readonly JsonSchema4 _exceptionSchema;
-        private readonly SwaggerToCSharpClientGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
+        private readonly JsonSchema _exceptionSchema;
+        private readonly CSharpClientGeneratorSettings _settings;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -31,9 +31,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             string controllerName,
             string controllerClassName,
             IEnumerable<CSharpOperationModel> operations,
-            JsonSchema4 exceptionSchema,
-            SwaggerDocument document,
-            SwaggerToCSharpClientGeneratorSettings settings)
+            JsonSchema exceptionSchema,
+            OpenApiDocument document,
+            CSharpClientGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;
@@ -46,12 +46,6 @@ namespace NSwag.CodeGeneration.CSharp.Models
             BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
         }
-
-        /// <summary>Gets or sets a value indicating whether to generate client contracts (i.e. client interfaces).</summary>
-        public bool GenerateContracts { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to generate implementation classes.</summary>
-        public bool GenerateImplementation { get; set; }
 
         /// <summary>Gets the class name.</summary>
         public string Class { get; }
@@ -150,17 +144,23 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
 
                 if (string.IsNullOrEmpty(parameterCode))
+                {
                     parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
+                }
                 else if(!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
+                {
                     parameterCode = "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode.Substring(2) + " }";
+                }
                 else
+                {
                     parameterCode = parameterCode.Substring(2);
+                }
 
                 return parameterCode;
             }
         }
 
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.InheritsSchema(_exceptionSchema) == true));
     }
 }
