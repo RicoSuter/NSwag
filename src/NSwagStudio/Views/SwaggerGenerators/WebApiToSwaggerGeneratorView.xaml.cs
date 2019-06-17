@@ -25,7 +25,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private WebApiToSwaggerGeneratorViewModel Model => (WebApiToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "Web API or ASP.NET Core via Reflection (deprecated)";
+        public string Title => "Web API via reflection";
 
         public IOutputCommand Command => Model.Command;
 
@@ -41,7 +41,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private void ControllersListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.ControllerNames = ((ListBox) sender).SelectedItems.OfType<string>().ToArray();
+            Model.ControllerNames = ((ListBox)sender).SelectedItems.OfType<string>().ToArray();
         }
     }
 }

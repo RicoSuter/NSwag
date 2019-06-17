@@ -27,7 +27,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                 json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
                        url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
                     await DynamicApis.HttpGetAsync(url) : DynamicApis.FileReadAllText(url);
-                json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
+
+                if (json.StartsWith("{"))
+                {
+                    json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
+                }
             });
 
             Command.Json = json;

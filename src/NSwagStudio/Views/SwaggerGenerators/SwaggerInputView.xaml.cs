@@ -24,7 +24,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         public NSwagDocument Document { get; set; }
 
-        public string Title => "Swagger Specification";
+        public string Title => "OpenAPI/Swagger Specification";
 
         public Task<string> GenerateSwaggerAsync()
         {
