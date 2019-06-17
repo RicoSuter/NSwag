@@ -61,7 +61,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("System.Threading.Tasks.Task<string> FooAsync(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("_implementation.FooAsync(test, test2, cancellationToken);", code);
-            Assert.Contains("public System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("public System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, System.Threading.CancellationToken cancellationToken)", code);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("System.Threading.Tasks.Task<string> Foo(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, System.Threading.CancellationToken cancellationToken)", code);
         }
 
         [Fact]

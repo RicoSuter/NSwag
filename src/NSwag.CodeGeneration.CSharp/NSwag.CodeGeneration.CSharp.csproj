@@ -28,6 +28,8 @@
     <None Remove="Templates\Client.Class.ReadObjectResponse.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
+    <None Remove="Templates\Controller.Class.Annotations.liquid" />
+    <None Remove="Templates\Controller.Method.Annotations.liquid" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
@@ -45,7 +47,9 @@
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
+    <EmbeddedResource Include="Templates\Controller.Class.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Controller.liquid" />
+    <EmbeddedResource Include="Templates\Controller.Method.Annotations.liquid" />
     <EmbeddedResource Include="Templates\File.liquid" />
     <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />
   </ItemGroup>
