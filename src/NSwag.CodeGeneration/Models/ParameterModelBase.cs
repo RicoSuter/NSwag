@@ -161,6 +161,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => Kind == OpenApiParameterKind.Body;
 
+        /// <summary>Gets a value indicating whether the parameter is supplied as query parameter.</summary>
+        public bool IsQuery => Kind == OpenApiParameterKind.Query;
+
         /// <summary>Gets a value indicating whether the parameter is supplied through the request headers.</summary>
         public bool IsHeader => Kind == OpenApiParameterKind.Header;
 
