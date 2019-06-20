@@ -161,7 +161,5 @@ components:
             //// Assert
             Assert.Contains("System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile> body", code);
         }
-
-
     }
 }

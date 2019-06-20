@@ -227,18 +227,17 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (_settings is CSharpControllerGeneratorSettings controllerSettings)
                 {
-                    
                     if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
                     {
                         return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
-                        "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
-                        "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                            "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                            "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
                     }
                     else
                     {
                         return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
-                        "Microsoft.AspNetCore.Http.IFormFile" :
-                        "System.Web.HttpPostedFileBase";
+                            "Microsoft.AspNetCore.Http.IFormFile" :
+                            "System.Web.HttpPostedFileBase";
                     }
                 }
                 else
