@@ -221,12 +221,32 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(OpenApiParameter parameter)
         {
+            var schema = parameter.ActualSchema;
+
             if (parameter.IsBinaryBodyParameter)
             {
-                return "System.IO.Stream";
+                if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+                {
+                    
+                    if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+                    {
+                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                        "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                        "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                    }
+                    else
+                    {
+                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                        "Microsoft.AspNetCore.Http.IFormFile" :
+                        "System.Web.HttpPostedFileBase";
+                    }
+                }
+                else
+                {
+                    return "System.IO.Stream";
+                }
             }
 
-            var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
