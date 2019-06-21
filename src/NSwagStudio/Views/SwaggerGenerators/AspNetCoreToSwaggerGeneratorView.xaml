@@ -215,7 +215,7 @@
                         <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
                         <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
                                                 FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
-                                                Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                                Filter="OpenAPI Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                                 DefaultExtension=".json"/>
 
                         <StackPanel Visibility="{Binding Command.DocumentTemplate, Converter={StaticResource NotConverter}}">
@@ -289,7 +289,7 @@
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
             <dialogs:FileSavePicker ToolTip="OutputFilePath" 
-                                    Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                    Filter="OpenAPI/Swagger Specification JSON (.json)|*.json|OpenAPI/Swagger Specification YAML (.yaml)|*.yaml"
                                     DefaultExtension=".cs" 
                                     Margin="0,0,0,12"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />

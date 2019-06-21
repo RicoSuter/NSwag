@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="Swagger Specification URL:" FontWeight="Bold" Margin="0,0,0,4"  />
+            <TextBlock Text="Specification URL:" FontWeight="Bold" Margin="0,0,0,4"  />
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -34,7 +34,7 @@
                         Margin="4,0,0,0" Padding="8,4,8,4" Grid.Column="1" />
             </Grid>
 
-            <TextBlock Text="Swagger Specification JSON (if specified, the URL is ignored): " FontWeight="Bold" Margin="0,0,0,8"  />
+            <TextBlock Text="Specification JSON/YAML (if specified, the URL is ignored): " FontWeight="Bold" Margin="0,0,0,8"  />
         </StackPanel>
         
         <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
