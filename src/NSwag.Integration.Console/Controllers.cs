@@ -223,7 +223,7 @@ namespace MyNamespace
         }
     
         [System.Web.Http.HttpPost, System.Web.Http.Route("api/Persons/upload")]
-        public System.Threading.Tasks.Task<byte[]> Upload([System.Web.Http.FromBody] System.Web.HttpPostedFileBase data)
+        public System.Threading.Tasks.Task<byte[]> Upload(System.Web.HttpPostedFileBase data)
         {
             return _implementation.UploadAsync(data);
         }

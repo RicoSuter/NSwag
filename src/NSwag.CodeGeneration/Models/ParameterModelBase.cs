@@ -158,6 +158,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.IsBinary;
 
+        /// <summary>Gets a value indicating whether the parameter is a binary body parameter.</summary>
+        public bool IsBinaryBody => _parameter.IsBinaryBodyParameter;
+
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;
 

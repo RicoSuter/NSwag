@@ -106,6 +106,7 @@ components:
 
             //// Assert
             Assert.Contains("Microsoft.AspNetCore.Http.IFormFile body", code);
+            Assert.DoesNotContain("FromBody]", code);
         }
 
         [Fact]
@@ -160,6 +161,7 @@ components:
 
             //// Assert
             Assert.Contains("System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile> body", code);
+            Assert.DoesNotContain("FromBody]", code);
         }
     }
 }

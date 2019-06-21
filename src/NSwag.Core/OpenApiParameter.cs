@@ -226,7 +226,7 @@ namespace NSwag
             }
         }
 
-        /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
+        /// <summary>Gets a value indicating whether this is a binary body parameter.</summary>
         [JsonIgnore]
         public bool IsBinaryBodyParameter
         {
