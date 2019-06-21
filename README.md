@@ -18,7 +18,7 @@ The project combines the functionality of Swashbuckle (OpenAPI/Swagger generatio
 
 ![ToolchainDiagram](assets/ToolchainDiagram.png)
 
-The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors. 
+The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors.
 
 **Features:**
 
