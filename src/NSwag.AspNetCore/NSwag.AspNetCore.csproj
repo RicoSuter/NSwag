@@ -23,7 +23,7 @@
     <EmbeddedResource Include="SwaggerUi3\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="build\NSwag.AspNetCore.props" />
+    <Content Include="build\netcoreapp3.0\NSwag.AspNetCore.props" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
