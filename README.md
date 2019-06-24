@@ -135,6 +135,7 @@ Frontends:
     - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target, see [MSBuild](https://github.com/RSuter/NSwag/wiki/MSBuild)
 - **[NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/)** (.NET Core 1.0, 1.1, 2.0, 2.1 and 2.2): 
     - Command line tool for .NET Core (`dotnet nswag`)
+    - `<DotNetCliToolReference Include="NSwag.ConsoleCore" Version="..." />`
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
 
