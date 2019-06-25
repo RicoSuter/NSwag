@@ -248,18 +248,28 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             if (schema.IsBinary)
             {
+                bool useFormFile = false;
+                if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+                {
+                    if (controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
+                    {
+                        useFormFile = true;
+                    }
+                }
+
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 {
+                    if (useFormFile)
+                    {
+                        return "System.Collections.Generic.IEnumerable<Microsoft.AspNetCore.Http.IFormFile>";
+                    }
+
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
                 }
 
-                if (_settings is CSharpControllerGeneratorSettings)
+                if (useFormFile)
                 {
-                    var controllerSettings = _settings as CSharpControllerGeneratorSettings;
-                    if (controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
-                    {
-                        return "Microsoft.AspNetCore.Http.IFormFile";
-                    }
+                    return "Microsoft.AspNetCore.Http.IFormFile";
                 }
 
                 return "FileParameter";
