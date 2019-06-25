@@ -253,6 +253,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
                 }
 
+                if (_settings is CSharpControllerGeneratorSettings)
+                {
+                    var controllerSettings = _settings as CSharpControllerGeneratorSettings;
+                    if (controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
+                    {
+                        return "Microsoft.AspNetCore.Http.IFormFile";
+                    }
+                }
+
                 return "FileParameter";
             }
 
