@@ -2,7 +2,7 @@
 // <copyright file="OperationParameterProcessor.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -371,8 +371,8 @@ namespace NSwag.Generation.WebApi.Processors
             {
                 foreach (var contextualProperty in contextualParameter.Type.GetContextualProperties())
                 {
-                    if (contextualProperty.ContextAttributes.Select(a => a.GetType()).All(a => 
-                        !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) && 
+                    if (contextualProperty.ContextAttributes.Select(a => a.GetType()).All(a =>
+                        !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) &&
                         !a.IsAssignableToTypeName("JsonIgnoreAttribute", TypeNameStyle.Name)))
                     {
                         var fromQueryAttribute = contextualProperty.ContextAttributes.SingleOrDefault(a => a.GetType().Name == "FromQueryAttribute");

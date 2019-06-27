@@ -2,7 +2,7 @@
 // <copyright file="CSharpParameterModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -27,13 +27,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The client generator base.</param>
         /// <param name="typeResolver">The type resolver.</param>
         public CSharpParameterModel(
-            string parameterName, 
-            string variableName, 
-            string typeName, 
+            string parameterName,
+            string variableName,
+            string typeName,
             OpenApiParameter parameter,
-            IList<OpenApiParameter> allParameters, 
-            CodeGeneratorSettingsBase settings, 
-            IClientGenerator generator, 
+            IList<OpenApiParameter> allParameters,
+            CodeGeneratorSettingsBase settings,
+            IClientGenerator generator,
             TypeResolverBase typeResolver)
             : base(parameterName, variableName, typeName, parameter, allParameters, settings, generator, typeResolver)
         {

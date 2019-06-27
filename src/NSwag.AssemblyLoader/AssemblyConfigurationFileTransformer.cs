@@ -2,7 +2,7 @@
 // <copyright file="AssemblyConfigurationFileTransformer.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -127,7 +127,7 @@ public class BindingRedirect
         PublicKeyToken = publicKeyToken;
     }
 
-#if NET451 
+#if NET451
 
     public BindingRedirect(string name, Type newVersionType, string publicKeyToken)
         : this(name, newVersionType.Assembly.GetName().Version.ToString(), publicKeyToken)

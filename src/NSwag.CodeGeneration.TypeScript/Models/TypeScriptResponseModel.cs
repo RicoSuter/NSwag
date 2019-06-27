@@ -2,7 +2,7 @@
 // <copyright file="TypeScriptResponseModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -28,8 +28,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
-        public TypeScriptResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse, 
-            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, TypeScriptClientGeneratorSettings settings) 
+        public TypeScriptResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse,
+            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, TypeScriptClientGeneratorSettings settings)
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings.TypeScriptGeneratorSettings, generator)
         {
             _settings = settings;

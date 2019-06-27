@@ -59,7 +59,7 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_locale_is_not_english_then_types_are_correctly_serialized()
         {
-            // https://github.com/NSwag/NSwag/issues/518
+            // https://github.com/RicoSuter/NSwag/issues/518
 
             //// Arrange
             CultureInfo ci = new CultureInfo("tr-TR");
@@ -78,7 +78,7 @@ namespace NSwag.Core.Tests
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
-        private string _sampleServiceCode = 
+        private string _sampleServiceCode =
 @"{
   ""swagger"": ""2.0"",
   ""info"": {
