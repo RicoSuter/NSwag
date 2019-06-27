@@ -2,7 +2,7 @@
 // <copyright file="MainWindowModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -70,9 +70,9 @@ namespace NSwagStudio.ViewModels
 
         public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; }
 
-        public string NSwagVersion => SwaggerDocument.ToolchainVersion;
+        public string NSwagVersion => OpenApiDocument.ToolchainVersion;
 
-        public string NJsonSchemaVersion => JsonSchema4.ToolchainVersion;
+        public string NJsonSchemaVersion => JsonSchema.ToolchainVersion;
 
         protected override async void OnLoaded()
         {

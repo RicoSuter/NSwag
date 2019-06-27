@@ -2,7 +2,7 @@
 // <copyright file="ClientGeneratorBaseSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ namespace NSwag.CodeGeneration
             ResponseClass = "SwaggerResponse";
 
             WrapResponseMethods = new string[0];
+            ExcludedParameterNames = new string[0];
         }
 
         /// <summary>Gets the code generator settings.</summary>
@@ -53,6 +54,9 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the parameter name generator.</summary>
         public IParameterNameGenerator ParameterNameGenerator { get; set; }
+
+        /// <summary>Gets or sets the globally excluded parameter names.</summary>
+        public string[] ExcludedParameterNames { get; set; }
 
         /// <summary>Generates the name of the controller based on the provided settings.</summary>
         /// <param name="controllerName">Name of the controller.</param>

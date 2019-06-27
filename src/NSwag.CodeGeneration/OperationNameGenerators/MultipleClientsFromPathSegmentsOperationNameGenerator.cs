@@ -2,7 +2,7 @@
 // <copyright file="MultipleClientsFromPathSegmentsOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetClientName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
+        public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             return path
                 .Split('/')
@@ -38,14 +38,14 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetOperationName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
+        public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             var operationName = ConvertPathToName(path);
 
             var hasNameConflict = document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
-                .Where(op => 
-                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) && 
+                .Where(op =>
+                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) &&
                     ConvertPathToName(op.Path) == operationName
                 ).ToList()
                 .Count > 1;

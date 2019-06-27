@@ -43,13 +43,16 @@
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
+{%     if operation.IsFile -%}
+            responseType: "arraybuffer",
+{%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
             url: url_,
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
 {%     endfor -%}
-{%     if operation.HasContent -%}
+{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
                 "Content-Type": "{{ operation.Consumes }}", 
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}

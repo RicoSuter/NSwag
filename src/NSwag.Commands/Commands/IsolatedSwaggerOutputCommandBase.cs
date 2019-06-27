@@ -2,7 +2,7 @@
 // <copyright file="AssemblyOutputCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -41,22 +41,22 @@ namespace NSwag.Commands
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            JsonReferenceResolver ReferenceResolverFactory(SwaggerDocument d) =>
+            JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) =>
                 new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
 
             var documentJson = await RunIsolatedAsync((string)null);
-            var document = await SwaggerDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
+            var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
             await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
             return document;
         }
 
-        protected async Task<Assembly[]> LoadAssembliesAsync(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected Assembly[] LoadAssemblies(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
         {
 #if FullNet
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
-            var currentDirectory = await DynamicApis.DirectoryGetCurrentDirectoryAsync().ConfigureAwait(false);
+            var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => assemblyLoader.Context.LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(path, currentDirectory)))
                 .ToArray();

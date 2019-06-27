@@ -2,7 +2,7 @@
 // <copyright file="MainWindowModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -43,6 +43,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the list of class styles.</summary>
         public CSharpControllerStyle[] ControllerStyles { get; } = Enum.GetNames(typeof(CSharpControllerStyle))
             .Select(t => (CSharpControllerStyle)Enum.Parse(typeof(CSharpControllerStyle), t))
+            .ToArray();
+
+        /// <summary>Gets the list of class targets.</summary>
+        public CSharpControllerTarget[] ControllerTargets { get; } = Enum.GetNames(typeof(CSharpControllerTarget))
+            .Select(t => (CSharpControllerTarget)Enum.Parse(typeof(CSharpControllerTarget), t))
             .ToArray();
 
         /// <summary>Gets the list of route naming strategies.</summary>

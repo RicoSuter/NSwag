@@ -2,7 +2,7 @@
 // <copyright file="IsolatedCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NConsole;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,9 +21,9 @@ using NJsonSchema;
 using NSwag.Annotations;
 using NSwag.AssemblyLoader;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.SwaggerGeneration;
-using NSwag.SwaggerGeneration.AspNetCore;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
+using NSwag.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -48,7 +49,7 @@ namespace NSwag.Commands
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
             var assemblies = GetAssemblies(assemblyDirectory);
-            
+
             if (UseNuGetCache)
             {
                 var defaultNugetPackages = LoadDefaultNugetCache();
@@ -83,7 +84,7 @@ namespace NSwag.Commands
                 .Distinct()
                 .ToArray();
         }
-        
+
         private static string[] LoadDefaultNugetCache()
         {
             var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
@@ -102,21 +103,22 @@ namespace NSwag.Commands
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NJsonSchema.dll";
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Core.dll";
             yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Commands.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.WebApi.dll";
-            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.SwaggerGeneration.AspNetCore.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Generation.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Generation.WebApi.dll";
+            yield return codeBaseDirectory + Path.DirectorySeparatorChar + "NSwag.Generation.AspNetCore.dll";
         }
 #else
         public IEnumerable<Assembly> GetAssemblies(string assemblyDirectory)
         {
             yield return typeof(JToken).GetTypeInfo().Assembly;
-            yield return typeof(JsonSchema4).GetTypeInfo().Assembly;
-            yield return typeof(SwaggerDocument).GetTypeInfo().Assembly;
+            yield return typeof(ContextualType).GetTypeInfo().Assembly;
+            yield return typeof(JsonSchema).GetTypeInfo().Assembly;
+            yield return typeof(OpenApiDocument).GetTypeInfo().Assembly;
             yield return typeof(InputOutputCommandBase).GetTypeInfo().Assembly;
-            yield return typeof(SwaggerJsonSchemaGenerator).GetTypeInfo().Assembly;
-            yield return typeof(WebApiToSwaggerGenerator).GetTypeInfo().Assembly;
-            yield return typeof(AspNetCoreToSwaggerGeneratorSettings).GetTypeInfo().Assembly;
-            yield return typeof(SwaggerYamlDocument).GetTypeInfo().Assembly;
+            yield return typeof(OpenApiSchemaGenerator).GetTypeInfo().Assembly;
+            yield return typeof(WebApiOpenApiDocumentGenerator).GetTypeInfo().Assembly;
+            yield return typeof(AspNetCoreOpenApiDocumentGeneratorSettings).GetTypeInfo().Assembly;
+            yield return typeof(OpenApiYamlDocument).GetTypeInfo().Assembly;
         }
 #endif
 
@@ -124,13 +126,14 @@ namespace NSwag.Commands
         {
 #if NET461
             yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
-            yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema4), "c2f9c3bdfae56102");
-            yield return new BindingRedirect("NSwag.Core", typeof(SwaggerDocument), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration", typeof(SwaggerJsonSchemaGenerator), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration.WebApi", typeof(WebApiToSwaggerGenerator), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.SwaggerGeneration.AspNetCore", typeof(AspNetCoreToSwaggerGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("Namotion.Reflection", typeof(ContextualType), "c2f9c3bdfae56102");
+            yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema), "c2f9c3bdfae56102");
+            yield return new BindingRedirect("NSwag.Core", typeof(OpenApiDocument), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Generation", typeof(OpenApiSchemaGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Generation.WebApi", typeof(WebApiOpenApiDocumentGenerator), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Generation.AspNetCore", typeof(AspNetCoreOpenApiDocumentGenerator), "c2d88086e098d109");
             yield return new BindingRedirect("NSwag.Annotations", typeof(SwaggerTagsAttribute), "c2d88086e098d109");
-            yield return new BindingRedirect("NSwag.Core.Yaml", typeof(SwaggerYamlDocument), "c2d88086e098d109");
+            yield return new BindingRedirect("NSwag.Core.Yaml", typeof(OpenApiYamlDocument), "c2d88086e098d109");
             yield return new BindingRedirect("System.Runtime", "4.0.0.0", "b03f5f7f11d50a3a");
 #else
             return new BindingRedirect[0];

@@ -2,7 +2,7 @@
 // <copyright file="CodeGeneratorCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -45,13 +45,19 @@ namespace NSwag.Commands.CodeGeneration
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(PropertyNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.PropertyNameGenerator = (IPropertyNameGenerator)assemblyLoader.CreateInstance(PropertyNameGeneratorType);
+            }
 
             if (!string.IsNullOrEmpty(EnumNameGeneratorType))
+            {
                 Settings.CodeGeneratorSettings.EnumNameGenerator = (IEnumNameGenerator)assemblyLoader.CreateInstance(EnumNameGeneratorType);
+            }
         }
     }
 }

@@ -2,13 +2,13 @@
 // <copyright file="CSharpFileTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Linq;
-using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -17,35 +17,37 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public class CSharpFileTemplateModel
     {
         private readonly string _clientCode;
-        private readonly SwaggerDocument _document;
-        private readonly SwaggerToCSharpGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
+        private readonly CSharpGeneratorBaseSettings _settings;
         private readonly CSharpTypeResolver _resolver;
         private readonly ClientGeneratorOutputType _outputType;
-        private readonly SwaggerToCSharpGeneratorBase _generator;
+        private readonly CSharpGeneratorBase _generator;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpFileTemplateModel" /> class.</summary>
-        /// <param name="clientCode">The client code.</param>
+        /// <param name="clientTypes">The client types.</param>
+        /// <param name="dtoTypes">The DTO types.</param>
         /// <param name="outputType">Type of the output.</param>
         /// <param name="document">The Swagger document.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The client generator base.</param>
         /// <param name="resolver">The resolver.</param>
         public CSharpFileTemplateModel(
-            string clientCode,
+            IEnumerable<CodeArtifact> clientTypes,
+            IEnumerable<CodeArtifact> dtoTypes,
             ClientGeneratorOutputType outputType,
-            SwaggerDocument document,
-            SwaggerToCSharpGeneratorSettings settings,
-            SwaggerToCSharpGeneratorBase generator,
+            OpenApiDocument document,
+            CSharpGeneratorBaseSettings settings,
+            CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
-            _clientCode = clientCode;
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
+            _clientCode = clientTypes.Concatenate();
 
-            Classes = GenerateDtoTypes();
+            Classes = dtoTypes.Concatenate();
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -96,7 +98,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation) == true));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
-        public bool GenerateExceptionClasses => (_settings as SwaggerToCSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+        public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
@@ -127,7 +129,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as SwaggerToCSharpClientGeneratorSettings;
+                var settings = _settings as CSharpClientGeneratorSettings;
                 if (settings != null)
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)
@@ -139,16 +141,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
                             .Distinct();
                     }
                     else
+                    {
                         return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                    }
                 }
                 return new string[] { };
             }
-        }
-
-        private string GenerateDtoTypes()
-        {
-            var generator = new CSharpGenerator(_document, _settings.CSharpGeneratorSettings, _resolver);
-            return _settings.GenerateDtoTypes ? generator.GenerateTypes().Concatenate() : string.Empty;
         }
     }
 }

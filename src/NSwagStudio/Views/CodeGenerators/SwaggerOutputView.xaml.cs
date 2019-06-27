@@ -10,11 +10,11 @@ namespace NSwagStudio.Views.CodeGenerators
             InitializeComponent();
         }
 
-        public override string Title => "Swagger Specification";
+        public override string Title => "OpenAPI/Swagger Specification";
 
         private SwaggerOutputViewModel Model => (SwaggerOutputViewModel)Resources["ViewModel"];
 
-        public override void UpdateOutput(SwaggerDocumentExecutionResult result)
+        public override void UpdateOutput(OpenApiDocumentExecutionResult result)
         {
             Model.SwaggerCode = result.SwaggerOutput;
         }
