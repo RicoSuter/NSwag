@@ -22,33 +22,31 @@ namespace NSwag.Collections
         IDictionary<TKey, TValue>, INotifyCollectionChanged,
         INotifyPropertyChanged, IDictionary, IReadOnlyDictionary<TKey, TValue>
     {
-        private IDictionary<TKey, TValue> _dictionary;
-
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         public ObservableDictionary()
         {
-            _dictionary = new Dictionary<TKey, TValue>();
+            Dictionary = new Dictionary<TKey, TValue>();
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="dictionary">The dictionary to initialize this dictionary. </param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
         {
-            _dictionary = new Dictionary<TKey, TValue>(dictionary);
+            Dictionary = new Dictionary<TKey, TValue>(dictionary);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(comparer);
+            Dictionary = new Dictionary<TKey, TValue>(comparer);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         /// <param name="capacity">The capacity. </param>
         public ObservableDictionary(int capacity)
         {
-            _dictionary = new Dictionary<TKey, TValue>(capacity);
+            Dictionary = new Dictionary<TKey, TValue>(capacity);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
@@ -56,7 +54,7 @@ namespace NSwag.Collections
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+            Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
@@ -64,31 +62,39 @@ namespace NSwag.Collections
         /// <param name="comparer">The comparer. </param>
         public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
-            _dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+            Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
         }
 
         /// <summary>Gets the underlying dictonary. </summary>
-        protected IDictionary<TKey, TValue> Dictionary => _dictionary;
+        protected IDictionary<TKey, TValue> Dictionary { get; private set; }
 
         /// <summary>Adds multiple key-value pairs the the dictionary. </summary>
         /// <param name="items">The key-value pairs. </param>
         public void AddRange(IDictionary<TKey, TValue> items)
         {
             if (items == null)
+            {
                 throw new ArgumentNullException("items");
+            }
 
             if (items.Count > 0)
             {
                 if (Dictionary.Count > 0)
                 {
                     if (items.Keys.Any(k => Dictionary.ContainsKey(k)))
+                    {
                         throw new ArgumentException("An item with the same key has already been added.");
+                    }
 
                     foreach (var item in items)
+                    {
                         Dictionary.Add(item);
+                    }
                 }
                 else
-                    _dictionary = new Dictionary<TKey, TValue>(items);
+                {
+                    Dictionary = new Dictionary<TKey, TValue>(items);
+                }
 
                 OnCollectionChanged(NotifyCollectionChangedAction.Add, items.ToArray());
             }
@@ -104,10 +110,14 @@ namespace NSwag.Collections
             if (Dictionary.TryGetValue(key, out item))
             {
                 if (add)
+                {
                     throw new ArgumentException("An item with the same key has already been added.");
+                }
 
                 if (Equals(item, value))
+                {
                     return;
+                }
 
                 Dictionary[key] = value;
                 OnCollectionChanged(NotifyCollectionChangedAction.Replace, new KeyValuePair<TKey, TValue>(key, value), new KeyValuePair<TKey, TValue>(key, item));
@@ -125,7 +135,9 @@ namespace NSwag.Collections
         {
             var copy = PropertyChanged;
             if (copy != null)
+            {
                 copy(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -134,7 +146,9 @@ namespace NSwag.Collections
             OnPropertyChanged();
             var copy = CollectionChanged;
             if (copy != null)
+            {
                 copy(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -145,7 +159,9 @@ namespace NSwag.Collections
             OnPropertyChanged();
             var copy = CollectionChanged;
             if (copy != null)
+            {
                 copy(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
+            }
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -157,7 +173,9 @@ namespace NSwag.Collections
             OnPropertyChanged();
             var copy = CollectionChanged;
             if (copy != null)
+            {
                 copy(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
+            }
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -168,7 +186,9 @@ namespace NSwag.Collections
             OnPropertyChanged();
             var copy = CollectionChanged;
             if (copy != null)
+            {
                 copy(this, new NotifyCollectionChangedEventArgs(action, newItems, 0));
+            }
         }
 
         private void OnPropertyChanged()
@@ -219,14 +239,18 @@ namespace NSwag.Collections
         public virtual bool Remove(TKey key)
         {
             if (key == null)
+            {
                 throw new ArgumentNullException("key");
+            }
 
             TValue value;
             Dictionary.TryGetValue(key, out value);
 
             var removed = Dictionary.Remove(key);
             if (removed)
+            {
                 OnCollectionChanged();
+            }
             //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
             return removed;
         }
@@ -293,10 +317,14 @@ namespace NSwag.Collections
         {
             var pairs = keyValuePairs.ToList();
             foreach (var pair in pairs)
+            {
                 Dictionary[pair.Key] = pair.Value;
+            }
 
             foreach (var key in Dictionary.Keys.Where(k => !pairs.Any(p => Equals(p.Key, k))).ToArray())
+            {
                 Dictionary.Remove(key);
+            }
 
             OnCollectionChanged();
         }

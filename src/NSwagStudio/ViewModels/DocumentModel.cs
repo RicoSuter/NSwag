@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using MyToolkit.Model;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.Generation;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -26,11 +26,11 @@ namespace NSwagStudio.ViewModels
 
             SwaggerGeneratorViews = new ISwaggerGeneratorView[]
             {
-                new SwaggerInputView(Document.SwaggerGenerators.FromSwaggerCommand),
-                new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToSwaggerCommand, document),
-                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToSwaggerCommand, document),
-                new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToSwaggerCommand),
-                new AssemblyTypeToSwaggerGeneratorView(Document.SwaggerGenerators.TypesToSwaggerCommand, document),
+                new SwaggerInputView(Document.SwaggerGenerators.FromDocumentCommand),
+                new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToOpenApiCommand, document),
+                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToOpenApiCommand, document),
+                new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToOpenApiCommand),
+                new AssemblyTypeToSwaggerGeneratorView(Document.SwaggerGenerators.TypesToOpenApiCommand, document),
             };
 
             CodeGenerators = new CodeGeneratorViewBase[]
@@ -63,8 +63,8 @@ namespace NSwagStudio.ViewModels
 
         public string GetDocumentPath(ISwaggerGeneratorView generator)
         {
-            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromSwaggerCommand.Url)
-                ? Document.SwaggerGenerators.FromSwaggerCommand.Url
+            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromDocumentCommand.Url)
+                ? Document.SwaggerGenerators.FromDocumentCommand.Url
                 : null;
         }
     }

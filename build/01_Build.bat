@@ -26,7 +26,7 @@ xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.2/publish" "%~dp0/
 
 REM Package nuspecs
 "%~dp0/nuget.exe" pack "%~dp0/../src/NSwag.MSBuild/NSwag.MSBuild.nuspec" || goto :error
-"%~dp0/nuget.exe" pack "%~dp0/../src/NSwag.ApiDescription.Design/NSwag.ApiDescription.Design.nuspec" || goto :error
+"%~dp0/nuget.exe" pack "%~dp0/../src/NSwag.ApiDescription.Client/NSwag.ApiDescription.Client.nuspec" || goto :error
 "%~dp0/nuget.exe" pack "%~dp0/../src/NSwagStudio.Chocolatey/NSwagStudio.nuspec" || goto :error
 
 goto :EOF

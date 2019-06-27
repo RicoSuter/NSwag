@@ -2,7 +2,7 @@
 // <copyright file="ResponseTypeAttribute.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace NSwag.Annotations
     /// <summary>Specifies the result type of a HTTP operation to correctly generate a Swagger definition.</summary>
     /// <remarks>Use <see cref="SwaggerResponseAttribute"/>, this attribute will be obsolete soon.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    [Obsolete("Use SwaggerResponseAttribute instead.")]
+    [Obsolete("Use SwaggerResponseAttribute or ASP.NET Core attributes instead.")]
     public class ResponseTypeAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="ResponseTypeAttribute"/> class.</summary>

@@ -2,7 +2,7 @@
 // <copyright file="OpenApiMediaType.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace NSwag
     /// <summary>The Swagger media type (OpenAPI only).</summary>
     public class OpenApiMediaType
     {
-        private JsonSchema4 _schema;
+        private JsonSchema _schema;
         private object _example;
 
         [JsonIgnore]
@@ -23,7 +23,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the schema.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JsonSchema4 Schema
+        public JsonSchema Schema
         {
             get => _schema;
             set

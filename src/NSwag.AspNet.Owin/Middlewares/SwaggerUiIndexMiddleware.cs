@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {
     internal class SwaggerUiIndexMiddleware<T> : OwinMiddleware
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
     {
         private readonly string _indexPath;
         private readonly SwaggerUiSettingsBase<T> _settings;
@@ -34,7 +34,9 @@ namespace NSwag.AspNet.Owin.Middlewares
                 }
             }
             else
+            {
                 await Next.Invoke(context);
+            }
         }
     }
 }

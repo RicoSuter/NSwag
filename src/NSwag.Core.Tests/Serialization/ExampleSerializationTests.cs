@@ -37,20 +37,20 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Contains(@"""ParameterExamples""", json); // parameter examples
         }
 
-        private static SwaggerDocument CreateDocument()
+        private static OpenApiDocument CreateDocument()
         {
-            var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get,
-                    new SwaggerOperation
+                    OpenApiOperationMethod.Get,
+                    new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Example = 2,
                                 Examples = new Dictionary<string, OpenApiExample>
                                 {
@@ -68,7 +68,7 @@ namespace NSwag.Core.Tests.Serialization
                         {
                             {
                                 "200",
-                                new SwaggerResponse
+                                new OpenApiResponse
                                 {
                                     Examples = 1
                                 }

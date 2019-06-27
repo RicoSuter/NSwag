@@ -2,7 +2,7 @@
 // <copyright file="NSwagCommandProcessor.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -33,14 +33,16 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public int Process(string[] args)
         {
-            _host.WriteMessage("toolchain v" + SwaggerDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema4.ToolchainVersion + ")\n");
+            _host.WriteMessage("toolchain v" + OpenApiDocument.ToolchainVersion +
+                " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
             _host.WriteMessage("Visit http://NSwag.org for more information.\n");
 
             WriteBinDirectory();
 
             if (args.Length == 0)
+            {
                 _host.WriteMessage("Execute the 'help' command to show a list of all the available commands.\n");
+            }
 
             try
             {
@@ -72,9 +74,13 @@ namespace NSwag.Commands
                 dynamic entryAssembly;
                 var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
                 if (getEntryAssemblyMethod != null)
+                {
                     entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                }
                 else
+                {
                     entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
+                }
 
                 var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
                 _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
@@ -88,7 +94,9 @@ namespace NSwag.Commands
         private void WaitWhenDebuggerAttached()
         {
             if (Debugger.IsAttached)
+            {
                 _host.ReadValue("Press <enter> key to exit");
+            }
         }
     }
 }

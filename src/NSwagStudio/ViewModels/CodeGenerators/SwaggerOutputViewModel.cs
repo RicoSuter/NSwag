@@ -2,7 +2,7 @@
 // <copyright file="MainWindowModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     {
         private string _swaggerCode;
 
-        public async Task GenerateClientAsync(SwaggerDocument document, string documentPath)
+        public async Task GenerateClientAsync(OpenApiDocument document, string documentPath)
         {
             if (document != null)
                 SwaggerCode = await RunTaskAsync(Task.Run(() => document.ToJson()));

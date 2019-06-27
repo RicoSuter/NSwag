@@ -12,7 +12,7 @@
                     as System.Runtime.Serialization.EnumMemberAttribute;
                 if (attribute != null)
                 {
-                    return attribute.Value;
+                    return attribute.Value != null ? attribute.Value : name;
                 }
             }
         }

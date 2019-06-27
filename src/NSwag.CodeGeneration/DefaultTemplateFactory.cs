@@ -2,7 +2,7 @@
 // <copyright file="DefaultTemplateFactory.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="DefaultTemplateFactory" /> class.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="assemblies">The assemblies.</param>
-        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies) 
+        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies)
             : base(settings, assemblies)
         {
         }
@@ -27,7 +27,7 @@ namespace NSwag.CodeGeneration
         /// <returns>The toolchain version.</returns>
         protected override string GetToolchainVersion()
         {
-            return SwaggerDocument.ToolchainVersion + " (NJsonSchema v" + base.GetToolchainVersion() + ")";
+            return OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + base.GetToolchainVersion() + ")";
         }
 
         /// <summary>Tries to load an embedded Liquid template.</summary>
@@ -43,7 +43,9 @@ namespace NSwag.CodeGeneration
             if (resource != null)
             {
                 using (var reader = new StreamReader(resource))
+                {
                     return reader.ReadToEnd();
+                }
             }
 
             return base.GetEmbeddedLiquidTemplate(language, template);

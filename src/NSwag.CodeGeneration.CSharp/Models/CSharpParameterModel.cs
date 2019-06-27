@@ -2,10 +2,11 @@
 // <copyright file="CSharpParameterModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -26,13 +27,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The client generator base.</param>
         /// <param name="typeResolver">The type resolver.</param>
         public CSharpParameterModel(
-            string parameterName, 
-            string variableName, 
-            string typeName, 
-            SwaggerParameter parameter,
-            IList<SwaggerParameter> allParameters, 
-            CodeGeneratorSettingsBase settings, 
-            IClientGenerator generator, 
+            string parameterName,
+            string variableName,
+            string typeName,
+            OpenApiParameter parameter,
+            IList<OpenApiParameter> allParameters,
+            CodeGeneratorSettingsBase settings,
+            IClientGenerator generator,
             TypeResolverBase typeResolver)
             : base(parameterName, variableName, typeName, parameter, allParameters, settings, generator, typeResolver)
         {
@@ -43,5 +44,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the type of the parameter when used in a controller interface where we can set default values before calling.</summary>
         public string TypeInControllerInterface => HasDefault ? Type.EndsWith("?") ? Type.Substring(0, Type.Length - 1) : Type : Type;
+
+        /// <summary>Gets a value indicating whether the parameter name is a valid CSharp identifier.</summary>
+        public bool IsValidIdentifier => Name.Equals(VariableName, StringComparison.OrdinalIgnoreCase);
     }
 }

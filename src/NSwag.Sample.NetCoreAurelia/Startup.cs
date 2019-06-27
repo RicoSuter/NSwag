@@ -28,6 +28,7 @@ namespace NSwag_Sample_NetCoreAurelia
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +43,7 @@ namespace NSwag_Sample_NetCoreAurelia
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly);
+            app.UseSwaggerUi3();
 
             if (env.IsDevelopment())
             {
