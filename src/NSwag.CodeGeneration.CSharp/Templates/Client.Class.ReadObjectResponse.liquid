@@ -2,6 +2,11 @@
 
 protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
 {
+    if (response.Content == null)
+    {
+        return new ObjectResponseResult<T>(default(T), string.Empty);
+    }
+
     if (ReadResponseAsString)
     {
         var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -32,7 +37,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         catch (Newtonsoft.Json.JsonException exception)
         {
             var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, null, headers, exception);
+            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, string.Empty, headers, exception);
         }
     }
 }
