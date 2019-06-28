@@ -27,7 +27,7 @@ responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
 {%                 if WrapDtoExceptions -%}
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, responseObject_);
 {%                 else -%}
-throw objectResponse_.Object;
+throw responseObject_;
 {%                 endif -%}
 {%             else -%}
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
