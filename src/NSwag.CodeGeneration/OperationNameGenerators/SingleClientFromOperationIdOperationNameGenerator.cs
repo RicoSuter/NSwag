@@ -2,7 +2,7 @@
 // <copyright file="SingleClientFromOperationIdOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name based on the Swagger operation ID.</summary>
     public class SingleClientFromOperationIdOperationNameGenerator : IOperationNameGenerator
-    {        
+    {
         /// <summary>Gets a value indicating whether the generator supports multiple client classes.</summary>
         public bool SupportsMultipleClients { get; } = true;
 
@@ -33,7 +33,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
-            return operation.OperationId; 
+            return operation.OperationId;
         }
     }
 }

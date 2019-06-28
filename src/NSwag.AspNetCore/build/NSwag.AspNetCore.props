@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <!--
+      Disable document generation by default. This currently overrides Microsoft.Extensions.ApiDescription.Server.props.
+    -->
+    <OpenApiGenerateDocuments/>
+
+    <!-- Enable analyzers from the Microsoft.AspNetCore.Mvc.Api.Analyzers package. -->
+    <IncludeOpenAPIAnalyzers
+        Condition=" '$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(_TargetFrameworkVersionWithoutV)' >= '3.0' ">true</IncludeOpenAPIAnalyzers>
+  </PropertyGroup>
+</Project>

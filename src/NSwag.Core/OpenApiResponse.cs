@@ -2,7 +2,7 @@
 // <copyright file="SwaggerResponse.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ namespace NSwag
                 if (ActualResponse.Content.Any())
                 {
                     var contentIsBinary =
-                        ActualResponse.Content.All(c => c.Value.Schema?.ActualSchema.IsAnyType != false || 
+                        ActualResponse.Content.All(c => c.Value.Schema?.ActualSchema.IsAnyType != false ||
                                                         c.Value.Schema?.ActualSchema.IsBinary != false) && // is binary only if there is no JSON schema defined
                         !ActualResponse.Content.Keys.Any(p => p.Contains("*/*")) && // supports json
                         !ActualResponse.Content.Keys.Any(p => p.Contains("application/json")) &&
@@ -139,7 +139,7 @@ namespace NSwag
                 if (actualProduces?.Any() == true)
                 {
                     var producesIsBinary =
-                        (Schema?.ActualSchema.IsAnyType != false || 
+                        (Schema?.ActualSchema.IsAnyType != false ||
                          Schema?.ActualSchema.IsBinary != false) && // is binary only if there is no JSON schema defined
                         actualProduces?.Any(p => p.Contains("*/*")) != true && // supports json
                         actualProduces?.Any(p => p.Contains("application/json")) != true &&

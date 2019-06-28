@@ -2,7 +2,7 @@
 // <copyright file="SwaggerTagAttribute.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ namespace NSwag.Annotations
         /// <summary>Initializes a new instance of the <see cref="SwaggerTagAttribute"/> class.</summary>
         public SwaggerTagAttribute(string name)
         {
-            Name = name; 
+            Name = name;
         }
 
         /// <summary>Gets or sets the name.</summary>

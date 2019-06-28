@@ -2,7 +2,7 @@
 // <copyright file="ParameterModelBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -157,6 +157,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.IsBinary;
+
+        /// <summary>Gets a value indicating whether the parameter is a binary body parameter.</summary>
+        public bool IsBinaryBody => _parameter.IsBinaryBodyParameter;
 
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;

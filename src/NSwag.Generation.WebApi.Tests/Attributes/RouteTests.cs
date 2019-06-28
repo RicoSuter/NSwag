@@ -10,7 +10,7 @@ namespace NSwag.Generation.WebApi.Tests.Attributes
     [TestClass]
     public class RouteTests
     {
-        // https://github.com/NSwag/NSwag/issues/510
+        // https://github.com/RicoSuter/NSwag/issues/510
 
         public abstract class RegionalItemController : ApiController
         {

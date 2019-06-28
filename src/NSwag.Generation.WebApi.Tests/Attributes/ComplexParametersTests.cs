@@ -62,7 +62,7 @@ namespace NSwag.Generation.WebApi.Tests.Attributes
         }
 
         /// <summary>
-        /// Since this class has a [WillReadBody] attribute with no WillReadBody property, 
+        /// Since this class has a [WillReadBody] attribute with no WillReadBody property,
         /// OperationParameterProcessor should treat it as a body param.
         /// </summary>
         [ComplexParametersTests.WillReadBody]
@@ -329,7 +329,7 @@ namespace NSwag.Generation.WebApi.Tests.Attributes
         public async Task When_complex_parameter_contains_property_with_FromRoute_attribute_then_it_is_generated_as_path_parameter()
         {
             // FromRouteAttribute is only available in ASP.NET Core
-            // Issue: https://github.com/NSwag/NSwag/issues/513
+            // Issue: https://github.com/RicoSuter/NSwag/issues/513
 
             //// Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings

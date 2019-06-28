@@ -2,7 +2,7 @@
 // <copyright file="DefaultTemplateFactory.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Initializes a new instance of the <see cref="DefaultTemplateFactory" /> class.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="assemblies">The assemblies.</param>
-        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies) 
+        public DefaultTemplateFactory(CodeGeneratorSettingsBase settings, Assembly[] assemblies)
             : base(settings, assemblies)
         {
         }

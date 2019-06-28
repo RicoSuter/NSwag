@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>$authors$</authors>
+        <description>$description$</description>
+        <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
+        <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
+        <licenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</licenseUrl>
+        <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5.1">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Formatters.Json" version="$microsoftAspNetCoreMvcFormattersJsonPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.StaticFiles" version="$microsoftAspNetCoreStaticFilesPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$microsoftExtensionsFileProvidersEmbeddedPackageVersion$" exclude="Build,Analyzers" />
+            </group>
+            <group targetFramework=".NETStandard1.6">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Formatters.Json" version="$microsoftAspNetCoreMvcFormattersJsonPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.StaticFiles" version="$microsoftAspNetCoreStaticFilesPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$microsoftExtensionsFileProvidersEmbeddedPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="NETStandard.Library" version="$netStandardLibraryPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="System.IO.FileSystem" version="$systemIOFileSystemPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="System.Xml.XPath.XDocument" version="$systemXmlXPathXDocumentPackageVersion$" exclude="Build,Analyzers" />
+            </group>
+            <group targetFramework=".NETStandard2.0">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.Mvc.Formatters.Json" version="$microsoftAspNetCoreMvcFormattersJsonPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.AspNetCore.StaticFiles" version="$microsoftAspNetCoreStaticFilesPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$microsoftExtensionsFileProvidersEmbeddedPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="System.IO.FileSystem" version="$systemIOFileSystemPackageVersion$" exclude="Build,Analyzers" />
+                <dependency id="System.Xml.XPath.XDocument" version="$systemXmlXPathXDocumentPackageVersion$" exclude="Build,Analyzers" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="build\*" target="build\" />
+        <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
+        <file src="bin\$configuration$\net451\NSwag.AspNetCore.dll" target="lib\net451\" />
+        <file src="bin\$configuration$\net451\NSwag.AspNetCore.xml" target="lib\net451\" />
+        <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.dll" target="lib\netstandard1.6\" />
+        <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />
+        <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
+        <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
+    </files>
+</package>

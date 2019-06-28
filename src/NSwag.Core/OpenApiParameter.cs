@@ -2,7 +2,7 @@
 // <copyright file="SwaggerParameter.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -226,7 +226,7 @@ namespace NSwag
             }
         }
 
-        /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
+        /// <summary>Gets a value indicating whether this is a binary body parameter.</summary>
         [JsonIgnore]
         public bool IsBinaryBodyParameter
         {

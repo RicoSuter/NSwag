@@ -2,7 +2,7 @@
 // <copyright file="OperationModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -260,7 +260,7 @@ namespace NSwag.CodeGeneration.Models
                     return "application/json";
                 }
 
-                return _operation.ActualProduces?.FirstOrDefault() ?? 
+                return _operation.ActualProduces?.FirstOrDefault() ??
                     SuccessResponse?.Produces ??
                     "application/json";
             }

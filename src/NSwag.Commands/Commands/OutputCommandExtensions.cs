@@ -2,7 +2,7 @@
 // <copyright file="OutputCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ namespace NSwag.Commands
                 {
                     host?.WriteMessage("Code has been successfully generated but not written to file (no change detected).\n");
                 }
-                return true; 
+                return true;
             }
             return false;
         }

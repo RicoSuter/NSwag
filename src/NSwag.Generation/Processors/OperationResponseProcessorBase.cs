@@ -2,7 +2,7 @@
 // <copyright file="OperationResponseProcessorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ namespace NSwag.Generation.Processors
                 dynamic responseTypeAttribute = attribute;
                 var attributeType = attribute.GetType();
 
-                var isProducesAttributeWithNoType = // ignore ProducesAttribute if it has no type, https://github.com/RSuter/NSwag/issues/1201
+                var isProducesAttributeWithNoType = // ignore ProducesAttribute if it has no type, https://github.com/RicoSuter/NSwag/issues/1201
                     attributeType.Name == "ProducesAttribute" && attribute.HasProperty("Type") && responseTypeAttribute.Type == null;
 
                 if (!isProducesAttributeWithNoType)
