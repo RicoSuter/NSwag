@@ -206,6 +206,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>True if the operation has any security schemes</summary>
+        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count() ?? 0) != 0;
+
+        /// <summary>Gets the security schemas that apply to this operation</summary>
+        public IEnumerable<OpenApiSecurityRequirement> Security => _operation.ActualSecurity;
+
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
