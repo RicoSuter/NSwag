@@ -8,7 +8,7 @@
         <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
         <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
         <license type="expression">MIT</license>
-        <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
         <dependencies>
             <group targetFramework=".NETFramework4.5.1">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />

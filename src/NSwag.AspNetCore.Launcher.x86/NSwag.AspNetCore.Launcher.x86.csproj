@@ -11,7 +11,7 @@
     <Copyright>Copyright © Rico Suter, 2019</Copyright>
     <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>

@@ -194,7 +194,7 @@ Check out the [project Wiki](https://github.com/RicoSuter/NSwag/wiki) for more i
 
 The generators can be used in a comfortable and simple Windows GUI called [NSwagStudio](https://github.com/RicoSuter/NSwag/wiki/NSwagStudio): 
 
-[![](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/NSwag/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
+[![](https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)](https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/screenshots/03_WebAPI_CSharp.png)
 
 ## Sponsors, support and consulting
 

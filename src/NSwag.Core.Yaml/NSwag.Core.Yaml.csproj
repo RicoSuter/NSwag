@@ -11,7 +11,7 @@
     <Authors>Rico Suter</Authors>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
