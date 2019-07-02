@@ -10,8 +10,10 @@
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Rico Suter</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+    <RepositoryType>git</RepositoryType> 
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
     <AssemblyName>dotnet-nswag</AssemblyName>
     <PackageId>NSwag.ConsoleCore</PackageId>
   </PropertyGroup>
