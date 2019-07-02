@@ -2,7 +2,7 @@
 // <copyright file="JsonExceptionFilterAttribute.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ namespace NSwag.AspNetCore
                     ContentType = "application/json"
                 };
 
-                // Required otherwise the framework exception handlers ignores the 
+                // Required otherwise the framework exception handlers ignores the
                 // Result and redirects to a error page or displays in dev mode the stack trace.
                 context.ExceptionHandled = true;
             }

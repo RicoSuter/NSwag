@@ -3,7 +3,7 @@
   "version": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NSwag/NSwag.git"
+    "url": "git+https://github.com/RicoSuter/NSwag.git"
   },
   "description": "Test generated TypeScript compilation",
   "license": "MIT",

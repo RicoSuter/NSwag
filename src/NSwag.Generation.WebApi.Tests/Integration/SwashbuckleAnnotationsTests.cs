@@ -12,7 +12,7 @@ namespace NSwag.Generation.WebApi.Tests.Integration
     [TestClass]
     public class SwashbuckleAnnotationsTests
     {
-        // https://github.com/NSwag/NSwag/issues/494
+        // https://github.com/RicoSuter/NSwag/issues/494
 
         public class JsonDate
         {

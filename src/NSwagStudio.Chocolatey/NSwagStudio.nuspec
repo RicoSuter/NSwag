@@ -3,12 +3,12 @@
   <metadata>
     <id>NSwagStudio</id>
     <title>NSwagStudio</title>
-    <version>13.0.3</version>
+    <version>13.0.4</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
+    <licenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen admin</tags>

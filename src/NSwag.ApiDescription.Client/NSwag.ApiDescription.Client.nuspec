@@ -2,20 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.ApiDescription.Client</id>
-    <version>13.0.3</version>
+    <version>13.0.4</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/NSwag/NSwag</projectUrl>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
     <copyright>Copyright © Rico Suter, 2019</copyright>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview5-19227-01" />
-      <dependency id="NSwag.MSBuild" version="13.0.3" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview6.19307.2" />
+      <dependency id="NSwag.MSBuild" version="13.0.4" />
     </dependencies>
     <references />
   </metadata>

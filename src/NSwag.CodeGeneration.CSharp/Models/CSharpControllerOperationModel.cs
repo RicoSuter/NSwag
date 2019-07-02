@@ -2,7 +2,7 @@
 // <copyright file="CSharpControllerOperationModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -20,8 +20,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="settings">The settings.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
-        public CSharpControllerOperationModel(OpenApiOperation operation, CSharpControllerGeneratorSettings settings, 
-            CSharpControllerGenerator generator, CSharpTypeResolver resolver) 
+        public CSharpControllerOperationModel(OpenApiOperation operation, CSharpControllerGeneratorSettings settings,
+            CSharpControllerGenerator generator, CSharpTypeResolver resolver)
             : base(operation, settings, generator, resolver)
         {
             _settings = settings;

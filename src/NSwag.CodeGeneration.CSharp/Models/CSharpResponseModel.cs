@@ -2,7 +2,7 @@
 // <copyright file="CSharpResponseModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="generator">The client generator.</param>
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
-        public CSharpResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response, 
+        public CSharpResponseModel(IOperationModel operationModel, OpenApiOperation operation, string statusCode, OpenApiResponse response,
             bool isPrimarySuccessResponse, JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, CodeGeneratorSettingsBase settings)
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings, generator)
         {
