@@ -12,6 +12,7 @@
     <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
     <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen</tags>
     <copyright>Copyright © Rico Suter, 2019</copyright>
+    <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
     <dependencies />
     <references />

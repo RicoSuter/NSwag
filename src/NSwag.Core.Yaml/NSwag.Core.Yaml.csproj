@@ -13,6 +13,8 @@
     <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
     <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+    <RepositoryType>git</RepositoryType> 
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

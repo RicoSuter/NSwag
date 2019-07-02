@@ -13,6 +13,8 @@
     <Authors>Rico Suter</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+    <RepositoryType>git</RepositoryType> 
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
     <DefineConstants>$(DefineConstants);ASPNETCORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
