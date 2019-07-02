@@ -5,7 +5,7 @@
     <Version>13.0.4</Version>
     <PackageTags>Swagger Documentation AspNetCore</PackageTags>
     <Copyright>Copyright © Rico Suter, 2019</Copyright>
-    <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
