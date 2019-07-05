@@ -35,7 +35,7 @@ namespace NSwag.AspNetCore
         public SwaggerUiSettingsBase()
         {
             TransformToExternalPath = (internalUiRoute, request) =>
-                request.GetBasePath().TrimEnd('/') + '/' + internalUiRoute.TrimStart('/');
+                request.GetBasePath()?.TrimEnd('/') + '/' + internalUiRoute?.TrimStart('/');
         }
 
         /// <summary>Gets or sets the internal swagger UI route (must start with '/').</summary>
