@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -159,7 +160,7 @@ namespace NSwag.Generation.AspNetCore
                             Method = httpMethod,
                             Operation = new OpenApiOperation
                             {
-                                IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
+                                IsDeprecated = IsOperationDeprecated(item.Item1, controllerActionDescriptor, method),
                                 OperationId = GetOperationId(document, controllerActionDescriptor, method),
                                 Consumes = apiDescription.SupportedRequestFormats
                                    .Select(f => f.MediaType)
@@ -187,6 +188,25 @@ namespace NSwag.Generation.AspNetCore
 
             UpdateConsumesAndProduces(document, allOperations);
             return usedControllerTypes;
+        }
+
+        private bool IsOperationDeprecated(ApiDescription apiDescription, ControllerActionDescriptor controllerActionDescriptor, MethodInfo methodInfo)
+        {
+            if (methodInfo.GetCustomAttribute<ObsoleteAttribute>() != null)
+            {
+                return true;
+            }
+
+            dynamic apiVersionModel = controllerActionDescriptor?
+                .Properties
+                .FirstOrDefault(p => p.Key is Type type && type.Name == "ApiVersionModel")
+                .Value;
+
+            var isDeprecated = (bool)(apiVersionModel != null) &&
+                ((IEnumerable)apiVersionModel.DeprecatedApiVersions).OfType<object>()
+                .Any(v => v.ToString() == apiDescription.GroupName);
+
+            return isDeprecated;
         }
 
         private List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> AddOperationDescriptionsToDocument(

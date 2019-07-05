@@ -5,7 +5,7 @@ using NSwag.Annotations;
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers
 {
     [ApiVersion("1")]
-    [ApiVersion("2")]
+    [ApiVersion("2", Deprecated = true)]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [SwaggerTag("VersionedValues", Description = "Old operations")]

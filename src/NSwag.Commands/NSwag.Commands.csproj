@@ -2,17 +2,19 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;net461</TargetFrameworks>
     <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.0.3</Version>
+    <Version>13.0.4</Version>
     <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2019</Copyright>
-    <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
     <Authors>Rico Suter</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
+    <RepositoryType>git</RepositoryType> 
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
