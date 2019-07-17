@@ -109,7 +109,9 @@ namespace NSwag.AspNet.WebApi
         {
             var settingsCopy = new JsonSerializerSettings();
 
-            foreach (var property in typeof(JsonSerializerSettings).GetRuntimeProperties())
+            foreach (var property in typeof(JsonSerializerSettings)
+                .GetRuntimeProperties()
+                .Where(p => p.Name != "Converters"))
             {
                 property.SetValue(settingsCopy, property.GetValue(settings));
             }

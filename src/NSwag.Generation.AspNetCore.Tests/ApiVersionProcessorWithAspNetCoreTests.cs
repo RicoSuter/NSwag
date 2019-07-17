@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
-using NSwag.Generation.Processors;
 using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests
@@ -60,6 +59,7 @@ namespace NSwag.Generation.AspNetCore.Tests
 
             Assert.Equal(2, operations.Count());
             Assert.True(operations.All(o => o.Path.Contains("/v2/")));
+            Assert.True(operations.All(o => o.Operation.IsDeprecated));
 
             // VersionedIgnoredValues tag should not be in json document
             Assert.Equal(1, document.Tags.Count);
