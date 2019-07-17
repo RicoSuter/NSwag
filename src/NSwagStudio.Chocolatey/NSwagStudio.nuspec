@@ -10,8 +10,8 @@
     <licenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
-    <description>NSwag: The Swagger API toolchain for .NET and TypeScript</description>
-    <tags>Swagger Documentation WebApi AspNet TypeScript CodeGen admin</tags>
+    <description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</description>
+    <tags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet admin</tags>
     <dependencies />
     <references />
   </metadata>
