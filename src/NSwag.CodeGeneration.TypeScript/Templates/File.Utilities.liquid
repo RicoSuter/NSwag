@@ -4,7 +4,7 @@ function throwException(message: string, status: number, response: string, heade
 {%     if WrapDtoExceptions -%}
     return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return {{ Framework.RxJs.ObservableThrowMethod }}(result);
     else
         return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, null));
@@ -16,7 +16,7 @@ function throwException(q: ng.IQService, message: string, status: number, respon
 {%     if WrapDtoExceptions -%}
     return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return q.reject(result);
     else
         return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, null));
@@ -28,7 +28,7 @@ function throwException(message: string, status: number, response: string, heade
 {%     if WrapDtoExceptions -%}
     throw new {{ ExceptionClassName }}(message, status, response, headers, result);
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         throw result;
     else
         throw new {{ ExceptionClassName }}(message, status, response, headers, null);
