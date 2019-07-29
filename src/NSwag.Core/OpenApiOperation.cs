@@ -114,13 +114,11 @@ namespace NSwag
             {
                 var parameters = Parameters.Select(p => p.ActualParameter);
                 var allParameters = Parent?.Parameters == null ? parameters :
-                    parameters.Concat(Parent.Parameters)
+                    parameters.Concat(Parent.Parameters.Select(p => p.ActualParameter))
                     .GroupBy(p => p.Name + "|" + p.Kind)
                     .Select(p => p.First());
 
-                return new ReadOnlyCollection<OpenApiParameter>(allParameters
-                    .Select(p => p.ActualParameter)
-                    .ToList());
+                return new ReadOnlyCollection<OpenApiParameter>(allParameters.ToList());
             }
         }
 
