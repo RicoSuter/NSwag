@@ -38,6 +38,12 @@ namespace NSwag.Annotations
             Summary = summary;
             Description = description;
         }
+
+        /// <summary>Gets or sets the operation summary.</summary>
+        public string Summary { get; private set; }
+
+        /// <summary>Gets or sets the operation description.</summary>
+        public string Description { get; private set; }
     }
 
     /// <summary>Specifies the operation id.</summary>
@@ -54,11 +60,5 @@ namespace NSwag.Annotations
 
         /// <summary>Gets or sets the operation ID.</summary>
         public string OperationId { get; private set; }
-
-        /// <summary>Gets or sets the operation summary.</summary>
-        public string Summary { get; protected set; }
-
-        /// <summary>Gets or sets the operation description.</summary>
-        public string Description { get; protected set; }
     }
 }
