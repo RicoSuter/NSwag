@@ -65,7 +65,7 @@ return result{{ response.StatusCode }};
 {%                 endif -%}
 {%             endif -%}
 {%         else -%}
-return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers, result{{ response.StatusCode }});
 {%         endif -%}
 {%     elseif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
@@ -90,7 +90,7 @@ return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
-return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers);
 {%     endif -%}
 {% template Client.ProcessResponse.ReadBodyEnd %}
 {% endif -%}
