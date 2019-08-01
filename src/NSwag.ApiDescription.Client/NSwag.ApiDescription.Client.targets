@@ -24,7 +24,8 @@
 
     <Message Importance="high" Text="%0AGenerateNSwagCSharp:" />
     <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
-    <Exec Command="%(CurrentOpenApiReference.Command)" IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+
+    <Exec Command="%(CurrentOpenApiReference.Command)" LogStandardErrorAsError="true" />
   </Target>
 
   <!-- OpenApiReference support for TypeScript -->
@@ -42,6 +43,6 @@
 
     <Message Importance="high" Text="%0AGenerateNSwagTypeScript:" />
     <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
-    <Exec Command="%(CurrentOpenApiReference.Command)" IgnoreExitCode="$([System.IO.File]::Exists('%(OutputPath)'))" />
+    <Exec Command="%(CurrentOpenApiReference.Command)" LogStandardErrorAsError="true" />
   </Target>
 </Project>
