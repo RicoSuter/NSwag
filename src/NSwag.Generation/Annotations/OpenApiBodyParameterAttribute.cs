@@ -19,7 +19,7 @@ namespace NSwag.Generation
 
             public OpenApiBodyParameterProcessor(string mimeType)
             {
-                _mimeType = mimeType ?? throw new ArgumentNullException(mimeType);
+                _mimeType = mimeType ?? throw new ArgumentNullException(nameof(mimeType));
             }
 
             public bool Process(OperationProcessorContext context)
