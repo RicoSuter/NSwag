@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <!-- Reset well-known metadata of the code generator item groups to make NSwag C# generator the default. -->
+  <ItemDefinitionGroup>
+    <OpenApiReference>
+      <CodeGenerator>NSwagCSharp</CodeGenerator>
+    </OpenApiReference>
+    <OpenApiProjectReference>
+      <CodeGenerator>NSwagCSharp</CodeGenerator>
+    </OpenApiProjectReference>
+  </ItemDefinitionGroup>
+</Project>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(OpenApiGenerateDocuments)' == 'default-false' ">
     <!--
-      If user has changed $(OpenApiDocumentsDirectory) but not $(OpenApiGenerateDocuments), enable document generation.
+      If user changed $(OpenApiDocumentsDirectory) but not $(OpenApiGenerateDocuments), enable document generation.
+      Otherwise, disable document generation.
     -->
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
     <OpenApiGenerateDocuments
-        Condition=" '$(OpenApiDocumentsDirectory)' != '$(BaseIntermediateOutputPath)' AND '$(OpenApiGenerateDocuments)' == '' ">true</OpenApiGenerateDocuments>
+        Condition=" '$(OpenApiDocumentsDirectory)' != '$(BaseIntermediateOutputPath)' ">true</OpenApiGenerateDocuments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OpenApiGenerateDocumentsOnBuild)' == 'default-false' ">
+    <OpenApiGenerateDocumentsOnBuild>$(OpenApiGenerateDocuments)</OpenApiGenerateDocumentsOnBuild>
   </PropertyGroup>
 </Project>
