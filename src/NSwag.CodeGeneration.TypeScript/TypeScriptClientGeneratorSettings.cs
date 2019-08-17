@@ -105,6 +105,25 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
         public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
+        private bool _preservePropertyNameCasing = false;
+        /// <summary>Gets or sets a value indicating whether to preserve the casing for the first letter of properties. Default is false, resulting in camelCase.</summary>
+        public override bool PreservePropertyNameCasing
+        {
+            get { return _preservePropertyNameCasing; }
+            set
+            {
+                _preservePropertyNameCasing = value;
+                if (value)
+                {
+                    CodeGeneratorSettings.PropertyNameGenerator = new CasePreservingPropertyNameGenerator();
+                }
+                else
+                {
+                    CodeGeneratorSettings.PropertyNameGenerator = new TypeScriptPropertyNameGenerator();
+                }
+            }
+        }
+
         internal ITemplate CreateTemplate(object model)
         {
             if (Template == TypeScriptTemplate.Aurelia)

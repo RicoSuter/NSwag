@@ -77,5 +77,8 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
         public string ResponseClass { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to preserve the casing for the first letter of properties.</summary>
+        public abstract bool PreservePropertyNameCasing { get; set; }
     }
 }

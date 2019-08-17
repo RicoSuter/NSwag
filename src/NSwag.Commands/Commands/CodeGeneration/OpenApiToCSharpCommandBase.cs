@@ -331,5 +331,12 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.GenerateDtoTypes; }
             set { Settings.GenerateDtoTypes = value; }
         }
+
+        [Argument(Name = "PreservePropertyNameCasing", IsRequired = false, Description = "Specifies whether to preserve the casing for the first letter of properties. Default is to UpperCamelCase.")]
+        public bool PreservePropertyNameCasing
+        {
+            get { return Settings.PreservePropertyNameCasing; }
+            set { Settings.PreservePropertyNameCasing = value; }
+        }
     }
 }

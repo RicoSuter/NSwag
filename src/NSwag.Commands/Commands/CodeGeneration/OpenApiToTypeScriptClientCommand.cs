@@ -359,6 +359,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.InlineNamedAny = value; }
         }
 
+        [Argument(Name = "PreservePropertyNameCasing", IsRequired = false, Description = "Specifies whether to preserve the casing for the first letter of properties. Default is to camelCase.")]
+        public bool PreservePropertyNameCasing
+        {
+            get { return Settings.PreservePropertyNameCasing; }
+            set { Settings.PreservePropertyNameCasing = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
