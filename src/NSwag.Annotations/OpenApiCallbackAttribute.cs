@@ -16,15 +16,52 @@ namespace NSwag.Annotations
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class OpenApiCallbackAttribute : Attribute
     {
+        /// <summary>Initializes a new instance of the <see cref="OpenApiCallbackAttribute"/> class.</summary>
+        /// <param name="callbackUrl"></param>
+        public OpenApiCallbackAttribute(string callbackUrl) : this(callbackUrl, name: null, type: null)
+        { }
+        
+        /// <summary>Initializes a new instance of the <see cref="OpenApiCallbackAttribute"/> class.</summary>
+        /// <param name="name"></param>
+        /// <param name="callbackUrl"></param>
+        /// <param name="method"></param>
+        public OpenApiCallbackAttribute(string callbackUrl,
+                                        string name = null,
+                                        string method = "post") : this(callbackUrl, name, method, mimeType : null, type: null)
+        { }
+                
+
+        /// <summary>Initializes a new instance of the <see cref="OpenApiCallbackAttribute"/> class.</summary>
+        /// <param name="callbackUrl"></param>
+        /// <param name="types"></param>
+        public OpenApiCallbackAttribute(string callbackUrl,
+                                        params Type[] types) : this(callbackUrl, name: null, types: types)
+        { }
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiCallbackAttribute"/> class.</summary>
         /// <param name="name"></param>
         /// <param name="callbackUrl"></param>
         /// <param name="method"></param>
+        /// <param name="mimeType"></param>
+        /// <param name="type"></param>
+        public OpenApiCallbackAttribute(string callbackUrl,
+                                        string name = null,
+                                        string method = "post",
+                                        string mimeType = "application/json",
+                                        Type type = null) : this(callbackUrl, name, method, mimeType, type != null ? new[] { type } : new Type[] { })
+        { }
+
+
+        /// <summary>Initializes a new instance of the <see cref="OpenApiCallbackAttribute"/> class.</summary>
+        /// <param name="name"></param>
+        /// <param name="callbackUrl"></param>
+        /// <param name="method"></param>
+        /// <param name="mimeType"></param>
         /// <param name="types"></param>
         public OpenApiCallbackAttribute(string callbackUrl,
                                         string name = null, 
                                         string method = "post",
+                                        string mimeType = "application/json",
                                         params Type[] types) : base()
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -36,8 +73,8 @@ namespace NSwag.Annotations
             this.Types = types;
             this.CallbackUrl = callbackUrl;
             this.Method = method;
+            this.MimeType = mimeType;
         }
-
         /// <summary>
         /// The name of the callback
         /// </summary>
@@ -53,6 +90,11 @@ namespace NSwag.Annotations
         /// The HTTP method that will be used to call the endpoint
         /// </summary>
         public string Method { get; }
+
+        /// <summary>
+        /// The content type of the callback bodies
+        /// </summary>
+        public string MimeType { get; }
 
         /// <summary>
         /// The possible object types returned by the callback

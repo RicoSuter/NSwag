@@ -16,8 +16,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers
 
         [OpenApiCallback("url1")]
         [OpenApiCallback("url2", "emptyGet", "get")]
-        [OpenApiCallback("url3", "single", null, typeof(string))]
-        [OpenApiCallback("url4", "multiple", null, typeof(string), typeof(MyPayload))]
+        [OpenApiCallback("url3", "single", type : typeof(string))]
+        [OpenApiCallback("url4", "multiple", types: new[] { typeof(string), typeof(MyPayload) })]
         public void MyAction(string foo)
         {
 
