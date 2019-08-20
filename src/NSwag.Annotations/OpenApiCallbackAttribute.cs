@@ -47,7 +47,7 @@ namespace NSwag.Annotations
         public OpenApiCallbackAttribute(string callbackUrl,
                                         string name = null,
                                         string method = "post",
-                                        string mimeType = "application/json",
+                                        string mimeType = null,
                                         Type type = null) : this(callbackUrl, name, method, mimeType, type != null ? new[] { type } : new Type[] { })
         { }
 
@@ -61,7 +61,7 @@ namespace NSwag.Annotations
         public OpenApiCallbackAttribute(string callbackUrl,
                                         string name = null, 
                                         string method = "post",
-                                        string mimeType = "application/json",
+                                        string mimeType = null,
                                         params Type[] types) : base()
         {
             if (string.IsNullOrWhiteSpace(name))

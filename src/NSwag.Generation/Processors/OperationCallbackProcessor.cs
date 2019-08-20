@@ -40,7 +40,7 @@ namespace NSwag.Generation.Processors
                     select (dynamic)CallbackAttribute)
             {
                 string url = CallbackAttribute.CallbackUrl;
-                string key = CallbackAttribute.Name ?? context.OperationDescription.Operation.OperationId + "_Callback";
+                string key = CallbackAttribute.Name ?? (context.OperationDescription.Operation.OperationId + "_Callback");
                 string method = CallbackAttribute.Method ?? OpenApiOperationMethod.Post;
                 string mimeType = CallbackAttribute.MimeType;
                 Type[] types = CallbackAttribute.Types;
