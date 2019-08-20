@@ -70,8 +70,17 @@ namespace NSwag.Generation.Processors
                     }
                     else
                     {
-                        requestBody.Content["application/octet-stream"] = CreateMediaType(binarySchemas);
-                        requestBody.Content["application/json"] = CreateMediaType(jsonSchemas);
+                        var binaryMedia = CreateMediaType(binarySchemas);
+                        if (binaryMedia != null)
+                        {
+                            requestBody.Content["application/octet-stream"] = binaryMedia;
+                        }
+
+                        var jsonMedia = CreateMediaType(jsonSchemas);
+                        if(jsonMedia != null)
+                        {
+                            requestBody.Content["application/json"] = jsonMedia;
+                        }
                     }
                 };
 
