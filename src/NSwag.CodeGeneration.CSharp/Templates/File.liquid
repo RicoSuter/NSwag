@@ -16,6 +16,8 @@ using {{ usage }};
 
 namespace {{ Namespace }}
 {
+    using System = global::System;
+    
     {{ Clients | tab }}
 
 {% if GenerateContracts -%}

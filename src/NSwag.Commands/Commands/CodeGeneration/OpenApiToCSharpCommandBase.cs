@@ -331,5 +331,13 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.GenerateDtoTypes; }
             set { Settings.GenerateDtoTypes = value; }
         }
+
+        [Argument(Name = "GenerateOptionalPropertiesAsNullable", IsRequired = false, Description = "Specifies whether optional schema properties " +
+            "(not required) are generated as nullable properties (default: false).")]
+        public bool GenerateOptionalPropertiesAsNullable
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable; }
+            set { Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable = value; }
+        }
     }
 }

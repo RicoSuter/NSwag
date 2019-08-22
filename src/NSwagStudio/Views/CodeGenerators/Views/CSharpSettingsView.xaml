@@ -21,6 +21,11 @@
             </CheckBox>
 
             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                <CheckBox IsChecked="{Binding Command.GenerateOptionalPropertiesAsNullable, Mode=TwoWay}" 
+                          ToolTip="GenerateOptionalPropertiesAsNullable" Margin="0,0,0,12">
+                    <TextBlock Text="Generate optional schema properties (not required) as nullable properties" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
                 <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />

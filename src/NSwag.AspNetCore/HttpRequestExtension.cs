@@ -33,13 +33,17 @@ namespace NSwag.AspNetCore
 
 #if AspNetOwin
         public static string GetServerUrl(this IOwinRequest request)
+        {
+            var baseUrl = request.Headers.ContainsKey("X-Forwarded-Host") ?
+                new Uri($"{request.GetHttpScheme()}://{request.Headers["X-Forwarded-Host"]}").ToString().TrimEnd('/') :
+                new Uri($"{request.GetHttpScheme()}://{request.Host}").ToString().TrimEnd('/');
 #else
         public static string GetServerUrl(this HttpRequest request)
-#endif
         {
             var baseUrl = request.Headers.ContainsKey("X-Forwarded-Host") ?
                 new Uri($"{request.GetHttpScheme()}://{request.Headers["X-Forwarded-Host"].First()}").ToString().TrimEnd('/') :
                 new Uri($"{request.GetHttpScheme()}://{request.Host}").ToString().TrimEnd('/');
+#endif
 
             return $"{baseUrl}{request.GetBasePath()}".TrimEnd('/');
         }
