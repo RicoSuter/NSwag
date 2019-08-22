@@ -6,9 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -22,29 +23,56 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            dynamic descriptionAttribute = context.MethodInfo.GetCustomAttributes()
-                .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
+            var attributes = context.MethodInfo.GetCustomAttributes().ToList();
 
-            if (descriptionAttribute != null)
-            {
-                context.OperationDescription.Operation.Summary = descriptionAttribute.Description;
-            }
-            else
-            {
-                var summary = context.MethodInfo.GetXmlDocsSummary();
-                if (summary != string.Empty)
-                {
-                    context.OperationDescription.Operation.Summary = summary;
-                }
-            }
-
-            var remarks = context.MethodInfo.GetXmlDocsRemarks();
-            if (remarks != string.Empty)
-            {
-                context.OperationDescription.Operation.Description = remarks;
-            }
+            ProcessSummary(context, attributes);
+            ProcessDescription(context, attributes);
 
             return true;
+        }
+
+        private void ProcessSummary(OperationProcessorContext context, List<Attribute> attributes)
+        {
+            dynamic openApiOperationAttribute = attributes
+                .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
+
+            string summary = openApiOperationAttribute?.Summary;
+
+            if (string.IsNullOrEmpty(summary))
+            {
+                dynamic descriptionAttribute = attributes
+                    .SingleOrDefault(a => a.GetType().Name == "DescriptionAttribute");
+
+                summary = descriptionAttribute?.Description;
+            }
+
+            if (string.IsNullOrEmpty(summary))
+            {
+                summary = context.MethodInfo.GetXmlDocsSummary();
+            }
+
+            if (!string.IsNullOrEmpty(summary))
+            {
+                context.OperationDescription.Operation.Summary = summary;
+            }
+        }
+
+        private void ProcessDescription(OperationProcessorContext context, List<Attribute> attributes)
+        {
+            dynamic openApiOperationAttribute = attributes
+                .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
+
+            string description = openApiOperationAttribute?.Description;
+
+            if (string.IsNullOrEmpty(description))
+            {
+                description = context.MethodInfo.GetXmlDocsRemarks();
+            }
+
+            if (!string.IsNullOrEmpty(description))
+            {
+                context.OperationDescription.Operation.Description = description;
+            }
         }
     }
 }

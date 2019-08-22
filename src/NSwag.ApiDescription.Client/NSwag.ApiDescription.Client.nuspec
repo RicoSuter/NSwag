@@ -15,12 +15,13 @@
     <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview6.19307.2" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="0.3.0-preview7.19365.7" />
       <dependency id="NSwag.MSBuild" version="13.0.5" />
     </dependencies>
     <references />
   </metadata>
   <files>
+    <file src="NSwag.ApiDescription.Client.props" target="build" />
     <file src="NSwag.ApiDescription.Client.targets" target="build" />
   </files>
 </package>
