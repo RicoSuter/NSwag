@@ -2,7 +2,7 @@
 // <copyright file="JsonExceptionFilterAttribute.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -13,10 +13,10 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using NJsonSchema.Converters;
 using NSwag.Annotations;
-using NSwag.Annotations.Converters;
+using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
@@ -59,14 +59,8 @@ namespace NSwag.AspNetCore
         {
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
-#if NETCOREAPP3_0
-                var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as IOptions<MvcNewtonsoftJsonOptions>;
-#else
-                var options = context.HttpContext?.RequestServices?.GetService(typeof(IOptions<MvcJsonOptions>)) as IOptions<MvcJsonOptions>;
-#endif
-
-                var settings = options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
-                settings = settings != null ? CopySettings(settings) : new JsonSerializerSettings();
+                var settings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(context.HttpContext?.RequestServices);
+                settings = settings != null ? CopySettings(settings) : (JsonConvert.DefaultSettings?.Invoke() ?? new JsonSerializerSettings());
                 settings.Converters.Add(new JsonExceptionConverter(_hideStackTrace, _searchedNamespaces));
 
                 var json = JsonConvert.SerializeObject(context.Exception, settings);
@@ -77,7 +71,7 @@ namespace NSwag.AspNetCore
                     ContentType = "application/json"
                 };
 
-                // Required otherwise the framework exception handlers ignores the 
+                // Required otherwise the framework exception handlers ignores the
                 // Result and redirects to a error page or displays in dev mode the stack trace.
                 context.ExceptionHandled = true;
             }
@@ -125,7 +119,9 @@ namespace NSwag.AspNetCore
         {
             var settingsCopy = new JsonSerializerSettings();
 
-            foreach (var property in typeof(JsonSerializerSettings).GetRuntimeProperties())
+            foreach (var property in typeof(JsonSerializerSettings)
+                .GetRuntimeProperties()
+                .Where(p => p.Name != "Converters"))
             {
                 property.SetValue(settingsCopy, property.GetValue(settings));
             }

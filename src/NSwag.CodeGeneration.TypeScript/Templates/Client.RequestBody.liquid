@@ -57,6 +57,8 @@ else
 {%                 else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
 {%                 endif -%}
+{%             elseif parameter.IsDate -%}
+    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
 {%             else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
 {%             endif -%}
@@ -64,7 +66,9 @@ else
 {%     endif -%}
 {% else -%}
 {%     if operation.HasContent -%}
-{%         if operation.ContentParameter.IsXmlBodyParameter -%}
+{%         if operation.HasBinaryBodyParameter -%}
+const content_ = {{ operation.ContentParameter.VariableName }};
+{%         elseif operation.HasXmlBodyParameter -%}
 const content_ = {{ operation.ContentParameter.VariableName }};
 {%         else -%}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});

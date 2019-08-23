@@ -2,7 +2,7 @@
 // <copyright file="NSwagDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -15,9 +15,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.SwaggerGeneration;
-using NSwag.Commands.SwaggerGeneration.AspNetCore;
-using NSwag.Commands.SwaggerGeneration.WebApi;
+using NSwag.Commands.Generation;
+using NSwag.Commands.Generation.AspNetCore;
+using NSwag.Commands.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -35,9 +35,9 @@ namespace NSwag.Commands
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
-            SwaggerGenerators.AspNetCoreToSwaggerCommand = new AspNetCoreToSwaggerCommand();
-            SwaggerGenerators.WebApiToSwaggerCommand = new WebApiToSwaggerCommand();
-            SwaggerGenerators.TypesToSwaggerCommand = new TypesToSwaggerCommand();
+            SwaggerGenerators.AspNetCoreToOpenApiCommand = new AspNetCoreToOpenApiCommand();
+            SwaggerGenerators.WebApiToOpenApiCommand = new WebApiToOpenApiCommand();
+            SwaggerGenerators.TypesToOpenApiCommand = new TypesToOpenApiCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -76,7 +76,7 @@ namespace NSwag.Commands
 
         /// <summary>Executes the document.</summary>
         /// <returns>The task.</returns>
-        public override async Task<SwaggerDocumentExecutionResult> ExecuteAsync()
+        public override async Task<OpenApiDocumentExecutionResult> ExecuteAsync()
         {
             var document = await GenerateSwaggerDocumentAsync();
             foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
@@ -86,18 +86,20 @@ namespace NSwag.Commands
                 codeGenerator.Input = null;
             }
 
-            return new SwaggerDocumentExecutionResult(null, null, true);
+            return new OpenApiDocumentExecutionResult(null, null, true);
         }
 
         /// <summary>Executes the document via command line.</summary>
         /// <param name="redirectOutput">Indicates whether to redirect the outputs.</param>
         /// <returns>The result.</returns>
-        public async Task<SwaggerDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
+        public async Task<OpenApiDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
         {
             return await Task.Run(async () =>
             {
                 if (Runtime == Runtime.Debug)
+                {
                     return await ExecuteAsync();
+                }
 
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
                 var swaggerFilename = baseFilename + "_swagger.json";
@@ -105,7 +107,9 @@ namespace NSwag.Commands
 
                 var clone = FromJson<NSwagDocument>(null, ToJson());
                 if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
+                {
                     clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
+                }
 
                 foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
                 {
@@ -130,7 +134,9 @@ namespace NSwag.Commands
                     DeleteFileIfExists(configFilename);
                     DeleteFileIfExists(swaggerFilename);
                     foreach (var filename in filenames)
+                    {
                         DeleteFileIfExists(filename);
+                    }
                 }
             });
         }
@@ -142,7 +148,9 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 if (!(SelectedSwaggerGenerator is WebApiToSwaggerCommand))
+                {
                     return new string[0];
+                }
 
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
                 var configFilename = baseFilename + "_config.json";
@@ -166,7 +174,9 @@ namespace NSwag.Commands
             return await Task.Run(async () =>
             {
                 if (!(SelectedSwaggerGenerator is TypesToSwaggerCommand))
+                {
                     return new string[0];
+                }
 
                 var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
                 var configFilename = baseFilename + "_config.json";
@@ -189,7 +199,10 @@ namespace NSwag.Commands
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains("%"))
+            {
                 return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
+            }
+
             return pathToConvert;
         }
 
@@ -199,7 +212,10 @@ namespace NSwag.Commands
         protected override string ConvertToRelativePath(string pathToConvert)
         {
             if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains("%"))
+            {
                 return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
+            }
+
             return pathToConvert?.Replace("\\", "/");
         }
 
@@ -212,10 +228,10 @@ namespace NSwag.Commands
                 .ToArray();
         }
 
-        private SwaggerDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
+        private OpenApiDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
         {
             var swaggerOutput = ReadFileIfExists(SelectedSwaggerGenerator.OutputFilePath);
-            var result = new SwaggerDocumentExecutionResult(output, swaggerOutput, redirectOutput);
+            var result = new OpenApiDocumentExecutionResult(output, swaggerOutput, redirectOutput);
             foreach (var command in CodeGenerators.Items.Where(c => c != null))
             {
                 if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
@@ -224,7 +240,9 @@ namespace NSwag.Commands
                     result.AddGeneratorOutput(command.GetType(), ReadFileIfExists(codeFilepath));
                 }
                 else
+                {
                     result.AddGeneratorOutput(command.GetType(), ReadFileIfExists(command.OutputFilePath));
+                }
             }
             return result;
         }
@@ -245,21 +263,29 @@ namespace NSwag.Commands
             {
                 var errorStart = output.IndexOf("...");
                 if (errorStart < 0)
+                {
                     errorStart = Regex.Match(output, "\n[^\n\r]*?Exception: .*", RegexOptions.Singleline)?.Index ?? -1;
+                }
 
                 var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
                 var stackTraceStart = error.IndexOf("Server stack trace: ");
                 if (stackTraceStart < 0)
+                {
                     stackTraceStart = error.IndexOf("   at ");
+                }
 
                 var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;
                 var stackTrace = stackTraceStart > 0 ? error.Substring(stackTraceStart) : "";
 
                 if (message.Contains("Could not load type"))
+                {
                     message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
+                }
 
                 if (message.Contains("The system cannot find the file specified"))
+                {
                     message = message + "Check if .NET Core is installed and 'dotnet' is globally available.";
+                }
 
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
             }
@@ -279,15 +305,25 @@ namespace NSwag.Commands
 
 	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.NetCore10)
+            {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore10/dotnet-nswag.dll") + "\" ";
+            }
             else if (runtime == Runtime.NetCore11)
+            {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore11/dotnet-nswag.dll") + "\" ";
+            }
             else if (runtime == Runtime.NetCore20)
+            {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore20/dotnet-nswag.dll") + "\" ";
+            }
             else if (runtime == Runtime.NetCore21)
+            {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore21/dotnet-nswag.dll") + "\" ";
+            }
             else if (runtime == Runtime.NetCore22)
+            {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore22/dotnet-nswag.dll") + "\" ";
+            }
             else
 #endif
             return "";
@@ -299,9 +335,13 @@ namespace NSwag.Commands
 
 	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
+            {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
+            }
             else if (runtime == Runtime.WinX86)
+            {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
+            }
             else
 #endif
             return "dotnet";
@@ -310,14 +350,19 @@ namespace NSwag.Commands
         private string ReadFileIfExists(string filename)
         {
             if (filename != null && File.Exists(filename))
+            {
                 return File.ReadAllText(filename);
+            }
+
             return null;
         }
 
         private void DeleteFileIfExists(string filename)
         {
             if (File.Exists(filename))
+            {
                 File.Delete(filename);
+            }
         }
 
         internal class CommandLineException : Exception

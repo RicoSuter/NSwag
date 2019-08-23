@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <_NSwagCommand>$(NSwagExe)</_NSwagCommand>
+    <_NSwagCommand
+        Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 $(NSwagDir_Core21)/dotnet-nswag.dll</_NSwagCommand>
+  </PropertyGroup>
+
+  <!-- OpenApiReference support for C# -->
+
+  <Target Name="GenerateNSwagCSharp">
+    <ItemGroup>
+      <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
+      <CurrentOpenApiReference>
+        <Command>$(_NSwagCommand) openapi2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="! %(FirstForGenerator)">%(Command) /GenerateExceptionClasses:false</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+      </CurrentOpenApiReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagCSharp:" />
+    <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
+
+    <Exec Command="%(CurrentOpenApiReference.Command)" LogStandardErrorAsError="true" />
+  </Target>
+
+  <!-- OpenApiReference support for TypeScript -->
+
+  <Target Name="GenerateNSwagTypeScript">
+    <ItemGroup>
+      <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
+      <CurrentOpenApiReference>
+        <Command>$(_NSwagCommand) swagger2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+      </CurrentOpenApiReference>
+    </ItemGroup>
+
+    <Message Importance="high" Text="%0AGenerateNSwagTypeScript:" />
+    <Message Importance="high" Text="  %(CurrentOpenApiReference.Command)" />
+    <Exec Command="%(CurrentOpenApiReference.Command)" LogStandardErrorAsError="true" />
+  </Target>
+</Project>

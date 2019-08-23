@@ -2,7 +2,7 @@
 // <copyright file="AssemblyTypeToSwaggerGeneratorViewModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -14,9 +14,10 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using MyToolkit.Command;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration;
+using NSwag.Commands.Generation;
 
 namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
@@ -144,7 +145,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 return await Task.Run(async () =>
                 {
-                    var document = (SwaggerDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
+                    var document = (OpenApiDocument)await Command.RunAsync(null, null).ConfigureAwait(false);
                     return document?.ToJson();
                 });
             });

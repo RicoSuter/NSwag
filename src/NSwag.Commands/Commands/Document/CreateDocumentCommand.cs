@@ -2,7 +2,7 @@
 // <copyright file="CreateDocumentCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -20,15 +20,17 @@ namespace NSwag.Commands.Document
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (await DynamicApis.FileExistsAsync("nswag.json").ConfigureAwait(false) == false)
+            if (DynamicApis.FileExists("nswag.json"))
             {
                 await CreateDocumentAsync("nswag.json");
                 host.WriteMessage("nswag.json file created.");
             }
             else
+            {
                 host.WriteMessage("nswag.json already exists.");
+            }
 
-            return null; 
+            return null;
         }
 
         private async Task CreateDocumentAsync(string filePath)
@@ -36,9 +38,9 @@ namespace NSwag.Commands.Document
             var document = new NSwagDocument();
             document.Path = filePath;
 
-            document.CodeGenerators.SwaggerToCSharpControllerCommand = new SwaggerToCSharpControllerCommand();
-            document.CodeGenerators.SwaggerToCSharpClientCommand = new SwaggerToCSharpClientCommand();
-            document.CodeGenerators.SwaggerToTypeScriptClientCommand = new SwaggerToTypeScriptClientCommand();
+            document.CodeGenerators.OpenApiToCSharpControllerCommand = new OpenApiToCSharpControllerCommand();
+            document.CodeGenerators.OpenApiToCSharpClientCommand = new OpenApiToCSharpClientCommand();
+            document.CodeGenerators.OpenApiToTypeScriptClientCommand = new OpenApiToTypeScriptClientCommand();
 
             await document.SaveAsync();
         }

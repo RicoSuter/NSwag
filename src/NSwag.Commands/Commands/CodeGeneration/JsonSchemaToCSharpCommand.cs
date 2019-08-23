@@ -2,14 +2,13 @@
 // <copyright file="JsonSchemaToCSharpCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 
 #pragma warning disable 1591
@@ -46,6 +45,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.RequiredPropertiesMustBeDefined = value; }
         }
 
+        [Argument(Name = "AnyType", IsRequired = false, Description = "The any .NET type (default: 'object').")]
+        public string AnyType
+        {
+            get { return Settings.AnyType; }
+            set { Settings.AnyType = value; }
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
         public string DateTimeType
         {
@@ -79,6 +85,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.DictionaryInstanceType; }
             set { Settings.DictionaryInstanceType = value; }
+        }
+
+        [Argument(Name = "GenerateOptionalPropertiesAsNullable", IsRequired = false, Description = "Specifies whether optional schema properties " +
+            "(not required) are generated as nullable properties (default: false).")]
+        public bool GenerateOptionalPropertiesAsNullable
+        {
+            get { return Settings.GenerateOptionalPropertiesAsNullable; }
+            set { Settings.GenerateOptionalPropertiesAsNullable = value; }
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
