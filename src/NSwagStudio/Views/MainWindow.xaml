@@ -65,7 +65,7 @@
             <TabItem Header="About" HeaderTemplate="{StaticResource RotatedTabItem}">
                 <StackPanel Margin="8">
                     <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="Bold">
-                        <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The Swagger API toolchain for .NET and TypeScript</Hyperlink>
+                        <Hyperlink NavigateUri="http://nswag.org" Click="OnOpenHyperlink">NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap">
                         NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#.

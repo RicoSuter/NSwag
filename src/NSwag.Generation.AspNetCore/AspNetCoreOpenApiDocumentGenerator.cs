@@ -46,7 +46,9 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider);
+            var settings = GetJsonSerializerSettings(typedServiceProvider) ??
+                Settings?.ActualSerializerSettings ??
+                JsonConvert.DefaultSettings?.Invoke();
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
@@ -69,11 +71,10 @@ namespace NSwag.Generation.AspNetCore
                 // Try load ASP.NET Core 3 options
                 var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                 var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                options = serviceProvider?.GetRequiredService(optionsType) as dynamic;
+                options = serviceProvider?.GetService(optionsType) as dynamic;
             }
 
-            var settings = (JsonSerializerSettings)options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
-            return settings;
+            return (JsonSerializerSettings)options?.Value?.SerializerSettings;
         }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
