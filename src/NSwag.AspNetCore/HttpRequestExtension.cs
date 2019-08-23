@@ -22,28 +22,22 @@ namespace NSwag.AspNetCore
     {
 #if AspNetOwin
         private static string GetHttpScheme(this IOwinRequest request)
-        {
-            return request.Headers["X-Forwarded-Proto"] ?? request.Scheme;
 #else
         private static string GetHttpScheme(this HttpRequest request)
-        {
-            return request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? request.Scheme;
 #endif
+        {
+            return request.Headers.TryGetFirstHeader("X-Forwarded-Proto") ?? request.Scheme;
         }
 
 #if AspNetOwin
         public static string GetServerUrl(this IOwinRequest request)
-        {
-            var baseUrl = request.Headers.ContainsKey("X-Forwarded-Host") ?
-                new Uri($"{request.GetHttpScheme()}://{request.Headers["X-Forwarded-Host"]}").ToString().TrimEnd('/') :
-                new Uri($"{request.GetHttpScheme()}://{request.Host}").ToString().TrimEnd('/');
 #else
         public static string GetServerUrl(this HttpRequest request)
+#endif
         {
             var baseUrl = request.Headers.ContainsKey("X-Forwarded-Host") ?
-                new Uri($"{request.GetHttpScheme()}://{request.Headers["X-Forwarded-Host"].First()}").ToString().TrimEnd('/') :
+                new Uri($"{request.GetHttpScheme()}://{request.Headers.TryGetFirstHeader("X-Forwarded-Host")}").ToString().TrimEnd('/') :
                 new Uri($"{request.GetHttpScheme()}://{request.Host}").ToString().TrimEnd('/');
-#endif
 
             return $"{baseUrl}{request.GetBasePath()}".TrimEnd('/');
         }
@@ -56,15 +50,11 @@ namespace NSwag.AspNetCore
         {
             if (request.Headers.ContainsKey("X-Forwarded-Prefix"))
             {
-#if AspNetOwin
-                return "/" + request.Headers["X-Forwarded-Prefix"].Trim('/');
-#else
-                return "/" + request.Headers["X-Forwarded-Prefix"].First().Trim('/');
-#endif
+                return "/" + request.Headers.TryGetFirstHeader("X-Forwarded-Prefix").Trim('/');
             }
 
             var basePath = request.Headers.ContainsKey("X-Forwarded-Host") ?
-                new Uri($"http://{request.Headers["X-Forwarded-Host"].First()}").AbsolutePath :
+                new Uri($"http://{request.Headers.TryGetFirstHeader("X-Forwarded-Host")}").AbsolutePath :
                 "";
 
             if (request.PathBase.HasValue)
@@ -73,6 +63,15 @@ namespace NSwag.AspNetCore
             }
 
             return ("/" + basePath.Trim('/')).TrimEnd('/');
+        }
+
+        private static string TryGetFirstHeader(this IHeaderDictionary headers, string name)
+        {
+#if AspNetOwin
+            return headers[name]?.Split(',').Select(s => s.Trim()).First();
+#else
+            return headers[name].FirstOrDefault()?.Split(',').Select(s => s.Trim()).First();
+#endif
         }
     }
 }
