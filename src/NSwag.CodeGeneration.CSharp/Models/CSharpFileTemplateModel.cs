@@ -106,6 +106,18 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
 
+        /// <summary>Gets or sets a value indicating whether to generate a class that includes all generated client types as lazy fields (default: false). If <see cref="GenerateClientInterfaces"/> is <c>true</c> then an interface for it will also be created.</summary>
+        public bool GenerateCombinedClientClass => _settings.GenerateCombinedClientClass;
+
+        /// <summary>Gets or sets a value indicating whether to generate interfaces for the client classes (default: false).</summary>
+        public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
+
+        /// <summary>Gets or sets the generated combined client's class name (default: &quot;CombinedClient&quot;).</summary>
+        public string CombinedClientClassName => _settings.CombinedClientClassName;
+
+        /// <summary>Gets or sets a value indicating the generated combined client's (<see cref="GenerateCombinedClientClass"/>) constructor access modifier. Use a private constructor when you'll need custom construction logic in a partial class definition. (default: &quot;public&quot;).</summary>
+        public string CombinedClientConstructorAccess => _settings.CombinedClassConstructorAccess;
+
         /// <summary>Gets the response class names.</summary>
         public IEnumerable<string> ResponseClassNames
         {

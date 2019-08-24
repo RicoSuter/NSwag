@@ -52,6 +52,27 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateClientClasses = value; }
         }
 
+        [Argument(Name = "GenerateCombinedClientClass", IsRequired = false, Description = "Whether to generate a class that includes all generated client types as lazy fields ")]
+        public bool GenerateCombinedClientClass
+        {
+            get { return Settings.GenerateCombinedClientClass; }
+            set { Settings.GenerateCombinedClientClass = value; }
+        }
+
+        [Argument(Name = "CombinedClientClassName", IsRequired = false, Description = "The name of the combined client class.")]
+        public string CombinedClientClassName
+        {
+            get { return Settings.CombinedClientClassName; }
+            set { Settings.CombinedClientClassName = value; }
+        }
+
+        [Argument(Name = "CombinedClientClassConstructorAccess", IsRequired = false, Description = "The generated combined client's constructor access modifier. Use a private constructor when you'll need custom construction logic in a partial class definition and don't want to expose the constructor to dependency-injection.")]
+        public string CombinedClientClassConstructorAccess
+        {
+            get { return Settings.CombinedClassConstructorAccess; }
+            set { Settings.CombinedClassConstructorAccess = value; }
+        }
+
         [Argument(Name = "GenerateClientInterfaces", IsRequired = false, Description = "Specifies whether generate interfaces for the client classes.")]
         public bool GenerateClientInterfaces
         {
