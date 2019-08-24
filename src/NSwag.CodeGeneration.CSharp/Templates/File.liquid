@@ -18,6 +18,47 @@ namespace {{ Namespace }}
 {
     using System = global::System;
     
+{% if GenerateCombinedClientClass -%}
+{%     if GenerateClientInterfaces -%}
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+    partial interface I{{ CombinedClientClassName }}
+    {
+{%         for clientClassName in ClientNames -%}
+        I{{ clientClassName }} {{ clientClassName }} { get; }
+{%         endfor -%}
+    }
+    {% endif -%}
+
+{% if GenerateClientInterfaces -%}
+    partial class {{ CombinedClientClassName }} : I{{ CombinedClientClassName }}
+    {
+        #region I{{ CombinedClientClassName }}
+{%     for clientClassName in ClientNames -%}
+        I{{ clientClassName }} I{{ CombinedClientClassName }}.{{ clientClassName }} => this.{{ clientClassName }};
+{%     endfor -%}
+        #endregion
+{% else -%}
+    partial class {{ CombinedClientClassName }}
+    {
+{% endif -%}
+        
+        {{ CombinedClientConstructorAccess }} {{ CombinedClientClassName }}(System.Net.Http.HttpClient httpClient)
+        {
+            if( httpClient == null ) throw new ArgumentNullException(nameof(httpClient));
+
+{%     for clientClassName in ClientNames -%}
+            _{{ clientClassName }} = new Lazy<{{ clientClassName }}>( () => new {{ clientClassName }}( httpClient ) );
+{%     endfor -%}
+        }
+
+{%     for clientClassName in ClientNames -%}
+        private readonly Lazy<{{ clientClassName }}> _{{ clientClassName }};
+        public {{ clientClassName }} {{ clientClassName }} => _{{ clientClassName }}.Value;
+
+{%     endfor -%}
+    }
+{% endif %}
+
     {{ Clients | tab }}
 
 {% if GenerateContracts -%}

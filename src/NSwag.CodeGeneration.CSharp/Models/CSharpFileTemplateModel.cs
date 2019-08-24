@@ -16,7 +16,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp file template model.</summary>
     public class CSharpFileTemplateModel
     {
-        private readonly string _clientCode;
+        private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly OpenApiDocument _document;
         private readonly CSharpGeneratorBaseSettings _settings;
         private readonly CSharpTypeResolver _resolver;
@@ -40,12 +40,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
             CSharpGeneratorBase generator,
             CSharpTypeResolver resolver)
         {
+            _clientTypes = clientTypes;
             _outputType = outputType;
             _document = document;
             _generator = generator;
             _settings = settings;
             _resolver = resolver;
-            _clientCode = clientTypes.Concatenate();
 
             Classes = dtoTypes.Concatenate();
         }
@@ -72,7 +72,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool GenerateClientClasses => _settings.GenerateClientClasses;
 
         /// <summary>Gets the clients code.</summary>
-        public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
+        public string Clients => _settings.GenerateClientClasses ? _clientTypes.Concatenate() : string.Empty;
+
+        /// <summary>Gets the clients code.</summary>
+        public string[] ClientNames => _clientTypes.Where( cc => cc.Category == CodeArtifactCategory.Client ).Select( cc => cc.TypeName ).ToArray();
 
         /// <summary>Gets the classes code.</summary>
         public string Classes { get; }
