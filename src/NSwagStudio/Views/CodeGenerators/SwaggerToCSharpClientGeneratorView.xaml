@@ -98,7 +98,7 @@
                                         <TextBlock Text="Combined client class name" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBox Text="{Binding Command.CombinedClientClassName, Mode=TwoWay}" ToolTip="CombinedClientClassName" Margin="0,0,0,12" />
 
-                                        <TextBlock Text="Combined client constructor access" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBlock Text="Combined client constructor access modifier" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBox Text="{Binding Command.CombinedClientClassConstructorAccess, Mode=TwoWay}" ToolTip="CombinedClientClassConstructorAccess" Margin="0,0,0,6" />
 
                                     </StackPanel>
