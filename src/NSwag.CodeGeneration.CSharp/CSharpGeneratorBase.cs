@@ -56,6 +56,23 @@ namespace NSwag.CodeGeneration.CSharp
                 .Replace(_settings.CSharpGeneratorSettings.DictionaryType + "<", _settings.ResponseDictionaryType + "<");
         }
 
+        /// <summary>
+        /// Gets name of type for binary response
+        /// </summary>
+        /// <returns>FileResponse by default, FileResult if ControllerTarger parameter is AspNetCore</returns>
+        public override string GetBinaryResponseTypeName()
+        {
+            const string defaultBinaryResponseTypeName = "FileResponse";
+            if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+            {
+                return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore
+                    ? "FileResult"
+                    : defaultBinaryResponseTypeName;
+            }
+
+            return defaultBinaryResponseTypeName;
+        }
+
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="document">The document </param>
