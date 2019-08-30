@@ -8,7 +8,7 @@ namespace NSwag.Generation.AspNetCore.Tests
     public class CallbackTests : AspNetCoreTestsBase
     {       
         [Fact]
-        public async Task When_operation_has_extension_data_attributes_then_they_are_processed()
+        public async Task When_operation_has_callback_attributes_then_they_are_processed()
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();

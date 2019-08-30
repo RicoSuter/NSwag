@@ -86,8 +86,7 @@ namespace NSwag.Generation.Processors
 
 
                 operation.Callbacks[key] =
-                    new OpenApiCallback
-                        {
+                    new OpenApiCallback {
                             {
                                 url,
                                 new OpenApiPathItem
@@ -96,7 +95,14 @@ namespace NSwag.Generation.Processors
                                         method,
                                         new OpenApiOperation
                                         {
-                                            RequestBody = requestBody
+                                            RequestBody = requestBody,
+                                            Responses = {
+                                                { "200", new OpenApiResponse
+                                                         {
+                                                            Description = "Your server returns this code if it accepts the callback"
+                                                         }
+                                                }
+                                            }
                                         }
                                     }
                                 }
