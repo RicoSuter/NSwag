@@ -62,15 +62,13 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>FileResponse by default, FileResult if ControllerTarger parameter is AspNetCore</returns>
         public override string GetBinaryResponseTypeName()
         {
-            const string defaultBinaryResponseTypeName = "FileResponse";
-            if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+            if (_settings is CSharpControllerGeneratorSettings controllerSettings 
+                && controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
             {
-                return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore
-                    ? "FileResult"
-                    : defaultBinaryResponseTypeName;
+                return "FileResult";
             }
 
-            return defaultBinaryResponseTypeName;
+            return base.GetBinaryResponseTypeName();
         }
 
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
