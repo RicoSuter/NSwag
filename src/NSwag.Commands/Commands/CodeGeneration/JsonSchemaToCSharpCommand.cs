@@ -87,6 +87,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.DictionaryInstanceType = value; }
         }
 
+        [Argument(Name = "GenerateOptionalPropertiesAsNullable", IsRequired = false, Description = "Specifies whether optional schema properties " +
+            "(not required) are generated as nullable properties (default: false).")]
+        public bool GenerateOptionalPropertiesAsNullable
+        {
+            get { return Settings.GenerateOptionalPropertiesAsNullable; }
+            set { Settings.GenerateOptionalPropertiesAsNullable = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var schema = await GetJsonSchemaAsync().ConfigureAwait(false);

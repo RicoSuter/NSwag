@@ -44,7 +44,7 @@
             data: content_,
 {%     endif -%}
 {%     if operation.IsFile -%}
-            responseType: "arraybuffer",
+            responseType: "blob",
 {%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
             url: url_,

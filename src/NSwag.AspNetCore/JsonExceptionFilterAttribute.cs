@@ -60,7 +60,7 @@ namespace NSwag.AspNetCore
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
                 var settings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(context.HttpContext?.RequestServices);
-                settings = settings != null ? CopySettings(settings) : new JsonSerializerSettings();
+                settings = settings != null ? CopySettings(settings) : (JsonConvert.DefaultSettings?.Invoke() ?? new JsonSerializerSettings());
                 settings.Converters.Add(new JsonExceptionConverter(_hideStackTrace, _searchedNamespaces));
 
                 var json = JsonConvert.SerializeObject(context.Exception, settings);

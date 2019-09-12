@@ -24,7 +24,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if
 {%         elseif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         elseif Framework.IsAxios -%}
-return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
+return Promise.resolve({ fileName: fileName, status: status, data: response.data as Blob, headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 {%         endif -%}
@@ -65,7 +65,7 @@ return result{{ response.StatusCode }};
 {%                 endif -%}
 {%             endif -%}
 {%         else -%}
-return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers, result{{ response.StatusCode }});
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers, result{{ response.StatusCode }});
 {%         endif -%}
 {%     elseif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
@@ -90,7 +90,7 @@ return{% if operation.HasResultType %} null{% endif %};
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
-return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"A server error occurred.", status, _responseText, _headers);
+return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers);
 {%     endif -%}
 {% template Client.ProcessResponse.ReadBodyEnd %}
 {% endif -%}
