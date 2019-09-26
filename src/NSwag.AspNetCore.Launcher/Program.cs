@@ -36,7 +36,7 @@ namespace NSwag.AspNetCore.Launcher
             ["Microsoft.Extensions.Configuration.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.DependencyInjection.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.DependencyInjection"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
-            ["Microsoft.Extensions.DependencyModel"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
+            ["Microsoft.Extensions.DependencyModel"] = new AssemblyLoadInfo(new Version(1, 0, 0)),
             ["Microsoft.Extensions.FileProviders.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.Logging.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.Logging"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
