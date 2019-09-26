@@ -24,7 +24,7 @@
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="10.0.23" />
+    <PackageReference Include="NJsonSchema" Version="10.0.24" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.0.3" />
