@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NJsonSchema.Generation;
 
 namespace NSwag.Sample.NETCore30
 {
@@ -20,7 +21,8 @@ namespace NSwag.Sample.NETCore30
             services.AddMvc()
                 .AddNewtonsoftJson();
 
-            services.AddOpenApiDocument();
+            services.AddOpenApiDocument(d => 
+                d.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,11 +33,8 @@ namespace NSwag.Sample.NETCore30
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
