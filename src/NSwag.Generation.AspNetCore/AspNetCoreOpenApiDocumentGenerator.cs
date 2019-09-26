@@ -64,7 +64,11 @@ namespace NSwag.Generation.AspNetCore
             dynamic options;
             try
             {
+#if NETCOREAPP3_0
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as dynamic)();
+#else
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
+#endif
             }
             catch
             {
