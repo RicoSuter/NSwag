@@ -310,7 +310,7 @@ namespace NSwag.Commands.Generation
                         else
 #endif
                         {
-                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder() method.");
+                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder()/CreateHostBuilder() method.");
                         }
                     }
                 }
