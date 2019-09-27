@@ -18,8 +18,7 @@ namespace NSwag.Sample.NETCore30
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddNewtonsoftJson();
+            services.AddMvc();
 
             services.AddOpenApiDocument(d => 
                 d.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull);
