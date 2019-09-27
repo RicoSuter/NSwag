@@ -125,7 +125,9 @@ namespace NSwag.Generation.AspNetCore
             return document;
         }
 
-        private static JsonSerializerSettings GetSystemTextJsonSettings()
+        /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
+        /// <returns>The settings.</returns>
+        public static JsonSerializerSettings GetSystemTextJsonSettings()
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
             // contract resolver which reflects best the System.Text.Json behavior.
