@@ -25,6 +25,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
 
 namespace NSwag.Commands.Generation
@@ -220,11 +221,20 @@ namespace NSwag.Commands.Generation
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
 #if NETCOREAPP3_0
-            var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
+            JsonSerializerSettings serializerSettings;
+            try
+            {
+                var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
+                serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+            }
+            catch
+            {
+                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings();
+            }
 #else
             var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
-#endif
             var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+#endif
 
             Settings.ApplySettings(serializerSettings, mvcOptions);
             Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
