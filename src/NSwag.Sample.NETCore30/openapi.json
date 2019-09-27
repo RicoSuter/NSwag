@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.1.0.0 (NJsonSchema v10.0.24.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.1.1.0 (NJsonSchema v10.0.24.0 (Newtonsoft.Json v9.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "My Title",
@@ -20,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "$ref": "#/components/schemas/Person"
                   }
                 }
               }
@@ -143,5 +143,24 @@
       }
     }
   },
-  "components": {}
+  "components": {
+    "schemas": {
+      "Person": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
