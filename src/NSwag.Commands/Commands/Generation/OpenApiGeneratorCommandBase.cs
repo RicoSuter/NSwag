@@ -25,6 +25,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
 
 namespace NSwag.Commands.Generation
@@ -216,11 +217,24 @@ namespace NSwag.Commands.Generation
             set => Settings.AllowNullableBodyParameters = value;
         }
 
-        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
-            var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
-            var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
+#if NETCOREAPP3_0
+            JsonSerializerSettings serializerSettings;
+            try
+            {
+                var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
+                serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+            }
+            catch
+            {
+                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings();
+            }
+#else
+            var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
             var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+#endif
 
             Settings.ApplySettings(serializerSettings, mvcOptions);
             Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
@@ -230,7 +244,7 @@ namespace NSwag.Commands.Generation
             return Settings;
         }
 
-        protected async Task<IWebHost> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected async Task<IDisposable> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (!string.IsNullOrEmpty(CreateWebHostBuilderMethod))
             {
@@ -282,21 +296,31 @@ namespace NSwag.Commands.Generation
                     var programType = firstAssembly.ExportedTypes.First(t => t.Name == "Program") ??
                         throw new InvalidOperationException("The Program class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
 
-                    var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
+                    var method =
+                        programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+
                     if (method != null)
                     {
-                        return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
+                        return ((IWebHostBuilder)method.Invoke(
+                            null, method.GetParameters().Length > 0 ? new object[] { new string[0] } : new object[0])).Build();
                     }
                     else
                     {
-                        method = programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+#if NETCOREAPP3_0
+                        method =
+                            programType.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            programType.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+
                         if (method != null)
                         {
-                            return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
+                            return ((Microsoft.Extensions.Hosting.IHostBuilder)method.Invoke(
+                                null, method.GetParameters().Length > 0 ? new object[] { new string[0] } : new object[0])).Build();
                         }
                         else
+#endif
                         {
-                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder() method.");
+                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder()/CreateHostBuilder() method.");
                         }
                     }
                 }

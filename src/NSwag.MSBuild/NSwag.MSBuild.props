@@ -8,12 +8,13 @@
     <NSwagExe_Core20>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore20/dotnet-nswag.dll"</NSwagExe_Core20>
     <NSwagExe_Core21>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore21/dotnet-nswag.dll"</NSwagExe_Core21>
     <NSwagExe_Core22>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore22/dotnet-nswag.dll"</NSwagExe_Core22>
+    <NSwagExe_Core30>dotnet "$(MSBuildThisFileDirectory)../tools/NetCore30/dotnet-nswag.dll"</NSwagExe_Core30>
 
     <NSwagDir>$(MSBuildThisFileDirectory)../tools/Win/</NSwagDir>
     <NSwagDir_Core10>$(MSBuildThisFileDirectory)../tools/NetCore10/</NSwagDir_Core10>
     <NSwagDir_Core11>$(MSBuildThisFileDirectory)../tools/NetCore11/</NSwagDir_Core11>
     <NSwagDir_Core20>$(MSBuildThisFileDirectory)../tools/NetCore20/</NSwagDir_Core20>
     <NSwagDir_Core21>$(MSBuildThisFileDirectory)../tools/NetCore21/</NSwagDir_Core21>
-    <NSwagDir_Core22>$(MSBuildThisFileDirectory)../tools/NetCore22/</NSwagDir_Core22>
+    <NSwagDir_Core22>$(MSBuildThisFileDirectory)../tools/NetCore30/</NSwagDir_Core22>
   </PropertyGroup>
 </Project>

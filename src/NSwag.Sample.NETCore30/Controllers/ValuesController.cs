@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.Sample.NETCore30.Controllers
@@ -10,11 +7,19 @@ namespace NSwag.Sample.NETCore30.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public class Person
         {
-            return new string[] { "value1", "value2" };
+            public string FirstName { get; set; }
+
+            public string? MiddleName { get; set; }
+
+            public string LastName { get; set; }
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Person>> Get()
+        {
+            return new Person[] { };
         }
 
         // GET api/values/5
