@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool HasBasePath => !string.IsNullOrEmpty(BasePath);
 
         /// <summary>Gets or sets the base path.</summary>
-        public string BasePath => _document.BasePath?.TrimStart('/');
+        public string BasePath => _settings.BasePath ?? _document.BasePath?.TrimStart('/');
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
