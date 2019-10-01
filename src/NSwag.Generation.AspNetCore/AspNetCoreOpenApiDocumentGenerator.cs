@@ -2,11 +2,12 @@
 // <copyright file="AspNetCoreToSwaggerGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -45,7 +47,7 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider);
+            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings();
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
@@ -58,21 +60,32 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic options;
+            dynamic options = null;
             try
             {
+#if NETCOREAPP3_0
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as dynamic)();
+#else
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
+#endif
             }
             catch
             {
-                // Try load ASP.NET Core 3 options
-                var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
-                var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                options = serviceProvider?.GetRequiredService(optionsType) as dynamic;
+                try
+                {
+                    // Try load ASP.NET Core 3 options
+                    var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
+                    var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
+                    options = serviceProvider?.GetService(optionsType) as dynamic;
+                }
+                catch
+                {
+                    // Newtonsoft.JSON not available, see GetSystemTextJsonSettings()
+                    return null;
+                }
             }
 
-            var settings = (JsonSerializerSettings)options?.Value?.SerializerSettings ?? JsonConvert.DefaultSettings?.Invoke();
-            return settings;
+            return (JsonSerializerSettings)options?.Value?.SerializerSettings;
         }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
@@ -110,6 +123,19 @@ namespace NSwag.Generation.AspNetCore
 
             Settings.PostProcess?.Invoke(document);
             return document;
+        }
+
+        /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
+        /// <returns>The settings.</returns>
+        public static JsonSerializerSettings GetSystemTextJsonSettings()
+        {
+            // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
+            // contract resolver which reflects best the System.Text.Json behavior.
+            // See https://github.com/RicoSuter/NSwag/issues/2243
+            return new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         private List<Type> GenerateForControllers(
@@ -159,7 +185,7 @@ namespace NSwag.Generation.AspNetCore
                             Method = httpMethod,
                             Operation = new OpenApiOperation
                             {
-                                IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
+                                IsDeprecated = IsOperationDeprecated(item.Item1, controllerActionDescriptor, method),
                                 OperationId = GetOperationId(document, controllerActionDescriptor, method),
                                 Consumes = apiDescription.SupportedRequestFormats
                                    .Select(f => f.MediaType)
@@ -187,6 +213,25 @@ namespace NSwag.Generation.AspNetCore
 
             UpdateConsumesAndProduces(document, allOperations);
             return usedControllerTypes;
+        }
+
+        private bool IsOperationDeprecated(ApiDescription apiDescription, ControllerActionDescriptor controllerActionDescriptor, MethodInfo methodInfo)
+        {
+            if (methodInfo.GetCustomAttribute<ObsoleteAttribute>() != null)
+            {
+                return true;
+            }
+
+            dynamic apiVersionModel = controllerActionDescriptor?
+                .Properties
+                .FirstOrDefault(p => p.Key is Type type && type.Name == "ApiVersionModel")
+                .Value;
+
+            var isDeprecated = (bool)(apiVersionModel != null) &&
+                ((IEnumerable)apiVersionModel.DeprecatedApiVersions).OfType<object>()
+                .Any(v => v.ToString() == apiDescription.GroupName);
+
+            return isDeprecated;
         }
 
         private List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> AddOperationDescriptionsToDocument(

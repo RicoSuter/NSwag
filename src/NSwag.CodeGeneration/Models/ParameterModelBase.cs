@@ -2,7 +2,7 @@
 // <copyright file="ParameterModelBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -67,9 +67,24 @@ namespace NSwag.CodeGeneration.Models
         public bool HasDefault => Default != null;
 
         /// <summary>The default value for the variable.</summary>
-        public string Default => !_parameter.IsRequired && _parameter.Default != null ?
-            _settings.ValueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
-            null;
+        public string Default
+        {
+            get
+            {
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    return !_parameter.IsRequired && _parameter.Default != null ?
+                        _settings.ValueGenerator?.GetDefaultValue(_parameter, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
+                        null;
+                }
+                else
+                {
+                    return !_parameter.IsRequired && _parameter.ActualSchema.Default != null ?
+                        _settings.ValueGenerator?.GetDefaultValue(_parameter.ActualSchema, false, _parameter.ActualTypeSchema.Id, null, true, _typeResolver) :
+                        null;
+                }
+            }
+        }
 
         /// <summary>Gets the parameter kind.</summary>
         public OpenApiParameterKind Kind => _parameter.Kind;
@@ -82,7 +97,7 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
-        
+
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
         public IEnumerable<PropertyModel> PropertyNames
         {
@@ -143,6 +158,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
         public bool IsFile => Schema.IsBinary;
 
+        /// <summary>Gets a value indicating whether the parameter is a binary body parameter.</summary>
+        public bool IsBinaryBody => _parameter.IsBinaryBodyParameter;
+
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;
 
@@ -160,6 +178,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => Kind == OpenApiParameterKind.Body;
+
+        /// <summary>Gets a value indicating whether the parameter is supplied as query parameter.</summary>
+        public bool IsQuery => Kind == OpenApiParameterKind.Query;
 
         /// <summary>Gets a value indicating whether the parameter is supplied through the request headers.</summary>
         public bool IsHeader => Kind == OpenApiParameterKind.Header;

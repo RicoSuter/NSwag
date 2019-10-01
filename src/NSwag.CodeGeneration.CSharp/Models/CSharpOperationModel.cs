@@ -2,7 +2,7 @@
 // <copyright file="CSharpOperationModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -206,6 +206,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>True if the operation has any security schemes</summary>
+        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count() ?? 0) != 0;
+
+        /// <summary>Gets the security schemas that apply to this operation</summary>
+        public IEnumerable<OpenApiSecurityRequirement> Security => _operation.ActualSecurity;
+
         /// <summary>Gets the name of the parameter variable.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
@@ -221,12 +227,31 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(OpenApiParameter parameter)
         {
+            var schema = parameter.ActualSchema;
+
             if (parameter.IsBinaryBodyParameter)
             {
-                return "System.IO.Stream";
+                if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+                {
+                    if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+                    {
+                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                            "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                            "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                    }
+                    else
+                    {
+                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                            "Microsoft.AspNetCore.Http.IFormFile" :
+                            "System.Web.HttpPostedFileBase";
+                    }
+                }
+                else
+                {
+                    return "System.IO.Stream";
+                }
             }
 
-            var schema = parameter.ActualSchema;
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))

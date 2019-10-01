@@ -2,7 +2,7 @@
 // <copyright file="CreateDocumentCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace NSwag.Commands.Document
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (DynamicApis.FileExists("nswag.json"))
+            if (!DynamicApis.FileExists("nswag.json"))
             {
                 await CreateDocumentAsync("nswag.json");
                 host.WriteMessage("nswag.json file created.");
@@ -30,7 +30,7 @@ namespace NSwag.Commands.Document
                 host.WriteMessage("nswag.json already exists.");
             }
 
-            return null; 
+            return null;
         }
 
         private async Task CreateDocumentAsync(string filePath)

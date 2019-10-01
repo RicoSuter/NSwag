@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.Annotations;
+using NJsonSchema.Generation;
 using NSwag.Annotations;
 
 namespace NSwag.Generation.WebApi.Tests.Nullability
@@ -41,7 +42,10 @@ namespace NSwag.Generation.WebApi.Tests.Nullability
         public async Task When_response_is_not_nullable_then_nullable_is_false_in_spec()
         {
             /// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
+            });
 
             /// Act
             var document = await generator.GenerateForControllerAsync<NotNullResponseTestController>();

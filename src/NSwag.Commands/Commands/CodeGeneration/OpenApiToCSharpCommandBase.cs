@@ -2,7 +2,7 @@
 // <copyright file="SwaggerToCSharpCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -330,6 +330,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateDtoTypes; }
             set { Settings.GenerateDtoTypes = value; }
+        }
+
+        [Argument(Name = "GenerateOptionalPropertiesAsNullable", IsRequired = false, Description = "Specifies whether optional schema properties " +
+            "(not required) are generated as nullable properties (default: false).")]
+        public bool GenerateOptionalPropertiesAsNullable
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable; }
+            set { Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable = value; }
         }
     }
 }

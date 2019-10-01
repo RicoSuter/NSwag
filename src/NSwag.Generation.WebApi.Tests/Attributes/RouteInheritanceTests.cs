@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NSwag.Generation.WebApi.Tests.Attributes
 {
-    // See https://github.com/NSwag/NSwag/issues/48
+    // See https://github.com/RicoSuter/NSwag/issues/48
 
     [TestClass]
     public class RouteInheritanceTests

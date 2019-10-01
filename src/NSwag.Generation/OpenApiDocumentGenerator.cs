@@ -2,7 +2,7 @@
 // <copyright file="WebApiToSwaggerGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ namespace NSwag.Generation
                 operationParameter = new OpenApiParameter();
                 operationParameter.Schema = new JsonSchema();
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, contextualParameter, typeDescription);
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
 
                 var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
@@ -136,7 +136,7 @@ namespace NSwag.Generation
                 operationParameter.Schema = _settings.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualParameter, typeDescription.IsNullable, _schemaResolver);
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, contextualParameter, typeDescription);
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
             }
 
             return operationParameter;
@@ -166,12 +166,12 @@ namespace NSwag.Generation
                     }
                 }
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, contextualParameter, typeDescription);
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
             else
             {
                 operationParameter = _settings.SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, contextualParameter, typeDescription);
+                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
 
             return operationParameter;

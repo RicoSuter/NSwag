@@ -2,7 +2,7 @@
 // <copyright file="NSwagDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -323,6 +323,10 @@ namespace NSwag.Commands
             else if (runtime == Runtime.NetCore22)
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore22/dotnet-nswag.dll") + "\" ";
+            }
+            else if (runtime == Runtime.NetCore30)
+            {
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore30/dotnet-nswag.dll") + "\" ";
             }
             else
 #endif

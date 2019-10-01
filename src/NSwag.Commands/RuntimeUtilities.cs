@@ -2,7 +2,7 @@
 // <copyright file="RuntimeUtilities.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -33,9 +33,13 @@ namespace NSwag.Commands
                     {
                         return Runtime.NetCore21;
                     }
-                    else if (framework.Version.Major >= 2)
+                    else if (framework.Version.Major == 2 && framework.Version.Minor > 1)
                     {
                         return Runtime.NetCore22;
+                    }
+                    else if (framework.Version.Major >= 3)
+                    {
+                        return Runtime.NetCore30;
                     }
                     else if (framework.Version.Major == 1 && framework.Version.Minor == 1)
                     {

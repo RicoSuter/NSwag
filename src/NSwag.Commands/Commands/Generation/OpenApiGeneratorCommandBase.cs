@@ -2,7 +2,7 @@
 // <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -25,6 +25,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
 using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
 
 namespace NSwag.Commands.Generation
@@ -49,14 +50,21 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultPropertyNameHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Default, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (Null (default) or NotNull).")]
         public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
         {
             get => Settings.DefaultReferenceTypeNullHandling;
             set => Settings.DefaultReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing, default: Default, Null or NotNull).")]
+        [Argument(Name = nameof(DefaultDictionaryValueReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling of dictionary value types (NotNull (default) or Null).")]
+        public ReferenceTypeNullHandling DefaultDictionaryValueReferenceTypeNullHandling
+        {
+            get => Settings.DefaultDictionaryValueReferenceTypeNullHandling;
+            set => Settings.DefaultDictionaryValueReferenceTypeNullHandling = value;
+        }
+
+        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: NotNull (default) or Null).")]
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
         {
             get => Settings.DefaultResponseReferenceTypeNullHandling;
@@ -209,11 +217,24 @@ namespace NSwag.Commands.Generation
             set => Settings.AllowNullableBodyParameters = value;
         }
 
-        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost webHost, string workingDirectory)
+        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
-            var mvcOptions = webHost?.Services?.GetRequiredService<IOptions<MvcOptions>>().Value;
-            var mvcJsonOptions = webHost?.Services?.GetRequiredService<IOptions<MvcJsonOptions>>();
+            var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
+#if NETCOREAPP3_0
+            JsonSerializerSettings serializerSettings;
+            try
+            {
+                var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
+                serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+            }
+            catch
+            {
+                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings();
+            }
+#else
+            var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
             var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+#endif
 
             Settings.ApplySettings(serializerSettings, mvcOptions);
             Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
@@ -223,7 +244,7 @@ namespace NSwag.Commands.Generation
             return Settings;
         }
 
-        protected async Task<IWebHost> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
+        protected async Task<IDisposable> CreateWebHostAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             if (!string.IsNullOrEmpty(CreateWebHostBuilderMethod))
             {
@@ -275,21 +296,31 @@ namespace NSwag.Commands.Generation
                     var programType = firstAssembly.ExportedTypes.First(t => t.Name == "Program") ??
                         throw new InvalidOperationException("The Program class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
 
-                    var method = programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) });
+                    var method =
+                        programType.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+
                     if (method != null)
                     {
-                        return ((IWebHostBuilder)method.Invoke(null, new object[] { new string[0] })).Build();
+                        return ((IWebHostBuilder)method.Invoke(
+                            null, method.GetParameters().Length > 0 ? new object[] { new string[0] } : new object[0])).Build();
                     }
                     else
                     {
-                        method = programType.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+#if NETCOREAPP3_0
+                        method =
+                            programType.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            programType.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+
                         if (method != null)
                         {
-                            return ((IWebHostBuilder)method.Invoke(null, new object[0])).Build();
+                            return ((Microsoft.Extensions.Hosting.IHostBuilder)method.Invoke(
+                                null, method.GetParameters().Length > 0 ? new object[] { new string[0] } : new object[0])).Build();
                         }
                         else
+#endif
                         {
-                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder() method.");
+                            throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder()/CreateHostBuilder() method.");
                         }
                     }
                 }

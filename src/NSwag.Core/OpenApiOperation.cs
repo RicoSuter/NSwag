@@ -2,7 +2,7 @@
 // <copyright file="SwaggerOperation.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -114,13 +114,11 @@ namespace NSwag
             {
                 var parameters = Parameters.Select(p => p.ActualParameter);
                 var allParameters = Parent?.Parameters == null ? parameters :
-                    parameters.Concat(Parent.Parameters)
+                    parameters.Concat(Parent.Parameters.Select(p => p.ActualParameter))
                     .GroupBy(p => p.Name + "|" + p.Kind)
                     .Select(p => p.First());
 
-                return new ReadOnlyCollection<OpenApiParameter>(allParameters
-                    .Select(p => p.ActualParameter)
-                    .ToList());
+                return new ReadOnlyCollection<OpenApiParameter>(allParameters.ToList());
             }
         }
 

@@ -2,7 +2,7 @@
 // <copyright file="OperationResponseProcessorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -58,9 +58,8 @@ namespace NSwag.Generation.Processors
         {
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter.ToContextualParameter();
 
-            var operationXmlDocs = operationProcessorContext.MethodInfo.GetXmlDocsElement();
-            var operationXmlDocsNodes = operationXmlDocs?.Nodes()?.OfType<XElement>();
             var returnParameterXmlDocs = returnParameter.GetDescription() ?? string.Empty;
+            var operationXmlDocsNodes = GetResponseXmlDocsNodes(operationProcessorContext.MethodInfo);
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
             {
@@ -69,10 +68,7 @@ namespace NSwag.Generation.Processors
                     if (string.IsNullOrEmpty(response.Value.Description))
                     {
                         // Support for <response code="201">Order created</response> tags
-                        var responseXmlDocs = operationXmlDocsNodes?.SingleOrDefault(n =>
-                            n.Name == "response" &&
-                            n.Attributes().Any(a => a.Name == "code" && a.Value == response.Key))?.Value;
-
+                        var responseXmlDocs = GetResponseXmlDocsElement(operationProcessorContext.MethodInfo, response.Key)?.Value;
                         if (!string.IsNullOrEmpty(responseXmlDocs))
                         {
                             response.Value.Description = responseXmlDocs;
@@ -86,6 +82,22 @@ namespace NSwag.Generation.Processors
             }
         }
 
+        /// <summary>Gets the XML documentation element for the given response code or null.</summary>
+        /// <param name="methodInfo">The method info.</param>
+        /// <param name="responseCode">The response code.</param>
+        /// <returns>The XML element or null.</returns>
+        protected XElement GetResponseXmlDocsElement(MethodInfo methodInfo, string responseCode)
+        {
+            var operationXmlDocsNodes = GetResponseXmlDocsNodes(methodInfo);
+            return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+        }
+
+        private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
+        {
+            var operationXmlDocs = methodInfo.GetXmlDocsElement();
+            return operationXmlDocs?.Nodes()?.OfType<XElement>();
+        }
+
         private IEnumerable<OperationResponseDescription> GetOperationResponseDescriptions(IEnumerable<Attribute> responseTypeAttributes, string successResponseDescription)
         {
             foreach (var attribute in responseTypeAttributes)
@@ -93,7 +105,7 @@ namespace NSwag.Generation.Processors
                 dynamic responseTypeAttribute = attribute;
                 var attributeType = attribute.GetType();
 
-                var isProducesAttributeWithNoType = // ignore ProducesAttribute if it has no type, https://github.com/RSuter/NSwag/issues/1201
+                var isProducesAttributeWithNoType = // ignore ProducesAttribute if it has no type, https://github.com/RicoSuter/NSwag/issues/1201
                     attributeType.Name == "ProducesAttribute" && attribute.HasProperty("Type") && responseTypeAttribute.Type == null;
 
                 if (!isProducesAttributeWithNoType)
@@ -165,12 +177,18 @@ namespace NSwag.Generation.Processors
 
                 if (IsVoidResponse(returnType) == false)
                 {
-                    var isNullable = statusCodeGroup.Any(r => r.IsNullable) && typeDescription.IsNullable;
-
-                    response.IsNullableRaw = isNullable;
                     response.ExpectedSchemas = GenerateExpectedSchemas(statusCodeGroup, context);
-                    response.Schema = context.SchemaGenerator
-                        .GenerateWithReferenceAndNullability<JsonSchema>(contextualReturnType, isNullable, context.SchemaResolver);
+
+                    var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
+
+                    var isResponseNullable = nullableXmlAttribute != null ?
+                        nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                        statusCodeGroup.Any(r => r.IsNullable) &&
+                            _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+
+                    response.IsNullableRaw = isResponseNullable;
+                    response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                        contextualReturnType, isResponseNullable, context.SchemaResolver);
                 }
 
                 context.OperationDescription.Operation.Responses[httpStatusCode] = response;

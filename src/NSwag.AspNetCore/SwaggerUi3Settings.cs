@@ -2,7 +2,7 @@
 // <copyright file="SwaggerUiOwinSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -157,7 +157,7 @@ namespace NSwag.AspNetCore
             Name = name;
             Url = url;
         }
-        
+
         /// <summary>Gets the route URL.</summary>
         [JsonProperty("url")]
         public string Url { get; internal set; }

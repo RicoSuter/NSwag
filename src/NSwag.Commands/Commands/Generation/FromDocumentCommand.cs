@@ -2,7 +2,7 @@
 // <copyright file="FromSwaggerCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace NSwag.Commands.Generation
     public class FromDocumentCommand : OutputCommandBase, INotifyPropertyChanged
     {
         private string _json;
-        private string _url = "http://petstore.swagger.io/v2/swagger.json";
+        private string _url = "http://redocly.github.io/redoc/openapi.yaml";
 
         /// <summary>Gets or sets the input Swagger specification.</summary>
         [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]

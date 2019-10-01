@@ -2,7 +2,7 @@
 // <copyright file="SwaggerToTypeScriptClientGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -75,11 +75,6 @@ namespace NSwag.CodeGeneration.TypeScript
                 return GetBinaryResponseTypeName();
             }
 
-            if (schema.ActualTypeSchema.IsAnyType)
-            {
-                return "any";
-            }
-
             return _resolver.Resolve(schema.ActualSchema, isNullable, typeNameHint);
         }
 
@@ -147,6 +142,7 @@ namespace NSwag.CodeGeneration.TypeScript
                         Variable = "result" + response.StatusCode,
                         Value = "resultData" + response.StatusCode,
                         Schema = response.ResolvableResponseSchema,
+                        CheckNewableObject = response.IsNullable,
                         IsPropertyNullable = response.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,
@@ -162,6 +158,7 @@ namespace NSwag.CodeGeneration.TypeScript
                         Variable = "result" + operation.DefaultResponse.StatusCode,
                         Value = "resultData" + operation.DefaultResponse.StatusCode,
                         Schema = operation.DefaultResponse.ResolvableResponseSchema,
+                        CheckNewableObject = operation.DefaultResponse.IsNullable,
                         IsPropertyNullable = operation.DefaultResponse.IsNullable,
                         TypeNameHint = string.Empty,
                         Settings = Settings.TypeScriptGeneratorSettings,

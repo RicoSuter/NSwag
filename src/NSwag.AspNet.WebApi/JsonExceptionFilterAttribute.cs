@@ -2,7 +2,7 @@
 // <copyright file="JsonExceptionFilterAttribute.cs" company="NJsonSchema">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/rsuter/NJsonSchema/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NJsonSchema/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Newtonsoft.Json;
+using NJsonSchema.Converters;
 using NSwag.Annotations;
-using NSwag.Converters;
 
 namespace NSwag.AspNet.WebApi
 {
@@ -109,7 +109,9 @@ namespace NSwag.AspNet.WebApi
         {
             var settingsCopy = new JsonSerializerSettings();
 
-            foreach (var property in typeof(JsonSerializerSettings).GetRuntimeProperties())
+            foreach (var property in typeof(JsonSerializerSettings)
+                .GetRuntimeProperties()
+                .Where(p => p.Name != "Converters"))
             {
                 property.SetValue(settingsCopy, property.GetValue(settings));
             }

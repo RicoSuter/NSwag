@@ -2,7 +2,7 @@
 // <copyright file="SecurityDefinitionAppender.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -23,7 +23,6 @@ namespace NSwag.Generation.Processors.Security
         /// <summary>Initializes a new instance of the <see cref="SecurityDefinitionAppender" /> class where the security requirement must be manually added.</summary>
         /// <param name="name">The name/key of the security scheme/definition.</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
-        [Obsolete("Use the constructor with scopeNames parameter instead.")]
         public SecurityDefinitionAppender(string name, OpenApiSecurityScheme swaggerSecurityScheme)
         {
             _name = name;
@@ -32,12 +31,12 @@ namespace NSwag.Generation.Processors.Security
 
         /// <summary>Initializes a new instance of the <see cref="SecurityDefinitionAppender" /> class.</summary>
         /// <param name="name">The name/key of the security scheme/definition.</param>
-        /// <param name="scopeNames">The scope names to add to as security requirement with the scheme name in the 'security' property (can be an empty list).</param>
+        /// <param name="globalScopeNames">The global scope names to add to as security requirement with the scheme name in the document's 'security' property (can be an empty list).</param>
         /// <param name="swaggerSecurityScheme">The Swagger security scheme.</param>
-        public SecurityDefinitionAppender(string name, IEnumerable<string> scopeNames, OpenApiSecurityScheme swaggerSecurityScheme)
+        public SecurityDefinitionAppender(string name, IEnumerable<string> globalScopeNames, OpenApiSecurityScheme swaggerSecurityScheme)
         {
             _name = name;
-            _scopeNames = scopeNames ?? throw new ArgumentNullException(nameof(scopeNames));
+            _scopeNames = globalScopeNames ?? throw new ArgumentNullException(nameof(globalScopeNames));
             _swaggerSecurityScheme = swaggerSecurityScheme;
         }
 

@@ -100,7 +100,7 @@ namespace NSwag.Integration.WebAPI.Controllers
         [HttpPost, Route("upload")]
         public async Task<byte[]> Upload([FromBody] Stream data)
         {
-            // TODO: Implement stream handler: https://github.com/RSuter/NJsonSchema/issues/445
+            // TODO: Implement stream handler: https://github.com/RicoSuter/NJsonSchema/issues/445
             return await this.Request.Content.ReadAsByteArrayAsync();
             //using (var ms = new MemoryStream())
             //{

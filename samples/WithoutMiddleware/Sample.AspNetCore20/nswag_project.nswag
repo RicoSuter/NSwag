@@ -5,7 +5,7 @@
     "aspNetCoreToOpenApi": {
       "project": "Sample.AspNetCore20.csproj",
       "msBuildProjectExtensionsPath": null,
-      "configuration": null,
+      "configuration": "$(configuration)",
       "runtime": null,
       "targetFramework": null,
       "noBuild": false,
@@ -15,7 +15,7 @@
       "apiGroupNames": null,
       "defaultPropertyNameHandling": "Default",
       "defaultReferenceTypeNullHandling": "Null",
-      "defaultResponseReferenceTypeNullHandling": "Null",
+      "defaultResponseReferenceTypeNullHandling": "NotNull",
       "defaultEnumHandling": "Integer",
       "flattenInheritanceHierarchy": false,
       "generateKnownTypes": true,
