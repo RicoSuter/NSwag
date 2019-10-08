@@ -71,3 +71,4 @@ src/packages/**
 
 .editorconfig
 /samples/packages
+/src/NSwag.Console/Properties/launchSettings.json
