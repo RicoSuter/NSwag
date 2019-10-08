@@ -148,7 +148,8 @@
                                 <TextBox ToolTip="ExcludedParameterNames" 
                                          Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                          Margin="0,0,0,12" />
-                
+
+                                <TextBlock Text="Exception class name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" 
                                          ToolTip="ExceptionClass"
                                          Margin="0,0,0,12" />
