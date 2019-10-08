@@ -57,6 +57,10 @@ or
 
     nswag run version /runtime:NetCore22
 
+or
+
+    nswag run version /runtime:NetCore30
+
 ## Development
 
 Run the following command to compile and copy the current NSwag console binaries into the NPM module directory `binaries` directory:

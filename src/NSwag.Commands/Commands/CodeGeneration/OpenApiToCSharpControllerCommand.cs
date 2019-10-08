@@ -78,6 +78,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.RouteNamingStrategy = value; }
         }
 
+        [Argument(Name = "BasePath", Description = "The Base path on which the API is served, which is relative to the Host", IsRequired = false)]
+        public string BasePath
+        {
+            get { return Settings.BasePath; }
+            set { Settings.BasePath = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();

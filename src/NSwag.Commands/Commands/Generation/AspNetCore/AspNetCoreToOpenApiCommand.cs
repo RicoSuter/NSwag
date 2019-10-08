@@ -23,6 +23,7 @@ using NJsonSchema;
 using Microsoft.AspNetCore.Hosting;
 using NSwag.Generation;
 using NJsonSchema.Generation;
+using Namotion.Reflection;
 
 #if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
@@ -266,35 +267,35 @@ namespace NSwag.Commands.Generation.AspNetCore
             return currentWorkingDirectory;
         }
 
-        public async Task<OpenApiDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
+        public async Task<OpenApiDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string currentWorkingDirectory)
         {
             Directory.SetCurrentDirectory(currentWorkingDirectory);
 
             if (UseDocumentProvider)
             {
-                return await GenerateDocumentWithDocumentProviderAsync(host);
+                return await GenerateDocumentWithDocumentProviderAsync(serviceProvider);
             }
             else
             {
-                return await GenerateDocumentWithApiDescriptionAsync(assemblyLoader, host, currentWorkingDirectory);
+                return await GenerateDocumentWithApiDescriptionAsync(assemblyLoader, serviceProvider, currentWorkingDirectory);
             }
         }
 
-        private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IWebHost host)
+        private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IServiceProvider serviceProvider)
         {
-            var documentGenerator = host.Services.GetRequiredService<IOpenApiDocumentGenerator>();
+            var documentGenerator = serviceProvider.GetRequiredService<IOpenApiDocumentGenerator>();
             var document = await documentGenerator.GenerateAsync(DocumentName);
             return document;
         }
 
-        private async Task<OpenApiDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IWebHost host, string currentWorkingDirectory)
+        private async Task<OpenApiDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string currentWorkingDirectory)
         {
             InitializeCustomTypes(assemblyLoader);
 
             // In the case of KeyNotFoundException, see https://github.com/aspnet/Mvc/issues/5690
-            var apiDescriptionProvider = host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+            var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
-            var settings = await CreateSettingsAsync(assemblyLoader, host, currentWorkingDirectory);
+            var settings = await CreateSettingsAsync(assemblyLoader, serviceProvider, currentWorkingDirectory);
             var generator = new AspNetCoreOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
 
@@ -308,7 +309,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             var currentWorkingDirectory = ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
             using (var webHost = await CreateWebHostAsync(assemblyLoader))
             {
-                var document = await GenerateDocumentAsync(assemblyLoader, webHost, currentWorkingDirectory);
+                var document = await GenerateDocumentAsync(assemblyLoader, webHost.TryGetPropertyValue<IServiceProvider>("Services"), currentWorkingDirectory);
                 return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
             }
         }
