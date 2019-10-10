@@ -227,6 +227,8 @@ namespace NSwag.Commands.CodeGeneration
         {
             return await Task.Run(async () =>
             {
+                InitializeCustomTypes(new AssemblyLoader.AssemblyLoader());
+
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
                 var clientGenerator = new CSharpClientGenerator(document, Settings);
 
