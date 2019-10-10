@@ -24,7 +24,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Install DNT'
   inputs:
-    script: 'npm i -g dotnettools'
+    script: 'npm i -g dotnettools@1.2.5'
 
 # Patch project versions (on master only)
 # - task: CmdLine@2
