@@ -2,10 +2,9 @@
 <Project>
   <PropertyGroup>
     <!--
-      Disable document generation by default in NSwag.AspNetCore.targets. These settings help distinguish user settings
-      from changes made in Microsoft.Extensions.ApiDescription.Server.targets.
+      Disable document generation on build if property maintains this value into NSwag.AspNetCore.targets. This setting
+      helps distinguish user settings from changes made in Microsoft.Extensions.ApiDescription.Server.targets.
     -->
-    <OpenApiGenerateDocuments Condition=" '$(OpenApiGenerateDocuments)' == '' ">default-false</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild
         Condition=" '$(OpenApiGenerateDocumentsOnBuild)' == '' ">default-false</OpenApiGenerateDocumentsOnBuild>
 
