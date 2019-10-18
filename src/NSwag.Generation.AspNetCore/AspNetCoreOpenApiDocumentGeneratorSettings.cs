@@ -9,6 +9,8 @@
 using NSwag.Generation.Processors;
 using NSwag.Generation.AspNetCore.Processors;
 using System;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using System.Reflection;
 
 namespace NSwag.Generation.AspNetCore
 {
@@ -36,5 +38,7 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
         public Action<OpenApiDocument> PostProcess { get; set; }
+        /// <summary>Get or set the generation method of OperationId</summary>
+        public Func<OpenApiDocument, ControllerActionDescriptor, MethodInfo, string> GetOperationId { get; set; }
     }
 }

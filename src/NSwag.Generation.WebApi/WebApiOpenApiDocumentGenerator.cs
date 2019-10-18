@@ -240,7 +240,7 @@ namespace NSwag.Generation.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(context)== false)
+                if (operationProcessor.Process(context) == false)
                 {
                     return false;
                 }
@@ -301,6 +301,10 @@ namespace NSwag.Generation.WebApi
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;
+            }
+            else if (Settings.GetOperationId != null)
+            {
+                operationId = Settings.GetOperationId(document, controllerName, method);
             }
             else
             {
@@ -375,7 +379,11 @@ namespace NSwag.Generation.WebApi
             }
             else
             {
-                httpPaths.Add(Settings.DefaultUrlTemplate ?? string.Empty);
+                if (Settings.GetOperationId != null)
+                {
+                    var httpPath = Settings.GetHttpPath(controllerType, controllerName, method);
+                    httpPaths.Add(httpPath ?? Settings.DefaultUrlTemplate ?? string.Empty);
+                }
             }
 
             var actionName = GetActionName(method);

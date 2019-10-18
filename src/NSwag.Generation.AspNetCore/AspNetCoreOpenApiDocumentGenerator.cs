@@ -382,6 +382,10 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = swaggerOperationAttribute.OperationId;
             }
+            else if (Settings.GetOperationId != null)
+            {
+                operationId = Settings.GetOperationId(document, actionDescriptor, method);
+            }
             else
             {
                 operationId = actionDescriptor.ControllerName + "_" + GetActionName(actionDescriptor.ActionName);
