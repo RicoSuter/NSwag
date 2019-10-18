@@ -379,11 +379,8 @@ namespace NSwag.Generation.WebApi
             }
             else
             {
-                if (Settings.GetOperationId != null)
-                {
-                    var httpPath = Settings.GetHttpPath(controllerType, controllerName, method);
-                    httpPaths.Add(httpPath ?? Settings.DefaultUrlTemplate ?? string.Empty);
-                }
+                var httpPath = Settings?.GetHttpPath?.Invoke(controllerType, controllerName, method);
+                httpPaths.Add(httpPath ?? Settings.DefaultUrlTemplate ?? string.Empty);
             }
 
             var actionName = GetActionName(method);
