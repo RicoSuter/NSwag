@@ -34,5 +34,8 @@ namespace NSwag.AspNetCore
 
         /// <summary>Gets or sets the additional query string parameters.</summary>
         public IDictionary<string, string> AdditionalQueryStringParameters { get; } = new Dictionary<string, string>();
+
+        /// <summary>Proof Key for Code Exchange. Only applies to `accessCode` flow. Supported in SwaggerUI 3.</summary>
+        public bool UsePkceWithAuthorizationCodeGrant { get; set; }
     }
 }
