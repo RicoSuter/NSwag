@@ -51,6 +51,10 @@ namespace NSwag
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ICollection<OpenApiParameter> Parameters { get; set; } = new Collection<OpenApiParameter>();
 
+        /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
+
         // Needed to convert dictionary keys to lower case
         internal class OpenApiPathItemConverter : JsonConverter
         {
@@ -58,6 +62,27 @@ namespace NSwag
             {
                 var operations = (OpenApiPathItem)value;
                 writer.WriteStartObject();
+
+                if (operations.Summary != null)
+                {
+                    writer.WritePropertyName("summary");
+                    serializer.Serialize(writer, operations.Summary);
+                }
+
+                if (operations.Description != null)
+                {
+                    writer.WritePropertyName("description");
+                    serializer.Serialize(writer, operations.Description);
+                }
+
+                if (operations.ExtensionData != null)
+                {
+                    foreach (var tuple in operations.ExtensionData)
+                    {
+                        writer.WritePropertyName(tuple.Key);
+                        serializer.Serialize(writer, tuple.Value);
+                    }
+                }
 
                 if (operations.Parameters != null && operations.Parameters.Any())
                 {
@@ -76,6 +101,7 @@ namespace NSwag
                     writer.WritePropertyName(pair.Key.ToString().ToLowerInvariant());
                     serializer.Serialize(writer, pair.Value);
                 }
+
                 writer.WriteEndObject();
             }
 
@@ -92,7 +118,15 @@ namespace NSwag
                     var propertyName = reader.Value.ToString();
                     reader.Read();
 
-                    if (propertyName == "parameters")
+                    if (propertyName == "summary")
+                    {
+                        operations.Summary = (string)serializer.Deserialize(reader, typeof(string));
+                    }
+                    else if (propertyName == "description")
+                    {
+                        operations.Description = (string)serializer.Deserialize(reader, typeof(string));
+                    }
+                    else if (propertyName == "parameters")
                     {
                         operations.Parameters = (Collection<OpenApiParameter>)serializer.Deserialize(reader, typeof(Collection<OpenApiParameter>));
                     }
@@ -102,10 +136,21 @@ namespace NSwag
                     }
                     else
                     {
-                        var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
-                        operations.Add(propertyName, value);
-                    }
+                        try
+                        {
+                            var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
+                            operations.Add(propertyName, value);
+                        }
+                        catch
+                        {
+                            if (operations.ExtensionData == null)
+                            {
+                                operations.ExtensionData = new Dictionary<string, object>();
+                            }
 
+                            operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
+                        }
+                    }
                 }
                 return operations;
             }
