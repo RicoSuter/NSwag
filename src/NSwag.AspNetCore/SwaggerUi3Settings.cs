@@ -115,22 +115,18 @@ namespace NSwag.AspNetCore
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
-
-                string str;
-                if (value is IDictionary d)
+                if (value is IDictionary dictionary)
                 {
-                    str = JsonConvert.SerializeObject(d);
+                    html = html.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(dictionary));
                 }
-                else if (value is bool b)
+                else if (value is bool boolean)
                 {
-                    str = b.ToString().ToLowerInvariant();
+                    html = html.Replace("{" + property.Name + "}", boolean.ToString().ToLowerInvariant());
                 }
                 else
                 {
-                    str = value?.ToString() ?? "";
+                    html = html.Replace("{" + property.Name + "}", value?.ToString() ?? "");
                 }
-                
-                html = html.Replace("{" + property.Name + "}", str);
             }
 
             html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
