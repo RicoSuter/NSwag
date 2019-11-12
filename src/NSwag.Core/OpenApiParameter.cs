@@ -238,13 +238,20 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                var consumes = parent?.ActualConsumes?.Any() == true ?
-                    parent.ActualConsumes :
-                    parent?.RequestBody?.Content.Keys;
-
-                return consumes?.Any() == true &&
-                       consumes.Any(p => p.Contains("*/*")) == false && // supports json
-                       consumes.Any(p => p.Contains("application/json")) == false;
+                if (parent?.ActualConsumes?.Any() == true)
+                {
+                    var consumes = parent.ActualConsumes;
+                    return consumes?.Any() == true &&
+                           consumes.Any(p => p.Contains("*/*")) == false && // supports json
+                           consumes.Any(p => p.Contains("application/json")) == false;
+                }
+                else
+                {
+                    var consumes = parent?.RequestBody?.Content;
+                    return consumes?.Any() == true &&
+                           consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
+                           consumes.Any(p => p.Key.Contains("application/json") && !p.Value.Schema.IsBinary) == false;
+                }              
             }
         }
     }
