@@ -6,9 +6,9 @@ if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} =
 {%     else -%}
 if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
 {%     endif -%}
-{%     if parameter.IsDateArray -%}
+{%     if parameter.IsDateOrDateTimeArray -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.toJSON() : "null").join())); 
-{%     elseif parameter.IsDate -%}
+{%     elseif parameter.IsDateOrDateTime -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "null")); 
 {%     elseif parameter.IsArray -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.join())); 
@@ -40,7 +40,7 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%         endif -%}
 {%     endif -%}
-{%     if parameter.IsDateArray -%}
+{%     if parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%     elseif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => { 
@@ -49,7 +49,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
 			}
     });
-{%     elseif parameter.IsDate -%}
+{%     elseif parameter.IsDateOrDateTime -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&"; 
 {%     elseif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });

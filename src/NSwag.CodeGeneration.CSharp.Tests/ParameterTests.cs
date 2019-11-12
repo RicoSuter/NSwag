@@ -1,4 +1,5 @@
-﻿using NJsonSchema;
+﻿using System;
+using NJsonSchema;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -111,7 +112,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);          
+            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);
         }
 
         [Fact]
@@ -271,6 +272,78 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains(@"""options[optionalOrder.id]"") + ""=""", code);
             Assert.Contains("options.OptionalOrderId", code);
+        }
+
+        [Fact]
+        public void Date_and_DateTimeFormat_Parameters_are_correctly_applied()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.1',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/test/{from}/{to}': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'from',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'to',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                },
+                {
+                   'name': 'fromQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'toQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   }
+}";
+
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act once with defaults and once with custom values
+            var generatorDefault = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var codeWithDefaults = generatorDefault.GenerateFile();
+
+            var dateFormat = "aaaaaa" + DateTime.Now.Ticks; // completly random values
+            var dateTimeFormat = "bbbbbb" + DateTime.Now.Ticks;
+            var settings = new CSharpClientGeneratorSettings() { ParameterDateFormat = dateFormat, ParameterDateTimeFormat = dateTimeFormat };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            //// Assert defaults
+            Assert.Contains(@"from.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"to.ToString(""s""", codeWithDefaults);
+            Assert.Contains(@"fromQuery.Value.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"toQuery.Value.ToString(""s""", codeWithDefaults);
+
+            //// Assert custom values defaults
+            Assert.Contains($@"from.ToString(""{dateFormat }""", code);
+            Assert.Contains($@"to.ToString(""{dateTimeFormat}""", code);
+            Assert.Contains($@"fromQuery.Value.ToString(""{dateFormat}""", code);
+            Assert.Contains($@"toQuery.Value.ToString(""{dateTimeFormat}""", code);
         }
     }
 }
