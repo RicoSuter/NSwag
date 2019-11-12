@@ -188,6 +188,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ParameterDateTimeFormat = value; }
         }
 
+        [Argument(Name = "ParameterDateFormat", IsRequired = false,
+          Description = "Specifies the format for Date type method parameters (default: yyyy-MM-dd).")]
+        public string ParameterDateFormat
+        {
+            get { return Settings.ParameterDateFormat; }
+            set { Settings.ParameterDateFormat = value; }
+        }
+
         [Argument(Name = "GenerateUpdateJsonSerializerSettingsMethod", IsRequired = false,
             Description = "Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).")]
         public bool GenerateUpdateJsonSerializerSettingsMethod

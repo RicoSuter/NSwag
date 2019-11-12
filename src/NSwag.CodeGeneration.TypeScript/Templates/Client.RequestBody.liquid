@@ -21,7 +21,7 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%                 endif -%}
 {%             endif -%}
-{%             if parameter.IsDateArray -%}
+{%             if parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%             elseif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => { 
@@ -31,7 +31,7 @@ else if ({{ parameter.VariableName }} !== undefined)
            }
         }
     });
-{%             elseif parameter.IsDate -%}
+{%             elseif parameter.IsDateOrDateTime -%}
     content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&"; 
 {%             elseif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + item) + "&"; });
@@ -57,7 +57,7 @@ else
 {%                 else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
 {%                 endif -%}
-{%             elseif parameter.IsDate -%}
+{%             elseif parameter.IsDateOrDateTime -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
 {%             else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());

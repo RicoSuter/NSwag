@@ -155,6 +155,9 @@
                                 <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParameterDateTimeFormat" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Date format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateFormat, Mode=TwoWay}" ToolTip="ParameterDateFormat" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
                                          ToolTip="QueryNullValue" Margin="0,0,0,12" />
