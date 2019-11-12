@@ -250,7 +250,7 @@ namespace NSwag
                     var consumes = parent?.RequestBody?.Content;
                     return consumes?.Any() == true &&
                            consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
-                           consumes.Any(p => p.Key.Contains("application/json") && !p.Value.Schema.IsBinary) == false;
+                           consumes.Any(p => p.Key.Contains("application/json") && p.Value.Schema?.IsBinary != true) == false;
                 }              
             }
         }
