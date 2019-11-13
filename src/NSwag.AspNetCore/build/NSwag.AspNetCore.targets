@@ -8,7 +8,7 @@
       Changing $(OpenApiDocumentsDirectory) does nothing when $(OpenApiGenerateDocuments) is false.
     -->
     <OpenApiGenerateDocumentsOnBuild>false</OpenApiGenerateDocumentsOnBuild>
-    <OpenApiGenerateDocumentsOnBuild
+    <OpenApiGenerateDocuments
         Condition=" '$(OpenApiDocumentsDirectory)' != '$(BaseIntermediateOutputPath)' ">$(OpenApiGenerateDocuments)</OpenApiGenerateDocuments>
   </PropertyGroup>
 </Project>
