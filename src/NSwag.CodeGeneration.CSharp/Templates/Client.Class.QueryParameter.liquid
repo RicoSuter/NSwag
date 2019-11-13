@@ -1,7 +1,11 @@
-{% if parameter.IsDateArray -%}
+{% if parameter.IsDateTimeArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
-{% elseif parameter.IsDate -%}
+{% elseif parameter.IsDateArray -%}
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+{% elseif parameter.IsDateTime -%}
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
+{% elseif parameter.IsDate -%}
+urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {% elseif parameter.IsArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {% elseif parameter.IsDeepObject -%}

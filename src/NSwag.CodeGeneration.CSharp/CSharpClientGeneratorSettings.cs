@@ -24,6 +24,7 @@ namespace NSwag.CodeGeneration.CSharp
             WrapDtoExceptions = true;
             DisposeHttpClient = true;
             ParameterDateTimeFormat = "s";
+            ParameterDateFormat = "yyyy-MM-dd";
             GenerateUpdateJsonSerializerSettingsMethod = true;
             QueryNullValue = "";
             GenerateBaseUrlProperty = true;
@@ -82,6 +83,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
         public string ParameterDateTimeFormat { get; set; }
+
+        /// <summary>Gets or sets the format for Date type method parameters (default: "yyyy-MM-dd").</summary>
+        public string ParameterDateFormat { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }

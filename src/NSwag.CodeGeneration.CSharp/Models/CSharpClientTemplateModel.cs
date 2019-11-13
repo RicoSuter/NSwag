@@ -122,6 +122,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the format for DateTime type method parameters.</summary>
         public string ParameterDateTimeFormat => _settings.ParameterDateTimeFormat;
 
+        /// <summary>Gets or sets the format for Date type method parameters.</summary>
+        public string ParameterDateFormat => _settings.ParameterDateFormat;
+
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property.</summary>
         public bool ExposeJsonSerializerSettings => _settings.ExposeJsonSerializerSettings;
 
