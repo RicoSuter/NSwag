@@ -34,7 +34,8 @@ namespace NSwag.AspNet.Owin.Middlewares
                 context.Response.StatusCode = 302;
 
                 var suffix = !string.IsNullOrWhiteSpace(_internalSwaggerRoute) ? "?url=" + _transformToExternal(_internalSwaggerRoute, context.Request) : "";
-                context.Response.Headers.Set("Location", _transformToExternal(_internalUiRoute, context.Request) + "/index.html" + suffix);
+                var path = _transformToExternal(_internalUiRoute, context.Request);
+                context.Response.Headers.Set("Location", (path != "/" ? path : "") + "/index.html" + suffix);
             }
             else
             {

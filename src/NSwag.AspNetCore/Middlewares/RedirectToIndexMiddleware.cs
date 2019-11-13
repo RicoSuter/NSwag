@@ -39,7 +39,8 @@ namespace NSwag.AspNetCore.Middlewares
                 context.Response.StatusCode = 302;
 
                 var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(_swaggerRoute, context.Request) : "";
-                context.Response.Headers.Add("Location", _transformToExternal(_swaggerUiRoute, context.Request) + "/index.html" + suffix);
+                var path = _transformToExternal(_swaggerUiRoute, context.Request);
+                context.Response.Headers.Add("Location", (path != "/" ? path : "") + "/index.html" + suffix);
             }
             else
             {
