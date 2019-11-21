@@ -167,6 +167,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\TabContent.cs" />
+    <Compile Include="Converters\IsValueToVisibilityConverter.cs" />
     <Compile Include="Converters\NumberAdditionConverter.cs" />
     <Compile Include="Converters\StringArrayConverter.cs" />
     <Compile Include="ISwaggerGeneratorView.cs" />

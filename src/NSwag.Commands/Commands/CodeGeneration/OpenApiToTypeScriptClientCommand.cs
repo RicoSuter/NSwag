@@ -81,6 +81,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.HttpClass = value; }
         }
 
+        [Argument(Name = "WithCredentials", IsRequired = false, Description = "The Angular HttpClient will send withCredentials: true in http requests (default: false).")]
+        public bool WithCredentials
+        {
+            get { return Settings.WithCredentials; }
+            set { Settings.WithCredentials = value; }
+        }
+
         [Argument(Name = "UseSingletonProvider", IsRequired = false, Description = "Specifies whether to use the Angular 6 Singleton Provider (Angular template only, default: false).")]
         public bool UseSingletonProvider
         {
