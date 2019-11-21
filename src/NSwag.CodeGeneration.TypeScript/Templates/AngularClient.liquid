@@ -53,9 +53,9 @@
 {%     if Framework.Angular.UseHttpClient -%}
             observe: "response",
             responseType: "blob",			
-{%		if Framework.Angular.WithCredentials -%}
+{%	       if Framework.Angular.WithCredentials -%}
             withCredentials: true,		
-{%      endif -%}
+{%         endif -%}
 {%     else -%}
             method: "{{ operation.HttpMethodLower }}",
 {%     endif -%}
