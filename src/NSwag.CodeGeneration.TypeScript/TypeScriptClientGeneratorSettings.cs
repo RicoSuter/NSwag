@@ -96,7 +96,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the HTTP service class (applies only for the Angular template, default: HttpClient).</summary>
         public HttpClass HttpClass { get; set; } = HttpClass.HttpClient;
 
-        /// <summary>Gets or sets the WithCredentials flag</summary>
+        /// <summary>Gets or sets a value indicating whether to set the withCredentials flag.</summary>
         public bool WithCredentials { get; set; } = false;
 
         /// <summary>Gets the RxJs version (Angular template only, default: 6.0).</summary>
