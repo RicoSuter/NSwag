@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.Sample.NETCore30.Controllers
@@ -14,6 +15,8 @@ namespace NSwag.Sample.NETCore30.Controllers
             public string? MiddleName { get; set; }
 
             public string LastName { get; set; }
+
+            public DateTime DayOfBirth { get; set; }
         }
 
         [HttpGet]
@@ -25,6 +28,13 @@ namespace NSwag.Sample.NETCore30.Controllers
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
+        {
+            return "value";
+        }
+
+        // GET api/values/5
+        [HttpGet("{id}/foo")]
+        public ActionResult<string> GetFooBar(int id)
         {
             return "value";
         }
