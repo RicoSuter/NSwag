@@ -203,8 +203,6 @@ Companies or individuals which paid a substantial amount for implementing, fixin
 
 Please contact [Rico Suter](https://rsuter.com) for paid consulting and support. 
 
-[![](https://opencollective.com/static/images/opencollectivelogo.svg)](https://opencollective.com/nswag)
-
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
@@ -212,13 +210,13 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/NSwag#sponsor)]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. 
 
-Top sponsors: 
+**Top sponsors:**
 
 [![](https://images.gotowebinar.com/30dcc42d33945684be9cf66852300d1a)](https://picturepark.com)
 
-Sponsors:
+**Sponsors:**
 
 <a href="https://opencollective.com/NSwag/sponsor/0/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/1/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/1/avatar.svg"></a>
@@ -233,6 +231,6 @@ Sponsors:
 
 ## Backers
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/NSwag#backer)]
+Thank you to all our backers! [Become a backer](https://opencollective.com/NSwag#backer)
 
 <a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
