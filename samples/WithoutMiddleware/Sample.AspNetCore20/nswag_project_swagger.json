@@ -1,16 +1,10 @@
 ﻿{
-  "x-generator": "NSwag v13.1.6.0 (NJsonSchema v10.0.28.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.1.6.0 (NJsonSchema v10.0.28.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "paths": {
     "/api/Values": {
       "get": {
@@ -18,9 +12,14 @@
           "Values"
         ],
         "operationId": "Values_GetAll",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "array",
@@ -36,6 +35,12 @@
           "Values"
         ],
         "operationId": "Values_Post",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
             "name": "value",
@@ -44,11 +49,11 @@
             "schema": {
               "type": "string"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           }
         }
@@ -60,6 +65,11 @@
           "Values"
         ],
         "operationId": "Values_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -72,7 +82,7 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "type": "string"
@@ -85,6 +95,12 @@
           "Values"
         ],
         "operationId": "Values_Put",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "parameters": [
           {
             "type": "integer",
@@ -101,11 +117,11 @@
             "schema": {
               "type": "string"
             },
-            "x-nullable": true
+            "x-nullable": false
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           }
         }
@@ -126,7 +142,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": ""
           }
         }
