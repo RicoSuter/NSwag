@@ -196,37 +196,29 @@ The generators can be used in a comfortable and simple Windows GUI called [NSwag
 
 ## Sponsors, support and consulting
 
-Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a financial contributor
+Companies or individuals which paid a substantial amount for implementing, fixing issues, support or sponsoring are listed below. Thank you for supporting this project! You can also become a financial contributor:
 
-- Project: [Open Collective](https://opencollective.com/nswag)
-- Main contributor (Rico Suter) directly: [Patreon](https://www.patreon.com/ricosuter)
+- [Sponsor main contributor Rico Suter via GitHub](https://github.com/sponsors/RicoSuter)
+- [Sponsor project via Open Collective for NSwag](https://opencollective.com/nswag)
 
 Please contact [Rico Suter](https://rsuter.com) for paid consulting and support. 
 
 [![](https://opencollective.com/static/images/opencollectivelogo.svg)](https://opencollective.com/nswag)
-
-[![](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/ricosuter)
-
-Sponsors:
-
-- [Picturepark](https://picturepark.com)
 
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/RicoSuter/NSwag/graphs/contributors"><img src="https://opencollective.com/NSwag/contributors.svg?width=890&button=false" /></a>
 
-
-## Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/NSwag#backer)]
-
-<a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
-
-
 ## Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/NSwag#sponsor)]
+
+Top sponsors: 
+
+[![](https://images.gotowebinar.com/30dcc42d33945684be9cf66852300d1a)](https://picturepark.com)
+
+Sponsors:
 
 <a href="https://opencollective.com/NSwag/sponsor/0/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/1/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/1/avatar.svg"></a>
@@ -238,3 +230,9 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/NSwag/sponsor/7/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/7/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/8/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/NSwag/sponsor/9/website" target="_blank"><img src="https://opencollective.com/NSwag/sponsor/9/avatar.svg"></a>
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/NSwag#backer)]
+
+<a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
