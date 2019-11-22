@@ -52,7 +52,10 @@
 {%     endif -%}
 {%     if Framework.Angular.UseHttpClient -%}
             observe: "response",
-            responseType: "blob",
+            responseType: "blob",			
+{%	       if Framework.Angular.WithCredentials -%}
+            withCredentials: true,		
+{%         endif -%}
 {%     else -%}
             method: "{{ operation.HttpMethodLower }}",
 {%     endif -%}

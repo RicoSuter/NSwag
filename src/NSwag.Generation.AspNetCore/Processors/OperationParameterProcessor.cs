@@ -45,7 +45,6 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-
             var methodParameters = context.MethodInfo.GetParameters();
 
             var position = 1;
@@ -191,12 +190,34 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
             }
 
+            ApplyOpenApiBodyParameterAttribute(context.OperationDescription, context.MethodInfo);
             RemoveUnusedPathParameters(context.OperationDescription, httpPath);
             UpdateConsumedTypes(context.OperationDescription);
-
             EnsureSingleBodyParameter(context.OperationDescription);
 
             return true;
+        }
+
+        private void ApplyOpenApiBodyParameterAttribute(OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        {
+            dynamic bodyParameterAttribute = methodInfo.GetCustomAttributes()
+                .FirstAssignableToTypeNameOrDefault("OpenApiBodyParameterAttribute", TypeNameStyle.Name);
+
+            if (bodyParameterAttribute != null)
+            {
+                if (operationDescription.Operation.RequestBody == null)
+                {
+                    operationDescription.Operation.RequestBody = new OpenApiRequestBody();
+                }
+
+                operationDescription.Operation.RequestBody.Content[bodyParameterAttribute.MimeType] = new OpenApiMediaType
+                {
+                    Schema = bodyParameterAttribute.MimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                    {
+                        Type = JsonObjectType.File
+                    }
+                };
+            }
         }
 
         private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
@@ -227,17 +248,6 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                 return string.Empty;
             }).Trim('/');
-        }
-
-        private bool IsNullable(ParameterInfo parameter)
-        {
-            var isNullable = Nullable.GetUnderlyingType(parameter.ParameterType) != null;
-            if (isNullable)
-            {
-                return false;
-            }
-
-            return parameter.ParameterType.GetTypeInfo().IsValueType;
         }
 
         private bool TryAddFileParameter(
@@ -301,8 +311,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameterType, _settings);
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
-
             var operation = context.OperationDescription.Operation;
+
             var parameterType = extendedApiParameter.ParameterType;
             if (parameterType.Name == "XmlDocument" || parameterType.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
             {

@@ -11,7 +11,8 @@
                                       xmlns:controls="clr-namespace:NSwagStudio.Controls"
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
-                                      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+                                      xmlns:typeScriptEnums="clr-namespace:NSwag.CodeGeneration.TypeScript;assembly=NSwag.CodeGeneration.TypeScript"
+                                      mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800">
 
     <UserControl.Resources>
         <viewModels:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
@@ -85,9 +86,21 @@
 
                                         <TextBlock Text="HTTP service class" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="HttpClient recommended for new projects (Angular 4.3+)" Margin="0,0,0,6" />
-                                        <ComboBox SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 
-                                                  ToolTip="HttpClass" 
-                                                  ItemsSource="{Binding HttpClasses}" Margin="0,0,0,12" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Grid.Column="0" 
+                                                      SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 
+                                                      ToolTip="HttpClass" 
+                                                      ItemsSource="{Binding HttpClasses}" Margin="0,0,0,12" />
+                                            <CheckBox Grid.Column="1" 
+                                                      Content="With Credentials"
+                                                      ToolTip="Send withCredentials parameter in http requests"
+                                                      Visibility="{Binding Command.HttpClass, Converter={localConverters:IsValueToVisibilityConverter Target={x:Static typeScriptEnums:HttpClass.HttpClient}}}"
+                                                      IsChecked="{Binding Command.WithCredentials, Mode=TwoWay}" Margin="4,4,0,12" />
+                                        </Grid>
 
                                         <TextBlock Text="Injection token type" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="InjectionToken recommended for new projects (Angular 4+)" Margin="0,0,0,6" />
