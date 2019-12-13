@@ -87,6 +87,7 @@
       "contractsNamespace": null,
       "contractsOutputFilePath": null,
       "parameterDateTimeFormat": "s",
+      "parameterDateFormat": "yyyy-MM-dd",
       "generateUpdateJsonSerializerSettingsMethod": true,
       "serializeTypeInformation": false,
       "queryNullValue": "",

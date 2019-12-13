@@ -145,9 +145,15 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type date.</summary>
         public bool IsDate =>
-            (Schema.Format == JsonFormatStrings.DateTime ||
-            Schema.Format == JsonFormatStrings.Date) &&
+            Schema.Format == JsonFormatStrings.Date &&
             _generator.GetTypeName(Schema, IsNullable, null) != "string";
+
+        /// <summary>Gets a value indicating whether the parameter is of type date-time</summary>
+        public bool IsDateTime =>
+            Schema.Format == JsonFormatStrings.DateTime && _generator.GetTypeName(Schema, IsNullable, null) != "string";
+
+        /// <summary>Gets a value indicating whether the parameter is of type date-time or date</summary>
+        public bool IsDateOrDateTime => IsDate || IsDateTime;
 
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi;
@@ -164,11 +170,19 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;
 
+        /// <summary>Gets a value indicating whether the parameter is of type date-time array.</summary>
+        public bool IsDateTimeArray =>
+            IsArray &&
+            Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime &&
+            _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, null) != "string";
+
+        /// <summary>Gets a value indicating whether the parameter is of type date-time or date array.</summary>
+        public bool IsDateOrDateTimeArray => IsDateArray || IsDateTimeArray;
+
         /// <summary>Gets a value indicating whether the parameter is of type date array.</summary>
         public bool IsDateArray =>
             IsArray &&
-            (Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime ||
-            Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date) &&
+            Schema.Item?.ActualSchema.Format == JsonFormatStrings.Date &&
             _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, null) != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>

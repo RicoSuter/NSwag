@@ -81,6 +81,7 @@
       "contractsNamespace": "NSwag.Integration.ClientPCL.Contracts",
       "contractsOutputFilePath": "../NSwag.Integration.ClientPCL/ServiceClientsContracts.cs",
       "parameterDateTimeFormat": "s",
+      "parameterDateFormat": "yyyy-MM-dd",
       "generateUpdateJsonSerializerSettingsMethod": false,
       "serializeTypeInformation": false,
       "queryNullValue": "",

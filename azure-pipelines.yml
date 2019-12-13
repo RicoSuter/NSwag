@@ -20,11 +20,11 @@ steps:
   displayName: 'Install .NET Core SDK'
   inputs:
     packageType: 'sdk'
-    version: '2.2.203'
+    version: '3.0.100'
 - task: CmdLine@2
   displayName: 'Install DNT'
   inputs:
-    script: 'npm i -g dotnettools'
+    script: 'npm i -g dotnettools@1.2.5'
 
 # Patch project versions (on master only)
 # - task: CmdLine@2

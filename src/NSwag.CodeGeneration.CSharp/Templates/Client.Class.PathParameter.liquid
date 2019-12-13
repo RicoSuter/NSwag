@@ -1,7 +1,11 @@
-{% if parameter.IsDateArray -%}
+{% if parameter.IsDateTimeArray -%}
 urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
-{% elseif parameter.IsDate -%}
+{% elseif parameter.IsDateArray -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
+{% elseif parameter.IsDateTime -%}
 urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+{% elseif parameter.IsDate -%}
+urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {% elseif parameter.IsArray -%}
 urlBuilder_.Replace("{{ "{" }}{{ parameter.Name }}}", System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
 {% else -%}

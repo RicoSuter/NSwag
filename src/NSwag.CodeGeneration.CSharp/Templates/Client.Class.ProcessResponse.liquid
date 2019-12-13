@@ -49,6 +49,6 @@ return;
 {%         endif -%}
 {%     endif -%}
 {% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
-string responseText_ = ( response_.Content == null ) ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, responseText_, headers_, null);
 {% endif -%}

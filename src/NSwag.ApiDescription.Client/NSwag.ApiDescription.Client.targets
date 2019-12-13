@@ -18,7 +18,7 @@
         <Command Condition="! %(FirstForGenerator)">%(Command) /GenerateExceptionClasses:false</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+        <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
       </CurrentOpenApiReference>
     </ItemGroup>
 
@@ -37,7 +37,7 @@
         <Command>$(_NSwagCommand) swagger2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command>%(Command) /input:%(FullPath) /output:%(OutputPath) %(Options)</Command>
+        <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
       </CurrentOpenApiReference>
     </ItemGroup>
 

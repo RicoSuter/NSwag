@@ -31,6 +31,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool UseHttpClient => _settings.Template == TypeScriptTemplate.Angular &&
                                      _settings.HttpClass == TypeScript.HttpClass.HttpClient;
 
+        /// <summary>Gets a value indicating whether to send withCredentials: true with the http request options.</summary>
+        public bool WithCredentials => _settings.Template == TypeScriptTemplate.Angular &&
+                                       _settings.HttpClass == TypeScript.HttpClass.HttpClient &&
+                                       _settings.WithCredentials;
+
         /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
         public bool UseSingletonProvider => _settings.Template == TypeScriptTemplate.Angular &&
                                             _settings.UseSingletonProvider;

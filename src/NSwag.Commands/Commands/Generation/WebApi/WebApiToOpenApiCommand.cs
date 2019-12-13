@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Namotion.Reflection;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
@@ -96,7 +97,7 @@ namespace NSwag.Commands.Generation.WebApi
             {
                 using (var webHost = await CreateWebHostAsync(assemblyLoader))
                 {
-                    settings = await CreateSettingsAsync(assemblyLoader, webHost, workingDirectory);
+                    settings = await CreateSettingsAsync(assemblyLoader, webHost.TryGetPropertyValue<IServiceProvider>("Services"), workingDirectory);
                 }
             }
             else

@@ -84,6 +84,7 @@
       "contractsNamespace": "NSwag.Sample.NetCoreAngular.Clients.Contracts",
       "contractsOutputFilePath": "../NSwag.Sample.NetCoreAngular.Clients/Contracts.cs",
       "parameterDateTimeFormat": "s",
+      "parameterDateFormat": "yyyy-MM-dd",
       "generateUpdateJsonSerializerSettingsMethod": true,
       "serializeTypeInformation": false,
       "queryNullValue": "",
