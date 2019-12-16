@@ -36,5 +36,10 @@ IF NOT "%args:/runtime:netcore30=%" == "%args%" (
     GOTO end
 )
 
+IF NOT "%args:/runtime:netcore31=%" == "%args%" (
+    dotnet "%~dp0/NetCore31/dotnet-nswag.dll" %*
+    GOTO end
+)
+
 "%~dp0/Win/nswag.exe" %*
 :end
