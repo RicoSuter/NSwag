@@ -9,6 +9,16 @@ return fileResponse_;
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object);
 {%         endif -%}
+{%     elsif response.IsPlainText -%}
+var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+var result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
+{%         if response.IsSuccess -%}
+{%             if operation.WrapResponse -%}
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, result_); 
+{%             else -%}
+return result_; 
+{%             endif -%}
+{%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
 {%         if response.IsSuccess -%}
