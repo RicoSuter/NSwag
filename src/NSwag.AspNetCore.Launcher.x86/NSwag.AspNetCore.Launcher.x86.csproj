@@ -4,7 +4,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>13.1.6</Version>
+    <Version>13.2.0</Version>
     <Authors>Rico Suter</Authors>
     <Company>Rico Suter</Company>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>

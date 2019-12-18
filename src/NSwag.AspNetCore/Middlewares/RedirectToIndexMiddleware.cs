@@ -36,10 +36,11 @@ namespace NSwag.AspNetCore.Middlewares
             if (context.Request.Path.HasValue &&
                 string.Equals(context.Request.Path.Value.Trim('/'), _swaggerUiRoute.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
-                context.Response.StatusCode = 302;
+                context.Response.StatusCode = StatusCodes.Status302Found;
 
                 var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(_swaggerRoute, context.Request) : "";
-                context.Response.Headers.Add("Location", _transformToExternal(_swaggerUiRoute, context.Request) + "/index.html" + suffix);
+                var path = _transformToExternal(_swaggerUiRoute, context.Request);
+                context.Response.Headers.Add("Location", (path != "/" ? path : "") + "/index.html" + suffix);
             }
             else
             {
