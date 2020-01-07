@@ -10,12 +10,9 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
     if (ReadResponseAsString)
     {
         var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-{% if GeneratePreSerializationMethods -%}
-        BeforeResponseDeserialization(ref responseText);
-{% endif -%}
         try
         {
-            var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+            var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings);
             return new ObjectResponseResult<T>(typedBody, responseText);
         }
         catch (Newtonsoft.Json.JsonException exception)
@@ -32,7 +29,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
             using (var streamReader = new System.IO.StreamReader(responseStream))
             using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                var serializer = Newtonsoft.Json.JsonSerializer.Create({% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings);
                 var typedBody = serializer.Deserialize<T>(jsonTextReader);
                 return new ObjectResponseResult<T>(typedBody, string.Empty);
             }

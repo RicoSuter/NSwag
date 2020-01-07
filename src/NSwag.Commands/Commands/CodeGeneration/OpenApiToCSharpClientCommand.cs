@@ -204,12 +204,12 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateUpdateJsonSerializerSettingsMethod = value; }
         }
 
-        [Argument(Name = "GeneratePreSerializationMethods", IsRequired = false,
-            Description = "Generate the BeforeRequestSerialization and BeforeResponseDeserialization method (default: false).")]
-        public bool GeneratePreSerializationMethods
+        [Argument(Name = "UseRequestAndResponseSerializationSettings", IsRequired = false,
+            Description = "Generate different request and response serialization settings (default: false).")]
+        public bool UseRequestAndResponseSerializationSettings
         {
-            get { return Settings.GeneratePreSerializationMethods; }
-            set { Settings.GeneratePreSerializationMethods = value; }
+            get { return Settings.UseRequestAndResponseSerializationSettings; }
+            set { Settings.UseRequestAndResponseSerializationSettings = value; }
         }
 
         [Argument(Name = "SerializeTypeInformation", IsRequired = false,
