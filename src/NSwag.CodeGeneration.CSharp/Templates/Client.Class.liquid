@@ -58,6 +58,8 @@
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
+    partial void BeforeRequestSerialization<T>(ref T value);
+    partial void BeforeResponseDeserialization(ref string json);
 
 {% for operation in Operations -%}
 {%     if GenerateOptionalParameters == false -%}
@@ -151,6 +153,7 @@
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
 {%         else -%}
+                BeforeRequestSerialization(ref {{ operation.ContentParameter.VariableName }});
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
 {%         endif -%}
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
