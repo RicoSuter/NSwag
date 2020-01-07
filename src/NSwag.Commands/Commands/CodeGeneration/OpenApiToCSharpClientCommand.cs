@@ -204,6 +204,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateUpdateJsonSerializerSettingsMethod = value; }
         }
 
+        [Argument(Name = "GeneratePreSerializationMethods", IsRequired = false,
+            Description = "Generate the BeforeRequestSerialization and BeforeResponseDeserialization method (default: false).")]
+        public bool GeneratePreSerializationMethods
+        {
+            get { return Settings.GeneratePreSerializationMethods; }
+            set { Settings.GeneratePreSerializationMethods = value; }
+        }
+
         [Argument(Name = "SerializeTypeInformation", IsRequired = false,
             Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: true).")]
         public bool SerializeTypeInformation

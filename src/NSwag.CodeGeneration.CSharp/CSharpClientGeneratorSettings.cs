@@ -26,6 +26,7 @@ namespace NSwag.CodeGeneration.CSharp
             ParameterDateTimeFormat = "s";
             ParameterDateFormat = "yyyy-MM-dd";
             GenerateUpdateJsonSerializerSettingsMethod = true;
+            GeneratePreSerializationMethods = false;
             QueryNullValue = "";
             GenerateBaseUrlProperty = true;
             ExposeJsonSerializerSettings = false;
@@ -89,6 +90,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate the BeforeRequestSerialization and BeforeResponseDeserialization method (default: false).</summary>
+        public bool GeneratePreSerializationMethods { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
         public bool SerializeTypeInformation { get; set; }

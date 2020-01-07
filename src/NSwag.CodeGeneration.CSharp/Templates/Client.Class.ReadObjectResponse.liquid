@@ -10,7 +10,9 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
     if (ReadResponseAsString)
     {
         var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+{% if GeneratePreSerializationMethods -%}
         BeforeResponseDeserialization(ref responseText);
+{% endif -%}
         try
         {
             var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
