@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
+using NSwag.CodeGeneration;
 using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
 using NSwag.Commands.Generation.WebApi;
@@ -79,7 +80,7 @@ namespace NSwag.Commands
         public override async Task<OpenApiDocumentExecutionResult> ExecuteAsync()
         {
             var document = await GenerateSwaggerDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath) || c.OutputFilePaths.Any()))
             {
                 codeGenerator.Input = document;
                 await codeGenerator.RunAsync(null, null);
@@ -113,10 +114,10 @@ namespace NSwag.Commands
 
                 foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
                 {
-                    if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
+                    if (redirectOutput || !command.OutputFilePaths.Any())
                     {
                         var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
-                        command.OutputFilePath = codeFilePath;
+                        command.OutputFilePaths.Add(ClientGeneratorOutputType.Full, codeFilePath);
                         filenames.Add(codeFilePath);
                     }
                 }

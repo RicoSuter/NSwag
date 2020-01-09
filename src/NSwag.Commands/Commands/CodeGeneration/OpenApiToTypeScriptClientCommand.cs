@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Infrastructure;
+using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.TypeScript;
+using System.Collections.Generic;
+using System.IO;
 
 #pragma warning disable 1591
 
@@ -368,12 +371,16 @@ namespace NSwag.Commands.CodeGeneration
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            var code = await RunAsync();
-            await TryWriteFileOutputAsync(host, () => code).ConfigureAwait(false);
-            return code;
+            var result = await RunAsync();
+            foreach (var pair in result)
+            {
+                await TryWriteFileOutputAsync(pair.Key, host, () => pair.Value).ConfigureAwait(false);
+            }
+
+            return result;
         }
 
-        public async Task<string> RunAsync()
+        public async Task<Dictionary<string, string>> RunAsync()
         {
             return await Task.Run(async () =>
             {
@@ -387,7 +394,30 @@ namespace NSwag.Commands.CodeGeneration
 
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
                 var clientGenerator = new TypeScriptClientGenerator(document, Settings);
-                return clientGenerator.GenerateFile();
+
+                var output = new Dictionary<string, string>();
+
+                foreach (var outputFilePath in OutputFilePaths)
+                {
+                    var usedClientGenerator = clientGenerator;
+                    if (outputFilePath.Key == ClientGeneratorOutputType.Implementation && OutputFilePaths.ContainsKey(ClientGeneratorOutputType.Contracts))
+                    {
+                        var contractFile = OutputFilePaths[ClientGeneratorOutputType.Contracts];
+                        var contractFileName = Path.GetFileNameWithoutExtension(contractFile);
+
+                        Settings.TypeScriptGeneratorSettings.ExtensionCode = $"import './{contractFileName}'; \n{additionalCode}";
+
+                        usedClientGenerator = new TypeScriptClientGenerator(document, Settings);
+                        Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
+                    }
+
+                    output.Add(
+                        outputFilePath.Value ?? outputFilePath.Key.ToString(),
+                        usedClientGenerator.GenerateFile(outputFilePath.Key)
+                    );
+                }
+
+                return output;
             });
         }
     }

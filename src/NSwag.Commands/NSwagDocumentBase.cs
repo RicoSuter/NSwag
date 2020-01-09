@@ -395,7 +395,19 @@ namespace NSwag.Commands
 
             foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
             {
-                generator.OutputFilePath = ConvertToAbsolutePath(generator.OutputFilePath);
+                if (generator.OutputFilePath != null)
+                {
+                    generator.OutputFilePath = ConvertToAbsolutePath(generator.OutputFilePath);
+                }
+
+                if (generator is IMultipleOutputCommand multipleOutputGenerator)
+                {
+                    var outputFileKeys = multipleOutputGenerator.OutputFilePaths.Keys.ToList();
+                    foreach (var outputFileKey in outputFileKeys)
+                    {
+                        multipleOutputGenerator.OutputFilePaths[outputFileKey] = ConvertToAbsolutePath(multipleOutputGenerator.OutputFilePaths[outputFileKey]);
+                    }
+                }
             }
         }
 
@@ -476,7 +488,19 @@ namespace NSwag.Commands
 
             foreach (var generator in CodeGenerators.Items.Where(i => i != null).Concat(SwaggerGenerators.Items))
             {
-                generator.OutputFilePath = ConvertToRelativePath(generator.OutputFilePath);
+                if (generator.OutputFilePath != null)
+                {
+                    generator.OutputFilePath = ConvertToRelativePath(generator.OutputFilePath);
+                }
+
+                if (generator is IMultipleOutputCommand multipleOutputGenerator)
+                {
+                    var outputFileKeys = multipleOutputGenerator.OutputFilePaths.Keys.ToList();
+                    foreach (var outputFileKey in outputFileKeys)
+                    {
+                        multipleOutputGenerator.OutputFilePaths[outputFileKey] = ConvertToRelativePath(multipleOutputGenerator.OutputFilePaths[outputFileKey]);
+                    }
+                }
             }
         }
 

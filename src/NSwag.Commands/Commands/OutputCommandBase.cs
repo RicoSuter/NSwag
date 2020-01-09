@@ -10,14 +10,24 @@ using System;
 using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
+using NSwag.CodeGeneration;
+using System.Collections.Generic;
 
 namespace NSwag.Commands
 {
-    public abstract class OutputCommandBase : IOutputCommand
+    public abstract class OutputCommandBase : IOutputCommand, IMultipleOutputCommand
     {
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
         [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
-        public string OutputFilePath { get; set; }
+        public string OutputFilePath
+        {
+            get => OutputFilePaths.TryGetValue(ClientGeneratorOutputType.Full, out var value) ? value : null;
+            set => OutputFilePaths[ClientGeneratorOutputType.Full] = value;
+        }
+
+        [Argument(Name = "Output", IsRequired = false, Description = "The output file paths (optional). <DocumentPart, FilePath>")]
+        [JsonProperty("outputs", NullValueHandling = NullValueHandling.Include)]
+        public Dictionary<ClientGeneratorOutputType, string> OutputFilePaths { get; set; } = new Dictionary<ClientGeneratorOutputType, string>();
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
