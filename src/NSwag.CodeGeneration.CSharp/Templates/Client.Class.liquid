@@ -7,7 +7,12 @@
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
+{% if UseRequestAndResponseSerializationSettings -%}
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _requestSettings;
+    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _responseSettings;
+{% else -%}
     private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+{% endif -%}
 
 {% if HasConfigurationClass -%}
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
@@ -30,15 +35,22 @@
     public {{ Class }}()
     {
 {% endif -%}
-        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => 
+        Newtonsoft.Json.JsonSerializerSettings settingsFactory({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
         {
             var settings = {{ JsonSerializerParameterCode }};
 {% if SerializeTypeInformation -%}
             settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
-            UpdateJsonSerializerSettings(settings);
+            UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
             return settings;
-        });
+        };
+
+{% if UseRequestAndResponseSerializationSettings -%}
+        _requestSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => settingsFactory(true));
+        _responseSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => settingsFactory(false));
+{% else -%}
+        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(settingsFactory);
+{% endif -%}
         {% template Client.Class.Constructor %}
     }
 
@@ -50,10 +62,24 @@
     }
 
 {% endif -%}
-    {% if ExposeJsonSerializerSettings %}public{% else %}protected{% endif %} Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+{% if ExposeJsonSerializerSettings %}
+{%     assign serializerSettingsAccessModifier = "public" -%}
+{% else -%}
+{%     assign serializerSettingsAccessModifier = "protected" -%}
+{% endif -%}
+{% if UseRequestAndResponseSerializationSettings -%}
+    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings RequestJsonSerializerSettings { get { return _requestSettings.Value; } }
+    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings ResponseJsonSerializerSettings { get { return _responseSettings.Value; } }
+{% else -%}
+    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+{% endif -%}
 
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
+{%     if UseRequestAndResponseSerializationSettings -%}
+    partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings, bool isRequest);
+{%     else -%}
     partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+{%     endif -%}
 {% endif -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
@@ -154,7 +180,7 @@
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
 {%         else -%}
-                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}_settings.Value));
+                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value));
 {%         endif -%}
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
                 request_.Content = content_;
