@@ -131,6 +131,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method.</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod => _settings.GenerateUpdateJsonSerializerSettingsMethod;
 
+        /// <summary>Gets or sets a value indicating whether to generate different request and response serialization settings (default: false).</summary>
+        public bool UseRequestAndResponseSerializationSettings => _settings.UseRequestAndResponseSerializationSettings;
+
         /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
         public bool SerializeTypeInformation => _settings.SerializeTypeInformation;
 
