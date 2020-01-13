@@ -44,7 +44,7 @@
         {% template Client.Class.Constructor %}
     }
 
-    private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
 {% if SerializeTypeInformation -%}
