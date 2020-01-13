@@ -35,24 +35,24 @@
     public {{ Class }}()
     {
 {% endif -%}
-        Newtonsoft.Json.JsonSerializerSettings settingsFactory({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
-        {
-            var settings = {{ JsonSerializerParameterCode }};
-{% if SerializeTypeInformation -%}
-            settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
-{% endif -%}
-            UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
-            return settings;
-        };
-
 {% if UseRequestAndResponseSerializationSettings -%}
-        _requestSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => settingsFactory(true));
-        _responseSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => settingsFactory(false));
+        _requestSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => CreateSerializerSettings(true));
+        _responseSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => CreateSerializerSettings(false));
 {% else -%}
-        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(settingsFactory);
+        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
 {% endif -%}
         {% template Client.Class.Constructor %}
     }
+
+    private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    {
+        var settings = {{ JsonSerializerParameterCode }};
+{% if SerializeTypeInformation -%}
+        settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+{% endif -%}
+        UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
+        return settings;
+    };
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
     public string BaseUrl 
