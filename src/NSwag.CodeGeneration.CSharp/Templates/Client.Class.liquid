@@ -52,7 +52,7 @@
 {% endif -%}
         UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
         return settings;
-    };
+    }
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
     public string BaseUrl 
