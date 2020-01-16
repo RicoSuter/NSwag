@@ -180,7 +180,7 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string[] DocumentProcessorTypes { get; set; } = new string[0];
 
-        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName' or ':assemblyName:fullTypeName' or ':fullTypeName'. Begin name with ':' to prepend processors to filter out other operations.")]
+        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName' or ':assemblyName:fullTypeName' or ':fullTypeName'. Begin name with ':' to prepend processors (required when used to filter out other operations).")]
         public string[] OperationProcessorTypes { get; set; } = new string[0];
 
         [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
