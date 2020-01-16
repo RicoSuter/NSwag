@@ -358,10 +358,18 @@ namespace NSwag.Commands.Generation
 
             if (OperationProcessorTypes != null)
             {
+                var prependIndex = 0;
                 foreach (var p in OperationProcessorTypes)
                 {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p);
-                    Settings.OperationProcessors.Add(processor);
+                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p[0] == ':' ? p.Substring(1) : p);
+                    if (p[0] == ':')
+                    {
+                        Settings.OperationProcessors.Insert(prependIndex++, processor);
+                    }
+                    else
+                    {
+                        Settings.OperationProcessors.Add(processor);
+                    }
                 }
             }
 
