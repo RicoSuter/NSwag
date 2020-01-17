@@ -19,6 +19,12 @@ namespace NSwag.Sample.NETCore31.Controllers
             public DateTime DayOfBirth { get; set; }
         }
 
+        public enum TestEnum
+        {
+            Foo,
+            Bar
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Person>> Get()
         {
@@ -27,9 +33,9 @@ namespace NSwag.Sample.NETCore31.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<TestEnum> Get(int id)
         {
-            return "value";
+            return TestEnum.Foo;
         }
 
         // GET api/values/5
