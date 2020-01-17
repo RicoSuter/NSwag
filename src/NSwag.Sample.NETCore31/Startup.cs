@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
 using NJsonSchema.Generation;
 
 namespace NSwag.Sample.NETCore31
@@ -19,6 +20,10 @@ namespace NSwag.Sample.NETCore31
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
             services.AddOpenApiDocument(document =>
             {
