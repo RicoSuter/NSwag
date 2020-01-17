@@ -222,7 +222,7 @@ namespace NSwag
 
                 return consumes?.Any() == true &&
                        consumes.Any(p => p.Contains("application/xml")) &&
-                       consumes.Any(p => p.Contains("application/json")) == false;
+                       consumes.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
             }
         }
 
@@ -243,14 +243,14 @@ namespace NSwag
                     var consumes = parent.ActualConsumes;
                     return consumes?.Any() == true &&
                            consumes.Any(p => p.Contains("*/*")) == false && // supports json
-                           consumes.Any(p => p.Contains("application/json")) == false;
+                           consumes.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
                 }
                 else
                 {
                     var consumes = parent?.RequestBody?.Content;
                     return consumes?.Any() == true &&
                            consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
-                           consumes.Any(p => p.Key.Contains("application/json") && p.Value.Schema?.IsBinary != true) == false;
+                           consumes.Any(p => p.Key.StartsWith("application/") && p.Key.EndsWith("json") && p.Value.Schema?.IsBinary != true) == false;
                 }              
             }
         }
