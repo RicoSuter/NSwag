@@ -73,6 +73,11 @@
 {%     else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(_response);
 {%     endif -%}
+        }).catch((_error: any) => {
+            if(!_error.response){
+                throw new Error(_error);
+            }
+            return this.process{{ operation.ActualOperationNameUpper }}(_error.response);
         });
     }
 
