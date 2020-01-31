@@ -166,6 +166,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>Gets the Title.</summary>
+        public string Title => _document.Info.Title;
+
+        /// <summary>Gets the Description.</summary>
+        public string Description => _document.Info.Description;
+
+        /// <summary>Gets the API version.</summary>
+        public string Version => _document.Info.Version;
+
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.InheritsSchema(_exceptionSchema) == true));
     }
