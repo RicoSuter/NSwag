@@ -13,6 +13,7 @@ using NJsonSchema;
 using System.Globalization;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Text;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -43,6 +44,9 @@ namespace NSwag.AspNetCore
 
         internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
 
+        /// <summary>Gets or sets custom inline styling to inject into the index.html</summary>
+        public string CustomInlineStyles { get; set; }
+
         /// <summary>Gets or sets a URI to load a custom CSS Stylesheet into the index.html</summary>
         public string CustomStylesheetPath { get; set; }
 
@@ -69,13 +73,19 @@ namespace NSwag.AspNetCore
         protected string GetCustomStyleHtml(HttpRequest request)
 #endif
         {
-            if (CustomStylesheetPath == null)
+            var html = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(CustomStylesheetPath))
             {
-                return string.Empty;
+                var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomStylesheetPath, request));
+                html.AppendLine($"<link rel=\"stylesheet\" href=\"{uriString}\">");
+            }
+            else if (!string.IsNullOrEmpty(CustomInlineStyles))
+            {
+                html.AppendLine($"<style type=\"text/css\">{CustomInlineStyles}</style>");
             }
 
-            var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomStylesheetPath, request));
-            return $"<link rel=\"stylesheet\" href=\"{uriString}\">";
+            return html.ToString();
         }
 
         /// <summary>
