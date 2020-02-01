@@ -384,7 +384,17 @@ namespace NSwag.Generation.AspNetCore
             }
             else
             {
-                operationId = actionDescriptor.ControllerName + "_" + GetActionName(actionDescriptor.ActionName);
+                dynamic openApiControllerAttribute = actionDescriptor
+                    .ControllerTypeInfo?
+                    .GetCustomAttributes()?
+                    .FirstAssignableToTypeNameOrDefault("OpenApiControllerAttribute", TypeNameStyle.Name);
+
+                var controllerName =
+                    openApiControllerAttribute != null && !string.IsNullOrEmpty(openApiControllerAttribute.Name) ?
+                    openApiControllerAttribute.Name :
+                    actionDescriptor.ControllerName;
+
+                operationId = controllerName + "_" + GetActionName(actionDescriptor.ActionName);
             }
 
             var number = 1;
