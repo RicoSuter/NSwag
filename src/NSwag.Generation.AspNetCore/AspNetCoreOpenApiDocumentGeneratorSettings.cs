@@ -36,5 +36,10 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets or sets the Swagger post process action.</summary>
         public Action<OpenApiDocument> PostProcess { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a route name associated with an action is used to generate its operationId.
+        /// </summary>
+        public bool UseRouteNameAsOperationId { get; set; }
     }
 }
