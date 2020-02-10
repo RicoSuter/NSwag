@@ -378,13 +378,13 @@ namespace NSwag.Generation.AspNetCore
                 .GetCustomAttributes()
                 .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
 
-            if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
-            {
-                operationId = actionDescriptor.AttributeRouteInfo.Name;
-            }
-            else if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
+            if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;
+            }
+            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
+            {
+                operationId = actionDescriptor.AttributeRouteInfo.Name;
             }
             else
             {
