@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Reflection;
 using NSwag.Generation.Processors;
 using NSwag.Generation.WebApi.Processors;
 
@@ -31,5 +33,9 @@ namespace NSwag.Generation.WebApi
 
         /// <summary>Gets or sets a value indicating whether to add path parameters which are missing in the action method.</summary>
         public bool AddMissingPathParameters { get; set; }
+        /// <summary>Get or set the generation method of OperationId</summary>
+        public Func<OpenApiDocument, string, MethodInfo, string> GetOperationId { get; set; }
+        /// <summary>Get or set the generation method of httppaths path template</summary>
+        public Func<Type, string, MethodInfo, string> GetHttpPath { get; set; }
     }
 }
