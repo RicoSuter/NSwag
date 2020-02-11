@@ -121,29 +121,37 @@ namespace NSwag.Generation.WebApi.Processors
                                 var parameterBindingAttribute = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("ParameterBindingAttribute", TypeNameStyle.Name);
                                 if (parameterBindingAttribute != null && fromBodyAttribute == null && fromUriAttribute == null && !_settings.IsAspNetCore)
                                 {
-                                    // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
-                                    var willReadBodyAttribute = contextualParameter.ContextAttributes.Concat(parameterBindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
-                                        .FirstAssignableToTypeNameOrDefault("WillReadBodyAttribute", TypeNameStyle.Name);
-
-                                    if (willReadBodyAttribute == null)
+                                    // If binding attribute is defined in GET method context, it cannot be body parameter and path and form attributes were checked earlier
+                                    if (context.OperationDescription.Method == OpenApiOperationMethod.Get)
                                     {
-                                        operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
-                                    }
+                                        operationParameter = AddPrimitiveParameter(uriParameterName, context, contextualParameter);
+                                    } 
                                     else
                                     {
-                                        // Try to get a boolean property value from the attribute which explicity tells us whether to read from the body
-                                        // If no such property exists, then default to false since WebAPI's HttpParameterBinding.WillReadBody defaults to false
-                                        var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
-                                        if (willReadBody)
+                                        // Try to find a [WillReadBody] attribute on either the action parameter or the bindingAttribute's class
+                                        var willReadBodyAttribute = contextualParameter.ContextAttributes.Concat(parameterBindingAttribute.GetType().GetTypeInfo().GetCustomAttributes())
+                                            .FirstAssignableToTypeNameOrDefault("WillReadBodyAttribute", TypeNameStyle.Name);
+
+                                        if (willReadBodyAttribute == null)
                                         {
                                             operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                         }
                                         else
                                         {
-                                            // If we are not reading from the body, then treat this as a primitive.
-                                            // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
-                                            // In this case, the API author should use a TypeMapper to define the parameter
-                                            operationParameter = AddPrimitiveParameter(uriParameterName, context, contextualParameter);
+                                            // Try to get a boolean property value from the attribute which explicity tells us whether to read from the body
+                                            // If no such property exists, then default to false since WebAPI's HttpParameterBinding.WillReadBody defaults to false
+                                            var willReadBody = willReadBodyAttribute.TryGetPropertyValue("WillReadBody", true);
+                                            if (willReadBody)
+                                            {
+                                                operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
+                                            }
+                                            else
+                                            {
+                                                // If we are not reading from the body, then treat this as a primitive.
+                                                // This may seem odd, but it allows for primitive -> custom complex-type bindings which are very common
+                                                // In this case, the API author should use a TypeMapper to define the parameter
+                                                operationParameter = AddPrimitiveParameter(uriParameterName, context, contextualParameter);
+                                            }
                                         }
                                     }
                                 }
