@@ -70,7 +70,7 @@ namespace NSwag.AspNet.WebApi
                 context.Response = new HttpResponseMessage
                 {
                     StatusCode = (HttpStatusCode)GetStatusCode(context.Exception, context),
-                    Content = new StringContent(json, Encoding.UTF8)
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
                 };
             }
             else
