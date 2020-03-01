@@ -127,6 +127,27 @@ namespace NSwag.CodeGeneration.Models
             }
         }
 
+        /// <summary>Gets a value indicating whether this is a 2xx code with a different type from primary response.</summary>
+        public bool IsOtherSuccess
+        {
+            get
+            {
+                if (IsPrimarySuccessResponse)
+                {
+                    return false;
+                }
+
+                var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
+
+                if (primarySuccessResponse == null)
+                {
+                    return false;
+                }
+
+                return HttpUtilities.IsSuccessStatusCode(StatusCode) && primarySuccessResponse.Type != Type;
+            }
+        }
+
         /// <summary>Gets a value indicating whether this is an exceptional response.</summary>
         public bool ThrowsException => !IsSuccess;
 

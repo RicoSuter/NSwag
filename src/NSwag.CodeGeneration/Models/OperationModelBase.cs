@@ -160,6 +160,15 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the success response.</summary>
         public TResponseModel SuccessResponse => Responses.FirstOrDefault(r => r.IsSuccess);
 
+        /// <summary>All IsSuccess responses</summary>
+        public IEnumerable<TResponseModel> SameTypeSuccessResponses => Responses.Where(r => r.IsSuccess).OrderBy(r => !r.IsPrimarySuccessResponse);
+
+        /// <summary>All 2xx responses with a different type</summary>
+        public IEnumerable<TResponseModel> OtherSuccessResponses => Responses.Where(r => r.IsOtherSuccess);
+
+        /// <summary>All other responses</summary>
+        public IEnumerable<TResponseModel> OtherResponses => Responses.Where(r => !r.IsSuccess && !r.IsOtherSuccess);
+
         /// <summary>Gets the responses.</summary>
         IEnumerable<ResponseModelBase> IOperationModel.Responses => Responses;
 

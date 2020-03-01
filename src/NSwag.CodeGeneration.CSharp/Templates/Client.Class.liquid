@@ -263,7 +263,31 @@
                     ProcessResponse(client_, response_);
 
                     var status_ = ((int)response_.StatusCode).ToString();
-{%     for response in operation.Responses -%}
+{%     if operation.SameTypeSuccessResponses.size > 0 -%}
+                    if ({% for response in operation.SameTypeSuccessResponses -%}status_ == "{{ response.StatusCode }}"{% if response.CheckChunkedStatusCode %} || status_ == "206"{% endif %}{% if operation.SameTypeSuccessResponses.last.StatusCode != response.StatusCode %} || {% endif %}{% endfor -%}) 
+                    {   {% assign response = operation.SameTypeSuccessResponses.first %}
+                        {% template Client.Class.ProcessResponse %}
+                    }
+                    else
+{%     endif -%}
+{%     if operation.OtherSuccessResponses.size > 0 -%}
+                    if ({% for response in operation.OtherSuccessResponses -%}status_ == "{{ response.StatusCode }}"{% if response.CheckChunkedStatusCode %} || status_ == "206"{% endif %}{% if operation.OtherSuccessResponses.last.StatusCode != response.StatusCode %} || {% endif %}{% endfor -%}) 
+                    {
+{%         if operation.HasResultType -%}
+
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
+{%             else -%}
+                        return default({{ operation.UnwrappedResultType }});
+{%             endif -%}
+{%         elseif operation.WrapResponse -%}
+
+                        return new {{ ResponseClass }}((int)response_.StatusCode, headers_); 
+{%         endif -%}
+                    }
+                    else
+{%     endif -%}
+{%     for response in operation.OtherResponses -%}
                     if (status_ == "{{ response.StatusCode }}"{% if response.CheckChunkedStatusCode %} || status_ == "206"{% endif %}) 
                     {
                         {% template Client.Class.ProcessResponse %}

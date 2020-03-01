@@ -2,7 +2,15 @@
 {% if operation.HandleReferences and operation.RequiresMappings -%}
 let _mappings: { source: any, target: any }[] = [];
 {% endif -%}
-{% for response in operation.Responses -%}
+{% if operation.SameTypeSuccessResponses.size > 0 -%}
+if ({% for response in operation.SameTypeSuccessResponses -%}status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}{% if operation.SameTypeSuccessResponses.last.StatusCode != response.StatusCode %} || {% endif %}{% endfor -%}) { {% assign response = operation.SameTypeSuccessResponses.first %}
+    {% template Client.ProcessResponse.HandleStatusCode %}
+} else {% endif -%}
+{% if operation.OtherSuccessResponses.size > 0 -%}
+if ({% for response in operation.OtherSuccessResponses -%}status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}{% if operation.OtherSuccessResponses.last.StatusCode != response.StatusCode %} || {% endif %}{% endfor -%}) {
+    {% template Client.ProcessResponse.Return %}
+} else {% endif -%}
+{% for response in operation.OtherResponses  -%}
 if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}) {
     {% template Client.ProcessResponse.HandleStatusCode %}
 } else {% endfor -%}
