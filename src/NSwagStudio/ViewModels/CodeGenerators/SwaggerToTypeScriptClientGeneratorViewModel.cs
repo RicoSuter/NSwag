@@ -66,6 +66,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
             .ToArray();
 
+        /// <summary>Gets the list of enum styles.</summary>
+        public TypeScriptEnumStyle[] EnumStyles { get; } = Enum.GetNames(typeof(TypeScriptEnumStyle))
+            .Select(t => (TypeScriptEnumStyle)Enum.Parse(typeof(TypeScriptEnumStyle), t))
+            .ToArray();
+
         /// <summary>Gets the list of date time types.</summary>
         public TypeScriptDateTimeType[] DateTimeTypes { get; } = Enum.GetNames(typeof(TypeScriptDateTimeType))
             .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
