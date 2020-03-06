@@ -264,6 +264,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.TypeStyle = value; }
         }
 
+        [Argument(Name = "EnumStyle", IsRequired = false, Description = "The enum style (Enum or StringLiteral, default: Enum).")]
+        public TypeScriptEnumStyle EnumStyle
+        {
+            get { return Settings.TypeScriptGeneratorSettings.EnumStyle; }
+            set { Settings.TypeScriptGeneratorSettings.EnumStyle = value; }
+        }
+
         [Argument(Name = "ClassTypes", IsRequired = false, Description = "The type names which always generate plain TypeScript classes.")]
         public string[] ClassTypes
         {

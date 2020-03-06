@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.2.3</Version>
+    <Version>13.2.4</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -28,6 +28,7 @@
     <None Remove="Templates\Client.Class.PathParameter.liquid" />
     <None Remove="Templates\Client.Class.QueryParameter.liquid" />
     <None Remove="Templates\Client.Class.ReadObjectResponse.liquid" />
+    <None Remove="Templates\Client.Method.Annotations.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
     <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
     <None Remove="Templates\Controller.Class.Annotations.liquid" />
@@ -46,6 +47,7 @@
     <EmbeddedResource Include="Templates\Client.Class.ReadObjectResponse.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
+    <EmbeddedResource Include="Templates\Client.Method.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
     <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
@@ -65,6 +67,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.1.5" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.1.7" />
   </ItemGroup>
 </Project>
