@@ -382,6 +382,10 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = swaggerOperationAttribute.OperationId;
             }
+            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
+            {
+                operationId = actionDescriptor.AttributeRouteInfo.Name;
+            }
             else
             {
                 dynamic openApiControllerAttribute = actionDescriptor
