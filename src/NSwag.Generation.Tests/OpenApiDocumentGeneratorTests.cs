@@ -9,7 +9,13 @@ namespace NSwag.Generation.Tests
 {
     public class OpenApiDocumentGeneratorTests
     {
-        public void HasArrayParameter(string[] foo) { }
+
+        public class TestController
+        {
+            public void HasArrayParameter(string[] foo)
+            {
+            }
+        }
 
         private OpenApiParameter GetParameter(SchemaType schemaType)
         {
@@ -20,7 +26,7 @@ namespace NSwag.Generation.Tests
             };
             var schemaResolver = new JsonSchemaResolver(new OpenApiDocument(), generatorSettings);
             var generator = new OpenApiDocumentGenerator(generatorSettings, schemaResolver);
-            var methodInfo = typeof(OpenApiDocumentGeneratorTests).GetMethod("HasArrayParameter");
+            var methodInfo = typeof(TestController).GetMethod("HasArrayParameter");
 
             return generator.CreatePrimitiveParameter("foo", "bar", methodInfo.GetContextualParameters().First());
         }
