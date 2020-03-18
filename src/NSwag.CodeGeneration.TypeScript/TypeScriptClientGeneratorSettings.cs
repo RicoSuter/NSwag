@@ -26,6 +26,7 @@ namespace NSwag.CodeGeneration.TypeScript
             PromiseType = PromiseType.Promise;
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
+            UseLeafType = false;
             QueryNullValue = "";
 
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
@@ -66,6 +67,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the full name of the configuration class (<see cref="ClientBaseClass"/> must be set).</summary>
         public string ConfigurationClass { get; set; }
+        
+        /// <summary>Generate leaf types for an object with discriminator.</summary>
+        public bool UseLeafType { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod { get; set; }
