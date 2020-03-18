@@ -69,9 +69,9 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await swaggerGenerator.GenerateForControllerAsync<DiscriminatorController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                UseLeafType = true,
                 TypeScriptGeneratorSettings =
                 {
+                    UseLeafType = true,
                     TypeScriptVersion = 1.4m,
                     NullValue = TypeScriptNullValue.Undefined
                 }

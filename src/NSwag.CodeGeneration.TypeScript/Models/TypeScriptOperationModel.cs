@@ -178,7 +178,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 return "FileParameter";
             }
 
-            if (_settings.UseLeafType && schema.ActualDiscriminatorObject != null)
+            if (_settings.TypeScriptGeneratorSettings.UseLeafType && schema.ActualDiscriminatorObject != null)
             {
                 var types = schema.ActualDiscriminatorObject.Mapping
                     .Select(x => new OpenApiParameter
