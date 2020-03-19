@@ -36,6 +36,7 @@ namespace NSwag.CodeGeneration
         /// <returns>The template.</returns>
         protected override string GetEmbeddedLiquidTemplate(string language, string template)
         {
+            template = template.TrimEnd('!');
             var assembly = GetLiquidAssembly("NSwag.CodeGeneration." + language);
             var resourceName = "NSwag.CodeGeneration." + language + ".Templates." + template + ".liquid";
 
