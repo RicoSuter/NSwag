@@ -152,7 +152,7 @@ namespace NSwag.Generation.AspNetCore
                 return settings;
 
             // StringEnumConverter
-            if (jsonOptions.Converters.Any(c => c.GetType() == typeof(System.Text.Json.Serialization.JsonStringEnumConverter)))
+            if (jsonOptions.Converters.Any(c => c is System.Text.Json.Serialization.JsonStringEnumConverter))
                 settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             if (jsonOptions.PropertyNamingPolicy == null)
