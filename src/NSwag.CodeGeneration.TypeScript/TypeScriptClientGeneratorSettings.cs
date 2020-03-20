@@ -26,7 +26,6 @@ namespace NSwag.CodeGeneration.TypeScript
             PromiseType = PromiseType.Promise;
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
-            UseLeafType = false;
             QueryNullValue = "";
 
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
