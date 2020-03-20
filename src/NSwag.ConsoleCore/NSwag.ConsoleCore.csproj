@@ -3,7 +3,7 @@
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.2.5</Version>
+    <Version>13.3.0</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
