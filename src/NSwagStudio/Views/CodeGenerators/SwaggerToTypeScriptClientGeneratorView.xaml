@@ -223,6 +223,12 @@
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding EnumStyles}" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.UseLeafType, Mode=TwoWay}" 
+                                          ToolTip="UseLeafType" 
+                                          Margin="0,0,0,12">
+                                    <TextBlock Text="Generate leaf types for an object with discriminator" TextWrapping="Wrap" />
+                                </CheckBox>
+
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 
                                           ToolTip="NullValue"
