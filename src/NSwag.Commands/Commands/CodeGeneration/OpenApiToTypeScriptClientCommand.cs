@@ -271,7 +271,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.EnumStyle = value; }
         }
         
-        [Argument(Name = "UseLeafType", IsRequired = false, Description = "Generate leaf types for an object with discriminator.")]
+        [Argument(Name = "UseLeafType", IsRequired = false, Description = "Generate leaf types for an object with discriminator (default: false).")]
         public bool UseLeafType
         {
             get { return Settings.TypeScriptGeneratorSettings.UseLeafType; }
