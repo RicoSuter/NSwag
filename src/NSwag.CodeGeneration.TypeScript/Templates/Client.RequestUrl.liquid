@@ -25,7 +25,7 @@ else
 {%         if parameter.IsNullable -%}
 if ({{ parameter.VariableName }} === undefined)
     throw new Error("The parameter '{{ parameter.VariableName }}' must be defined.");
-else
+else if({{ parameter.VariableName }} !== null)
 {%         else -%}
 if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
     throw new Error("The parameter '{{ parameter.VariableName }}' must be defined and cannot be null.");
@@ -33,7 +33,7 @@ else
 {%         endif -%}
 {%     else -%}
 {%         if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} !== undefined)
+if ({{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null)
 {%         else -%}
 if ({{ parameter.VariableName }} === null)
     throw new Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
