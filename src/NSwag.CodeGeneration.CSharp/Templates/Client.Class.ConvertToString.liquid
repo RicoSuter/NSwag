@@ -16,7 +16,7 @@
                 }
             }
 			
-			return System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType())).ToString();
+			return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
         }
     }
     else if (value is bool) {
