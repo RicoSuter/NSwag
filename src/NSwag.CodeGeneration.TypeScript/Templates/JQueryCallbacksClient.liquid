@@ -53,17 +53,17 @@
 {%     endif -%}
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
 {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
             }
-        }{% if UseTransformOptionsMethod %}){% endif %}); 
-        
+        }{% if UseTransformOptionsMethod %}){% endif %});
+
         jqXhr.done((_data, _textStatus, xhr) => {
             this.process{{ operation.ActualOperationNameUpper }}WithCallbacks(url_, xhr, onSuccess, onFail);
         }).fail((xhr) => {

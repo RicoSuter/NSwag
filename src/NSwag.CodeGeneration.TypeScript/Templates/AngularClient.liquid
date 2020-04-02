@@ -52,9 +52,9 @@
 {%     endif -%}
 {%     if Framework.Angular.UseHttpClient -%}
             observe: "response",
-            responseType: "blob",			
+            responseType: "blob",
 {%	       if Framework.Angular.WithCredentials -%}
-            withCredentials: true,		
+            withCredentials: true,
 {%         endif -%}
 {%     else -%}
             method: "{{ operation.HttpMethodLower }}",
@@ -64,10 +64,10 @@
 {%     endif -%}
             headers: new {% if Framework.Angular.UseHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
 {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
@@ -106,8 +106,8 @@
     protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
         const status = response.status;
 {% if Framework.Angular.UseHttpClient -%}
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 {% endif -%}
 
