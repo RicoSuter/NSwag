@@ -1,6 +1,6 @@
 {% if Framework.IsAngular -%}
 {%      if Framework.Angular.UseHttpClient -%}
-let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
 {%      else -%}
 let _headers: any = response.headers ? response.headers.toJSON() : {};
 {%      endif -%}
