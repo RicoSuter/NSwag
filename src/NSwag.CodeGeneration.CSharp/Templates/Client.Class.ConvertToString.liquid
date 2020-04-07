@@ -15,8 +15,8 @@
                     return attribute.Value != null ? attribute.Value : name;
                 }
             }
-			
-			return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+
+            return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
         }
     }
     else if (value is bool) {
