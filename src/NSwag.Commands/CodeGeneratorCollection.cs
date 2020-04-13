@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
@@ -10,23 +12,54 @@ namespace NSwag.Commands
     {
         /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
         [JsonProperty("OpenApiToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]
-        public OpenApiToTypeScriptClientCommand OpenApiToTypeScriptClientCommand { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<OpenApiToTypeScriptClientCommand>))]
+        public IEnumerable<OpenApiToTypeScriptClientCommand> OpenApiToTypeScriptClientCommands { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
         [JsonProperty("OpenApiToCSharpClient", NullValueHandling = NullValueHandling.Ignore)]
-        public OpenApiToCSharpClientCommand OpenApiToCSharpClientCommand { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<OpenApiToCSharpClientCommand>))]
+        public IEnumerable<OpenApiToCSharpClientCommand> OpenApiToCSharpClientCommands { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
         [JsonProperty("OpenApiToCSharpController", NullValueHandling = NullValueHandling.Ignore)]
-        public OpenApiToCSharpControllerCommand OpenApiToCSharpControllerCommand { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<OpenApiToCSharpControllerCommand>))]
+        public IEnumerable<OpenApiToCSharpControllerCommand> OpenApiToCSharpControllerCommands { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
-        public IEnumerable<InputOutputCommandBase> Items => new InputOutputCommandBase[]
+        public IEnumerable<InputOutputCommandBase> Items => new InputOutputCommandBase[] { }
+            .Concat(OpenApiToTypeScriptClientCommands ?? new OpenApiToTypeScriptClientCommand[] { })
+            .Concat(OpenApiToCSharpClientCommands ?? new OpenApiToCSharpClientCommand[] { })
+            .Concat(OpenApiToCSharpControllerCommands ?? new OpenApiToCSharpControllerCommand[] { })
+            .Where(cmd => cmd != null);
+    }
+
+
+    public class SingleOrArrayConverter<T> : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
         {
-            OpenApiToTypeScriptClientCommand,
-            OpenApiToCSharpClientCommand,
-            OpenApiToCSharpControllerCommand
-        }.Where(cmd => cmd != null);
+            return (objectType == typeof(List<T>));
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            JToken token = JToken.Load(reader);
+            if (token.Type == JTokenType.Array)
+            {
+                return token.ToObject<List<T>>();
+            }
+            return new List<T> { token.ToObject<T>() };
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

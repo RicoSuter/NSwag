@@ -38,9 +38,9 @@ namespace NSwag.Commands.Document
             var document = new NSwagDocument();
             document.Path = filePath;
 
-            document.CodeGenerators.OpenApiToCSharpControllerCommand = new OpenApiToCSharpControllerCommand();
-            document.CodeGenerators.OpenApiToCSharpClientCommand = new OpenApiToCSharpClientCommand();
-            document.CodeGenerators.OpenApiToTypeScriptClientCommand = new OpenApiToTypeScriptClientCommand();
+            document.CodeGenerators.OpenApiToCSharpControllerCommands = new OpenApiToCSharpControllerCommand[] { };
+            document.CodeGenerators.OpenApiToCSharpClientCommands = new OpenApiToCSharpClientCommand[] { };
+            document.CodeGenerators.OpenApiToTypeScriptClientCommands = new OpenApiToTypeScriptClientCommand[] { };
 
             await document.SaveAsync();
         }

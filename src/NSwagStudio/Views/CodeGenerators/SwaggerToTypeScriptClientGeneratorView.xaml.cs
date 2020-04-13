@@ -2,6 +2,7 @@
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 using NSwagStudio.ViewModels.CodeGenerators;
+using System.Linq;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
@@ -15,7 +16,7 @@ namespace NSwagStudio.Views.CodeGenerators
             ViewModelHelper.RegisterViewModel(Model, this);
 
             _document = document;
-            Model.Command = document.CodeGenerators.OpenApiToTypeScriptClientCommand;
+            Model.Command = document.CodeGenerators.OpenApiToTypeScriptClientCommands?.FirstOrDefault();
         }
 
         private SwaggerToTypeScriptClientGeneratorViewModel Model => (SwaggerToTypeScriptClientGeneratorViewModel)Resources["ViewModel"];
@@ -31,13 +32,13 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.OpenApiToTypeScriptClientCommand != null; }
+            get { return _document.CodeGenerators.OpenApiToTypeScriptClientCommands?.FirstOrDefault() != null; }
             set
             {
                 if (value != IsSelected)
                 {
-                    _document.CodeGenerators.OpenApiToTypeScriptClientCommand = value ? new OpenApiToTypeScriptClientCommand() : null;
-                    Model.Command = _document.CodeGenerators.OpenApiToTypeScriptClientCommand;
+                    _document.CodeGenerators.OpenApiToTypeScriptClientCommands = value ? new OpenApiToTypeScriptClientCommand[] { new OpenApiToTypeScriptClientCommand() } : null;
+                    Model.Command = _document.CodeGenerators.OpenApiToTypeScriptClientCommands?.FirstOrDefault();
                     OnPropertyChanged();
                 }
             }

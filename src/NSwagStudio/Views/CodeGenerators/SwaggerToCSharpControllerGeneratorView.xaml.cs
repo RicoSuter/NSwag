@@ -2,6 +2,7 @@
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 using NSwagStudio.ViewModels.CodeGenerators;
+using System.Linq;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
@@ -15,7 +16,7 @@ namespace NSwagStudio.Views.CodeGenerators
             ViewModelHelper.RegisterViewModel(Model, this);
 
             _document = document;
-            Model.Command = document.CodeGenerators.OpenApiToCSharpControllerCommand;
+            Model.Command = document.CodeGenerators.OpenApiToCSharpControllerCommands?.FirstOrDefault();
         }
 
         public override string Title => "CSharp Controller";
@@ -31,13 +32,13 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.OpenApiToCSharpControllerCommand != null; }
+            get { return _document.CodeGenerators.OpenApiToCSharpControllerCommands != null; }
             set
             {
                 if (value != IsSelected)
                 {
-                    _document.CodeGenerators.OpenApiToCSharpControllerCommand = value ? new OpenApiToCSharpControllerCommand() : null;
-                    Model.Command = _document.CodeGenerators.OpenApiToCSharpControllerCommand;
+                    _document.CodeGenerators.OpenApiToCSharpControllerCommands = value ? new OpenApiToCSharpControllerCommand[] { new OpenApiToCSharpControllerCommand() } : null;
+                    Model.Command = _document.CodeGenerators.OpenApiToCSharpControllerCommands?.FirstOrDefault();
                     OnPropertyChanged();
                 }
             }
