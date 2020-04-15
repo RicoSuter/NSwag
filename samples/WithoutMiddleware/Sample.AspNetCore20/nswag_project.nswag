@@ -1,5 +1,5 @@
 ﻿{
-  "runtime": "NetCore20",
+  "runtime": "NetCore21",
   "defaultVariables": "configuration=Debug",
   "documentGenerator": {
     "aspNetCoreToOpenApi": {

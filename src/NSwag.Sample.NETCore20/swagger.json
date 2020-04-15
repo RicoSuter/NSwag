@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.3.0.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v13.4.0.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "Hello world!",
@@ -427,9 +427,6 @@
           "Pet"
         ],
         "operationId": "Pet_UploadImage",
-        "consumes": [
-          "multipart/form-data"
-        ],
         "produces": [
           "application/json"
         ],
@@ -443,9 +440,43 @@
             "x-nullable": false
           },
           {
-            "type": "file",
-            "name": "file",
-            "in": "formData",
+            "type": "string",
+            "name": "ContentType",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "ContentDisposition",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "object",
+            "name": "Headers",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/IHeaderDictionary"
+            },
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "Length",
+            "in": "query",
+            "format": "int64",
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "Name",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "FileName",
+            "in": "query",
             "x-nullable": true
           }
         ],
@@ -693,6 +724,25 @@
         },
         "type": {
           "type": "string"
+        }
+      }
+    },
+    "IHeaderDictionary": {
+      "type": "object",
+      "x-abstract": true,
+      "required": [
+        "Item"
+      ],
+      "properties": {
+        "Item": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ContentLength": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     }
