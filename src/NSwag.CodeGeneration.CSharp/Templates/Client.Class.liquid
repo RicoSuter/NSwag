@@ -123,12 +123,10 @@
 
 {%         endif -%}
 {%     endfor -%}
-{%     if operation.HasContent -%}
-{%         if operation.ContentParameter.IsRequired -%}
+{%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
             throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
-{%         endif -%}
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
         urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
