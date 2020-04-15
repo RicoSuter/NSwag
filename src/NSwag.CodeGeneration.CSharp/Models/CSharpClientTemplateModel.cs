@@ -83,6 +83,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets client base interface.</summary>
+        public string ClientBaseInterface => _settings.ClientBaseInterface;
+
+        /// <summary>Gets a value indicating whether client interface has a base interface.</summary>
+        public bool HasClientBaseInterface => !string.IsNullOrEmpty(ClientBaseInterface);
+
         /// <summary>Gets a value indicating whether the document has a BaseUrl specified.</summary>
         public bool HasBaseUrl => !string.IsNullOrEmpty(BaseUrl);
 
