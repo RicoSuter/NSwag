@@ -91,12 +91,6 @@ namespace NSwag.Generation
 
             operationParameter.Name = name;
             operationParameter.IsRequired = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
-
-            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
-            {
-                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
-            }
-
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
 
             if (description != string.Empty)
@@ -123,7 +117,15 @@ namespace NSwag.Generation
                 if (hasSchemaAnnotations || typeDescription.IsNullable)
                 {
                     operationParameter.Schema.IsNullableRaw = true;
-                    operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = referencedSchema.ActualSchema });
+
+                    if (_settings.AllowReferencesWithProperties)
+                    {
+                        operationParameter.Schema.Reference = referencedSchema.ActualSchema;
+                    }
+                    else
+                    {
+                        operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = referencedSchema.ActualSchema });
+                    }
                 }
                 else
                 {
@@ -137,6 +139,12 @@ namespace NSwag.Generation
                     contextualParameter, typeDescription.IsNullable, _schemaResolver);
 
                 _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
+            }
+
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+            {
+                operationParameter.Style = OpenApiParameterStyle.Form;
+                operationParameter.Explode = true;
             }
 
             return operationParameter;
@@ -172,6 +180,11 @@ namespace NSwag.Generation
             {
                 operationParameter = _settings.SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
                 _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
+            }
+
+            if (typeDescription.Type.HasFlag(JsonObjectType.Array))
+            {
+                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
             }
 
             return operationParameter;

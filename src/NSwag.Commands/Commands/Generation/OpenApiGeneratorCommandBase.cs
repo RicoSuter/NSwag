@@ -177,22 +177,22 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
 
-        [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "DocumentProcessors", IsRequired = false, Description = "The document processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string[] DocumentProcessorTypes { get; set; } = new string[0];
 
-        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "OperationProcessors", IsRequired = false, Description = "The operation processor type names in the form 'assemblyName:fullTypeName' or 'fullTypeName' or ':assemblyName:fullTypeName' or ':fullTypeName'. Begin name with ':' to prepend processors (required when used to filter out other operations).")]
         public string[] OperationProcessorTypes { get; set; } = new string[0];
 
-        [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "TypeNameGenerator", IsRequired = false, Description = "The custom ITypeNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string TypeNameGeneratorType { get; set; }
 
-        [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string SchemaNameGeneratorType { get; set; }
 
-        [Argument(Name = "ContractResolver", IsRequired = false, Description = "DEPRECATED: The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "ContractResolver", IsRequired = false, Description = "DEPRECATED: The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string ContractResolverType { get; set; }
 
-        [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
+        [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string SerializerSettingsType { get; set; }
 
         [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), most CLI settings will be ignored).")]
@@ -358,10 +358,18 @@ namespace NSwag.Commands.Generation
 
             if (OperationProcessorTypes != null)
             {
+                var prependIndex = 0;
                 foreach (var p in OperationProcessorTypes)
                 {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p);
-                    Settings.OperationProcessors.Add(processor);
+                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p[0] == ':' ? p.Substring(1) : p);
+                    if (p[0] == ':')
+                    {
+                        Settings.OperationProcessors.Insert(prependIndex++, processor);
+                    }
+                    else
+                    {
+                        Settings.OperationProcessors.Add(processor);
+                    }
                 }
             }
 

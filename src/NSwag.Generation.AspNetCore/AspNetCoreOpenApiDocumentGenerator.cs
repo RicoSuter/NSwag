@@ -382,9 +382,23 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = swaggerOperationAttribute.OperationId;
             }
+            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
+            {
+                operationId = actionDescriptor.AttributeRouteInfo.Name;
+            }
             else
             {
-                operationId = actionDescriptor.ControllerName + "_" + GetActionName(actionDescriptor.ActionName);
+                dynamic openApiControllerAttribute = actionDescriptor
+                    .ControllerTypeInfo?
+                    .GetCustomAttributes()?
+                    .FirstAssignableToTypeNameOrDefault("OpenApiControllerAttribute", TypeNameStyle.Name);
+
+                var controllerName =
+                    openApiControllerAttribute != null && !string.IsNullOrEmpty(openApiControllerAttribute.Name) ?
+                    openApiControllerAttribute.Name :
+                    actionDescriptor.ControllerName;
+
+                operationId = controllerName + "_" + GetActionName(actionDescriptor.ActionName);
             }
 
             var number = 1;

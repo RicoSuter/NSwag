@@ -3,7 +3,7 @@
   <PropertyGroup>
     <_NSwagCommand>$(NSwagExe)</_NSwagCommand>
     <_NSwagCommand
-        Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 $(NSwagDir_Core21)/dotnet-nswag.dll</_NSwagCommand>
+        Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 $(NSwagDir_Core31)/dotnet-nswag.dll</_NSwagCommand>
   </PropertyGroup>
 
   <!-- OpenApiReference support for C# -->

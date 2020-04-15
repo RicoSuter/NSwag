@@ -8,7 +8,6 @@
 
 using System.Collections.Generic;
 using NJsonSchema.CodeGeneration;
-using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models

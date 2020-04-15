@@ -86,6 +86,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets client base interface.</summary>
+        public string ClientBaseInterface => _settings.ClientBaseInterface;
+
+        /// <summary>Gets a value indicating whether client interface has a base interface.</summary>
+        public bool HasClientBaseInterface => !string.IsNullOrEmpty(ClientBaseInterface);
+
         /// <summary>Gets a value indicating whether the document has a BaseUrl specified.</summary>
         public bool HasBaseUrl => !string.IsNullOrEmpty(BaseUrl);
 
@@ -134,6 +140,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method.</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod => _settings.GenerateUpdateJsonSerializerSettingsMethod;
 
+        /// <summary>Gets or sets a value indicating whether to generate different request and response serialization settings (default: false).</summary>
+        public bool UseRequestAndResponseSerializationSettings => _settings.UseRequestAndResponseSerializationSettings;
+
         /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
         public bool SerializeTypeInformation => _settings.SerializeTypeInformation;
 
@@ -165,6 +174,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return parameterCode;
             }
         }
+
+        /// <summary>Gets the Title.</summary>
+        public string Title => _document.Info.Title;
+
+        /// <summary>Gets the Description.</summary>
+        public string Description => _document.Info.Description;
+
+        /// <summary>Gets the API version.</summary>
+        public string Version => _document.Info.Version;
 
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.InheritsSchema(_exceptionSchema) == true));

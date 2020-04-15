@@ -53,6 +53,7 @@ namespace {{ Namespace }}
 
 {%     endif -%}
 {%     if GenerateFileResponseClass -%}
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileResponse : System.IDisposable
     {
         private System.IDisposable _client; 

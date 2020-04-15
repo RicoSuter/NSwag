@@ -111,5 +111,44 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("var client_ = new CustomNamespace.CustomHttpClient();", code);
         }
+
+        [Fact]
+        public async Task When_client_base_interface_is_not_specified_then_client_interface_should_have_no_base_interface()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public partial interface IFooClient\n", code);
+        }
+
+        [Fact]
+        public async Task When_client_base_interface_is_specified_then_client_interface_extends_it()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                ClientBaseInterface = "IClientBase"
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public partial interface IFooClient : IClientBase", code);
+        }
     }
 }

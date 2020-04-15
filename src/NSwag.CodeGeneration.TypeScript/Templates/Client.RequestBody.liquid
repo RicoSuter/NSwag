@@ -24,7 +24,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 {%             if parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%             elseif parameter.IsObjectArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => { 
+    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => {
         for (let attr_ in item_) {
            if (item_.hasOwnProperty(attr_)) {
                 content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (<any>item_)[attr_]) + "&";
@@ -32,11 +32,11 @@ else if ({{ parameter.VariableName }} !== undefined)
         }
     });
 {%             elseif parameter.IsDateOrDateTime -%}
-    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&"; 
+    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&";
 {%             elseif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + item) + "&"; });
 {%             else -%}
-    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&"; 
+    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
 {%             endif -%}
 {%         endfor -%}
 content_ = content_.replace(/&$/, "");

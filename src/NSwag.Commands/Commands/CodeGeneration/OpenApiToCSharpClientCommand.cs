@@ -59,6 +59,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateClientInterfaces = value; }
         }
 
+        [Argument(Name = "ClientBaseInterface", IsRequired = false, Description = "Base interface for client interfaces (empty for no client base interface).")]
+        public string ClientBaseInterface
+        {
+            get { return Settings.ClientBaseInterface; }
+            set { Settings.ClientBaseInterface = value; }
+        }
+
         [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected (default: true).")]
         public bool InjectHttpClient
         {
@@ -209,6 +216,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateUpdateJsonSerializerSettingsMethod; }
             set { Settings.GenerateUpdateJsonSerializerSettingsMethod = value; }
+        }
+
+        [Argument(Name = "UseRequestAndResponseSerializationSettings", IsRequired = false,
+            Description = "Generate different request and response serialization settings (default: false).")]
+        public bool UseRequestAndResponseSerializationSettings
+        {
+            get { return Settings.UseRequestAndResponseSerializationSettings; }
+            set { Settings.UseRequestAndResponseSerializationSettings = value; }
         }
 
         [Argument(Name = "SerializeTypeInformation", IsRequired = false,
