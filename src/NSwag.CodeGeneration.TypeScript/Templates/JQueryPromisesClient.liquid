@@ -9,8 +9,8 @@
 {% endif -%}
 
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
-    baseUrl: string; 
-    beforeSend: any = undefined; 
+    baseUrl: string;
+    beforeSend: any = undefined;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else -%}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false -%}
@@ -37,7 +37,7 @@
             this.{{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}(result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
-    
+
     private {{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}: {{ parameter.Type }}{{ parameter.TypePostfix }}, {% endfor %}onSuccess?: (result: {{ operation.ResultType }}) => void, onFail?: (exception: {{ operation.ExceptionType }}, reason: string) => void) {
         {% template Client.RequestUrl %}
 
@@ -60,10 +60,10 @@
 {%     endif -%}
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
 {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
@@ -92,7 +92,7 @@
     }
 
     protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if SupportsStrictNullChecks %} | null{% endif %} {
-        const status = xhr.status; 
+        const status = xhr.status;
 
         {% template Client.ProcessResponse %}
     }
