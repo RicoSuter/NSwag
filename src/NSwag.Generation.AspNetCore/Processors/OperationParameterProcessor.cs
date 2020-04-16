@@ -388,11 +388,22 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else if (operationParameter.Schema.HasReference)
                 {
-                    operationParameter.Schema = new JsonSchema
+                    if (_settings.AllowReferencesWithProperties)
                     {
-                        Default = defaultValue,
-                        OneOf = { operationParameter.Schema }
-                    };
+                        operationParameter.Schema = new JsonSchema
+                        {
+                            Default = defaultValue,
+                            Reference = operationParameter.Schema,
+                        };
+                    }
+                    else
+                    {
+                        operationParameter.Schema = new JsonSchema
+                        {
+                            Default = defaultValue,
+                            OneOf = { operationParameter.Schema },
+                        };
+                    }
                 }
                 else
                 {
