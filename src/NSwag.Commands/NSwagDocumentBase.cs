@@ -371,27 +371,39 @@ namespace NSwag.Commands
                     SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
-            if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)
-            {
-                CodeGenerators.OpenApiToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(
-                    CodeGenerators.OpenApiToTypeScriptClientCommand.ExtensionCode);
-                CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory = ConvertToAbsolutePath(
-                    CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToTypeScriptClientCommands != null)
+                foreach (var openApiToTypeScriptClientCommand in CodeGenerators.OpenApiToTypeScriptClientCommands)
+                {
+                    if (openApiToTypeScriptClientCommand != null)
+                    {
+                        openApiToTypeScriptClientCommand.ExtensionCode = ConvertToAbsolutePath(
+                            openApiToTypeScriptClientCommand.ExtensionCode);
+                        openApiToTypeScriptClientCommand.TemplateDirectory = ConvertToAbsolutePath(
+                            openApiToTypeScriptClientCommand.TemplateDirectory);
+                    }
+                }
 
-            if (CodeGenerators.OpenApiToCSharpClientCommand != null)
-            {
-                CodeGenerators.OpenApiToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(
-                    CodeGenerators.OpenApiToCSharpClientCommand.ContractsOutputFilePath);
-                CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory = ConvertToAbsolutePath(
-                    CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToCSharpClientCommands != null)
+                foreach (var openApiToCSharpClientCommand in CodeGenerators.OpenApiToCSharpClientCommands)
+                {
+                    if (openApiToCSharpClientCommand != null)
+                    {
+                        openApiToCSharpClientCommand.ContractsOutputFilePath = ConvertToAbsolutePath(
+                            openApiToCSharpClientCommand.ContractsOutputFilePath);
+                        openApiToCSharpClientCommand.TemplateDirectory = ConvertToAbsolutePath(
+                            openApiToCSharpClientCommand.TemplateDirectory);
+                    }
+                }
 
-            if (CodeGenerators.OpenApiToCSharpControllerCommand != null)
-            {
-                CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory = ConvertToAbsolutePath(
-                    CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToCSharpControllerCommands != null)
+                foreach (var openApiToCSharpControllerCommand in CodeGenerators.OpenApiToCSharpControllerCommands)
+                {
+                    if (openApiToCSharpControllerCommand != null)
+                    {
+                        openApiToCSharpControllerCommand.TemplateDirectory = ConvertToAbsolutePath(
+                            openApiToCSharpControllerCommand.TemplateDirectory);
+                    }
+                }
 
             foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
             {
@@ -452,27 +464,39 @@ namespace NSwag.Commands
                     SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
-            if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)
-            {
-                CodeGenerators.OpenApiToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(
-                    CodeGenerators.OpenApiToTypeScriptClientCommand.ExtensionCode);
-                CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory = ConvertToRelativePath(
-                    CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToTypeScriptClientCommands != null)
+                foreach (var openApiToTypeScriptClientCommand in CodeGenerators.OpenApiToTypeScriptClientCommands)
+                {
+                    if (openApiToTypeScriptClientCommand != null)
+                    {
+                        openApiToTypeScriptClientCommand.ExtensionCode = ConvertToRelativePath(
+                            openApiToTypeScriptClientCommand.ExtensionCode);
+                        openApiToTypeScriptClientCommand.TemplateDirectory = ConvertToRelativePath(
+                            openApiToTypeScriptClientCommand.TemplateDirectory);
+                    }
+                }
 
-            if (CodeGenerators.OpenApiToCSharpClientCommand != null)
-            {
-                CodeGenerators.OpenApiToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(
-                    CodeGenerators.OpenApiToCSharpClientCommand.ContractsOutputFilePath);
-                CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory = ConvertToRelativePath(
-                    CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToCSharpClientCommands != null)
+                foreach (var openApiToCSharpClientCommand in CodeGenerators.OpenApiToCSharpClientCommands)
+                {
+                    if (openApiToCSharpClientCommand != null)
+                    {
+                        openApiToCSharpClientCommand.ContractsOutputFilePath = ConvertToRelativePath(
+                            openApiToCSharpClientCommand.ContractsOutputFilePath);
+                        openApiToCSharpClientCommand.TemplateDirectory = ConvertToRelativePath(
+                            openApiToCSharpClientCommand.TemplateDirectory);
+                    }
+                }
 
-            if (CodeGenerators.OpenApiToCSharpControllerCommand != null)
-            {
-                CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory = ConvertToRelativePath(
-                    CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory);
-            }
+            if (CodeGenerators.OpenApiToCSharpControllerCommands != null)
+                foreach (var openApiToCSharpControllerCommand in CodeGenerators.OpenApiToCSharpControllerCommands)
+                {
+                    if (openApiToCSharpControllerCommand != null)
+                    {
+                        openApiToCSharpControllerCommand.TemplateDirectory = ConvertToRelativePath(
+                            openApiToCSharpControllerCommand.TemplateDirectory);
+                    }
+                }
 
             foreach (var generator in CodeGenerators.Items.Where(i => i != null).Concat(SwaggerGenerators.Items))
             {
