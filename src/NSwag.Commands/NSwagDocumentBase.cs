@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -377,6 +378,11 @@ namespace NSwag.Commands
                     CodeGenerators.OpenApiToTypeScriptClientCommand.ExtensionCode);
                 CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory = ConvertToAbsolutePath(
                     CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory);
+
+                if (CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory != null && !Directory.Exists(CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory))
+                {
+                    throw new InvalidOperationException($"The template directory \"{CodeGenerators.OpenApiToTypeScriptClientCommand.TemplateDirectory}\" does not exist");
+                }
             }
 
             if (CodeGenerators.OpenApiToCSharpClientCommand != null)
@@ -385,12 +391,22 @@ namespace NSwag.Commands
                     CodeGenerators.OpenApiToCSharpClientCommand.ContractsOutputFilePath);
                 CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory = ConvertToAbsolutePath(
                     CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory);
+
+                if (CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory != null && !Directory.Exists(CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory))
+                {
+                    throw new InvalidOperationException($"The template directory \"{CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory}\" does not exist");   
+                }
             }
 
             if (CodeGenerators.OpenApiToCSharpControllerCommand != null)
             {
                 CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory = ConvertToAbsolutePath(
                     CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory);
+
+                if (CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory != null !Directory.Exists(CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory))
+                {
+                    throw new InvalidOperationException($"The template directory {CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory}\" does not exist");
+                }
             }
 
             foreach (var generator in CodeGenerators.Items.Concat(SwaggerGenerators.Items))
