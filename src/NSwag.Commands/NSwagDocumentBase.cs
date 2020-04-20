@@ -403,7 +403,7 @@ namespace NSwag.Commands
                 CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory = ConvertToAbsolutePath(
                     CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory);
 
-                if (CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory != null !Directory.Exists(CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory))
+                if (CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory != null && !Directory.Exists(CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory))
                 {
                     throw new InvalidOperationException($"The template directory {CodeGenerators.OpenApiToCSharpControllerCommand.TemplateDirectory}\" does not exist");
                 }
