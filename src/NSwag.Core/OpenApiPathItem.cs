@@ -60,7 +60,7 @@ namespace NSwag
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                var operations = (OpenApiPathItem)value;
+                var operations = (OpenApiPathItem) value;
                 writer.WriteStartObject();
 
                 if (operations.Summary != null)
@@ -105,7 +105,8 @@ namespace NSwag
                 writer.WriteEndObject();
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+                JsonSerializer serializer)
             {
                 if (reader.TokenType == JsonToken.Null)
                 {
@@ -120,38 +121,40 @@ namespace NSwag
 
                     if (propertyName == "summary")
                     {
-                        operations.Summary = (string)serializer.Deserialize(reader, typeof(string));
+                        operations.Summary = (string) serializer.Deserialize(reader, typeof(string));
                     }
                     else if (propertyName == "description")
                     {
-                        operations.Description = (string)serializer.Deserialize(reader, typeof(string));
+                        operations.Description = (string) serializer.Deserialize(reader, typeof(string));
                     }
                     else if (propertyName == "parameters")
                     {
-                        operations.Parameters = (Collection<OpenApiParameter>)serializer.Deserialize(reader, typeof(Collection<OpenApiParameter>));
+                        operations.Parameters =
+                            (Collection<OpenApiParameter>) serializer.Deserialize(reader,
+                                typeof(Collection<OpenApiParameter>));
                     }
                     else if (propertyName == "servers")
                     {
-                        operations.Servers = (Collection<OpenApiServer>)serializer.Deserialize(reader, typeof(Collection<OpenApiServer>));
+                        operations.Servers =
+                            (Collection<OpenApiServer>) serializer.Deserialize(reader,
+                                typeof(Collection<OpenApiServer>));
+                    }
+                    else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (operations.ExtensionData == null)
+                        {
+                            operations.ExtensionData = new Dictionary<string, object>();
+                        }
+
+                        operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
                     }
                     else
                     {
-                        try
-                        {
-                            var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
-                            operations.Add(propertyName, value);
-                        }
-                        catch
-                        {
-                            if (operations.ExtensionData == null)
-                            {
-                                operations.ExtensionData = new Dictionary<string, object>();
-                            }
-
-                            operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
-                        }
+                        var value = (OpenApiOperation) serializer.Deserialize(reader, typeof(OpenApiOperation));
+                        operations.Add(propertyName, value);
                     }
                 }
+
                 return operations;
             }
 
