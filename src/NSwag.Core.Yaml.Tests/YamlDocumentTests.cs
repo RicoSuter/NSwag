@@ -57,7 +57,7 @@ paths:
             Assert.Equal("bar", document.Paths.First().Value.ExtensionData["x-swagger-router-controller"]);
             Assert.Contains("x-swagger-router-controller: bar", yaml);
         }
-        
+
         [Fact]
         public async Task When_yaml_with_custom_property_which_is_an_object_is_loaded_then_document_is_not_null()
         {
