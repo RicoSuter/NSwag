@@ -18,7 +18,7 @@
     "aurelia-templating-router": "^1.0.0",
     "bootstrap": "^3.3.7",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^2.2.1"
+    "jquery": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "^6.0.45",
