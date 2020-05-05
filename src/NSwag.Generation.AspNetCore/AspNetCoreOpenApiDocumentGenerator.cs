@@ -136,8 +136,13 @@ namespace NSwag.Generation.AspNetCore
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
+
 #if NETSTANDARD2_0
-            if (serviceProvider == null) return settings;
+            if (serviceProvider == null)
+            {
+                return settings;
+            }
+                
             dynamic options = null;
             try
             {
@@ -146,18 +151,25 @@ namespace NSwag.Generation.AspNetCore
                 options = serviceProvider?.GetService(optionsType) as dynamic;
             }
             catch
-            {}
+            {
+            }
 
             if (!(options?.Value?.JsonSerializerOptions is System.Text.Json.JsonSerializerOptions jsonOptions))
+            {
                 return settings;
+            }
 
             // StringEnumConverter
             if (jsonOptions.Converters.Any(c => c is System.Text.Json.Serialization.JsonStringEnumConverter))
+            {
                 settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            }
 
             if (jsonOptions.PropertyNamingPolicy == null)
+            {
                 // PocoCase
                 settings.ContractResolver = new DefaultContractResolver();
+            }
 #endif
             return settings;
         }
