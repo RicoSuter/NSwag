@@ -143,7 +143,9 @@
     <Compile Include="OperationProcessors\ApiVersionProcessorWithWebApiTests.cs" />
     <Compile Include="Nullability\ParameterNullabilityTests.cs" />
     <Compile Include="Nullability\ResponseNullabilityTests.cs" />
+    <Compile Include="OperationProcessors\OpenApiQueryParametersOperationParameterProcessorTests.cs" />
     <Compile Include="OperationProcessors\SwaggerOperationProcessorAttributeTests.cs" />
+    <Compile Include="OperationProcessors\SwaggerQueryParametersOperationParameterProcessorTests.cs" />
     <Compile Include="RouteAttributeTests.cs" />
     <Compile Include="EnumTests.cs" />
     <Compile Include="FileParameterTests.cs" />

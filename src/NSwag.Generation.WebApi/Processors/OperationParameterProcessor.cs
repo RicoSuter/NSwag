@@ -184,12 +184,7 @@ namespace NSwag.Generation.WebApi.Processors
                 {
                     operationParameter.Position = position;
                     position++;
-
-                    if (_settings.SchemaType == SchemaType.OpenApi3)
-                    {
-                        operationParameter.IsNullableRaw = null;
-                    }
-
+                    
                     ((Dictionary<ParameterInfo, OpenApiParameter>)context.Parameters)[contextualParameter.ParameterInfo] = operationParameter;
                 }
             }
@@ -210,10 +205,27 @@ namespace NSwag.Generation.WebApi.Processors
 
             RemoveUnusedPathParameters(context.OperationDescription, httpPath);
             UpdateConsumedTypes(context.OperationDescription);
+            UpdateNullableRawOperationParameters(context.OperationDescription, _settings.SchemaType);
 
             EnsureSingleBodyParameter(context.OperationDescription);
 
             return true;
+        }
+
+        /// <summary>
+        /// Sets the IsNullableRaw property of parameters to null for OpenApi3 schemas.
+        /// </summary>
+        /// <param name="operationDescription">Operation to check.</param>
+        /// <param name="schemaType">Schema type.</param>
+        private void UpdateNullableRawOperationParameters(OpenApiOperationDescription operationDescription, SchemaType schemaType)
+        {
+            if (schemaType == SchemaType.OpenApi3)
+            {
+                foreach (OpenApiParameter openApiParameter in operationDescription.Operation.Parameters)
+                {
+                    openApiParameter.IsNullableRaw = null;
+                }
+            }
         }
 
         private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
