@@ -98,6 +98,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
 
+        /// <summary>Gets a value indicating whether the parameter has form style.</summary>
+        public bool IsForm => _parameter.Style == OpenApiParameterStyle.Form;
+
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
         public IEnumerable<PropertyModel> PropertyNames
         {
@@ -189,6 +192,9 @@ namespace NSwag.CodeGeneration.Models
         public bool IsObjectArray => IsArray &&
             (Schema.Item?.ActualSchema.Type == JsonObjectType.Object ||
              Schema.Item?.ActualSchema.IsAnyType == true);
+
+        /// <summary>Gets a value indicating whether the parameter is of type object</summary>
+        public bool IsObject => Schema.ActualSchema.Type == JsonObjectType.Object;
 
         /// <summary>Gets a value indicating whether the parameter is of type object.</summary>
         public bool IsBody => Kind == OpenApiParameterKind.Body;
