@@ -132,46 +132,31 @@ namespace NSwag.Generation.AspNetCore
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
             // contract resolver which reflects best the System.Text.Json behavior.
             // See https://github.com/RicoSuter/NSwag/issues/2243
-            JsonSerializerSettings settings = new JsonSerializerSettings
+
+#if NETSTANDARD2_0
+            if (serviceProvider != null)
+            {
+                try
+                {
+                    var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
+                    var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
+                   
+                    var options = serviceProvider?.GetService(optionsType) as dynamic;
+                    var jsonOptions = options?.Value?.JsonSerializerOptions as System.Text.Json.JsonSerializerOptions;
+                    if (jsonOptions != null)
+                    {
+                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                    }
+                }
+                catch
+                {
+                }
+            }
+#endif
+            return new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-
-#if NETSTANDARD2_0
-            if (serviceProvider == null)
-            {
-                return settings;
-            }
-                
-            dynamic options = null;
-            try
-            {
-                var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
-                var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
-                options = serviceProvider?.GetService(optionsType) as dynamic;
-            }
-            catch
-            {
-            }
-
-            if (!(options?.Value?.JsonSerializerOptions is System.Text.Json.JsonSerializerOptions jsonOptions))
-            {
-                return settings;
-            }
-
-            // StringEnumConverter
-            if (jsonOptions.Converters.Any(c => c is System.Text.Json.Serialization.JsonStringEnumConverter))
-            {
-                settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            }
-
-            if (jsonOptions.PropertyNamingPolicy == null)
-            {
-                // PocoCase
-                settings.ContractResolver = new DefaultContractResolver();
-            }
-#endif
-            return settings;
         }
 
         private List<Type> GenerateForControllers(
