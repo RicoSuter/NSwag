@@ -178,6 +178,23 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 return "FileParameter";
             }
 
+            if (_settings.TypeScriptGeneratorSettings.UseLeafType && schema.ActualDiscriminatorObject != null)
+            {
+                var types = schema.ActualDiscriminatorObject.Mapping
+                    .Select(x => new OpenApiParameter
+                    {
+                        Name = parameter.Name,
+                        Kind = parameter.Kind,
+                        IsRequired = parameter.IsRequired,
+                        IsNullableRaw = parameter.IsNullableRaw,
+                        Description = parameter.Description,
+                        Schema = x.Value
+                    })
+                    .Select(ResolveParameterType);
+
+                return string.Join(" | ", types);
+            }
+
             return base.ResolveParameterType(parameter);
         }
 

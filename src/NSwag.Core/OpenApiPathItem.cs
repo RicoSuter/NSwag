@@ -134,22 +134,19 @@ namespace NSwag
                     {
                         operations.Servers = (Collection<OpenApiServer>)serializer.Deserialize(reader, typeof(Collection<OpenApiServer>));
                     }
+                    else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (operations.ExtensionData == null)
+                        {
+                            operations.ExtensionData = new Dictionary<string, object>();
+                        }
+
+                        operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
+                    }
                     else
                     {
-                        try
-                        {
-                            var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
-                            operations.Add(propertyName, value);
-                        }
-                        catch
-                        {
-                            if (operations.ExtensionData == null)
-                            {
-                                operations.ExtensionData = new Dictionary<string, object>();
-                            }
-
-                            operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
-                        }
+                        var value = (OpenApiOperation) serializer.Deserialize(reader, typeof(OpenApiOperation));
+                        operations.Add(propertyName, value);
                     }
                 }
                 return operations;

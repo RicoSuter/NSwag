@@ -37,6 +37,9 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the full name of the base class.</summary>
         public string ClientBaseClass { get; set; }
 
+        /// <summary>Gets or sets the full name of the base interface.</summary>
+        public string ClientBaseInterface { get; set; }
+
         /// <summary>Gets or sets the full name of the configuration class (<see cref="ClientBaseClass"/> must be set).</summary>
         public string ConfigurationClass { get; set; }
 
