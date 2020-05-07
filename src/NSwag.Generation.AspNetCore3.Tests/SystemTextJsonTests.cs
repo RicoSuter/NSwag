@@ -16,55 +16,66 @@ namespace NSwag.Generation.AspNetCore3.Tests
         [Fact]
         public async Task SystemTextJsonEnumOptionIsRead()
         {
+            // Arrange
             var services = new ServiceCollection()
                 .AddLogging();
-            
+
             services.AddControllers()
                 .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-            services.AddOpenApiDocument();
-            var sp = services.BuildServiceProvider();
-            
-            var generator = sp.GetRequiredService<OpenApiDocumentRegistration>();
-            await generator.Generator.GenerateAsync(sp);
-            var settings =   generator.Generator.Settings;
 
-            Assert.Contains(settings.SerializerSettings.Converters,c =>  c is StringEnumConverter);
+            services.AddOpenApiDocument();
+            var serviceProvider = services.BuildServiceProvider();
+
+            // Act
+            var generator = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
+            await generator.Generator.GenerateAsync(serviceProvider);
+            var settings = generator.Generator.Settings;
+
+            // Assert
+            Assert.Contains(settings.SerializerSettings.Converters, c => c is StringEnumConverter);
         }
-        
+
         [Fact]
         public async Task SystemTextJsonCaseOptionIsRead()
         {
+            // Arrange
             var services = new ServiceCollection()
                 .AddLogging();
-            
+
             services.AddControllers()
                 .AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
-            services.AddOpenApiDocument();
-            var sp = services.BuildServiceProvider();
-            
-            var generator = sp.GetRequiredService<OpenApiDocumentRegistration>();
-            await generator.Generator.GenerateAsync(sp);
-            var settings =   generator.Generator.Settings;
 
+            services.AddOpenApiDocument();
+            var serviceProvider = services.BuildServiceProvider();
+
+            // Act
+            var generator = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
+            await generator.Generator.GenerateAsync(serviceProvider);
+            var settings = generator.Generator.Settings;
+
+            // Assert
             Assert.IsType<DefaultContractResolver>(settings.SerializerSettings.ContractResolver);
         }
-        
+
         [Fact]
         public async Task SystemTextJsonOptionDefaultsWhenNotSet()
         {
+            // Arrange
             var services = new ServiceCollection()
                 .AddLogging();
 
             services.AddControllers();
             services.AddOpenApiDocument();
-            var sp = services.BuildServiceProvider();
-            
-            var generator = sp.GetRequiredService<OpenApiDocumentRegistration>();
-            await generator.Generator.GenerateAsync(sp);
-            var settings =   generator.Generator.Settings;
+            var serviceProvider = services.BuildServiceProvider();
 
+            // Act
+            var generator = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
+            await generator.Generator.GenerateAsync(serviceProvider);
+            var settings = generator.Generator.Settings;
+
+            // Assert
             Assert.IsType<CamelCasePropertyNamesContractResolver>(settings.SerializerSettings.ContractResolver);
-            Assert.DoesNotContain(settings.SerializerSettings.Converters,c =>  c is StringEnumConverter);
+            Assert.DoesNotContain(settings.SerializerSettings.Converters, c => c is StringEnumConverter);
         }
     }
 }
