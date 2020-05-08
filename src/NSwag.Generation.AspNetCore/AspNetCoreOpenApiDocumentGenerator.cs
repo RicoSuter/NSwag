@@ -47,7 +47,7 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings();
+            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
@@ -127,11 +127,32 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
         /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetSystemTextJsonSettings()
+        public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
             // contract resolver which reflects best the System.Text.Json behavior.
             // See https://github.com/RicoSuter/NSwag/issues/2243
+
+#if NETSTANDARD2_0
+            if (serviceProvider != null)
+            {
+                try
+                {
+                    var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
+                    var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
+                   
+                    var options = serviceProvider?.GetService(optionsType) as dynamic;
+                    var jsonOptions = options?.Value?.JsonSerializerOptions as System.Text.Json.JsonSerializerOptions;
+                    if (jsonOptions != null)
+                    {
+                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                    }
+                }
+                catch
+                {
+                }
+            }
+#endif
             return new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
