@@ -229,7 +229,7 @@ namespace NSwag.Commands.Generation
             }
             catch
             {
-                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings();
+                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(serviceProvider);
             }
 #else
             var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
