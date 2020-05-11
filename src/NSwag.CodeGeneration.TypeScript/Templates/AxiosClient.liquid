@@ -69,9 +69,9 @@
         return this.instance.request(options_).catch((_error: any) => {
 {%     endif -%}
             if (isAxiosError(_error) && _error.response) {
-                return _error.response
+                return _error.response;
             } else {
-                throw _error
+                throw _error;
             }
         }).then((_response: AxiosResponse) => {
 {%     if UseTransformResultMethod -%}
