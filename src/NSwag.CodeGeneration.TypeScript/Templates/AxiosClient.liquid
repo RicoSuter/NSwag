@@ -40,7 +40,6 @@
 
 {%     endif -%}
         let options_ = <AxiosRequestConfig>{
-            validateStatus: () => true,
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
@@ -65,10 +64,16 @@
 {%     if UseTransformOptionsMethod -%}
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.instance.request(transformedOptions_);
-        }).then((_response: AxiosResponse) => {
+        }).catch((_error: any) => {
 {%     else -%}
-        return this.instance.request(options_).then((_response: AxiosResponse) => {
+        return this.instance.request(options_).catch((_error: any) => {
 {%     endif -%}
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
 {%     if UseTransformResultMethod -%}
             return this.transformResult(url_, _response, (_response: AxiosResponse) => this.process{{ operation.ActualOperationNameUpper }}(_response));
 {%     else -%}

@@ -62,5 +62,10 @@ function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     });
 }
 
+{% elseif Framework.IsAxios -%}
+function isAxiosError(obj: any): obj is AxiosError {
+    return obj.isAxiosError === true;
+}
+
 {% endif -%}
 {% endif -%}
