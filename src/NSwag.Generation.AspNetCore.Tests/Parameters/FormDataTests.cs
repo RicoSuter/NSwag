@@ -6,7 +6,7 @@ using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Parameters
 {
-    public class FileUploadTests : AspNetCoreTestsBase
+    public class FormDataTests : AspNetCoreTestsBase
     {
         [Fact]
         public async Task WhenOperationHasFormDataFile_ThenItIsInRequestBody()
@@ -24,8 +24,34 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
 
             Assert.Equal("binary", schema.Properties["file"].Format);
             Assert.Equal(JsonObjectType.String, schema.Properties["file"].Type);
-
             Assert.Equal(JsonObjectType.String, schema.Properties["test"].Type);
+
+            Assert.Contains(@"    ""/api/FileUpload/UploadFiles"": {
+      ""post"": {
+        ""tags"": [
+          ""FileUpload""
+        ],
+        ""operationId"": ""FileUpload_UploadFiles"",
+        ""requestBody"": {
+          ""content"": {
+            ""multipart/form-data"": {
+              ""schema"": {
+                ""properties"": {
+                  ""files"": {
+                    ""type"": ""array"",
+                    ""items"": {
+                      ""type"": ""string"",
+                      ""format"": ""binary""
+                    }
+                  },
+                  ""test"": {
+                    ""type"": ""string""
+                  }
+                }
+              }
+            }
+          }
+        },", json);
         }
 
         [Fact]

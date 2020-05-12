@@ -146,6 +146,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether this is an XML body parameter.</summary>
         public bool IsXmlBodyParameter => _parameter.IsXmlBodyParameter;
 
+        /// <summary>Gets a value indicating whether this is an binary body parameter.</summary>
+        public bool IsBinaryBodyParameter => _parameter.IsBinaryBodyParameter;
+
         /// <summary>Gets a value indicating whether the parameter is of type date.</summary>
         public bool IsDate =>
             Schema.Format == JsonFormatStrings.Date &&
@@ -165,7 +168,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsStringArray => IsArray && Schema.Item?.ActualSchema.Type.HasFlag(JsonObjectType.String) == true;
 
         /// <summary>Gets a value indicating whether this is a file parameter.</summary>
-        public bool IsFile => Schema.IsBinary;
+        public bool IsFile => Schema.IsBinary || (IsArray && Schema?.Item?.IsBinary == true);
 
         /// <summary>Gets a value indicating whether the parameter is a binary body parameter.</summary>
         public bool IsBinaryBody => _parameter.IsBinaryBodyParameter;

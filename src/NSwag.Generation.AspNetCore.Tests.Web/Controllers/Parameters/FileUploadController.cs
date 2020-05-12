@@ -10,8 +10,14 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
     [Route("api/[controller]")]
     public class FileUploadController : Controller
     {
-        [HttpPost]
+        [HttpPost("UploadFile")]
         public ActionResult UploadFile([NotNull] IFormFile file, [FromForm, NotNull]string test)
+        {
+            return Ok();
+        }
+
+        [HttpPost("UploadFiles")]
+        public ActionResult UploadFiles([NotNull, FromForm] IFormFile[] files, [FromForm, NotNull]string test)
         {
             return Ok();
         }
