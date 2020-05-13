@@ -335,8 +335,11 @@ namespace NSwag.CodeGeneration.Models
                 .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
                 .ToList();
 
-            var formDataSchema = _operation?.RequestBody?.Content?["multipart/form-data"]?.Schema;
-            if (formDataSchema != null)
+            var formDataSchema =
+                _operation?.RequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
+                _operation.RequestBody.Content["multipart/form-data"]?.Schema : null;
+
+            if (formDataSchema != null && formDataSchema.ActualProperties.Count > 0)
             {
                 var formDataProperties = formDataSchema.ActualProperties.ToList();
                 return parameters.Where(p => !p.IsBinaryBodyParameter).Concat(formDataProperties.Select((p, i) => new OpenApiParameter
@@ -344,7 +347,7 @@ namespace NSwag.CodeGeneration.Models
                     Name = p.Key,
                     Kind = OpenApiParameterKind.FormData,
                     Schema = p.Value,
-                    CollectionFormat = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? 
+                    CollectionFormat = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ?
                         OpenApiParameterCollectionFormat.Multi : OpenApiParameterCollectionFormat.Undefined,
                     //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,
                     //Schema = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? p.Value.Item : p.Value,
