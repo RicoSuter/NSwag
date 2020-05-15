@@ -32,7 +32,7 @@
 {% for operation in Operations -%}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -58,7 +58,8 @@
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
-            }
+            },
+            cancelToken
         };
 
 {%     if UseTransformOptionsMethod -%}
