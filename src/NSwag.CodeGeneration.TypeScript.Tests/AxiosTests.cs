@@ -40,7 +40,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 TypeScriptGeneratorSettings =
                 {
                     TypeScriptVersion = 2.0m
@@ -104,6 +104,29 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.Contains("content_", code);
             Assert.DoesNotContain("FormData", code);
             Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+        }
+
+        [Fact]
+        public async Task Add_cancel_token_to_every_call()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("cancelToken?: CancelToken | undefined", code);
         }
     }
 }
