@@ -2,6 +2,7 @@
 using Xunit;
 using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
+using Snapshooter.Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -104,6 +105,28 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.Contains("content_", code);
             Assert.DoesNotContain("FormData", code);
             Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+        }        
+        
+        [Fact]
+        public async Task Should_match_snapshot()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Snapshot.Match(code);
         }
     }
 }
