@@ -17,14 +17,14 @@ using NJsonSchema;
 
 namespace NSwag.Generation.Processors
 {
-    /// <summary>Processes the SwaggerCallbackAttribute on the operation method.</summary>
+    /// <summary>Processes the OpenApiCallbackAttribute on the operation method.</summary>
     public class OperationCallbackProcessor : IOperationProcessor
     {
         /// <summary>
-        /// Processes the specified method information.
+        /// Processes the specified method information for any callbacks.
         /// </summary>
         /// <param name="context">The processor context.</param>
-        /// <returns>true if the operation should be added to the Swagger specification.</returns>
+        /// <returns>Always returns true, since callbacks are optional.</returns>
         public bool Process(OperationProcessorContext context)
         {
             var operation = context.OperationDescription.Operation;
@@ -84,6 +84,15 @@ namespace NSwag.Generation.Processors
                     }
                 };
 
+                var responseOperation = new OpenApiOperation
+                {
+                    RequestBody = requestBody
+                };
+
+                foreach (var expectedResponse in this.ExpectedResponses(key))
+                {
+                    responseOperation.Responses.Add(expectedResponse);
+                }
 
                 operation.Callbacks[key] =
                     new OpenApiCallback {
@@ -93,26 +102,32 @@ namespace NSwag.Generation.Processors
                                 {
                                     {
                                         method,
-                                        new OpenApiOperation
-                                        {
-                                            RequestBody = requestBody,
-                                            Responses = {
-                                                { "200", new OpenApiResponse
-                                                         {
-                                                            Description = "Your server returns this code if it accepts the callback"
-                                                         }
-                                                }
-                                            }
-                                        }
+                                        responseOperation
                                     }
                                 }
                             }
                         };
-
-
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Defines what responses are expected for a given callback.
+        /// <br />The default implementation expects for any callback a 200 response, which has the generic description "Your server returns this code if it accepts the callback".
+        /// </summary>
+        /// <param name="callbackName">The name of the callback which expects these responses.</param>
+        /// <returns>The responses expected by the callback, keyed by status code.</returns>
+        public virtual IDictionary<string, OpenApiResponse> ExpectedResponses(string callbackName)
+        {
+            return new Dictionary<string, OpenApiResponse> {
+                {
+                    "200", new OpenApiResponse
+                    {
+                        Description = "Your server returns this code if it accepts the callback"
+                    }
+                }
+            };
         }
 
 

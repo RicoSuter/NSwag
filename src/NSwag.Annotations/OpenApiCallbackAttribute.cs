@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerTagAttribute.cs" company="NSwag">
+// <copyright file="OpenApiCallbackAttribute.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
@@ -11,7 +11,6 @@ using System;
 namespace NSwag.Annotations
 {
     /// <summary>Indicates a callback to be added to the Swagger definition.</summary>
-    /// <remarks>Requires the SwaggerCallbackOperationProcessor to be used in the Swagger definition generation.</remarks>
     /// <seealso cref="Attribute" />
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class OpenApiCallbackAttribute : Attribute
@@ -76,29 +75,33 @@ namespace NSwag.Annotations
             this.MimeType = mimeType;
         }
         /// <summary>
-        /// The name of the callback
+        /// The name of the callback.
+        /// <br />If unspecified defaults to "{operationId}_callback".
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
 
         /// <summary>
         /// The URL of the endpoint that will receive the callback
         /// </summary>
-        public string CallbackUrl { get; }
+        public string CallbackUrl { get; set; }
 
         /// <summary>
-        /// The HTTP method that will be used to call the endpoint
+        /// The HTTP method that will be used to call the endpoint.
+        /// <br />If unspecified defaults to POST.
         /// </summary>
-        public string Method { get; }
+        public string Method { get; set; }
 
         /// <summary>
-        /// The content type of the callback bodies
+        /// The content type of the callback bodies. 
+        /// <br />If unspecified defaults to "octet-stream" for binary content, "application/json" otherwise.
         /// </summary>
-        public string MimeType { get; }
+        public string MimeType { get; set; }
 
         /// <summary>
-        /// The possible object types returned by the callback
+        /// The possible object types returned by the callback.
+        /// <br />If none are specified, the definition will indicate a callback with an empty body.
         /// </summary>
-        public Type[] Types { get; }
+        public Type[] Types { get; set; }
     }
 }
