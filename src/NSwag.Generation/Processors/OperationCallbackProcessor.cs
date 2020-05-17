@@ -46,7 +46,7 @@ namespace NSwag.Generation.Processors
                 Type[] types = CallbackAttribute.Types;
 
                 var payloadSchemas = types.Select(t =>
-                    context.SchemaGenerator.GenerateWithReferenceAndNullability<NJsonSchema.JsonSchema>(
+                    context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                         t.ToContextualType(),
                         context.SchemaResolver
                     )).ToArray();
@@ -55,6 +55,7 @@ namespace NSwag.Generation.Processors
                 var jsonSchemas = payloadSchemas.Where(x => x != null && !x.IsBinary).ToArray();
 
                 OpenApiRequestBody requestBody;
+                
 
                 if (payloadSchemas.Length == 0)
                 {
@@ -84,14 +85,14 @@ namespace NSwag.Generation.Processors
                     }
                 };
 
-                var responseOperation = new OpenApiOperation
+                var callbackOperation = new OpenApiOperation
                 {
                     RequestBody = requestBody
                 };
 
                 foreach (var expectedResponse in this.ExpectedResponses(key))
                 {
-                    responseOperation.Responses.Add(expectedResponse);
+                    callbackOperation.Responses.Add(expectedResponse);
                 }
 
                 operation.Callbacks[key] =
@@ -102,7 +103,7 @@ namespace NSwag.Generation.Processors
                                 {
                                     {
                                         method,
-                                        responseOperation
+                                        callbackOperation
                                     }
                                 }
                             }

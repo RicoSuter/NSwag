@@ -62,12 +62,7 @@ namespace NSwag.Annotations
                                         string method = "post",
                                         string mimeType = null,
                                         params Type[] types) : base()
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Invalid callback name", nameof(name));
-            }
-
+        {            
             this.Name = name;
             this.Types = types;
             this.CallbackUrl = callbackUrl;

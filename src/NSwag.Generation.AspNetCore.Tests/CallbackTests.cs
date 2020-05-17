@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
 using NSwag.Generation.Processors;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NSwag.Generation.AspNetCore.Tests
 {
     public class CallbackTests : AspNetCoreTestsBase
-    {       
+    {
+        private readonly ITestOutputHelper output;
+
+        public CallbackTests(ITestOutputHelper output) => this.output = output;
+
+
         [Fact]
         public async Task When_operation_has_callback_attributes_then_they_are_processed()
         {
@@ -33,23 +39,30 @@ namespace NSwag.Generation.AspNetCore.Tests
 
             Assert.Equal(4, callbacks.Count);
 
-            Assert.Equal("url1", callbacks[operation.OperationId + "_Callback"].First().Key);
-            Assert.Equal("post", callbacks[operation.OperationId + "_Callback"].First().Value.First().Key);
-            Assert.Null(callbacks[operation.OperationId + "_Callback"].First().Value.First().Value.RequestBody);
+            var callback1 = callbacks[operation.OperationId + "_Callback"];
+            Assert.Equal("url1", callback1.First().Key);
+            Assert.Equal("post", callback1.First().Value.First().Key);
+            Assert.Null(callback1.First().Value.First().Value.RequestBody);
 
-            Assert.Equal("url2", callbacks["emptyGet"].First().Key);
-            Assert.Equal("get", callbacks["emptyGet"].First().Value.First().Key);
-            Assert.Null(callbacks["single"].First().Value.First().Value.RequestBody);
-            
-            Assert.Equal("url3", callbacks["single"].First().Key);
-            Assert.Equal("post", callbacks["single"].First().Value.First().Key);
-            Assert.Equal(NJsonSchema.JsonObjectType.String, callbacks["single"].First().Value.First().Value.RequestBody.Content["application/json"].Schema.Type);
+            var callback2 = callbacks["emptyGet"];
+            Assert.Equal("url2", callback2.First().Key);
+            Assert.Equal("get", callback2.First().Value.First().Key);
+            Assert.Null(callback2.First().Value.First().Value.RequestBody);
 
-            Assert.Equal("url4", callbacks["multiple"].First().Key);
-            Assert.Equal("post", callbacks["multiple"].First().Value.First().Key);
-            var schema = callbacks["multiple"].First().Value.First().Value.RequestBody.Content["application/json"].Schema;
-            Assert.Equal(NJsonSchema.JsonObjectType.Object, schema.Type);
+            var callback3 = callbacks["single"];
+            Assert.Equal("url3", callback3.First().Key);
+            Assert.Equal("post", callback3.First().Value.First().Key);
+            Assert.Equal(NJsonSchema.JsonObjectType.String, callback3.First().Value.First().Value.RequestBody.Content["application/json"].Schema.Type);
+
+            var callback4 = callbacks["multiple"];
+            Assert.Equal("url4", callback4.First().Key);
+            Assert.Equal("post", callback4.First().Value.First().Key);
+            var schema = callback4.First().Value.First().Value.RequestBody.Content["application/json"].Schema;           
+            // output.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(schema));
+            Assert.Equal(NJsonSchema.JsonObjectType.None, schema.Type);
             Assert.Equal(NJsonSchema.JsonObjectType.String, schema.OneOf.First().Type);
+
+
             Assert.Equal(NJsonSchema.JsonObjectType.Object, schema.OneOf.Last().Type);
             Assert.Equal("myProperty", schema.OneOf.Last().Properties.First().Key);
             Assert.Equal(NJsonSchema.JsonObjectType.Integer, schema.OneOf.Last().Properties["myProperty"].Type);
