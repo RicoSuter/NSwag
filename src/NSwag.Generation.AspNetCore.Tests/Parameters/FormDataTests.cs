@@ -51,7 +51,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
               }
             }
           }
-        },", json);
+        },".Replace("\r", ""), json.Replace("\r", ""));
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
               }
             }
           }
-        },", json);
+        },".Replace("\r", ""), json.Replace("\r", ""));
         }
     }
 }
