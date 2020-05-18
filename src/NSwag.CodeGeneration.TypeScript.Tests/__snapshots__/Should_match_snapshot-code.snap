@@ -7,19 +7,17 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-
 export class UrlEncodedRequestConsumingClient {
-    private instance: AxiosInstance;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, instance?: AxiosInstance) {
-        this.instance = instance ? instance : axios.create();
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    addMessage(message: Foo | null | undefined, messageId: string | null | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    addMessage(message: Foo | null | undefined, messageId: string | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -30,43 +28,30 @@ export class UrlEncodedRequestConsumingClient {
             content_ += encodeURIComponent("messageId") + "=" + encodeURIComponent("" + messageId) + "&";
         content_ = content_.replace(/&$/, "");
 
-        let options_ = <AxiosRequestConfig>{
-            data: content_,
+        let options_ = <RequestInit>{
+            body: content_,
             method: "POST",
-            url: url_,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
+        return this.http.fetch(url_, options_).then((_response: Response) => {
             return this.processAddMessage(_response);
         });
     }
 
-    protected processAddMessage(response: AxiosResponse): Promise<void> {
+    protected processAddMessage(response: Response): Promise<void> {
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(<any>null);
+            return response.text().then((_responseText) => {
+            return;
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<void>(<any>null);
     }
@@ -137,8 +122,4 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new ApiException(message, status, response, headers, null);
-}
-
-function isAxiosError(obj: any | undefined): obj is AxiosError {
-    return obj && obj.isAxiosError === true;
 }

@@ -113,6 +113,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             //// Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            Snapshot.Match(document, "Should_match_snapshot-document");
 
             //// Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -126,7 +127,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Snapshot.Match(code);
+            Snapshot.Match(code, "Should_match_snapshot-code");
         }
     }
 }
