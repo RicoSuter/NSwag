@@ -56,5 +56,162 @@ components:
             Assert.Contains("\"Accept\": \"application/xml\"", code);
             Assert.Contains("const content_ = body;", code);
         }
+
+        [Fact]
+        public async Task WhenSpecContainsFormData_ThenFormDataIsUsedInTypeScript()
+        {
+            var json = @"{
+  ""x-generator"": ""NSwag v13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""My Title"",
+    ""version"": ""1.0.0""
+  },
+  ""paths"": {
+    ""/api/FileUpload/UploadFile"": {
+      ""post"": {
+        ""tags"": [
+          ""FileUpload""
+        ],
+        ""operationId"": ""FileUpload_UploadFile"",
+        ""requestBody"": {
+          ""content"": {
+            ""multipart/form-data"": {
+              ""schema"": {
+                ""properties"": {
+                  ""file"": {
+                    ""type"": ""string"",
+                    ""format"": ""binary""
+                  },
+                  ""test"": {
+                    ""type"": ""string""
+                  }
+                }
+              }
+            }
+          }
+        },
+        ""responses"": {
+          ""200"": {
+            ""description"": """",
+            ""content"": {
+              ""application/octet-stream"": {
+                ""schema"": {
+                  ""type"": ""string"",
+                  ""format"": ""binary""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    ""/api/FileUpload/UploadFiles"": {
+      ""post"": {
+        ""tags"": [
+          ""FileUpload""
+        ],
+        ""operationId"": ""FileUpload_UploadFiles"",
+        ""requestBody"": {
+          ""content"": {
+            ""multipart/form-data"": {
+              ""schema"": {
+                ""properties"": {
+                  ""files"": {
+                    ""type"": ""array"",
+                    ""items"": {
+                      ""type"": ""string"",
+                      ""format"": ""binary""
+                    }
+                  },
+                  ""test"": {
+                    ""type"": ""string""
+                  }
+                }
+              }
+            }
+          }
+        },
+        ""responses"": {
+          ""200"": {
+            ""description"": """",
+            ""content"": {
+              ""application/octet-stream"": {
+                ""schema"": {
+                  ""type"": ""string"",
+                  ""format"": ""binary""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    ""/api/FileUpload/UploadAttachment"": {
+      ""post"": {
+        ""tags"": [
+          ""FileUpload""
+        ],
+        ""operationId"": ""FileUpload_UploadAttachment"",
+        ""parameters"": [
+          {
+            ""name"": ""caseId"",
+            ""in"": ""path"",
+            ""required"": true,
+            ""schema"": {
+              ""type"": ""string"",
+              ""nullable"": true
+            },
+            ""x-position"": 1
+          }
+        ],
+        ""requestBody"": {
+          ""content"": {
+            ""multipart/form-data"": {
+              ""schema"": {
+                ""properties"": {
+                  ""Description"": {
+                    ""type"": ""string"",
+                    ""nullable"": true
+                  },
+                  ""Contents"": {
+                    ""type"": ""string"",
+                    ""format"": ""binary"",
+                    ""nullable"": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        ""responses"": {
+          ""200"": {
+            ""description"": """",
+            ""content"": {
+              ""application/octet-stream"": {
+                ""schema"": {
+                  ""type"": ""string"",
+                  ""format"": ""binary""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  ""components"": {}
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            //// Act
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("const content_ = new FormData();", code);
+            Assert.Contains("content_.append(\"file\", file.data, file.fileName ? file.fileName : \"file\");", code);
+        }
     }
 }
