@@ -211,6 +211,7 @@ components:
 
             //// Assert
             Assert.Contains("const content_ = new FormData();", code);
+            Assert.Contains("interface FileParameter", code);
             Assert.Contains("content_.append(\"file\", file.data, file.fileName ? file.fileName : \"file\");", code);
         }
     }

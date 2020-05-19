@@ -319,6 +319,7 @@ components:
             //// Assert
             Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
             Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("class FileParameter", code);
             Assert.Contains("content_.Add(content_file_, \"file\", file.FileName ?? \"file\");", code);
         }
     }
