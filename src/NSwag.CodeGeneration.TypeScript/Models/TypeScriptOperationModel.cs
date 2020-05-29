@@ -168,6 +168,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             }
 
             var schema = parameter.ActualSchema;
+            if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+            {
+                return "FileParameter[]";
+            }
+
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))

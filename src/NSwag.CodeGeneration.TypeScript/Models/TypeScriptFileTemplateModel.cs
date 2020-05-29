@@ -126,7 +126,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
-            _document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary));
+            (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
+             _document.Operations.Any(o => o.Operation?.RequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true || c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary) == true) == true));
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>

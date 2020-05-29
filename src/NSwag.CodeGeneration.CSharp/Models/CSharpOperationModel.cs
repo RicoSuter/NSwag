@@ -252,6 +252,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
             }
 
+            if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+            {
+                return "System.Collections.Generic.IEnumerable<FileParameter>";
+            }
+
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
