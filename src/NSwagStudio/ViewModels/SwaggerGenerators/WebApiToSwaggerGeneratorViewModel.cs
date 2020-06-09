@@ -50,6 +50,11 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             .Select(t => (ReferenceTypeNullHandling)Enum.Parse(typeof(ReferenceTypeNullHandling), t))
             .ToArray();
 
+        /// <summary>Gets new line behaviors. </summary>
+        public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
+            .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))
+            .ToArray();
+
         /// <summary>Gets the output types. </summary>
         public SchemaType[] OutputTypes { get; } = { SchemaType.Swagger2, SchemaType.OpenApi3 };
 

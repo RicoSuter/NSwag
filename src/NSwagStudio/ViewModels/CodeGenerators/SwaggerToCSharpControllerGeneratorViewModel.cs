@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;
+using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -53,6 +54,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the list of route naming strategies.</summary>
         public CSharpControllerRouteNamingStrategy[] RouteNamingStrategies { get; } = Enum.GetNames(typeof(CSharpControllerRouteNamingStrategy))
             .Select(t => (CSharpControllerRouteNamingStrategy)Enum.Parse(typeof(CSharpControllerRouteNamingStrategy), t))
+            .ToArray();
+
+        /// <summary>Gets new line behaviors. </summary>
+        public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
+            .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))
             .ToArray();
 
         /// <summary>Gets or sets the client code.</summary>

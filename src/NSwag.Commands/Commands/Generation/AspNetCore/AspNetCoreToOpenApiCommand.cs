@@ -224,7 +224,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                     var documentJson = File.ReadAllText(outputFile);
                     var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
-                    await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
+                    await this.TryWriteDocumentOutputAsync(host, NewLineBehavior, () => document).ConfigureAwait(false);
                     return document;
                 }
                 finally

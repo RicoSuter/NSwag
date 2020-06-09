@@ -17,18 +17,18 @@ namespace NSwag.Commands
 {
     public static class OutputCommandExtensions
     {
-        public static Task<bool> TryWriteFileOutputAsync(this IOutputCommand command, IConsoleHost host, Func<string> generator)
+        public static Task<bool> TryWriteFileOutputAsync(this IOutputCommand command, IConsoleHost host, NewLineBehavior newLineBehavior, Func<string> generator)
         {
-            return TryWriteFileOutputAsync(command, command.OutputFilePath, host, generator);
+            return TryWriteFileOutputAsync(command, command.OutputFilePath, host, newLineBehavior, generator);
         }
 
-        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, Func<OpenApiDocument> generator)
+        public static Task<bool> TryWriteDocumentOutputAsync(this IOutputCommand command, IConsoleHost host, NewLineBehavior newLineBehavior, Func<OpenApiDocument> generator)
         {
-            return TryWriteFileOutputAsync(command, command.OutputFilePath, host, () =>
+            return TryWriteFileOutputAsync(command, command.OutputFilePath, host, newLineBehavior, () =>
                 command.OutputFilePath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ? OpenApiYamlDocument.ToYaml(generator()) : generator().ToJson());
         }
 
-        public static async Task<bool> TryWriteFileOutputAsync(this IOutputCommand command, string path, IConsoleHost host, Func<string> generator)
+        public static async Task<bool> TryWriteFileOutputAsync(this IOutputCommand command, string path, IConsoleHost host, NewLineBehavior newLineBehavior, Func<string> generator)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -39,9 +39,15 @@ namespace NSwag.Commands
                 }
 
                 var data = generator();
+
+                data = data?.Replace("\r", "") ?? "";
+                data = newLineBehavior == NewLineBehavior.Auto ? data.Replace("\n", Environment.NewLine) :
+                       newLineBehavior == NewLineBehavior.CRLF ? data.Replace("\n", "\r\n") : data;
+
                 if (!DynamicApis.FileExists(path) || DynamicApis.FileReadAllText(path) != data)
                 {
                     DynamicApis.FileWriteAllText(path, data);
+
                     host?.WriteMessage("Code has been successfully written to file.\n");
                 }
                 else
