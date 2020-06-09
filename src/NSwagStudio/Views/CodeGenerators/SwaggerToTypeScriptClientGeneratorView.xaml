@@ -219,7 +219,7 @@
                                           ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Enum Style" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.EnumStyles, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.EnumStyle, Mode=TwoWay}" 
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding EnumStyles}" Margin="0,0,0,12" />
 
