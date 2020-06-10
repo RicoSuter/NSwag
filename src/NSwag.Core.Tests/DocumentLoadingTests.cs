@@ -16,9 +16,9 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             var json2 = document.ToJson();
-            var reference = document.Paths["/pets"][SwaggerOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
+            var reference = document.Paths["/pets"][OpenApiOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
 
             //// Assert
             Assert.NotNull(json2);
@@ -36,7 +36,7 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             document.GenerateOperationIds();
 
             //// Assert
@@ -50,7 +50,7 @@ namespace NSwag.Core.Tests
             var json = _jsonVendorExtensionData;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
 
             //// Assert
             Assert.NotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
@@ -59,7 +59,7 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_locale_is_not_english_then_types_are_correctly_serialized()
         {
-            // https://github.com/NSwag/NSwag/issues/518
+            // https://github.com/RicoSuter/NSwag/issues/518
 
             //// Arrange
             CultureInfo ci = new CultureInfo("tr-TR");
@@ -71,14 +71,14 @@ namespace NSwag.Core.Tests
             var json = _sampleServiceCode;
 
             //// Act
-            var document = await SwaggerDocument.FromJsonAsync(json);
+            var document = await OpenApiDocument.FromJsonAsync(json);
             var j = document.ToJson();
 
             //// Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
-        private string _sampleServiceCode = 
+        private string _sampleServiceCode =
 @"{
   ""swagger"": ""2.0"",
   ""info"": {
@@ -130,7 +130,7 @@ namespace NSwag.Core.Tests
         ""id"": {
           ""type"": ""integer"",
           ""format"": ""int64"",
-          ""x-readOnly"": ""true""
+          ""readOnly"": ""true""
         },
         ""name"": {
           ""type"": ""string""

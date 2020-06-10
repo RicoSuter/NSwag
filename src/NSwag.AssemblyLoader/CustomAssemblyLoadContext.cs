@@ -2,7 +2,7 @@
 // <copyright file="CustomAssemblyLoadContext.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -31,9 +31,13 @@ namespace NSwag.AssemblyLoader
         public Assembly Resolve(AssemblyName args)
         {
             if (!_isResolving)
+            {
                 return Load(args);
+            }
             else
+            {
                 return null;
+            }
         }
 
         protected override Assembly Load(AssemblyName args)
@@ -56,6 +60,13 @@ namespace NSwag.AssemblyLoader
             var version = args.Version;
             if (version != null)
             {
+                // var assemblyByVersion = TryLoadByVersion(AllReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + "." + version.Revision);
+                // if (assemblyByVersion != null)
+                // {
+                //     Assemblies[args.Name] = assemblyByVersion;
+                //     return assemblyByVersion;
+                // }
+
                 var assemblyByVersion = TryLoadByVersion(AllReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + ".");
                 if (assemblyByVersion != null)
                 {
@@ -130,7 +141,9 @@ namespace NSwag.AssemblyLoader
                         {
                             var assembly = TryLoadByPath(assemblyName, file);
                             if (assembly != null)
+                            {
                                 return assembly;
+                            }
                         }
                     }
                     catch (Exception exception)
@@ -152,7 +165,9 @@ namespace NSwag.AssemblyLoader
                 {
                     var assembly = TryLoadByPath(assemblyName, file);
                     if (assembly != null)
+                    {
                         return assembly;
+                    }
                 }
             }
 
@@ -166,7 +181,7 @@ namespace NSwag.AssemblyLoader
                 if (!file.EndsWith("/refs/" + assemblyName + ".dll") &&
                     !file.EndsWith("\\refs\\" + assemblyName + ".dll"))
                 {
-                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectoryAsync().GetAwaiter().GetResult();
+                    var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
                     return LoadFromAssemblyPath(PathUtilities.MakeAbsolutePath(file, currentDirectory));
                 }
             }

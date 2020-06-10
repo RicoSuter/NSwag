@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
+using NSwag.Generation.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class FileDownloadTests
     {
-        public class FileDownloadController : ApiController
+        public class FileDownloadController : Controller
         {
             [Route("DownloadFile")]
             public HttpResponseMessage DownloadFile()
@@ -19,23 +18,66 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_response_is_file_and_stream_is_not_used_then_byte_array_is_returned()
         {
             //// Arrange
-            var swaggerGen = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
-            var document = await swaggerGen.GenerateForControllerAsync<FileDownloadController>();
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();"));
-            Assert.IsTrue(code.Contains("ReadAsStreamAsync()"));
+            Assert.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();", code);
+            Assert.Contains("ReadAsStreamAsync()", code);
+        }
+
+        [Fact]
+        public async Task When_openapi3_contains_octet_stream_response_then_FileResponse_is_generated()
+        {
+            // Arrange
+            var json = @"{
+  ""openapi"": ""3.0.1"",
+  ""paths"": {
+    ""/instances/{id}/frames/{index}/raw"": {
+      ""get"": {
+        ""description"": ""sample"",
+        ""operationId"": ""raw"",
+        ""parameters"": [],
+        ""responses"": {
+          ""200"": {
+            ""description"": ""raw file in binary data"",
+            ""content"": {
+              ""application/octet-stream"": {
+                ""schema"": {
+                  ""type"": ""string"",
+                  ""type"": ""binary""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}";
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            //// Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true
+            });
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public async System.Threading.Tasks.Task<FileResponse> RawAsync(", code);
+            Assert.Contains("var fileResponse_ = new FileResponse(", code);
         }
     }
 }

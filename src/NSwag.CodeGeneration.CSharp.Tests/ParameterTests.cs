@@ -1,30 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using NJsonSchema;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class ParameterTests
     {
-        [TestMethod]
+        [Fact]
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get, new SwaggerOperation
+                    OpenApiOperationMethod.Get, new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Name = "foo"
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Name = "foo"
                             },
                         }
@@ -33,15 +34,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)"));
+            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
         }
 
-
-        [TestMethod]
+        [Fact]
         public void When_parent_parameters_have_same_kind_then_they_are_included()
         {
             //// Arrange
@@ -105,17 +105,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)"));          
+            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
         {
             //// Arrange
@@ -187,15 +187,163 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("lastName"));
-            Assert.IsTrue(code.Contains("optionalOrderId"));
+            Assert.Contains("lastName", code);
+            Assert.Contains("optionalOrderId", code);
+        }
+
+        [Fact]
+        public void Deep_object_properties_are_correctly_named()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.0',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/journeys': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'lastName',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'eTicketNumber',
+                   'in': 'query',
+                   'schema': { 'type': 'string' }
+                },
+                {
+                   'name': 'options',
+                   'in': 'query',
+                   'style': 'deepObject',
+                   'explode': true,
+                   'schema': { '$ref': '#/components/schemas/Options' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   },
+   'components':{
+      'schemas': {
+         'Options': {
+            'type':'object',
+            'properties': {
+               'optionalOrder.id': {
+                  'schema': { 'type': 'string' }
+               },
+               'optionalFrequentFlyerCard.id':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalDepartureDate':{
+                  'schema': { 'type': 'string' }
+               },
+               'optionalOriginLocationCode':{
+                  'schema': { 'type': 'string' }
+               }
+            }
+         }
+      }
+   }
+}";
+
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains(@"""options[optionalOrder.id]"") + ""=""", code);
+            Assert.Contains("options.OptionalOrderId", code);
+        }
+
+        [Fact]
+        public void Date_and_DateTimeFormat_Parameters_are_correctly_applied()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.1',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/test/{from}/{to}': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'from',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'to',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                },
+                {
+                   'name': 'fromQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'toQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   }
+}";
+
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act once with defaults and once with custom values
+            var generatorDefault = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var codeWithDefaults = generatorDefault.GenerateFile();
+
+            var dateFormat = "aaaaaa" + DateTime.Now.Ticks; // completly random values
+            var dateTimeFormat = "bbbbbb" + DateTime.Now.Ticks;
+            var settings = new CSharpClientGeneratorSettings() { ParameterDateFormat = dateFormat, ParameterDateTimeFormat = dateTimeFormat };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            //// Assert defaults
+            Assert.Contains(@"from.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"to.ToString(""s""", codeWithDefaults);
+            Assert.Contains(@"fromQuery.Value.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"toQuery.Value.ToString(""s""", codeWithDefaults);
+
+            //// Assert custom values defaults
+            Assert.Contains($@"from.ToString(""{dateFormat }""", code);
+            Assert.Contains($@"to.ToString(""{dateTimeFormat}""", code);
+            Assert.Contains($@"fromQuery.Value.ToString(""{dateFormat}""", code);
+            Assert.Contains($@"toQuery.Value.ToString(""{dateTimeFormat}""", code);
         }
     }
 }

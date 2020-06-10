@@ -2,7 +2,7 @@
 // <copyright file="AssemblyLoader.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ namespace NSwag.AssemblyLoader
 
 #endif
 
-        public object CreateInstance(string typeName)
+        public Type GetType(string typeName)
         {
             try
             {
@@ -48,11 +48,10 @@ namespace NSwag.AssemblyLoader
 
 #if FullNet
                     var assembly = AppDomain.CurrentDomain.Load(new AssemblyName(assemblyName));
-                    return Activator.CreateInstance(assembly.GetType(typeName, true));
 #else
                     var assembly = Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
-                    return Activator.CreateInstance(assembly.GetType(typeName, true));
 #endif
+                    return assembly.GetType(typeName, true);
                 }
 
 #if FullNet
@@ -60,18 +59,25 @@ namespace NSwag.AssemblyLoader
                 {
                     var type = assembly.GetType(typeName, false, true);
                     if (type != null)
-                        return Activator.CreateInstance(type);
+                    {
+                        return type;
+                    }
                 }
 
                 throw new InvalidOperationException("Could not find the type '" + typeName + "'.");
 #else
-                return Activator.CreateInstance(Type.GetType(typeName, true, true));
+                return Type.GetType(typeName, true, true);
 #endif
             }
             catch (Exception e)
             {
                 throw new InvalidOperationException("Could not instantiate the type '" + typeName + "'. Try specifying the type with the assembly, e.g 'assemblyName:typeName'.", e);
             }
+        }
+
+        public object CreateInstance(string typeName)
+        {
+            return Activator.CreateInstance(GetType(typeName));
         }
 
         protected void RegisterReferencePaths(IEnumerable<string> referencePaths)
@@ -118,26 +124,36 @@ namespace NSwag.AssemblyLoader
 
                 var existingAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 if (existingAssembly != null)
+                {
                     return existingAssembly;
+                }
 
                 if (version != null)
                 {
                     var assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + "." + version.Minor + "." + version.Build + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
 
                     assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + "." + version.Minor + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
 
                     assemblyByVersion = TryLoadByVersion(allReferencePaths, assemblyName, version.Major + ".");
                     if (assemblyByVersion != null)
+                    {
                         return assemblyByVersion;
+                    }
                 }
 
                 var assembly = TryLoadByName(allReferencePaths, assemblyName);
                 if (assembly != null)
+                {
                     return assembly;
+                }
 
                 return null;
             };
@@ -193,7 +209,15 @@ namespace NSwag.AssemblyLoader
         private string[] GetAllDirectories(string rootDirectory)
         {
             rootDirectory = Environment.ExpandEnvironmentVariables(rootDirectory);
-            return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
+
+            try
+            {
+                return Directory.GetDirectories(rootDirectory, "*", SearchOption.AllDirectories);
+            }
+            catch // https://github.com/RicoSuter/NSwag/issues/2177
+            {
+                return new string[0];
+            }
         }
     }
 }

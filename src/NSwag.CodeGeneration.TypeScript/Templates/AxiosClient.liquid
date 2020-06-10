@@ -1,0 +1,92 @@
+﻿{% if HasOperations -%}
+{% if GenerateClientInterfaces -%}
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
+{%     for operation in Operations -%}
+    {% template Client.Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
+{%     endfor -%}}
+{% endif -%}
+
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+
+{% if HasExtendedConstructor == false -%}
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, instance?: AxiosInstance) {
+{%     if HasBaseClass -%}
+        super({% if HasConfigurationClass %}configuration{% endif %});
+{%     endif -%}
+        this.instance = instance ? instance : axios.create();
+{%     if UseGetBaseUrlMethod -%}
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+{%     else -%}
+        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+{%     endif -%}
+    }
+{% endif -%}
+{% if HasExtensionCode -%}
+
+    {{ ExtensionCode }}
+{% endif -%}
+{% for operation in Operations -%}
+
+    {% template Client.Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType }}> {
+        {% template Client.RequestUrl %}
+
+{%     if operation.HasBody -%}
+        {% template Client.RequestBody %}
+
+{%     endif -%}
+        let options_ = <AxiosRequestConfig>{
+{%     if operation.HasBody -%}
+            data: content_,
+{%     endif -%}
+{%     if operation.IsFile -%}
+            responseType: "blob",
+{%     endif -%}
+            method: "{{ operation.HttpMethodUpper | upcase }}",
+            url: url_,
+            headers: {
+{%     for parameter in operation.HeaderParameters -%}
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
+{%     endfor -%}
+{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+                "Content-Type": "{{ operation.Consumes }}",
+{%     endif -%}
+{%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                "Accept": "{{ operation.Produces }}"
+{%     endif -%}
+            },
+            cancelToken
+        };
+
+{%     if UseTransformOptionsMethod -%}
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+{%     else -%}
+        return this.instance.request(options_).catch((_error: any) => {
+{%     endif -%}
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+{%     if UseTransformResultMethod -%}
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.process{{ operation.ActualOperationNameUpper }}(_response));
+{%     else -%}
+            return this.process{{ operation.ActualOperationNameUpper }}(_response);
+{%     endif -%}
+        });
+    }
+
+    protected process{{ operation.ActualOperationNameUpper }}(response: AxiosResponse): Promise<{{ operation.ResultType }}> {
+        const status = response.status;
+        {% template Client.ProcessResponse %}
+    }
+{% endfor -%}
+}
+{% endif -%}

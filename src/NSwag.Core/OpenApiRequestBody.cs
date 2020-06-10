@@ -2,7 +2,7 @@
 // <copyright file="OpenApiRequestBody.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ namespace NSwag
         private string _name;
         private bool _isRequired;
         private string _description;
+        private int? _position;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiRequestBody"/> class.</summary>
         public OpenApiRequestBody()
@@ -36,7 +37,7 @@ namespace NSwag
         }
 
         [JsonIgnore]
-        internal SwaggerOperation Parent { get; set; }
+        internal OpenApiOperation Parent { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -74,6 +75,18 @@ namespace NSwag
             set
             {
                 _isRequired = value;
+                Parent?.UpdateBodyParameter();
+            }
+        }
+
+        /// <summary>Gets or sets the name.</summary>
+        [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int? Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
                 Parent?.UpdateBodyParameter();
             }
         }

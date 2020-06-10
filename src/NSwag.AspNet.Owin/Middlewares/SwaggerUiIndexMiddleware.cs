@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {
     internal class SwaggerUiIndexMiddleware<T> : OwinMiddleware
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
     {
         private readonly string _indexPath;
         private readonly SwaggerUiSettingsBase<T> _settings;
@@ -23,18 +23,20 @@ namespace NSwag.AspNet.Owin.Middlewares
 
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.Path.Value.Trim('/').StartsWith(_indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware<T>).Assembly.GetManifestResourceStream(_resourcePath);
                 using (var reader = new StreamReader(stream))
                 {
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
-                    context.Response.Write(_settings.TransformHtml(reader.ReadToEnd()));
+                    context.Response.Write(_settings.TransformHtml(reader.ReadToEnd(), context.Request));
                 }
             }
             else
+            {
                 await Next.Invoke(context);
+            }
         }
     }
 }

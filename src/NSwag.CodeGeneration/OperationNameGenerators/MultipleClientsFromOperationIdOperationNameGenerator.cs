@@ -2,7 +2,7 @@
 // <copyright file="MultipleClientsFromOperationIdOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             return GetClientName(operation);
         }
@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        public virtual string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             var clientName = GetClientName(operation);
             var operationName = GetOperationName(operation);
@@ -48,24 +48,26 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 if (operationName.ToLowerInvariant().StartsWith("get"))
                 {
                     var isArrayResponse = operation.ActualResponses.ContainsKey("200") &&
-                                          operation.ActualResponses["200"].ActualResponseSchema != null &&
-                                          operation.ActualResponses["200"].ActualResponseSchema.Type.HasFlag(JsonObjectType.Array);
+                                          operation.ActualResponses["200"].Schema?.ActualSchema
+                                              .Type.HasFlag(JsonObjectType.Array) == true;
 
                     if (isArrayResponse)
+                    {
                         return "GetAll" + operationName.Substring(3);
+                    }
                 }
             }
 
             return operationName;
         }
 
-        private string GetClientName(SwaggerOperation operation)
+        private string GetClientName(OpenApiOperation operation)
         {
             var segments = operation.OperationId.Split('_').Reverse().ToArray();
             return segments.Length >= 2 ? segments[1] : string.Empty;
         }
 
-        private string GetOperationName(SwaggerOperation operation)
+        private string GetOperationName(OpenApiOperation operation)
         {
             var segments = operation.OperationId.Split('_').Reverse().ToArray();
             return segments.FirstOrDefault() ?? "Index";

@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v11.17.5.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v11.18.3.0 (NJsonSchema v9.10.67.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -13,7 +13,9 @@
     "application/json"
   ],
   "produces": [
-    "application/json"
+    "application/json",
+    "text/plain",
+    "text/json"
   ],
   "paths": {
     "/pet": {
@@ -440,6 +442,23 @@
           }
         }
       }
+    },
+    "/sample": {
+      "post": {
+        "tags": [
+          "Sample"
+        ],
+        "operationId": "Sample_GetSample",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -488,7 +507,8 @@
           }
         },
         "status": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -568,6 +588,14 @@
           "type": "string"
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "TEST_HEADER": {
+      "type": "apiKey",
+      "description": "TEST_HEADER",
+      "name": "TEST_HEADER",
+      "in": "header"
     }
   }
 }

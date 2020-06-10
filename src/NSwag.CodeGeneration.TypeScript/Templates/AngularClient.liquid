@@ -1,6 +1,6 @@
 ﻿{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
-export interface I{{ Class }} {
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}>;
@@ -14,7 +14,7 @@ export interface I{{ Class }} {
 {% else -%}
 @Injectable()
 {% endif -%}
-export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private http: {{ Framework.Angular.HttpClass }};
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
@@ -53,6 +53,9 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     if Framework.Angular.UseHttpClient -%}
             observe: "response",
             responseType: "blob",
+{%	       if Framework.Angular.WithCredentials -%}
+            withCredentials: true,
+{%         endif -%}
 {%     else -%}
             method: "{{ operation.HttpMethodLower }}",
 {%     endif -%}
@@ -61,10 +64,10 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     endif -%}
             headers: new {% if Framework.Angular.UseHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
-{%     if operation.HasFormParameters == false -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
@@ -103,8 +106,8 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
         const status = response.status;
 {% if Framework.Angular.UseHttpClient -%}
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 {% endif -%}
 

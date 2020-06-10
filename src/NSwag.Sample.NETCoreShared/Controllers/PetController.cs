@@ -64,6 +64,22 @@ namespace NSwag.Sample
             return new ObjectResult(Array.Empty<Pet>());
         }
 
+        // 'status' is intended to be an optional query string parameter
+        [HttpGet("findByStatus/{skip}/{sortOrder}")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(IEnumerable<Pet>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SerializableError), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> FindByStatus([FromQuery] string[] status, int skip, int sortOrder)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await Task.Delay(0);
+            return new ObjectResult(Array.Empty<Pet>());
+        }
+
         // Included this extra action not present in http://petstore.swagger.io/#/ 
         // to represent an action with a required query parameter.
         [HttpGet("findByCategory")]

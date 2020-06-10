@@ -2,7 +2,7 @@
 // <copyright file="PathUtilities.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -42,7 +42,9 @@ namespace NSwag.AssemblyLoader.Utilities
 
                     var rootIndex = path.Substring(0, starIndex).LastIndexOf("\\", StringComparison.Ordinal);
                     if (rootIndex == -1)
+                    {
                         rootIndex = path.Substring(0, starIndex).LastIndexOf("/", StringComparison.Ordinal);
+                    }
 
                     var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();
                     var files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
@@ -50,7 +52,9 @@ namespace NSwag.AssemblyLoader.Utilities
                     allFiles.AddRange(FindWildcardMatches(path, files.Select(f => f.Replace("\\", "/")), '/').Select(Path.GetFullPath));
                 }
                 else
+                {
                     allFiles.Add(path);
+                }
             }
 
             return allFiles.Distinct();
@@ -67,6 +71,7 @@ namespace NSwag.AssemblyLoader.Utilities
 
             var regex = new Regex(
                 "^" + Regex.Escape(selector
+                    .Replace("\\", "/")
                     .Replace(delimiter.ToString(), "__del__")
                     .Replace("**", "__starstar__")
                     .Replace("*", "__star__"))
@@ -74,7 +79,7 @@ namespace NSwag.AssemblyLoader.Utilities
                 .Replace("__starstar__", "(.*?)")
                 .Replace("__star__", "([^" + escapedDelimiter + "]*?)") + "$");
 
-            return items.Where(i => regex.Match(i).Success);
+            return items.Where(i => regex.Match(i.Replace("\\", "/")).Success);
         }
 
         /// <summary>Converts a relative path to an absolute path.</summary>
@@ -85,7 +90,9 @@ namespace NSwag.AssemblyLoader.Utilities
         {
             // TODO: Rename to ToAbsolutePath, switch parameters
             if (Path.IsPathRooted(relativePath))
+            {
                 return relativePath;
+            }
 
             var absolutePath = Path.Combine(relativeTo, relativePath);
             return Path.GetFullPath(absolutePath);
@@ -98,8 +105,13 @@ namespace NSwag.AssemblyLoader.Utilities
         /// <exception cref="ArgumentException">The path of the two files doesn't have any common base.</exception>
         public static string MakeRelativePath(string absolutePath, string relativeTo)
         {
-            string[] absParts = absolutePath.Split(System.IO.Path.DirectorySeparatorChar);
-            string[] relParts = relativeTo.Split(System.IO.Path.DirectorySeparatorChar);
+            string[] absParts = absolutePath.Split(Path.DirectorySeparatorChar, '/');
+            string[] relParts = relativeTo.Split(Path.DirectorySeparatorChar, '/');
+
+            if (absParts.SequenceEqual(relParts))
+            {
+                return ".";
+            }
 
             // Get the shortest of the two paths
             int len = absParts.Length < relParts.Length ? absParts.Length : relParts.Length;
@@ -112,14 +124,20 @@ namespace NSwag.AssemblyLoader.Utilities
             for (index = 0; index < len; index++)
             {
                 if (absParts[index].Equals(relParts[index], StringComparison.OrdinalIgnoreCase))
+                {
                     lastCommonRoot = index;
+                }
                 else
+                {
                     break;
+                }
             }
 
             // If we didn't find a common prefix then throw
             if (lastCommonRoot == -1)
+            {
                 return absolutePath;
+            }
 
             // Build up the relative path
             var relativePath = new StringBuilder();
@@ -128,14 +146,14 @@ namespace NSwag.AssemblyLoader.Utilities
             for (index = lastCommonRoot + 1; index < relParts.Length; index++)
             {
                 relativePath.Append("..");
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
 
             // Add on the folders
             for (index = lastCommonRoot + 1; index < absParts.Length - 1; index++)
             {
                 relativePath.Append(absParts[index]);
-                relativePath.Append(System.IO.Path.DirectorySeparatorChar);
+                relativePath.Append(Path.DirectorySeparatorChar);
             }
             relativePath.Append(absParts[absParts.Length - 1]);
 

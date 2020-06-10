@@ -1,4 +1,4 @@
-﻿From: https://github.com/RSuter/NSwag/blob/master/LICENSE.md
+﻿From: https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md
 
 LICENSE
 

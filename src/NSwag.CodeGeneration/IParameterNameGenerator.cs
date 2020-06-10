@@ -2,7 +2,7 @@
 // <copyright file="IParameterNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -17,6 +17,6 @@ namespace NSwag.CodeGeneration
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter name.</returns>
-        string Generate(SwaggerParameter parameter, IEnumerable<SwaggerParameter> allParameters);
+        string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters);
     }
 }

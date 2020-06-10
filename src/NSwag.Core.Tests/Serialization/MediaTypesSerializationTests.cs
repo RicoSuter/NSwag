@@ -47,10 +47,10 @@ namespace NSwag.Core.Tests.Serialization
             //// Assert
             Assert.Equal(
 @"{
-  ""openapi"": ""3.0"",
+  ""openapi"": ""3.0.0"",
   ""info"": {
-    ""title"": """",
-    ""version"": """"
+    ""title"": ""Swagger specification"",
+    ""version"": ""1.0.0""
   },
   ""paths"": {
     ""/foo"": {
@@ -118,10 +118,10 @@ namespace NSwag.Core.Tests.Serialization
             //// Assert
             Assert.Equal(
                 @"{
-  ""openapi"": ""3.0"",
+  ""openapi"": ""3.0.0"",
   ""info"": {
-    ""title"": """",
-    ""version"": """"
+    ""title"": ""Swagger specification"",
+    ""version"": ""1.0.0""
   },
   ""paths"": {
     ""/foo"": {
@@ -148,28 +148,28 @@ namespace NSwag.Core.Tests.Serialization
         }
 
 
-        private static SwaggerDocument CreateDocument(JsonObjectType type)
+        private static OpenApiDocument CreateDocument(JsonObjectType type)
         {
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {
                     {
                         "/foo",
-                        new SwaggerPathItem
+                        new OpenApiPathItem
                         {
                             {
-                                SwaggerOperationMethod.Get, 
-                                new SwaggerOperation
+                                OpenApiOperationMethod.Get, 
+                                new OpenApiOperation
                                 {
                                     Responses =
                                     {
                                         {
                                             "200", 
-                                            new SwaggerResponse
+                                            new OpenApiResponse
                                             {
                                                 Examples = 123,
-                                                Schema = new JsonSchema4
+                                                Schema = new JsonSchema
                                                 {
                                                     Type = type
                                                 },

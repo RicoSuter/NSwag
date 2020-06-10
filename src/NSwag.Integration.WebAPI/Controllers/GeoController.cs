@@ -10,7 +10,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using NSwag.Annotations;
 using NSwag.Integration.WebAPI.Models;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 
 namespace NSwag.Integration.WebAPI.Controllers
 {
@@ -97,12 +97,12 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         private static readonly Lazy<string> _swagger = new Lazy<string>(() =>
         {
-            var settings = new WebApiToSwaggerGeneratorSettings
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}"
             };
 
-            var generator = new WebApiToSwaggerGenerator(settings);
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = Task.Run(async () => await generator.GenerateForControllerAsync<GeoController>())
                 .GetAwaiter().GetResult();
 

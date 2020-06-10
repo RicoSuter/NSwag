@@ -2,7 +2,7 @@
 // <copyright file="ClientGeneratorBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -18,21 +18,26 @@ namespace NSwag.CodeGeneration
         /// <summary>Checks whether the schema uses an object schema somewhere (i.e. does it require a DTO class).</summary>
         /// <param name="schema">The schema.</param>
         /// <returns>true or false</returns>
-        public static bool UsesComplexObjectSchema(this JsonSchema4 schema)
+        public static bool UsesComplexObjectSchema(this JsonSchema schema)
         {
-            return UsesComplexObjectSchema(schema, new List<JsonSchema4>());
+            return UsesComplexObjectSchema(schema, new List<JsonSchema>());
         }
 
-        private static bool UsesComplexObjectSchema(this JsonSchema4 schema, List<JsonSchema4> checkedSchemas)
+        private static bool UsesComplexObjectSchema(this JsonSchema schema, List<JsonSchema> checkedSchemas)
         {
-            schema = schema.ActualSchema;
+            schema = schema.ActualTypeSchema;
 
             if (checkedSchemas.Contains(schema))
+            {
                 return false;
+            }
+
             checkedSchemas.Add(schema);
 
             if (schema.IsDictionary)
+            {
                 return schema.AdditionalPropertiesSchema?.UsesComplexObjectSchema(checkedSchemas) == true;
+            }
 
             if (schema.Type.HasFlag(JsonObjectType.Array))
             {
@@ -42,7 +47,9 @@ namespace NSwag.CodeGeneration
             }
 
             if (schema.Type.HasFlag(JsonObjectType.Object))
+            {
                 return !schema.IsAnyType;
+            }
 
             return false;
         }

@@ -1,47 +1,47 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;
+using Xunit;
 
 namespace NSwag.CodeGeneration.Tests
 {
-    [TestClass]
     public class CodeGenerationTests
     {
-        [TestMethod]
-        public async Task When_generating_CSharp_code_then_output_contains_expected_classes()
+        [Fact]
+        public void When_generating_CSharp_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
             var json = document.ToJson();
 
             //// Act
-            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
             settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
 
-            var generator = new SwaggerToCSharpClientGenerator(document, settings);
+            var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.IsTrue(code.Contains("namespace MyNamespace"));
-            Assert.IsTrue(code.Contains("class MyClass"));
-            Assert.IsTrue(code.Contains("class Person"));
-            Assert.IsTrue(code.Contains("class Address"));
+            Assert.Contains("namespace MyNamespace", code);
+            Assert.Contains("class MyClass", code);
+            Assert.Contains("class Person", code);
+            Assert.Contains("class Address", code);
         }
 
-        [TestMethod]
-        public async Task When_generating_TypeScript_code_then_output_contains_expected_classes()
+        [Fact]
+        public void When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
-            var document = await CreateDocumentAsync();
+            var document = CreateDocument();
 
             //// Act
-            var generator = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
                 TypeScriptGeneratorSettings = 
@@ -52,12 +52,12 @@ namespace NSwag.CodeGeneration.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.IsTrue(code.Contains("export class MyClass"));
-            Assert.IsTrue(code.Contains("export interface Person"));
-            Assert.IsTrue(code.Contains("export interface Address"));
+            Assert.Contains("export class MyClass", code);
+            Assert.Contains("export interface Person", code);
+            Assert.Contains("export interface Address", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
         {
             //// Arrange
@@ -88,31 +88,46 @@ namespace NSwag.CodeGeneration.Tests
 }";
 
             //// Act
-            var schema = await JsonSchema4.FromJsonAsync(jsonSchema);
-            var document = new SwaggerDocument();
+            var schema = await JsonSchema.FromJsonAsync(jsonSchema);
+            var document = new OpenApiDocument();
             document.Definitions["Foo"] = schema;
 
             //// Assert
             var jsonService = document.ToJson(); // no exception expected
         }
 
-        private static async Task<SwaggerDocument> CreateDocumentAsync()
+        [Fact]
+        public void No_Brackets_in_Operation_Name() 
         {
-            var document = new SwaggerDocument();
+            // Arrange
+            var path = "/my/path/with/{parameter_with_underscore}/and/{another_parameter}";
+
+            //// Act
+            var operationName = SingleClientFromPathSegmentsOperationNameGenerator.ConvertPathToName(path);
+
+            // Assert
+            Assert.DoesNotContain("{", operationName);
+            Assert.DoesNotContain("}", operationName);
+            Assert.False(string.IsNullOrWhiteSpace(operationName));
+        }
+
+        private static OpenApiDocument CreateDocument()
+        {
+            var document = new OpenApiDocument();
             var settings = new JsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new SwaggerPathItem();
-            document.Paths["/Person"][SwaggerOperationMethod.Get] = new SwaggerOperation
+            document.Paths["/Person"] = new OpenApiPathItem();
+            document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
             {
                 Responses = 
                 {
                     {
-                        "200", new SwaggerResponse
+                        "200", new OpenApiResponse
                         {
-                            Schema = new JsonSchema4
+                            Schema = new JsonSchema
                             {
-                                SchemaReference = await generator.GenerateAsync(typeof(Person), new SwaggerSchemaResolver(document, settings))
+                                Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
                             }
                         }
                     }

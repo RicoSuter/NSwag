@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class ArrayParameterTests
     {
-        [TestMethod]
+        [Fact]
         public async Task When_parameter_is_array_then_CSharp_is_correct()
         {
             //// Arrange
@@ -59,18 +58,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = await SwaggerDocument.FromJsonAsync(swagger);
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             //// Act
-            var settings = new SwaggerToCSharpClientGeneratorSettings { ClassName = "MyClass" };
-            var generator = new SwaggerToCSharpClientGenerator(document, settings);
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(
-                code.Contains(
-                    @"foreach (var item_ in elementId) { urlBuilder_.Append(""elementId="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }"));
+            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
         }
-
     }
 }

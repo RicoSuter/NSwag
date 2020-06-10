@@ -1,16 +1,16 @@
 ﻿{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
-export interface I{{ Class }} {
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): ng.IPromise<{{ operation.ResultType }}>;
 {%     endfor -%}}
 {% endif -%}
 
-export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
-    private baseUrl: string{% if SupportsStrictNullChecks %} | undefined{% endif %} = undefined; 
-    private http: ng.IHttpService; 
-    private q: ng.IQService; 
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    private baseUrl: string{% if SupportsStrictNullChecks %} | undefined{% endif %} = undefined;
+    private http: ng.IHttpService;
+    private q: ng.IQService;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false %}
@@ -50,13 +50,13 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
-            transformResponse: [], 
+            transformResponse: [],
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
-{%     if operation.HasFormParameters == false -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
@@ -88,7 +88,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     }
 
     protected process{{ operation.ActualOperationNameUpper }}(response: any): ng.IPromise<{{ operation.ResultType }}> {
-        const status = response.status; 
+        const status = response.status;
 
         {% template Client.ProcessResponse %}
     }

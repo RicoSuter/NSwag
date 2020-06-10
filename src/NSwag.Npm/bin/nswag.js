@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "11";
-var supportedCoreVersions = ["10", "11", "20", "21"];
+var defaultCoreVersion = "21";
+var supportedCoreVersions = ["10", "11", "20", "21", "22", "30", "31"];
 
 // Initialize
 process.title = 'nswag';
@@ -16,6 +16,9 @@ args = args.replace("--core 1.0", "/runtime:NetCore10");
 args = args.replace("--core 1.1", "/runtime:NetCore11");
 args = args.replace("--core 2.0", "/runtime:NetCore20");
 args = args.replace("--core 2.1", "/runtime:NetCore21");
+args = args.replace("--core 2.2", "/runtime:NetCore22");
+args = args.replace("--core 3.0", "/runtime:NetCore30");
+args = args.replace("--core 3.1", "/runtime:NetCore31");
 args = args.replace("--core", "/runtime:NetCore" + defaultCoreVersion);
 
 // Search for full .NET installation
@@ -33,7 +36,7 @@ if (process.env["windir"]) {
 }
 
 var c = require('child_process');
-if (hasFullDotNet && args.toLowerCase().indexOf("/runtime:netcore") == -1) {
+if (hasFullDotNet && args.toLowerCase().indexOf("/runtime:win") != -1) {
     // Run full .NET version
     if (args.toLowerCase().indexOf("/runtime:winx86") != -1) {
         var cmd = '"' + __dirname + '/binaries/Win/nswag.x86.exe" ' + args;

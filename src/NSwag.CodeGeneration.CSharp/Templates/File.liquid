@@ -8,10 +8,16 @@
 using {{ usage }};
 {% endfor -%}
 
+#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
+#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
+#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
+#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
+#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
+
 namespace {{ Namespace }}
 {
-    #pragma warning disable // Disable all warnings
-
+    using System = global::System;
+    
     {{ Clients | tab }}
 
 {% if GenerateContracts -%}
@@ -21,24 +27,33 @@ namespace {{ Namespace }}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileParameter
     {
-        public FileParameter(System.IO.Stream data) 
+        public FileParameter(System.IO.Stream data)
             : this (data, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
         {
             Data = data;
             FileName = fileName;
+            ContentType = contentType;
         }
 
         public System.IO.Stream Data { get; private set; }
 
         public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
     }
 
 {%     endif -%}
 {%     if GenerateFileResponseClass -%}
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileResponse : System.IDisposable
     {
         private System.IDisposable _client; 
@@ -46,7 +61,7 @@ namespace {{ Namespace }}
 
         public int StatusCode { get; private set; }
 
-        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
         public System.IO.Stream Stream { get; private set; }
 
@@ -55,7 +70,7 @@ namespace {{ Namespace }}
             get { return StatusCode == 206; }
         }
 
-        public FileResponse(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
             StatusCode = statusCode; 
             Headers = headers; 
@@ -83,9 +98,9 @@ namespace {{ Namespace }}
     {
         public int StatusCode { get; private set; }
 
-        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
         
-        public {{ responseClassName }}(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
         {
             StatusCode = statusCode; 
             Headers = headers;
@@ -97,7 +112,7 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
         
-        public {{ responseClassName }}(int statusCode, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
             : base(statusCode, headers)
         {
             Result = result;
@@ -115,10 +130,10 @@ namespace {{ Namespace }}
 
         public string Response { get; private set; }
 
-        public System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
-            : base(message, innerException)
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
+            : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + response.Substring(0, response.Length >= 512 ? 512 : response.Length), innerException)
         {
             StatusCode = statusCode;
             Response = response; 
@@ -136,7 +151,7 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
 
-        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
@@ -151,4 +166,11 @@ namespace {{ Namespace }}
     {% template JsonExceptionConverter %}
 {%     endif -%}
 {% endif -%}
+
 }
+
+#pragma warning restore 1591
+#pragma warning restore 1573
+#pragma warning restore  472
+#pragma warning restore  114
+#pragma warning restore  108

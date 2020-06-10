@@ -2,7 +2,7 @@
 // <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -31,6 +31,15 @@ namespace NSwag.Commands
 
         /// <summary>.NET Core 2.1 app.</summary>
         NetCore21,
+
+        /// <summary>.NET Core 2.2 app.</summary>
+        NetCore22,
+
+        /// <summary>.NET Core 3.0 app.</summary>
+        NetCore30,
+
+        /// <summary>.NET Core 3.1 app.</summary>
+        NetCore31,
 
         /// <summary>Execute in the same proces.</summary>
         Debug

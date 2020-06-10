@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Moq" Version="4.7.142" />
+    <PackageReference Include="xunit" Version="2.3.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.AspNetCore.Tests.Web\NSwag.Generation.AspNetCore.Tests.Web.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

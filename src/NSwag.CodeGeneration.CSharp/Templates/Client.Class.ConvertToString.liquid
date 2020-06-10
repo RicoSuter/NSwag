@@ -12,10 +12,16 @@
                     as System.Runtime.Serialization.EnumMemberAttribute;
                 if (attribute != null)
                 {
-                    return attribute.Value;
+                    return attribute.Value != null ? attribute.Value : name;
                 }
             }
+
+            return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
         }
+    }
+    else if (value is bool) 
+    {
+        return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
     }
     else if (value is byte[])
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
 using NSwag.Commands;
-using NSwag.Commands.SwaggerGeneration.AspNetCore;
+using NSwag.Commands.Generation.AspNetCore;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 
 namespace NSwagStudio.Views.SwaggerGenerators
@@ -21,7 +21,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private AspNetCoreToSwaggerGeneratorViewModel Model => (AspNetCoreToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "ASP.NET Core via API Explorer (new)";
+        public string Title => "ASP.NET Core via API Explorer";
 
         public IOutputCommand Command => Model.Command;
 

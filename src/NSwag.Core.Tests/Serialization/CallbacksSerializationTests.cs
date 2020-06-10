@@ -10,17 +10,17 @@ namespace NSwag.Core.Tests.Serialization
         public async Task When_callbacks_are_defined_then_they_are_serialized_in_OpenApi()
         {
             //// Arrange
-            var document = new SwaggerDocument
+            var document = new OpenApiDocument
             {
                 Paths =
                 {
                     {
                         "/baz",
-                        new SwaggerPathItem
+                        new OpenApiPathItem
                         {
                             {
-                                SwaggerOperationMethod.Get,
-                                new SwaggerOperation
+                                OpenApiOperationMethod.Get,
+                                new OpenApiOperation
                                 {
                                     Callbacks =
                                     {
@@ -30,11 +30,11 @@ namespace NSwag.Core.Tests.Serialization
                                             {
                                                 {
                                                     "foo",
-                                                    new SwaggerPathItem
+                                                    new OpenApiPathItem
                                                     {
                                                         {
-                                                            SwaggerOperationMethod.Post,
-                                                            new SwaggerOperation
+                                                            OpenApiOperationMethod.Post,
+                                                            new OpenApiOperation
                                                             {
                                                                 Description = "bar"
                                                             }

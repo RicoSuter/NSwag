@@ -45,17 +45,40 @@
                                       ToolTip="ControllerStyle"
                                       ItemsSource="{Binding ControllerStyles}" Margin="0,0,0,12" />
 
-                            <TextBlock Text="The ASP.NET (Core) framework namespace" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.AspNetNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+                            <TextBlock Text="Controller Target" FontWeight="Bold" Margin="0,0,0,6" />
+                            <ComboBox SelectedItem="{Binding Command.ControllerTarget, Mode=TwoWay}" 
+                                      ToolTip="ControllerTarget"
+                                      ItemsSource="{Binding ControllerTargets}" Margin="0,0,0,12" />
+
+                            <CheckBox IsChecked="{Binding Command.UseActionResultType, Mode=TwoWay}" 
+                                      ToolTip="UseActionResultType"
+                                      Content="Use ASP.Net Core (2.1) ActionResult type as return type" Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.UseCancellationToken, Mode=TwoWay}" 
+                                      ToolTip="UseCancellationToken"
                                       Content="Add cancellation token to controller methods" Margin="0,0,0,12" />
 
+                            <CheckBox IsChecked="{Binding Command.GenerateModelValidationAttributes, Mode=TwoWay}" 
+                                      ToolTip="GenerateModelValidationAttributes"
+                                      Content="Add model validation attributes" Margin="0,0,0,12" />
+
                             <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
+                                      ToolTip="WrapResponses"
                                       Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 
                             <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                                      ToolTip="GenerateOptionalParameters"
                                       Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
+
+                            <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                            <TextBox ToolTip="ExcludedParameterNames" 
+                                     Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                     Margin="0,0,0,12" />
+
+                            <TextBlock Text="Route Naming Strategy" FontWeight="Bold" Margin="0,0,0,6" />
+                            <ComboBox SelectedItem="{Binding Command.RouteNamingStrategy, Mode=TwoWay}" 
+                                      ToolTip="RouteNamingStrategy"
+                                      ItemsSource="{Binding RouteNamingStrategies}" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
@@ -74,6 +97,9 @@
 
                             <GroupBox Header="Web API Controller" Margin="0,0,0,12">
                                 <StackPanel Margin="4,8,4,-8">
+                                    <TextBlock Text="BasePath override (RoutePrefix)" FontWeight="Bold" Margin="0,0,0,6" />
+                                    <TextBox Text="{Binding Command.BasePath, Mode=TwoWay}" Margin="0,0,0,12" />
+                                    
                                     <TextBlock Text="Controller Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                     <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" Margin="0,0,0,12" />
 
@@ -129,6 +155,9 @@
                             <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                             Margin="0,0,0,12" />
+
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

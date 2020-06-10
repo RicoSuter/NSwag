@@ -11,7 +11,8 @@
                                       xmlns:controls="clr-namespace:NSwagStudio.Controls"
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
-                                      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+                                      xmlns:typeScriptEnums="clr-namespace:NSwag.CodeGeneration.TypeScript;assembly=NSwag.CodeGeneration.TypeScript"
+                                      mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800">
 
     <UserControl.Resources>
         <viewModels:SwaggerToTypeScriptClientGeneratorViewModel x:Key="ViewModel" />
@@ -40,6 +41,16 @@
                     <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}" 
                               ToolTip="TypeScriptVersion"
                               ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" 
+                          ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
+                        <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
+                    </CheckBox>
+
+                    <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" 
+                          ToolTip="InlineNamedAny" Margin="0,0,0,12">
+                        <TextBlock Text="Inline named any schemas" TextWrapping="Wrap" />
+                    </CheckBox>
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
@@ -75,9 +86,21 @@
 
                                         <TextBlock Text="HTTP service class" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="HttpClient recommended for new projects (Angular 4.3+)" Margin="0,0,0,6" />
-                                        <ComboBox SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 
-                                                  ToolTip="HttpClass" 
-                                                  ItemsSource="{Binding HttpClasses}" Margin="0,0,0,12" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Grid.Column="0" 
+                                                      SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 
+                                                      ToolTip="HttpClass" 
+                                                      ItemsSource="{Binding HttpClasses}" Margin="0,0,0,12" />
+                                            <CheckBox Grid.Column="1" 
+                                                      Content="With Credentials"
+                                                      ToolTip="Send withCredentials parameter in http requests"
+                                                      Visibility="{Binding Command.HttpClass, Converter={localConverters:IsValueToVisibilityConverter Target={x:Static typeScriptEnums:HttpClass.HttpClient}}}"
+                                                      IsChecked="{Binding Command.WithCredentials, Mode=TwoWay}" Margin="4,4,0,12" />
+                                        </Grid>
 
                                         <TextBlock Text="Injection token type" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="InjectionToken recommended for new projects (Angular 4+)" Margin="0,0,0,6" />
@@ -122,6 +145,10 @@
                                 <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
                                          ToolTip="QueryNullValue" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.ExportTypes, Mode=TwoWay}" 
+                                          ToolTip="ExportTypes"
+                                          Content="Export types (classes, interfaces and enums)" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
@@ -129,6 +156,16 @@
                                 <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" ToolTip="GenerateOptionalParameters"
                                           Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" 
                                           Margin="0,0,0,12" />
+
+                                <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox ToolTip="ExcludedParameterNames" 
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+
+                                <TextBlock Text="Exception class name" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" 
+                                         ToolTip="ExceptionClass"
+                                         Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" ToolTip="WrapDtoExceptions"
                                           Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
@@ -180,6 +217,17 @@
                                 <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Enum Style" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.EnumStyle, Mode=TwoWay}" 
+                                          ToolTip="TypeStyle"
+                                          ItemsSource="{Binding EnumStyles}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.UseLeafType, Mode=TwoWay}" 
+                                          ToolTip="UseLeafType" 
+                                          Margin="0,0,0,12">
+                                    <TextBlock Text="Generate leaf types for an object with discriminator" TextWrapping="Wrap" />
+                                </CheckBox>
 
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 
@@ -288,6 +336,9 @@
                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                             ToolTip="Output"
                                             Margin="0,0,0,12" />
+
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

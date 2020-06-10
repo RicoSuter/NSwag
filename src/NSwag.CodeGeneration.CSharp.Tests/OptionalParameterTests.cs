@@ -1,15 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
+using NSwag.Generation.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class OptionalParameterTests
     {
-        public class TestController : ApiController
+        public class TestController : Controller
         {
             [Route("Test")]
             public void Test(string a, string b, string c = null)
@@ -19,15 +19,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             [Route("TestWithClass")]
             public void TestWithClass([FromUri] MyClass objet)
             {
-
             }
 
             [Route("TestWithEnum")]
             public void TestWithEnum([FromUri] MyEnum? myEnum = null)
             {
-
             }
         }
+
+        public class FromUriAttribute : Attribute { }
 
         public enum MyEnum
         {
@@ -44,68 +44,68 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             public int MyInt { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_setting_is_enabled_with_enum_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("TestWithEnumAsync(MyEnum myEnum = null)"));
-            Assert.IsTrue(code.Contains("TestWithEnumAsync(MyEnum? myEnum = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.DoesNotContain("TestWithEnumAsync(MyEnum myEnum = null)", code);
+            Assert.Contains("TestWithEnumAsync(MyEnum? myEnum = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_setting_is_enabled_with_class_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
-            Assert.IsTrue(code.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.DoesNotContain("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+            Assert.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
-            Assert.IsFalse(code.Contains("TestAsync(string a, string b, string c)"));
+            Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+            Assert.DoesNotContain("TestAsync(string a, string b, string c)", code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_setting_is_enabled_then_parameters_are_reordered()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -115,14 +115,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             operation.Parameters.Insert(0, lastParameter);
             var json = document.ToJson();
 
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.IsTrue(code.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))"));
+            Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
     }
 }

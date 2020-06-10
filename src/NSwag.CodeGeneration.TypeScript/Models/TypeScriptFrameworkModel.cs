@@ -2,7 +2,7 @@
 // <copyright file="TypeScriptFrameworkModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>Framework specific information.</summary>
     public class TypeScriptFrameworkModel
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGeneratorSettings _settings;
 
-        internal TypeScriptFrameworkModel(SwaggerToTypeScriptClientGeneratorSettings settings)
+        internal TypeScriptFrameworkModel(TypeScriptClientGeneratorSettings settings)
         {
             _settings = settings;
 
@@ -41,6 +41,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
         public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
                                         _settings.Template == TypeScriptTemplate.Aurelia;
+
+        /// <summary>Gets a value indicating whether to render for Axios.</summary>
+        public bool IsAxios => _settings.Template == TypeScriptTemplate.Axios;
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
         public bool UseMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS ||

@@ -1,6 +1,6 @@
 ﻿{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
-export interface I{{ Class }} {
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%         for operation in Operations -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): {{ PromiseType }}<{{ operation.ResultType }}>;
@@ -8,9 +8,9 @@ export interface I{{ Class }} {
 }
 {% endif -%}
 
-export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
-    baseUrl: string; 
-    beforeSend: any = undefined; 
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    baseUrl: string;
+    beforeSend: any = undefined;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else -%}(key: string, value: any) => any{% endif %} = undefined;
 
 {% if HasExtendedConstructor == false -%}
@@ -37,7 +37,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
             this.{{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}(result) => resolve(result), (exception, _reason) => reject(exception));
         });
     }
-    
+
     private {{ operation.ActualOperationName }}WithCallbacks({% for parameter in operation.Parameters %}{{ parameter.VariableName }}: {{ parameter.Type }}{{ parameter.TypePostfix }}, {% endfor %}onSuccess?: (result: {{ operation.ResultType }}) => void, onFail?: (exception: {{ operation.ExceptionType }}, reason: string) => void) {
         {% template Client.RequestUrl %}
 
@@ -60,9 +60,11 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
 {%     endif -%}
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
+{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
                 "Content-Type": "{{ operation.Consumes }}",
+{%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
@@ -90,7 +92,7 @@ export class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %
     }
 
     protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if SupportsStrictNullChecks %} | null{% endif %} {
-        const status = xhr.status; 
+        const status = xhr.status;
 
         {% template Client.ProcessResponse %}
     }

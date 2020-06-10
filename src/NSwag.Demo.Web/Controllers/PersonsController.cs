@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using NSwag.Annotations;
 using NSwag.Demo.Web.Models;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 
 namespace NSwag.Demo.Web.Controllers
 {
@@ -87,7 +87,7 @@ namespace NSwag.Demo.Web.Controllers
         [SwaggerIgnore]
         public async Task<HttpResponseMessage> Swagger()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = Configuration.Routes.First(r => !string.IsNullOrEmpty(r.RouteTemplate)).RouteTemplate
             });

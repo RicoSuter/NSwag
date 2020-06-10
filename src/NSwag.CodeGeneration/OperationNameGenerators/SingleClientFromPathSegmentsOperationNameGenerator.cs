@@ -2,11 +2,12 @@
 // <copyright file="MultipleClientsFromPathSegmentsOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
@@ -22,7 +23,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetClientName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             return string.Empty;
         }
@@ -33,20 +34,20 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetOperationName(SwaggerDocument document, string path, SwaggerOperationMethod httpMethod, SwaggerOperation operation)
+        public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             var operationName = ConvertPathToName(path);
             var hasNameConflict = document.Paths
                 .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
-                .Where(op => 
-                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) && 
+                .Where(op =>
+                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) &&
                     ConvertPathToName(op.Path) == operationName
                 )
                 .ToList().Count > 1;
 
             if (hasNameConflict)
             {
-                operationName += CapitalizeFirst(httpMethod.ToString());
+                operationName += CapitalizeFirst(httpMethod);
             }
 
             return operationName;
@@ -55,9 +56,9 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <summary>Converts the path to an operation name.</summary>
         /// <param name="path">The HTTP path.</param>
         /// <returns>The operation name.</returns>
-        internal static string ConvertPathToName(string path)
+        public static string ConvertPathToName(string path)
         {
-            var name = path
+            var name = Regex.Replace(path, @"\{.*?\}", "")
                 .Split('/', '-', '_')
                 .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));
@@ -80,8 +81,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 return string.Empty;
             }
 
-            var capitalized = name.ToLower();
-            return char.ToUpper(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
+            var capitalized = name.ToLowerInvariant();
+            return char.ToUpperInvariant(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
         }
     }
 }

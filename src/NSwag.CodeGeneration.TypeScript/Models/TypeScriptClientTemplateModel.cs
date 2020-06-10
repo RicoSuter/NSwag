@@ -2,7 +2,7 @@
 // <copyright file="TypeScriptClientTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptClientTemplateModel
     {
         private readonly TypeScriptExtensionCode _extensionCode;
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
-        private readonly SwaggerDocument _document;
+        private readonly TypeScriptClientGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptClientTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -31,8 +31,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             string controllerClassName,
             IEnumerable<TypeScriptOperationModel> operations,
             TypeScriptExtensionCode extensionCode,
-            SwaggerDocument document,
-            SwaggerToTypeScriptClientGeneratorSettings settings)
+            OpenApiDocument document,
+            TypeScriptClientGeneratorSettings settings)
         {
             _extensionCode = extensionCode;
             _settings = settings;
@@ -113,5 +113,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
         public string QueryNullValue => _settings.QueryNullValue;
+
+        /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
+        public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
     }
 }

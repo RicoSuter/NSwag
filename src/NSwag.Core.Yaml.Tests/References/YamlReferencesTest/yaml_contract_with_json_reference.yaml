@@ -1,0 +1,17 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Yaml Contract with Json Reference
+  description: Yaml Contract with Json Reference
+paths:
+definitions:
+  ContractObject:
+    type: object
+    properties:
+      bar:
+        "$ref": "./baseContract.json#/definitions/myBool"
+      foo:
+        "$ref": "#/definitions/baseContractInt"
+  baseContractInt:
+    "$ref": "./baseContract.json#/definitions/myInt"

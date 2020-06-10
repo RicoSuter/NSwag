@@ -1,7 +1,7 @@
-﻿{
-  "x-generator": "NSwag v11.17.14.0 (NJsonSchema v9.10.52.0 (Newtonsoft.Json v9.0.0.0))",
+{
+  "x-generator": "NSwag v13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))",
   "info": {
-    "title": "Web API Swagger specification",
+    "title": "Swagger specification",
     "version": "1.0.0"
   },
   "host": "localhost:13452",
@@ -243,7 +243,7 @@
             "description": ""
           },
           "450": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "A custom error occured.",
             "schema": {
               "$ref": "#/definitions/Exception"
@@ -445,7 +445,7 @@
         ],
         "responses": {
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
@@ -528,14 +528,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/Person"
             }
           },
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
@@ -564,14 +564,14 @@
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "The person's name.",
             "schema": {
               "type": "string"
             }
           },
           "500": {
-            "x-nullable": true,
+            "x-nullable": false,
             "description": "",
             "schema": {
               "$ref": "#/definitions/PersonNotFoundException"
@@ -595,7 +595,8 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-nullable": true
             },
             "x-nullable": true
           }
@@ -627,7 +628,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "byte"
+              "format": "byte",
+              "x-nullable": true
             },
             "x-nullable": true
           }
@@ -648,7 +650,6 @@
   "definitions": {
     "GeoPoint": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "Latitude",
         "Longitude"
@@ -664,9 +665,25 @@
         }
       }
     },
+    "Exception": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        },
+        "InnerException": {
+          "$ref": "#/definitions/Exception"
+        },
+        "StackTrace": {
+          "type": "string"
+        },
+        "Source": {
+          "type": "string"
+        }
+      }
+    },
     "GenericRequestOfAddressAndPerson": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "Item1": {
           "$ref": "#/definitions/Address"
@@ -678,7 +695,6 @@
     },
     "Address": {
       "type": "object",
-      "additionalProperties": false,
       "required": [
         "IsPrimary"
       ],
@@ -694,7 +710,6 @@
     "Person": {
       "type": "object",
       "discriminator": "discriminator",
-      "additionalProperties": false,
       "required": [
         "Id",
         "FirstName",
@@ -721,7 +736,8 @@
         },
         "LastName": {
           "type": "string",
-          "description": "Gets or sets the last name."
+          "description": "Gets or sets the last name.",
+          "minLength": 1
         },
         "Gender": {
           "$ref": "#/definitions/Gender"
@@ -795,63 +811,47 @@
       ]
     },
     "Teacher": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "SkillLevel"
-      ],
-      "properties": {
-        "Course": {
-          "type": "string"
-        },
-        "SkillLevel": {
-          "default": 1,
-          "allOf": [
-            {
-              "$ref": "#/definitions/SkillLevel"
-            }
-          ]
-        }
-      },
       "allOf": [
         {
           "$ref": "#/definitions/Person"
+        },
+        {
+          "type": "object",
+          "required": [
+            "SkillLevel"
+          ],
+          "properties": {
+            "Course": {
+              "type": "string"
+            },
+            "SkillLevel": {
+              "default": 1,
+              "allOf": [
+                {
+                  "$ref": "#/definitions/SkillLevel"
+                }
+              ]
+            }
+          }
         }
       ]
     },
-    "Exception": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Message": {
-          "type": "string"
-        },
-        "InnerException": {
-          "$ref": "#/definitions/Exception"
-        },
-        "StackTrace": {
-          "type": "string"
-        },
-        "Source": {
-          "type": "string"
-        }
-      }
-    },
     "PersonNotFoundException": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "guid"
-        }
-      },
       "allOf": [
         {
           "$ref": "#/definitions/Exception"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
         }
       ]
     }

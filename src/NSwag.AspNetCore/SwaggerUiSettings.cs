@@ -2,24 +2,32 @@
 // <copyright file="SwaggerUiOwinSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
-using NSwag.SwaggerGeneration;
+using NSwag.Generation;
 
 #if AspNetOwin
+using Microsoft.Owin;
+
 namespace NSwag.AspNet.Owin
 #else
+using Microsoft.AspNetCore.Http;
+
 namespace NSwag.AspNetCore
 #endif
 {
     /// <summary>The settings for UseSwaggerUi.</summary>
+#if AspNetOwin
     public class SwaggerUiSettings<T> : SwaggerUiSettingsBase<T>
-        where T : SwaggerGeneratorSettings, new()
+        where T : OpenApiDocumentGeneratorSettings, new()
+#else
+    public class SwaggerUiSettings : SwaggerUiSettingsBase
+#endif
     {
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
         public bool ValidateSpecification { get; set; } = true;
@@ -41,8 +49,12 @@ namespace NSwag.AspNetCore
 
         /// <summary>Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to false.</summary>
         public bool ShowRequestHeaders { get; set; } = false;
-        
-        internal override string TransformHtml(string html)
+
+#if AspNetOwin
+        internal override string TransformHtml(string html, IOwinRequest request)
+#else
+        internal override string TransformHtml(string html, HttpRequest request)
+#endif
         {
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
@@ -57,6 +69,8 @@ namespace NSwag.AspNetCore
             html = html.Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false");
             html = html.Replace("{DefaultModelRendering}", DefaultModelRendering);
             html = html.Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false");
+            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
+            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
 
             return html;
         }

@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.SwaggerGeneration.WebApi;
+using Microsoft.AspNetCore.Mvc;
+using NSwag.Generation.WebApi;
+using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
-    [TestClass]
     public class HeadRequestTests
     {
-        public class HeadRequestController : ApiController
+        public class HeadRequestController : Controller
         {
             [HttpHead]
             public void Foo()
@@ -16,19 +15,19 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task When_operation_is_HTTP_head_then_no_content_is_not_used()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<HeadRequestController>();
 
             //// Act
-            var codeGen = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.IsFalse(code.Contains("System.Net.Http.StringContent"));
+            Assert.DoesNotContain("System.Net.Http.StringContent", code);
         }
     }
 }

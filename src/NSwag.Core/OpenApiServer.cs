@@ -2,7 +2,7 @@
 // <copyright file="OpenApiServer.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -25,5 +25,9 @@ namespace NSwag
         /// <summary>Gets or sets the variables of the server.</summary>
         [JsonProperty(PropertyName = "variables", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public IDictionary<string, OpenApiServerVariable> Variables { get; } = new Dictionary<string, OpenApiServerVariable>();
+
+        /// <summary>Gets a value indicating whether the server description is valid.</summary>
+        [JsonIgnore]
+        public bool IsValid => !string.IsNullOrEmpty(Url) && !Url.Contains("///");
     }
 }

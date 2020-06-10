@@ -8,15 +8,17 @@ namespace NSwag.AspNetCore.Launcher
     internal class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
-        private const string EntryPointType = "NSwag.Commands.SwaggerGeneration.AspNetCore.AspNetCoreToSwaggerGeneratorCommandEntryPoint";
+        private const string EntryPointType = "NSwag.Commands.Generation.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
         private static readonly AssemblyName CommandsAssemblyName = new AssemblyName("NSwag.Commands");
 
         private static readonly Version NSwagVersion = typeof(Program).GetTypeInfo().Assembly.GetName().Version;
 
-        // List of assemblies and versions referenced by NSwag.SwaggerGeneration.AspNetCore. This represents the minimum versions
+        // List of assemblies and versions referenced by NSwag.Generation.AspNetCore. This represents the minimum versions
         // required to successfully run the tool.
         private static readonly Dictionary<string, AssemblyLoadInfo> NSwagReferencedAssemblies = new Dictionary<string, AssemblyLoadInfo>(StringComparer.OrdinalIgnoreCase)
         {
+            ["Microsoft.AspNetCore.TestHost"] = new AssemblyLoadInfo(new Version(1, 0, 5)),
+            ["Microsoft.AspNetCore.Mvc.Formatters.Json"] = new AssemblyLoadInfo(new Version(1, 0, 0)),
             ["Microsoft.AspNetCore.Authorization"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.AspNetCore.Hosting.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.AspNetCore.Hosting.Server.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
@@ -34,7 +36,7 @@ namespace NSwag.AspNetCore.Launcher
             ["Microsoft.Extensions.Configuration.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.DependencyInjection.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.DependencyInjection"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
-            ["Microsoft.Extensions.DependencyModel"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
+            ["Microsoft.Extensions.DependencyModel"] = new AssemblyLoadInfo(new Version(1, 0, 0)),
             ["Microsoft.Extensions.FileProviders.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.Logging.Abstractions"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
             ["Microsoft.Extensions.Logging"] = new AssemblyLoadInfo(new Version(1, 0, 2)),
@@ -46,11 +48,13 @@ namespace NSwag.AspNetCore.Launcher
             ["Newtonsoft.Json"] = new AssemblyLoadInfo(new Version(9, 0, 0)),
             ["NConsole"] = new AssemblyLoadInfo(new Version(3, 9, 0, 0)),
             ["NJsonSchema"] = new AssemblyLoadInfo(new Version(9, 7, 7)),
+            ["Namotion.Reflection"] = new AssemblyLoadInfo(new Version(1, 0, 0)),
             ["NSwag.AssemblyLoader"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Commands"] = new AssemblyLoadInfo(NSwagVersion),
             ["NSwag.Core"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.SwaggerGeneration.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
-            ["NSwag.SwaggerGeneration"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Core.Yaml"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation.AspNetCore"] = new AssemblyLoadInfo(NSwagVersion),
+            ["NSwag.Generation"] = new AssemblyLoadInfo(NSwagVersion),
             ["System.Buffers"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Diagnostics.DiagnosticSource"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
@@ -81,17 +85,41 @@ namespace NSwag.AspNetCore.Launcher
                 return (int)ExitCode.VersionConflict;
             }
 
+            var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(Program).GetTypeInfo().Assembly.CodeBase).LocalPath);
+
+            Console.WriteLine("Launcher directory: " + codeBaseDirectory);
+
 #if NETCOREAPP1_0
             var loadContext = System.Runtime.Loader.AssemblyLoadContext.Default;
             loadContext.Resolving += (context, assemblyName) =>
             {
-                if (!NSwagReferencedAssemblies.TryGetValue(assemblyName.Name, out var assemblyInfo))
+                var name = assemblyName.Name;
+
+                if (!NSwagReferencedAssemblies.TryGetValue(name, out var assemblyInfo))
+                {
                     return null;
+                }
 
-                var assemblyLocation = Path.Combine(toolsDirectory, assemblyName.Name + ".dll");
+                // If we've loaded a higher version from the app's closure, return it.
+                if (assemblyInfo.LoadedAssembly != null)
+                {
+                    return assemblyInfo.LoadedAssembly;
+                }
 
+                var assemblyLocation = Path.Combine(toolsDirectory, name + ".dll");
                 if (!File.Exists(assemblyLocation))
-                    throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory}.");
+                {
+                    assemblyLocation = Path.Combine(codeBaseDirectory, name + ".dll");
+                    if (!File.Exists(assemblyLocation))
+                    {
+                        assemblyLocation = Path.Combine(codeBaseDirectory, "Publish", name + ".dll");
+                        if (!File.Exists(assemblyLocation))
+                        {
+                            Console.WriteLine($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
+                            throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
+                        }
+                    }
+                }
 
                 return context.LoadFromAssemblyPath(assemblyLocation);
             };
@@ -101,16 +129,33 @@ namespace NSwag.AspNetCore.Launcher
             {
                 var assemblyName = new AssemblyName(eventArgs.Name);
                 var name = assemblyName.Name;
+
                 if (!NSwagReferencedAssemblies.TryGetValue(name, out var assemblyInfo))
+                {
                     return null;
+                }
 
                 // If we've loaded a higher version from the app's closure, return it.
                 if (assemblyInfo.LoadedAssembly != null)
+                {
                     return assemblyInfo.LoadedAssembly;
+                }
 
                 var assemblyLocation = Path.Combine(toolsDirectory, name + ".dll");
                 if (!File.Exists(assemblyLocation))
-                    throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory}.");
+                {
+                    assemblyLocation = Path.Combine(codeBaseDirectory, name + ".dll");
+                    if (!File.Exists(assemblyLocation))
+                    {
+                        assemblyLocation = Path.Combine(codeBaseDirectory, "Publish", name + ".dll");
+                        if (!File.Exists(assemblyLocation))
+                        {
+                            Console.WriteLine($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
+                            throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
+                        }
+                    }
+                }
+
                 return Assembly.LoadFile(assemblyLocation);
             };
 
@@ -152,7 +197,7 @@ namespace NSwag.AspNetCore.Launcher
                 var assemblyInfo = item.Value;
                 if (loadedAssembly.GetName().Version < assemblyInfo.MinimumRequiredVersion)
                 {
-                    Console.Error.WriteLine("Application references version lower than required.");
+                    Console.Error.WriteLine($"Application references version '{loadedAssembly.GetName().Version}' of '{item.Key}' which is lower than the required version '{assemblyInfo.MinimumRequiredVersion}'.");
                     return false;
                 }
 

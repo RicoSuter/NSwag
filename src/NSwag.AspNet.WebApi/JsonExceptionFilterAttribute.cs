@@ -2,7 +2,7 @@
 // <copyright file="JsonExceptionFilterAttribute.cs" company="NJsonSchema">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/rsuter/NJsonSchema/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NJsonSchema/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Newtonsoft.Json;
+using NJsonSchema.Converters;
 using NSwag.Annotations;
-using NSwag.Annotations.Converters;
 
 namespace NSwag.AspNet.WebApi
 {
@@ -70,11 +70,13 @@ namespace NSwag.AspNet.WebApi
                 context.Response = new HttpResponseMessage
                 {
                     StatusCode = (HttpStatusCode)GetStatusCode(context.Exception, context),
-                    Content = new StringContent(json, Encoding.UTF8)
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
                 };
             }
             else
+            {
                 base.OnActionExecuted(context);
+            }
         }
 
         private int GetStatusCode(Exception exception, HttpActionExecutedContext context)
@@ -105,43 +107,21 @@ namespace NSwag.AspNet.WebApi
 
         private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
-            var copy = new JsonSerializerSettings
+            var settingsCopy = new JsonSerializerSettings();
+
+            foreach (var property in typeof(JsonSerializerSettings)
+                .GetRuntimeProperties()
+                .Where(p => p.Name != "Converters"))
             {
-                Context = settings.Context,
-                Culture = settings.Culture,
-                ContractResolver = settings.ContractResolver,
-                ConstructorHandling = settings.ConstructorHandling,
-                CheckAdditionalContent = settings.CheckAdditionalContent,
-                DateFormatHandling = settings.DateFormatHandling,
-                DateFormatString = settings.DateFormatString,
-                DateParseHandling = settings.DateParseHandling,
-                DateTimeZoneHandling = settings.DateTimeZoneHandling,
-                DefaultValueHandling = settings.DefaultValueHandling,
-                EqualityComparer = settings.EqualityComparer,
-                FloatFormatHandling = settings.FloatFormatHandling,
-                Formatting = settings.Formatting,
-                FloatParseHandling = settings.FloatParseHandling,
-                MaxDepth = settings.MaxDepth,
-                MetadataPropertyHandling = settings.MetadataPropertyHandling,
-                MissingMemberHandling = settings.MissingMemberHandling,
-                NullValueHandling = settings.NullValueHandling,
-                ObjectCreationHandling = settings.ObjectCreationHandling,
-                PreserveReferencesHandling = settings.PreserveReferencesHandling,
-                ReferenceResolverProvider = settings.ReferenceResolverProvider,
-                ReferenceLoopHandling = settings.ReferenceLoopHandling,
-                StringEscapeHandling = settings.StringEscapeHandling,
-                TraceWriter = settings.TraceWriter,
-                TypeNameHandling = settings.TypeNameHandling,
-                Binder = settings.Binder,
-                TypeNameAssemblyFormat = settings.TypeNameAssemblyFormat
-            };
+                property.SetValue(settingsCopy, property.GetValue(settings));
+            }
 
             foreach (var converter in settings.Converters)
             {
-                copy.Converters.Add(converter);
+                settingsCopy.Converters.Add(converter);
             }
 
-            return copy;
+            return settingsCopy;
         }
     }
 }

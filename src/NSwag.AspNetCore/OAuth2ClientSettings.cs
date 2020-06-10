@@ -2,7 +2,7 @@
 // <copyright file="OAuth2ClientSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -34,5 +34,8 @@ namespace NSwag.AspNetCore
 
         /// <summary>Gets or sets the additional query string parameters.</summary>
         public IDictionary<string, string> AdditionalQueryStringParameters { get; } = new Dictionary<string, string>();
+
+        /// <summary>Proof Key for Code Exchange. Only applies to `accessCode` flow. Supported in SwaggerUI 3.</summary>
+        public bool UsePkceWithAuthorizationCodeGrant { get; set; }
     }
 }

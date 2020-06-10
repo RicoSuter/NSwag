@@ -17,6 +17,6 @@
   </ItemGroup>
 
   <Target Name="NSwag" AfterTargets="Build">
-    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+    <Copy SourceFiles="@(ReferencePath)" DestinationFolder="$(OutDir)References" />
   </Target>
 </Project>

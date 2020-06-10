@@ -2,7 +2,7 @@
 // <copyright file="AssemblyConfigurationFileTransformer.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -51,7 +51,9 @@ namespace NSwag.AssemblyLoader
 
             var content = !string.IsNullOrEmpty(configurationPath) ? File.ReadAllText(configurationPath, Encoding.UTF8) : EmptyConfig;
             foreach (var br in bindingRedirects)
+            {
                 content = UpdateOrAddBindingRedirect(content, br.Name, br.NewVersion, br.PublicKeyToken);
+            }
 
             return Encoding.UTF8.GetBytes(content);
         }
@@ -74,26 +76,34 @@ namespace NSwag.AssemblyLoader
                 return content;
             }
             else
+            {
                 return content.Replace("</assemblyBinding>", AssemblyBinding
                     .Replace("{name}", name)
                     .Replace("{publicKeyToken}", publicKeyToken)
                     .Replace("{newVersion}", newVersion) +
                     "</assemblyBinding>");
+            }
         }
 
         private static string TryFindConfigurationPath(string assemblyDirectory)
         {
             var config = Path.Combine(assemblyDirectory, "App.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             config = Path.Combine(assemblyDirectory, "Web.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             config = Path.Combine(assemblyDirectory, "../Web.config");
             if (File.Exists(config))
+            {
                 return config;
+            }
 
             return null;
         }
@@ -117,7 +127,7 @@ public class BindingRedirect
         PublicKeyToken = publicKeyToken;
     }
 
-#if NET451 
+#if NET451
 
     public BindingRedirect(string name, Type newVersionType, string publicKeyToken)
         : this(name, newVersionType.Assembly.GetName().Version.ToString(), publicKeyToken)

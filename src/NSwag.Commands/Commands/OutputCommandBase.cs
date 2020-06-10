@@ -2,7 +2,7 @@
 // <copyright file="OutputCommandBase.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -19,9 +19,13 @@ namespace NSwag.Commands
         [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
         public string OutputFilePath { get; set; }
 
+        [Argument(Name = "NewLineBehavior", IsRequired = false, Description = "The new line behavior (Auto (OS default), CRLF, LF).")]
+        [JsonProperty("newLineBehavior", NullValueHandling = NullValueHandling.Include)]
+        public NewLineBehavior NewLineBehavior { get; set; } = NewLineBehavior.Auto;
+
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected async Task<SwaggerDocument> ReadSwaggerDocumentAsync(string input)
+        protected async Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
         {
             if (!IsJson(input) && !IsYaml(input))
             {
@@ -30,28 +34,36 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
                     }
                     else
-                        return await SwaggerDocument.FromUrlAsync(input).ConfigureAwait(false);
+                    {
+                        return await OpenApiDocument.FromUrlAsync(input).ConfigureAwait(false);
+                    }
                 }
                 else
                 {
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await SwaggerYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return await OpenApiYamlDocument.FromFileAsync(input).ConfigureAwait(false);
                     }
                     else
-                        return await SwaggerDocument.FromFileAsync(input).ConfigureAwait(false);
+                    {
+                        return await OpenApiDocument.FromFileAsync(input).ConfigureAwait(false);
+                    }
                 }
             }
             else
             {
                 if (IsYaml(input))
-                    return await SwaggerYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                {
+                    return await OpenApiYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                }
                 else
-                    return await SwaggerDocument.FromJsonAsync(input).ConfigureAwait(false);
+                {
+                    return await OpenApiDocument.FromJsonAsync(input).ConfigureAwait(false);
+                }
             }
         }
 
@@ -67,17 +79,17 @@ namespace NSwag.Commands
 
         protected Task<bool> TryWriteFileOutputAsync(IConsoleHost host, Func<string> generator)
         {
-            return OutputCommandExtensions.TryWriteFileOutputAsync(this, host, generator);
+            return OutputCommandExtensions.TryWriteFileOutputAsync(this, host, NewLineBehavior, generator);
         }
 
-        protected Task<bool> TryWriteDocumentOutputAsync(IConsoleHost host, Func<SwaggerDocument> generator)
+        protected Task<bool> TryWriteDocumentOutputAsync(IConsoleHost host, Func<OpenApiDocument> generator)
         {
-            return OutputCommandExtensions.TryWriteDocumentOutputAsync(this, host, generator);
+            return OutputCommandExtensions.TryWriteDocumentOutputAsync(this, host, NewLineBehavior, generator);
         }
 
         protected Task<bool> TryWriteFileOutputAsync(string path, IConsoleHost host, Func<string> generator)
         {
-            return OutputCommandExtensions.TryWriteFileOutputAsync(this, path, host, generator);
+            return OutputCommandExtensions.TryWriteFileOutputAsync(this, path, host, NewLineBehavior, generator);
         }
     }
 }
