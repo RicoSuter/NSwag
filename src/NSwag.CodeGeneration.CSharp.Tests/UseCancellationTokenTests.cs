@@ -41,7 +41,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("(System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("_implementation.BarAsync(cancellationToken)", code);
-            Assert.Contains("System.Threading.Tasks.Task BarAsync(System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("System.Threading.Tasks.Task BarAsync(" +
+                "System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None)", code);
         }
 
         [Fact]
@@ -59,9 +60,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("System.Threading.Tasks.Task<string> FooAsync(string test, bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("System.Threading.Tasks.Task<string> FooAsync(string test, bool test2, " +
+                "System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None)", code);
             Assert.Contains("_implementation.FooAsync(test, test2, cancellationToken);", code);
-            Assert.Contains("public System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("public System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, " +
+                "System.Threading.CancellationToken cancellationToken)", code);
         }
 
         [Fact]
@@ -80,7 +83,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("abstract System.Threading.Tasks.Task Bar(System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("abstract System.Threading.Tasks.Task Bar(" +
+                "System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None)", code);
         }
 
         [Fact]
@@ -99,7 +103,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, " +
+                "System.Threading.CancellationToken cancellationToken = System.Threading.CancellationToken.None)", code);
         }
 
         [Fact]
