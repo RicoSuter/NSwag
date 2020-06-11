@@ -26,6 +26,11 @@
                     <TextBlock Text="Generate optional schema properties (not required) as nullable properties" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.GenerateNullableReferenceTypes, Mode=TwoWay}" 
+                          ToolTip="GenerateNullableReferenceTypes" Margin="0,0,0,12">
+                    <TextBlock Text="Generate Nullable Reference Type (NRT) annotations" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
                 <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />

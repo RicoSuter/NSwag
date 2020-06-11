@@ -95,6 +95,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateOptionalPropertiesAsNullable = value; }
         }
 
+        [Argument(Name = "GenerateNullableReferenceTypes", IsRequired = false, Description = "Specifies whether whether to " +
+            "generate Nullable Reference Type annotations (default: false).")]
+        public bool GenerateNullableReferenceTypes
+        {
+            get { return Settings.GenerateNullableReferenceTypes; }
+            set { Settings.GenerateNullableReferenceTypes = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var schema = await GetJsonSchemaAsync().ConfigureAwait(false);
