@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v10.0.0.0))",
+  "x-generator": "NSwag v13.6.1.0 (NJsonSchema v10.1.21.0 (Newtonsoft.Json v10.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
