@@ -28,7 +28,7 @@
 
                 <CheckBox IsChecked="{Binding Command.GenerateNullableReferenceTypes, Mode=TwoWay}" 
                           ToolTip="GenerateNullableReferenceTypes" Margin="0,0,0,12">
-                    <TextBlock Text="Generate Nullable Reference Type (NRT) annotations" TextWrapping="Wrap" />
+                    <TextBlock Text="Generate Nullable Reference Type (NRT) annotations (C# 8)" TextWrapping="Wrap" />
                 </CheckBox>
 
                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
