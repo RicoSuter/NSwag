@@ -4,6 +4,10 @@
 // </auto-generated>
 //----------------------
 
+{% if GenerateNullableReferenceTypes -%}
+#nullable enable
+
+{% endif -%}
 {% for usage in NamespaceUsages -%}
 using {{ usage }};
 {% endfor -%}
