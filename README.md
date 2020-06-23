@@ -90,7 +90,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 Specification:
 
-- **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 / 2.0 and .NET 4.5) [![Apiverse](https://img.shields.io/badge/API%20Docs%20on-apiverse.io-1dce73.svg)](https://apiverse.io/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core/versions/latest?tab=types&type=NSwag.OpenApiDocument)
+- **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** (.NET Standard 1.0 / 2.0 and .NET 4.5) 
+    - [![Apiverse](https://img.shields.io/badge/API%20Docs-on%20apiverse.io-1dce73.svg)](https://apiverse.io/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core/versions/latest?tab=types&type=NSwag.OpenApiDocument)
     - The OpenAPI/Swagger reader and writer classes, see [OpenApiDocument](https://github.com/RicoSuter/NSwag/wiki/OpenApiDocument)
 - **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Core.Yaml/)** (.NET Standard 1.3 / 2.0 and .NET 4.5): 
     - Extensions to read and write YAML OpenAPI specifications
