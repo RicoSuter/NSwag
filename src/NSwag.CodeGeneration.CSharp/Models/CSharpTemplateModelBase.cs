@@ -23,6 +23,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _settings = settings;
         }
 
+        /// <summary>Gets a value indicating whether the C#8 nullable reference types are enabled for this file.</summary>
+        public bool GenerateNullableReferenceTypes => _settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes;
+
         /// <summary>Gets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
 
