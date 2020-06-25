@@ -301,6 +301,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             else
             {
                 var schema = CreateOrGetFormDataSchema(context);
+                schema.Type = JsonObjectType.Object;
                 schema.Properties[extendedApiParameter.ApiParameter.Name] = CreateFormDataProperty(context, extendedApiParameter, schema);
             }
         }
