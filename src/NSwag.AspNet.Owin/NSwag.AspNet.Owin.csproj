@@ -49,7 +49,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.1.22" />
+    <PackageReference Include="NJsonSchema" Version="10.1.23" />
     <PackageReference Include="Owin" Version="1.0" />
   </ItemGroup>
   <ItemGroup>
