@@ -37,8 +37,11 @@ let result{{ response.StatusCode }}: any = null;
 let resultData{{ response.StatusCode }}  = _responseText;
 {%             if response.UseDtoClass -%}
 {{ response.DataConversionCode }}
+{%             elseif operation.HandleReferences -%}
+resultData{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>jsonParse(_responseText, this.jsonParseReviver);
 {%             else -%}
-result{{ response.StatusCode }} = JSON.parse(resultData{{ response.StatusCode }});
+try { resultData{{ response.StatusCode }} = (_responseText === "" ? null : <{{ response.Type }}>JSON.parse(_responseText, this.jsonParseReviver)); } 
+catch(err) { resultData{{ response.StatusCode }} = _responseText; }
 {%             endif -%}
 {%         else -%}
 {%              if response.UseDtoClass or response.IsDateOrDateTime -%}
