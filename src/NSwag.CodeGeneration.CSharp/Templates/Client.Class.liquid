@@ -298,9 +298,9 @@
 {%         if operation.HasResultType -%}
         
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, default({{ operation.UnwrappedResultType }})); 
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>((int)response_.StatusCode, headers_, {{ operation.UnwrappedResultDefaultValue }}); 
 {%             else -%}
-                    return default({{ operation.UnwrappedResultType }});
+                    return {{ operation.UnwrappedResultDefaultValue }};
 {%             endif -%}
 {%         elseif operation.WrapResponse -%}
 

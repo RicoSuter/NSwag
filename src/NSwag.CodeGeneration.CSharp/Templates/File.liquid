@@ -4,6 +4,10 @@
 // </auto-generated>
 //----------------------
 
+{% if GenerateNullableReferenceTypes -%}
+#nullable enable
+
+{% endif -%}
 {% for usage in NamespaceUsages -%}
 using {{ usage }};
 {% endfor -%}
@@ -128,12 +132,20 @@ namespace {{ Namespace }}
     {
         public int StatusCode { get; private set; }
 
+{%              if GenerateNullableReferenceTypes -%}
+        public string? Response { get; private set; }
+{%              else -%}
         public string Response { get; private set; }
+{%              endif -%}
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException) 
-            : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + response.Substring(0, response.Length >= 512 ? 512 : response.Length), innerException)
+{%              if GenerateNullableReferenceTypes -%}
+        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception? innerException)
+{%              else -%}
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
+{%              endif -%}
+            : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
             Response = response; 
@@ -151,7 +163,11 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
 
-        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException) 
+{%              if GenerateNullableReferenceTypes -%}
+        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException) 
+{%              else -%}
+        public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
+{%              endif -%}
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
