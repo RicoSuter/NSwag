@@ -158,7 +158,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("try { resultData200 =", code);
+            Assert.Contains("try { result200 =", code);
         }
 
         [Fact]

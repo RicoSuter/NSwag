@@ -38,14 +38,14 @@ let resultData{{ response.StatusCode }}  = _responseText;
 {%             if response.UseDtoClass -%}
 {{ response.DataConversionCode }}
 {%             elseif operation.HandleReferences -%}
-resultData{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>jsonParse(_responseText, this.jsonParseReviver);
+result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>jsonParse(resultData{{ response.StatusCode }}, this.jsonParseReviver);
 {%             else -%}
-try { resultData{{ response.StatusCode }} = (_responseText === "" ? null : <{{ response.Type }}>JSON.parse(_responseText, this.jsonParseReviver)); } 
-catch(err) { resultData{{ response.StatusCode }} = _responseText; }
+try { result{{ response.StatusCode }} = (_responseText === "" ? null : <{{ response.Type }}>JSON.parse(resultData{{ response.StatusCode }}, this.jsonParseReviver)); } 
+catch(err) { result{{ response.StatusCode }} = _responseText; }
 {%             endif -%}
 {%         else -%}
 {%              if response.UseDtoClass or response.IsDateOrDateTime -%}
-let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
+let result{{ response.StatusCode }} = _responseText === "" ? null : {% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
 {{ response.DataConversionCode }}
 {%              else -%}
 result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Type }}>{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver);
