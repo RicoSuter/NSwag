@@ -58,7 +58,7 @@ namespace NSwag.Generation.Processors
 
         protected void SetDescription(OperationProcessorContext context, string controllerName, string description)
         {
-            if (!context.Settings.UseControllerSummaryAsTagDescription)
+            if (!context.Settings.UseControllerSummaryAsTagDescription || string.IsNullOrEmpty(description))
             {
                 return;
             }
