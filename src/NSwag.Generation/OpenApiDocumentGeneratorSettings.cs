@@ -14,7 +14,6 @@ using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Collections;
 using NSwag.Generation.Processors.Contexts;
 using System;
-using System.Threading.Tasks;
 
 namespace NSwag.Generation
 {
@@ -66,6 +65,11 @@ namespace NSwag.Generation
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether controllers' XML documentation will be used as tag descriptions (but only when the controller name is used as a tag, default: false).
+        /// </summary>
+        public bool UseControllerSummaryAsTagDescription { get; set; }
 
         /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
         /// <param name="filter">The processor filter.</param>
