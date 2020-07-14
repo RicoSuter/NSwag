@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NSwag.Collections
+namespace NSwag.Generation.Collections
 {
-    public static class CollectionExtensions
+    internal static class CollectionExtensions
     {
         /// <summary>Returns the only element of a sequence that satisfies a specified condition or a creates a new object and adds it to the collection if no such element exists; this method throws an exception if more than one element satisfies the condition.</summary>
         /// <returns>The single element of the input sequence that satisfies the condition, or a new(<paramref name="TSource" />) if no such element is found.</returns>
