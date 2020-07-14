@@ -67,7 +67,7 @@ namespace NSwag.Generation
         public string DocumentTemplate { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether controllers' XML documentation will be used as tag descriptions (but only when the controller name is used as a tag).
+        /// Gets or sets a value indicating whether controllers' XML documentation will be used as tag descriptions (but only when the controller name is used as a tag, default: false).
         /// </summary>
         public bool UseControllerSummaryAsTagDescription { get; set; }
 

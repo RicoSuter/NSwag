@@ -62,6 +62,7 @@ namespace NSwag.Generation.Processors
             {
                 return;
             }
+
             var documentTag = context.Document.Tags.SingleOrNew(tag => tag.Name == controllerName);
             documentTag.Name = controllerName;
             documentTag.Description = description;

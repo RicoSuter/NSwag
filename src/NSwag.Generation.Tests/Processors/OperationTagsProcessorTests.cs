@@ -130,7 +130,8 @@ namespace NSwag.Generation.Tests.Processors
         {
             var document = new OpenApiDocument();
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
-            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, null, new OpenApiDocumentGeneratorSettings {UseControllerSummaryAsTagDescription = true}, null);
+            var settings = new OpenApiDocumentGeneratorSettings { UseControllerSummaryAsTagDescription = true };
+            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, null, settings, null);
         }
     }
 }

@@ -78,7 +78,6 @@ namespace NSwag.Generation.Processors
         internal static void ProcessTagAttribute(OpenApiDocument document, dynamic tagAttribute)
         {
             var tag = document.Tags.SingleOrNew(t => t.Name == tagAttribute.Name);
-
             tag.Description = tagAttribute.Description;
             tag.Name = tagAttribute.Name;
 
