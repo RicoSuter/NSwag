@@ -7,7 +7,7 @@ client_ = null; response_ = null; // response and client are disposed by FileRes
 return fileResponse_;
 {%         else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%         endif -%}
 {%     elsif response.IsPlainText -%}
 var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -21,6 +21,12 @@ return result_;
 {%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+{%         if response.IsNullable == false -%}
+if (objectResponse_.Object == null)
+{
+    throw new {{ ExceptionClass }}("Response was null, but return type is not declared as nullable", status_, objectResponse_.Text, headers_, null);
+}
+{%         endif -%}
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
 return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, objectResponse_.Object); 
