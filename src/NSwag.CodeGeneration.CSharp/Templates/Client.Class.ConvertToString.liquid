@@ -5,7 +5,7 @@ private string? ConvertToString(object? value, System.Globalization.CultureInfo 
 private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
-    if (value is null)
+    if (value == null)
     {
         return null;
     }
