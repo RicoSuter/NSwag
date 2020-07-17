@@ -32,7 +32,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - By using the [OpenAPI or OpenAPI UI OWIN and ASP.NET Core Middlewares](https://github.com/RicoSuter/NSwag/wiki/Middlewares) (also serves the [Swagger UI](https://github.com/swagger-api/swagger-ui)) (recommended)
 - Via [command line](https://github.com/RicoSuter/NSwag/wiki/CommandLine) (Windows, Mac and Linux support through [Mono](http://www.mono-project.com/) or .NET Core console binary, also via [NPM package](https://www.npmjs.com/package/nswag))
 - In your C# code, via [NuGet](https://www.nuget.org/packages?q=NSwag)
-- In your [MSBuild targets](https://github.com/RicoSuter/NSwag/wiki/MSBuild)
+- In your [MSBuild targets](https://github.com/RicoSuter/NSwag/wiki/NSwag.MSBuild)
 - With [ServiceProjectReference](https://github.com/RicoSuter/NSwag/wiki/ServiceProjectReference) tags in your .csproj (preview)
 - In your [Azure V2 Functions](https://github.com/Jusas/NSwag.AzureFunctionsV2) (external project, might not use latest NSwag version)
 
