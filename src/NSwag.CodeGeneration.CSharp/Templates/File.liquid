@@ -32,16 +32,24 @@ namespace {{ Namespace }}
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this (data, null)
+            : this (data, null, null)
         {
         }
 
+{%          if GenerateNullableReferenceTypes -%}
+        public FileParameter(System.IO.Stream data, string? fileName)
+{%          else -%}
         public FileParameter(System.IO.Stream data, string fileName)
+{%          endif -%}
             : this (data, fileName, null)
         {
         }
 
+{%          if GenerateNullableReferenceTypes -%}
+        public FileParameter(System.IO.Stream data, string? fileName, string? contentType)
+{%          else -%}
         public FileParameter(System.IO.Stream data, string fileName, string contentType)
+{%          endif -%}
         {
             Data = data;
             FileName = fileName;
@@ -50,9 +58,15 @@ namespace {{ Namespace }}
 
         public System.IO.Stream Data { get; private set; }
 
+{%          if GenerateNullableReferenceTypes -%}
+        public string? FileName { get; private set; }
+
+        public string? ContentType { get; private set; }
+{%          else -%}
         public string FileName { get; private set; }
 
         public string ContentType { get; private set; }
+{%          endif -%}
     }
 
 {%     endif -%}
@@ -60,8 +74,13 @@ namespace {{ Namespace }}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileResponse : System.IDisposable
     {
-        private System.IDisposable _client; 
-        private System.IDisposable _response; 
+{%          if GenerateNullableReferenceTypes -%}
+        private System.IDisposable? _client;
+        private System.IDisposable? _response;
+{%          else -%}
+        private System.IDisposable _client;
+        private System.IDisposable _response;
+{%          endif -%}
 
         public int StatusCode { get; private set; }
 
@@ -74,7 +93,11 @@ namespace {{ Namespace }}
             get { return StatusCode == 206; }
         }
 
+{%          if GenerateNullableReferenceTypes -%}
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable? client, System.IDisposable? response)
+{%          else -%}
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+{%          endif -%}
         {
             StatusCode = statusCode; 
             Headers = headers; 
@@ -85,8 +108,7 @@ namespace {{ Namespace }}
 
         public void Dispose() 
         {
-            if (Stream != null)
-                Stream.Dispose();
+            Stream.Dispose();
             if (_response != null)
                 _response.Dispose();
             if (_client != null)
@@ -164,7 +186,7 @@ namespace {{ Namespace }}
         public TResult Result { get; private set; }
 
 {%              if GenerateNullableReferenceTypes -%}
-        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException) 
+        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException)
 {%              else -%}
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
 {%              endif -%}
