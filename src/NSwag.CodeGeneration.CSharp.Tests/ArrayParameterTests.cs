@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
+            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="").Append((item_ == null) ? """" : System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
         }
     }
 }
