@@ -44,11 +44,11 @@ namespace NSwag.Sample.NETCore30
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
-            //app.UseApiverse();
-            app.UseApiverse(settings =>
+            //app.UseApimundo();
+            app.UseApimundo(settings =>
             {
                 //settings.CompareTo = "a:a:27:25:15:latest";
-                settings.ApiverseUrl = "https://localhost:5001";
+                settings.ApimundoUrl = "https://localhost:5001";
             });
         }
     }
