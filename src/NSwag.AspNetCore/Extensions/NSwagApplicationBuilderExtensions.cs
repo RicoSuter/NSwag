@@ -147,17 +147,17 @@ namespace Microsoft.AspNetCore.Builder
             return app;
         }
 
-        /// <summary>Adds a redirect to the Apiverse.io user interface to the pipeline (default route: /apiverse).</summary>
+        /// <summary>Adds a redirect to the Apimundo.com user interface to the pipeline (default route: /apimundo).</summary>
         /// <remarks>The settings.GeneratorSettings property does not have any effect.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the UI settings.</param>
         /// <returns>The app builder.</returns>
-        public static IApplicationBuilder UseApiverse(
+        public static IApplicationBuilder UseApimundo(
             this IApplicationBuilder app,
-            Action<ApiverseUiSettings> configure = null)
+            Action<ApimundoUiSettings> configure = null)
         {
-            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<ApiverseUiSettings>>()?.Value : null ?? new ApiverseUiSettings();
-            settings.Path = "/apiverse";
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<ApimundoUiSettings>>()?.Value : null ?? new ApimundoUiSettings();
+            settings.Path = "/apimundo";
             configure?.Invoke(settings);
 
             var path = settings.Path;
@@ -175,10 +175,10 @@ namespace Microsoft.AspNetCore.Builder
     <meta charset=""UTF-8"">
     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
     <meta http-equiv=""X-UA-Compatible"" content=""ie=edge"">
-    <title>NSwag to Apiverse.to</title>
+    <title>NSwag to Apimundo</title>
 </head>
 <body>
-<form id='myForm' method='post' action='" + settings.ApiverseUrl +
+<form id='myForm' method='post' action='" + settings.ApimundoUrl +
     @"/api/endpoints/local?organizationName=" + compareToIds[0] +
     @"&projectName=" + compareToIds[1] +
     @"&serviceId=" + compareToIds[2] +
@@ -195,9 +195,9 @@ Please wait...
         var form = document.getElementById('myForm');
         var data = document.getElementById('myData');
         data.value = btoa(text);
-        var key = 'upload_" + settings.ApiverseUrl + @"';
+        var key = 'upload_" + settings.ApimundoUrl + @"';
         if (window.localStorage.getItem(key) == 'ok' || 
-            confirm(""Do you want to view the specification on '" + settings.ApiverseUrl + @"'?\nThis choice will stored and not asked again."")) {
+            confirm(""Do you want to view the specification on '" + settings.ApimundoUrl + @"'?\nThis choice will stored and not asked again."")) {
             window.localStorage.setItem(key, 'ok');
             form.submit();
         }

@@ -20,7 +20,7 @@
     "NSwag.Sample.NETCore30": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "apiverse",
+      "launchUrl": "apimundo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
