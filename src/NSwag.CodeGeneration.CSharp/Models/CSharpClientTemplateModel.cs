@@ -71,6 +71,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
         public bool DisposeHttpClient => _settings.DisposeHttpClient;
 
+        /// <summary>Gets or sets a value indicating whether rate limit handling should be enabled (default: false).</summary>
+        public bool EnableRateLimitHandling => _settings.EnableRateLimitHandling;
+
+        /// <summary>Gets or sets a value for the header to indicate how long to wait when rate limited (default: Retry-After).</summary>
+        public string RateLimitRetryHeader => _settings.RateLimitRetryHeader;
+
         /// <summary>Gets a value indicating whether to use a HTTP client creation method.</summary>
         public bool UseHttpClientCreationMethod => _settings.UseHttpClientCreationMethod;
 

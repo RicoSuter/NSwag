@@ -33,6 +33,7 @@ namespace NSwag.CodeGeneration.CSharp
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
             ProtectedMethods = new string[0];
+            RateLimitRetryHeader = "Retry-After";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -55,6 +56,12 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
         public bool DisposeHttpClient { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether rate limit handling should be enabled (default: false).</summary>
+        public bool EnableRateLimitHandling { get; set; }
+
+        /// <summary>Gets or sets a value for the header to indicate how long to wait when rate limited (default: Retry-After).</summary>
+        public string RateLimitRetryHeader { get; set; }
 
         /// <summary>Gets or sets the list of methods with a protected access modifier ("classname.methodname").</summary>
         public string[] ProtectedMethods { get; set; }

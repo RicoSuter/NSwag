@@ -150,6 +150,16 @@
                                           Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
                                           Content="Dispose the HttpClient (life cycle must be handled by the base class and CreateHttpClientAsync())" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.EnableRateLimitHandling, Mode=TwoWay}"
+                                          ToolTip="EnableRateLimitHandling"
+                                          Content="Enable Rate Limit handling (Http status code 429)" Margin="0,0,0,12" />
+
+                                <TextBlock Text="HTTP header to indicate how long to wait when rate limited" FontWeight="Bold" Margin="0,0,0,6"
+                                           Visibility="{Binding Command.EnableRateLimitHandling, Converter={StaticResource VisibilityConverter}}" />
+                                <TextBox Text="{Binding Command.RateLimitRetryHeader, Mode=TwoWay}"
+                                         Visibility="{Binding Command.EnableRateLimitHandling, Converter={StaticResource VisibilityConverter}}"
+                                         ToolTip="RateLimitRetryHeader" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}"
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />

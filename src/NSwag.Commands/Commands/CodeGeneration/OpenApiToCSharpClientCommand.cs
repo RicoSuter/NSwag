@@ -87,6 +87,20 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.DisposeHttpClient = value; }
         }
 
+        [Argument(Name = "EnableRateLimitHandling", IsRequired = false, Description = "Specifies whether rate limit handling should be enabled (default: false).")]
+        public bool EnableRateLimitHandling
+        {
+            get { return Settings.EnableRateLimitHandling; }
+            set { Settings.EnableRateLimitHandling = value; }
+        }
+
+        [Argument(Name = "RateLimitRetryHeader", IsRequired = false, Description = "Specifies the header to indicate how long to wait when rate limited (default: Retry-After).")]
+        public string RateLimitRetryHeader
+        {
+            get { return Settings.RateLimitRetryHeader; }
+            set { Settings.RateLimitRetryHeader = value; }
+        }
+
         [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
         public string[] ProtectedMethods
         {
