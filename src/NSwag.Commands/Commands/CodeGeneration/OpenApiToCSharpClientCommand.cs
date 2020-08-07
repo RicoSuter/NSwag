@@ -31,6 +31,13 @@ namespace NSwag.Commands.CodeGeneration
         {
         }
 
+        [Argument(Name = "CSharpNamingConvention", IsRequired = false, Description = "Use C# style naming conventions for classes, properties and enumerations (PascalCase).")]
+        public bool CSharpNamingConvention
+        {
+            get { return Settings.CSharpNamingConvention; }
+            set { Settings.CSharpNamingConvention = value; }
+        }
+
         [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The client base class (empty for no base class).")]
         public string ClientBaseClass
         {
@@ -152,6 +159,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateSyncMethods; }
             set { Settings.GenerateSyncMethods = value; }
+        }
+
+        [Argument(Name = "DecorateAsyncMethods", IsRequired = false,
+            Description = "Specifies whether to generate the Async suffix for Async methods.")]
+        public bool DecorateAsyncMethods
+        {
+            get { return Settings.DecorateAsyncMethods; }
+            set { Settings.DecorateAsyncMethods = value; }
         }
 
         [Argument(Name = nameof(ExposeJsonSerializerSettings), IsRequired = false,

@@ -29,6 +29,7 @@ namespace NSwag.CodeGeneration.CSharp
             UseRequestAndResponseSerializationSettings = false;
             QueryNullValue = "";
             GenerateBaseUrlProperty = true;
+            DecorateAsyncMethods = true;
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
             ProtectedMethods = new string[0];
@@ -78,6 +79,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
         public bool GenerateSyncMethods { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to decorate Async methods with the Async suffix.</summary>
+        public bool DecorateAsyncMethods { get; set; }
 
         /// <summary>
         /// Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient

@@ -18,7 +18,7 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
             var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
             if (field != null)
             {
-                var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                     as System.Runtime.Serialization.EnumMemberAttribute;
                 if (attribute != null)
                 {
@@ -29,7 +29,7 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
             return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
         }
     }
-    else if (value is bool) 
+    else if (value is bool)
     {
         return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
     }

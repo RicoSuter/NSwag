@@ -18,19 +18,19 @@
     public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
 {%     if InjectHttpClient -%}
-        _httpClient = httpClient; 
+        _httpClient = httpClient;
 {%     endif -%}
 {% elseif UseBaseUrl and HasBaseUrl == false -%}
     public {{ Class }}(string baseUrl{% if InjectHttpClient -%}, {{ HttpClientType }} httpClient{% endif %})
     {
-        BaseUrl = baseUrl; 
+        BaseUrl = baseUrl;
 {%     if InjectHttpClient -%}
-        _httpClient = httpClient; 
+        _httpClient = httpClient;
 {%     endif -%}
 {% elseif InjectHttpClient -%}
     public {{ Class }}({{ HttpClientType }} httpClient)
     {
-        _httpClient = httpClient; 
+        _httpClient = httpClient;
 {% else -%}
     public {{ Class }}()
     {
@@ -55,7 +55,7 @@
     }
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
-    public string BaseUrl 
+    public string BaseUrl
     {
         get { return _baseUrl; }
         set { _baseUrl = value; }
@@ -89,9 +89,9 @@
 {%     if GenerateOptionalParameters == false -%}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {{ operation.MethodAccessModifier }} {{ operation.ResultType }} {{ operation.ActualOperationName }}{{ operation.AsyncSuffix }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
-        return {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None);
+        return {{ operation.ActualOperationName }}{{ operation.AsyncSuffix }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None);
     }
 
 {%     endif -%}
@@ -100,14 +100,14 @@
     {% template Client.Method.Annotations %}
     {{ operation.MethodAccessModifier }} {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
-        {% if operation.HasResult or operation.WrapResponse %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        {% if operation.HasResult or operation.WrapResponse %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}{{ operation.AsyncSuffix }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
 
 {%     endif -%}
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} async {{ operation.ResultType }} {{ operation.ActualOperationName }}{{ operation.AsyncSuffix }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
@@ -142,7 +142,7 @@
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null) 
+        if ({{ parameter.VariableName }} != null)
         {
             {% template Client.Class.QueryParameter %}
         }
@@ -283,21 +283,21 @@
                     }
 {%         elseif operation.HasSuccessResponse -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
                     }
 {%        elseif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }}); 
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
                     return {{ operation.UnwrappedResultDefaultValue }};
 {%             endif -%}
 {%         elseif operation.WrapResponse -%}
-                    return new {{ ResponseClass }}(status_, headers_); 
+                    return new {{ ResponseClass }}(status_, headers_);
 {%         endif -%}
 {%     else -%}
 {%         if operation.HasSuccessResponse == false -%}
-{% comment %} 
+{% comment %}
     If the success response has already been explicitely declared, there is no need for this default code (because handled above).
     Otherwise, return default values on success because we don't want to throw on "unknown status code".
     Success is always expected
@@ -306,12 +306,12 @@
                     {
 {%             if operation.HasResultType -%}
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
-                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }}); 
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
                         return {{ operation.UnwrappedResultDefaultValue }};
 {%                 endif -%}
 {%             elseif operation.WrapResponse -%}
-                        return new {{ ResponseClass }}(status_, headers_); 
+                        return new {{ ResponseClass }}(status_, headers_);
 {%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment -%}
                         return;
 {%             endif -%}
@@ -319,7 +319,7 @@
                     else
 {%         endif -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                     }
 {%     endif -%}

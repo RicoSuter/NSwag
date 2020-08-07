@@ -81,6 +81,30 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 .ToList();
         }
 
+        /// <summary>Gets or sets the name of the operation.</summary>
+        private string CSharpOperationName
+        {
+            get
+            {
+                var operationName = OperationName;
+                if (_settings.CSharpNamingConvention)
+                {
+                    operationName = operationName.Replace('_', '-');
+                }
+                return ConversionUtilities.ConvertToUpperCamelCase(operationName, false);
+            }
+        }
+
+        /// <summary>Gets or sets the async suffix of the operation.</summary>
+        public string AsyncSuffix
+        {
+            get
+            {
+                var settings = _settings as CSharpClientGeneratorSettings;
+                return settings != null && (settings.DecorateAsyncMethods || settings.GenerateSyncMethods) ? "Async" : "";
+            }
+        }
+
         /// <summary>Gets the method's access modifier.</summary>
         public string MethodAccessModifier
         {
@@ -88,7 +112,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
+                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + CSharpOperationName + AsyncSuffix) == true)
                 {
                     return "protected";
                 }
@@ -98,8 +122,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
+        public override string ActualOperationName => CSharpOperationName + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";
