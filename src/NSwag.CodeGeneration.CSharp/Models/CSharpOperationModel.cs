@@ -101,7 +101,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var settings = _settings as CSharpClientGeneratorSettings;
-                return settings != null && (settings.DecorateAsyncMethods || settings.GenerateSyncMethods) ? "Async" : "";
+                return settings == null || settings.DecorateAsyncMethods || settings.GenerateSyncMethods ? "Async" : "";
             }
         }
 
