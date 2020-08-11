@@ -28,5 +28,8 @@ namespace NSwag.Commands.CodeGeneration
 
         /// <summary>From path segments suffixed by HTTP operation name</summary>
         SingleClientFromPathSegments,
+
+        /// <summary>Single client with operations in the form '{action}'</summary>
+        SingleClientFromAction
     }
 }
