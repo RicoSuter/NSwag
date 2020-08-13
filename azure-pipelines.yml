@@ -40,6 +40,13 @@ steps:
     script: 'dnt bump-versions preview "$(Build.BuildNumber)"'
     failOnStderr: true
 
+- task: DotNetCoreCLI@2
+  displayName: 'Restoring code using dotnet restore'
+  inputs: 
+    command: 'restore'
+    projects: '$(Projects)'
+    includeNuGetOrg: true
+
 # Build and test
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'

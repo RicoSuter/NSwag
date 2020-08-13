@@ -58,6 +58,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _settings.AdditionalContractNamespaceUsages?.Where(n => n != null).ToArray() :
             _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? new string[] { };
 
+        /// <summary>Gets a value indicating whether the C#8 nullable reference types are enabled for this file.</summary>
+        public bool GenerateNullableReferenceTypes => _settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes;
+
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
         public bool GenerateContracts =>
             _outputType == ClientGeneratorOutputType.Full ||

@@ -1,8 +1,18 @@
-﻿private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+﻿{%              if GenerateNullableReferenceTypes -%}
+[return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull("value")]
+private string? ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+{%              else -%}
+private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+{%              endif -%}
 {
+    if (value == null)
+    {
+        return null;
+    }
+
     if (value is System.Enum)
     {
-        string name = System.Enum.GetName(value.GetType(), value);
+        var name = System.Enum.GetName(value.GetType(), value);
         if (name != null)
         {
             var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
@@ -21,17 +31,18 @@
     }
     else if (value is bool) 
     {
-        return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+        return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
     }
     else if (value is byte[])
     {
         return System.Convert.ToBase64String((byte[]) value);
     }
-    else if (value != null && value.GetType().IsArray)
+    else if (value.GetType().IsArray)
     {
         var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
         return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
     }
 
-    return System.Convert.ToString(value, cultureInfo);
+    var result = System.Convert.ToString(value, cultureInfo);
+    return (result is null) ? string.Empty : result;
 }

@@ -24,6 +24,9 @@ namespace NSwag.Generation.Tests.Processors
             }
         }
 
+        /// <summary>
+        /// Test summary
+        /// </summary>
         public class UntaggedController
         {
             public void UntaggedMethod()
@@ -117,13 +120,18 @@ namespace NSwag.Generation.Tests.Processors
                 {
                     Assert.Equal("Untagged", tag);
                 });
+
+            var docTag = context.Document.Tags[0];
+            Assert.Equal("Untagged", docTag.Name);
+            Assert.Equal("Test summary", docTag.Description);
         }
 
         private OperationProcessorContext GetContext(Type controllerType, MethodInfo methodInfo)
         {
             var document = new OpenApiDocument();
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
-            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, null, null, null);
+            var settings = new OpenApiDocumentGeneratorSettings { UseControllerSummaryAsTagDescription = true };
+            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, null, settings, null);
         }
     }
 }
