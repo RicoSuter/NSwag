@@ -26,7 +26,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
-            return GetClientName(operation);
+            return string.Empty;
         }
 
         /// <summary>Gets the operation name for a given operation.</summary>
@@ -51,17 +51,9 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
 
         private bool HasOperationWithSameName(OpenApiDocument document, OpenApiOperation operation, string operationName)
         {
-            var clientName = GetClientName(operation);
-
             return document.Operations
                 .Where(o => o.Operation != operation)
-                .Any(o => GetClientName(o.Operation) == clientName && GetOperationName(o.Operation) == operationName);
-        }
-
-        private string GetClientName(OpenApiOperation operation)
-        {
-            var segments = operation.OperationId.Split('_').Reverse().ToArray();
-            return segments.Length >= 2 ? segments[1] : string.Empty;
+                .Any(o => GetOperationName(o.Operation) == operationName);
         }
 
         private string GetOperationName(OpenApiOperation operation)

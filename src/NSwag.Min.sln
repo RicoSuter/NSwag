@@ -86,9 +86,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBuild", "{E458B904-6C10-407D-9F5F-D5DEAAF35C0A}"
 	ProjectSection(SolutionItems) = preProject
 		NSwag.MSBuild\build.bat = NSwag.MSBuild\build.bat
-		NSwag.MSBuild\NSwag.MSBuild.nuspec = NSwag.MSBuild\NSwag.MSBuild.nuspec
-		NSwag.MSBuild\NSwag.MSBuild.props = NSwag.MSBuild\NSwag.MSBuild.props
 		NSwag.MSBuild\NuGet.exe = NSwag.MSBuild\NuGet.exe
+		NSwag.MSBuild\SituSystems.NSwag.MSBuild.nuspec = NSwag.MSBuild\SituSystems.NSwag.MSBuild.nuspec
+		NSwag.MSBuild\SituSystems.NSwag.MSBuild.props = NSwag.MSBuild\SituSystems.NSwag.MSBuild.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Console", "NSwag.Console\NSwag.Console.csproj", "{8F444B61-E708-4A0C-A7BD-012B1D4EF71C}"
