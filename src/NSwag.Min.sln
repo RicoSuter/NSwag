@@ -79,7 +79,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.Tests", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore30", "NSwag.Sample.NETCore30\NSwag.Sample.NETCore30.csproj", "{A3A38972-E431-4EB2-92CA-F422791E2F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Generation.AspNetCore3.Tests", "NSwag.Generation.AspNetCore3.Tests\NSwag.Generation.AspNetCore3.Tests.csproj", "{F9D9ADB3-B676-4332-A8B3-457A0521308A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore3.Tests", "NSwag.Generation.AspNetCore3.Tests\NSwag.Generation.AspNetCore3.Tests.csproj", "{F9D9ADB3-B676-4332-A8B3-457A0521308A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08 Packages", "08 Packages", "{DD2D57F6-3D56-45F9-9760-A0A930F387AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBuild", "{E458B904-6C10-407D-9F5F-D5DEAAF35C0A}"
+	ProjectSection(SolutionItems) = preProject
+		NSwag.MSBuild\build.bat = NSwag.MSBuild\build.bat
+		NSwag.MSBuild\NSwag.MSBuild.nuspec = NSwag.MSBuild\NSwag.MSBuild.nuspec
+		NSwag.MSBuild\NSwag.MSBuild.props = NSwag.MSBuild\NSwag.MSBuild.props
+		NSwag.MSBuild\NuGet.exe = NSwag.MSBuild\NuGet.exe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -705,6 +715,7 @@ Global
 		{3A6CA187-AD6F-438C-9E5B-B2771F75AF41} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 		{A3A38972-E431-4EB2-92CA-F422791E2F74} = {A0338E8D-A4A3-4380-9FF7-1D0BDC260E31}
 		{F9D9ADB3-B676-4332-A8B3-457A0521308A} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
+		{E458B904-6C10-407D-9F5F-D5DEAAF35C0A} = {DD2D57F6-3D56-45F9-9760-A0A930F387AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}

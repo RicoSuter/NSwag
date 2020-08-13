@@ -7,7 +7,7 @@
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
+    <projectUrl>https://github.com/situsystemsptyltd/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</description>
     <tags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</tags>
