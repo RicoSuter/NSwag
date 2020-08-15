@@ -87,27 +87,22 @@ namespace NSwag
             }
         }
 
-
         /// <summary>Gets or sets the style of the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public OpenApiParameterStyle Style
         {
             get => _style;
-            set 
+            set
             {
                 _style = value;
                 ParentOperation?.UpdateRequestBody(this);
             }
         }
 
-
         /// <summary>Gets the actual explode setting for the parameter (OpenAPI only).</summary>
         [JsonIgnore]
-        public bool ActualExplode
-        {
-            get => _explode ?? ActualStyle == OpenApiParameterStyle.Form;
+        public bool ActualExplode => _explode ?? ActualStyle == OpenApiParameterStyle.Form;
 
-        }
         /// <summary>Gets or sets the explode setting for the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "explode", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool Explode
