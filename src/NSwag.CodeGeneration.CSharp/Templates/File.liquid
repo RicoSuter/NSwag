@@ -111,8 +111,10 @@ namespace {{ Namespace }}
             Stream.Dispose();
             if (_response != null)
                 _response.Dispose();
+{%     if InjectHttpClient == false and DisposeHttpClient -%}
             if (_client != null)
                 _client.Dispose();
+{%     endif -%}
         }
     }
 
