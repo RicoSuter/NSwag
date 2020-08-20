@@ -78,7 +78,7 @@ To run the NodeJS binary locally:
 
 The JavaScript command line tool can be found here:
 
-    src/NSwag.Npm/bin/nswag.json
+    src/NSwag.Npm/bin/nswag.js
 
 To publish the package (login required):
 
