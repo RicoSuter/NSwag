@@ -2,7 +2,7 @@
 {%     if response.IsFile -%}
 {%         if response.IsSuccess -%}
 var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_); 
+var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient %}null{% else %}client_{% endif %}, response_);
 client_ = null; response_ = null; // response and client are disposed by FileResponse
 return fileResponse_;
 {%         else -%}
@@ -14,9 +14,9 @@ var responseData_ = response_.Content == null ? null : await response_.Content.R
 var result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_);
 {%             else -%}
-return result_; 
+return result_;
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
@@ -29,9 +29,9 @@ if (objectResponse_.Object == null)
 {%         endif -%}
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
-return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, objectResponse_.Object); 
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, objectResponse_.Object);
 {%             else -%}
-return objectResponse_.Object; 
+return objectResponse_.Object;
 {%             endif -%}
 {%         endif -%}
 {%         if response.IsSuccess == false -%}
@@ -59,7 +59,7 @@ return {{ operation.UnwrappedResultDefaultValue }};
 {%         endif -%}
 {%     else -%}
 {%         if operation.WrapResponse -%}
-return new {{ ResponseClass }}(status_, headers_); 
+return new {{ ResponseClass }}(status_, headers_);
 {%         else -%}
 return;
 {%         endif -%}

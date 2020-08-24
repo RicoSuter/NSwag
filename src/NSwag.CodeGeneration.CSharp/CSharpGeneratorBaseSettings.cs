@@ -6,17 +6,19 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
-using System.Reflection;
 
 namespace NSwag.CodeGeneration.CSharp
 {
     /// <summary>Settings for the <see cref="CSharpGeneratorBase"/>.</summary>
     public abstract class CSharpGeneratorBaseSettings : ClientGeneratorBaseSettings
     {
+        private bool _cSharpNamingConvention;
+
         /// <summary>Initializes a new instance of the <see cref="CSharpClientGeneratorSettings"/> class.</summary>
         protected CSharpGeneratorBaseSettings()
         {
@@ -48,6 +50,22 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets the code generator settings.</summary>
         [JsonIgnore]
         public override CodeGeneratorSettingsBase CodeGeneratorSettings => CSharpGeneratorSettings;
+
+        /// <summary>Gets or sets a value indicating whether to generate C# style naming (default: false).</summary>
+        public bool CSharpNamingConvention
+        {
+            get => _cSharpNamingConvention;
+            set
+            {
+                _cSharpNamingConvention = value;
+
+                // Install the C# style name generators if desired
+                if (!_cSharpNamingConvention) return;
+                CSharpGeneratorSettings.PropertyNameGenerator = new CSharpPropertyNameGenerator();
+                CSharpGeneratorSettings.TypeNameGenerator = new CSharpTypeNameGenerator();
+                CSharpGeneratorSettings.EnumNameGenerator = new CSharpEnumNameGenerator();
+            }
+        }
 
         /// <summary>Gets or sets the additional namespace usages.</summary>
         public string[] AdditionalNamespaceUsages { get; set; }

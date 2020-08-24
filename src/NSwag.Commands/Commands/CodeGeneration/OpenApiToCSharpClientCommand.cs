@@ -31,6 +31,13 @@ namespace NSwag.Commands.CodeGeneration
         {
         }
 
+        [Argument(Name = "CSharpNamingConvention", IsRequired = false, Description = "Use C# style naming conventions for classes, properties and enumerations (PascalCase).")]
+        public bool CSharpNamingConvention
+        {
+            get { return Settings.CSharpNamingConvention; }
+            set { Settings.CSharpNamingConvention = value; }
+        }
+
         [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The client base class (empty for no base class).")]
         public string ClientBaseClass
         {
@@ -78,6 +85,20 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.DisposeHttpClient; }
             set { Settings.DisposeHttpClient = value; }
+        }
+
+        [Argument(Name = "EnableRateLimitHandling", IsRequired = false, Description = "Specifies whether rate limit handling should be enabled (default: false).")]
+        public bool EnableRateLimitHandling
+        {
+            get { return Settings.EnableRateLimitHandling; }
+            set { Settings.EnableRateLimitHandling = value; }
+        }
+
+        [Argument(Name = "RateLimitRetryHeader", IsRequired = false, Description = "Specifies the header to indicate how long to wait when rate limited (default: Retry-After).")]
+        public string RateLimitRetryHeader
+        {
+            get { return Settings.RateLimitRetryHeader; }
+            set { Settings.RateLimitRetryHeader = value; }
         }
 
         [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
@@ -152,6 +173,14 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateSyncMethods; }
             set { Settings.GenerateSyncMethods = value; }
+        }
+
+        [Argument(Name = "DecorateAsyncMethods", IsRequired = false,
+            Description = "Specifies whether to generate the Async suffix for Async methods.")]
+        public bool DecorateAsyncMethods
+        {
+            get { return Settings.DecorateAsyncMethods; }
+            set { Settings.DecorateAsyncMethods = value; }
         }
 
         [Argument(Name = nameof(ExposeJsonSerializerSettings), IsRequired = false,
