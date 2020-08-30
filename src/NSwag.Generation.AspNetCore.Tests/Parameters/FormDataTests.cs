@@ -72,6 +72,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""type"": ""object"",
                 ""properties"": {
                   ""Description"": {
                     ""type"": ""string"",
