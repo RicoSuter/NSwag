@@ -223,7 +223,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                 {
                     Schema = bodyParameterAttribute.MimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
                     {
-                        Type = JsonObjectType.File
+                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
                     }
                 };
             }
