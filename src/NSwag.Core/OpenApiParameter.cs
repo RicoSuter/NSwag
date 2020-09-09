@@ -251,7 +251,36 @@ namespace NSwag
                     return consumes?.Any() == true &&
                            consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
                            consumes.Any(p => p.Key.StartsWith("application/") && p.Key.EndsWith("json") && p.Value.Schema?.IsBinary != true) == false;
-                }              
+                }
+            }
+        }
+
+        /// <summary>Gets a value indicating whether a binary body parameter allows multiple mime types.</summary>
+        [JsonIgnore]
+        public bool AllowsMultipleMimeTypes
+        {
+            get
+            {
+                if (!IsBinaryBodyParameter)
+                {
+                    return false;
+                }
+
+                var parent = Parent as OpenApiOperation;
+                if (parent?.ActualConsumes?.Any() == true)
+                {
+                    var consumes = parent.ActualConsumes;
+                    return consumes?.Any() == true &&
+                           (consumes.Count() > 1 ||
+                            consumes.Any(p => p.Contains("*")));
+                }
+                else
+                {
+                    var consumes = parent?.RequestBody?.Content;
+                    return consumes?.Any() == true &&
+                           (consumes.Count() > 1 &&
+                            consumes.Any(p => p.Key.Contains("*")));
+                }
             }
         }
     }

@@ -165,6 +165,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             if (parameter.IsBinaryBodyParameter)
             {
                 return "Blob";
+                //return parameter.AllowsMultipleMimeTypes ? "FileParameter" : "Blob";
             }
 
             var schema = parameter.ActualSchema;
