@@ -103,7 +103,7 @@ namespace NSwag.AspNetCore
             }
 
             var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomJavaScriptPath, request));
-            return $"<script src=\"{uriString}\"></script>";
+            return $"<script type=\"module\" src=\"{uriString}\"></script>";
         }
 
         /// <summary>Generates the additional objects JavaScript code.</summary>
