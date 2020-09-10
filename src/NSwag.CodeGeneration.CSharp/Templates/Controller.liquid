@@ -59,9 +59,19 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 {%         endif -%}
     {% template Controller.Method.Annotations %}
     [{{ AspNetNamespace }}.Http{{ operation.HttpMethodUpper }}, {{ AspNetNamespace }}.Route("{{ operation.Path }}"{% if operation.HasRouteName %}, Name = "{{ operation.RouteName }}"{% endif %})]
-    public {% if operation.WrapResponse %}async System.Threading.Tasks.Task<HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsQuery %}[{{ AspNetNamespace }}.{% if IsAspNetCore -%}FromQuery{% else -%}FromUri{% endif -%}{% if parameter.IsValidIdentifier == false %}(Name = "{{ parameter.Name }}"){% endif %}] {% endif %}{% if parameter.IsHeader %}[{% if IsAspNetCore -%}{{ AspNetNamespace }}.{% endif -%}FromHeader{% if parameter.IsValidIdentifier == false %}(Name = "{{ parameter.Name }}"){% endif %}] {% endif %}{% if parameter.IsBody and parameter.IsBinaryBody == false %}[{{ AspNetNamespace }}.FromBody] {% endif %}{% if GenerateModelValidationAttributes and parameter.IsRequired %}[{{ RequiredAttributeType }}] {% endif %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
+    public {% if IsAspNetCore and operation.WrapResponse %}async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>{% elsif operation.WrapResponse %}async System.Threading.Tasks.Task<HttpResponseMessage>{% else %}{{ operation.ResultType }}{% endif %} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsQuery %}[{{ AspNetNamespace }}.{% if IsAspNetCore -%}FromQuery{% else -%}FromUri{% endif -%}{% if parameter.IsValidIdentifier == false %}(Name = "{{ parameter.Name }}"){% endif %}] {% endif %}{% if parameter.IsHeader %}[{% if IsAspNetCore -%}{{ AspNetNamespace }}.{% endif -%}FromHeader{% if parameter.IsValidIdentifier == false %}(Name = "{{ parameter.Name }}"){% endif %}] {% endif %}{% if parameter.IsBody and parameter.IsBinaryBody == false %}[{{ AspNetNamespace }}.FromBody] {% endif %}{% if GenerateModelValidationAttributes and parameter.IsRequired %}[{{ RequiredAttributeType }}] {% endif %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}System.Threading.CancellationToken cancellationToken{% endif %})
     {
-{%         if operation.WrapResponse -%}
+{%         if IsAspNetCore and operation.WrapResponse -%}
+        var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.HasDefault %} ?? {{parameter.Default}}{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %}).ConfigureAwait(false);
+
+        var status = result.StatusCode;
+        Microsoft.AspNetCore.Mvc.ObjectResult response = new Microsoft.AspNetCore.Mvc.ObjectResult(result{% if operation.UnwrappedResultType != "void" %}.Result{% endif %}) { StatusCode = status };
+
+        foreach (var header in result.Headers)
+            Request.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
+
+        return response;
+{%         elsif operation.WrapResponse -%}
         var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.HasDefault %} ?? {{parameter.Default}}{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %}).ConfigureAwait(false);
 
         var status = (System.Net.HttpStatusCode)result.StatusCode;
