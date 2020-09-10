@@ -278,7 +278,7 @@ namespace NSwag
                 {
                     var consumes = parent?.RequestBody?.Content;
                     return consumes?.Any() == true &&
-                           (consumes.Count() > 1 &&
+                           (consumes.Count() > 1 ||
                             consumes.Any(p => p.Key.Contains("*")));
                 }
             }

@@ -121,11 +121,8 @@ namespace NSwag
             {
                 if (ActualResponse.Content.Any())
                 {
-                    var contentIsBinary =
-                        ActualResponse.Content.All(c => c.Value.Schema?.ActualSchema.IsAnyType != false ||
-                                                        c.Value.Schema?.ActualSchema.IsBinary != false);
-
-                    if (contentIsBinary)
+                    var contentIsBinary = ActualResponse.Content.Any(c => c.Value.Schema?.ActualSchema.IsBinary != false);
+                    if (contentIsBinary || !ActualResponse.Content.All(p => p.Key.Contains("json")))
                     {
                         return true;
                     }
@@ -134,11 +131,8 @@ namespace NSwag
                 var actualProduces = (ActualResponse.Parent as OpenApiOperation)?.ActualProduces;
                 if (actualProduces?.Any() == true)
                 {
-                    var producesIsBinary =
-                        (Schema?.ActualSchema.IsAnyType != false ||
-                         Schema?.ActualSchema.IsBinary != false);
-
-                    if (producesIsBinary)
+                    var producesIsBinary = Schema?.ActualSchema.IsBinary == true;
+                    if (producesIsBinary || !actualProduces.All(p => p.Contains("json")))
                     {
                         return true;
                     }

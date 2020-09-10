@@ -7,10 +7,10 @@ namespace NSwag.Core.Tests
         [Theory]
         [InlineData("application/octet-stream", true)]
         [InlineData("undefined", true)]
-        [InlineData("text/plain", false)]
+        [InlineData("text/plain", true)]
         [InlineData("application/json", false)]
         [InlineData("application/vnd.model+json", false)]
-        [InlineData("*/*", false)]
+        [InlineData("*/*", true)]
         [InlineData("application/json;charset=UTF-8", false)]
         public void When_response_contains_produces_detect_if_binary_response(string contentType, bool expectsBinary)
         {
