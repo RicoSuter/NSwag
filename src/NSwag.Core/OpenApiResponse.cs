@@ -124,6 +124,11 @@ namespace NSwag
                     var contentIsBinary = ActualResponse.Content.Any(c => c.Value.Schema?.ActualSchema.IsBinary != false);
                     if (contentIsBinary || !ActualResponse.Content.All(p => p.Key.Contains("json")))
                     {
+                        if (ActualResponse.Content.All(p => p.Key == "text/plain"))
+                        {
+                            return false;
+                        }
+
                         return true;
                     }
                 }
@@ -134,6 +139,11 @@ namespace NSwag
                     var producesIsBinary = Schema?.ActualSchema.IsBinary == true;
                     if (producesIsBinary || !actualProduces.All(p => p.Contains("json")))
                     {
+                        if (actualProduces.All(p => p == "text/plain"))
+                        {
+                            return false;
+                        }
+
                         return true;
                     }
                 }
