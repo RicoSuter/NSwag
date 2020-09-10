@@ -161,6 +161,11 @@
 {%     else -%}
         var client_ = new {{ HttpClientType }}();
 {%     endif -%}
+{%     if InjectHttpClient == false and DisposeHttpClient -%}
+        var disposeClient_ = true;
+{%     else -%}
+        var disposeClient_ = false;
+{%     endif -%}
         try
         {
 {%     if UseHttpRequestMessageCreationMethod -%}
@@ -256,6 +261,7 @@
 
                 {% template Client.Class.BeforeSend %}
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                var disposeResponse_ = true;
                 try
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
@@ -326,17 +332,15 @@
                 }
                 finally
                 {
-                    if (response_ != null)
+                    if (disposeResponse_)
                         response_.Dispose();
                 }
             }
         }
         finally
         {
-{%     if InjectHttpClient == false and DisposeHttpClient -%}
-            if (client_ != null)
+            if (disposeClient_)
                 client_.Dispose();
-{%     endif -%}
         }
     }
 
