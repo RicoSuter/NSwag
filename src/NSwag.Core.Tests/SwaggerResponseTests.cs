@@ -7,7 +7,7 @@ namespace NSwag.Core.Tests
         [Theory]
         [InlineData("application/octet-stream", true)]
         [InlineData("undefined", true)]
-        [InlineData("text/plain", true)]
+        [InlineData("text/plain", false)]
         [InlineData("application/json", false)]
         [InlineData("application/vnd.model+json", false)]
         [InlineData("*/*", true)]
