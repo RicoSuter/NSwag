@@ -11,7 +11,7 @@ using System;
 namespace NSwag.Annotations
 {
     /// <summary>Describes the controller.</summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class OpenApiControllerAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiOperationAttribute"/> class.</summary>

@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
               ""application/octet-stream"": {
                 ""schema"": {
                   ""type"": ""string"",
-                  ""type"": ""binary""
+                  ""format"": ""binary""
                 }
               }
             }

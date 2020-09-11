@@ -2,7 +2,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;net45;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
+<<<<<<< HEAD
     <Version>13.7.0</Version>
+=======
+    <Version>13.7.1</Version>
+>>>>>>> master
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -24,7 +28,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+<<<<<<< HEAD
     <PackageReference Include="NJsonSchema" Version="10.1.24" />
+=======
+    <PackageReference Include="NJsonSchema" Version="10.1.26" />
+>>>>>>> master
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="Microsoft.CSharp" />

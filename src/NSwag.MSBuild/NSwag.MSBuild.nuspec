@@ -2,7 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
+<<<<<<< HEAD
     <version>13.7.0</version>
+=======
+    <version>13.7.1</version>
+>>>>>>> master
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

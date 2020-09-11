@@ -165,10 +165,10 @@ components:
         }
 
         [Fact]
-        public async Task WhenSpecContainsFormData_ThenFormDataIsUsedInCSharp()
+        public async Task WhenSpecContainsFormDataInSingleMultipartFile_ThenFormDataIsUsedInCSharp()
         {
             var json = @"{
-  ""x-generator"": ""NSwag v13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
   ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": ""My Title"",
@@ -185,6 +185,7 @@ components:
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""type"": ""object"",
                 ""properties"": {
                   ""file"": {
                     ""type"": ""string"",
@@ -212,7 +213,35 @@ components:
           }
         }
       }
-    },
+    }
+  },
+  ""components"": {}
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            //// Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
+            Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("class FileParameter", code);
+            Assert.Contains("content_.Add(content_file_, \"file\", file.FileName ?? \"file\");", code);
+        }
+
+        [Fact]
+        public async Task WhenSpecContainsFormDataInMultipartFileArray_ThenFormDataIsUsedInCSharp()
+        {
+            var json = @"{
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""My Title"",
+    ""version"": ""1.0.0""
+  },
+  ""paths"": {
     ""/api/FileUpload/UploadFiles"": {
       ""post"": {
         ""tags"": [
@@ -223,6 +252,7 @@ components:
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""type"": ""object"",
                 ""properties"": {
                   ""files"": {
                     ""type"": ""array"",
@@ -253,7 +283,35 @@ components:
           }
         }
       }
-    },
+    }
+  },
+  ""components"": {}
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            //// Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
+            Assert.Contains("var content_files_ = new System.Net.Http.StreamContent(item_.Data);", code);
+            Assert.Contains("class FileParameter", code);
+            Assert.Contains("content_.Add(content_files_, \"files\", item_.FileName ?? \"files\");", code);
+        }
+
+        [Fact]
+        public async Task WhenSpecContainsFormDataInNestedMultipartForm_ThenFormDataIsUsedInCSharp()
+        {
+            var json = @"{
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""My Title"",
+    ""version"": ""1.0.0""
+  },
+  ""paths"": {
     ""/api/FileUpload/UploadAttachment"": {
       ""post"": {
         ""tags"": [
@@ -276,6 +334,7 @@ components:
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""type"": ""object"",
                 ""properties"": {
                   ""Description"": {
                     ""type"": ""string"",
@@ -318,9 +377,10 @@ components:
 
             //// Assert
             Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
-            Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("var content_contents_ = new System.Net.Http.StreamContent(contents.Data);", code);
             Assert.Contains("class FileParameter", code);
-            Assert.Contains("content_.Add(content_file_, \"file\", file.FileName ?? \"file\");", code);
+            Assert.Contains("content_.Add(content_contents_, \"Contents\", contents.FileName ?? \"Contents\");", code);
         }
+
     }
 }

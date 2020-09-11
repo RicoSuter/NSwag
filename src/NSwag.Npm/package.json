@@ -1,6 +1,10 @@
 {
   "name": "nswag",
+<<<<<<< HEAD
   "version": "13.7.0",
+=======
+  "version": "13.7.1",
+>>>>>>> master
   "optionalDependencies": {},
   "repository": {
     "type": "git",
