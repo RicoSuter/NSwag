@@ -168,7 +168,7 @@ components:
         public async Task WhenSpecContainsFormDataInSingleMultipartFile_ThenFormDataIsUsedInCSharp()
         {
             var json = @"{
-  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.26.0 (Newtonsoft.Json v11.0.0.0))"",
   ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": ""My Title"",
@@ -235,7 +235,7 @@ components:
         public async Task WhenSpecContainsFormDataInMultipartFileArray_ThenFormDataIsUsedInCSharp()
         {
             var json = @"{
-  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.26.0 (Newtonsoft.Json v11.0.0.0))"",
   ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": ""My Title"",
@@ -305,7 +305,7 @@ components:
         public async Task WhenSpecContainsFormDataInNestedMultipartForm_ThenFormDataIsUsedInCSharp()
         {
             var json = @"{
-  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""x-generator"": ""NSwag v13.7.0.0 (NJsonSchema v10.1.26.0 (Newtonsoft.Json v11.0.0.0))"",
   ""openapi"": ""3.0.0"",
   ""info"": {
     ""title"": ""My Title"",
