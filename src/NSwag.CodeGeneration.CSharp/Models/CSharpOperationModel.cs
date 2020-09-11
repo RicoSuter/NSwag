@@ -253,7 +253,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
                 else
                 {
-                    return parameter.AllowsMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
+                    return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
                 }
             }
 

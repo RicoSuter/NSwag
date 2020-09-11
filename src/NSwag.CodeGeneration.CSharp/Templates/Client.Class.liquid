@@ -186,7 +186,7 @@
 {%     endfor -%}
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
-{%             if operation.ContentParameter.AllowsMultipleMimeTypes -%}
+{%             if operation.ContentParameter.HasBinaryBodyWithMultipleMimeTypes -%}
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }}.Data);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ operation.ContentParameter.VariableName }}.ContentType);
 {%             else -%}

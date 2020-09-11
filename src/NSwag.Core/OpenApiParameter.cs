@@ -260,7 +260,7 @@ namespace NSwag
 
         /// <summary>Gets a value indicating whether a binary body parameter allows multiple mime types.</summary>
         [JsonIgnore]
-        public bool AllowsMultipleMimeTypes
+        public bool HasBinaryBodyWithMultipleMimeTypes
         {
             get
             {
