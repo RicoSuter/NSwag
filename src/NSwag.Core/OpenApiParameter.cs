@@ -242,14 +242,17 @@ namespace NSwag
                 {
                     var consumes = parent.ActualConsumes;
                     return consumes?.Any() == true &&
-                           consumes.Any(p => p.Contains("*/*")) == false && // supports json
-                           consumes.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
+                           (Schema?.IsBinary != false || 
+                            consumes.Contains("multipart/form-data")) &&
+                           consumes?.Any(p => p.Contains("*/*")) == false &&
+                           consumes?.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
                 }
                 else
                 {
                     var consumes = parent?.RequestBody?.Content;
-                    return consumes?.Any() == true &&
-                           consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
+                    return (consumes?.Any(p => p.Key == "multipart/form-data") == true ||
+                            consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true) &&
+                           consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true) == false &&
                            consumes.Any(p => p.Key.StartsWith("application/") && p.Key.EndsWith("json") && p.Value.Schema?.IsBinary != true) == false;
                 }
             }

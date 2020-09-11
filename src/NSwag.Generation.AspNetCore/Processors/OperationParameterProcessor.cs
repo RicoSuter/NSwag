@@ -396,7 +396,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
-                        Format = JsonFormatStrings.Byte,
+                        Format = JsonFormatStrings.Binary,
                         IsNullableRaw = isNullable
                     },
                     IsNullableRaw = isNullable,
