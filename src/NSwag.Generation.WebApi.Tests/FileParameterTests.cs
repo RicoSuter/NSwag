@@ -116,7 +116,7 @@ namespace NSwag.Generation.WebApi.Tests
             Assert.AreEqual(JsonObjectType.String, parameter.Schema.Type);
             Assert.AreEqual(JsonFormatStrings.Binary, parameter.Schema.Format);
 
-            Assert.AreEqual(1, operation.ActualConsumes.Count());
+            Assert.AreEqual(2, operation.ActualConsumes.Count());
             Assert.AreEqual("application/octet-stream", operation.ActualConsumes.First());
         }
     }
