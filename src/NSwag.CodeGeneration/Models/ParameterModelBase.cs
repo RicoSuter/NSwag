@@ -173,6 +173,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is a binary body parameter.</summary>
         public bool IsBinaryBody => _parameter.IsBinaryBodyParameter;
 
+        /// <summary>Gets a value indicating whether a binary body parameter allows multiple mime types.</summary>
+        public bool HasBinaryBodyWithMultipleMimeTypes => _parameter.HasBinaryBodyWithMultipleMimeTypes;
+
         /// <summary>Gets a value indicating whether the parameter is of type dictionary.</summary>
         public bool IsDictionary => Schema.IsDictionary;
 

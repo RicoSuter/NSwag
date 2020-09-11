@@ -186,13 +186,20 @@
 {%     endfor -%}
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
+{%             if operation.ContentParameter.HasBinaryBodyWithMultipleMimeTypes -%}
+                var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }}.Data);
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ operation.ContentParameter.VariableName }}.ContentType);
+{%             else -%}
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%             endif -%}
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value));
-{%         endif -%}
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%         endif -%}
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
