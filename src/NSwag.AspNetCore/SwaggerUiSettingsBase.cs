@@ -53,6 +53,9 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
         public string CustomJavaScriptPath { get; set; }
 
+        /// <summary>Gets or sets a flag that indicates to use or not type="module" in a custom script tag (default: false).</summary>
+        public bool UseModuleTypeForCustomJavaScript { get; set; }
+
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
 #if AspNetOwin
         public Func<string, IOwinRequest, string> TransformToExternalPath { get; set; }
@@ -102,8 +105,14 @@ namespace NSwag.AspNetCore
                 return string.Empty;
             }
 
+            var scriptType = string.Empty;
+            if (UseModuleTypeForCustomJavaScript)
+            {
+                scriptType = "type=\"module\"";
+            }
+
             var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomJavaScriptPath, request));
-            return $"<script type=\"module\" src=\"{uriString}\"></script>";
+            return $"<script {scriptType} src=\"{uriString}\"></script>";
         }
 
         /// <summary>Generates the additional objects JavaScript code.</summary>
