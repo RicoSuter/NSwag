@@ -53,7 +53,7 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
         public string CustomJavaScriptPath { get; set; }
 
-        /// <summary>Gets or sets a flag that indicates to use or not type="module" in a custom script tag.</summary>
+        /// <summary>Gets or sets a flag that indicates to use or not type="module" in a custom script tag (default: false).</summary>
         public bool UseModuleTypeForCustomJavaScript { get; set; }
 
         /// <summary>Gets or sets the external route base path (must start with '/', default: null = use SwaggerUiRoute).</summary>
