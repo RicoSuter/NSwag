@@ -17,19 +17,19 @@ namespace NSwag.Annotations
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>
         public OpenApiBodyParameterAttribute()
         {
-            MimeType = "application/json";
+            MimeTypes = new[] { "application/json" };
         }
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>
-        /// <param name="mimeType">The expected mime type.</param>
-        public OpenApiBodyParameterAttribute(string mimeType)
+        /// <param name="mimeTypes">The expected mime types.</param>
+        public OpenApiBodyParameterAttribute(params string[] mimeTypes)
         {
-            MimeType = mimeType;
+            MimeTypes = mimeTypes;
         }
 
         /// <summary>
         /// Gets the expected body mime type.
         /// </summary>
-        public string MimeType { get; }
+        public string[] MimeTypes { get; }
     }
 }

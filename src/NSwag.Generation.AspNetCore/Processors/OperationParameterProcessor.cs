@@ -219,14 +219,20 @@ namespace NSwag.Generation.AspNetCore.Processors
                     operationDescription.Operation.RequestBody = new OpenApiRequestBody();
                 }
 
-                operationDescription.Operation.RequestBody.Content[bodyParameterAttribute.MimeType] = new OpenApiMediaType
+                var mimeTypes = ObjectExtensions.HasProperty(bodyParameterAttribute, "MimeType") ?
+                    new string[] { bodyParameterAttribute.MimeType } : bodyParameterAttribute.MimeTypes;
+
+                foreach (var mimeType in mimeTypes)
                 {
-                    Schema = bodyParameterAttribute.MimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                    operationDescription.Operation.RequestBody.Content[mimeType] = new OpenApiMediaType
                     {
-                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
-                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
-                    }
-                };
+                        Schema = mimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                        {
+                            Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                            Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                        }
+                    };
+                }
             }
         }
 
