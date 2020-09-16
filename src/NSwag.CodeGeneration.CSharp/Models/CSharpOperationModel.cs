@@ -51,8 +51,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _resolver = resolver;
 
             var parameters = GetActualParameters();
+            parameters = parameters
+                .OrderBy(p => p.Position ?? 0)
+                .ToList();
 
-            parameters = parameters.OrderBy(p => p.Position ?? 0).ToList();
             if (settings.GenerateOptionalParameters)
             {
                 // TODO: Move to CSharpControllerOperationModel
