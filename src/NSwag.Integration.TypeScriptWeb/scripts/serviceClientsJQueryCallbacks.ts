@@ -15,7 +15,7 @@ export class GeoClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string) {
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     fromBodyTest(location: GeoPoint | null, onSuccess?: () => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
@@ -613,7 +613,7 @@ export class PersonsClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string) {
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:13452";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     getAll(onSuccess?: (result: Person[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {

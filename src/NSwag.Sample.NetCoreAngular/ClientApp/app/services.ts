@@ -41,7 +41,7 @@ export class DateService extends ServiceBase {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     addDays(date: moment.Moment, days: number): Observable<moment.Moment> {
@@ -168,7 +168,7 @@ export class EnumerationService extends ServiceBase {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     reverseQueryEnumList(fileTypes: FileType[] | null | undefined): Observable<FileType[] | null> {
@@ -238,7 +238,7 @@ export class FileService extends ServiceBase {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     getFile(fileName: string | null): Observable<FileResponse | null> {
@@ -304,7 +304,7 @@ export class SampleDataService extends ServiceBase {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     weatherForecasts(): Observable<WeatherForecast[] | null> {
