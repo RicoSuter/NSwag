@@ -24,7 +24,7 @@
 {%     if UseGetBaseUrlMethod -%}
         this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%     else -%}
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
     }
 {% endif -%}

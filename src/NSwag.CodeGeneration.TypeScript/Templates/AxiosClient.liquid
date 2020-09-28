@@ -19,9 +19,9 @@
 {%     endif -%}
         this.instance = instance ? instance : axios.create();
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
 {%     else -%}
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
     }
 {% endif -%}
