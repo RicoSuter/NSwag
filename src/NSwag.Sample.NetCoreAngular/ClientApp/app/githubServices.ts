@@ -28,7 +28,7 @@ export class GitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -15551,7 +15551,7 @@ export class PublicGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -15813,7 +15813,7 @@ export class RateGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -15881,7 +15881,7 @@ export class CodeGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -15961,7 +15961,7 @@ export class CommitGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -16041,7 +16041,7 @@ export class PunchGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**
@@ -16121,7 +16121,7 @@ export class ReceivedGitHubClient {
 
     constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.github.com";
     }
 
     /**

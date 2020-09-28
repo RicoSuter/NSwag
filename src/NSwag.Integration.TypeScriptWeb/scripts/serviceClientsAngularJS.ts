@@ -18,7 +18,7 @@ export class GeoClient {
     constructor($http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
         this.http = $http;
         this.q = $q;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     fromBodyTest(location: GeoPoint | null): ng.IPromise<void> {
@@ -486,7 +486,7 @@ export class PersonsClient {
     constructor($http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
         this.http = $http;
         this.q = $q;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     getAll(): ng.IPromise<Person[] | null> {

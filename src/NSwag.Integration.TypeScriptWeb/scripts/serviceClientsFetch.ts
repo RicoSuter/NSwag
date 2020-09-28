@@ -423,7 +423,7 @@ export class PersonsClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     getAll(): Promise<Person[] | null> {
