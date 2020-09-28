@@ -54,6 +54,10 @@ namespace NSwag
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ICollection<OpenApiParameter> Parameters { get; set; } = new Collection<OpenApiParameter>();
 
+        /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
+
         #region Implementation of IJsonReferenceBase and IJsonReference
 
         private OpenApiPathItem _reference;
@@ -105,10 +109,37 @@ namespace NSwag
                 var operations = (OpenApiPathItem)value;
                 writer.WriteStartObject();
 
+                if (operations.Summary != null)
+                {
+                    writer.WritePropertyName("summary");
+                    serializer.Serialize(writer, operations.Summary);
+                }
+
+                if (operations.Description != null)
+                {
+                    writer.WritePropertyName("description");
+                    serializer.Serialize(writer, operations.Description);
+                }
+
+                if (operations.ExtensionData != null)
+                {
+                    foreach (var tuple in operations.ExtensionData)
+                    {
+                        writer.WritePropertyName(tuple.Key);
+                        serializer.Serialize(writer, tuple.Value);
+                    }
+                }
+
                 if (operations.Parameters != null && operations.Parameters.Any())
                 {
                     writer.WritePropertyName("parameters");
                     serializer.Serialize(writer, operations.Parameters);
+                }
+
+                if (operations.Servers != null && operations.Servers.Any())
+                {
+                    writer.WritePropertyName("servers");
+                    serializer.Serialize(writer, operations.Servers);
                 }
 
                 foreach (var pair in operations)
@@ -116,13 +147,16 @@ namespace NSwag
                     writer.WritePropertyName(pair.Key.ToString().ToLowerInvariant());
                     serializer.Serialize(writer, pair.Value);
                 }
+
                 writer.WriteEndObject();
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
                 if (reader.TokenType == JsonToken.Null)
+                {
                     return null;
+                }
 
                 var operations = new OpenApiPathItem();
                 while (reader.Read() && reader.TokenType == JsonToken.PropertyName)
@@ -130,14 +164,36 @@ namespace NSwag
                     var propertyName = reader.Value.ToString();
                     reader.Read();
 
-                    if (propertyName == "parameters")
-                        operations.Parameters = (List<OpenApiParameter>)serializer.Deserialize(reader, typeof(List<OpenApiParameter>));
+                    if (propertyName == "summary")
+                    {
+                        operations.Summary = (string)serializer.Deserialize(reader, typeof(string));
+                    }
+                    else if (propertyName == "description")
+                    {
+                        operations.Description = (string)serializer.Deserialize(reader, typeof(string));
+                    }
+                    else if (propertyName == "parameters")
+                    {
+                        operations.Parameters = (Collection<OpenApiParameter>)serializer.Deserialize(reader, typeof(Collection<OpenApiParameter>));
+                    }
+                    else if (propertyName == "servers")
+                    {
+                        operations.Servers = (Collection<OpenApiServer>)serializer.Deserialize(reader, typeof(Collection<OpenApiServer>));
+                    }
+                    else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (operations.ExtensionData == null)
+                        {
+                            operations.ExtensionData = new Dictionary<string, object>();
+                        }
+
+                        operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
+                    }
                     else
                     {
                         var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
                         operations.Add(propertyName, value);
                     }
-
                 }
                 return operations;
             }
