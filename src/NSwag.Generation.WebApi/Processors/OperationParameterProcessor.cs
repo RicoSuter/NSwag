@@ -203,6 +203,7 @@ namespace NSwag.Generation.WebApi.Processors
                 }
             }
 
+            ApplyOpenApiBodyParameterAttribute(context.OperationDescription, context.MethodInfo);
             RemoveUnusedPathParameters(context.OperationDescription, httpPath);
             UpdateConsumedTypes(context.OperationDescription);
             UpdateNullableRawOperationParameters(context.OperationDescription, _settings.SchemaType);
@@ -210,6 +211,36 @@ namespace NSwag.Generation.WebApi.Processors
             EnsureSingleBodyParameter(context.OperationDescription);
 
             return true;
+        }
+
+
+        private void ApplyOpenApiBodyParameterAttribute(OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        {
+            dynamic bodyParameterAttribute = methodInfo.GetCustomAttributes()
+                .FirstAssignableToTypeNameOrDefault("OpenApiBodyParameterAttribute", TypeNameStyle.Name);
+
+            if (bodyParameterAttribute != null)
+            {
+                if (operationDescription.Operation.RequestBody == null)
+                {
+                    operationDescription.Operation.RequestBody = new OpenApiRequestBody();
+                }
+
+                var mimeTypes = ObjectExtensions.HasProperty(bodyParameterAttribute, "MimeType") ?
+                    new string[] { bodyParameterAttribute.MimeType } : bodyParameterAttribute.MimeTypes;
+
+                foreach (var mimeType in mimeTypes)
+                {
+                    operationDescription.Operation.RequestBody.Content[mimeType] = new OpenApiMediaType
+                    {
+                        Schema = mimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                        {
+                            Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                            Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                        }
+                    };
+                }
+            }
         }
 
         /// <summary>
