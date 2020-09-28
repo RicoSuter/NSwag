@@ -10,6 +10,8 @@
 [![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/NSwag/sponsors/badge.svg)](#sponsors)
 
+:point_right: [**Announcing Apimundo:** An API documentation system based on NSwag and NJsonSchema](https://github.com/RicoSuter/NSwag/issues/3077) :point_left:
+
 NSwag is a Swagger/OpenAPI 2.0 and 3.0 toolchain for .NET, .NET Core, Web API, ASP.NET Core, TypeScript (jQuery, AngularJS, Angular 2+, Aurelia, KnockoutJS and more) and other platforms, written in C#. The [OpenAPI/Swagger specification](https://github.com/OAI/OpenAPI-Specification) uses JSON and JSON Schema to describe a RESTful web API. The NSwag project provides tools to generate OpenAPI specifications from existing ASP.NET Web API controllers and client code from these OpenAPI specifications. 
 
 The project combines the functionality of Swashbuckle (OpenAPI/Swagger generation) and AutoRest (client generation) in one toolchain. This way a lot of incompatibilites can be avoided and features which are not well described by the OpenAPI specification or JSON Schema are better supported (e.g. [inheritance](https://github.com/NJsonSchema/NJsonSchema/wiki/Inheritance), [enum](https://github.com/NJsonSchema/NJsonSchema/wiki/Enums) and reference handling). The NSwag project heavily uses [NJsonSchema for .NET](http://njsonschema.org) for JSON Schema handling and C#/TypeScript class/interface generation. 
@@ -17,8 +19,6 @@ The project combines the functionality of Swashbuckle (OpenAPI/Swagger generatio
 ![ToolchainDiagram](assets/ToolchainDiagram.png) 
 
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors.
-
-:point_right: [**Announcing Apimundo:** An API documentation system based on NSwag and NJsonSchema](https://github.com/RicoSuter/NSwag/issues/3076) :point_left:
 
 **Features:**
 
