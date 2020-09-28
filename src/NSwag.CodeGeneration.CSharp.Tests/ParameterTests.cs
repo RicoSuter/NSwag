@@ -1,4 +1,5 @@
-﻿using NJsonSchema;
+﻿using System;
+using NJsonSchema;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -9,22 +10,22 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_parameters_have_same_name_then_they_are_renamed()
         {
             //// Arrange
-            var document = new SwaggerDocument();
-            document.Paths["foo"] = new SwaggerPathItem
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
             {
                 {
-                    SwaggerOperationMethod.Get, new SwaggerOperation
+                    OpenApiOperationMethod.Get, new OpenApiOperation
                     {
                         Parameters =
                         {
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Query,
+                                Kind = OpenApiParameterKind.Query,
                                 Name = "foo"
                             },
-                            new SwaggerParameter
+                            new OpenApiParameter
                             {
-                                Kind = SwaggerParameterKind.Header,
+                                Kind = OpenApiParameterKind.Header,
                                 Name = "foo"
                             },
                         }
@@ -33,7 +34,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -104,14 +105,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);          
+            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);
         }
 
         [Fact]
@@ -186,10 +187,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
@@ -262,15 +263,87 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = SwaggerDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
 
             //// Act
-            var generator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.Contains("options[optionalOrder.id]=", code);
+            Assert.Contains(@"""options[optionalOrder.id]"") + ""=""", code);
             Assert.Contains("options.OptionalOrderId", code);
+        }
+
+        [Fact]
+        public void Date_and_DateTimeFormat_Parameters_are_correctly_applied()
+        {
+            //// Arrange
+            var swagger = @"{
+   'openapi' : '3.1',
+   'info' : {
+      'version' : '1.0.2',
+       'title' : 'Test API'
+   },
+   'paths': {
+      '/test/{from}/{to}': {
+         'get': {
+            'tags': [
+               'CheckIn'
+            ],
+            'summary': 'Retrieve journeys',
+            'operationId': 'retrieveJourneys',
+            'description': '',
+            'parameters': [
+                {
+                   'name': 'from',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'to',
+                   'in': 'path',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                },
+                {
+                   'name': 'fromQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date' }
+                },
+                {
+                   'name': 'toQuery',
+                   'in': 'query',
+                   'schema': { 'type': 'string', 'format': 'date-time' }
+                }
+            ],
+            'responses': {}
+         }
+      }
+   }
+}";
+
+            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+
+            //// Act once with defaults and once with custom values
+            var generatorDefault = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var codeWithDefaults = generatorDefault.GenerateFile();
+
+            var dateFormat = "aaaaaa" + DateTime.Now.Ticks; // completly random values
+            var dateTimeFormat = "bbbbbb" + DateTime.Now.Ticks;
+            var settings = new CSharpClientGeneratorSettings() { ParameterDateFormat = dateFormat, ParameterDateTimeFormat = dateTimeFormat };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            //// Assert defaults
+            Assert.Contains(@"from.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"to.ToString(""s""", codeWithDefaults);
+            Assert.Contains(@"fromQuery.Value.ToString(""yyyy-MM-dd""", codeWithDefaults);
+            Assert.Contains(@"toQuery.Value.ToString(""s""", codeWithDefaults);
+
+            //// Assert custom values defaults
+            Assert.Contains($@"from.ToString(""{dateFormat }""", code);
+            Assert.Contains($@"to.ToString(""{dateTimeFormat}""", code);
+            Assert.Contains($@"fromQuery.Value.ToString(""{dateFormat}""", code);
+            Assert.Contains($@"toQuery.Value.ToString(""{dateTimeFormat}""", code);
         }
     }
 }

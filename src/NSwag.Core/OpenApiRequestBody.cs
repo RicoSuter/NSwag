@@ -2,7 +2,7 @@
 // <copyright file="OpenApiRequestBody.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ namespace NSwag
         }
 
         [JsonIgnore]
-        internal SwaggerOperation Parent { get; set; }
+        internal OpenApiOperation Parent { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

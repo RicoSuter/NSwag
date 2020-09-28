@@ -122,7 +122,7 @@
                      Margin="0,0,0,12" />
 
             <CheckBox IsChecked="{Binding Command.UseDocumentProvider, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseDocumentProvider">
-                <TextBlock Text="Use document provider (configuration from AddSwagger(), recommended)" TextWrapping="Wrap" />
+                <TextBlock Text="Use document provider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), recommended)" TextWrapping="Wrap" />
             </CheckBox>
 
             <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource VisibilityConverter}}">
@@ -157,12 +157,24 @@
                     <TextBlock Text="Allow nullable body parameters (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available)" TextWrapping="Wrap" />
                 </CheckBox>
 
-                <TextBlock Margin="0,0,0,6" Text="The default null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
                           ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
+                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling of dictionary value types" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultDictionaryValueReferenceTypeNullHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultDictionaryValueReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
+                <TextBlock Margin="0,0,0,6" Text="The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
+                <ComboBox SelectedItem="{Binding Command.DefaultResponseReferenceTypeNullHandling, Mode=TwoWay}" 
+                          ToolTip="DefaultResponseReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
+
                 <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
                     <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.GenerateAbstractSchemas, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractSchemas">
+                    <TextBlock Text="Generate the x-abstract flag on schemas" TextWrapping="Wrap" />
                 </CheckBox>
 
                 <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
@@ -203,7 +215,7 @@
                         <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
                         <dialogs:FileOpenPicker ToolTip="DocumentTemplate" Margin="0,0,0,12" 
                                                 FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
-                                                Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                                Filter="OpenAPI Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                                 DefaultExtension=".json"/>
 
                         <StackPanel Visibility="{Binding Command.DocumentTemplate, Converter={StaticResource NotConverter}}">
@@ -277,7 +289,7 @@
 
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
             <dialogs:FileSavePicker ToolTip="OutputFilePath" 
-                                    Filter="Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
+                                    Filter="OpenAPI/Swagger Specification JSON (.json)|*.json|OpenAPI/Swagger Specification YAML (.yaml)|*.yaml"
                                     DefaultExtension=".cs" 
                                     Margin="0,0,0,12"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
@@ -286,6 +298,9 @@
                 <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
                 <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
             </StackPanel>
+
+            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

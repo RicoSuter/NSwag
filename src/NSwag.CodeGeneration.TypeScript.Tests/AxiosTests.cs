@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -33,14 +33,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
@@ -59,14 +59,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
@@ -85,14 +85,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
             //// Act
-            var codeGen = new SwaggerToTypeScriptClientGenerator(document, new SwaggerToTypeScriptClientGeneratorSettings
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
+                Template = TypeScriptTemplate.Axios,
                 TypeScriptGeneratorSettings =
                 {
                     TypeScriptVersion = 2.0m
@@ -104,6 +104,29 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.Contains("content_", code);
             Assert.DoesNotContain("FormData", code);
             Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+        }
+
+        [Fact]
+        public async Task Add_cancel_token_to_every_call()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("cancelToken?: CancelToken | undefined", code);
         }
     }
 }

@@ -145,6 +145,12 @@
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Base interface for Client Interfaces (optional)" FontWeight="Bold" Margin="0,0,0,6"
+                                           Visibility="{Binding Command.GenerateClientInterfaces, Converter={StaticResource VisibilityConverter}}" />
+                                <TextBox Text="{Binding Command.ClientBaseInterface, Mode=TwoWay}"
+                                         Visibility="{Binding Command.GenerateClientInterfaces, Converter={StaticResource VisibilityConverter}}"
+                                         ToolTip="ClientBaseInterface" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.SerializeTypeInformation, Mode=TwoWay}" 
                                           ToolTip="SerializeTypeInformation"
                                           Content="Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto)" Margin="0,0,0,12" />
@@ -154,6 +160,9 @@
 
                                 <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip="ParameterDateTimeFormat" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Date format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateFormat, Mode=TwoWay}" ToolTip="ParameterDateFormat" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
@@ -277,6 +286,9 @@
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
+
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

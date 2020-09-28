@@ -2,7 +2,7 @@
 // <copyright file="AppDomainIsolation.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -25,7 +25,9 @@ namespace NSwag.AssemblyLoader
         public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<string> preloadedAssemblies)
         {
             if (string.IsNullOrEmpty(assemblyDirectory))
+            {
                 throw new ArgumentNullException(nameof(assemblyDirectory));
+            }
 
             var configuration = AssemblyConfigurationFileTransformer.GetConfigurationBytes(
                 assemblyDirectory, assemblyConfiguration, bindingRedirects);
@@ -37,7 +39,9 @@ namespace NSwag.AssemblyLoader
             Domain = AppDomain.CreateDomain("AppDomainIsolation:" + Guid.NewGuid(), null, setup);
 
             foreach (var pa in preloadedAssemblies)
+            {
                 Domain.Load(new AssemblyName { CodeBase = pa });
+            }
 
             var type = typeof(T);
             try

@@ -7,13 +7,13 @@
              xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <converters:VisibilityConverter x:Key="VisibilityConverter" />
         <converters:NotConverter x:Key="NotConverter" />
         <localConverters:StringArrayConverter x:Key="StringArrayConverter" />
     </UserControl.Resources>
-    
+
     <GroupBox Header="DTO Classes" Margin="0,0,0,12">
         <StackPanel Margin="4,8,4,-8">
             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
@@ -21,6 +21,16 @@
             </CheckBox>
 
             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
+                <CheckBox IsChecked="{Binding Command.GenerateOptionalPropertiesAsNullable, Mode=TwoWay}" 
+                          ToolTip="GenerateOptionalPropertiesAsNullable" Margin="0,0,0,12">
+                    <TextBlock Text="Generate optional schema properties (not required) as nullable properties" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.GenerateNullableReferenceTypes, Mode=TwoWay}" 
+                          ToolTip="GenerateNullableReferenceTypes" Margin="0,0,0,12">
+                    <TextBlock Text="Generate Nullable Reference Type (NRT) annotations (C# 8)" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
                 <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                          ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
@@ -59,6 +69,26 @@
                     <TextBlock Text="Always generate enums as bit flags (with [Flags] attribute)" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.InlineNamedArrays, Mode=TwoWay}" 
+                          ToolTip="InlineNamedArrays" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named arrays" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" 
+                          ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedTuples, Mode=TwoWay}" 
+                          ToolTip="InlineNamedTuples" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named tuples" TextWrapping="Wrap" />
+                </CheckBox>
+
+                <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" 
+                          ToolTip="InlineNamedAny" Margin="0,0,0,12">
+                    <TextBlock Text="Inline named any schemas" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
                 <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" 
                           ToolTip="ClassStyle"
@@ -89,6 +119,9 @@
 
                 <GroupBox Header="Primitive Types" Margin="0,0,0,12">
                     <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Any Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.AnyType, Mode=TwoWay}" ToolTip="AnyType" Margin="0,0,0,12" />
+
                         <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" ToolTip="DateType" Margin="0,0,0,12" />
 

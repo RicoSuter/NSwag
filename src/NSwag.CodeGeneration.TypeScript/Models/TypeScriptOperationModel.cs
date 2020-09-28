@@ -2,7 +2,7 @@
 // <copyright file="TypeScriptOperationModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -16,9 +16,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     /// <summary>The TypeScript operation model.</summary>
     public class TypeScriptOperationModel : OperationModelBase<TypeScriptParameterModel, TypeScriptResponseModel>
     {
-        private readonly SwaggerToTypeScriptClientGeneratorSettings _settings;
-        private readonly SwaggerToTypeScriptClientGenerator _generator;
-        private readonly SwaggerOperation _operation;
+        private readonly TypeScriptClientGeneratorSettings _settings;
+        private readonly TypeScriptClientGenerator _generator;
+        private readonly OpenApiOperation _operation;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -26,9 +26,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="generator">The generator.</param>
         /// <param name="resolver">The resolver.</param>
         public TypeScriptOperationModel(
-            SwaggerOperation operation,
-            SwaggerToTypeScriptClientGeneratorSettings settings,
-            SwaggerToTypeScriptClientGenerator generator,
+            OpenApiOperation operation,
+            TypeScriptClientGeneratorSettings settings,
+            TypeScriptClientGenerator generator,
             TypeResolverBase resolver)
             : base(null, operation, resolver, generator, settings)
         {
@@ -36,7 +36,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            var parameters = _operation.ActualParameters.ToList();
+            var parameters = GetActualParameters();
+
             if (settings.GenerateOptionalParameters)
             {
                 parameters = parameters
@@ -46,7 +47,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             }
 
             Parameters = parameters
-                .Where(p => !settings.ExcludedParameterNames.Contains(p.Name))
                 .Select(parameter =>
                     new TypeScriptParameterModel(parameter.Name,
                         GetParameterVariableName(parameter, _operation.Parameters), ResolveParameterType(parameter),
@@ -125,7 +125,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                {
                     return "string";
+                }
 
                 return string.Join(" | ", _operation.ActualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
@@ -141,7 +143,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true)
+                {
                     return "protected ";
+                }
 
                 return "";
             }
@@ -156,15 +160,46 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Resolves the type of the parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type name.</returns>
-        protected override string ResolveParameterType(SwaggerParameter parameter)
+        protected override string ResolveParameterType(OpenApiParameter parameter)
         {
+            if (parameter.IsBinaryBodyParameter)
+            {
+                return "Blob";
+                // TODO: Use HasBinaryBodyWithMultipleMimeTypes => how to provide content type in TS?
+                //return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "Blob";
+            }
+
             var schema = parameter.ActualSchema;
+            if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+            {
+                return "FileParameter[]";
+            }
+
             if (schema.IsBinary)
             {
-                if (parameter.CollectionFormat == SwaggerParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+                {
                     return "FileParameter[]";
+                }
 
                 return "FileParameter";
+            }
+
+            if (_settings.TypeScriptGeneratorSettings.UseLeafType && schema.ActualDiscriminatorObject != null)
+            {
+                var types = schema.ActualDiscriminatorObject.Mapping
+                    .Select(x => new OpenApiParameter
+                    {
+                        Name = parameter.Name,
+                        Kind = parameter.Kind,
+                        IsRequired = parameter.IsRequired,
+                        IsNullableRaw = parameter.IsNullableRaw,
+                        Description = parameter.Description,
+                        Schema = x.Value
+                    })
+                    .Select(ResolveParameterType);
+
+                return string.Join(" | ", types);
             }
 
             return base.ResolveParameterType(parameter);
@@ -179,11 +214,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <param name="resolver">The resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <returns></returns>
-        protected override TypeScriptResponseModel CreateResponseModel(SwaggerOperation operation, string statusCode, SwaggerResponse response,
-            JsonSchema4 exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
+        protected override TypeScriptResponseModel CreateResponseModel(OpenApiOperation operation, string statusCode, OpenApiResponse response,
+            JsonSchema exceptionSchema, IClientGenerator generator, TypeResolverBase resolver, ClientGeneratorBaseSettings settings)
         {
             return new TypeScriptResponseModel(this, operation, statusCode, response, response == GetSuccessResponse().Value,
-                exceptionSchema, generator, resolver, (SwaggerToTypeScriptClientGeneratorSettings)settings);
+                exceptionSchema, generator, resolver, (TypeScriptClientGeneratorSettings)settings);
         }
     }
 }

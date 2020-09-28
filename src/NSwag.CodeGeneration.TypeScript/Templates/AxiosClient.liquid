@@ -19,9 +19,9 @@
 {%     endif -%}
         this.instance = instance ? instance : axios.create();
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
 {%     else -%}
-        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
     }
 {% endif -%}
@@ -32,7 +32,7 @@
 {% for operation in Operations -%}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -43,28 +43,38 @@
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
+{%     if operation.IsFile -%}
+            responseType: "blob",
+{%     endif -%}
             method: "{{ operation.HttpMethodUpper | upcase }}",
             url: url_,
             headers: {
 {%     for parameter in operation.HeaderParameters -%}
-                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "", 
+                "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
 {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
-                "Content-Type": "{{ operation.Consumes }}", 
+                "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
-            }
+            },
+            cancelToken
         };
 
 {%     if UseTransformOptionsMethod -%}
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.instance.request(transformedOptions_);
-        }).then((_response: AxiosResponse) => {
+        }).catch((_error: any) => {
 {%     else -%}
-        return this.instance.request(options_).then((_response: AxiosResponse) => {
+        return this.instance.request(options_).catch((_error: any) => {
 {%     endif -%}
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
 {%     if UseTransformResultMethod -%}
             return this.transformResult(url_, _response, (_response: AxiosResponse) => this.process{{ operation.ActualOperationNameUpper }}(_response));
 {%     else -%}

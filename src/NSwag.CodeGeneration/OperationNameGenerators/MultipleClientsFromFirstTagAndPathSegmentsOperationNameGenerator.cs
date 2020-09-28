@@ -2,7 +2,7 @@
 // <copyright file="MultipleClientsFromFirstTagAndPathSegmentsOperationNameGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The client name.</returns>
-        public virtual string GetClientName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
+        public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             return ConversionUtilities.ConvertToUpperCamelCase(operation.Tags.FirstOrDefault(), false);
         }
@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
         /// <returns>The operation name.</returns>
-        public virtual string GetOperationName(SwaggerDocument document, string path, string httpMethod, SwaggerOperation operation)
+        public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             var operationName = ConvertPathToName(path);
 

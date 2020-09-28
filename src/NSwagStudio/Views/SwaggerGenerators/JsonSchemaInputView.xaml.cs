@@ -8,9 +8,9 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class JsonSchemaInputView : ISwaggerGeneratorView
     {
-        private readonly JsonSchemaToSwaggerCommand _command;
+        private readonly JsonSchemaToOpenApiCommand _command;
 
-        public JsonSchemaInputView(JsonSchemaToSwaggerCommand command)
+        public JsonSchemaInputView(JsonSchemaToOpenApiCommand command)
         {
             _command = command;
             InitializeComponent();

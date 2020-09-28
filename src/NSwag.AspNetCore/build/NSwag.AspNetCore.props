@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup>
+    <!--
+      Disable document generation on build if property maintains this value into NSwag.AspNetCore.targets. This setting
+      helps distinguish user settings from changes made in Microsoft.Extensions.ApiDescription.Server.targets.
+    -->
+    <OpenApiGenerateDocumentsOnBuild
+        Condition=" '$(OpenApiGenerateDocumentsOnBuild)' == '' ">default-false</OpenApiGenerateDocumentsOnBuild>
+
+    <!-- Enable analyzers from the Microsoft.AspNetCore.Mvc.Api.Analyzers package. -->
+    <IncludeOpenAPIAnalyzers
+        Condition=" '$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(TargetFrameworkVersion.TrimStart(&quot;vV&quot;))' >= '3.0' ">true</IncludeOpenAPIAnalyzers>
+  </PropertyGroup>
+</Project>

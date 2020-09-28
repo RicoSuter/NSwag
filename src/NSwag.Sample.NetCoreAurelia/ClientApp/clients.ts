@@ -16,7 +16,7 @@ export class SampleDataClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
         this.http = http ? http : <any>window;
     }
 

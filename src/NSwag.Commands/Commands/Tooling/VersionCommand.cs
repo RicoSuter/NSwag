@@ -2,7 +2,7 @@
 // <copyright file="VersionCommand.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -22,8 +22,8 @@ namespace NSwag.Commands.Tooling
         /// <returns>The output.</returns>
         public Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            host.WriteMessage("\nNSwag version: " + SwaggerDocument.ToolchainVersion + "\n");
-            host.WriteMessage("NJsonSchema version: " + JsonSchema4.ToolchainVersion + "\n");
+            host.WriteMessage("\nNSwag version: " + OpenApiDocument.ToolchainVersion + "\n");
+            host.WriteMessage("NJsonSchema version: " + JsonSchema.ToolchainVersion + "\n");
             return Task.FromResult<object>(null);
         }
     }

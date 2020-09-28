@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project>
+  <PropertyGroup Condition=" '$(OpenApiGenerateDocumentsOnBuild)' == 'default-false' ">
+    <!--
+      Disable document generation on build by default. If user changed $(OpenApiDocumentsDirectory) but not
+      $(OpenApiGenerateDocumentsOnBuild) and feature is supported, enable document generation on build.
+
+      Changing $(OpenApiDocumentsDirectory) does nothing when $(OpenApiGenerateDocuments) is false.
+    -->
+    <OpenApiGenerateDocumentsOnBuild>false</OpenApiGenerateDocumentsOnBuild>
+    <OpenApiGenerateDocuments
+        Condition=" '$(OpenApiDocumentsDirectory)' != '$(BaseIntermediateOutputPath)' ">$(OpenApiGenerateDocuments)</OpenApiGenerateDocuments>
+  </PropertyGroup>
+</Project>

@@ -2,36 +2,36 @@
 {% if Framework.IsAngular -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
-    return {{ Framework.RxJs.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, result));
+    return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return {{ Framework.RxJs.ObservableThrowMethod }}(result);
     else
-        return {{ Framework.RxJs.ObservableThrowMethod }}(new SwaggerException(message, status, response, headers, null));
+        return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, null));
 {%     endif -%}
 }
 
 {% elseif Framework.IsAngularJS -%}
 function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 {%     if WrapDtoExceptions -%}
-    return q.reject(new SwaggerException(message, status, response, headers, result));
+    return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, result));
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return q.reject(result);
     else
-        return q.reject(new SwaggerException(message, status, response, headers, null));
+        return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, null));
 {%     endif -%}
 }
 
 {% else -%}
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
 {%     if WrapDtoExceptions -%}
-    throw new SwaggerException(message, status, response, headers, result);
+    throw new {{ ExceptionClassName }}(message, status, response, headers, result);
 {%     else -%}
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         throw result;
     else
-        throw new SwaggerException(message, status, response, headers, null);
+        throw new {{ ExceptionClassName }}(message, status, response, headers, null);
 {%     endif -%}
 }
 
@@ -43,23 +43,28 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader(); 
-            reader.onload = event => { 
+            let reader = new FileReader();
+            reader.onload = event => {
                 observer.next((<any>event.target).result);
                 observer.complete();
             };
-            reader.readAsText(blob); 
+            reader.readAsText(blob);
         }
     });
 }
 
 {% elseif Framework.IsAngularJS -%}
 function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
-    return new q((resolve) => { 
-        let reader = new FileReader(); 
+    return new q((resolve) => {
+        let reader = new FileReader();
         reader.onload = event => resolve((<any>event.target).result);
-        reader.readAsText(blob); 
+        reader.readAsText(blob);
     });
+}
+
+{% elseif Framework.IsAxios -%}
+function isAxiosError(obj: any | undefined): obj is AxiosError {
+    return obj && obj.isAxiosError === true;
 }
 
 {% endif -%}

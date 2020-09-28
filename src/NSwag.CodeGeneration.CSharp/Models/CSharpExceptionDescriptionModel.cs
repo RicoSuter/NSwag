@@ -2,7 +2,7 @@
 // <copyright file="CSharpOperationModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public class CSharpExceptionDescriptionModel
     {
         private readonly string _type;
-        private readonly SwaggerToCSharpClientGeneratorSettings _settings;
+        private readonly CSharpClientGeneratorSettings _settings;
         private readonly string _controllerName;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpExceptionDescriptionModel" /> class.</summary>
@@ -20,7 +20,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <param name="description">The description.</param>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="settings">The settings.</param>
-        public CSharpExceptionDescriptionModel(string type, string description, string controllerName, SwaggerToCSharpClientGeneratorSettings settings)
+        public CSharpExceptionDescriptionModel(string type, string description, string controllerName, CSharpClientGeneratorSettings settings)
         {
             _type = type;
             _settings = settings;

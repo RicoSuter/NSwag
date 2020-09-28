@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.SwaggerGeneration.WebApi;
+using NSwag.Generation.WebApi;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -48,11 +48,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_enum_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -67,11 +67,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_class_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -87,11 +87,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
         {
             //// Arrange
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
@@ -105,7 +105,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_setting_is_enabled_then_parameters_are_reordered()
         {
-            var generator = new WebApiToSwaggerGenerator(new WebApiToSwaggerGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -115,7 +115,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             operation.Parameters.Insert(0, lastParameter);
             var json = document.ToJson();
 
-            var codeGenerator = new SwaggerToCSharpClientGenerator(document, new SwaggerToCSharpClientGeneratorSettings
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });

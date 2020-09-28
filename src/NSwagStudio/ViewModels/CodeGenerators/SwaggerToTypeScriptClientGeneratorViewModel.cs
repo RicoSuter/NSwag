@@ -2,7 +2,7 @@
 // <copyright file="SwaggerToTypeScriptClientGeneratorModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.TypeScript;
+using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -66,6 +67,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (TypeScriptTypeStyle)Enum.Parse(typeof(TypeScriptTypeStyle), t))
             .ToArray();
 
+        /// <summary>Gets the list of enum styles.</summary>
+        public TypeScriptEnumStyle[] EnumStyles { get; } = Enum.GetNames(typeof(TypeScriptEnumStyle))
+            .Select(t => (TypeScriptEnumStyle)Enum.Parse(typeof(TypeScriptEnumStyle), t))
+            .ToArray();
+
         /// <summary>Gets the list of date time types.</summary>
         public TypeScriptDateTimeType[] DateTimeTypes { get; } = Enum.GetNames(typeof(TypeScriptDateTimeType))
             .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
@@ -74,6 +80,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the list of null values.</summary>
         public TypeScriptNullValue[] NullValues { get; } = Enum.GetNames(typeof(TypeScriptNullValue))
             .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
+            .ToArray();
+
+        /// <summary>Gets new line behaviors. </summary>
+        public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
+            .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))
             .ToArray();
 
         /// <summary>Gets or sets the client code.</summary>

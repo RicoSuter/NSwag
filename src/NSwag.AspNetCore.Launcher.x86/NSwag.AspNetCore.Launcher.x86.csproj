@@ -4,15 +4,15 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>12.0.20</Version>
+    <Version>13.7.4</Version>
     <Authors>Rico Suter</Authors>
     <Company>Rico Suter</Company>
-    <Description>NSwag: The Swagger API toolchain for .NET and TypeScript</Description>
-    <Copyright>Copyright © Rico Suter, 2018</Copyright>
-    <PackageLicenseUrl>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
+    <Copyright>Copyright © Rico Suter, 2020</Copyright>
+    <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/NSwag/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <PackageTags>Swagger Documentation WebApi AspNet TypeScript CodeGen</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
+    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

@@ -2,7 +2,7 @@
 // <copyright file="RedirectMiddleware.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -36,25 +36,16 @@ namespace NSwag.AspNetCore.Middlewares
             if (context.Request.Path.HasValue &&
                 string.Equals(context.Request.Path.Value.Trim('/'), _swaggerUiRoute.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
-                context.Response.StatusCode = 302;
+                context.Response.StatusCode = StatusCodes.Status302Found;
 
-                if (context.Request.PathBase.HasValue)
-                {
-                    var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ?
-                        "?url=" + _transformToExternal(context.Request.PathBase.Value + _swaggerRoute, context.Request) :
-                        "";
-
-                    context.Response.Headers.Add("Location",
-                        _transformToExternal(context.Request.PathBase.Value + _swaggerUiRoute, context.Request) + "/index.html" + suffix);
-                }
-                else
-                {
-                    var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(_swaggerRoute, context.Request) : "";
-                    context.Response.Headers.Add("Location", _transformToExternal(_swaggerUiRoute, context.Request) + "/index.html" + suffix);
-                }
+                var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(_swaggerRoute, context.Request) : "";
+                var path = _transformToExternal(_swaggerUiRoute, context.Request);
+                context.Response.Headers.Add("Location", (path != "/" ? path : "") + "/index.html" + suffix);
             }
             else
+            {
                 await _nextDelegate.Invoke(context);
+            }
         }
     }
 }

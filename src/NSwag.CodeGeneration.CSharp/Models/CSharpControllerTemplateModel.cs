@@ -2,7 +2,7 @@
 // <copyright file="CSharpControllerTemplateModel.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
-// <license>https://github.com/NSwag/NSwag/blob/master/LICENSE.md</license>
+// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
@@ -14,8 +14,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller template model.</summary>
     public class CSharpControllerTemplateModel : CSharpTemplateModelBase
     {
-        private readonly SwaggerToCSharpControllerGeneratorSettings _settings;
-        private readonly SwaggerDocument _document;
+        private readonly CSharpControllerGeneratorSettings _settings;
+        private readonly OpenApiDocument _document;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerTemplateModel" /> class.</summary>
         /// <param name="controllerName">Name of the controller.</param>
@@ -25,8 +25,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public CSharpControllerTemplateModel(
             string controllerName,
             IEnumerable<CSharpOperationModel> operations,
-            SwaggerDocument document,
-            SwaggerToCSharpControllerGeneratorSettings settings)
+            OpenApiDocument document,
+            CSharpControllerGeneratorSettings settings)
             : base(controllerName, settings)
         {
             _document = document;
@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool HasBasePath => !string.IsNullOrEmpty(BasePath);
 
         /// <summary>Gets or sets the base path.</summary>
-        public string BasePath => _document.BasePath?.TrimStart('/');
+        public string BasePath => string.IsNullOrEmpty(_settings.BasePath) ? _document.BasePath?.TrimStart('/') : _settings.BasePath.TrimStart('/');
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
@@ -82,6 +82,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether to allow adding cancellation token.</summary>
         public bool UseCancellationToken => _settings.UseCancellationToken;
+
+        /// <summary>Gets a value indicating whether to allow adding model validation attributes</summary>
+        public bool GenerateModelValidationAttributes => _settings.GenerateModelValidationAttributes;
+
+        /// <summary>Gets the type of the attribute used to specify a parameter as required.</summary>
+        public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
 
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;
