@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.References;
@@ -17,6 +18,8 @@ namespace NSwag
     /// <summary>The Swagger response.</summary>
     public class OpenApiResponse : JsonReferenceBase<OpenApiResponse>, IJsonReference
     {
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
+
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
@@ -131,7 +134,7 @@ namespace NSwag
                                                         c.Value.Schema?.ActualSchema.IsBinary != false) &&
                         !ActualResponse.Content.Keys.Any(p => p.Contains("application/json")) &&
                         !ActualResponse.Content.Keys.Any(p => p.Contains("text/plain")) &&
-                        !ActualResponse.Content.Keys.Any(p => p.StartsWith("application/") && p.EndsWith("+json"));
+                        !ActualResponse.Content.Keys.Any(p => AppJsonRegex.IsMatch(p));
 
                     if (contentIsBinary)
                     {
@@ -152,7 +155,7 @@ namespace NSwag
                          Schema?.ActualSchema.IsBinary != false) && // is binary only if there is no JSON schema defined
                         actualProduces?.Any(p => p.Contains("application/json")) != true &&
                         actualProduces?.Any(p => p.Contains("text/plain")) != true &&
-                        actualProduces?.Any(p => p.StartsWith("application/") && p.EndsWith("+json")) != true;
+                        actualProduces?.Any(p => AppJsonRegex.IsMatch(p)) != true;
 
                     if (producesIsBinary)
                     {
