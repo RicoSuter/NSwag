@@ -21,9 +21,9 @@
         this.http = $http;
         this.q = $q;
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
 {%     else -%}
-        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
 {%     endif -%}
     }
 {% endif -%}
