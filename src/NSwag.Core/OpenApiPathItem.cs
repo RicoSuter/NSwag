@@ -26,7 +26,9 @@ namespace NSwag
             CollectionChanged += (sender, args) =>
             {
                 foreach (var operation in Values)
+                {
                     operation.Parent = this;
+                }
             };
         }
 
