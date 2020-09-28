@@ -16,9 +16,9 @@ The project combines the functionality of Swashbuckle (OpenAPI/Swagger generatio
 
 ![ToolchainDiagram](assets/ToolchainDiagram.png) 
 
-**[:point_right: Announcing Apimundo: An API documentation system based on NSwag and NJsonSchema :point_left:](https://github.com/RicoSuter/NSwag/issues/3076)**
-
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors.
+
+[:point_right: **Announcing Apimundo:** An API documentation system based on NSwag and NJsonSchema :point_left:](https://github.com/RicoSuter/NSwag/issues/3076)
 
 **Features:**
 
