@@ -15,7 +15,7 @@ export class GeoClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string) {
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     fromBodyTest(location: GeoPoint | null) {
@@ -635,7 +635,7 @@ export class PersonsClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string) {
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     getAll() {

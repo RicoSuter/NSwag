@@ -33,7 +33,7 @@ export class GeoClient extends MyBaseClass {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     fromBodyTest(location: GeoPoint | null): Observable<void> {
@@ -621,7 +621,7 @@ export class PersonsClient extends MyBaseClass {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         super();
         this.http = http;
-        this.baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:13452";
     }
 
     getAll(): Observable<Person[] | null> {
