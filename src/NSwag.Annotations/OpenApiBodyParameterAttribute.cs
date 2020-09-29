@@ -14,7 +14,7 @@ namespace NSwag.Annotations
     [AttributeUsage(AttributeTargets.Method)]
     public class OpenApiBodyParameterAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class with the 'application/json' mime type.</summary>
         public OpenApiBodyParameterAttribute()
         {
             MimeTypes = new[] { "application/json" };
