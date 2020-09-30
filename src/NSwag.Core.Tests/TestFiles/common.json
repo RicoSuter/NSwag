@@ -1,0 +1,44 @@
+{
+  "components": {
+    "schemas": {
+      "Error": {
+        "description": "Another test object.",
+        "type": "object",
+        "properties": {
+          "isTest": {
+            "description": "This is test.",
+            "type": "boolean"
+          },
+          "testId": {
+            "description": "Test id",
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "responses": {
+      "401Unauthenticated": {
+        "description": "Unauthenticated",
+        "content": {
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "403Unauthorized": {
+        "description": "Forbidden - User not authorized",
+        "content": {
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

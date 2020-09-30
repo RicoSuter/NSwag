@@ -8,7 +8,11 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task Foo()
         {
-            var json = @""; // TODO
+            //var json = @""; // TODO
+            var document = await OpenApiDocument.FromFileAsync("TestFiles/pathItemTests.json");
+
+
+            Assert.NotNull(document);
         }
     }
 }
