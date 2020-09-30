@@ -1,8 +1,45 @@
 {
+  "openapi": "3.0.2",
+  "paths": {
+    "/foo": {
+      "get": {
+        "description": "Reference endpoint",
+        "responses": {
+          "204": {
+            "description": "Test."
+          }
+        }
+      }
+    }
+  },
   "components": {
+    "parameters": {
+      "offsetParam": {
+        "in": "query",
+        "name": "offset",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "description": "The number of items to skip before starting to collect the result set."
+      },
+      "limitParam": {
+        "in": "query",
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20
+        },
+        "description": "The numbers of items to return."
+      }
+    },
     "schemas": {
-      "Error": {
-        "description": "Another test object.",
+      "TestObject": {
+        "description": "Referenced test object.",
         "type": "object",
         "properties": {
           "isTest": {
@@ -19,22 +56,12 @@
       }
     },
     "responses": {
-      "401Unauthenticated": {
-        "description": "Unauthenticated",
+      "TestResponse": {
+        "description": "Test",
         "content": {
           "text/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "403Unauthorized": {
-        "description": "Forbidden - User not authorized",
-        "content": {
-          "text/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/TestObject"
             }
           }
         }
