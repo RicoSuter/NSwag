@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NSwag.Core.Tests.Serialization
 {
-    public class PathItemTests
+    public class ExternalReferenceTests
     {
         [Fact]
         public async Task When_file_contains_schema_reference_to_another_file_it_is_loaded()
