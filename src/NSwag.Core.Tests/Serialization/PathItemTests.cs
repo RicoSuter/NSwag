@@ -7,20 +7,22 @@ namespace NSwag.Core.Tests.Serialization
     public class PathItemTests
     {
         [Fact]
-        public async Task When_file_contains_path_reference_to_another_file_it_is_loaded()
-        {
-            var document = await OpenApiDocument.FromFileAsync("TestFiles/path-reference.json");
-
-            Assert.NotNull(document);
-        }
-
-        [Fact]
         public async Task When_file_contains_schema_reference_to_another_file_it_is_loaded()
         {
             var document = await OpenApiDocument.FromFileAsync("TestFiles/schema-reference.json");
 
             Assert.NotNull(document);
-            Assert.Equal("Referenced test object.", document.Paths.First().Value.Values.First().Responses.First().Value.Content.First().Value.Schema.Description);
+            Assert.Equal("External object", document.Paths.First().Value.Values.First().Responses.First().Value.Content.First().Value.Schema.Description);
+        }
+
+
+        [Fact]
+        public async Task When_file_contains_path_reference_to_another_file_it_is_loaded()
+        {
+            var document = await OpenApiDocument.FromFileAsync("TestFiles/path-reference.json");
+
+            Assert.NotNull(document);
+            Assert.Equal("External path", document.Paths.First().Value.Values.First().Description);
         }
 
         [Fact]
@@ -29,6 +31,7 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/response-reference.json");
 
             Assert.NotNull(document);
+            Assert.Equal("External response", document.Paths.First().Value.Values.First().Responses.First().Value.Description);
         }
 
         [Fact]
@@ -37,6 +40,8 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/parameter-reference.json");
 
             Assert.NotNull(document);
+            Assert.Equal(2, document.Paths.First().Value.Values.First().Parameters.Count);
+            Assert.Equal("offset", document.Paths.First().Value.Values.First().Parameters.First().Name);
         }
     }
 }
