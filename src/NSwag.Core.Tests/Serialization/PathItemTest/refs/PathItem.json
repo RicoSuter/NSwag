@@ -1,0 +1,11 @@
+{
+  "aValidPath": {
+    "get": {
+      "responses": {
+        "200": {
+          "description": "Path reference in external file can be resolved"
+        }
+      }
+    }
+  }
+}
