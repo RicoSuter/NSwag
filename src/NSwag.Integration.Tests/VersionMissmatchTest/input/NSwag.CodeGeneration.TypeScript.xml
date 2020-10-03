@@ -117,6 +117,9 @@
         <member name="P:NSwag.CodeGeneration.TypeScript.Models.TypeScriptFileTemplateModel.RequiresMomentJS">
             <summary>Gets a value indicating whether MomentJS is required.</summary>
         </member>
+      <member name="P:NSwag.CodeGeneration.TypeScript.Models.TypeScriptFileTemplateModel.RequiresDayJS">
+        <summary>Gets a value indicating whether DayJS is required.</summary>
+      </member>
         <member name="P:NSwag.CodeGeneration.TypeScript.Models.TypeScriptFileTemplateModel.ImportRequiredTypes">
             <summary>Gets a value indicating whether required types should be imported.</summary>
         </member>

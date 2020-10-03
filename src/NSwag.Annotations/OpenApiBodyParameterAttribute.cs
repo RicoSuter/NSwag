@@ -22,7 +22,7 @@ namespace NSwag.Annotations
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>
         /// <param name="mimeTypes">The expected mime types.</param>
-        public OpenApiBodyParameterAttribute(string[] mimeTypes)
+        public OpenApiBodyParameterAttribute(params string[] mimeTypes)
         {
             MimeTypes = mimeTypes;
         }
