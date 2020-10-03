@@ -15,7 +15,6 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("External object", document.Paths.First().Value.Values.First().Responses.First().Value.Content.First().Value.Schema.Description);
         }
 
-
         [Fact]
         public async Task When_file_contains_path_reference_to_another_file_it_is_loaded()
         {
