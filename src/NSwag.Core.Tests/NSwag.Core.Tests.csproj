@@ -19,7 +19,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Serialization\PathItemTest\PathItemWithRef.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Serialization\PathItemTest\refs\PathItem.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestFiles\common.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\parameter-reference.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestFiles\response-reference.json">
