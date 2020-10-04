@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "paths": {
-    "/foo": {
+    "foo": {
       "get": {
         "description": "External path",
         "responses": {

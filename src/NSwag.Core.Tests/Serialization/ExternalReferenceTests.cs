@@ -12,7 +12,7 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/schema-reference.json");
 
             Assert.NotNull(document);
-            Assert.Equal("External object", document.Paths.First().Value.Values.First().Responses.First().Value.Content.First().Value.Schema.Description);
+            Assert.Equal("External object", document.Paths.First().Value.Values.First().Responses.First().Value.Content.First().Value.Schema.ActualSchema.Description);
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/path-reference.json");
 
             Assert.NotNull(document);
-            Assert.Equal("External path", document.Paths.First().Value.Values.First().Description);
+            Assert.Equal("External path", document.Paths.First().Value.ActualPathItem.Values.First().Description);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/response-reference.json");
 
             Assert.NotNull(document);
-            Assert.Equal("External response", document.Paths.First().Value.Values.First().Responses.First().Value.Description);
+            Assert.Equal("External response", document.Paths.First().Value.Values.First().Responses.First().Value.ActualResponse.Description);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace NSwag.Core.Tests.Serialization
 
             Assert.NotNull(document);
             Assert.Equal(2, document.Paths.First().Value.Values.First().Parameters.Count);
-            Assert.Equal("offset", document.Paths.First().Value.Values.First().Parameters.First().Name);
+            Assert.Equal("offset", document.Paths.First().Value.Values.First().Parameters.First().ActualParameter.Name);
         }
     }
 }
