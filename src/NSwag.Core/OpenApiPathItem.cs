@@ -192,7 +192,7 @@ namespace NSwag
                         operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
                     }
                     else if (propertyName.Contains("$ref"))
-					{
+                    {
                         string refPath = serializer.Deserialize(reader).ToString();
                         ((IJsonReferenceBase)operations).ReferencePath = refPath;
                     }
