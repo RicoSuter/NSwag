@@ -90,6 +90,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
+        /// <summary>Gets a value indicating whether the target TypeScript version supports AbortController</summary>
+        public bool SupportsAbortController => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.7m;
+
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
 
