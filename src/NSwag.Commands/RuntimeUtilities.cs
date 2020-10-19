@@ -37,6 +37,10 @@ namespace NSwag.Commands
                     {
                         return Runtime.NetCore22;
                     }
+                    else if (framework.Version.Major >= 5)
+                    {
+                        return Runtime.Net50;
+                    }
                     else if (framework.Version.Major >= 3 && framework.Version.Minor < 1)
                     {
                         return Runtime.NetCore30;
