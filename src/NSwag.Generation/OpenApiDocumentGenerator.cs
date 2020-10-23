@@ -117,15 +117,7 @@ namespace NSwag.Generation
                 if (hasSchemaAnnotations || typeDescription.IsNullable)
                 {
                     operationParameter.Schema.IsNullableRaw = true;
-
-                    if (_settings.AllowReferencesWithProperties)
-                    {
-                        operationParameter.Schema.Reference = referencedSchema.ActualSchema;
-                    }
-                    else
-                    {
-                        operationParameter.Schema.Reference = new JsonSchema { IsNullableRaw = true, Reference = referencedSchema.ActualSchema };
-                    }
+                    operationParameter.Schema.Reference = referencedSchema.ActualSchema;
                 }
                 else
                 {
