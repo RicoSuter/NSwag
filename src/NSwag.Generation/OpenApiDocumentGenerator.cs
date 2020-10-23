@@ -124,7 +124,7 @@ namespace NSwag.Generation
                     }
                     else
                     {
-                        operationParameter.Schema.OneOf.Add(new JsonSchema { Reference = referencedSchema.ActualSchema });
+                        operationParameter.Schema.Reference = new JsonSchema { IsNullableRaw = true, Reference = referencedSchema.ActualSchema };
                     }
                 }
                 else

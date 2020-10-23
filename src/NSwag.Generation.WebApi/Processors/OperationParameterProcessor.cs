@@ -155,7 +155,9 @@ namespace NSwag.Generation.WebApi.Processors
                                         }
                                     }
                                 }
-                                else if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
+                                else if (
+                                    context.OperationDescription.Method != OpenApiOperationMethod.Get && 
+                                    (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false)))
                                 {
                                     operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                 }
