@@ -1,13 +1,12 @@
 ﻿{%              if GenerateNullableReferenceTypes -%}
-[return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull("value")]
-private string? ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
 {%              else -%}
 private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
     if (value == null)
     {
-        return null;
+        return "";
     }
 
     if (value is System.Enum)
