@@ -267,9 +267,7 @@
                 PrepareRequest(client_, request_, url_);
 
                 {% template Client.Class.BeforeSend %}
-                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                var disposeResponse_ = true;
-                try
+                using (var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                     if (response_.Content != null && response_.Content.Headers != null)
@@ -336,11 +334,6 @@
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                     }
 {%     endif -%}
-                }
-                finally
-                {
-                    if (disposeResponse_)
-                        response_.Dispose();
                 }
             }
         }
