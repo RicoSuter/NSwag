@@ -36,7 +36,7 @@ namespace NSwag
             {
                 foreach (var path in Paths.Values)
                 {
-                    path.Parent = this;
+                    path.ActualPathItem.Parent = this;
                 }
             };
 
@@ -226,7 +226,7 @@ namespace NSwag
         {
             get
             {
-                return Paths.SelectMany(p => p.Value.Select(o => new OpenApiOperationDescription
+                return Paths.SelectMany(p => p.Value.ActualPathItem.Select(o => new OpenApiOperationDescription
                 {
                     Path = p.Key,
                     Method = o.Key,

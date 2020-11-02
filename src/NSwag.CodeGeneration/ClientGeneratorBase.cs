@@ -150,7 +150,8 @@ namespace NSwag.CodeGeneration
             document.GenerateOperationIds();
 
             return document.Paths
-                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.TrimStart('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .SelectMany(pair => pair.Value.ActualPathItem
+                    .Select(p => new { Path = pair.Key.TrimStart('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Select(tuple =>
                 {
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);

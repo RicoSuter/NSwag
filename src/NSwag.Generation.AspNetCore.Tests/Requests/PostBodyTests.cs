@@ -41,7 +41,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
             var parameter = operation.Parameters.Single(p => p.Kind == OpenApiParameterKind.Body);
 
             Assert.Equal(1, operation.Parameters.Count);
-            Assert.Equal(JsonObjectType.File, operation.RequestBody.Content["text/plain"].Schema.Type);
+            Assert.Equal(JsonObjectType.String, operation.RequestBody.Content["text/plain"].Schema.Type);
+            Assert.Equal("binary", operation.RequestBody.Content["text/plain"].Schema.Format);
         }
     }
 }

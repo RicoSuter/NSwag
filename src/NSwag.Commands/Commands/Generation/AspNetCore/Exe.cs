@@ -60,7 +60,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     process.BeginOutputReadLine();
                 }
 
-                var result = await Task.WhenAny(tcs.Task, Task.Delay(timeout ?? TimeSpan.FromSeconds(60))).ConfigureAwait(false);
+                var result = await Task.WhenAny(tcs.Task, Task.Delay(timeout ?? TimeSpan.FromSeconds(60 * 5))).ConfigureAwait(false);
                 if (result != tcs.Task)
                 {
                     throw new InvalidOperationException($"Process {startInfo.FileName} timed out.");

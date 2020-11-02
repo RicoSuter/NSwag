@@ -34,9 +34,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (_settings.UseActionResultType)
                 {
-                    return SyncResultType == "void"
-                        ? "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>"
-                        : "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
+                    switch (SyncResultType)
+                    {
+                        case "void":
+                        case "FileResult":
+                            return "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>";
+                        default:
+                            return "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
+                    }
                 }
 
                 return base.ResultType;
