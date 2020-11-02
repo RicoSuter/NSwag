@@ -87,9 +87,14 @@ namespace NSwag.Commands
 
         private static string[] LoadDefaultNugetCache()
         {
-            var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "HOMEPATH" : "HOME";
-            var home = Environment.GetEnvironmentVariable(envHome);
-            var path = Path.Combine(home, ".nuget", "packages");
+            var path = Environment.GetEnvironmentVariable("NUGET_PACKAGES");
+
+            if (String.IsNullOrEmpty(path))
+            {
+                var envHome = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "USERPROFILE" : "HOME";
+                var home = Environment.GetEnvironmentVariable(envHome);
+                path = Path.Combine(home, ".nuget", "packages");
+            }
 
             return new[] { Path.GetFullPath(path) };
         }

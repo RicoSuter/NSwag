@@ -161,6 +161,11 @@
 {%     else -%}
         var client_ = new {{ HttpClientType }}();
 {%     endif -%}
+{%     if InjectHttpClient == false and DisposeHttpClient -%}
+        var disposeClient_ = true;
+{%     else -%}
+        var disposeClient_ = false;
+{%     endif -%}
         try
         {
 {%     if UseHttpRequestMessageCreationMethod -%}
@@ -181,13 +186,20 @@
 {%     endfor -%}
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
+{%             if operation.ContentParameter.HasBinaryBodyWithMultipleMimeTypes -%}
+                var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }}.Data);
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ operation.ContentParameter.VariableName }}.ContentType);
+{%             else -%}
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%             endif -%}
 {%         elseif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
                 var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value));
-{%         endif -%}
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%         endif -%}
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
@@ -256,6 +268,7 @@
 
                 {% template Client.Class.BeforeSend %}
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                var disposeResponse_ = true;
                 try
                 {
                     var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
@@ -326,17 +339,15 @@
                 }
                 finally
                 {
-                    if (response_ != null)
+                    if (disposeResponse_)
                         response_.Dispose();
                 }
             }
         }
         finally
         {
-{%     if InjectHttpClient == false and DisposeHttpClient -%}
-            if (client_ != null)
+            if (disposeClient_)
                 client_.Dispose();
-{%     endif -%}
         }
     }
 

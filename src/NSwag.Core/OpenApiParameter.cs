@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -25,6 +26,8 @@ namespace NSwag
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;
         private int? _position;
+
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
 
         [JsonIgnore]
         internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
@@ -222,7 +225,7 @@ namespace NSwag
 
                 return consumes?.Any() == true &&
                        consumes.Any(p => p.Contains("application/xml")) &&
-                       consumes.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
+                       consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
             }
         }
 
@@ -242,16 +245,48 @@ namespace NSwag
                 {
                     var consumes = parent.ActualConsumes;
                     return consumes?.Any() == true &&
-                           consumes.Any(p => p.Contains("*/*")) == false && // supports json
-                           consumes.Any(p => p.StartsWith("application/") && p.EndsWith("json")) == false;
+                           (Schema?.IsBinary != false || 
+                            consumes.Contains("multipart/form-data")) &&
+                           consumes?.Any(p => p.Contains("*/*")) == false &&
+                           consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
+                }
+                else
+                {
+                    var consumes = parent?.RequestBody?.Content;
+                    return (consumes?.Any(p => p.Key == "multipart/form-data") == true ||
+                            consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true) &&
+                           consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true) == false &&
+                           consumes.Any(p => AppJsonRegex.IsMatch(p.Key) && p.Value.Schema?.IsBinary != true) == false;
+                }
+            }
+        }
+
+        /// <summary>Gets a value indicating whether a binary body parameter allows multiple mime types.</summary>
+        [JsonIgnore]
+        public bool HasBinaryBodyWithMultipleMimeTypes
+        {
+            get
+            {
+                if (!IsBinaryBodyParameter)
+                {
+                    return false;
+                }
+
+                var parent = Parent as OpenApiOperation;
+                if (parent?.ActualConsumes?.Any() == true)
+                {
+                    var consumes = parent.ActualConsumes;
+                    return consumes?.Any() == true &&
+                           (consumes.Count() > 1 ||
+                            consumes.Any(p => p.Contains("*")));
                 }
                 else
                 {
                     var consumes = parent?.RequestBody?.Content;
                     return consumes?.Any() == true &&
-                           consumes.Any(p => p.Key.Contains("*/*") && !p.Value.Schema.IsBinary) == false && // supports json
-                           consumes.Any(p => p.Key.StartsWith("application/") && p.Key.EndsWith("json") && p.Value.Schema?.IsBinary != true) == false;
-                }              
+                           (consumes.Count() > 1 ||
+                            consumes.Any(p => p.Key.Contains("*")));
+                }
             }
         }
     }
