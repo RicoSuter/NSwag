@@ -1,5 +1,5 @@
 ﻿{% template Client.ProcessResponse.ReadHeaders %}
-{% if operation.RequiresMappings -%}
+{% if operation.HandleReferences and operation.RequiresMappings -%}
 let _mappings: { source: any, target: any }[] = [];
 {% endif -%}
 {% for response in operation.Responses -%}
