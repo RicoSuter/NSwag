@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore30", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore3.Tests", "NSwag.Generation.AspNetCore3.Tests\NSwag.Generation.AspNetCore3.Tests.csproj", "{F9D9ADB3-B676-4332-A8B3-457A0521308A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET5", "NSwag.Sample.NET5\NSwag.Sample.NET5.csproj", "{F109D48B-A2FF-497D-8374-FEA60C5F2365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET50", "NSwag.Sample.NET50\NSwag.Sample.NET50.csproj", "{F109D48B-A2FF-497D-8374-FEA60C5F2365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
