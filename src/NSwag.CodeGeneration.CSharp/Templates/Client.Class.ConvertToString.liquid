@@ -26,7 +26,8 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
                 }
             }
 
-            return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            return converted == null ? string.Empty : converted;
         }
     }
     else if (value is bool) 
