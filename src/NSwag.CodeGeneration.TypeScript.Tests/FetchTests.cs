@@ -118,6 +118,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
+                UseAbortSignal = true,
                 TypeScriptGeneratorSettings =
                 {
                     TypeScriptVersion = 2.7m

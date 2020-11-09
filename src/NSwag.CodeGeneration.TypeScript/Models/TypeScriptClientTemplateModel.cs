@@ -108,9 +108,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
         public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
-        /// <summary>Gets a value indicating whether the target TypeScript version supports AbortController</summary>
-        public bool SupportsAbortController => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.7m;
-
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
@@ -119,5 +116,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
+
+        /// <summary>Gets a value indicating whether to use the AbortSignal (Fetch template only, default: false).</summary>
+        public bool UseAbortSignal => _settings.UseAbortSignal;
     }
 }
