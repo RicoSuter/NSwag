@@ -495,14 +495,6 @@ namespace NSwag.Generation.WebApi.Processors
                 {
                     operationParameter.Default = defaultValue;
                 }
-                else if (operationParameter.Schema.HasReference)
-                {
-                    operationParameter.Schema = new JsonSchema
-                    {
-                        Default = defaultValue,
-                        OneOf = { operationParameter.Schema }
-                    };
-                }
                 else
                 {
                     operationParameter.Schema.Default = defaultValue;
