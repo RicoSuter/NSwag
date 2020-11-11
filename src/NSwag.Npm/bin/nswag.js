@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "21";
-var supportedCoreVersions = ["10", "11", "20", "21", "22", "30", "31"];
+var defaultCoreVersion = "Core21";
+var supportedCoreVersions = ["Core21", "Core22", "Core30", "Core31", "50"];
 
 // Initialize
 process.title = 'nswag';
@@ -12,14 +12,12 @@ var args = process.argv.splice(2, process.argv.length - 2).map(function (a) { re
 // Legacy support
 args = args.replace("--x86", "/runtime:WinX86");
 args = args.replace("/runtime:x86", "/runtime:WinX86");
-args = args.replace("--core 1.0", "/runtime:NetCore10");
-args = args.replace("--core 1.1", "/runtime:NetCore11");
-args = args.replace("--core 2.0", "/runtime:NetCore20");
 args = args.replace("--core 2.1", "/runtime:NetCore21");
 args = args.replace("--core 2.2", "/runtime:NetCore22");
 args = args.replace("--core 3.0", "/runtime:NetCore30");
 args = args.replace("--core 3.1", "/runtime:NetCore31");
-args = args.replace("--core", "/runtime:NetCore" + defaultCoreVersion);
+args = args.replace("--core 5.0", "/runtime:Net50");
+args = args.replace("--core", "/runtime:Net" + defaultCoreVersion);
 
 // Search for full .NET installation
 var hasFullDotNet = false;
@@ -47,19 +45,19 @@ if (hasFullDotNet && args.toLowerCase().indexOf("/runtime:win") != -1) {
     }
 } else {
     // Run .NET Core version
-    var defaultCmd = 'dotnet "' + __dirname + '/binaries/NetCore' + defaultCoreVersion + '/dotnet-nswag.dll" ' + args;
+    var defaultCmd = 'dotnet "' + __dirname + '/binaries/Net' + defaultCoreVersion + '/dotnet-nswag.dll" ' + args;
     var infoCmd = "dotnet --version";
     c.exec(infoCmd, (error, stdout, stderr) => {
         for (let version of supportedCoreVersions) {
-            var coreCmd = 'dotnet "' + __dirname + '/binaries/NetCore' + version + '/dotnet-nswag.dll" ' + args;
+            var coreCmd = 'dotnet "' + __dirname + '/binaries/Net' + version + '/dotnet-nswag.dll" ' + args;
 
-            if (args.toLowerCase().indexOf("/runtime:netcore" + version) != -1) {
+            if (args.toLowerCase().indexOf("/runtime:net" + version.toLocaleLowerCase()) != -1) {
                 c.execSync(coreCmd, { stdio: [0, 1, 2] });
                 return;
             } else {
                 if (!error) {
                     var coreVersion = stdout;
-                    if (coreVersion.indexOf(version + ".0") !== -1) {
+                    if (coreVersion.indexOf(version.replace('Core', '') + ".0") !== -1) {
                         c.execSync(coreCmd, { stdio: [0, 1, 2] });
                         return;
                     }

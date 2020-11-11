@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>13.8.2</version>
+    <version>13.9.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</description>
-    <tags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</tags>
+    <tags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</tags>
     <copyright>Copyright © Rico Suter, 2020</copyright>
     <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
@@ -27,12 +27,10 @@
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
 
-    <!--<file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\**" target="tools/NetCore10" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\**" target="tools/NetCore11" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\**" target="tools/NetCore20" />-->
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.2\Publish\**" target="tools/NetCore22" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.0\Publish\**" target="tools/NetCore30" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
+    <file src="..\NSwag.ConsoleCore\bin\release\net5.0\Publish\**" target="tools/Net50" />
   </files>
 </package>

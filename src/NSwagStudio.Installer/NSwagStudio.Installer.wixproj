@@ -54,13 +54,11 @@
   <PropertyGroup>
     <PreBuildEvent>
       rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/Win" /Q /S nonemptydir
-      rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore10" /Q /S nonemptydir
-      rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore11" /Q /S nonemptydir
-      rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore20" /Q /S nonemptydir
       rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore21" /Q /S nonemptydir
       rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore22" /Q /S nonemptydir
       rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore30" /Q /S nonemptydir
       rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore31" /Q /S nonemptydir
+      rmdir "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/Net50" /Q /S nonemptydir
 
       dotnet restore "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/NSwag.ConsoleCore.csproj" --no-cache
 
@@ -68,6 +66,7 @@
       dotnet publish "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/NSwag.ConsoleCore.csproj" -c $(ConfigurationName) -f "netcoreapp2.2" -o "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.2/Publish" /property:Platform=AnyCPU
       dotnet publish "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/NSwag.ConsoleCore.csproj" -c $(ConfigurationName) -f "netcoreapp3.0" -o "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp3.0/Publish" /property:Platform=AnyCPU
       dotnet publish "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/NSwag.ConsoleCore.csproj" -c $(ConfigurationName) -f "netcoreapp3.1" -o "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp3.1/Publish" /property:Platform=AnyCPU
+      dotnet publish "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/NSwag.ConsoleCore.csproj" -c $(ConfigurationName) -f "net5.0" -o "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/net5.0/Publish" /property:Platform=AnyCPU
 
       xcopy "$(MSBuildProjectDirectory)/../NSwag.Console.x86/bin/$(ConfigurationName)/net461" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
       xcopy "$(MSBuildProjectDirectory)/../NSwag.Console/bin/$(ConfigurationName)/net461" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/Win" /E /I /y
@@ -76,6 +75,7 @@
       xcopy "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp2.2/publish" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore22" /E /I /y
       xcopy "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp3.0/publish" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore30" /E /I /y
       xcopy "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/netcoreapp3.1/publish" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/NetCore31" /E /I /y
+      xcopy "$(MSBuildProjectDirectory)/../NSwag.ConsoleCore/bin/$(ConfigurationName)/net5.0/publish" "$(MSBuildProjectDirectory)/../NSwagStudio/bin/$(ConfigurationName)/Net50" /E /I /y
     </PreBuildEvent>
   </PropertyGroup>
 </Project>

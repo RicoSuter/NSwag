@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.2",
+  "paths": {
+    "/test/{testId}": {
+      "get": {
+        "description": "Test path",
+        "parameters": [
+          {
+            "$ref": "./common.json#/components/parameters/offsetParam"
+          },
+          {
+            "$ref": "./common.json#/components/parameters/limitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "./common.json#/components/responses/TestResponse"
+          }
+        }
+      }
+    }
+  }
+}

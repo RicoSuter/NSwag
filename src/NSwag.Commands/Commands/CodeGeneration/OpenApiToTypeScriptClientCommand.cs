@@ -366,6 +366,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.QueryNullValue = value; }
         }
 
+        [Argument(Name = "UseAbortSignal", IsRequired = false, Description = "Specifies whether to use the AbortSignal (Fetch template only, default: false).")]
+        public bool UseAbortSignal
+        {
+            get { return Settings.UseAbortSignal; }
+            set { Settings.UseAbortSignal = value; }
+        }
+
         [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
         public bool InlineNamedDictionaries
         {
