@@ -5,7 +5,7 @@
         <version>$version$</version>
         <authors>$authors$</authors>
         <description>$description$</description>
-        <tags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</tags>
+        <tags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</tags>
         <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
         <license type="expression">MIT</license>
         <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
