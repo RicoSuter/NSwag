@@ -233,351 +233,95 @@ namespace MyNamespace
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.2.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class GeoPoint : System.ComponentModel.INotifyPropertyChanged
+    public partial class GeoPoint 
     {
-        private double _latitude;
-        private double _longitude;
-    
         [Newtonsoft.Json.JsonProperty("Latitude", Required = Newtonsoft.Json.Required.Always)]
-        public double Latitude
-        {
-            get { return _latitude; }
-            set 
-            {
-                if (_latitude != value)
-                {
-                    _latitude = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public double Latitude { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Longitude", Required = Newtonsoft.Json.Required.Always)]
-        public double Longitude
-        {
-            get { return _longitude; }
-            set 
-            {
-                if (_longitude != value)
-                {
-                    _longitude = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public double Longitude { get; set; }
     
-    
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-        }
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.2.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class GenericRequestOfAddressAndPerson : System.ComponentModel.INotifyPropertyChanged
+    public partial class GenericRequestOfAddressAndPerson 
     {
-        private Address _item1;
-        private Person _item2;
-    
         [Newtonsoft.Json.JsonProperty("Item1", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Address Item1
-        {
-            get { return _item1; }
-            set 
-            {
-                if (_item1 != value)
-                {
-                    _item1 = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public Address Item1 { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Item2", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Person Item2
-        {
-            get { return _item2; }
-            set 
-            {
-                if (_item2 != value)
-                {
-                    _item2 = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public Person Item2 { get; set; }
     
-    
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-        }
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.2.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Address : System.ComponentModel.INotifyPropertyChanged
+    public partial class Address 
     {
-        private bool _isPrimary;
-        private string _city;
-    
         [Newtonsoft.Json.JsonProperty("IsPrimary", Required = Newtonsoft.Json.Required.Always)]
-        public bool IsPrimary
-        {
-            get { return _isPrimary; }
-            set 
-            {
-                if (_isPrimary != value)
-                {
-                    _isPrimary = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public bool IsPrimary { get; set; }
     
         [Newtonsoft.Json.JsonProperty("City", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string City
-        {
-            get { return _city; }
-            set 
-            {
-                if (_city != value)
-                {
-                    _city = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public string City { get; set; }
     
-    
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-        }
     
     }
     
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "discriminator")]
     [JsonInheritanceAttribute("Teacher", typeof(Teacher))]
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.2.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Person : System.ComponentModel.INotifyPropertyChanged
+    public partial class Person 
     {
-        private System.Guid _id;
-        private string _firstName;
-        private string _lastName;
-        private Gender _gender;
-        private System.DateTime _dateOfBirth;
-        private decimal _weight;
-        private double _height;
-        private int _age;
-        private System.TimeSpan _averageSleepTime;
-        private Address _address = new Address();
-        private System.Collections.Generic.List<Person> _children = new System.Collections.Generic.List<Person>();
-        private System.Collections.Generic.Dictionary<string, SkillLevel> _skills;
-    
         [Newtonsoft.Json.JsonProperty("Id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id
-        {
-            get { return _id; }
-            set 
-            {
-                if (_id != value)
-                {
-                    _id = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public System.Guid Id { get; set; }
     
         /// <summary>Gets or sets the first name.</summary>
         [Newtonsoft.Json.JsonProperty("FirstName", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         [System.ComponentModel.DataAnnotations.StringLength(int.MaxValue, MinimumLength = 2)]
-        public string FirstName
-        {
-            get { return _firstName; }
-            set 
-            {
-                if (_firstName != value)
-                {
-                    _firstName = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public string FirstName { get; set; }
     
         /// <summary>Gets or sets the last name.</summary>
         [Newtonsoft.Json.JsonProperty("LastName", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public string LastName
-        {
-            get { return _lastName; }
-            set 
-            {
-                if (_lastName != value)
-                {
-                    _lastName = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public string LastName { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Gender", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public Gender Gender
-        {
-            get { return _gender; }
-            set 
-            {
-                if (_gender != value)
-                {
-                    _gender = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public Gender Gender { get; set; }
     
         [Newtonsoft.Json.JsonProperty("DateOfBirth", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTime DateOfBirth
-        {
-            get { return _dateOfBirth; }
-            set 
-            {
-                if (_dateOfBirth != value)
-                {
-                    _dateOfBirth = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public System.DateTime DateOfBirth { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Weight", Required = Newtonsoft.Json.Required.Always)]
-        public decimal Weight
-        {
-            get { return _weight; }
-            set 
-            {
-                if (_weight != value)
-                {
-                    _weight = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public decimal Weight { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Height", Required = Newtonsoft.Json.Required.Always)]
-        public double Height
-        {
-            get { return _height; }
-            set 
-            {
-                if (_height != value)
-                {
-                    _height = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public double Height { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Age", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Range(5, 99)]
-        public int Age
-        {
-            get { return _age; }
-            set 
-            {
-                if (_age != value)
-                {
-                    _age = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public int Age { get; set; }
     
         [Newtonsoft.Json.JsonProperty("AverageSleepTime", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.TimeSpan AverageSleepTime
-        {
-            get { return _averageSleepTime; }
-            set 
-            {
-                if (_averageSleepTime != value)
-                {
-                    _averageSleepTime = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public System.TimeSpan AverageSleepTime { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Address", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public Address Address
-        {
-            get { return _address; }
-            set 
-            {
-                if (_address != value)
-                {
-                    _address = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public Address Address { get; set; } = new Address();
     
         [Newtonsoft.Json.JsonProperty("Children", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.List<Person> Children
-        {
-            get { return _children; }
-            set 
-            {
-                if (_children != value)
-                {
-                    _children = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public System.Collections.Generic.List<Person> Children { get; set; } = new System.Collections.Generic.List<Person>();
     
         [Newtonsoft.Json.JsonProperty("Skills", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.Dictionary<string, SkillLevel> Skills
-        {
-            get { return _skills; }
-            set 
-            {
-                if (_skills != value)
-                {
-                    _skills = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public System.Collections.Generic.Dictionary<string, SkillLevel> Skills { get; set; }
     
-    
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-        }
     
     }
     
@@ -606,37 +350,11 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.2.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Teacher : Person
     {
-        private string _course;
-        private SkillLevel _skillLevel = MyNamespace.SkillLevel.Medium;
-    
         [Newtonsoft.Json.JsonProperty("Course", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Course
-        {
-            get { return _course; }
-            set 
-            {
-                if (_course != value)
-                {
-                    _course = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public string Course { get; set; }
     
         [Newtonsoft.Json.JsonProperty("SkillLevel", Required = Newtonsoft.Json.Required.Always)]
-        public SkillLevel SkillLevel
-        {
-            get { return _skillLevel; }
-            set 
-            {
-                if (_skillLevel != value)
-                {
-                    _skillLevel = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-    
+        public SkillLevel SkillLevel { get; set; } = MyNamespace.SkillLevel.Medium;
     
     
     }
@@ -645,23 +363,9 @@ namespace MyNamespace
     [Newtonsoft.Json.JsonObjectAttribute]
     public partial class PersonNotFoundException : System.Exception
     {
-        private System.Guid _id;
-    
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id
-        {
-            get { return _id; }
-            set 
-            {
-                if (_id != value)
-                {
-                    _id = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-    
+        public System.Guid Id { get; set; }
     
     
     }
