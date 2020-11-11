@@ -27,12 +27,10 @@
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
 
-    <!--<file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\**" target="tools/NetCore10" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\**" target="tools/NetCore11" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\**" target="tools/NetCore20" />-->
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.2\Publish\**" target="tools/NetCore22" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.0\Publish\**" target="tools/NetCore30" />
     <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
+    <file src="..\NSwag.ConsoleCore\bin\release\net5.0\Publish\**" target="tools/Net50" />
   </files>
 </package>

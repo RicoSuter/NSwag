@@ -68,7 +68,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                         null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
                     serviceProvider = webHostBuilder.Build().Services;
                 }
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
                 else
                 {
                     var createHostMethod =
@@ -90,7 +90,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                 return serviceProvider;
             }
 
-            throw new InvalidOperationException($"aspnet2swaggercommand requires the entry point type {entryPointType.FullName} to have " +
+            throw new InvalidOperationException($"NSwag requires the entry point type {entryPointType.FullName} to have " +
                                                 $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
                                                 $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
                                                 $"for suggestions on ways to refactor your startup type.");

@@ -11,9 +11,6 @@ xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" "%~dp0\.
 xcopy "%~dp0\..\src\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" "%~dp0\..\src\NSwag.Npm\bin\binaries\Win"
 
 REM Build and publish .NET Core command line done in prebuild event for NSwagStudio.Installer.wixproj
-REM xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore10" /E /I /y
-REM xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp1.1/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore11" /E /I /y
-REM xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore20" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.1/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore21" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp2.2/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore22" /E /I /y
 xcopy "%~dp0/../src/NSwag.ConsoleCore/bin/release/netcoreapp3.0/publish" "%~dp0/../src/NSwag.Npm/bin/binaries/NetCore30" /E /I /y
