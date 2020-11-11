@@ -27,6 +27,39 @@
             <TextBlock Text="Either use Assembly (from compiled .dll) or use Project (to load a .csproj file)." TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12" />
 
             <TabControl Margin="0,0,0,12">
+                <TabItem Header="Project (Recommended)">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
+                        <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
+                                                FilePath="{Binding Command.Project, Mode=TwoWay}"
+                                                DefaultExtension=".csproj"
+                                                Filter="C# Project (.csproj)|*.csproj"/>
+
+                        <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
+                                 ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
+                                 ToolTip="Configuration" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
+                                 ToolTip="Runtime" Margin="0,0,0,12" />
+
+                        <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
+                                 ToolTip="TargetFramework" Margin="0,0,0,12" />
+
+                        <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
+                            <TextBlock Text="NoBuild" TextWrapping="Wrap" />
+                        </CheckBox>
+
+                        <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
+                            <TextBlock Text="Verbose" TextWrapping="Wrap" />
+                        </CheckBox>
+                    </StackPanel>
+                </TabItem>
                 <TabItem Header="Assembly">
                     <StackPanel Margin="4,8,4,-8">
                         <Grid Margin="0,0,0,12">
@@ -74,39 +107,6 @@
                                    FontWeight="Bold" Margin="0,0,0,6" TextWrapping="Wrap" />
                         <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
                                  ToolTip="StartupType" Margin="0,0,0,12" />
-                    </StackPanel>
-                </TabItem>
-                <TabItem Header="Project">
-                    <StackPanel Margin="4,8,4,-8">
-                        <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
-                        <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
-                                                FilePath="{Binding Command.Project, Mode=TwoWay}"
-                                                DefaultExtension=".csproj"
-                                                Filter="C# Project (.csproj)|*.csproj"/>
-
-                        <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
-                                 ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
-
-                        <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
-                                 ToolTip="Configuration" Margin="0,0,0,12" />
-
-                        <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
-                                 ToolTip="Runtime" Margin="0,0,0,12" />
-
-                        <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
-                                 ToolTip="TargetFramework" Margin="0,0,0,12" />
-
-                        <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
-                            <TextBlock Text="NoBuild" TextWrapping="Wrap" />
-                        </CheckBox>
-
-                        <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
-                            <TextBlock Text="Verbose" TextWrapping="Wrap" />
-                        </CheckBox>
                     </StackPanel>
                 </TabItem>
             </TabControl>
