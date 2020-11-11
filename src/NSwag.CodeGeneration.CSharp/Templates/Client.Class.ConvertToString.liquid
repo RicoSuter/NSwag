@@ -1,13 +1,12 @@
 ﻿{%              if GenerateNullableReferenceTypes -%}
-[return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull("value")]
-private string? ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
 {%              else -%}
 private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
     if (value == null)
     {
-        return null;
+        return "";
     }
 
     if (value is System.Enum)
@@ -26,7 +25,8 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
                 }
             }
 
-            return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            return converted == null ? string.Empty : converted;
         }
     }
     else if (value is bool) 
