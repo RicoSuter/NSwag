@@ -114,6 +114,12 @@
                                     </StackPanel>
                                 </GroupBox>
 
+                                <CheckBox IsChecked="{Binding Command.UseAbortSignal, Mode=TwoWay}" 
+                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch', Converter={StaticResource EqualityConverter}}"
+                                          Content="Use the AbortSignal (Fetch template only)"
+                                          ToolTip="UseAbortSignal"
+                                          Margin="0,0,0,12" />
+
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                         <LineBreak />
