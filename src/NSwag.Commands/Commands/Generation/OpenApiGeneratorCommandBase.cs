@@ -220,7 +220,7 @@ namespace NSwag.Commands.Generation
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
             JsonSerializerSettings serializerSettings;
             try
             {
@@ -278,12 +278,7 @@ namespace NSwag.Commands.Generation
             {
                 // Load configured startup type (obsolete)
                 var startupType = assemblyLoader.GetType(StartupType);
-
-#if NETCOREAPP1_0 || NETCOREAPP1_1
-                return new WebHostBuilder().UseStartup(startupType).Build();
-#else
                 return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
-#endif
             }
             else
             {
@@ -307,7 +302,7 @@ namespace NSwag.Commands.Generation
                     }
                     else
                     {
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
                         method =
                             programType.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
                             programType.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
@@ -336,11 +331,7 @@ namespace NSwag.Commands.Generation
                         throw new InvalidOperationException("The Startup class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
                     }
 
-#if NETCOREAPP1_0 || NETCOREAPP1_1
-                    return new WebHostBuilder().UseStartup(startupType).Build();
-#else
                     return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
-#endif
                 }
             }
         }

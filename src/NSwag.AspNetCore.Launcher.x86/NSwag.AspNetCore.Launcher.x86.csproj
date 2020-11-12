@@ -4,7 +4,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>13.8.2</Version>
+    <Version>13.9.0</Version>
     <Authors>Rico Suter</Authors>
     <Company>Rico Suter</Company>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
@@ -12,7 +12,7 @@
     <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
+    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
