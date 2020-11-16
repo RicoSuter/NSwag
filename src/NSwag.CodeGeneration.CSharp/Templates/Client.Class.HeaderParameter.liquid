@@ -1,5 +1,7 @@
 {% if parameter.IsStringArray -%}
 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
+{% elseif parameter.IsDateTime -%}
+request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {% else -%}
 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
 {% endif -%}
