@@ -44,5 +44,5 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
     }
 
     var result = System.Convert.ToString(value, cultureInfo);
-    return (result is null) ? string.Empty : result;
+    return result == null ? "" : result;
 }
