@@ -181,6 +181,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the API version.</summary>
         public string Version => _document.Info.Version;
 
+        /// <summary>Gets the extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _document.ExtensionData;
+
         private bool RequiresJsonExceptionConverter => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.InheritsSchema(_exceptionSchema) == true));
     }

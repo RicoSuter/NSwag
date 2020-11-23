@@ -45,6 +45,7 @@
     <EmbeddedResource Include="Templates\Client.Class.ConvertToString.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.QueryParameter.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.ReadObjectResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.Interface.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Annotations.liquid" />
