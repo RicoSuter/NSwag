@@ -73,13 +73,6 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.InjectHttpClient = value; }
         }
 
-        [Argument(Name = "InjectMethodHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected into method's.")]
-        public bool InjectMethodHttpClient
-        {
-            get { return Settings.InjectMethodHttpClient; }
-            set { Settings.InjectMethodHttpClient = value; }
-        }
-
         [Argument(Name = "DisposeHttpClient", IsRequired = false, Description = "Specifies whether to dispose the HttpClient (injected HttpClient is never disposed).")]
         public bool DisposeHttpClient
         {

@@ -52,9 +52,6 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client (default: true).</summary>
         public bool InjectHttpClient { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client methods.</summary>
-        public bool InjectMethodHttpClient { get; set; }
-
         /// <summary>Gets or sets a value indicating whether to dispose the HttpClient (injected HttpClient is never disposed, default: true).</summary>
         public bool DisposeHttpClient { get; set; }
 
