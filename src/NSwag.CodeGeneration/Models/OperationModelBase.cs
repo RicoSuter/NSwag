@@ -118,7 +118,7 @@ namespace NSwag.CodeGeneration.Models
 
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
                 var schemaHasTypeNameTitle = response.Value.Schema?.HasTypeNameTitle;
-                var hint = schemaHasTypeNameTitle.HasValue && !schemaHasTypeNameTitle.Value ? "Response" : null;
+                var hint = schemaHasTypeNameTitle != true ? "Response" : null;
                 return _generator.GetTypeName(response.Value.Schema, isNullable, hint);
             }
         }
