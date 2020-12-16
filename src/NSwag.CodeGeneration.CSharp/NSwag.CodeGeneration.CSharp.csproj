@@ -20,6 +20,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\Client.Class.Annotations.liquid" />
     <None Remove="Templates\Client.Class.BeforeSend.liquid" />
     <None Remove="Templates\Client.Class.Body.liquid" />
     <None Remove="Templates\Client.Class.Constructor.liquid" />
@@ -35,6 +36,7 @@
     <None Remove="Templates\Controller.Method.Annotations.liquid" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Client.Class.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.Constructor.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
