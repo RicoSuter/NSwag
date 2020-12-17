@@ -339,5 +339,13 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable; }
             set { Settings.CSharpGeneratorSettings.GenerateOptionalPropertiesAsNullable = value; }
         }
+
+        [Argument(Name = "GenerateNullableReferenceTypes", IsRequired = false, Description = "Specifies whether whether to " +
+            "generate Nullable Reference Type annotations (default: false).")]
+        public bool GenerateNullableReferenceTypes
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes; }
+            set { Settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes = value; }
+        }
     }
 }

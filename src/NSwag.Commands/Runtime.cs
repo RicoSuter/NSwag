@@ -20,15 +20,6 @@ namespace NSwag.Commands
         /// <summary>Full .NET framework, x86.</summary>
         WinX86,
 
-        /// <summary>.NET Core 1.0 app.</summary>
-        NetCore10,
-
-        /// <summary>.NET Core 1.1 app.</summary>
-        NetCore11,
-
-        /// <summary>.NET Core 2.0 app.</summary>
-        NetCore20,
-
         /// <summary>.NET Core 2.1 app.</summary>
         NetCore21,
 
@@ -40,6 +31,9 @@ namespace NSwag.Commands
 
         /// <summary>.NET Core 3.1 app.</summary>
         NetCore31,
+
+        /// <summary>.NET 5 app.</summary>
+        Net50,
 
         /// <summary>Execute in the same proces.</summary>
         Debug

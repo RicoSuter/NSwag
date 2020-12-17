@@ -21,6 +21,7 @@ using Namotion.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -47,7 +48,7 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings();
+            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
@@ -63,7 +64,7 @@ namespace NSwag.Generation.AspNetCore
             dynamic options = null;
             try
             {
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as dynamic)();
 #else
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
@@ -127,11 +128,31 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
         /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetSystemTextJsonSettings()
+        public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
             // contract resolver which reflects best the System.Text.Json behavior.
             // See https://github.com/RicoSuter/NSwag/issues/2243
+
+            if (serviceProvider != null)
+            {
+                try
+                {
+                    var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
+                    var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
+                   
+                    var options = serviceProvider?.GetService(optionsType) as dynamic;
+                    var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
+                    if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
+                    {
+                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                    }
+                }
+                catch
+                {
+                }
+            }
+
             return new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()

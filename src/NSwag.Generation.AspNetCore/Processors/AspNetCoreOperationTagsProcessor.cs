@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Namotion.Reflection;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -23,10 +24,12 @@ namespace NSwag.Generation.AspNetCore.Processors
             if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor descriptor)
             {
                 aspNetCoreContext.OperationDescription.Operation.Tags.Add(descriptor.ControllerName);
-                return;
+                SetDescription(context, descriptor.ControllerName, descriptor.ControllerTypeInfo.GetXmlDocsSummary());
             }
-
-            base.AddControllerNameTag(context);
+            else
+            {
+                base.AddControllerNameTag(context);
+            }
         }
     }
 }

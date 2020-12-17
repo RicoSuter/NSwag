@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ApiverseUiSettings.cs" company="NSwag">
+// <copyright file="ApimundoUiSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Http;
 namespace NSwag.AspNetCore
 {
     /// <summary>
-    /// The Apiverse.io UI settings.
+    /// The Apimundo UI settings.
     /// </summary>
-    public class ApiverseUiSettings : SwaggerUiSettingsBase
+    public class ApimundoUiSettings : SwaggerUiSettingsBase
     {
-        /// <summary>Initializes a new instance of the <see cref="ApiverseUiSettings"/> class.</summary>
-        public ApiverseUiSettings()
+        /// <summary>Initializes a new instance of the <see cref="ApimundoUiSettings"/> class.</summary>
+        public ApimundoUiSettings()
         {
             DocumentPath = "swagger/v1/swagger.json";
         }
@@ -27,9 +27,9 @@ namespace NSwag.AspNetCore
         public string CompareWith { get; set; }
 
         /// <summary>
-        /// Gets or sets the Apiverse.io instance URL.
+        /// Gets or sets the Apimundo instance URL.
         /// </summary>
-        public string ApiverseUrl { get; set; } = "https://apiverse.io";
+        public string ApimundoUrl { get; set; } = "https://apimundo.com";
 
         internal override string TransformHtml(string html, HttpRequest request)
         {

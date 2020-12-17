@@ -109,7 +109,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.RxJsVersion = value; }
         }
 
-        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'OffsetMomentJS', 'string').")]
+        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time type ('Date', 'MomentJS', 'Luxon', 'DayJS', 'OffsetMomentJS', 'string').")]
         public TypeScriptDateTimeType DateTimeType
         {
             get { return Settings.TypeScriptGeneratorSettings.DateTimeType; }
@@ -364,6 +364,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.QueryNullValue; }
             set { Settings.QueryNullValue = value; }
+        }
+
+        [Argument(Name = "UseAbortSignal", IsRequired = false, Description = "Specifies whether to use the AbortSignal (Fetch template only, default: false).")]
+        public bool UseAbortSignal
+        {
+            get { return Settings.UseAbortSignal; }
+            set { Settings.UseAbortSignal = value; }
         }
 
         [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
