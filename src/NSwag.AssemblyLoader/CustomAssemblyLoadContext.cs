@@ -26,7 +26,7 @@ namespace NSwag.AssemblyLoader
 
         internal Dictionary<string, Assembly> Assemblies { get; } = new Dictionary<string, Assembly>();
 
-        internal List<string> AllReferencePaths { get; set; }
+        internal List<string> AllReferencePaths { get; set; } = new List<string>();
 
         public Assembly Resolve(AssemblyName args)
         {

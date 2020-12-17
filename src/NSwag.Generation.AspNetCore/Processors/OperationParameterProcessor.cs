@@ -26,6 +26,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 {
     internal class OperationParameterProcessor : IOperationProcessor
     {
+        private const string MultipartFormData = "multipart/form-data";
+
         private readonly AspNetCoreOpenApiDocumentGeneratorSettings _settings;
 
         public OperationParameterProcessor(AspNetCoreOpenApiDocumentGeneratorSettings settings)
@@ -157,10 +159,17 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else if (apiParameter.Source == BindingSource.Form)
                 {
-                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
-                    operationParameter.Kind = OpenApiParameterKind.FormData;
-
-                    context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                    if (_settings.SchemaType == SchemaType.Swagger2)
+                    {
+                        operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
+                        operationParameter.Kind = OpenApiParameterKind.FormData;
+                        context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                    }
+                    else
+                    {
+                        var schema = CreateOrGetFormDataSchema(context);
+                        schema.Properties[extendedApiParameter.ApiParameter.Name] = CreateFormDataProperty(context, extendedApiParameter, schema);
+                    }
                 }
                 else
                 {
@@ -210,13 +219,20 @@ namespace NSwag.Generation.AspNetCore.Processors
                     operationDescription.Operation.RequestBody = new OpenApiRequestBody();
                 }
 
-                operationDescription.Operation.RequestBody.Content[bodyParameterAttribute.MimeType] = new OpenApiMediaType
+                var mimeTypes = ObjectExtensions.HasProperty(bodyParameterAttribute, "MimeType") ?
+                    new string[] { bodyParameterAttribute.MimeType } : bodyParameterAttribute.MimeTypes;
+
+                foreach (var mimeType in mimeTypes)
                 {
-                    Schema = bodyParameterAttribute.MimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                    operationDescription.Operation.RequestBody.Content[mimeType] = new OpenApiMediaType
                     {
-                        Type = JsonObjectType.File
-                    }
-                };
+                        Schema = mimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
+                        {
+                            Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                            Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                        }
+                    };
+                }
             }
         }
 
@@ -276,10 +292,55 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private void AddFileParameter(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
         {
-            var operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
-            InitializeFileParameter(operationParameter, isFileArray);
+            if (_settings.SchemaType == SchemaType.Swagger2)
+            {
+                var operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
+                operationParameter.Type = JsonObjectType.File;
+                operationParameter.Kind = OpenApiParameterKind.FormData;
 
-            context.OperationDescription.Operation.Parameters.Add(operationParameter);
+                if (isFileArray)
+                {
+                    operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
+                }
+
+                context.OperationDescription.Operation.Parameters.Add(operationParameter);
+            }
+            else
+            {
+                var schema = CreateOrGetFormDataSchema(context);
+                schema.Type = JsonObjectType.Object;
+                schema.Properties[extendedApiParameter.ApiParameter.Name] = CreateFormDataProperty(context, extendedApiParameter, schema);
+            }
+        }
+
+        private JsonSchema CreateOrGetFormDataSchema(OperationProcessorContext context)
+        {
+            if (context.OperationDescription.Operation.RequestBody == null)
+            {
+                context.OperationDescription.Operation.RequestBody = new OpenApiRequestBody();
+            }
+
+            var requestBody = context.OperationDescription.Operation.RequestBody;
+            if (!requestBody.Content.ContainsKey(MultipartFormData))
+            {
+                requestBody.Content[MultipartFormData] = new OpenApiMediaType
+                {
+                    Schema = new JsonSchema()
+                };
+            }
+
+            if (requestBody.Content[MultipartFormData].Schema == null)
+            {
+                requestBody.Content[MultipartFormData].Schema = new JsonSchema();
+            }
+
+            return requestBody.Content[MultipartFormData].Schema;
+        }
+
+        private static JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
+        {
+            return context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchemaProperty>(
+               extendedApiParameter.ApiParameter.Type.ToContextualType(extendedApiParameter.Attributes), context.SchemaResolver);
         }
 
         private bool IsFileArray(Type type, JsonTypeDescription typeInfo)
@@ -341,7 +402,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     Schema = new JsonSchema
                     {
                         Type = JsonObjectType.String,
-                        Format = JsonFormatStrings.Byte,
+                        Format = JsonFormatStrings.Binary,
                         IsNullableRaw = isNullable
                     },
                     IsNullableRaw = isNullable,
@@ -388,11 +449,22 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else if (operationParameter.Schema.HasReference)
                 {
-                    operationParameter.Schema = new JsonSchema
+                    if (_settings.AllowReferencesWithProperties)
                     {
-                        Default = defaultValue,
-                        OneOf = { operationParameter.Schema }
-                    };
+                        operationParameter.Schema = new JsonSchema
+                        {
+                            Default = defaultValue,
+                            Reference = operationParameter.Schema,
+                        };
+                    }
+                    else
+                    {
+                        operationParameter.Schema = new JsonSchema
+                        {
+                            Default = defaultValue,
+                            OneOf = { operationParameter.Schema },
+                        };
+                    }
                 }
                 else
                 {
@@ -402,17 +474,6 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             operationParameter.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
             return operationParameter;
-        }
-
-        private void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
-        {
-            operationParameter.Type = JsonObjectType.File;
-            operationParameter.Kind = OpenApiParameterKind.FormData;
-
-            if (isFileArray)
-            {
-                operationParameter.CollectionFormat = OpenApiParameterCollectionFormat.Multi;
-            }
         }
 
         private class ExtendedApiParameterDescription

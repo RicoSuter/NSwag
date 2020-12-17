@@ -26,9 +26,16 @@
                 <MenuItem Header="_Close" InputGestureText="Ctrl-W"
                           Command="{Binding CloseDocumentCommand}"
                           CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="Close A_ll" InputGestureText="Ctrl+Shift-W"
+                          Command="{Binding CloseAllDocumentsCommand}"
+                          CommandParameter="{Binding Documents}" />
                 <MenuItem Header="_Save" InputGestureText="Ctrl-S"
-                          Command="{Binding SaveDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
-                <MenuItem Header="Save As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
+                          Command="{Binding SaveDocumentCommand}"
+                          CommandParameter="{Binding SelectedDocument}" />
+                <MenuItem Header="Save _All" InputGestureText="Ctrl+Shift-S"
+                          Command="{Binding SaveAllDocumentsCommand}"
+                          CommandParameter="{Binding Documents}" />
+                <MenuItem Header="Save _As" Command="{Binding SaveAsDocumentCommand}" CommandParameter="{Binding SelectedDocument}" />
             </MenuItem>
         </Menu>
 

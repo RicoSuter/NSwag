@@ -114,6 +114,12 @@
                                     </StackPanel>
                                 </GroupBox>
 
+                                <CheckBox IsChecked="{Binding Command.UseAbortSignal, Mode=TwoWay}" 
+                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch', Converter={StaticResource EqualityConverter}}"
+                                          Content="Use the AbortSignal (Fetch template only)"
+                                          ToolTip="UseAbortSignal"
+                                          Margin="0,0,0,12" />
+
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                         <LineBreak />
@@ -219,7 +225,7 @@
                                           ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Enum Style" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.EnumStyles, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.EnumStyle, Mode=TwoWay}" 
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding EnumStyles}" Margin="0,0,0,12" />
 
@@ -255,7 +261,7 @@
                                           Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
-                                          Content="Import required types (e.g. Angular types, Moment.js, JQuery, etc.)"
+                                          Content="Import required types (e.g. Angular types, Moment.js, DayJS, JQuery, etc.)"
                                           ToolTip="ImportRequiredTypes"
                                           Margin="0,0,0,12" />
 
@@ -336,6 +342,9 @@
                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
                                             ToolTip="Output"
                                             Margin="0,0,0,12" />
+
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

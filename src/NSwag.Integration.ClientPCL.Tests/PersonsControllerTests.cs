@@ -97,7 +97,7 @@ namespace NSwag.Integration.ClientPCL.Tests
 
             //// Act
             var stream = new MemoryStream(new byte[] { 1, 2, 3 });
-            var result = await personsClient.UploadAsync(stream);
+            var result = await personsClient.UploadAsync(new FileParameter(stream));
 
             //// Assert
             Assert.AreEqual(3, result.Result.Length);

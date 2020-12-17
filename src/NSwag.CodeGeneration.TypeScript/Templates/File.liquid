@@ -44,7 +44,7 @@ import * as ng from 'angular';
 {%         endif -%}
 {%         if Framework.IsAxios -%}
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 {%         endif -%}
 {%         if Framework.IsKnockout -%}
 
@@ -61,6 +61,10 @@ import * as moment from 'moment';
 {%         if RequiresMomentJSDuration -%}
 import 'moment-duration-format';
 {%         endif -%}
+{%     endif -%}
+{%     if Framework.UseDayJS -%}
+
+import * as dayjs from 'dayjs';
 {%     endif -%}
 {% endif -%}
 

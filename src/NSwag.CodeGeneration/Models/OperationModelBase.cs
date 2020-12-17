@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.Schema, isNullable, !response.Value.Schema.HasTypeNameTitle ? "Response" : null);
+                return _generator.GetTypeName(response.Value.Schema, isNullable, response.Value.Schema?.HasTypeNameTitle != true ? "Response" : null);
             }
         }
 
@@ -206,7 +206,7 @@ namespace NSwag.CodeGeneration.Models
         public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
 
         /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
-        public bool HasFormParameters => _operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.FormData);
+        public bool HasFormParameters => Parameters.Any(p => p.Kind == OpenApiParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesFormUrlEncoded =>
@@ -229,10 +229,10 @@ namespace NSwag.CodeGeneration.Models
         public bool IsDeprecated => _operation.IsDeprecated;
 
         /// <summary>Gets or sets a value indicating whether this operation has an XML body parameter.</summary>
-        public bool HasXmlBodyParameter => _operation.ActualParameters.Any(p => p.IsXmlBodyParameter);
+        public bool HasXmlBodyParameter => Parameters.Any(p => p.IsXmlBodyParameter);
 
         /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
-        public bool HasBinaryBodyParameter => _operation.ActualParameters.Any(p => p.IsBinaryBodyParameter);
+        public bool HasBinaryBodyParameter => Parameters.Any(p => p.IsBinaryBodyParameter);
 
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
@@ -267,7 +267,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.Schema?.ActualSchema.IsBinary == true); // TODO: Use response.IsBinary directly
+        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.IsBinary(_operation));
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -331,9 +331,31 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The parameters.</returns>
         protected IList<OpenApiParameter> GetActualParameters()
         {
-            return _operation.ActualParameters
+            var parameters = _operation.ActualParameters
                 .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
                 .ToList();
+
+            var formDataSchema =
+                _operation?.RequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
+                _operation.RequestBody.Content["multipart/form-data"]?.Schema : null;
+
+            if (formDataSchema != null && formDataSchema.ActualProperties.Count > 0)
+            {
+                var formDataProperties = formDataSchema.ActualProperties.ToList();
+                return parameters.Where(p => !p.IsBinaryBodyParameter).Concat(formDataProperties.Select((p, i) => new OpenApiParameter
+                {
+                    Name = p.Key,
+                    Kind = OpenApiParameterKind.FormData,
+                    Schema = p.Value,
+                    CollectionFormat = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ?
+                        OpenApiParameterCollectionFormat.Multi : OpenApiParameterCollectionFormat.Undefined,
+                    //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,
+                    //Schema = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? p.Value.Item : p.Value,
+                    Position = parameters.Count + 100 + i
+                })).ToList();
+            }
+
+            return parameters;
         }
     }
 };

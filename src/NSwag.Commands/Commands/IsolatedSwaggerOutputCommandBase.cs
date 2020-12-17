@@ -39,6 +39,10 @@ namespace NSwag.Commands
             set { Settings.SchemaType = value; }
         }
 
+        [Argument(Name = "NewLineBehavior", IsRequired = false, Description = "The new line behavior (Auto (OS default), CRLF, LF).")]
+        [JsonProperty("newLineBehavior", NullValueHandling = NullValueHandling.Include)]
+        public NewLineBehavior NewLineBehavior { get; set; } = NewLineBehavior.Auto;
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) =>
@@ -46,7 +50,7 @@ namespace NSwag.Commands
 
             var documentJson = await RunIsolatedAsync((string)null);
             var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
-            await this.TryWriteDocumentOutputAsync(host, () => document).ConfigureAwait(false);
+            await this.TryWriteDocumentOutputAsync(host, NewLineBehavior, () => document).ConfigureAwait(false);
             return document;
         }
 

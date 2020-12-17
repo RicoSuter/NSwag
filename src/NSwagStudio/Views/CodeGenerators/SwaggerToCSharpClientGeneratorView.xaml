@@ -286,6 +286,9 @@
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
+
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
