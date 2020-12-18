@@ -120,5 +120,62 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("System.Threading.Tasks.Task<object>", code);
             Assert.Contains("class BusinessException", code);
         }
+
+        [Fact]
+        public async Task When_same_response_is_referenced_multiple_times_in_operation_then_class_is_generated()
+        {
+            string json = @"{
+  ""openapi"": ""3.0.0"",
+  ""paths"": {
+    ""/v1/exceptions/get"": {
+      ""get"": {
+        ""operationId"": ""Exceptions_GetException"",
+        ""responses"": {
+          ""200"": {
+            ""$ref"": ""#/components/responses/BusinessExceptionResponse"",
+            },
+          ""400"": {
+            ""$ref"": ""#/components/responses/BusinessExceptionResponse"",
+          }
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""schemas"": {
+      ""BusinessException"": {
+        ""type"": ""object"",
+        ""additionalProperties"": false
+      }
+    },
+    ""responses"": {
+      ""BusinessExceptionResponse"": {
+        ""description"": ""List of NSwagStudio bugs"",
+        ""content"": {
+          ""application/json"": {
+            ""schema"": {
+              ""type"": ""array"",
+              ""items"": {
+                ""$ref"": ""#/components/schemas/BusinessException""
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            //// Act
+            Assert.Contains("System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BusinessException>>", code);
+            Assert.Contains("class BusinessException", code);
+        }
     }
 }

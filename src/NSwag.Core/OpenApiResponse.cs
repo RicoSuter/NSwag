@@ -120,7 +120,7 @@ namespace NSwag
         /// <returns>The result.</returns>
         public bool IsBinary(OpenApiOperation operation)
         {
-            if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
+            if (operation.ActualResponses.Any(r => r.Value == this && r.Key != "204"))
             {
                 if (ActualResponse.Content.Any())
                 {
