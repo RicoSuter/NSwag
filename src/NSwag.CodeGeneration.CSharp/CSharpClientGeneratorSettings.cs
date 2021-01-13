@@ -94,6 +94,13 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods.
+        /// If value is set to true, PrepareRequestAsync and ProcessResponseAsync methods must be implemented as part of the client base class (if it has one) or as part of the partial client class.
+        /// If value is set to false, PrepareRequest and ProcessResponse methods will be partial methods, and implement them is optional.
+        /// </summary>
+        public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generate different request and response serialization settings (default: false).</summary>
         public bool UseRequestAndResponseSerializationSettings { get; set; }
 
