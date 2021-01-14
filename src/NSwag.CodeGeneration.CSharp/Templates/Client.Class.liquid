@@ -84,7 +84,7 @@
 {% endif -%}
 
    
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
@@ -265,7 +265,7 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
                 await PrepareRequestAsync(client_, request_, urlBuilder_);
 {% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
@@ -274,7 +274,7 @@
                 var url_ = urlBuilder_.ToString();
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
                 await PrepareRequestAsync(client_, request_, url_);
 {% else -%}
                 PrepareRequest(client_, request_, url_);
@@ -292,7 +292,7 @@
                             headers_[item_.Key] = item_.Value;
                     }
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
                     await ProcessResponseAsync(client_, response_);
 {% else -%}
                     ProcessResponse(client_, response_);
