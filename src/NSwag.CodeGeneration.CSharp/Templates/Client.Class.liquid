@@ -265,7 +265,7 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == true %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                 await PrepareRequestAsync(client_, request_, urlBuilder_);
 {% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
@@ -274,7 +274,7 @@
                 var url_ = urlBuilder_.ToString();
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == true %}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                 await PrepareRequestAsync(client_, request_, url_);
 {% else -%}
                 PrepareRequest(client_, request_, url_);
