@@ -59,6 +59,8 @@ else
 {%                 endif -%}
 {%             elseif parameter.IsDateOrDateTime -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
+{%             elseif parameter.IsArray -%}
+    {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.toString());
 {%             else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
 {%             endif -%}
