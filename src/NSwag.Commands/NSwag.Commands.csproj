@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;net5.0;net461</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.10.0</Version>
+    <Version>13.10.1</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -64,11 +64,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="NJsonSchema" Version="10.3.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.3.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.3.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.3.2" />
-    <PackageReference Include="NJsonSchema.Yaml" Version="10.3.2" />
+    <PackageReference Include="NJsonSchema" Version="10.3.3" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.3.3" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.3.3" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.3.3" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="10.3.3" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="Microsoft.CSharp" />
