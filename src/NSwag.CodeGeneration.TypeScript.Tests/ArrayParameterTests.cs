@@ -141,7 +141,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             //// Assert
             Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("arrayOfIds.forEach(item_ => content_.append(\"arrayOfIds\", item_.toString());", code);
+            Assert.Contains("arrayOfIds.forEach(item_ => content_.append(\"arrayOfIds\", item_.toString()));", code);
         }
     }
 }
