@@ -146,6 +146,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
         public string QueryNullValue => _settings.QueryNullValue;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods.
+        /// If value is set to true, PrepareRequestAsync and ProcessResponseAsync methods must be implemented as part of the client base class (if it has one) or as part of the partial client class.
+        /// If value is set to false, PrepareRequest and ProcessResponse methods will be partial methods, and implement them is optional.
+        /// </summary>
+        public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods => _settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {

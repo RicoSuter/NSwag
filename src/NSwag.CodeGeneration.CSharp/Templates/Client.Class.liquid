@@ -82,10 +82,13 @@
     partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
 {%     endif -%}
 {% endif -%}
+
+   
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
-
+{% endif -%}
 {% for operation in Operations -%}
 {%     if GenerateOptionalParameters == false -%}
     {% template Client.Method.Documentation %}
@@ -262,10 +265,20 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+                await PrepareRequestAsync(client_, request_, urlBuilder_);
+{% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
+{% endif -%}
+                
                 var url_ = urlBuilder_.ToString();
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+                await PrepareRequestAsync(client_, request_, url_);
+{% else -%}
                 PrepareRequest(client_, request_, url_);
+{% endif -%}
 
                 {% template Client.Class.BeforeSend %}
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
@@ -279,7 +292,11 @@
                             headers_[item_.Key] = item_.Value;
                     }
 
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+                    await ProcessResponseAsync(client_, response_);
+{% else -%}
                     ProcessResponse(client_, response_);
+{% endif -%}
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
