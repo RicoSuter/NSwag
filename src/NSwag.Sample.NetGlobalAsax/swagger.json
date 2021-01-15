@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v11.0.0.0))",
+  "x-generator": "NSwag v13.10.0.0 (NJsonSchema v10.3.2.0 (Newtonsoft.Json v11.0.0.0))",
   "swagger": "2.0",
   "info": {
     "title": "My Title",
@@ -40,7 +40,6 @@
           {
             "name": "value",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "string"
             },
@@ -97,7 +96,6 @@
           {
             "name": "value",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "string"
             },

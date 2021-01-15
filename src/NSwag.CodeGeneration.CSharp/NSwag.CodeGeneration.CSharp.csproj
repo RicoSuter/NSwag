@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.9.4</Version>
+    <Version>13.10.0</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,6 +20,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Templates\Client.Class.Annotations.liquid" />
     <None Remove="Templates\Client.Class.BeforeSend.liquid" />
     <None Remove="Templates\Client.Class.Body.liquid" />
     <None Remove="Templates\Client.Class.Constructor.liquid" />
@@ -35,6 +36,7 @@
     <None Remove="Templates\Controller.Method.Annotations.liquid" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Client.Class.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.Constructor.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
@@ -45,6 +47,7 @@
     <EmbeddedResource Include="Templates\Client.Class.ConvertToString.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.QueryParameter.liquid" />
     <EmbeddedResource Include="Templates\Client.Class.ReadObjectResponse.liquid" />
+    <EmbeddedResource Include="Templates\Client.Interface.Annotations.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
     <EmbeddedResource Include="Templates\Client.Interface.liquid" />
     <EmbeddedResource Include="Templates\Client.Method.Annotations.liquid" />
@@ -67,6 +70,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.3.1" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.3.2" />
   </ItemGroup>
 </Project>

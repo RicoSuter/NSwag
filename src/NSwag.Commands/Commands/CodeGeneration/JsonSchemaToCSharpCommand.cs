@@ -103,6 +103,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateNullableReferenceTypes = value; }
         }
 
+        [Argument(Name = "InlineNamedArrays", IsRequired = false, Description = "Specifies whether whether named/referenced arrays should be inlined " +
+            "or generated as class with array inheritance. (default: false).")]
+        public bool InlineNamedArrays
+        {
+            get { return Settings.InlineNamedArrays; }
+            set { Settings.InlineNamedArrays = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var schema = await GetJsonSchemaAsync().ConfigureAwait(false);

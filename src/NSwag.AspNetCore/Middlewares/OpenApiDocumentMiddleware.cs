@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,8 +29,8 @@ namespace NSwag.AspNetCore.Middlewares
 
         private int _version;
         private readonly object _documentsCacheLock = new object();
-        private readonly Dictionary<string, Tuple<string, Exception, DateTimeOffset>> _documentsCache
-            = new Dictionary<string, Tuple<string, Exception, DateTimeOffset>>();
+        private readonly Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>> _documentsCache
+            = new Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>>();
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
@@ -77,7 +78,7 @@ namespace NSwag.AspNetCore.Middlewares
         {
             var documentKey = _settings.CreateDocumentCacheKey?.Invoke(context.Request) ?? string.Empty;
 
-            Tuple<string, Exception, DateTimeOffset> document;
+            Tuple<string, ExceptionDispatchInfo, DateTimeOffset> document;
             lock (_documentsCacheLock)
             {
                 _documentsCache.TryGetValue(documentKey, out document);
@@ -86,7 +87,7 @@ namespace NSwag.AspNetCore.Middlewares
             if (document?.Item2 != null &&
                 document.Item3 + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
             {
-                throw document.Item2;
+                document.Item2.Throw();
             }
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
@@ -103,7 +104,7 @@ namespace NSwag.AspNetCore.Middlewares
 
                 lock (_documentsCacheLock)
                 {
-                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
+                    _documentsCache[documentKey] = new Tuple<string, ExceptionDispatchInfo, DateTimeOffset>(
                         json, null, DateTimeOffset.UtcNow);
                 }
 
@@ -113,8 +114,8 @@ namespace NSwag.AspNetCore.Middlewares
             {
                 lock (_documentsCacheLock)
                 {
-                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
-                        null, exception, DateTimeOffset.UtcNow);
+                    _documentsCache[documentKey] = new Tuple<string, ExceptionDispatchInfo, DateTimeOffset>(
+                        null, ExceptionDispatchInfo.Capture(exception), DateTimeOffset.UtcNow);
                 }
 
                 throw;
