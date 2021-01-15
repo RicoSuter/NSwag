@@ -128,6 +128,10 @@
                                           Content="Generate synchronous methods (not recommended)" 
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.GeneratePrepareRequestAndProcessResponseAsAsyncMethods, Mode=TwoWay}" 
+                                          Content="Generate PrepareRequest and ProcessResponse as asynchronous methods (if selected, methods must be defined in the base class or in the partial class)" 
+                                          ToolTip="GeneratePrepareRequestAndProcessResponseAsAsyncMethods" Margin="0,0,0,12" />
+
                                 <CheckBox IsChecked="{Binding Command.ExposeJsonSerializerSettings, Mode=TwoWay}" 
                                           Content="Expose the JsonSerializerSettings property" 
                                           ToolTip="ExposeJsonSerializerSettings" Margin="0,0,0,12" />

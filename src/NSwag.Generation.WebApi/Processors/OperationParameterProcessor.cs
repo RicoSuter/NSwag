@@ -345,7 +345,8 @@ namespace NSwag.Generation.WebApi.Processors
             OpenApiParameter operationParameter;
 
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
-            var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
+            var isRequired = _settings.AllowNullableBodyParameters == false || contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
+            var isNullable = _settings.AllowNullableBodyParameters && (typeDescription.IsNullable && !isRequired);
 
             var operation = context.OperationDescription.Operation;
             if (contextualParameter.TypeName == "XmlDocument" || contextualParameter.Type.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
@@ -361,7 +362,7 @@ namespace NSwag.Generation.WebApi.Processors
                         IsNullableRaw = isNullable
                     },
                     IsNullableRaw = isNullable,
-                    IsRequired = contextualParameter.ParameterInfo.HasDefaultValue == false,
+                    IsRequired = isRequired,
                     Description = contextualParameter.GetDescription()
                 };
                 operation.Parameters.Add(operationParameter);
@@ -380,7 +381,7 @@ namespace NSwag.Generation.WebApi.Processors
                         IsNullableRaw = isNullable
                     },
                     IsNullableRaw = isNullable,
-                    IsRequired = contextualParameter.ParameterInfo.HasDefaultValue == false,
+                    IsRequired = isRequired,
                     Description = contextualParameter.GetDescription()
                 };
                 operation.Parameters.Add(operationParameter);
@@ -391,7 +392,7 @@ namespace NSwag.Generation.WebApi.Processors
                 {
                     Name = name,
                     Kind = OpenApiParameterKind.Body,
-                    IsRequired = true, // FromBody parameters are always required
+                    IsRequired = isRequired,
                     IsNullableRaw = isNullable,
                     Description = contextualParameter.GetDescription(),
                     Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(

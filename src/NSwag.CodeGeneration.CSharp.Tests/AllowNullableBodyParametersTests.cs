@@ -18,7 +18,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.False(HasGuardForBodyIsNull(code));
+            Assert.Contains("throw new System.ArgumentNullException(\"requiredBody\")", code);
+            Assert.DoesNotContain("throw new System.ArgumentNullException(\"notRequiredBody\")", code);
         }
 
         [Fact]
@@ -31,7 +32,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             //// Assert
-            Assert.True(HasGuardForBodyIsNull(code));
+            Assert.Contains("throw new System.ArgumentNullException(\"requiredBody\")", code);
+            Assert.Contains("throw new System.ArgumentNullException(\"notRequiredBody\")", code);
         }
 
         private static async Task<CSharpClientGenerator> GenerateCode(bool allowNullableBodyParameters)
@@ -51,15 +53,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             return generator;
         }
 
-        private static bool HasGuardForBodyIsNull(string code)
-        {
-            return code.Contains("throw new System.ArgumentNullException");
-        }
-
         public class TestController : Controller
         {
             [Route("Foo")]
-            public string Foo([FromBody] [Required] T requiredBody)
+            public string Foo([FromBody][Required] T requiredBody)
             {
                 return string.Empty;
             }

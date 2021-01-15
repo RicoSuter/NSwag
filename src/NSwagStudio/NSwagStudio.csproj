@@ -87,8 +87,8 @@
     <Reference Include="MyToolkit.Extended, Version=2.5.16.0, Culture=neutral, PublicKeyToken=3e349a1360994d26, processorArchitecture=MSIL">
       <HintPath>..\packages\MyToolkit.Extended.2.5.16\lib\net45\MyToolkit.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="Namotion.Reflection, Version=1.0.14.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\Namotion.Reflection.1.0.14\lib\net45\Namotion.Reflection.dll</HintPath>
+    <Reference Include="Namotion.Reflection, Version=1.0.15.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\Namotion.Reflection.1.0.15\lib\net45\Namotion.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="NConsole, Version=3.9.6519.30868, Culture=neutral, PublicKeyToken=0f839b9a5b9cbd65, processorArchitecture=MSIL">
       <HintPath>..\packages\NConsole.3.9.6519.30868\lib\net45\NConsole.dll</HintPath>
@@ -96,17 +96,17 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema, Version=10.3.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.10.3.1\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=10.3.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.10.3.2\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration, Version=10.3.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.10.3.1\lib\net451\NJsonSchema.CodeGeneration.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration, Version=10.3.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.10.3.2\lib\net451\NJsonSchema.CodeGeneration.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=10.3.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.10.3.1\lib\net451\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.CSharp, Version=10.3.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.CSharp.10.3.2\lib\net451\NJsonSchema.CodeGeneration.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=10.3.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.10.3.1\lib\net451\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
+    <Reference Include="NJsonSchema.CodeGeneration.TypeScript, Version=10.3.2.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\packages\NJsonSchema.CodeGeneration.TypeScript.10.3.2\lib\net451\NJsonSchema.CodeGeneration.TypeScript.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
