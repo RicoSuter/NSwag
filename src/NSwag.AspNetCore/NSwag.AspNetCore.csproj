@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net451;netstandard1.6;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.10.1</Version>
+    <Version>13.10.2</Version>
     <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -18,8 +18,8 @@
     <!-- Execute PopulateNuspec fairly late. -->
     <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);PopulateNuspec</GenerateNuspecDependsOn>
 
-    <MicrosoftAspNetCoreMvcCorePackageVersion>1.0.4</MicrosoftAspNetCoreMvcCorePackageVersion>
-    <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.4</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
+    <MicrosoftAspNetCoreMvcCorePackageVersion>1.0.6</MicrosoftAspNetCoreMvcCorePackageVersion>
+    <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.6</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
     <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.4</MicrosoftAspNetCoreStaticFilesPackageVersion>
     <MicrosoftExtensionsApiDescriptionServerPackageVersion>3.0.0</MicrosoftExtensionsApiDescriptionServerPackageVersion>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>1.0.1</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
