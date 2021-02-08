@@ -249,7 +249,6 @@
                         content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
                     content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                         endif -%}
-
 {%                      elseif parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
                     {
