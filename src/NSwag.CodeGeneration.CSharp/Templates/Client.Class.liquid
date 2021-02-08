@@ -249,6 +249,13 @@
                         content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
                     content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                         endif -%}
+{%                     elseif parameter.IsArray -%}
+                    foreach (var item_ in {{ parameter.VariableName }})
+                    {
+                        content_.Add(new System.Net.Http.StringContent(item_), "{{ parameter.Name }}");
+                    }
+{%                     elseif parameter.IsObject -%}
+                    content_.Add(new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ parameter.VariableName }})), "{{ parameter.Name }}");
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
