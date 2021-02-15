@@ -36,13 +36,26 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.Namespace = value; }
         }
 
-        [Argument(Name = "RequiredPropertiesMustBeDefined",
-                  Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).",
-                  IsRequired = false)]
+        [Argument(Name = "RequiredPropertiesMustBeDefined", IsRequired = false,
+                  Description = "Specifies whether a required property must be defined in JSON (sets Required.Always when the property is required).")]
         public bool RequiredPropertiesMustBeDefined
         {
             get { return Settings.RequiredPropertiesMustBeDefined; }
             set { Settings.RequiredPropertiesMustBeDefined = value; }
+        }
+
+        [Argument(Name = "DateType", IsRequired = false, Description = "The date .NET type (default: 'DateTimeOffset').")]
+        public string DateType
+        {
+            get { return Settings.DateType; }
+            set { Settings.DateType = value; }
+        }
+
+        [Argument(Name = "JsonConverters", IsRequired = false, Description = "Specifies the custom Json.NET converter types (optional, comma separated).")]
+        public string[] JsonConverters
+        {
+            get { return Settings.JsonConverters; }
+            set { Settings.JsonConverters = value; }
         }
 
         [Argument(Name = "AnyType", IsRequired = false, Description = "The any .NET type (default: 'object').")]
@@ -52,14 +65,28 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.AnyType = value; }
         }
 
-        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTime').")]
+        [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTimeOffset').")]
         public string DateTimeType
         {
             get { return Settings.DateTimeType; }
             set { Settings.DateTimeType = value; }
         }
 
-        [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ObservableCollection').")]
+        [Argument(Name = "TimeType", IsRequired = false, Description = "The time .NET type (default: 'TimeSpan').")]
+        public string TimeType
+        {
+            get { return Settings.TimeType; }
+            set { Settings.TimeType = value; }
+        }
+
+        [Argument(Name = "TimeSpanType", IsRequired = false, Description = "The time span .NET type (default: 'TimeSpan').")]
+        public string TimeSpanType
+        {
+            get { return Settings.TimeSpanType; }
+            set { Settings.TimeSpanType = value; }
+        }
+
+        [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ICollection').")]
         public string ArrayType
         {
             get { return Settings.ArrayType; }
@@ -73,7 +100,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ArrayInstanceType = value; }
         }
 
-        [Argument(Name = "DictionaryType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'Dictionary').")]
+        [Argument(Name = "DictionaryType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'IDictionary').")]
         public string DictionaryType
         {
             get { return Settings.DictionaryType; }
@@ -85,6 +112,114 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.DictionaryInstanceType; }
             set { Settings.DictionaryInstanceType = value; }
+        }
+
+        [Argument(Name = "ArrayBaseType", IsRequired = false, Description = "The generic array .NET type (default: 'Collection').")]
+        public string ArrayBaseType
+        {
+            get { return Settings.ArrayBaseType; }
+            set { Settings.ArrayBaseType = value; }
+        }
+
+        [Argument(Name = "DictionaryBaseType", IsRequired = false, Description = "The generic dictionary .NET type (default: 'Dictionary').")]
+        public string DictionaryBaseType
+        {
+            get { return Settings.DictionaryBaseType; }
+            set { Settings.DictionaryBaseType = value; }
+        }
+
+        [Argument(Name = "ClassStyle", IsRequired = false, Description = "The CSharp class style, 'Poco' or 'Inpc' (default: 'Poco').")]
+        public CSharpClassStyle ClassStyle
+        {
+            get { return Settings.ClassStyle; }
+            set { Settings.ClassStyle = value; }
+        }
+
+        [Argument(Name = "JsonLibrary", IsRequired = false, Description = "The CSharp JSON library, 'NewtonsoftJson' or 'SystemTextJson' (default: 'NewtonsoftJson', 'SystemTextJson' is experimental).")]
+        public CSharpJsonLibrary JsonLibrary
+        {
+            get { return Settings.JsonLibrary; }
+            set { Settings.JsonLibrary = value; }
+        }
+
+        [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
+        public bool GenerateDefaultValues
+        {
+            get { return Settings.GenerateDefaultValues; }
+            set { Settings.GenerateDefaultValues = value; }
+        }
+
+        [Argument(Name = "GenerateDataAnnotations", IsRequired = false, Description = "Specifies whether to generate data annotation attributes on DTO classes (default: true).")]
+        public bool GenerateDataAnnotations
+        {
+            get { return Settings.GenerateDataAnnotations; }
+            set { Settings.GenerateDataAnnotations = value; }
+        }
+
+        [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded DTO type names (must be defined in an import or other namespace).")]
+        public string[] ExcludedTypeNames
+        {
+            get { return Settings.ExcludedTypeNames; }
+            set { Settings.ExcludedTypeNames = value; }
+        }
+
+        [Argument(Name = "HandleReferences", IsRequired = false, Description = "Use preserve references handling (All) in the JSON serializer (default: false).")]
+        public bool HandleReferences
+        {
+            get { return Settings.HandleReferences; }
+            set { Settings.HandleReferences = value; }
+        }
+
+        [Argument(Name = "GenerateImmutableArrayProperties", IsRequired = false,
+                  Description = "Specifies whether to remove the setter for non-nullable array properties (default: false).")]
+        public bool GenerateImmutableArrayProperties
+        {
+            get { return Settings.GenerateImmutableArrayProperties; }
+            set { Settings.GenerateImmutableArrayProperties = value; }
+        }
+
+        [Argument(Name = "GenerateImmutableDictionaryProperties", IsRequired = false,
+                  Description = "Specifies whether to remove the setter for non-nullable dictionary properties (default: false).")]
+        public bool GenerateImmutableDictionaryProperties
+        {
+            get { return Settings.GenerateImmutableDictionaryProperties; }
+            set { Settings.GenerateImmutableDictionaryProperties = value; }
+        }
+
+        [Argument(Name = "JsonSerializerSettingsTransformationMethod", IsRequired = false,
+            Description = "The name of a static method which is called to transform the JsonSerializerSettings used in the generated ToJson()/FromJson() methods (default: none).")]
+        public string JsonSerializerSettingsTransformationMethod
+        {
+            get { return Settings.JsonSerializerSettingsTransformationMethod; }
+            set { Settings.JsonSerializerSettingsTransformationMethod = value; }
+        }
+
+        [Argument(Name = "InlineNamedArrays", Description = "Inline named arrays (default: false).", IsRequired = false)]
+        public bool InlineNamedArrays
+        {
+            get { return Settings.InlineNamedArrays; }
+            set { Settings.InlineNamedArrays = value; }
+        }
+
+        [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]
+        public bool InlineNamedDictionaries
+        {
+            get { return Settings.InlineNamedDictionaries; }
+            set { Settings.InlineNamedDictionaries = value; }
+        }
+
+        [Argument(Name = "InlineNamedTuples", Description = "Inline named tuples (default: true).", IsRequired = false)]
+        public bool InlineNamedTuples
+        {
+            get { return Settings.InlineNamedTuples; }
+            set { Settings.InlineNamedTuples = value; }
+        }
+
+        [Argument(Name = "InlineNamedAny", Description = "Inline named any types (default: false).", IsRequired = false)]
+        public bool InlineNamedAny
+        {
+            get { return Settings.InlineNamedAny; }
+            set { Settings.InlineNamedAny = value; }
         }
 
         [Argument(Name = "GenerateOptionalPropertiesAsNullable", IsRequired = false, Description = "Specifies whether optional schema properties " +
@@ -101,14 +236,6 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.GenerateNullableReferenceTypes; }
             set { Settings.GenerateNullableReferenceTypes = value; }
-        }
-
-        [Argument(Name = "InlineNamedArrays", IsRequired = false, Description = "Specifies whether whether named/referenced arrays should be inlined " +
-            "or generated as class with array inheritance. (default: false).")]
-        public bool InlineNamedArrays
-        {
-            get { return Settings.InlineNamedArrays; }
-            set { Settings.InlineNamedArrays = value; }
         }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
