@@ -40,6 +40,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (CSharpClassStyle)Enum.Parse(typeof(CSharpClassStyle), t))
             .ToArray();
 
+        /// <summary>Gets the list of JSON libraries. </summary>
+        public CSharpJsonLibrary[] JsonLibraries { get; } = Enum.GetNames(typeof(CSharpJsonLibrary))
+            .Select(t => (CSharpJsonLibrary)Enum.Parse(typeof(CSharpJsonLibrary), t))
+            .ToArray();
+
         /// <summary>Gets new line behaviors. </summary>
         public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
             .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))
