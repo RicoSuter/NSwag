@@ -47,8 +47,8 @@ namespace NSwag.Sample.NETCore31
                 endpoints.MapControllers();
             });
 
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
+            app.UseOpenApi(p => p.Path = "/swagger/{documentName}/swagger.yaml");
+            app.UseSwaggerUi3(p => p.DocumentPath = "/swagger/{documentName}/swagger.yaml");
             //app.UseApimundo();
             app.UseApimundo(settings =>
             {
