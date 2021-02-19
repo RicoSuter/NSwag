@@ -9,6 +9,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
+using Namotion.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
@@ -106,6 +107,9 @@ namespace NSwag.AspNetCore.Middlewares
                 var data = _path.ToLowerInvariant().Contains(".yaml") ?
                     OpenApiYamlDocument.ToYaml(openApiDocument) :
                     openApiDocument.ToJson();
+
+                XmlDocs.ClearCache();
+                CachedType.ClearCache();
 
                 _version = apiDescriptionGroups.Version;
 
