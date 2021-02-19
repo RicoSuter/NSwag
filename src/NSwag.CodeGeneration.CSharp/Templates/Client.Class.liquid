@@ -273,7 +273,7 @@
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                await PrepareRequestAsync(client_, request_, urlBuilder_);
+                await PrepareRequestAsync(client_, request_, urlBuilder_).ConfigureAwait(false);
 {% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
 {% endif -%}
@@ -282,7 +282,7 @@
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                await PrepareRequestAsync(client_, request_, url_);
+                await PrepareRequestAsync(client_, request_, url_).ConfigureAwait(false);
 {% else -%}
                 PrepareRequest(client_, request_, url_);
 {% endif -%}
@@ -300,7 +300,7 @@
                     }
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                    await ProcessResponseAsync(client_, response_);
+                    await ProcessResponseAsync(client_, response_).ConfigureAwait(false);
 {% else -%}
                     ProcessResponse(client_, response_);
 {% endif -%}
