@@ -39,10 +39,14 @@ namespace NSwag
         [JsonProperty(PropertyName = "server", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public OpenApiServer Server { get; set; }
 
+        /// <summary>Gets the actual link, either this or the referenced example.</summary>
+        [JsonIgnore]
+        public OpenApiLink ActualLink => Reference ?? this;
+
         #region Implementation of IJsonReference
 
         [JsonIgnore]
-        IJsonReference IJsonReference.ActualObject => Reference;
+        IJsonReference IJsonReference.ActualObject => ActualLink;
 
         [JsonIgnore]
         object IJsonReference.PossibleRoot => null;

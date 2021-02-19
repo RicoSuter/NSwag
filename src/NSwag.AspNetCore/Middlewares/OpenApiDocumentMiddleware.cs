@@ -9,6 +9,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
+using Namotion.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
@@ -62,7 +63,10 @@ namespace NSwag.AspNetCore.Middlewares
             {
                 var schemaJson = await GetDocumentAsync(context);
                 context.Response.StatusCode = 200;
-                context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
+                context.Response.Headers["Content-Type"] = _path.ToLowerInvariant().Contains(".yaml") ?
+                    "application/yaml; charset=utf-8" :
+                    "application/json; charset=utf-8";
+
                 await context.Response.WriteAsync(schemaJson);
             }
             else
@@ -99,16 +103,23 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                var json = (await GenerateDocumentAsync(context)).ToJson();
+                var openApiDocument = await GenerateDocumentAsync(context);
+                var data = _path.ToLowerInvariant().Contains(".yaml") ?
+                    OpenApiYamlDocument.ToYaml(openApiDocument) :
+                    openApiDocument.ToJson();
+
+                XmlDocs.ClearCache();
+                CachedType.ClearCache();
+
                 _version = apiDescriptionGroups.Version;
 
                 lock (_documentsCacheLock)
                 {
                     _documentsCache[documentKey] = new Tuple<string, ExceptionDispatchInfo, DateTimeOffset>(
-                        json, null, DateTimeOffset.UtcNow);
+                        data, null, DateTimeOffset.UtcNow);
                 }
 
-                return json;
+                return data;
             }
             catch (Exception exception)
             {
