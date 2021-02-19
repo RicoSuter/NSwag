@@ -30,10 +30,14 @@ namespace NSwag
         [JsonProperty(PropertyName = "externalValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string ExternalValue { get; set; }
 
+        /// <summary>Gets the actual example, either this or the referenced example.</summary>
+        [JsonIgnore]
+        public OpenApiExample ActualExample => Reference ?? this;
+
         #region Implementation of IJsonReference
 
         [JsonIgnore]
-        IJsonReference IJsonReference.ActualObject => Reference;
+        IJsonReference IJsonReference.ActualObject => ActualExample;
 
         [JsonIgnore]
         object IJsonReference.PossibleRoot => null;
