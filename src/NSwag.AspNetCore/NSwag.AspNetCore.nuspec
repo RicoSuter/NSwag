@@ -14,6 +14,7 @@
             <group targetFramework=".NETFramework4.5.1">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />
@@ -25,6 +26,7 @@
             <group targetFramework=".NETStandard1.6">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />
@@ -39,6 +41,7 @@
             <group targetFramework=".NETStandard2.0">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.AspNetCore.Mvc.Core" version="$microsoftAspNetCoreMvcCorePackageVersion$" exclude="Build,Analyzers" />

@@ -63,7 +63,6 @@
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
 
-
   <Target Name="PopulateNuspec">
     <PropertyGroup>
       <NuspecProperties>
