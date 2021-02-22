@@ -142,7 +142,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
             Assert.Contains("foreach (var item_ in arrayOfIds)", code);
-            Assert.Contains("content_.Add(new System.Net.Http.StringContent(item_), \"arrayOfIds\");", code);
+            Assert.Contains("content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), \"arrayOfIds\");", code);
         }
     }
 }

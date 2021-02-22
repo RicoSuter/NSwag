@@ -252,7 +252,7 @@
 {%                     elseif parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
                     {
-                        content_.Add(new System.Net.Http.StringContent(item_), "{{ parameter.Name }}");
+                        content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
                     }
 {%                     elseif parameter.IsObject -%}
                     content_.Add(new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value)), "{{ parameter.Name }}");
