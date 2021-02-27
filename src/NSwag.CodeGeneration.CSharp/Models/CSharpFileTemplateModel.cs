@@ -81,7 +81,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string Classes { get; }
 
         /// <summary>Gets a value indicating whether the generated code requires a JSON exception converter.</summary>
-        public bool RequiresJsonExceptionConverter => JsonExceptionTypes.Any();
+        public bool RequiresJsonExceptionConverter =>
+            _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson &&
+            JsonExceptionTypes.Any(); // TODO(system.text.json): How to serialize exceptions with STJ?
 
         /// <summary>Gets the exception model class.</summary>
         public string ExceptionModelClass => JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception";

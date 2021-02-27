@@ -6,7 +6,7 @@ var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if I
 disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
 return fileResponse_;
 {%         else -%}
-var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%         endif -%}
 {%     elsif response.IsPlainText -%}
@@ -20,7 +20,7 @@ return result_;
 {%             endif -%}
 {%         endif -%}
 {%     else -%}
-var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_).ConfigureAwait(false);
+var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
 {%         if response.IsNullable == false -%}
 if (objectResponse_.Object == null)
 {

@@ -62,18 +62,18 @@
     <Reference Include="NJsonSchema, Version=10.2.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NJsonSchema.10.2.1\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
-    <Reference Include="NSwag.AspNet.Owin, Version=13.10.6.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NSwag.AspNet.Owin.13.10.6\lib\net45\NSwag.AspNet.Owin.dll</HintPath>
+    <Reference Include="NSwag.AspNet.Owin, Version=13.10.7.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NSwag.AspNet.Owin.13.10.7\lib\net45\NSwag.AspNet.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="NSwag.Core, Version=13.10.6.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NSwag.Core.13.10.6\lib\net45\NSwag.Core.dll</HintPath>
+    <Reference Include="NSwag.Core, Version=13.10.7.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NSwag.Core.13.10.7\lib\net45\NSwag.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NSwag.Generation, Version=13.10.6.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NSwag.Generation.13.10.6\lib\net45\NSwag.Generation.dll</HintPath>
+    <Reference Include="NSwag.Generation, Version=13.10.7.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NSwag.Generation.13.10.7\lib\net45\NSwag.Generation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NSwag.Generation.WebApi, Version=13.10.6.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NSwag.Generation.WebApi.13.10.6\lib\net45\NSwag.Generation.WebApi.dll</HintPath>
+    <Reference Include="NSwag.Generation.WebApi, Version=13.10.7.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NSwag.Generation.WebApi.13.10.7\lib\net45\NSwag.Generation.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">

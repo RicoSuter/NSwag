@@ -9,10 +9,10 @@
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _requestSettings;
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _responseSettings;
+    private System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings;
+    private System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings;
 {% else -%}
-    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+    private System.Lazy<{{ JsonSerializerSettingsType }}> _settings;
 {% endif -%}
 
 {% if HasConfigurationClass -%}
@@ -37,18 +37,18 @@
     {
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-        _requestSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => CreateSerializerSettings(true));
-        _responseSettings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() => CreateSerializerSettings(false));
+        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true));
+        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false));
 {% else -%}
-        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings);
 {% endif -%}
         {% template Client.Class.Constructor %}
     }
 
-    private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
-{% if SerializeTypeInformation -%}
+{% if UseSystemTextJson == false and SerializeTypeInformation -%}
         settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
         UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
@@ -69,17 +69,17 @@
 {%     assign serializerSettingsAccessModifier = "protected" -%}
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings RequestJsonSerializerSettings { get { return _requestSettings.Value; } }
-    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings ResponseJsonSerializerSettings { get { return _responseSettings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} RequestJsonSerializerSettings { get { return _requestSettings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} ResponseJsonSerializerSettings { get { return _responseSettings.Value; } }
 {% else -%}
-    {{ serializerSettingsAccessModifier }} Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} JsonSerializerSettings { get { return _settings.Value; } }
 {% endif -%}
 
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
 {%     if UseRequestAndResponseSerializationSettings -%}
-    partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings, bool isRequest);
+    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
 {%     else -%}
-    partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
 {%     endif -%}
 {% endif -%}
 
@@ -201,7 +201,7 @@
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
-                var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value));
+                var content_ = new System.Net.Http.StringContent({% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value));
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         endif -%}
                 request_.Content = content_;
@@ -255,7 +255,7 @@
                         content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
                     }
 {%                     elseif parameter.IsObject -%}
-                    content_.Add(new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value)), "{{ parameter.Name }}");
+                    content_.Add(new System.Net.Http.StringContent({% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value)), "{{ parameter.Name }}");
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
@@ -300,7 +300,7 @@
                     }
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                    await ProcessResponseAsync(client_, response_).ConfigureAwait(false);
+                    await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
 {% else -%}
                     ProcessResponse(client_, response_);
 {% endif -%}
