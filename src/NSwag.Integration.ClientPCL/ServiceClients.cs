@@ -387,7 +387,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<System.Collections.Generic.ICollection<string>>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -534,7 +534,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new GeoClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -696,7 +696,7 @@ namespace NSwag.Integration.ClientPCL
                         else
                         if (status_ == 450)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Exception>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Exception>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new GeoClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -857,7 +857,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<double?>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<double?>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<double?>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -895,7 +895,7 @@ namespace NSwag.Integration.ClientPCL
     
         public bool ReadResponseAsString { get; set; }
         
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
@@ -1061,7 +1061,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<System.Collections.Generic.ICollection<Person>>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1203,7 +1203,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<System.Collections.Generic.ICollection<Person>>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1274,7 +1274,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<Person>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<System.Collections.Generic.ICollection<Person>>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1348,7 +1348,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 500)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new PersonsClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1362,7 +1362,7 @@ namespace NSwag.Integration.ClientPCL
                         else
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<Person>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1503,7 +1503,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<Person>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1579,7 +1579,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new PersonsClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1589,7 +1589,7 @@ namespace NSwag.Integration.ClientPCL
                         else
                         if (status_ == 500)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new PersonsClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1677,7 +1677,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new PersonsClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1687,7 +1687,7 @@ namespace NSwag.Integration.ClientPCL
                         else
                         if (status_ == 500)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PersonNotFoundException>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new PersonsClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1766,7 +1766,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<string>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1837,7 +1837,7 @@ namespace NSwag.Integration.ClientPCL
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<byte[]>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<byte[]>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return new SwaggerResponse<byte[]>(status_, headers_, objectResponse_.Object);
                         }
                         else
@@ -1875,7 +1875,7 @@ namespace NSwag.Integration.ClientPCL
     
         public bool ReadResponseAsString { get; set; }
         
-        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
         {
             if (response == null || response.Content == null)
             {
