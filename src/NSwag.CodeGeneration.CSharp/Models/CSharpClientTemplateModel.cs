@@ -158,17 +158,21 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                // TODO: Fix this in NJS (remove ", ", cleanup)
+                // TODO: Fix this in NJS (remove ", ", cleanup) => clean up this property (change NJS?)
                 var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(
                     _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
 
                 if (string.IsNullOrEmpty(parameterCode))
                 {
-                    parameterCode = "new Newtonsoft.Json.JsonSerializerSettings()";
+                    parameterCode = _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson ?
+                        "new Newtonsoft.Json.JsonSerializerSettings()" :
+                        "new System.Text.Json.JsonSerializerOptions()";
                 }
-                else if(!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
+                else if (!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
                 {
-                    parameterCode = "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode.Substring(2) + " }";
+                    parameterCode = _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson ?
+                        "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode.Substring(2) + " }" :
+                        "// TODO(system.text.json): What to do here?";
                 }
                 else
                 {
