@@ -18,7 +18,6 @@ namespace NSwag.CodeGeneration.Tests
         {
             // Arrange
             var document = CreateDocument();
-            var json = document.ToJson();
 
             //// Act
             var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
@@ -35,6 +34,79 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
+        public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("new System.Text.Json.JsonSerializerOptions()", code);
+        }
+
+        [Fact]
+        public void When_generating_CSharp_code_with_SystemTextJson_and_JsonSerializerSettingsTransformationMethod_then_output_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+            settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = "TestJsonSerializerSettingsTransformationMethod";
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("TestJsonSerializerSettingsTransformationMethod(new System.Text.Json.JsonSerializerOptions())", code);
+        }
+
+        [Fact]
+        public void When_generating_CSharp_code_with_NewtonsoftJson_and_JsonSerializerSettingsTransformationMethod_then_output_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.NewtonsoftJson;
+            settings.CSharpGeneratorSettings.JsonSerializerSettingsTransformationMethod = "TestJsonSerializerSettingsTransformationMethod";
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("TestJsonSerializerSettingsTransformationMethod(new Newtonsoft.Json.JsonSerializerSettings {  })", code);
+        }
+
+        [Fact]
+        public void When_generating_CSharp_code_with_SystemTextJson_and_JsonConverters_then_output_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("new System.Text.Json.JsonSerializerOptions(); var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() }", code);
+            Assert.Contains("foreach(var converter in converters)", code);
+            Assert.Contains("settings.Converters.Add(converter)", code);
+        }
+
+        [Fact]
         public void When_generating_TypeScript_code_then_output_contains_expected_classes()
         {
             // Arrange
@@ -44,7 +116,7 @@ namespace NSwag.CodeGeneration.Tests
             var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 ClassName = "MyClass",
-                TypeScriptGeneratorSettings = 
+                TypeScriptGeneratorSettings =
                 {
                     TypeStyle = TypeScriptTypeStyle.Interface
                 }
@@ -97,7 +169,7 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
-        public void No_Brackets_in_Operation_Name() 
+        public void No_Brackets_in_Operation_Name()
         {
             // Arrange
             var path = "/my/path/with/{parameter_with_underscore}/and/{another_parameter}";
@@ -120,7 +192,7 @@ namespace NSwag.CodeGeneration.Tests
             document.Paths["/Person"] = new OpenApiPathItem();
             document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
             {
-                Responses = 
+                Responses =
                 {
                     {
                         "200", new OpenApiResponse
