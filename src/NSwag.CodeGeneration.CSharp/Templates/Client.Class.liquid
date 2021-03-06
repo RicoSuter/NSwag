@@ -53,9 +53,7 @@
 {% endif -%}
 {% if UseSystemTextJson == true and JsonSerializerParameterCode contains "var converters = new System.Text.Json.Serialization.JsonConverter[]" -%}
         foreach(var converter in converters)
-        {
             settings.Converters.Add(converter);
-        }
 {% endif -%}
         UpdateJsonSerializerSettings(settings{% if UseRequestAndResponseSerializationSettings %}, isRequest{% endif %});
         return settings;
