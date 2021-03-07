@@ -172,7 +172,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 {
                     parameterCode = _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson ?
                         "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode.Substring(2) + " }" :
-                        "// TODO(system.text.json): What to do here?";
+                        parameterCode.Substring(2);
                 }
                 else
                 {
