@@ -53,6 +53,7 @@ namespace NSwag.Sample.NETCore31
             app.UseApimundo(settings =>
             {
                 //settings.CompareTo = "a:a:27:25:15:latest";
+                settings.DocumentPath = "/swagger/v1/swagger.yaml";
                 settings.ApimundoUrl = "https://localhost:5001";
             });
         }
