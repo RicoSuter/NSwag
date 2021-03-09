@@ -51,7 +51,8 @@
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
         settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
-{% if UseSystemTextJson == true and JsonSerializerParameterCode contains "var converters = new System.Text.Json.Serialization.JsonConverter[]" -%}
+{% if UseSystemTextJson == true and JsonConvertersArrayCode contains "System.Text.Json.Serialization.JsonConverter[]" -%}
+        var converters = {{ JsonConvertersArrayCode }};
         foreach(var converter in converters)
             settings.Converters.Add(converter);
 {% endif -%}
