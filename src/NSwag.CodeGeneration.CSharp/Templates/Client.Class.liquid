@@ -131,7 +131,7 @@
 
 {%         endif -%}
 {%     endfor -%}
-{%     if operation.HasContent and operation.ContentParameter.IsNullable != true -%}
+{%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
             throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
