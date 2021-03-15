@@ -61,8 +61,8 @@ namespace NSwag.Commands.Generation.AspNetCore
         [Argument(Name = nameof(NoBuild), IsRequired = false, Description = "Don't build the project. Only use this when the build is up-to-date.")]
         public bool NoBuild { get; set; }
 
-        [Argument(Name = nameof(OutputPath), IsRequired = false, Description = "Path to the MSBUILD output directory")]
-        public string OutputPath { get; set; }
+        [Argument(Name = nameof(MSBuildOutputPath), IsRequired = false, Description = "The MSBuild output path")]
+        public string MSBuildOutputPath { get; set; }
 
         [Argument(Name = nameof(Verbose), IsRequired = false, Description = "Print verbose output.")]
         public bool Verbose { get; set; } = true;
@@ -110,7 +110,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     Configuration,
                     Runtime,
                     NoBuild,
-                    OutputPath,
+                    MSBuildOutputPath,
                     verboseHost).ConfigureAwait(false);
 
                 if (!File.Exists(Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName)))
