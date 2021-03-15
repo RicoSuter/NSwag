@@ -161,13 +161,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(
                     _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
 
-                if (string.IsNullOrEmpty(parameterCode))
-                {
-                    parameterCode = _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson ?
-                        "new Newtonsoft.Json.JsonSerializerSettings()" :
-                        "new System.Text.Json.JsonSerializerOptions()";
-                }
-                else if (!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
+                if (!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
                 {
                     parameterCode = _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson ?
                         "new Newtonsoft.Json.JsonSerializerSettings { Converters = " + parameterCode + " }" :
