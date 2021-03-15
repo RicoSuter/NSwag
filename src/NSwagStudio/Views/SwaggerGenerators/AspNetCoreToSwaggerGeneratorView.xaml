@@ -51,6 +51,10 @@
                         <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
                                  ToolTip="TargetFramework" Margin="0,0,0,12" />
 
+                        <TextBlock Text="MSBuildOutputPath" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.MSBuildOutputPath, Mode=TwoWay}"
+                                 ToolTip="MSBuildOutputPath" Margin="0,0,0,12" />
+
                         <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
                             <TextBlock Text="NoBuild" TextWrapping="Wrap" />
                         </CheckBox>
