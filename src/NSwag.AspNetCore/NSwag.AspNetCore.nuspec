@@ -52,6 +52,22 @@
                 <dependency id="System.IO.FileSystem" version="$systemIOFileSystemPackageVersion$" exclude="Build,Analyzers" />
                 <dependency id="System.Xml.XPath.XDocument" version="$systemXmlXPathXDocumentPackageVersion$" exclude="Build,Analyzers" />
             </group>
+            <group targetFramework="netcoreapp3.1">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31$" exclude="Build,Analyzers" />
+            </group>
+            <group targetFramework="net5.0">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5$" exclude="Build,Analyzers" />
+            </group>
         </dependencies>
     </metadata>
     <files>
@@ -63,5 +79,9 @@
         <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
+        <file src="bin\$configuration$\netcoreapp3.1\NSwag.AspNetCore.dll" target="lib\netcoreapp3.1\" />
+        <file src="bin\$configuration$\netcoreapp3.1\NSwag.AspNetCore.xml" target="lib\netcoreapp3.1\" />
+        <file src="bin\$configuration$\net5.0\NSwag.AspNetCore.dll" target="lib\net5.0\" />
+        <file src="bin\$configuration$\net5.0\NSwag.AspNetCore.xml" target="lib\net5.0\" />
     </files>
 </package>
