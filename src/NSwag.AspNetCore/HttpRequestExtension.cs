@@ -48,14 +48,29 @@ namespace NSwag.AspNetCore
         public static string GetBasePath(this HttpRequest request)
 #endif
         {
-            if (request.Headers.ContainsKey("X-Forwarded-Prefix"))
+            const string forwardedProtoHeader = "X-Forwarded-Proto";
+            const string forwardedPrefixHeader = "X-Forwarded-Prefix";
+            const string forwardedHostHeader = "X-Forwarded-Host";
+
+            var prefix = TryGetFirstHeader(request.Headers, forwardedPrefixHeader);
+
+            if (prefix != null)
             {
-                return "/" + request.Headers.TryGetFirstHeader("X-Forwarded-Prefix").Trim('/');
+                return "/" + prefix.Trim('/');
             }
 
-            var basePath = request.Headers.ContainsKey("X-Forwarded-Host") ?
-                new Uri($"http://{request.Headers.TryGetFirstHeader("X-Forwarded-Host")}").AbsolutePath :
-                "";
+            var host = TryGetFirstHeader(request.Headers, forwardedHostHeader);
+            string basePath;
+
+            if (host != null)
+            {
+                var proto = TryGetFirstHeader(request.Headers, forwardedProtoHeader) ?? "http";
+                basePath = new Uri($"{proto}://{host}").AbsolutePath;
+            }
+            else
+            {
+                basePath = "";
+            }
 
             if (request.PathBase.HasValue)
             {
@@ -67,10 +82,17 @@ namespace NSwag.AspNetCore
 
         private static string TryGetFirstHeader(this IHeaderDictionary headers, string name)
         {
+            var key = headers.Keys.FirstOrDefault(n => string.Equals(n, name, StringComparison.OrdinalIgnoreCase));
+
+            if (key == null)
+            {
+                return null;
+            }
+
 #if AspNetOwin
-            return headers[name]?.Split(',').Select(s => s.Trim()).First();
+            return headers[key].Split(',').Select(s => s.Trim()).First();
 #else
-            return headers[name].FirstOrDefault()?.Split(',').Select(s => s.Trim()).First();
+            return headers[key].First().Split(',').Select(s => s.Trim()).First();
 #endif
         }
     }
