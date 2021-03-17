@@ -8,7 +8,7 @@
         <tags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</tags>
         <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
         <license type="expression">MIT</license>
-        <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
+        <icon>NuGetIcon.png</icon>
         <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
         <dependencies>
             <group targetFramework=".NETFramework4.5.1">
@@ -71,6 +71,7 @@
         </dependencies>
     </metadata>
     <files>
+        <file src="..\..\assets\NuGetIcon.png" target="NuGetIcon.png" />
         <file src="build\*" target="build\" />
         <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
         <file src="bin\$configuration$\net451\NSwag.AspNetCore.dll" target="lib\net451\" />
