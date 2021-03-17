@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.Generation.WebApi;
@@ -22,7 +23,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         private readonly IEnumerable<Type> _controllerTypes;
 
         private string _schemaJson;
-        private Exception _schemaException;
+        private ExceptionDispatchInfo _schemaException;
         private DateTimeOffset _schemaTimestamp;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
@@ -64,7 +65,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         {
             if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
             {
-                throw _schemaException;
+                _schemaException.Throw();
             }
 
             if (_schemaJson == null)
@@ -78,7 +79,7 @@ namespace NSwag.AspNet.Owin.Middlewares
                 catch (Exception exception)
                 {
                     _schemaJson = null;
-                    _schemaException = exception;
+                    _schemaException = ExceptionDispatchInfo.Capture(exception);
                     _schemaTimestamp = DateTimeOffset.UtcNow;
                     throw;
                 }

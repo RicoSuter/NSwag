@@ -143,5 +143,67 @@ namespace NSwag.Core.Tests
             //// Assert
             Assert.Equal("secret", document.Operations.First().Operation.ActualParameters.First().ActualSchema.Format);
         }
+
+        [Fact]
+        public async Task When_referencing_example_then_read_and_write_should_work()
+        {
+            //// Arrange
+            var json = @"{
+  ""openapi"": ""3.0.1"",
+  ""paths"": {
+    ""/listener"": {
+      ""get"": {
+        ""responses"": {
+          ""200"": {          
+            ""description"": ""A list of pets."",
+            ""content"": {
+              ""application/json"": {
+                ""schema"": {
+                  ""type"": ""array""
+                }
+              }
+            }
+          }
+        },
+        ""requestBody"": {
+          ""content"": {
+            ""application/json"": {
+              ""schema"": {
+                ""type"": ""string""
+              },
+              ""examples"": {
+                ""bar"": {
+                  ""$ref"": ""#/components/examples/foo""
+                }
+              }
+            }
+          },
+          ""description"": ""Notification Resource Models"",
+          ""required"": true
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""schemas"": {},
+    ""examples"": {
+      ""foo"": {
+        ""value"": {
+          ""eventId"": ""6a51c8e5-2629-47ef-b562-288b5569ac56"",
+          ""eventTime"": ""string"",
+          ""eventType"": ""serviceCreationNotification"",
+        }
+      }
+    }
+  }
+}";
+
+            //// Act
+            var document = await OpenApiDocument.FromJsonAsync(json);
+            json = document.ToJson();
+
+            //// Assert
+            Assert.NotNull(json);
+        }
     }
 }

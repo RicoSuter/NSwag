@@ -105,5 +105,53 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.DoesNotContain("FormData", code);
             Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
         }
+
+        [Fact]
+        public async Task When_abort_signal()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                UseAbortSignal = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("signal?: AbortSignal | undefined", code);
+        }
+
+        [Fact]
+        public async Task When_no_abort_signal()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.DoesNotContain("signal?: AbortSignal | undefined", code);
+            Assert.DoesNotContain("signal", code);;
+        }
     }
 }

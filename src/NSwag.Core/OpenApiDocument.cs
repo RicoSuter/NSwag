@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -129,29 +130,33 @@ namespace NSwag
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static Task<OpenApiDocument> FromJsonAsync(string data)
+        public static Task<OpenApiDocument> FromJsonAsync(string data, CancellationToken cancellationToken = default)
         {
-            return FromJsonAsync(data, null, SchemaType.Swagger2, null);
+            return FromJsonAsync(data, null, SchemaType.Swagger2, null, cancellationToken);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath)
+        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, CancellationToken cancellationToken = default)
         {
-            return FromJsonAsync(data, documentPath, SchemaType.Swagger2, null);
+            return FromJsonAsync(data, documentPath, SchemaType.Swagger2, null, cancellationToken);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
         /// <param name="data">The JSON data.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType)
+        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, 
+            SchemaType expectedSchemaType, CancellationToken cancellationToken = default)
         {
-            return FromJsonAsync(data, documentPath, expectedSchemaType, null);
+            return FromJsonAsync(data, documentPath, expectedSchemaType, null, cancellationToken);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
@@ -159,8 +164,10 @@ namespace NSwag
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory)
+        public static async Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, 
+            Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
             // (?:\"(openapi|swagger)\")(?:\s*:\s*)(?:\"([^"]*)\")
@@ -199,25 +206,27 @@ namespace NSwag
                     var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
                     return new JsonReferenceResolver(schemaResolver);
                 }
-            }, contractResolver).ConfigureAwait(false);
+            }, contractResolver, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
         /// <param name="filePath">The file path.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument" />.</returns>
-        public static async Task<OpenApiDocument> FromFileAsync(string filePath)
+        public static async Task<OpenApiDocument> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             var data = DynamicApis.FileReadAllText(filePath);
-            return await FromJsonAsync(data, filePath).ConfigureAwait(false);
+            return await FromJsonAsync(data, filePath, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from an URL.</summary>
         /// <param name="url">The URL.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromUrlAsync(string url)
+        public static async Task<OpenApiDocument> FromUrlAsync(string url, CancellationToken cancellationToken = default)
         {
-            var data = await DynamicApis.HttpGetAsync(url).ConfigureAwait(false);
-            return await FromJsonAsync(data, url).ConfigureAwait(false);
+            var data = await DynamicApis.HttpGetAsync(url, cancellationToken).ConfigureAwait(false);
+            return await FromJsonAsync(data, url, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Gets the operations.</summary>

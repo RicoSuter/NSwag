@@ -64,7 +64,7 @@ namespace NSwag.Generation.AspNetCore
             dynamic options = null;
             try
             {
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as dynamic)();
 #else
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
@@ -81,12 +81,20 @@ namespace NSwag.Generation.AspNetCore
                 }
                 catch
                 {
-                    // Newtonsoft.JSON not available, see GetSystemTextJsonSettings()
+                    // Newtonsoft.JSON not available, use GetSystemTextJsonSettings()
                     return null;
                 }
             }
 
-            return (JsonSerializerSettings)options?.Value?.SerializerSettings;
+            try
+            {
+                return (JsonSerializerSettings)options?.Value?.SerializerSettings;
+            }
+            catch
+            {
+                // Newtonsoft.JSON not available, use GetSystemTextJsonSettings()
+                return null;
+            }
         }
 
         /// <summary>Generates a Swagger specification for the given <see cref="ApiDescriptionGroupCollection"/>.</summary>
@@ -140,7 +148,7 @@ namespace NSwag.Generation.AspNetCore
                 {
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
-                   
+
                     var options = serviceProvider?.GetService(optionsType) as dynamic;
                     var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
                     if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")

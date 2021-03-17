@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class DiscussionController : Controller
         {
             [HttpPost]
-            public void AddMessage([FromBody]Foo message)
+            public void AddMessage([FromBody, Required]Foo message)
             {
             }
 
@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             //// Assert
-            Assert.Contains("addMessage(message: Foo | null): Observable<void>", code);
+            Assert.Contains("addMessage(message: Foo): Observable<void>", code);
         }
 
         [Fact]

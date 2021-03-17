@@ -42,8 +42,12 @@ namespace NSwagStudio.Views
                 () => Model.OpenDocumentCommand.TryExecute());
             ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.S, ModifierKeys.Control),
                 () => Model.SaveDocumentCommand.TryExecute(Model.SelectedDocument));
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift),
+                () => Model.SaveAllDocumentsCommand.TryExecute(Model.Documents));
             ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control),
                 () => Model.CloseDocumentCommand.TryExecute(Model.SelectedDocument));
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control | ModifierKeys.Shift),
+                () => Model.CloseAllDocumentsCommand.TryExecute(Model.Documents));
         }
 
         private void RegisterFileOpenHandler()

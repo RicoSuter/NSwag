@@ -154,6 +154,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateSyncMethods = value; }
         }
 
+        [Argument(Name = "GeneratePrepareRequestAndProcessResponseAsAsyncMethods", IsRequired = false,
+                  Description = "Specifies whether to generate PrepareRequest and ProcessResponse methods as asynchronous methods (if true, both must be defined in the base class or in the partial class, default: false).")]
+        public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods
+        {
+            get { return Settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods; }
+            set { Settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods = value; }
+        }
+
         [Argument(Name = nameof(ExposeJsonSerializerSettings), IsRequired = false,
             Description = "Specifies whether to expose the JsonSerializerSettings property (default: false).")]
         public bool ExposeJsonSerializerSettings

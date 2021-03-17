@@ -25,7 +25,7 @@ using NSwag.Generation;
 using NJsonSchema.Generation;
 using Namotion.Reflection;
 
-#if NETCOREAPP || NETSTANDARD
+#if NET5_0 || NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
 #endif
 
@@ -168,14 +168,15 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETCOREAPP || NETSTANDARD
+#elif NET5_0 || NETCOREAPP || NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
                     toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
                 }
 
-                if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp")
+                if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
+                    projectMetadata.TargetFrameworkIdentifier == "net5.0")
                 {
                     executable = "dotnet";
                     args.Add("exec");

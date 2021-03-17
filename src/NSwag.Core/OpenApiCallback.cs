@@ -20,6 +20,10 @@ namespace NSwag
 
         private IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
 
+        /// <summary>Gets the actual callback, either this or the referenced example.</summary>
+        [JsonIgnore]
+        public OpenApiCallback ActualCallback => Reference ?? this;
+
         #region IDictionary
 
         public OpenApiPathItem this[string key]
@@ -96,7 +100,7 @@ namespace NSwag
         #region Implementation of IJsonReference
 
         [JsonIgnore]
-        IJsonReference IJsonReference.ActualObject => Reference;
+        IJsonReference IJsonReference.ActualObject => ActualCallback;
 
         [JsonIgnore]
         object IJsonReference.PossibleRoot => null;

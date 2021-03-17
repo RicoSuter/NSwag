@@ -66,6 +66,10 @@ import 'moment-duration-format';
 
 import * as dayjs from 'dayjs';
 {%     endif -%}
+{%     if Framework.UseLuxon -%}
+
+import { DateTime, Duration } from "luxon";
+{%     endif -%}
 {% endif -%}
 
 {% if HasModuleName -%}
