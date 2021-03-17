@@ -12,7 +12,9 @@ namespace NSwag.Annotations
 {
     /// <summary>Specifies the tags for an operation or a document.</summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+#pragma warning disable 618
     public class OpenApiTagsAttribute : SwaggerTagsAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerTagsAttribute"/> class.</summary>
         /// <param name="tags">The tags.</param>
