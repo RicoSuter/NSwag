@@ -20,6 +20,10 @@ namespace NSwag.AspNetCore
 {
     internal static class HttpRequestExtension
     {
+        private const string ForwardedProtoHeader = "X-Forwarded-Proto";
+        private const string ForwardedPrefixHeader = "X-Forwarded-Prefix";
+        private const string ForwardedHostHeader = "X-Forwarded-Host";
+
 #if AspNetOwin
         private static string GetHttpScheme(this IOwinRequest request)
 #else
@@ -35,9 +39,8 @@ namespace NSwag.AspNetCore
         public static string GetServerUrl(this HttpRequest request)
 #endif
         {
-            var baseUrl = request.Headers.ContainsKey("X-Forwarded-Host") ?
-                new Uri($"{request.GetHttpScheme()}://{request.Headers.TryGetFirstHeader("X-Forwarded-Host")}").ToString().TrimEnd('/') :
-                new Uri($"{request.GetHttpScheme()}://{request.Host}").ToString().TrimEnd('/');
+            var host = TryGetFirstHeader(request.Headers, ForwardedHostHeader);
+            var baseUrl = new Uri($"{request.GetHttpScheme()}://{host ?? request.Host.ToString()}").ToString().TrimEnd('/');
 
             return $"{baseUrl}{request.GetBasePath()}".TrimEnd('/');
         }
@@ -48,24 +51,20 @@ namespace NSwag.AspNetCore
         public static string GetBasePath(this HttpRequest request)
 #endif
         {
-            const string forwardedProtoHeader = "X-Forwarded-Proto";
-            const string forwardedPrefixHeader = "X-Forwarded-Prefix";
-            const string forwardedHostHeader = "X-Forwarded-Host";
-
-            var prefix = TryGetFirstHeader(request.Headers, forwardedPrefixHeader);
+            var prefix = TryGetFirstHeader(request.Headers, ForwardedPrefixHeader);
 
             if (prefix != null)
             {
                 return "/" + prefix.Trim('/');
             }
 
-            var host = TryGetFirstHeader(request.Headers, forwardedHostHeader);
+            var host = TryGetFirstHeader(request.Headers, ForwardedHostHeader);
             string basePath;
 
             if (host != null)
             {
-                var proto = TryGetFirstHeader(request.Headers, forwardedProtoHeader) ?? "http";
-                basePath = new Uri($"{proto}://{host}").AbsolutePath;
+                var proto = TryGetFirstHeader(request.Headers, ForwardedProtoHeader) ?? "http";
+                basePath = new Uri($"{proto}://{host}").AbsolutePath.TrimEnd('/');
             }
             else
             {
@@ -74,7 +73,7 @@ namespace NSwag.AspNetCore
 
             if (request.PathBase.HasValue)
             {
-                basePath = basePath.TrimEnd('/') + "/" + request.PathBase.Value;
+                basePath += "/" + request.PathBase.Value;
             }
 
             return ("/" + basePath.Trim('/')).TrimEnd('/');
@@ -82,17 +81,17 @@ namespace NSwag.AspNetCore
 
         private static string TryGetFirstHeader(this IHeaderDictionary headers, string name)
         {
-            var key = headers.Keys.FirstOrDefault(n => string.Equals(n, name, StringComparison.OrdinalIgnoreCase));
+            name = headers.Keys.FirstOrDefault(n => string.Equals(n, name, StringComparison.OrdinalIgnoreCase));
 
-            if (key == null)
+            if (name == null)
             {
                 return null;
             }
 
 #if AspNetOwin
-            return headers[key].Split(',').Select(s => s.Trim()).First();
+            return headers[name].Split(',').Select(s => s.Trim()).First();
 #else
-            return headers[key].First().Split(',').Select(s => s.Trim()).First();
+            return headers[name].First().Split(',').Select(s => s.Trim()).First();
 #endif
         }
     }
