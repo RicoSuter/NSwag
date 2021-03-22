@@ -426,3 +426,4 @@ namespace NSwag.Commands.Generation
         }
     }
 }
+
