@@ -282,8 +282,6 @@ namespace NSwag.Commands.Generation
             }
             else
             {
-                try
-                {
                     // Search Program class and use CreateWebHostBuilder method
                     var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
                     var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
@@ -318,20 +316,6 @@ namespace NSwag.Commands.Generation
                             throw new InvalidOperationException("The Program class '" + programType.FullName + "' does not have a CreateWebHostBuilder()/CreateHostBuilder() method.");
                         }
                     }
-                }
-                catch
-                {
-                    // Search Startup class as fallback
-                    var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
-                    var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
-
-                    var startupType = firstAssembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
-                    if (startupType == null)
-                    {
-                        throw new InvalidOperationException("The Startup class could not be determined in the assembly '" + firstAssembly.FullName + "'.");
-                    }
-
-                    return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build();
                 }
             }
         }
