@@ -78,6 +78,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             string configuration,
             string runtime,
             bool noBuild,
+            string outputPath,
             IConsoleHost console = null)
         {
             Debug.Assert(!string.IsNullOrEmpty(file), "file is null or empty.");
@@ -135,6 +136,11 @@ namespace NSwag.Commands.Generation.AspNetCore
                     args.Add("/p:RuntimeIdentifier=" + runtime);
                 }
 
+                if (!string.IsNullOrEmpty(outputPath))
+                {
+                    args.Add("/p:OutputPath=" + outputPath);
+                }
+
                 if (!string.IsNullOrEmpty(file))
                 {
                     args.Add(file);
@@ -180,7 +186,13 @@ namespace NSwag.Commands.Generation.AspNetCore
             };
 
             projectMetadata.ProjectDir = Path.GetFullPath(projectMetadata.ProjectDir);
-            projectMetadata.OutputPath = Path.GetFullPath(Path.Combine(projectMetadata.ProjectDir, projectMetadata.OutputPath));
+
+            if (string.IsNullOrEmpty(outputPath))
+            {
+                projectMetadata.OutputPath = Path.Combine(projectMetadata.ProjectDir, projectMetadata.OutputPath);
+            }
+
+            projectMetadata.OutputPath = Path.GetFullPath(projectMetadata.OutputPath);
 
             return projectMetadata;
         }
