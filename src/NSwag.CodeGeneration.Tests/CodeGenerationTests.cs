@@ -101,7 +101,8 @@ namespace NSwag.CodeGeneration.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("new System.Text.Json.JsonSerializerOptions(); var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() }", code);
+            Assert.Contains("new System.Text.Json.JsonSerializerOptions();", code);
+            Assert.Contains("var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() }", code);
             Assert.Contains("foreach(var converter in converters)", code);
             Assert.Contains("settings.Converters.Add(converter)", code);
         }
