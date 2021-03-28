@@ -4,19 +4,19 @@ return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClas
 {%     else -%}
 return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
-{% elseif Framework.IsAxios -%}
+{% elsif Framework.IsAxios -%}
 {%     if operation.WrapResponse -%}
 return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
 return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
-{% elseif Framework.IsAngular -%}
+{% elsif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%     endif -%}
-{% elseif Framework.IsAngularJS -%}
+{% elsif Framework.IsAngularJS -%}
 {%     if operation.WrapResponse -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
@@ -28,4 +28,4 @@ return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%     else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%     endif -%}
-{% endif -%}
+{%- endif -%}

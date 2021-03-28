@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
 using System.Linq;
 using NJsonSchema;
 
@@ -25,7 +27,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
-            return GetClientName(operation);
+            return GetClientName(operation).ToString();
         }
 
         /// <summary>Gets the operation name for a given operation.</summary>
@@ -39,38 +41,50 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var clientName = GetClientName(operation);
             var operationName = GetOperationName(operation);
 
-            var hasOperationWithSameName = document.Operations
-                .Where(o => o.Operation != operation)
-                .Any(o => GetClientName(o.Operation) == clientName && GetOperationName(o.Operation) == operationName);
-
-            if (hasOperationWithSameName)
+            var hasOperationWithSameName = false;
+            foreach (var o in document.Operations)
             {
-                if (operationName.ToLowerInvariant().StartsWith("get"))
+                if (o.Operation != operation)
                 {
-                    var isArrayResponse = operation.ActualResponses.ContainsKey("200") &&
-                                          operation.ActualResponses["200"].Schema?.ActualSchema
-                                              .Type.HasFlag(JsonObjectType.Array) == true;
-
-                    if (isArrayResponse)
+                    if (GetClientName(o.Operation).SequenceEqual(clientName) && GetOperationName(o.Operation).SequenceEqual(operationName))
                     {
-                        return "GetAll" + operationName.Substring(3);
+                        hasOperationWithSameName = true;
+                        break;
                     }
                 }
             }
 
-            return operationName;
+            if (hasOperationWithSameName)
+            {
+                if (operationName.StartsWith("get".AsSpan(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var isArrayResponse = operation.ActualResponses.TryGetValue("200", out var response) &&
+                                          response.Schema?.ActualSchema.Type.HasFlag(JsonObjectType.Array) == true;
+
+                    if (isArrayResponse)
+                    {
+                        return "GetAll" + operationName.Slice(3).ToString();
+                    }
+                }
+            }
+
+            return operationName.ToString();
         }
 
-        private string GetClientName(OpenApiOperation operation)
+        private static ReadOnlySpan<char> GetClientName(OpenApiOperation operation)
         {
-            var segments = operation.OperationId.Split('_').Reverse().ToArray();
-            return segments.Length >= 2 ? segments[1] : string.Empty;
+            var idx = operation.OperationId.IndexOf('_');
+            return idx != -1 && idx < operation.OperationId.Length - 1
+                ? operation.OperationId.AsSpan(0,idx)
+                : string.Empty.AsSpan();
         }
 
-        private string GetOperationName(OpenApiOperation operation)
+        private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
-            var segments = operation.OperationId.Split('_').Reverse().ToArray();
-            return segments.FirstOrDefault() ?? "Index";
+            var idx = operation.OperationId.LastIndexOf('_');
+            return idx != -1 && idx < operation.OperationId.Length - 1
+                ? operation.OperationId.AsSpan(idx + 1)
+                : operation.OperationId.AsSpan();
         }
     }
 }
