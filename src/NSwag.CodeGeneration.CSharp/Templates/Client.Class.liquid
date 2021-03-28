@@ -21,14 +21,14 @@
 {%     if InjectHttpClient -%}
         _httpClient = httpClient;
 {%     endif -%}
-{% elseif UseBaseUrl and HasBaseUrl == false -%}
-    public {{ Class }}(string baseUrl{% if InjectHttpClient -%}, {{ HttpClientType }} httpClient{% endif %})
+{% elsif UseBaseUrl and HasBaseUrl == false %}
+    public {{ Class }}(string baseUrl{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %})
     {
         BaseUrl = baseUrl;
 {%     if InjectHttpClient -%}
         _httpClient = httpClient;
 {%     endif -%}
-{% elseif InjectHttpClient -%}
+{% elsif InjectHttpClient %}
     public {{ Class }}({{ HttpClientType }} httpClient)
     {
         _httpClient = httpClient;
@@ -68,10 +68,10 @@
     }
 
 {% endif -%}
-{% if ExposeJsonSerializerSettings %}
-{%     assign serializerSettingsAccessModifier = "public" -%}
+{% if ExposeJsonSerializerSettings -%}
+{%     assign serializerSettingsAccessModifier = "public" %}
 {% else -%}
-{%     assign serializerSettingsAccessModifier = "protected" -%}
+{%     assign serializerSettingsAccessModifier = "protected" %}
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
     {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} RequestJsonSerializerSettings { get { return _requestSettings.Value; } }
@@ -94,7 +94,7 @@
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
 {% endif -%}
-{% for operation in Operations -%}
+{% for operation in Operations %}
 {%     if GenerateOptionalParameters == false -%}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
@@ -165,7 +165,7 @@
 
 {%     if InjectHttpClient -%}
         var client_ = _httpClient;
-{%     elseif UseHttpClientCreationMethod -%}
+{%     elsif UseHttpClientCreationMethod -%}
         var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
 {%     else -%}
         var client_ = new {{ HttpClientType }}();
@@ -183,7 +183,7 @@
             using (var request_ = new System.Net.Http.HttpRequestMessage())
 {%     endif -%}
             {
-{%     for parameter in operation.HeaderParameters -%}
+{%     for parameter in operation.HeaderParameters %}
 {%         if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
@@ -202,10 +202,10 @@
                 var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%             endif -%}
-{%         elseif operation.HasXmlBodyParameter -%}
+{%         elsif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
-{%         elseif operation.ConsumesFormUrlEncoded -%}
+{%         elsif operation.ConsumesFormUrlEncoded -%}
                 var json_ = Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, _settings.Value);
                 var dictionary_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, string>>(json_, _settings.Value);
                 var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
@@ -235,7 +235,7 @@
                 var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
                 content_.Headers.Remove("Content-Type");
                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
-{%                 for parameter in operation.FormParameters -%}
+{%                 for parameter in operation.FormParameters %}
 {%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
@@ -259,12 +259,12 @@
                         content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
                     content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                         endif -%}
-{%                     elseif parameter.IsArray -%}
+{%                     elsif parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
                     {
                         content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
                     }
-{%                     elseif parameter.IsObject -%}
+{%                     elsif parameter.IsObject -%}
                     content_.Add(new System.Net.Http.StringContent({% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value)), "{{ parameter.Name }}");
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
@@ -273,7 +273,7 @@
 {%                 endfor -%}
                 request_.Content = content_;
 {%             endif -%}
-{%         elseif operation.IsGetOrDeleteOrHead == false -%}
+{%         elsif operation.IsGetOrDeleteOrHead == false -%}
                 request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
 {%         endif -%}
 {%     endif -%}
@@ -282,7 +282,7 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                 await PrepareRequestAsync(client_, request_, urlBuilder_).ConfigureAwait(false);
 {% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
@@ -296,8 +296,8 @@
 {% else -%}
                 PrepareRequest(client_, request_, url_);
 {% endif -%}
-
                 {% template Client.Class.BeforeSend %}
+
                 var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 var disposeResponse_ = true;
                 try
@@ -309,11 +309,11 @@
                             headers_[item_.Key] = item_.Value;
                     }
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                     await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
-{% else -%}
+{% else %}
                     ProcessResponse(client_, response_);
-{% endif -%}
+{% endif %}
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
@@ -329,38 +329,38 @@
 {%             assign response = operation.DefaultResponse -%}
                         {% template Client.Class.ProcessResponse %}
                     }
-{%         elseif operation.HasSuccessResponse -%}
+{%         elsif operation.HasSuccessResponse -%}
                     {
                         var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
                     }
-{%        elseif operation.HasResultType -%}
-{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+{%        elsif operation.HasResultType -%}
+{%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                     return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
                     return {{ operation.UnwrappedResultDefaultValue }};
 {%             endif -%}
-{%         elseif operation.WrapResponse -%}
+{%         elsif operation.WrapResponse -%}
                     return new {{ ResponseClass }}(status_, headers_);
 {%         endif -%}
 {%     else -%}
 {%         if operation.HasSuccessResponse == false -%}
-{% comment %}
+{% comment -%}
     If the success response has already been explicitely declared, there is no need for this default code (because handled above).
     Otherwise, return default values on success because we don't want to throw on "unknown status code".
     Success is always expected
-{% endcomment -%}
+{%- endcomment %}
                     if (status_ == 200 || status_ == 204)
                     {
 {%             if operation.HasResultType -%}
-{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" -%}
+{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                         return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
                         return {{ operation.UnwrappedResultDefaultValue }};
 {%                 endif -%}
-{%             elseif operation.WrapResponse -%}
+{%             elsif operation.WrapResponse -%}
                         return new {{ ResponseClass }}(status_, headers_);
-{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment -%}
+{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
                         return;
 {%             endif -%}
                     }
@@ -386,7 +386,7 @@
         }
     }
 
-{% endfor -%}
+{% endfor %}
     protected struct ObjectResponseResult<T>
     {
         public ObjectResponseResult(T responseObject, string responseText)
