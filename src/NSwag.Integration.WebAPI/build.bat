@@ -1,1 +1,1 @@
-"../NSwag.Console/bin/Debug/net461/nswag.exe" run
+dotnet run -c Release --project "../NSwag.Console" -- run

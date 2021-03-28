@@ -10,7 +10,7 @@
 {% if GenerateNullableReferenceTypes -%}
 #nullable enable
 
-{% endif -%}
+{%- endif %}
 {% for usage in NamespaceUsages -%}
 using {{ usage }};
 {% endfor -%}
@@ -32,7 +32,7 @@ namespace {{ Namespace }}
 {% if GenerateContracts -%}
     {{ Classes | tab }}
 
-{%     if RequiresFileParameterType -%}
+{%-     if RequiresFileParameterType -%}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileParameter
     {
@@ -41,20 +41,20 @@ namespace {{ Namespace }}
         {
         }
 
-{%          if GenerateNullableReferenceTypes -%}
+{%-          if GenerateNullableReferenceTypes -%}
         public FileParameter(System.IO.Stream data, string? fileName)
-{%          else -%}
+{%-          else -%}
         public FileParameter(System.IO.Stream data, string fileName)
-{%          endif -%}
+{%-          endif -%}
             : this (data, fileName, null)
         {
         }
 
-{%          if GenerateNullableReferenceTypes -%}
+{%-          if GenerateNullableReferenceTypes -%}
         public FileParameter(System.IO.Stream data, string? fileName, string? contentType)
-{%          else -%}
+{%-          else -%}
         public FileParameter(System.IO.Stream data, string fileName, string contentType)
-{%          endif -%}
+{%-          endif -%}
         {
             Data = data;
             FileName = fileName;
@@ -63,29 +63,29 @@ namespace {{ Namespace }}
 
         public System.IO.Stream Data { get; private set; }
 
-{%          if GenerateNullableReferenceTypes -%}
+{%-          if GenerateNullableReferenceTypes -%}
         public string? FileName { get; private set; }
 
         public string? ContentType { get; private set; }
-{%          else -%}
+{%-          else -%}
         public string FileName { get; private set; }
 
         public string ContentType { get; private set; }
-{%          endif -%}
+{%-          endif -%}
     }
 
-{%     endif -%}
-{%     if GenerateFileResponseClass -%}
+{%-     endif %}
+{%-     if GenerateFileResponseClass %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileResponse : System.IDisposable
     {
-{%          if GenerateNullableReferenceTypes -%}
+{%-          if GenerateNullableReferenceTypes -%}
         private System.IDisposable? _client;
         private System.IDisposable? _response;
-{%          else -%}
+{%-          else -%}
         private System.IDisposable _client;
         private System.IDisposable _response;
-{%          endif -%}
+{%-          endif -%}
 
         public int StatusCode { get; private set; }
 
@@ -98,11 +98,11 @@ namespace {{ Namespace }}
             get { return StatusCode == 206; }
         }
 
-{%          if GenerateNullableReferenceTypes -%}
+{%-          if GenerateNullableReferenceTypes -%}
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable? client, System.IDisposable? response)
-{%          else -%}
+{%-          else -%}
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
-{%          endif -%}
+{%-          endif -%}
         {
             StatusCode = statusCode;
             Headers = headers;
@@ -121,9 +121,9 @@ namespace {{ Namespace }}
         }
     }
 
-{%     endif -%}
-{%     if WrapResponses and GenerateResponseClasses -%}
-{%         for responseClassName in ResponseClassNames -%}
+{%-     endif %}
+{%-     if WrapResponses and GenerateResponseClasses %}
+{%-         for responseClassName in ResponseClassNames %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ responseClassName }}
     {
@@ -150,28 +150,28 @@ namespace {{ Namespace }}
         }
     }
 
-{%         endfor %}
-{%     endif -%}
-{%     if GenerateExceptionClasses -%}
-{%         for exceptionClassName in ExceptionClassNames -%}
+{%-        endfor %}
+{%-     endif %}
+{%-     if GenerateExceptionClasses %}
+{%-         for exceptionClassName in ExceptionClassNames %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ exceptionClassName }} : System.Exception
     {
         public int StatusCode { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
+{%-             if GenerateNullableReferenceTypes -%}
         public string? Response { get; private set; }
-{%              else -%}
+{%-              else -%}
         public string Response { get; private set; }
-{%              endif -%}
+{%-              endif -%}
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
+{%-              if GenerateNullableReferenceTypes -%}
         public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception? innerException)
-{%              else -%}
+{%-              else -%}
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
-{%              endif -%}
+{%-              endif -%}
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
@@ -190,11 +190,11 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
+{%-              if GenerateNullableReferenceTypes -%}
         public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException)
-{%              else -%}
+{%-              else -%}
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
-{%              endif -%}
+{%-              endif -%}
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
@@ -203,12 +203,12 @@ namespace {{ Namespace }}
 
 {%         endfor -%}
 {%     endif -%}
-{% endif -%}
+{%- endif %}
 {% if GenerateImplementation -%}
 {%     if RequiresJsonExceptionConverter -%}
     {% template JsonExceptionConverter %}
 {%     endif -%}
-{% endif -%}
+{%- endif %}
 
 }
 

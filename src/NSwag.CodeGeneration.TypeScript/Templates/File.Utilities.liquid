@@ -3,7 +3,7 @@
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
 {%     if WrapDtoExceptions -%}
     return {{ Framework.RxJs.ObservableThrowMethod }}(new {{ ExceptionClassName }}(message, status, response, headers, result));
-{%     else -%}
+{%-     else -%}
     if (result !== null && result !== undefined)
         return {{ Framework.RxJs.ObservableThrowMethod }}(result);
     else
@@ -11,11 +11,11 @@ function throwException(message: string, status: number, response: string, heade
 {%     endif -%}
 }
 
-{% elseif Framework.IsAngularJS -%}
+{% elsif Framework.IsAngularJS -%}
 function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
 {%     if WrapDtoExceptions -%}
     return q.reject(new {{ ExceptionClassName }}(message, status, response, headers, result));
-{%     else -%}
+{%-     else -%}
     if (result !== null && result !== undefined)
         return q.reject(result);
     else
@@ -27,7 +27,7 @@ function throwException(q: ng.IQService, message: string, status: number, respon
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
 {%     if WrapDtoExceptions -%}
     throw new {{ ExceptionClassName }}(message, status, response, headers, result);
-{%     else -%}
+{%-     else -%}
     if (result !== null && result !== undefined)
         throw result;
     else
@@ -35,7 +35,7 @@ function throwException(message: string, status: number, response: string, heade
 {%     endif -%}
 }
 
-{% endif -%}
+{%- endif -%}
 {% if Framework.IsAngular -%}
 function blobToText(blob: any): Observable<string> {
     return new Observable<string>((observer: any) => {
@@ -53,7 +53,7 @@ function blobToText(blob: any): Observable<string> {
     });
 }
 
-{% elseif Framework.IsAngularJS -%}
+{% elsif Framework.IsAngularJS -%}
 function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     return new q((resolve) => {
         let reader = new FileReader();
@@ -62,7 +62,7 @@ function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     });
 }
 
-{% elseif Framework.IsAxios -%}
+{% elsif Framework.IsAxios -%}
 function isAxiosError(obj: any | undefined): obj is AxiosError {
     return obj && obj.isAxiosError === true;
 }

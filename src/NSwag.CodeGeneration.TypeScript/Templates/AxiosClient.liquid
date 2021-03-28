@@ -5,31 +5,31 @@
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
 {%     endfor -%}}
-{% endif -%}
+{%- endif %}
 
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private instance: AxiosInstance;
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
-{% if HasExtendedConstructor == false -%}
+{%- if HasExtendedConstructor == false %}
     constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, instance?: AxiosInstance) {
-{%     if HasBaseClass -%}
+{%-     if HasBaseClass %}
         super({% if HasConfigurationClass %}configuration{% endif %});
-{%     endif -%}
+{%-     endif %}
         this.instance = instance ? instance : axios.create();
-{%     if UseGetBaseUrlMethod -%}
+{%-     if UseGetBaseUrlMethod %}
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
-{%     else -%}
+{%-     else %}
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
-{%     endif -%}
+{%-     endif %}
     }
-{% endif -%}
+{%- endif %}
 {% if HasExtensionCode -%}
 
     {{ ExtensionCode }}
-{% endif -%}
-{% for operation in Operations -%}
+{%- endif %}
+{% for operation in Operations %}
 
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType }}> {
@@ -89,4 +89,4 @@
     }
 {% endfor -%}
 }
-{% endif -%}
+{%- endif %}

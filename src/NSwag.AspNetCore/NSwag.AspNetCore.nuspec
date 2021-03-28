@@ -85,8 +85,8 @@
         <file src="..\..\assets\NuGetIcon.png" target="NuGetIcon.png" />
         <file src="build\*" target="build\" />
         <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
-        <file src="bin\$configuration$\net451\NSwag.AspNetCore.dll" target="lib\net451\" />
-        <file src="bin\$configuration$\net451\NSwag.AspNetCore.xml" target="lib\net451\" />
+        <file src="bin\$configuration$\net461\NSwag.AspNetCore.dll" target="lib\net461\" />
+        <file src="bin\$configuration$\net461\NSwag.AspNetCore.xml" target="lib\net461\" />
         <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.dll" target="lib\netstandard1.6\" />
         <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
