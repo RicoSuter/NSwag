@@ -12,7 +12,9 @@ namespace NSwag.Annotations
 {
     /// <summary>Specifies a parameter or class to be handled as file.</summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+#pragma warning disable 618
     public class OpenApiFileAttribute : SwaggerFileAttribute
+#pragma warning restore 618
     {
     }
 

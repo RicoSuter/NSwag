@@ -13,7 +13,9 @@ namespace NSwag.Annotations
     /// <summary>Registers an operation processor for the given method or class.</summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+#pragma warning disable 618
     public class OpenApiOperationProcessorAttribute : SwaggerOperationProcessorAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerOperationProcessorAttribute"/> class.</summary>
         /// <param name="type">The operation processor type (must implement IOperationProcessor).</param>
