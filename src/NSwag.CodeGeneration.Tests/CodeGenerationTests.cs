@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -101,9 +102,51 @@ namespace NSwag.CodeGeneration.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("new System.Text.Json.JsonSerializerOptions(); var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() }", code);
+            Assert.Contains("new System.Text.Json.JsonSerializerOptions();", code);
+            Assert.Contains("var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() }", code);
             Assert.Contains("foreach(var converter in converters)", code);
             Assert.Contains("settings.Converters.Add(converter)", code);
+        }
+
+        [Fact]
+        public void When_generating_CSharp_code_with_SystemTextJson_and_GenerateJsonMethods_and_JsonConverters_then_ToJson_and_FromJson_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            var expectedToJson = @"
+public string ToJson()
+{
+	var options = new System.Text.Json.JsonSerializerOptions();
+	var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() };
+	foreach(var converter in converters)
+		options.Converters.Add(converter);
+	return System.Text.Json.JsonSerializer.Serialize(this, options);
+}";
+
+            var expectedFromJson = @"
+public static Person FromJson(string data)
+{
+	var options = new System.Text.Json.JsonSerializerOptions();
+	var converters = new System.Text.Json.Serialization.JsonConverter[] { new CustomConverter1(), new CustomConverter2() };
+	foreach(var converter in converters)
+		options.Converters.Add(converter);
+	return System.Text.Json.JsonSerializer.Deserialize<Person>(data, options);
+}";
+
+            //// Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+            settings.CSharpGeneratorSettings.GenerateJsonMethods = true;
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+            var normalizedCode = Regex.Replace(code, @"\s+", string.Empty);
+
+            // Assert
+            Assert.Contains(Regex.Replace(expectedToJson, @"\s+", string.Empty), normalizedCode);
+            Assert.Contains(Regex.Replace(expectedFromJson, @"\s+", string.Empty), normalizedCode);
         }
 
         [Fact]
