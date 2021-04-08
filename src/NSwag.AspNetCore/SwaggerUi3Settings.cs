@@ -142,7 +142,9 @@ namespace NSwag.AspNetCore
             html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
                 "undefined" :
                 JsonConvert.SerializeObject(
+#pragma warning disable 618
                     SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
+#pragma warning restore 618
                 ));
 
             html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");

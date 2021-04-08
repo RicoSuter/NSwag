@@ -42,7 +42,9 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the internal swagger UI route (must start with '/').</summary>
         public string Path { get; set; } = "/swagger";
 
+#pragma warning disable 618
         internal string ActualSwaggerUiPath => Path.Substring(MiddlewareBasePath?.Length ?? 0);
+#pragma warning restore 618
 
         /// <summary>Gets or sets custom inline styling to inject into the index.html</summary>
         public string CustomInlineStyles { get; set; }
