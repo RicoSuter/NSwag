@@ -47,5 +47,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether the parameter name is a valid CSharp identifier.</summary>
         public bool IsValidIdentifier => Name.Equals(VariableName, StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>Gets a value indicating whether the parameter allows additional properties.</summary>
+        public bool HasAdditionalProperties =>
+            IsObject &&
+            Schema.AllowAdditionalProperties &&
+            !IsDictionary &&
+            Type != "object";
     }
 }

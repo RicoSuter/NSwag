@@ -12,7 +12,9 @@ namespace NSwag.Annotations
 {
     /// <summary>Specifies the operation id, summary and description</summary>
     [AttributeUsage(AttributeTargets.Method)]
+#pragma warning disable 618
     public class OpenApiOperationAttribute : SwaggerOperationAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiOperationAttribute"/> class.</summary>
         /// <param name="operationId">The operation ID.</param>
