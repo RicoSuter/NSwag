@@ -75,3 +75,4 @@ src/packages/**
 
 # Ignore files from JetBrainds Rider
 /src/.idea/
+_ReSharper.Caches/
