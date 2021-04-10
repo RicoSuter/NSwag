@@ -26,6 +26,8 @@ namespace NSwag.CodeGeneration
 
             GenerateResponseClasses = true;
             ResponseClass = "SwaggerResponse";
+            CombinedClientClassName = "CombinedClient";
+            CombinedClassConstructorAccess = "public";
 
             WrapResponseMethods = new string[0];
             ExcludedParameterNames = new string[0];
@@ -45,6 +47,15 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
         public bool GenerateClientClasses { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate a class that includes all generated client types as lazy fields (default: false). If <see cref="GenerateClientInterfaces"/> is <c>true</c> then an interface for it will also be created.</summary>
+        public bool GenerateCombinedClientClass { get; set; }
+
+        /// <summary>The name of the combined client class. (default: &quot;CombinedClient&quot;).</summary>
+        public string CombinedClientClassName { get; set; }
+
+        /// <summary>Gets or sets a value indicating the generated combined client's (<see cref="GenerateCombinedClientClass"/>) constructor access modifier. Use a private constructor when you'll need custom construction logic in a partial class definition and don't want to expose the constructor to dependency-injection. (default: &quot;public&quot;).</summary>
+        public string CombinedClassConstructorAccess { get; set; }
 
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
