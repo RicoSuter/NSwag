@@ -60,7 +60,7 @@ namespace NSwag
 
             Examples = new Dictionary<string, OpenApiExample>();
 
-            var headers = new ObservableDictionary<string, JsonSchema>();
+            var headers = new ObservableDictionary<string, OpenApiParameter>();
             headers.CollectionChanged += (sender, args) =>
             {
                 foreach (var pair in headers.ToArray())
@@ -100,7 +100,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, JsonSchema> Headers { get; }
+        public IDictionary<string, OpenApiParameter> Headers { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
         [JsonProperty(PropertyName = "securitySchemes", DefaultValueHandling = DefaultValueHandling.Ignore)]
