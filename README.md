@@ -147,7 +147,7 @@ The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** 
 
 ### Usage in C&#35;
 
-To register the [middlewares](https://github.com/RicoSuter/NSwag/wiki/AspNetCoreOpenApiDocumentGenerator) to generate a OpenAPI spec and render the UI, register NSwag in `Startup.cs`: 
+To register the [middlewares](https://github.com/RicoSuter/NSwag/wiki/AspNetCore-Middleware) to generate a OpenAPI spec and render the UI, register NSwag in `Startup.cs`: 
 
 ```csharp
 public class Startup
