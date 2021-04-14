@@ -49,7 +49,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Types = dtoTypes.OrderByBaseDependency().Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
+            SourceSha = _settings.ChecksumCacheEnabled ? _document.GetChecksum() : "";
         }
+
+        /// <summary>
+        /// Gets the checksum for the document that was used to produce the file.
+        /// </summary>
+        public string SourceSha { get; }
 
         /// <summary>Gets framework specific information.</summary>
         public TypeScriptFrameworkModel Framework { get; set; }
@@ -127,8 +133,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
             (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
-             _document.Operations.Any(o => o.Operation?.RequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true || 
-                                                                                       c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary || 
+             _document.Operations.Any(o => o.Operation?.RequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true ||
+                                                                                       c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary ||
                                                                                                                                  p.Value.Item?.IsBinary == true ||
                                                                                                                                  p.Value.Items.Any(i => i.IsBinary)
                                                                                                                                  ) == true) == true));

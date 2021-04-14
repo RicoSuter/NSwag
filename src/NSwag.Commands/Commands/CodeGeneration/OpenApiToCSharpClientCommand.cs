@@ -254,9 +254,9 @@ namespace NSwag.Commands.CodeGeneration
             return result;
         }
 
-        public async Task<Dictionary<string, string>> RunAsync()
+        public Task<Dictionary<string, string>> RunAsync()
         {
-            return await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
                 var clientGenerator = new CSharpClientGenerator(document, Settings);
@@ -270,6 +270,8 @@ namespace NSwag.Commands.CodeGeneration
                 }
                 else
                 {
+                    // when generating single file allow caching
+                    Settings.OutputFilePath = OutputFilePath;
                     return new Dictionary<string, string>
                     {
                         { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
