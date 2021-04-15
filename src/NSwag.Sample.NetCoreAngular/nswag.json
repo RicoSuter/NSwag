@@ -19,7 +19,7 @@
       "infoVersion": "1.0.0",
       "output": "swagger.json",
       "assemblyPaths": [
-        "bin/Debug/netcoreapp1.1/NSwag.Sample.NetCoreAngular.dll"
+        "bin/Debug/netcoreapp3.1/NSwag.Sample.NetCoreAngular.dll"
       ],
       "referencePaths": []
     }
