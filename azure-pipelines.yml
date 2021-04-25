@@ -27,13 +27,6 @@ steps:
   inputs:
     script: 'npm i -g dotnettools'
 
-# Patch project versions (on master only)
-# - task: CmdLine@2
-#   displayName: 'Update project version patch'
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   inputs:
-#     script: 'dnt bump-versions patch'
-#     failOnStderr: true
 - task: CmdLine@2
   displayName: 'Patch project version preview'
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/release'))
@@ -49,6 +42,13 @@ steps:
     includeNuGetOrg: true
 
 # Build and test
+
+- task: MSBuild@1
+  inputs:
+    solution: '$(Projects)'
+    msbuildArchitecture: 'x64'
+    configuration: '$(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
   inputs:
