@@ -48,6 +48,7 @@ steps:
     solution: '$(Projects)'
     msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
+
 - task: VSTest@2
   displayName: 'Run tests'
   inputs:
@@ -67,6 +68,7 @@ steps:
     Contents: '**/*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
+
 - task: CopyFiles@2
   displayName: 'Copy MSI'
 #  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -74,6 +76,7 @@ steps:
     Contents: '**/*.msi'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
 #  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
