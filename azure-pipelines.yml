@@ -25,46 +25,41 @@ steps:
 - task: CmdLine@2
   displayName: 'Install DNT'
   inputs:
-    script: 'npm i -g dotnettools@1.2.5'
+    script: 'npm i -g dotnettools'
 
-# Patch project versions (on master only)
-# - task: CmdLine@2
-#   displayName: 'Update project version patch'
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   inputs:
-#     script: 'dnt bump-versions patch'
-#     failOnStderr: true
 - task: CmdLine@2
-  displayName: 'Patch project version preview'
+  displayName: 'Patch project version (preview)'
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/release'))
   inputs:
     script: 'dnt bump-versions preview "$(Build.BuildNumber)"'
     failOnStderr: true
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restoring code using dotnet restore'
+  displayName: 'Restore packages'
   inputs: 
     command: 'restore'
     projects: '$(Projects)'
     includeNuGetOrg: true
 
 # Build and test
-- task: DotNetCoreCLI@2
+- task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    command: 'build'
-    projects: '$(Projects)'
-    arguments: '--configuration $(BuildConfiguration)'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-# - task: DotNetCoreCLI@2
-#   displayName: 'Run tests'
-#   inputs:
-#     command: 'test'
-#     projects: '$(Projects)'
-#     arguments: '--configuration $(BuildConfiguration)'
-#     feedsToUse: 'select'
-#     versioningScheme: 'off'
+    solution: '$(Projects)'
+    msbuildArchitecture: 'x86'
+    configuration: '$(BuildConfiguration)'
+
+- task: VSTest@2
+  displayName: 'Run tests'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\*Integration*.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    configuration: '$(BuildConfiguration)'
 
 # Publish artifacts
 - task: CopyFiles@2
@@ -74,6 +69,15 @@ steps:
     Contents: '**/*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
+
+- task: CopyFiles@2
+  displayName: 'Copy MSI'
+#  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    Contents: '**/*.msi'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
 #  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
