@@ -28,14 +28,14 @@ steps:
     script: 'npm i -g dotnettools'
 
 - task: CmdLine@2
-  displayName: 'Patch project version preview'
+  displayName: 'Patch project version (preview)'
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/release'))
   inputs:
     script: 'dnt bump-versions preview "$(Build.BuildNumber)"'
     failOnStderr: true
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restoring code using dotnet restore'
+  displayName: 'Restore packages'
   inputs: 
     command: 'restore'
     projects: '$(Projects)'
