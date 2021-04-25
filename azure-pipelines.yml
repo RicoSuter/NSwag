@@ -42,29 +42,22 @@ steps:
     includeNuGetOrg: true
 
 # Build and test
-
 - task: MSBuild@1
+  displayName: 'Build solution'
   inputs:
     solution: '$(Projects)'
     msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build solution'
+- task: VSTest@2
+  displayName: 'Run tests'
   inputs:
-    command: 'build'
-    projects: '$(Projects)'
-    arguments: '--configuration $(BuildConfiguration)'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-# - task: DotNetCoreCLI@2
-#   displayName: 'Run tests'
-#   inputs:
-#     command: 'test'
-#     projects: '$(Projects)'
-#     arguments: '--configuration $(BuildConfiguration)'
-#     feedsToUse: 'select'
-#     versioningScheme: 'off'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    configuration: '$(BuildConfiguration)'
 
 # Publish artifacts
 - task: CopyFiles@2
