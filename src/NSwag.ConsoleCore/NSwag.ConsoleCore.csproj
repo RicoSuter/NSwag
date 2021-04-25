@@ -43,7 +43,7 @@
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
   <!-- Workaround for https://github.com/NuGet/Home/issues/3891 -->
