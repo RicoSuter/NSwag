@@ -12,7 +12,7 @@ pool:
 
 variables:
   BuildConfiguration: Release
-  Projects: 'src/NSwag.Min.sln'
+  Projects: 'src/NSwag.sln'
 
 steps:
 # Install required SDKs and tools
