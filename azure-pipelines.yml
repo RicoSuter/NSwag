@@ -67,6 +67,13 @@ steps:
     Contents: '**/*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
+- task: CopyFiles@2
+  displayName: 'Copy MSI'
+#  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    Contents: '**/*.msi'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
 #  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
