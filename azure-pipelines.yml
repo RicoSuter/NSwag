@@ -46,7 +46,7 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '$(Projects)'
-    msbuildArchitecture: 'x64'
+    msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
