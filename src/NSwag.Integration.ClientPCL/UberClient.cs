@@ -14,7 +14,7 @@
 namespace Uber
 {
     using System = global::System;
-    
+
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class Client 
     {
@@ -1133,7 +1133,7 @@ namespace Uber
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
-            Response = response; 
+            Response = response;
             Headers = headers;
         }
 

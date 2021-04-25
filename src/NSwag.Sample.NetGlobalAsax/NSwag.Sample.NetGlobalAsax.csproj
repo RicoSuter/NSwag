@@ -13,6 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NSwag.Sample.NetGlobalAsax</RootNamespace>
     <AssemblyName>NSwag.Sample.NetGlobalAsax</AssemblyName>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>

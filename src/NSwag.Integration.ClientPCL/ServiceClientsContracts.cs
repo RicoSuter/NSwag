@@ -14,7 +14,7 @@
 namespace NSwag.Integration.ClientPCL.Contracts
 {
     using System = global::System;
-    
+
     
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
@@ -336,14 +336,14 @@ namespace NSwag.Integration.ClientPCL.Contracts
 
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
-            StatusCode = statusCode; 
-            Headers = headers; 
-            Stream = stream; 
-            _client = client; 
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
             _response = response;
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             Stream.Dispose();
             if (_response != null)
@@ -359,10 +359,10 @@ namespace NSwag.Integration.ClientPCL.Contracts
         public int StatusCode { get; private set; }
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-        
-        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+
+        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
-            StatusCode = statusCode; 
+            StatusCode = statusCode;
             Headers = headers;
         }
     }
@@ -371,8 +371,8 @@ namespace NSwag.Integration.ClientPCL.Contracts
     public partial class SwaggerResponse<TResult> : SwaggerResponse
     {
         public TResult Result { get; private set; }
-        
-        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+
+        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
             : base(statusCode, headers)
         {
             Result = result;
@@ -392,7 +392,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
-            Response = response; 
+            Response = response;
             Headers = headers;
         }
 
@@ -427,7 +427,7 @@ namespace NSwag.Integration.ClientPCL.Contracts
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
-            Response = response; 
+            Response = response;
             Headers = headers;
         }
 

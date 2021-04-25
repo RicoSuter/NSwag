@@ -14,7 +14,7 @@
 namespace NSwag.Integration.Console.Contracts
 {
     using System = global::System;
-    
+
     
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
@@ -336,14 +336,14 @@ namespace NSwag.Integration.Console.Contracts
 
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
-            StatusCode = statusCode; 
-            Headers = headers; 
-            Stream = stream; 
-            _client = client; 
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
             _response = response;
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             Stream.Dispose();
             if (_response != null)
@@ -366,7 +366,7 @@ namespace NSwag.Integration.Console.Contracts
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
-            Response = response; 
+            Response = response;
             Headers = headers;
         }
 

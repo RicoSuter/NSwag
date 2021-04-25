@@ -16,7 +16,7 @@ using System.Web.Http;
 namespace MyNamespace
 {
     using System = global::System;
-    
+
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v11.0.0.0))")]
     public interface IGeoController
     {
@@ -552,14 +552,14 @@ namespace MyNamespace
 
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
         {
-            StatusCode = statusCode; 
-            Headers = headers; 
-            Stream = stream; 
-            _client = client; 
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
             _response = response;
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             Stream.Dispose();
             if (_response != null)

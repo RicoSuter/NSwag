@@ -16,7 +16,7 @@ using NSwag.Integration.Console.Contracts;
 namespace NSwag.Integration.Console
 {
     using System = global::System;
-    
+
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class GeoClient 
     {

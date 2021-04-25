@@ -16,6 +16,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
     <DependsOnNETStandard>true</DependsOnNETStandard>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -308,7 +309,7 @@
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.4.1" />
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.4.1" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.4.1" />
-    <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />

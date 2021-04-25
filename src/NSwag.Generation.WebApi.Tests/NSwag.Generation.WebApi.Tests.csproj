@@ -11,6 +11,7 @@
     <AssemblyName>NSwag.Generation.WebApi.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
