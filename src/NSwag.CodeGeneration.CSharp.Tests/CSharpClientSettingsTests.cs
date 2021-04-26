@@ -150,5 +150,55 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             //// Assert
             Assert.Contains("public partial interface IFooClient : IClientBase", code);
         }
+
+        [Fact]
+        public async Task When_generate_prepare_request_and_process_response_as_asyncMethods_is_not_specified_then_sync_prepareRequest_and_processResponse_methods_generated()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GeneratePrepareRequestAndProcessResponseAsAsyncMethods = false
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);", code);
+            Assert.Contains("partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);", code);
+            Assert.Contains("partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);", code);
+
+            Assert.Contains("PrepareRequest(client_, request_, urlBuilder_);", code);
+            Assert.Contains("PrepareRequest(client_, request_, url_);", code);
+            Assert.Contains("ProcessResponse(client_, response_);", code);
+        }
+
+        [Fact]
+        public async Task When_generate_prepare_request_and_process_response_as_asyncMethods_is_specified_then_async_prepareRequest_and_processResponse_methods_generated()
+        {
+            //// Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GeneratePrepareRequestAndProcessResponseAsAsyncMethods = true
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("partial async Task PrepareRequestAsync(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url, System.Threading.CancellationToken cancellationToken);", code);
+            Assert.Contains("partial async Task PrepareRequestAsync(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder, System.Threading.CancellationToken cancellationToken);", code);
+            Assert.Contains("partial async Task ProcessResponseAsync(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken);", code);
+
+            Assert.Contains("await PrepareRequestAsync(client_, request_, urlBuilder_, cancellationToken).ConfigureAwait(false);", code);
+            Assert.Contains("await PrepareRequestAsync(client_, request_, url_, cancellationToken).ConfigureAwait(false);", code);
+            Assert.Contains("await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);", code);
+        }
     }
 }

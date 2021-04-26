@@ -89,7 +89,11 @@
 {% endif -%}
 
 
-{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
+{% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
+    partial async Task PrepareRequestAsync({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url, System.Threading.CancellationToken cancellationToken);
+    partial async Task PrepareRequestAsync({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder, System.Threading.CancellationToken cancellationToken);
+    partial async Task ProcessResponseAsync({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken);
+{% else -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
     partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
@@ -283,7 +287,7 @@
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                await PrepareRequestAsync(client_, request_, urlBuilder_).ConfigureAwait(false);
+                await PrepareRequestAsync(client_, request_, urlBuilder_, cancellationToken).ConfigureAwait(false);
 {% else -%}
                 PrepareRequest(client_, request_, urlBuilder_);
 {% endif -%}
@@ -292,7 +296,7 @@
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
-                await PrepareRequestAsync(client_, request_, url_).ConfigureAwait(false);
+                await PrepareRequestAsync(client_, request_, url_, cancellationToken).ConfigureAwait(false);
 {% else -%}
                 PrepareRequest(client_, request_, url_);
 {% endif -%}
