@@ -36,9 +36,9 @@
 
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}
-    {% if WrapDtoExceptions -%}
+    {% if NamedParameters -%}
     (parameters: {
-            {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal | undefined{% endif %}
+            {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}; {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}; {% endif %}signal?: AbortSignal | undefined{% endif %}
         })
         const { {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} } = parameters;
         {% if UseAbortSignal %}const { signal } = parameters; {% endif %}
