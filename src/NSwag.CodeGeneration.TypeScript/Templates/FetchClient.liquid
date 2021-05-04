@@ -37,7 +37,7 @@
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}{% if NamedParameters and operation.Parameters.size > 0 -%}(parameters: {
             {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}; {% endif %}{% endfor %}
-        }, {% if UseAbortSignal %}signal?: AbortSignal | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
+        }{% if UseAbortSignal %}, signal?: AbortSignal | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
         const { {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} } = parameters;
 {%     else -%}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
 {%     endif -%}
