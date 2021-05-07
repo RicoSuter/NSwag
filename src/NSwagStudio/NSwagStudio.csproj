@@ -302,7 +302,7 @@
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="MyToolkit" Version="2.5.16" />
     <PackageReference Include="MyToolkit.Extended" Version="2.5.16" />
-    <PackageReference Include="Namotion.Reflection" Version="1.0.19" />
+    <PackageReference Include="Namotion.Reflection" Version="1.0.22" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="NJsonSchema" Version="10.4.2" />
