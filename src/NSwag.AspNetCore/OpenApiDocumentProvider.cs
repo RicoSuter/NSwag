@@ -28,7 +28,7 @@ namespace NSwag.AspNetCore
             _documents = documents ?? throw new ArgumentNullException(nameof(documents));
         }
 
-        public async Task<OpenApiDocument> GenerateAsync(string documentName)
+        public Task<OpenApiDocument> GenerateAsync(string documentName)
         {
             if (documentName == null)
             {
@@ -53,7 +53,7 @@ namespace NSwag.AspNetCore
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 
-            return await document.Generator.GenerateAsync(_serviceProvider);
+            return document.Generator.GenerateAsync(_serviceProvider);
         }
 
         // Called by the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.

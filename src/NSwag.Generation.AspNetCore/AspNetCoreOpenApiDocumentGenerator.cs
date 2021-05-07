@@ -43,7 +43,7 @@ namespace NSwag.Generation.AspNetCore
         /// <summary>Generates the <see cref="OpenApiDocument"/> with services from the given service provider.</summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>The document</returns>
-        public async Task<OpenApiDocument> GenerateAsync(object serviceProvider)
+        public Task<OpenApiDocument> GenerateAsync(object serviceProvider)
         {
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
@@ -53,7 +53,7 @@ namespace NSwag.Generation.AspNetCore
             Settings.ApplySettings(settings, mvcOptions.Value);
 
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-            return await GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
+            return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
 
         /// <summary>Loads the <see cref="GetJsonSerializerSettings"/> from the given service provider.</summary>
@@ -65,9 +65,9 @@ namespace NSwag.Generation.AspNetCore
             try
             {
 #if NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
-                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)) as dynamic)();
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)))();
 #else
-                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)) as dynamic)();
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
 #endif
             }
             catch
@@ -77,7 +77,7 @@ namespace NSwag.Generation.AspNetCore
                     // Try load ASP.NET Core 3 options
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                    options = serviceProvider?.GetService(optionsType) as dynamic;
+                    options = serviceProvider?.GetService(optionsType);
                 }
                 catch
                 {
@@ -138,7 +138,7 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
-            // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a 
+            // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a
             // contract resolver which reflects best the System.Text.Json behavior.
             // See https://github.com/RicoSuter/NSwag/issues/2243
 

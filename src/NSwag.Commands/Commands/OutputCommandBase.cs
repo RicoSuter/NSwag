@@ -25,7 +25,7 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected async Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
+        protected Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
         {
             if (!IsJson(input) && !IsYaml(input))
             {
@@ -34,11 +34,11 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await OpenApiYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return OpenApiYamlDocument.FromUrlAsync(input);
                     }
                     else
                     {
-                        return await OpenApiDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return OpenApiDocument.FromUrlAsync(input);
                     }
                 }
                 else
@@ -46,11 +46,11 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await OpenApiYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return OpenApiYamlDocument.FromFileAsync(input);
                     }
                     else
                     {
-                        return await OpenApiDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return OpenApiDocument.FromFileAsync(input);
                     }
                 }
             }
@@ -58,11 +58,11 @@ namespace NSwag.Commands
             {
                 if (IsYaml(input))
                 {
-                    return await OpenApiYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                    return OpenApiYamlDocument.FromYamlAsync(input);
                 }
                 else
                 {
-                    return await OpenApiDocument.FromJsonAsync(input).ConfigureAwait(false);
+                    return OpenApiDocument.FromJsonAsync(input);
                 }
             }
         }

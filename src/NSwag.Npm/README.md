@@ -43,14 +43,6 @@ To specify what .NET Core binaries to execute, either use (default)
 
 or
 
-    nswag version /runtime:NetCore22
-
-or
-
-    nswag version /runtime:NetCore30
-
-or
-
     nswag version /runtime:NetCore31
 
 or

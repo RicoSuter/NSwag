@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
@@ -70,6 +71,12 @@ namespace NSwag.CodeGeneration
         /// <returns>The code</returns>
         public string GenerateFile(ClientGeneratorOutputType outputType)
         {
+            if (!OutputRequiresRefresh(BaseSettings.OutputFilePath))
+            {
+                // just give back the original file as it hasn't changed
+                return File.ReadAllText(BaseSettings.OutputFilePath);
+            }
+
             var clientTypes = GenerateAllClientTypes();
 
             var dtoTypes = BaseSettings.GenerateDtoTypes ?
@@ -90,6 +97,69 @@ namespace NSwag.CodeGeneration
                 .Replace("\r", string.Empty)
                 .Replace("\n\n\n\n", "\n\n")
                 .Replace("\n\n\n", "\n\n");
+        }
+
+        private bool OutputRequiresRefresh(string outputFilePath)
+        {
+            if (!BaseSettings.ChecksumCacheEnabled || string.IsNullOrWhiteSpace(outputFilePath) || !File.Exists(outputFilePath))
+            {
+                // no point in checking
+                return true;
+            }
+
+            var sourceDocumentChecksum = _document.GetChecksum();
+            if (string.IsNullOrWhiteSpace(sourceDocumentChecksum))
+            {
+                return true;
+            }
+
+            // if we can match both source checksum and toolchain, we can presume file hasn't been changed
+            var checksumMatches = false;
+            var toolchainVersionMatches = false;
+            const string checksumMarker = "SourceSHA: ";
+            const string toolchainVersionMarker = "toolchain v";
+
+            try
+            {
+                using (var reader = new StreamReader(new FileStream(outputFilePath, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                {
+                    // read multiple lines as we can have headers before version info
+                    var counter = 10;
+                    string line;
+                    while ((line = reader.ReadLine()) != null && counter > 0)
+                    {
+                        counter--;
+                        var checksumStartIndex = line.IndexOf(checksumMarker);
+                        if (checksumStartIndex > -1)
+                        {
+                            var startIndex = checksumStartIndex + checksumMarker.Length;
+                            var fileSourceSha = line.Substring(startIndex).Trim();
+                            checksumMatches = fileSourceSha == sourceDocumentChecksum;
+                        }
+
+                        var toolchainStartIndex = line.IndexOf(toolchainVersionMarker);
+                        if (toolchainStartIndex > -1)
+                        {
+                            var startIndex = toolchainStartIndex + toolchainVersionMarker.Length;
+                            var length = line.IndexOf(" ", startIndex) - startIndex;
+                            var fileToolchainVersion = line.Substring(startIndex, length).Trim();
+                            toolchainVersionMatches = fileToolchainVersion == OpenApiDocument.ToolchainVersion;
+                        }
+
+                        if (checksumMatches && toolchainVersionMatches)
+                        {
+                            // we are good to go with cached version, no need to refresh
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // no-go
+            }
+
+            return true;
         }
 
         /// <summary>Generates the file.</summary>

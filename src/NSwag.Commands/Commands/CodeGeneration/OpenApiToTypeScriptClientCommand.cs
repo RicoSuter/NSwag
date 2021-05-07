@@ -270,7 +270,7 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.TypeScriptGeneratorSettings.EnumStyle; }
             set { Settings.TypeScriptGeneratorSettings.EnumStyle = value; }
         }
-        
+
         [Argument(Name = "UseLeafType", IsRequired = false, Description = "Generate leaf types for an object with discriminator (default: false).")]
         public bool UseLeafType
         {
@@ -394,9 +394,9 @@ namespace NSwag.Commands.CodeGeneration
             return code;
         }
 
-        public async Task<string> RunAsync()
+        public Task<string> RunAsync()
         {
-            return await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 var additionalCode = ExtensionCode ?? string.Empty;
                 if (DynamicApis.FileExists(additionalCode))
@@ -404,6 +404,7 @@ namespace NSwag.Commands.CodeGeneration
                     additionalCode = DynamicApis.FileReadAllText(additionalCode);
                 }
 
+                Settings.OutputFilePath = OutputFilePath;
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);

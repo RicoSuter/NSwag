@@ -192,10 +192,18 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                     var binaryName = LauncherBinaryName + ".dll";
                     var executorBinary = Path.Combine(toolDirectory, binaryName);
+                   
+                    if (!File.Exists(executorBinary))
+                    {
+                        binaryName = LauncherBinaryName + ".exe";
+                        executorBinary = Path.Combine(toolDirectory, binaryName);
+                    }
+
                     if (!File.Exists(executorBinary))
                     {
                         throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
                     }
+
                     args.Add(executorBinary);
                 }
 #endif

@@ -48,7 +48,13 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _clientCode = clientTypes.Concatenate();
 
             Classes = dtoTypes.Concatenate();
+            SourceSha = _settings.ChecksumCacheEnabled ? _document.GetChecksum() : "";
         }
+
+        /// <summary>
+        /// Gets the checksum for the document that was used to produce the file.
+        /// </summary>
+        public string SourceSha { get; }
 
         /// <summary>Gets the namespace.</summary>
         public string Namespace => _settings.CSharpGeneratorSettings.Namespace ?? string.Empty;

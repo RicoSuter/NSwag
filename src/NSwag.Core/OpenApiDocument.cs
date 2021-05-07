@@ -9,8 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -153,7 +155,7 @@ namespace NSwag
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, 
+        public static Task<OpenApiDocument> FromJsonAsync(string data, string documentPath,
             SchemaType expectedSchemaType, CancellationToken cancellationToken = default)
         {
             return FromJsonAsync(data, documentPath, expectedSchemaType, null, cancellationToken);
@@ -166,7 +168,7 @@ namespace NSwag
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType, 
+        public static async Task<OpenApiDocument> FromJsonAsync(string data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
             // For explanation of the regex use https://regexr.com/ and the below unescaped pattern that is without named groups
@@ -242,6 +244,31 @@ namespace NSwag
                     Operation = o.Value
                 }));
             }
+        }
+
+        /// <summary>
+        /// Calculates checksum for this document based on JSON contents.
+        /// </summary>
+        /// <remarks>Will always return null under .NET Standard 1.0.</remarks>
+        public string GetChecksum()
+        {
+#if !NETSTANDARD1_0
+            var json = ToJson(SchemaType, Formatting.None);
+            var sb = new StringBuilder();
+            using (var hash = System.Security.Cryptography.SHA256.Create())
+            {
+                var result = hash.ComputeHash(Encoding.UTF8.GetBytes(json));
+                foreach (var b in result)
+                {
+                    sb.Append(b.ToString("x2"));
+                }
+            }
+
+            return sb.ToString();
+#else
+            // not supported
+            return null;
+#endif
         }
 
         /// <summary>Generates missing or non-unique operation IDs.</summary>

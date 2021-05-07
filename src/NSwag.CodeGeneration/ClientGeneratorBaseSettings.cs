@@ -77,5 +77,11 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
         public string ResponseClass { get; set; }
+
+        /// <summary>Gets or sets the output file name, used to detect changes.</summary>
+        public string OutputFilePath { get; set; }
+
+        /// <summary>Gets or sets whether checksum based output caching can be used.
+        public bool ChecksumCacheEnabled { get; set; }
     }
 }

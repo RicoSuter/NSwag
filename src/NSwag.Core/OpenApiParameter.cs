@@ -97,7 +97,7 @@ namespace NSwag
         public bool AllowEmptyValue { get; set; }
 
         /// <summary>Gets or sets the description. </summary>
-        [Newtonsoft.Json.JsonProperty("description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public override string Description
         {
             get => base.Description;
