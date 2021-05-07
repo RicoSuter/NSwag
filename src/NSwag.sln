@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwagStudio.Chocolatey", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.WebAPI", "NSwag.Integration.WebAPI\NSwag.Integration.WebAPI.csproj", "{6DF73809-53CA-4A82-AAE6-3C2C62C2D8E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL", "NSwag.Integration.ClientPCL\NSwag.Integration.ClientPCL.csproj", "{ECD41518-A92C-4706-8E74-9707AFA554B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Integration.ClientPCL", "NSwag.Integration.ClientPCL\NSwag.Integration.ClientPCL.csproj", "{ECD41518-A92C-4706-8E74-9707AFA554B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL.Tests", "NSwag.Integration.ClientPCL.Tests\NSwag.Integration.ClientPCL.Tests.csproj", "{A46ED5E6-95EE-448B-AA88-E43FA32482B6}"
 EndProject
@@ -160,6 +160,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Build", "00 Build", "{6F5E4FDF-0A82-42D5-94AC-A9CD43CC931D}"
 	ProjectSection(SolutionItems) = preProject
+		..\build\01_Build.bat = ..\build\01_Build.bat
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
