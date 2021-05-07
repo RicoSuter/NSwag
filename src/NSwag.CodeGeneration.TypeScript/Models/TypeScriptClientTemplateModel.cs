@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
 
-        /// <summary>Gets a value indicating whether to use the AbortSignal (Fetch template only, default: false).</summary>
+        /// <summary>Gets a value indicating whether to use the AbortSignal (Fetch/Aurelia template only, default: false).</summary>
         public bool UseAbortSignal => _settings.UseAbortSignal;
     }
 }

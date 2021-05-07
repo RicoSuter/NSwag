@@ -115,8 +115,8 @@
                                 </GroupBox>
 
                                 <CheckBox IsChecked="{Binding Command.UseAbortSignal, Mode=TwoWay}" 
-                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch', Converter={StaticResource EqualityConverter}}"
-                                          Content="Use the AbortSignal (Fetch template only)"
+                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch,Aurelia', Converter={StaticResource EqualityConverter}}"
+                                          Content="Use the AbortSignal (Fetch/Aurelia template only)"
                                           ToolTip="UseAbortSignal"
                                           Margin="0,0,0,12" />
 
