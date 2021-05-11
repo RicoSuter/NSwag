@@ -184,8 +184,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                 if (operationParameter != null)
                 {
-                    operationParameter.Position = position;
                     position++;
+                    operationParameter.Position = position;
 
                     if (_settings.SchemaType == SchemaType.OpenApi3)
                     {
@@ -194,6 +194,11 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                     if (parameter != null)
                     {
+                        if (_settings.GenerateCustomParameterNames && operationParameter.Name != parameter.Name)
+                        {
+                            operationParameter.CustomName = parameter.Name;
+                        }
+
                         ((Dictionary<ParameterInfo, OpenApiParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
                     }
                 }
