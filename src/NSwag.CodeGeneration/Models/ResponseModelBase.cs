@@ -86,8 +86,10 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the response requires a text/plain content.</summary>
         public bool IsPlainText =>
-            !_response.Content.ContainsKey("application/json") &&
-            (_response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain");
+            (_response.Content.ContainsKey("application/json") &&
+            _response.Schema != null && _response.Schema?.Type == JsonObjectType.String) ||
+            (!_response.Content.ContainsKey("application/json") &&
+            (_response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain"));
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => IsSuccess && _response.IsBinary(_operation);
