@@ -347,7 +347,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_custom_name_is_defined_then_csharp_parameter_is_the_same()
+        public void When_original_name_is_defined_then_csharp_parameter_is_the_same()
         {
             //// Arrange
             var document = new OpenApiDocument();
