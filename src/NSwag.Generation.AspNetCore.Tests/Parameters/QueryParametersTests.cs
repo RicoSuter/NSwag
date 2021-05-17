@@ -65,7 +65,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         }
 
         [Fact]
-        public async Task When_parameter_is_overwritten_then_custom_name_is_set()
+        public async Task When_parameter_is_overwritten_then_original_name_is_set()
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = false };
