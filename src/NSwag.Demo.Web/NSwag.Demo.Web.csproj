@@ -142,7 +142,7 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="Namotion.Reflection" Version="1.0.23" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.4.3" />
+    <PackageReference Include="NJsonSchema" Version="10.4.4" />
     <PackageReference Include="Owin" Version="1.0.0" />
   </ItemGroup>
   <PropertyGroup>

@@ -27,7 +27,7 @@
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="10.4.3" />
+    <PackageReference Include="NJsonSchema" Version="10.4.4" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.0.4" />
