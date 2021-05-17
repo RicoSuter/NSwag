@@ -21,8 +21,8 @@ namespace NSwag.CodeGeneration
         /// <returns>The parameter name.</returns>
         public string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
-            var name = !string.IsNullOrEmpty(parameter.CustomName) ? 
-                parameter.CustomName : parameter.Name;
+            var name = !string.IsNullOrEmpty(parameter.OriginalName) ? 
+                parameter.OriginalName : parameter.Name;
 
             if (string.IsNullOrEmpty(name))
             {

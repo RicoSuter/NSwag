@@ -71,11 +71,11 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultResponseReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(GenerateCustomParameterNames), IsRequired = false, Description = "Generate x-name properties when parameter name is differnt in .NET and HTTP (default: true).")]
-        public bool GenerateCustomParameterNames
+        [Argument(Name = nameof(GenerateOriginalParameterNames), IsRequired = false, Description = "Generate x-originalName properties when parameter name is differnt in .NET and HTTP (default: true).")]
+        public bool GenerateOriginalParameterNames
         {
-            get => Settings.GenerateCustomParameterNames;
-            set => Settings.GenerateCustomParameterNames = value;
+            get => Settings.GenerateOriginalParameterNames;
+            set => Settings.GenerateOriginalParameterNames = value;
         }
 
         [Argument(Name = "DefaultEnumHandling", IsRequired = false, Description = "The default enum handling ('String' or 'Integer'), default: Integer.")]

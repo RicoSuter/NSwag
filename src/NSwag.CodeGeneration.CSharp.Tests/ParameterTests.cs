@@ -362,7 +362,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                             {
                                 Kind = OpenApiParameterKind.Query,
                                 Name = "foo",
-                                CustomName = "bar",
+                                OriginalName = "bar",
                                 Schema = new JsonSchema
                                 {
                                     Type = JsonObjectType.String

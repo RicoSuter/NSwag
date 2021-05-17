@@ -192,7 +192,7 @@ namespace NSwag.Generation.WebApi.Processors
 
                     if (operationParameter.Name != contextualParameter.ParameterInfo.Name)
                     {
-                        operationParameter.CustomName = contextualParameter.ParameterInfo.Name;
+                        operationParameter.OriginalName = contextualParameter.ParameterInfo.Name;
                     }
                     
                     ((Dictionary<ParameterInfo, OpenApiParameter>)context.Parameters)[contextualParameter.ParameterInfo] = operationParameter;

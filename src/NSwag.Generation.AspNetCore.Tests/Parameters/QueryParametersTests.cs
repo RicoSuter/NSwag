@@ -77,7 +77,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var parameter = document.Operations.First().Operation.ActualParameters.First();
 
             Assert.Equal("month", parameter.Name);
-            Assert.Equal("months", parameter.CustomName);
+            Assert.Equal("months", parameter.OriginalName);
         }
     }
 }

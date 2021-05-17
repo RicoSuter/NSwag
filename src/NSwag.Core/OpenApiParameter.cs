@@ -44,9 +44,9 @@ namespace NSwag
             }
         }
 
-        /// <summary>Gets or sets a custom name which is often used in code generation (default: null).</summary>
-        [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string CustomName { get; set; }
+        /// <summary>Gets or sets a original name property x-originalName which is often used in code generation (default: null).</summary>
+        [JsonProperty(PropertyName = "x-originalName", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string OriginalName { get; set; }
 
         /// <summary>Gets or sets the kind of the parameter.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
