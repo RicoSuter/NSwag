@@ -194,6 +194,11 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                     if (parameter != null)
                     {
+                        if (_settings.GenerateOriginalParameterNames && operationParameter.Name != parameter.Name)
+                        {
+                            operationParameter.OriginalName = parameter.Name;
+                        }
+
                         ((Dictionary<ParameterInfo, OpenApiParameter>)operationProcessorContext.Parameters)[parameter] = operationParameter;
                     }
                 }

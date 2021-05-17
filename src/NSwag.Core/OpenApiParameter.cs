@@ -44,6 +44,10 @@ namespace NSwag
             }
         }
 
+        /// <summary>Gets or sets a original name property x-originalName which is often used in code generation (default: null).</summary>
+        [JsonProperty(PropertyName = "x-originalName", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string OriginalName { get; set; }
+
         /// <summary>Gets or sets the kind of the parameter.</summary>
         [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public OpenApiParameterKind Kind
@@ -245,7 +249,7 @@ namespace NSwag
                 {
                     var consumes = parent.ActualConsumes;
                     return consumes?.Any() == true &&
-                           (Schema?.IsBinary != false || 
+                           (Schema?.IsBinary != false ||
                             consumes.Contains("multipart/form-data")) &&
                            consumes?.Any(p => p.Contains("*/*")) == false &&
                            consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
