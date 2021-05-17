@@ -184,8 +184,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                 if (operationParameter != null)
                 {
-                    position++;
                     operationParameter.Position = position;
+                    position++;
 
                     if (_settings.SchemaType == SchemaType.OpenApi3)
                     {
