@@ -345,5 +345,41 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains($@"fromQuery.Value.ToString(""{dateFormat}""", code);
             Assert.Contains($@"toQuery.Value.ToString(""{dateTimeFormat}""", code);
         }
+
+        [Fact]
+        public void When_original_name_is_defined_then_csharp_parameter_is_the_same()
+        {
+            //// Arrange
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
+            {
+                {
+                    OpenApiOperationMethod.Get, new OpenApiOperation
+                    {
+                        Parameters =
+                        {
+                            new OpenApiParameter
+                            {
+                                Kind = OpenApiParameterKind.Query,
+                                Name = "foo",
+                                OriginalName = "bar",
+                                Schema = new JsonSchema
+                                {
+                                    Type = JsonObjectType.String
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //// Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("FooAsync(string bar,", code);
+            Assert.Contains("EscapeDataString(\"foo\")", code);
+        }
     }
 }

@@ -21,19 +21,22 @@ namespace NSwag.CodeGeneration
         /// <returns>The parameter name.</returns>
         public string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
-            if (string.IsNullOrEmpty(parameter.Name))
+            var name = !string.IsNullOrEmpty(parameter.OriginalName) ? 
+                parameter.OriginalName : parameter.Name;
+
+            if (string.IsNullOrEmpty(name))
             {
                 return "unnamed";
             }
 
-            var variableName = ConversionUtilities.ConvertToLowerCamelCase(parameter.Name
+            var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
                 .Replace("-", "_")
                 .Replace(".", "_")
                 .Replace("$", string.Empty)
                 .Replace("[", string.Empty)
                 .Replace("]", string.Empty), true);
 
-            if (allParameters.Count(p => p.Name == parameter.Name) > 1)
+            if (allParameters.Count(p => p.Name == name) > 1)
             {
                 return variableName + parameter.Kind;
             }

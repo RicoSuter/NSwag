@@ -46,6 +46,9 @@ namespace NSwag.Generation
         /// <summary>Gets or sets the default response reference type null handling when no nullability information is available (if NotNullAttribute and CanBeNullAttribute are missing, default: NotNull).</summary>
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate x-originalName properties when parameter name is differnt in .NET and HTTP (default: true).</summary>
+        public bool GenerateOriginalParameterNames { get; set; } = true;
+
         /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
         public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection

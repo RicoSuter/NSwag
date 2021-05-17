@@ -184,6 +184,16 @@ namespace NSwag.Generation.WebApi.Processors
                 {
                     operationParameter.Position = position;
                     position++;
+
+                    if (_settings.SchemaType == SchemaType.OpenApi3)
+                    {
+                        operationParameter.IsNullableRaw = null;
+                    }
+
+                    if (operationParameter.Name != contextualParameter.ParameterInfo.Name)
+                    {
+                        operationParameter.OriginalName = contextualParameter.ParameterInfo.Name;
+                    }
                     
                     ((Dictionary<ParameterInfo, OpenApiParameter>)context.Parameters)[contextualParameter.ParameterInfo] = operationParameter;
                 }
