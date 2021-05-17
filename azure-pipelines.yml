@@ -28,6 +28,11 @@ steps:
     script: 'npm i -g dotnettools'
 
 - task: CmdLine@2
+  displayName: 'Install WiX Toolset'
+  inputs:
+    script: 'choco install wixtoolset'
+
+- task: CmdLine@2
   displayName: 'Patch project version (preview)'
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/release'))
   inputs:
