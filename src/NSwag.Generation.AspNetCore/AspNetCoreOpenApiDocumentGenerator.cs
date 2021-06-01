@@ -48,7 +48,10 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
+            var settings =
+                mvcOptions.Value.OutputFormatters.Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
+                    GetSystemTextJsonSettings(typedServiceProvider) :
+                    GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
