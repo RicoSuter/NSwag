@@ -2,18 +2,18 @@
 return response.text().then((_responseText) => {
 {% elseif Framework.Angular.UseHttpClient -%}
 {%     if Framework.UseRxJs6 -%}
-return blobToText(responseBlob).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}(_responseText => {
+return blobToText(responseBlob).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}({{ Framework.RxJs.ResponseTextProperty }} => {
 {%     else -%}
-return blobToText(responseBlob).flatMap(_responseText => {
+return blobToText(responseBlob).flatMap({{ Framework.RxJs.ResponseTextProperty }} => {
 {%     endif -%}
 {% elseif operation.RequestAngularBlobs -%}
 {%     if Framework.UseRxJs6 -%}
-return blobToText(response.blob()).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}(_responseText => {
+return blobToText(response.blob()).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}({{ Framework.RxJs.ResponseTextProperty }} => {
 {%     else -%}
-return blobToText(response.blob()).flatMap(_responseText => {
+return blobToText(response.blob()).flatMap({{ Framework.RxJs.ResponseTextProperty }} => {
 {%     endif -%}
 {% elseif operation.RequestAngularJSBlobs -%}
-return blobToText(new Blob([response.data]), this.q).then(_responseText => {
+return blobToText(new Blob([response.data]), this.q).then({{ Framework.RxJs.ResponseTextProperty }} => {
 {% elseif Framework.IsAngular -%}
 const _responseText = response.text();
 {% elseif Framework.IsAngularJS -%}
