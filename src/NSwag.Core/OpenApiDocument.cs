@@ -317,7 +317,7 @@ namespace NSwag
 
                     foreach (var o in group)
                     {
-                        o.Operation.OperationId += "_" + o.Method.ToUpper();
+                        o.Operation.OperationId += o.Method.ToUpper();
                     }
                 }
             }
