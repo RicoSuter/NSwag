@@ -426,7 +426,7 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = swaggerOperationAttribute.OperationId;
             }
-            else if (httpAttribute != null && !string.IsNullOrWhiteSpace(httpAttribute.Name))
+            else if (Settings.UseHttpAttributeNameAsOperationId && httpAttribute != null && !string.IsNullOrWhiteSpace(httpAttribute.Name))
             {
                 operationId = httpAttribute.Name;
             }

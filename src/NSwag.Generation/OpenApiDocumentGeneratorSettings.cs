@@ -74,6 +74,9 @@ namespace NSwag.Generation
         /// </summary>
         public bool UseControllerSummaryAsTagDescription { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the HttpMethodAttribute Name property shall be used as OperationId.</summary>
+        public bool UseHttpAttributeNameAsOperationId { get; set; } = false;
+
         /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
         /// <param name="filter">The processor filter.</param>
         public void AddOperationFilter(Func<OperationProcessorContext, bool> filter)
