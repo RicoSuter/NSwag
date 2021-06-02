@@ -63,5 +63,21 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.False(operation.ActualParameters.Skip(1).First().IsRequired);
             Assert.True(operation.ActualParameters.Skip(2).First().IsRequired);
         }
+
+        [Fact]
+        public async Task When_parameter_is_overwritten_then_original_name_is_set()
+        {
+            // Arrange
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = false };
+
+            // Act
+            var document = await GenerateDocumentAsync(settings, typeof(RenamedQueryParameterController));
+
+            // Assert
+            var parameter = document.Operations.First().Operation.ActualParameters.First();
+
+            Assert.Equal("month", parameter.Name);
+            Assert.Equal("months", parameter.OriginalName);
+        }
     }
 }

@@ -1,0 +1,728 @@
+{
+  "x-generator": "NSwag v11.18.3.0 (NJsonSchema v9.10.67.0 (Newtonsoft.Json v10.0.0.0))",
+  "openapi": "3.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain",
+    "text/json"
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:65384"
+    }
+  ],
+  "paths": {
+    "/pet": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_AddPet",
+        "requestBody": {
+          "x-name": "pet",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_EditPet",
+        "requestBody": {
+          "x-name": "pet",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pet/findByStatus": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_FindByStatus",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "collectionFormat": "multi",
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pet/findByCategory": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_FindByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pet/{petId}": {
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_FindById",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Pet"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_EditPetWithFormData",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "name": "Id",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "name": "Age",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "name": "Category.Id",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "name": "Category.Name",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          {
+            "name": "HasVaccinations",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            },
+            "nullable": false
+          },
+          {
+            "name": "Name",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          {
+            "name": "Images",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Image"
+              }
+            },
+            "collectionFormat": "multi",
+            "nullable": true
+          },
+          {
+            "name": "Tags",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            },
+            "collectionFormat": "multi",
+            "nullable": true
+          },
+          {
+            "name": "Status",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_DeletePet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          }
+        ],
+        "responses": {
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/pet/{petId}/uploadImage": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_UploadImage",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "type": "file",
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "file"
+            },
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SerializableError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/pet/RequiredAndOptional": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "operationId": "Pet_RequiredAndOptional",
+        "parameters": [
+          {
+            "name": "int_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": false
+          },
+          {
+            "name": "int_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          {
+            "name": "string_RequiredAndNullable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          {
+            "name": "string_RequiredAndNotNullable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "nullable": false
+          },
+          {
+            "name": "decimalWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal"
+            },
+            "default": 1.0,
+            "nullable": false
+          },
+          {
+            "name": "decimalWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal"
+            },
+            "default": 1.0,
+            "nullable": true
+          },
+          {
+            "name": "stringWithDefault_NotRequiredAndNullable",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "default": "foo",
+            "nullable": true
+          },
+          {
+            "name": "stringWithDefault_NotRequiredAndNotNullable",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "default": "foo",
+            "nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/sample": {
+      "post": {
+        "tags": [
+          "Sample"
+        ],
+        "operationId": "Sample_GetSample",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 150.0,
+            "minimum": 0.0
+          },
+          "category": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
+          },
+          "hasVaccinations": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Image": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SerializableError": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        ]
+      },
+      "ApiResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

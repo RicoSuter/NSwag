@@ -61,6 +61,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to use RxJs 6.</summary>
         public bool UseRxJs6 => _settings.RxJsVersion >= 6.0m;
 
+        /// <summary>Gets a value indicating whether to use RxJs 7.</summary>
+        public bool UseRxJs7 => _settings.RxJsVersion >= 7.0m;
+
         /// <summary>Gets Rxjs information.</summary>
         public TypeScriptFrameworkRxJsModel RxJs { get; }
 

@@ -165,6 +165,10 @@
                 <ComboBox SelectedItem="{Binding Command.DefaultResponseReferenceTypeNullHandling, Mode=TwoWay}" 
                           ToolTip="DefaultResponseReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
 
+                <CheckBox IsChecked="{Binding Command.GenerateOriginalParameterNames, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateOriginalParameterNames">
+                    <TextBlock Text="Generate x-originalName properties when parameter name is differnt in .NET and HTTP." TextWrapping="Wrap" />
+                </CheckBox>
+
                 <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
                     <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
                 </CheckBox>

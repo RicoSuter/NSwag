@@ -48,7 +48,10 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings = GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
+            var settings =
+                mvcOptions.Value.OutputFormatters.Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
+                    GetSystemTextJsonSettings(typedServiceProvider) :
+                    GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
 
             Settings.ApplySettings(settings, mvcOptions.Value);
 
@@ -61,23 +64,14 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic options = null;
-            try
-            {
-#if NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
-                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcNewtonsoftJsonOptions>)))();
-#else
-                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
-#endif
-            }
-            catch
+            dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
             {
                 try
                 {
                     // Try load ASP.NET Core 3 options
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                    options = serviceProvider?.GetService(optionsType);
+                    return (dynamic)sp?.GetService(optionsType);
                 }
                 catch
                 {
@@ -85,6 +79,20 @@ namespace NSwag.Generation.AspNetCore
                     return null;
                 }
             }
+
+#if NET5_0 || NETCOREAPP3_1
+            dynamic options = GetJsonOptionsWithReflection(serviceProvider);
+#else
+            dynamic options = null;
+            try
+            {
+                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
+            }
+            catch
+            {
+                options = GetJsonOptionsWithReflection(serviceProvider);
+            }
+#endif
 
             try
             {

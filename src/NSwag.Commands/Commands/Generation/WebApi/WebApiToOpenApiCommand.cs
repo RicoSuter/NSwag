@@ -67,7 +67,7 @@ namespace NSwag.Commands.Generation.WebApi
             set => Settings.DefaultUrlTemplate = value;
         }
 
-        [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: true).")]
+        [Argument(Name = "AddMissingPathParameters", IsRequired = false, Description = "Specifies whether to add path parameters which are missing in the action method (default: false).")]
         public bool AddMissingPathParameters
         {
             get => Settings.AddMissingPathParameters;
