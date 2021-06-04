@@ -437,20 +437,28 @@ namespace NSwag.Generation.AspNetCore.Processors
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
-            var contextualParameter = extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
+            var contextualParameterType = extendedApiParameter.ParameterType
+                .ToContextualType(extendedApiParameter.Attributes);
 
             var description = extendedApiParameter.GetDocumentation();
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
-                extendedApiParameter.ApiParameter.Name, description, contextualParameter);
+                extendedApiParameter.ApiParameter.Name, description, contextualParameterType);
 
-            if (extendedApiParameter.ParameterInfo?.HasDefaultValue == true)
+            var exampleValue = extendedApiParameter.PropertyInfo != null ?
+                context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualMember()) : null;
+
+            var hasExampleValue = exampleValue != null;
+            var hasDefaultValue = extendedApiParameter.ParameterInfo?.HasDefaultValue == true;
+
+            if (hasExampleValue || hasDefaultValue)
             {
-                var defaultValue = context.SchemaGenerator
-                    .ConvertDefaultValue(contextualParameter, extendedApiParameter.ParameterInfo.DefaultValue);
+                var defaultValue = hasDefaultValue ? context.SchemaGenerator
+                    .ConvertDefaultValue(contextualParameterType, extendedApiParameter.ParameterInfo.DefaultValue) : null;
 
                 if (_settings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter.Default = defaultValue;
+                    operationParameter.Example = exampleValue;
                 }
                 else if (operationParameter.Schema.HasReference)
                 {
@@ -459,6 +467,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         operationParameter.Schema = new JsonSchema
                         {
                             Default = defaultValue,
+                            Example = exampleValue,
                             Reference = operationParameter.Schema,
                         };
                     }
@@ -467,6 +476,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         operationParameter.Schema = new JsonSchema
                         {
                             Default = defaultValue,
+                            Example = exampleValue,
                             OneOf = { operationParameter.Schema },
                         };
                     }
@@ -474,6 +484,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 else
                 {
                     operationParameter.Schema.Default = defaultValue;
+                    operationParameter.Schema.Example = exampleValue;
                 }
             }
 

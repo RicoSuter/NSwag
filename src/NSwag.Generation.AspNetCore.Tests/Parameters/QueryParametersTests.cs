@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
 
@@ -24,7 +25,10 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.True(operation.ActualParameters.Last().IsRequired);
 
             Assert.Equal(2, operation.ActualParameters.Count);
+
             Assert.Equal("Bar.", operation.ActualParameters.First().Description);
+            Assert.Equal(JToken.Parse("42"), operation.ActualParameters.First().Example);
+
             Assert.Equal("Baz.", operation.ActualParameters.Last().Description);
         }
 
