@@ -306,11 +306,23 @@ namespace NSwag
                         }
                     }
 
-                    // Add numbers
-                    var i = 2;
-                    foreach (var operation in operations.Skip(1))
+                    bool distinctByMethodName = operations.GroupBy(o => o.Method).Count() > 1;
+
+                    if (distinctByMethodName)
                     {
-                        operation.Operation.OperationId += i++;
+                        foreach (var operation in operations)
+                        {
+                            operation.Operation.OperationId = $"{operation.Method}-{operation.Operation.OperationId}";
+                        }
+                    }
+                    else
+                    {
+                        // Add numbers
+                        var i = 2;
+                        foreach (var operation in operations.Skip(1))
+                        {
+                            operation.Operation.OperationId += i++;
+                        }
                     }
 
                     GenerateOperationIds();
