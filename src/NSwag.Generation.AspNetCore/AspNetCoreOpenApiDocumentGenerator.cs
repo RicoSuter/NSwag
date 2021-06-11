@@ -214,7 +214,10 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? OpenApiOperationMethod.Get;
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Where(p =>
+                        {
+                            return p.Source == Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Body;
+                        }).Count() > 0 ? OpenApiOperationMethod.Post : OpenApiOperationMethod.Get);
 
                         var operationDescription = new OpenApiOperationDescription
                         {
