@@ -229,6 +229,10 @@ namespace NSwag.CodeGeneration
                     {
                         operationName = operationName.Substring(0, operationName.Length - "Async".Length);
                     }
+                    if(operationName.Contains("."))
+                    {   
+                        operationName = operationName.Replace(".", "_");    
+                    }
 
                     var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
                     operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
