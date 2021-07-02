@@ -223,7 +223,7 @@ namespace NSwag.Generation.AspNetCore
                             Operation = new OpenApiOperation
                             {
                                 IsDeprecated = IsOperationDeprecated(item.Item1, controllerActionDescriptor, method),
-                                OperationId = GetOperationId(document, controllerActionDescriptor, method),
+                                OperationId = GetOperationId(document, controllerActionDescriptor, method, httpMethod),
                                 Consumes = apiDescription.SupportedRequestFormats
                                    .Select(f => f.MediaType)
                                    .Distinct()
@@ -407,7 +407,7 @@ namespace NSwag.Generation.AspNetCore
             return true;
         }
 
-        private string GetOperationId(OpenApiDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method)
+        private string GetOperationId(OpenApiDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method, string httpMethod)
         {
             string operationId;
 
@@ -415,9 +415,23 @@ namespace NSwag.Generation.AspNetCore
                 .GetCustomAttributes()
                 .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
 
+            dynamic httpAttribute = null;
+            if (!string.IsNullOrWhiteSpace(httpMethod))
+            {
+                var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
+                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                httpAttribute = method
+                    .GetCustomAttributes()
+                    .FirstAssignableToTypeNameOrDefault(typeName);
+            }
+
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;
+            }
+            else if (Settings.UseHttpAttributeNameAsOperationId && httpAttribute != null && !string.IsNullOrWhiteSpace(httpAttribute.Name))
+            {
+                operationId = httpAttribute.Name;
             }
             else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
             {

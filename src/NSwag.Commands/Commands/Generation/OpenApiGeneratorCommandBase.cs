@@ -224,6 +224,13 @@ namespace NSwag.Commands.Generation
             set => Settings.AllowNullableBodyParameters = value;
         }
 
+        [Argument(Name = "UseHttpAttributeNameAsOperationId", IsRequired = false, Description = "Gets or sets a value indicating whether the HttpMethodAttribute Name property shall be used as OperationId.")]
+        public bool UseHttpAttributeNameAsOperationId
+        {
+            get => Settings.UseHttpAttributeNameAsOperationId;
+            set => Settings.UseHttpAttributeNameAsOperationId = value;
+        }
+
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;

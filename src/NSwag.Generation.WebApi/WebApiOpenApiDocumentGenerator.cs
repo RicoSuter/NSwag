@@ -183,7 +183,7 @@ namespace NSwag.Generation.WebApi
                                     Operation = new OpenApiOperation
                                     {
                                         IsDeprecated = method.GetCustomAttribute<ObsoleteAttribute>() != null,
-                                        OperationId = GetOperationId(document, controllerType.Name, method)
+                                        OperationId = GetOperationId(document, controllerType.Name, method, httpMethod)
                                     }
                                 };
 
@@ -240,7 +240,7 @@ namespace NSwag.Generation.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(context)== false)
+                if (operationProcessor.Process(context) == false)
                 {
                     return false;
                 }
@@ -290,7 +290,7 @@ namespace NSwag.Generation.WebApi
                 });
         }
 
-        private string GetOperationId(OpenApiDocument document, string controllerName, MethodInfo method)
+        private string GetOperationId(OpenApiDocument document, string controllerName, MethodInfo method, string httpMethod)
         {
             string operationId;
 
@@ -298,9 +298,23 @@ namespace NSwag.Generation.WebApi
                 .GetCustomAttributes()
                 .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
 
+            dynamic httpAttribute = null;
+            if (!string.IsNullOrWhiteSpace(httpMethod))
+            {
+                var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
+                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                httpAttribute = method
+                    .GetCustomAttributes()
+                    .FirstAssignableToTypeNameOrDefault(typeName);
+            }
+
             if (swaggerOperationAttribute != null && !string.IsNullOrEmpty(swaggerOperationAttribute.OperationId))
             {
                 operationId = swaggerOperationAttribute.OperationId;
+            }
+            else if (Settings.UseHttpAttributeNameAsOperationId && httpAttribute != null && !string.IsNullOrWhiteSpace(httpAttribute.Name))
+            {
+                operationId = httpAttribute.Name;
             }
             else
             {
