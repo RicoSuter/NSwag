@@ -21,6 +21,7 @@ using {{ usage }};
 #pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 #pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
+#pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
 
 namespace {{ Namespace }}
 {
@@ -216,3 +217,4 @@ namespace {{ Namespace }}
 #pragma warning restore  472
 #pragma warning restore  114
 #pragma warning restore  108
+#pragma warning restore 3016
