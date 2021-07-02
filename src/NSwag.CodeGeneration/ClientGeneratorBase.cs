@@ -225,13 +225,14 @@ namespace NSwag.CodeGeneration
                 .Select(tuple =>
                 {
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
+                    if(operationName.Contains("."))
+                    {
+                        operationName = operationName.Replace(".", "_");
+                    }
+
                     if (operationName.EndsWith("Async"))
                     {
                         operationName = operationName.Substring(0, operationName.Length - "Async".Length);
-                    }
-                    if(operationName.Contains("."))
-                    {   
-                        operationName = operationName.Replace(".", "_");    
                     }
 
                     var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
