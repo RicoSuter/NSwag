@@ -225,7 +225,8 @@ namespace NSwag.CodeGeneration
                 .Select(tuple =>
                 {
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
-                    if(operationName.Contains("."))
+
+                    if (operationName.Contains("."))
                     {
                         operationName = operationName.Replace(".", "_");
                     }
