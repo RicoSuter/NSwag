@@ -94,8 +94,8 @@ namespace NSwag.CodeGeneration.Models
                 return !_response.Content.ContainsKey("application/json") &&
                        (_response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain")
                        && (ActualResponseSchema != null) &&
-                            ((ActualResponseSchema.ActualTypeSchema.Type & primitive) == ActualResponseSchema.ActualTypeSchema.Type) &&
-                            ((ActualResponseSchema.ActualTypeSchema.Type | primitive) == primitive);
+                            ((ActualResponseSchema.Type & primitive) == ActualResponseSchema.Type) &&
+                            ((ActualResponseSchema.Type | primitive) == primitive);
             }
         }
 
