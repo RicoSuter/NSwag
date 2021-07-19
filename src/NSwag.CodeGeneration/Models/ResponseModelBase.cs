@@ -89,13 +89,8 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                JsonObjectType primitive = JsonObjectType.String | JsonObjectType.Integer | JsonObjectType.Number | JsonObjectType.Boolean;
-
                 return !_response.Content.ContainsKey("application/json") &&
-                       (_response.Content.ContainsKey("text/plain") || _operationModel.Produces == "text/plain")
-                       && (ActualResponseSchema != null) &&
-                            ((ActualResponseSchema.Type & primitive) == ActualResponseSchema.Type) &&
-                            ((ActualResponseSchema.Type | primitive) == primitive);
+                       _response.Content.ContainsKey("text/plain");
             }
         }
 
