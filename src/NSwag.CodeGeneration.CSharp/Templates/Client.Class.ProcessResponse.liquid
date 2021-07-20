@@ -19,7 +19,7 @@ return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, hea
 return result_;
 {%             endif -%}
 {%         else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, result_, null);
+throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
 {%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
