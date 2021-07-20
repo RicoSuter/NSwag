@@ -287,6 +287,10 @@
                         <TextBlock Text="Custom JsonSerializerSettings implementation" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
                                  ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Use the HttpMethodAttribute Name property as OperationId (if available)." FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.UseHttpAttributeNameAsOperationId, Mode=TwoWay}" 
+                                ToolTip="UseHttpAttributeNameAsOperationId" Margin="0,0,0,12" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

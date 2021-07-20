@@ -73,7 +73,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             Parameters = parameters
                 .Select(parameter =>
-                    new CSharpParameterModel(parameter.Name, GetParameterVariableName(parameter, _operation.Parameters),
+                    new CSharpParameterModel(
+                        parameter.Name,
+                        GetParameterVariableName(parameter, _operation.Parameters),
+                        GetParameterVariableIdentifier(parameter, _operation.Parameters),
                         ResolveParameterType(parameter), parameter, parameters,
                         _settings.CodeGeneratorSettings,
                         _generator,
@@ -225,6 +228,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             var name = base.GetParameterVariableName(parameter, allParameters);
             return ReservedKeywords.Contains(name) ? "@" + name : name;
+        }
+
+        /// <summary>Gets the identifier of the parameter variable.</summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="allParameters">All parameters.</param>
+        /// <returns>The parameter variable identifier.</returns>
+        protected string GetParameterVariableIdentifier(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
+        {
+            return base.GetParameterVariableName(parameter, allParameters);
         }
 
         /// <summary>Resolves the type of the parameter.</summary>
