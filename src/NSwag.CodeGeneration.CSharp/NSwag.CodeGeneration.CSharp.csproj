@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.12.0</Version>
+    <Version>13.12.1</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
     <Copyright>Copyright © Rico Suter, 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -70,6 +70,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.4.5" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.4.6" />
   </ItemGroup>
 </Project>
