@@ -445,7 +445,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 extendedApiParameter.ApiParameter.Name, description, contextualParameterType);
 
             var exampleValue = extendedApiParameter.PropertyInfo != null ?
-                context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualMember()) : null;
+                context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualAccessor()) : null;
 
             var hasExampleValue = exampleValue != null;
             var hasDefaultValue = extendedApiParameter.ParameterInfo?.HasDefaultValue == true;

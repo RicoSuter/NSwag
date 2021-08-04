@@ -26,9 +26,12 @@ namespace NSwag.Generation.Tests
             };
             var schemaResolver = new JsonSchemaResolver(new OpenApiDocument(), generatorSettings);
             var generator = new OpenApiDocumentGenerator(generatorSettings, schemaResolver);
-            var methodInfo = typeof(TestController).GetMethod("HasArrayParameter");
+            var methodInfo = typeof(TestController)
+                .ToContextualType()
+                .Methods
+                .Single(m => m.Name == "HasArrayParameter");
 
-            return generator.CreatePrimitiveParameter("foo", "bar", methodInfo.GetContextualParameters().First());
+            return generator.CreatePrimitiveParameter("foo", "bar", methodInfo.Parameters.First());
         }
 
         [Fact]
