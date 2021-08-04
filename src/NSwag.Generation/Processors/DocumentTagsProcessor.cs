@@ -31,9 +31,11 @@ namespace NSwag.Generation.Processors
 
         private static void ProcessTagsAttribute(OpenApiDocument document, Type controllerType)
         {
-            dynamic tagsAttribute = controllerType.ToCachedType()
-                .TypeAttributes
+            dynamic tagsAttribute = controllerType
+                .ToCachedType()
+                .InheritedAttributes
                 .FirstAssignableToTypeNameOrDefault("SwaggerTagsAttribute", TypeNameStyle.Name);
+
             if (tagsAttribute != null)
             {
                 var tags = ((string[])tagsAttribute.Tags)
@@ -61,7 +63,8 @@ namespace NSwag.Generation.Processors
         private static void ProcessTagAttributes(OpenApiDocument document, Type controllerType)
         {
             var tagAttributes = controllerType
-                .ToCachedType().TypeAttributes
+                .ToCachedType()
+                .InheritedAttributes
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
                 .Select(a => (dynamic)a)
                 .ToArray();

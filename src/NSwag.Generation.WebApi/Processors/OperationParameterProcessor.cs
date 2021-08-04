@@ -454,12 +454,12 @@ namespace NSwag.Generation.WebApi.Processors
                         }
 
                         var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary();
-                        var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(propertyName, propertySummary, contextualProperty);
+                        var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(propertyName, propertySummary, contextualProperty.AccessorType);
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute
 
-                        var parameterInfo = _settings.ReflectionService.GetDescription(contextualProperty, _settings);
-                        var isFileArray = IsFileArray(contextualProperty.Type, parameterInfo);
+                        var parameterInfo = _settings.ReflectionService.GetDescription(contextualProperty.AccessorType, _settings);
+                        var isFileArray = IsFileArray(contextualProperty.AccessorType.Type, parameterInfo);
 
                         if (parameterInfo.Type == JsonObjectType.File || isFileArray)
                         {
