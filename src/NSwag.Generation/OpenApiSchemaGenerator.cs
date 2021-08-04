@@ -21,7 +21,7 @@ namespace NSwag.Generation
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OpenApiSchemaGenerator(JsonSchemaGeneratorSettings settings) : base(settings)
+        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings) : base(settings)
         {
         }
 
