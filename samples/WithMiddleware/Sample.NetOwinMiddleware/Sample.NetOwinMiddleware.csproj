@@ -56,11 +56,11 @@
     <Reference Include="Microsoft.Owin.StaticFiles, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
     </Reference>
-    <Reference Include="Namotion.Reflection, Version=2.0.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Namotion.Reflection.2.0.1\lib\net45\Namotion.Reflection.dll</HintPath>
+    <Reference Include="Namotion.Reflection, Version=2.0.3.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Namotion.Reflection.2.0.3\lib\net45\Namotion.Reflection.dll</HintPath>
     </Reference>
-    <Reference Include="NJsonSchema, Version=10.2.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NJsonSchema.10.2.1\lib\net45\NJsonSchema.dll</HintPath>
+    <Reference Include="NJsonSchema, Version=10.5.1.0, Culture=neutral, PublicKeyToken=c2f9c3bdfae56102, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NJsonSchema.10.5.1\lib\net45\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="NSwag.AspNet.Owin, Version=13.13.1.0, Culture=neutral, PublicKeyToken=c2d88086e098d109, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NSwag.AspNet.Owin.13.13.1\lib\net45\NSwag.AspNet.Owin.dll</HintPath>

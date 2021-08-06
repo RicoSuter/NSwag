@@ -147,7 +147,7 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
-    <PackageReference Include="Namotion.Reflection" Version="2.0.1" />
+    <PackageReference Include="Namotion.Reflection" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="NJsonSchema" Version="10.5.1" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.5.1" />
