@@ -149,9 +149,9 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="Namotion.Reflection" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.5.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.5.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.5.1" />
+    <PackageReference Include="NJsonSchema" Version="10.5.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.5.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.5.2" />
     <PackageReference Include="Swashbuckle" Version="5.5.3" />
     <PackageReference Include="Swashbuckle.Core" Version="5.5.3" />
     <PackageReference Include="WebActivatorEx" Version="2.0.0" />
