@@ -3,7 +3,7 @@
 {% endif -%}
 {% for parameter in operation.Parameters -%}
 {%     if parameter.HasDescription -%}
-/// <param name="{{ parameter.VariableName }}">{{ parameter.Description | csharpdocs }}</param>
+/// <param name="{{ parameter.VariableIdentifier }}">{{ parameter.Description | csharpdocs }}</param>
 {%     endif -%}
 {% endfor -%}
 {% if operation.HasResultDescription -%}

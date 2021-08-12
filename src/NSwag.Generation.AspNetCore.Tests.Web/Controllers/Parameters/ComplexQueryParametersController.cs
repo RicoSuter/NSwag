@@ -15,6 +15,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 
         public class GetListCommand
         {
+            /// <example>42</example>
             /// <summary>Bar.</summary>
             public int? Required01 { get; set; }
 

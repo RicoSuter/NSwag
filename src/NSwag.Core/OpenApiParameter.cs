@@ -120,7 +120,7 @@ namespace NSwag
         [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public OpenApiParameterCollectionFormat CollectionFormat { get; set; }
 
-        /// <summary>Gets or sets the headers (OpenAPI only).</summary>
+        /// <summary>Gets or sets the examples (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, OpenApiExample> Examples
         {
