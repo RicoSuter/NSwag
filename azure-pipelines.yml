@@ -22,6 +22,11 @@ steps:
     packageType: 'sdk'
     version: '6.0.100-rc.1.21458.32'
     includePreviewVersions: true
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.401'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
@@ -48,18 +53,13 @@ steps:
     includeNuGetOrg: true
 
 # Build and test
-# - task: MSBuild@1
-#   displayName: 'Build solution'
-#   inputs:
-#     solution: '$(Projects)'
-#     msbuildArchitecture: 'x86'
-#     configuration: '$(BuildConfiguration)'
-- task: DotNetCoreCLI@2
+- task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    command: 'build'
-    projects: '$(Projects)'
+    solution: '$(Projects)'
+    msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
+
 
 - task: VSTest@2
   displayName: 'Run tests'
