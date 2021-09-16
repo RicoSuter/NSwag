@@ -15,15 +15,6 @@ variables:
   Projects: 'src/NSwag.sln'
 
 steps:
-- task: CmdLine@2
-  displayName: 'Check Path'
-  inputs:
-    script: 'echo %PATH%' 
-
-- task: CmdLine@2
-  displayName: 'Check SDK'
-  inputs:
-    script: 'dotnet --info' 
 # Install required SDKs and tools
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK'
@@ -33,16 +24,6 @@ steps:
     includePreviewVersions: true
     performMultiLevelLookup: true
     useGlobalJson: true
-
-- task: CmdLine@2
-  displayName: 'Check Path'
-  inputs:
-    script: 'echo %PATH%' 
-
-- task: CmdLine@2
-  displayName: 'Check SDK'
-  inputs:
-    script: 'dotnet --info'    
 
 - task: CmdLine@2
   displayName: 'Install DNT'
