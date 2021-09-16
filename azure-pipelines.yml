@@ -20,7 +20,7 @@ steps:
   displayName: 'Install .NET Core SDK'
   inputs:
     packageType: 'sdk'
-    version: '6.0.0-rc.1'
+    version: '6.0.100-rc.1.21458.32'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
