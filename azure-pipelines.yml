@@ -15,6 +15,15 @@ variables:
   Projects: 'src/NSwag.sln'
 
 steps:
+- task: CmdLine@2
+  displayName: 'Check Path'
+  inputs:
+    script: 'echo %PATH%' 
+
+- task: CmdLine@2
+  displayName: 'Check SDK'
+  inputs:
+    script: 'dotnet --info' 
 # Install required SDKs and tools
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK'
@@ -22,6 +31,11 @@ steps:
     packageType: 'sdk'
     version: '6.0.100-rc.1.21458.32'
     includePreviewVersions: true
+
+- task: CmdLine@2
+  displayName: 'Check Path'
+  inputs:
+    script: 'echo %PATH%' 
 
 - task: CmdLine@2
   displayName: 'Check SDK'
