@@ -48,11 +48,17 @@ steps:
     includeNuGetOrg: true
 
 # Build and test
-- task: MSBuild@1
+# - task: MSBuild@1
+#   displayName: 'Build solution'
+#   inputs:
+#     solution: '$(Projects)'
+#     msbuildArchitecture: 'x86'
+#     configuration: '$(BuildConfiguration)'
+- task: DotNetCoreCLI@2
   displayName: 'Build solution'
   inputs:
-    solution: '$(Projects)'
-    msbuildArchitecture: 'x86'
+    command: 'build'
+    projects: '$(Projects)'
     configuration: '$(BuildConfiguration)'
 
 - task: VSTest@2
