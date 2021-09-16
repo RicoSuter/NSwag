@@ -88,7 +88,7 @@
         microsoftExtensionsFileProvidersEmbeddedPackageVersion=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion);
         microsoftExtensionsFileProvidersEmbeddedPackageVersionCore31=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31);
         microsoftExtensionsFileProvidersEmbeddedPackageVersionNet5=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNe6=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6);
+        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet6=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6);
         netStandardLibraryPackageVersion=$(NETStandardLibraryPackageVersion);
         systemIOFileSystemPackageVersion=$(SystemIOFileSystemPackageVersion);
         systemXmlXPathXDocumentPackageVersion=$(SystemXmlXPathXDocumentPackageVersion);
