@@ -26,7 +26,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Check SDK'
   inputs:
-    script: 'dotnet --infos'    
+    script: 'dotnet --info'    
 
 # - task: CmdLine@2
 #   displayName: 'Install DNT'
