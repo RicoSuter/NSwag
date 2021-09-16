@@ -1,21 +1,7 @@
 {
   "sdk": {
   	"allowPrerelease": true,
-    "version": "6.0.100-rc.1.21458.32",
-    "version" : "2.1.302",
-    "version" : "2.1.403",
-    "version" : "2.1.526",
-    "version" : "2.1.617",
-    "version" : "2.1.701",
-    "version" : "2.1.818",
-    "version" : "3.1.118",
-    "version" : "3.1.202",
-    "version" : "3.1.302",
-    "version" : "3.1.412",
-    "version" : "5.0.104",
-    "version" : "5.0.206",
-    "version" : "5.0.303",
-    "version" : "5.0.400"
+    "version": "6.0.100-rc.1.21458.32"
   }
 }
 
