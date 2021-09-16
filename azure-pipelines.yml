@@ -32,6 +32,7 @@ steps:
     version: '6.0.100-rc.1.21458.32'
     includePreviewVersions: true
     performMultiLevelLookup: true
+    useGlobalJson: true
 
 - task: CmdLine@2
   displayName: 'Check Path'
