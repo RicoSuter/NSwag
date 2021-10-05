@@ -266,6 +266,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.GenerateDataAnnotations = value;
         }
 
+        [Argument(Name = "UseNativeRecords", IsRequired = false, Description = "Generate C# 9.0 record types instead of record-like classes.")]
+        public bool UseNativeRecords
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateNativeRecords; }
+            set { Settings.CSharpGeneratorSettings.GenerateNativeRecords = value; }
+        }
+
         [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded DTO type names (must be defined in an import or other namespace).")]
         public string[] ExcludedTypeNames
         {
