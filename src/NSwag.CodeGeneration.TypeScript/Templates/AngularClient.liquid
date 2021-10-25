@@ -39,7 +39,7 @@
 {% for operation in Operations -%}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }} | null> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -103,7 +103,7 @@
         }){% if Framework.UseRxJs6 %}){% endif %};
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
+    protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }} | null> {
         const status = response.status;
 {% if Framework.Angular.UseHttpClient -%}
         const responseBlob =
