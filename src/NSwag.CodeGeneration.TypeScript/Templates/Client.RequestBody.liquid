@@ -74,6 +74,10 @@ else
 const content_ = {{ operation.ContentParameter.VariableName }};
 {%         elseif operation.HasXmlBodyParameter -%}
 const content_ = {{ operation.ContentParameter.VariableName }};
+{%         elseif operation.Consumes == "application/x-www-form-urlencoded" -%}
+const content_ = Object.keys({{ operation.ContentParameter.VariableName }} as any).map((key) => {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(({{ operation.ContentParameter.VariableName }} as any)[key]);
+}).join('&')
 {%         else -%}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
 {%         endif -%}
