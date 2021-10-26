@@ -188,7 +188,8 @@ namespace NSwag.Generation.AspNetCore
             {
                 var controllerType = controllerApiDescriptionGroup.Key;
 
-                var hasIgnoreAttribute = controllerType.GetTypeInfo()
+                var hasIgnoreAttribute = controllerType != null && controllerType
+                    .GetTypeInfo()
                     .GetCustomAttributes()
                     .GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name)
                     .Any();
