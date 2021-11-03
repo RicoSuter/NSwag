@@ -28,7 +28,7 @@ using NSwag.Generation.Processors.Contexts;
 namespace NSwag.Generation.AspNetCore
 {
     /// <summary>Generates a <see cref="OpenApiDocument"/> using <see cref="ApiDescription"/>. </summary>
-    public class AspNetCoreOpenApiDocumentGenerator
+    public class    AspNetCoreOpenApiDocumentGenerator
     {
         /// <summary>Initializes a new instance of the <see cref="AspNetCoreOpenApiDocumentGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
@@ -80,7 +80,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NETCOREAPP3_1_OR_GREATER
+#if NETCOREAPP
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
             dynamic options = null;
@@ -152,7 +152,7 @@ namespace NSwag.Generation.AspNetCore
 
             if (serviceProvider != null)
             {
-#if NETCOREAPP3_1_OR_GREATER
+#if NETCOREAPP
                 try
                 {
                     var options = serviceProvider.GetService<IOptions<JsonOptions>>();
