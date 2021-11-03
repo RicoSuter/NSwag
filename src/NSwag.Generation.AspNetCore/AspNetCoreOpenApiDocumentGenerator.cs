@@ -80,7 +80,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NET5_0 || NETCOREAPP3_1
+#if NETCOREAPP3_1_OR_GREATER
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
             dynamic options = null;
@@ -152,12 +152,25 @@ namespace NSwag.Generation.AspNetCore
 
             if (serviceProvider != null)
             {
+#if NETCOREAPP3_1_OR_GREATER
+                try
+                {
+                    var options = serviceProvider.GetService<IOptions<JsonOptions>>();
+                    if (options?.Value?.JsonSerializerOptions != null)
+                    {
+                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(options.Value.JsonSerializerOptions);
+                    }
+                }
+                catch
+                {
+                }
+#else
                 try
                 {
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
 
-                    var options = serviceProvider?.GetService(optionsType) as dynamic;
+                    var options = serviceProvider.GetService(optionsType) as dynamic;
                     var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
                     if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
                     {
@@ -167,6 +180,7 @@ namespace NSwag.Generation.AspNetCore
                 catch
                 {
                 }
+#endif
             }
 
             return new JsonSerializerSettings
