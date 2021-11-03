@@ -73,11 +73,13 @@
             "enum": [
               "Clean",
               "Compile",
+              "InstallDependencies",
               "IntegrationTest",
               "Pack",
               "Publish",
               "Restore",
               "Samples",
+              "Test",
               "UnitTest"
             ]
           }
@@ -94,11 +96,13 @@
             "enum": [
               "Clean",
               "Compile",
+              "InstallDependencies",
               "IntegrationTest",
               "Pack",
               "Publish",
               "Restore",
               "Samples",
+              "Test",
               "UnitTest"
             ]
           }

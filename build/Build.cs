@@ -9,6 +9,7 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
+using Nuke.Common.Tools.Npm;
 using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
@@ -16,6 +17,7 @@ using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Logger;
 using static Nuke.Common.Tooling.ProcessTasks;
+using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
@@ -23,7 +25,7 @@ using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
 
 [CheckBuildProjectConfigurations]
-class Build : NukeBuild
+partial class Build : NukeBuild
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
@@ -48,6 +50,18 @@ class Build : NukeBuild
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             EnsureCleanDirectory(OutputDirectory);
+        });
+
+
+    Target InstallDependencies => _ => _
+        .Before(Compile)
+        .Executes(() =>
+        {
+            Chocolatey("install wixtoolset");
+            NpmInstall(x => x
+                .EnableGlobal()
+                .AddPackages("dotnettools")
+            );
         });
 
     // logic from 00_Install.bat
@@ -230,6 +244,8 @@ class Build : NukeBuild
             }
         });
 
+    Target Test => _ => _
+        .DependsOn(UnitTest, IntegrationTest);
 
     // logic from 04_Publish.bat
     Target Publish => _ => _
@@ -238,7 +254,6 @@ class Build : NukeBuild
         {
             Npm("publish", SourceDirectory / "NSwag.Npm");
         });
-
 
     // logic from runs.ps1
     Target Samples => _ => _
