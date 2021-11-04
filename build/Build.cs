@@ -161,7 +161,8 @@ partial class Build : NukeBuild
             var logger = "";
             if (AppVeyor.Instance is not null)
             {
-                logger = "Appveyor";
+                // https://github.com/appveyor/ci/issues/1601
+                // logger = "Appveyor";
             }
 
             VSTest(x => x
