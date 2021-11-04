@@ -144,7 +144,7 @@ partial class Build : NukeBuild
             );
 
             NuGetPack(x => x
-                .SetTargetPath(SourceDirectory / "NSwag.ApiDescription" / "NSwag.ApiDescription.Client.nuspec")
+                .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
             );
 
             NuGetPack(x => x
