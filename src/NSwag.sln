@@ -160,13 +160,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.AspNetCore
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Build", "00 Build", "{6F5E4FDF-0A82-42D5-94AC-A9CD43CC931D}"
 	ProjectSection(SolutionItems) = preProject
-		..\build\01_Build.bat = ..\build\01_Build.bat
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore20", "NSwag.Sample.NETCore20\NSwag.Sample.NETCore20.csproj", "{37563171-4C09-4BCD-B2FB-08F786198909}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NETCore20.Part", "NSwag.Sample.NETCore20.Part\NSwag.Sample.NETCore20.Part.csproj", "{60438B13-8111-44C3-B5E5-34C3F30FF234}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{AC3D8125-AE21-49FC-A217-D96C7B585FF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +182,8 @@ Global
 		ReleaseTypeScriptStrict|x86 = ReleaseTypeScriptStrict|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC3D8125-AE21-49FC-A217-D96C7B585FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3D8125-AE21-49FC-A217-D96C7B585FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -1096,6 +1099,7 @@ Global
 		{2333521E-F537-4F4F-98B9-7CD22B20A5D7} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
 		{37563171-4C09-4BCD-B2FB-08F786198909} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 		{60438B13-8111-44C3-B5E5-34C3F30FF234} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
+		{AC3D8125-AE21-49FC-A217-D96C7B585FF9} = {6F5E4FDF-0A82-42D5-94AC-A9CD43CC931D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}

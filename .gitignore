@@ -74,5 +74,9 @@ src/packages/**
 /src/NSwag.Console/Properties/launchSettings.json
 
 # Ignore files from JetBrainds Rider
-/src/.idea/
+.idea/
 _ReSharper.Caches/
+
+# NUKE build temp files
+.nuke/temp
+
