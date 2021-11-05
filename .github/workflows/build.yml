@@ -38,5 +38,4 @@ jobs:
         run: ./build.cmd InstallDependencies Compile Test Pack
       - uses: actions/upload-artifact@v2
         with:
-          name: '*'
           path: artifacts/*
