@@ -144,30 +144,28 @@ partial class Build : NukeBuild
             // CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.0/publish", npmBinariesDirectory / "NetCore30");
             CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
 
+            // gather relevant artifacts
+            EnsureCleanDirectory(OutputDirectory);
+
             Info("Package nuspecs");
 
             NuGetPack(x => x
+                .SetOutputDirectory(OutputDirectory)
                 .SetTargetPath(SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec")
             );
 
             NuGetPack(x => x
+                .SetOutputDirectory(OutputDirectory)
                 .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
             );
 
             NuGetPack(x => x
+                .SetOutputDirectory(OutputDirectory)
                 .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
             );
 
-            // gather relevant artifacts
-            EnsureCleanDirectory(OutputDirectory);
-
             var artifacts = Array.Empty<AbsolutePath>()
                 .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
-
-                .Concat(RootDirectory.GlobFiles("build/**/NSwag.MSBuild*.nupkg"))
-                .Concat(RootDirectory.GlobFiles("build/**/NSwag.ApiDescription.Client*.nupkg"))
-                .Concat(RootDirectory.GlobFiles("build/**/NSwagStudio*.nupkg"))
-
                 .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
                 .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
 
