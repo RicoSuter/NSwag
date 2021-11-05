@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI.AppVeyor;
 using Nuke.Common.Execution;
@@ -23,6 +25,7 @@ using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
+using Enumerable = System.Linq.Enumerable;
 
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
@@ -42,7 +45,9 @@ partial class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
-    AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath OutputDirectory => RootDirectory / "artifacts";
+
+    AbsolutePath NSwagStudioBinaries => SourceDirectory / "NSwagStudio" / "bin" / Configuration;
 
     Target Clean => _ => _
         .Before(Restore)
@@ -113,11 +118,12 @@ partial class Build : NukeBuild
     // logic from 01_Build.bat
     Target Pack => _ => _
         .DependsOn(Compile)
+        .Produces(OutputDirectory / "*.*")
         .Executes(() =>
         {
             if (Configuration != Configuration.Release)
             {
-                throw new InvalidOperationException("Cannot pack if compilation hasn't been done in Release mode");
+                throw new InvalidOperationException("Cannot pack if compilation hasn't been done in Release mode, use --configuration Release");
             }
 
             var npmBinariesDirectory = SourceDirectory / "NSwag.Npm" / "bin" / "binaries";
@@ -150,6 +156,23 @@ partial class Build : NukeBuild
             NuGetPack(x => x
                 .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
             );
+
+            // gather relevant artifacts
+            EnsureCleanDirectory(OutputDirectory);
+
+            var artifacts = Array.Empty<AbsolutePath>()
+                .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
+                .Concat(SourceDirectory.GlobFiles("**/NSwag.zip"))
+                .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
+                .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
+
+            foreach (var artifact in artifacts)
+            {
+                CopyFileToDirectory(artifact, OutputDirectory);
+            }
+
+            // Studio's ZIP version
+            ZipFile.CreateFromDirectory(NSwagStudioBinaries, OutputDirectory / "NSwag.zip");
         });
 
 
@@ -178,7 +201,7 @@ partial class Build : NukeBuild
             */
 
             // project name + target framework pairs
-            var dotNetTestTargets = new[]
+            var dotNetTestTargets = new (string ProjectName, string Framework)[]
             {
                 ("NSwag.CodeGeneration.Tests", null),
                 ("NSwag.CodeGeneration.CSharp.Tests", null),
@@ -186,14 +209,12 @@ partial class Build : NukeBuild
                 ("NSwag.Generation.AspNetCore.Tests", null),
                 ("NSwag.Core.Tests", null),
                 ("NSwag.Core.Yaml.Tests", null),
-                ("NSwag.AssemblyLoader.Tests", "netcoreapp2.1")
+                ("NSwag.AssemblyLoader.Tests", null)
             };
 
             foreach (var (project, targetFramework) in dotNetTestTargets)
             {
                 DotNetTest(x => x
-                    .EnableNoBuild()
-                    .EnableNoRestore()
                     .SetProjectFile(Solution.GetProject(project))
                     .SetFramework(targetFramework)
                     .SetConfiguration(Configuration)
@@ -207,7 +228,7 @@ partial class Build : NukeBuild
         .DependsOn(Samples)
         .Executes(() =>
         {
-            var nswagCommand = SourceDirectory / "NSwagStudio" / "bin" / Configuration / "nswag.cmd";
+            var nswagCommand = NSwagStudioBinaries / "nswag.cmd";
 
             // project name + runtime pairs
             var dotnetTargets = new[]
