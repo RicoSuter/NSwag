@@ -163,6 +163,11 @@ partial class Build : NukeBuild
             var artifacts = Array.Empty<AbsolutePath>()
                 .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
                 .Concat(SourceDirectory.GlobFiles("**/NSwag.zip"))
+
+                .Concat(RootDirectory.GlobFiles("build/**/NSwag.MSBuild*.nupkg"))
+                .Concat(RootDirectory.GlobFiles("build/**/NSwag.ApiDescription.Client*.nupkg"))
+                .Concat(RootDirectory.GlobFiles("build/**/NSwagStudio*.nupkg"))
+
                 .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
                 .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
 
