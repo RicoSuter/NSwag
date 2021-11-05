@@ -80,3 +80,4 @@ _ReSharper.Caches/
 # NUKE build temp files
 .nuke/temp
 
+/artifacts
