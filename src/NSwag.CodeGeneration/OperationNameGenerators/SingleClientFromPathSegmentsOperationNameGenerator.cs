@@ -83,7 +83,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             }
 
             var capitalized = name.ToLowerInvariant();
-            return char.ToUpperInvariant(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
+            return char.ToUpperInvariant(capitalized[0]) + (name.Length > 1 ? name.Substring(1) : "");
         }
     }
 }
