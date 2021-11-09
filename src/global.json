@@ -1,9 +1,6 @@
 {
   "sdk": {
-  	"allowPrerelease": true,
-    "version": "6.0.100-rc.1.21458.32"
+    "allowPrerelease": true,
+    "version": "6.0.0"
   }
 }
-
-
-
