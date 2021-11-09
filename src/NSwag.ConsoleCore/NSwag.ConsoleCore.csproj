@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0-rc.1.21451.13 " />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0-rc.1.21452.15" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
