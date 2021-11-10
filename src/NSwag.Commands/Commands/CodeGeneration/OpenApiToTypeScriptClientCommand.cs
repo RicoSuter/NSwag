@@ -387,6 +387,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.InlineNamedAny = value; }
         }
 
+        [Argument(Name = "IncludeHttpContext", IsRequired = false, Description = "Gets a value indicating whether to include the httpContext (Angular template only, default: false).")]
+        public bool IncludeHttpContext
+        {
+            get { return Settings.IncludeHttpContext; }
+            set { Settings.IncludeHttpContext = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
