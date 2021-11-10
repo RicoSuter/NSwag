@@ -132,7 +132,11 @@ namespace NSwag.Generation.AspNetCore
 
             document.GenerateOperationIds();
 
-            var controllerTypes = apiGroups.Select(k => k.Key).ToArray();
+            var controllerTypes = apiGroups
+                .Select(k => k.Key)
+                .Where(t => t != null)
+                .ToArray();
+
             foreach (var processor in Settings.DocumentProcessors)
             {
                 processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
@@ -200,6 +204,11 @@ namespace NSwag.Generation.AspNetCore
                     foreach (var item in controllerApiDescriptionGroup)
                     {
                         var apiDescription = item.Item1;
+                        if (apiDescription.RelativePath == null)
+                        {
+                            continue;
+                        }
+
                         var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo;
                         if (method != null)
                         {
