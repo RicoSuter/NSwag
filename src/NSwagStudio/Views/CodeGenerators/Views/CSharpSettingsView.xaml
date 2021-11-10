@@ -59,6 +59,11 @@
                     <TextBlock Text="Generate data annotation attributes" TextWrapping="Wrap" />
                 </CheckBox>
 
+                <CheckBox IsChecked="{Binding Command.GenerateNativeRecords, Mode=TwoWay}" 
+                          ToolTip="GenerateNativeRecords" Margin="0,0,0,12">
+                    <TextBlock Text="Generate native C# 9 records" TextWrapping="Wrap" />
+                </CheckBox>
+
                 <CheckBox IsChecked="{Binding Command.GenerateJsonMethods, Mode=TwoWay}" 
                           ToolTip="GenerateJsonMethods" Margin="0,0,0,12">
                     <TextBlock Text="Generate ToJson() and FromJson() methods" TextWrapping="Wrap" />
