@@ -74,16 +74,16 @@
             } else {
                 throw _error;
             }
-        }).then((_response: AxiosResponse) => {
+        }).then((_response: AxiosResponse<string>) => {
 {%     if UseTransformResultMethod -%}
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.process{{ operation.ActualOperationNameUpper }}(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse<string>) => this.process{{ operation.ActualOperationNameUpper }}(_response));
 {%     else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(_response);
 {%     endif -%}
         });
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(response: AxiosResponse): Promise<{{ operation.ResultType }}> {
+    protected process{{ operation.ActualOperationNameUpper }}(response: AxiosResponse<string>): Promise<{{ operation.ResultType }}> {
         const status = response.status;
         {% template Client.ProcessResponse %}
     }

@@ -64,6 +64,8 @@ return new {{ operation.ResponseClass }}(status, _headers, result{{ response.Sta
 return {{ Framework.RxJs.ObservableOfMethod }}(result{{ response.StatusCode }});
 {%                 elseif Framework.IsAngularJS -%}
 return this.q.resolve(result{{ response.StatusCode }});
+{%                 elseif Framework.IsAxios -%}
+return Promise.resolve<{{ operation.ResultType }}>(result{{ response.StatusCode }});
 {%                 else -%}
 return result{{ response.StatusCode }};
 {%                 endif -%}

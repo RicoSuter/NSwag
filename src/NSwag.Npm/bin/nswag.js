@@ -2,7 +2,7 @@
 "use strict";
 
 var defaultCoreVersion = "Core21";
-var supportedCoreVersions = ["Core21", "Core22", "Core30", "Core31", "50"];
+var supportedCoreVersions = ["Core21", "Core22", "Core30", "Core31", "50", "60"];
 
 // Initialize
 process.title = 'nswag';
@@ -15,6 +15,7 @@ args = args.replace("/runtime:x86", "/runtime:WinX86");
 args = args.replace("--core 2.1", "/runtime:NetCore21");
 args = args.replace("--core 3.1", "/runtime:NetCore31");
 args = args.replace("--core 5.0", "/runtime:Net50");
+args = args.replace("--core 6.0", "/runtime:Net60");
 args = args.replace("--core", "/runtime:Net" + defaultCoreVersion);
 
 // Search for full .NET installation

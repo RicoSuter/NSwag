@@ -31,7 +31,7 @@ import { Observable, {% if UseTransformOptionsMethod %}from as {{ Framework.RxJs
 {%             endif -%}
 import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }} } from '@angular/core';
 {%             if Framework.Angular.UseHttpClient -%}
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase{% if IncludeHttpContext %}, HttpContext{% endif %} } from '@angular/common/http';
 {%             else -%}
 import { Http, Headers, ResponseContentType, Response{% if UseTransformOptionsMethod %}, RequestOptionsArgs{% endif %} } from '@angular/http';
 {%             endif -%}
