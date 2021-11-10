@@ -5,7 +5,7 @@
 #
 #     - To turn off auto-generation set:
 #
-#         [GitHubActions (AutoGenerate = false)]
+#         [CustomGitHubActions (AutoGenerate = false)]
 #
 #     - To trigger manual generation invoke:
 #
@@ -27,6 +27,18 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 2.1.*
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.*
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.*
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.*
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
