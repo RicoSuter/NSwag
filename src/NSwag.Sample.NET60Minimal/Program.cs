@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +12,8 @@ builder.Services.AddOpenApiDocument(settings =>
 });
 
 var app = builder.Build();
-
 app.UseDeveloperExceptionPage();
+
 app.UseOpenApi();
 app.UseSwaggerUi3();
 
