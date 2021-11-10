@@ -77,7 +77,7 @@
                 <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
-                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6$" exclude="Build,Analyzers" />
             </group>
         </dependencies>
     </metadata>
