@@ -128,7 +128,7 @@ namespace NSwag.Generation.AspNetCore
                 .GroupBy(item => (item.Item2 as ControllerActionDescriptor)?.ControllerTypeInfo.AsType())
                 .ToArray();
 
-            var usedControllerTypes = GenerateForControllers(document, apiGroups, schemaResolver);
+            var usedControllerTypes = GenerateApiGroups(document, apiGroups, schemaResolver);
 
             document.GenerateOperationIds();
 
@@ -179,7 +179,7 @@ namespace NSwag.Generation.AspNetCore
             };
         }
 
-        private List<Type> GenerateForControllers(
+        private List<Type> GenerateApiGroups(
             OpenApiDocument document,
             IGrouping<Type, Tuple<ApiDescription, ActionDescriptor>>[] apiGroups,
             OpenApiSchemaResolver schemaResolver)
@@ -188,9 +188,9 @@ namespace NSwag.Generation.AspNetCore
             var swaggerGenerator = new OpenApiDocumentGenerator(Settings, schemaResolver);
 
             var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
-            foreach (var controllerApiDescriptionGroup in apiGroups)
+            foreach (var apiGroup in apiGroups)
             {
-                var controllerType = controllerApiDescriptionGroup.Key;
+                var controllerType = apiGroup.Key;
 
                 var hasIgnoreAttribute = controllerType != null && controllerType
                     .GetTypeInfo()
@@ -201,7 +201,7 @@ namespace NSwag.Generation.AspNetCore
                 if (!hasIgnoreAttribute)
                 {
                     var operations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
-                    foreach (var item in controllerApiDescriptionGroup)
+                    foreach (var item in apiGroup)
                     {
                         var apiDescription = item.Item1;
                         if (apiDescription.RelativePath == null)
@@ -225,7 +225,6 @@ namespace NSwag.Generation.AspNetCore
                             path = "/" + path;
                         }
 
-                        var actionDescriptor = apiDescription.ActionDescriptor;
                         var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Where(p =>
                         {
                             return p.Source == Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Body;
@@ -237,8 +236,8 @@ namespace NSwag.Generation.AspNetCore
                             Method = httpMethod,
                             Operation = new OpenApiOperation
                             {
-                                IsDeprecated = IsOperationDeprecated(item.Item1, actionDescriptor, method),
-                                OperationId = GetOperationId(document, actionDescriptor, method, httpMethod),
+                                IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method),
+                                OperationId = GetOperationId(document, apiDescription, method, httpMethod),
                                 Consumes = apiDescription.SupportedRequestFormats
                                    .Select(f => f.MediaType)
                                    .Distinct()
@@ -254,9 +253,9 @@ namespace NSwag.Generation.AspNetCore
                     }
 
                     var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, swaggerGenerator, schemaResolver);
-                    if (addedOperations.Any())
+                    if (addedOperations.Any() && apiGroup.Key != null)
                     {
-                        usedControllerTypes.Add(controllerApiDescriptionGroup.Key);
+                        usedControllerTypes.Add(apiGroup.Key);
                     }
 
                     allOperations.AddRange(addedOperations);
@@ -425,7 +424,7 @@ namespace NSwag.Generation.AspNetCore
             return true;
         }
 
-        private string GetOperationId(OpenApiDocument document, ActionDescriptor actionDescriptor, MethodInfo method, string httpMethod)
+        private string GetOperationId(OpenApiDocument document, ApiDescription apiDescription, MethodInfo method, string httpMethod)
         {
             string operationId;
 
@@ -451,11 +450,11 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = httpAttribute.Name;
             }
-            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
+            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(apiDescription.ActionDescriptor.AttributeRouteInfo.Name))
             {
-                operationId = actionDescriptor.AttributeRouteInfo.Name;
+                operationId = apiDescription.ActionDescriptor.AttributeRouteInfo.Name;
             }
-            else if (actionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+            else if (apiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
                 dynamic openApiControllerAttribute = controllerActionDescriptor
                     .ControllerTypeInfo?
@@ -471,7 +470,14 @@ namespace NSwag.Generation.AspNetCore
             }
             else
             {
-                operationId = Guid.NewGuid().ToString(); // TODO: What operation ID to use for minimal APIs?
+                // From HTTP method and route
+                operationId = 
+                    httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
+                    string.Join("", apiDescription.RelativePath
+                        .Split('/', '\\', '}', ']', '-', '_')
+                        .Where(t => !t.StartsWith("{"))
+                        .Where(t => !t.StartsWith("["))
+                        .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
             var number = 1;
