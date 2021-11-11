@@ -81,9 +81,9 @@ namespace NSwag.AspNet.WebApi
 
         private int GetStatusCode(Exception exception, HttpActionExecutedContext context)
         {
-            if (context.ActionContext.ActionDescriptor is ReflectedHttpActionDescriptor controllerActionDescriptor)
+            if (context.ActionContext.ActionDescriptor is ReflectedHttpActionDescriptor actionDescriptor)
             {
-                var methodInfo = controllerActionDescriptor.MethodInfo;
+                var methodInfo = actionDescriptor.MethodInfo;
                 var exceptionType = exception.GetType();
 
 #pragma warning disable 618

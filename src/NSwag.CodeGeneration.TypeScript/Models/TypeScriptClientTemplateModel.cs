@@ -119,5 +119,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to use the AbortSignal (Fetch/Aurelia template only, default: false).</summary>
         public bool UseAbortSignal => _settings.UseAbortSignal;
+
+        /// <summary>Gets a value indicating whether to include the httpContext (Angular template only, default: false).</summary>
+        public bool IncludeHttpContext => _settings.IncludeHttpContext;
     }
 }

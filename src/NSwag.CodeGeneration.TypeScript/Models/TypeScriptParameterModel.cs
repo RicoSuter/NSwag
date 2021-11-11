@@ -6,8 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -16,6 +19,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptParameterModel : ParameterModelBase
     {
         private readonly TypeScriptClientGeneratorSettings _settings;
+        private readonly JsonSchema _schema;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptParameterModel" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -38,6 +42,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             : base(parameterName, variableName, typeName, parameter, allParameters, settings.TypeScriptGeneratorSettings, generator, typeResolver)
         {
             _settings = settings;
+            _schema = parameter.Schema;
         }
 
         /// <summary>Gets the type postfix (e.g. ' | null | undefined')</summary>
@@ -55,5 +60,51 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 }
             }
         }
+
+        /// <summary>
+        /// Format the datetime to a string based on the chosen datetime type setting
+        /// </summary>
+        public string GetDateTimeToString
+        {
+            get
+            {
+                switch (_settings.TypeScriptGeneratorSettings.DateTimeType)
+                {
+                    case TypeScriptDateTimeType.Date:
+                        return "toISOString()";
+
+                    case TypeScriptDateTimeType.MomentJS:
+                    case TypeScriptDateTimeType.OffsetMomentJS:
+                        if (_schema.Format == JsonFormatStrings.TimeSpan)
+                        {
+                            return "format('d.hh:mm:ss.SS', { trim: false })";
+                        }
+
+                        if (_settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.OffsetMomentJS)
+                        {
+                            return "toISOString(true)";
+                        }
+                        return "toISOString()";
+
+                    case TypeScriptDateTimeType.String:
+                        return "";
+
+                    case TypeScriptDateTimeType.Luxon:
+                        return "toString()";
+
+                    case TypeScriptDateTimeType.DayJS:
+                        if (_schema.Format == JsonFormatStrings.TimeSpan)
+                        {
+                            return "format('d.hh:mm:ss.SSS')";
+                        }
+
+                        return "toISOString()";
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
     }
 }

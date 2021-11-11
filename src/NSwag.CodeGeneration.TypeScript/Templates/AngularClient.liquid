@@ -39,7 +39,7 @@
 {% for operation in Operations -%}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false or IncludeHttpContext == true%}, {% endif %}{% endfor %}{% if IncludeHttpContext%}httpContext?: HttpContext{% endif %}) : Observable<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -61,6 +61,9 @@
 {%     endif -%}
 {%     if operation.IsFile and Framework.Angular.UseHttpClient == false -%}
             responseType: ResponseContentType.Blob,
+{%     endif -%}
+{%     if IncludeHttpContext -%}
+            context: httpContext,
 {%     endif -%}
             headers: new {% if Framework.Angular.UseHttpClient %}HttpHeaders{% else %}Headers{% endif %}({
 {%     for parameter in operation.HeaderParameters -%}

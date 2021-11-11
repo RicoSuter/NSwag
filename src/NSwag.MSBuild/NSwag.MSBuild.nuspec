@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>13.13.2</version>
+    <version>13.14.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -27,8 +27,9 @@
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
 
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
-    <file src="..\NSwag.ConsoleCore\bin\release\net5.0\Publish\**" target="tools/Net50" />
+    <file src="..\NSwag.ConsoleCore\bin\Release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
+    <file src="..\NSwag.ConsoleCore\bin\Release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
+    <file src="..\NSwag.ConsoleCore\bin\Release\net5.0\Publish\**" target="tools/Net50" />
+    <file src="..\NSwag.ConsoleCore\bin\release\net6.0\Publish\**" target="tools/Net60" />    
   </files>
 </package>

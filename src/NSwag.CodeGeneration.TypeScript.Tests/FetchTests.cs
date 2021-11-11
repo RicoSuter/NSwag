@@ -153,5 +153,53 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.DoesNotContain("signal?: AbortSignal | undefined", code);
             Assert.DoesNotContain("signal", code);;
         }
+
+        [Fact]
+        public async Task When_includeHttpContext()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Angular,
+                IncludeHttpContext = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("httpContext?: HttpContext", code);
+            Assert.Contains("context: httpContext", code);
+        }
+
+        [Fact]
+        public async Task When_no_includeHttpContext()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Angular,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.DoesNotContain("httpContext?: HttpContext", code);
+            Assert.DoesNotContain("context: httpContext", code);
+        }
     }
 }
