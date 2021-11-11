@@ -47,7 +47,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-            var methodParameters = context.MethodInfo.GetParameters();
+            var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
 
             var position = 1;
             foreach (var apiParameter in parameters.Where(p => p.Source != null))
@@ -94,7 +94,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         extendedApiParameter.ParameterInfo = parameter;
                         extendedApiParameter.Attributes = parameter.GetCustomAttributes();
                     }
-                    else
+                    else if (operationProcessorContext.ControllerType != null)
                     {
                         parameterName = apiParameter.Name;
                         property = operationProcessorContext.ControllerType.GetProperty(parameterName, BindingFlags.Public | BindingFlags.Instance);
@@ -214,7 +214,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private void ApplyOpenApiBodyParameterAttribute(OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
-            dynamic bodyParameterAttribute = methodInfo.GetCustomAttributes()
+            dynamic bodyParameterAttribute = methodInfo?
+                .GetCustomAttributes()
                 .FirstAssignableToTypeNameOrDefault("OpenApiBodyParameterAttribute", TypeNameStyle.Name);
 
             if (bodyParameterAttribute != null)
