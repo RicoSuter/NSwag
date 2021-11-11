@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <Version>13.13.2</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
@@ -46,6 +46,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

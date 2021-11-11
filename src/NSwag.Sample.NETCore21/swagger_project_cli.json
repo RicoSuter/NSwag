@@ -444,6 +444,7 @@
   "definitions": {
     "SerializableError": {
       "type": "object",
+      "description": "Defines a serializable container for storing ModelState information.\nThis information is stored as key/value pairs.",
       "additionalProperties": {}
     },
     "Pet": {

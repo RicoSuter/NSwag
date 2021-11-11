@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
-    /// <summary>Generates the client and operation name based on the path segments (operation name = last segment, client name = second to last segment).</summary>
+    /// <summary>Generates the operation name from path segments (suffixed by HTTP operation name if need be)</summary>
     public class SingleClientFromPathSegmentsOperationNameGenerator : IOperationNameGenerator
     {
         /// <summary>Gets a value indicating whether the generator supports multiple client classes.</summary>
@@ -28,12 +28,12 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             return string.Empty;
         }
 
-        /// <summary>Gets the client name for a given operation (may be empty).</summary>
+        /// <summary>Gets the operation name for a given operation.</summary>
         /// <param name="document">The Swagger document.</param>
         /// <param name="path">The HTTP path.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="operation">The operation.</param>
-        /// <returns>The client name.</returns>
+        /// <returns>The operation name.</returns>
         public virtual string GetOperationName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
             var operationName = ConvertPathToName(path);
@@ -82,8 +82,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 return string.Empty;
             }
 
-            var capitalized = name.ToLowerInvariant();
-            return char.ToUpperInvariant(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
+            return char.ToUpperInvariant(name[0]) + (name.Length > 1 ? name.Substring(1) : "");
         }
     }
 }
