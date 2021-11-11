@@ -140,9 +140,9 @@ partial class Build : NukeBuild
             var consoleCoreDirectory = SourceDirectory / "NSwag.ConsoleCore" / "bin" / Configuration;
 
             CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
-            // CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp2.2/publish", npmBinariesDirectory / "NetCore22");
-            // CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.0/publish", npmBinariesDirectory / "NetCore30");
             CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
+            CopyDirectoryRecursively(consoleCoreDirectory  / "net5.0/publish", npmBinariesDirectory / "Net50");
+            CopyDirectoryRecursively(consoleCoreDirectory  / "net6.0/publish", npmBinariesDirectory / "Net60");
 
             // gather relevant artifacts
             EnsureCleanDirectory(OutputDirectory);
