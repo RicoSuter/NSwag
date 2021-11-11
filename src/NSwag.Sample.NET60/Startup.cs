@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using NJsonSchema.Generation;
 
-namespace NSwag.Sample.NETCore31
+namespace NSwag.Sample.NET60
 {
     public class Startup
     {
