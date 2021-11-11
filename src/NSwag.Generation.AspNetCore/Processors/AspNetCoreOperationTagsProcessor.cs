@@ -21,10 +21,10 @@ namespace NSwag.Generation.AspNetCore.Processors
         protected override void AddControllerNameTag(OperationProcessorContext context)
         {
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
-            if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor descriptor)
+            if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                aspNetCoreContext.OperationDescription.Operation.Tags.Add(descriptor.ControllerName);
-                SetDescription(context, descriptor.ControllerName, descriptor.ControllerTypeInfo.GetXmlDocsSummary());
+                aspNetCoreContext.OperationDescription.Operation.Tags.Add(controllerActionDescriptor.ControllerName);
+                SetDescription(context, controllerActionDescriptor.ControllerName, controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary());
             }
             else
             {

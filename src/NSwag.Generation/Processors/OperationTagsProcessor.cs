@@ -23,20 +23,26 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            ProcessSwaggerTagsAttribute(context.Document, context.OperationDescription, context.MethodInfo);
-            ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
-
-            if (!context.OperationDescription.Operation.Tags.Any())
+            if (context.MethodInfo != null)
             {
-                var typeInfo = context.ControllerType.GetTypeInfo();
-
-                ProcessControllerSwaggerTagsAttribute(context.OperationDescription, typeInfo);
-                ProcessControllerSwaggerTagAttributes(context.OperationDescription, typeInfo);
+                ProcessSwaggerTagsAttribute(context.Document, context.OperationDescription, context.MethodInfo);
+                ProcessSwaggerTagAttributes(context.Document, context.OperationDescription, context.MethodInfo);
             }
 
-            if (!context.OperationDescription.Operation.Tags.Any())
+            if (context.ControllerType != null)
             {
-                AddControllerNameTag(context);
+                if (!context.OperationDescription.Operation.Tags.Any())
+                {
+                    var typeInfo = context.ControllerType.GetTypeInfo();
+
+                    ProcessControllerSwaggerTagsAttribute(context.OperationDescription, typeInfo);
+                    ProcessControllerSwaggerTagAttributes(context.OperationDescription, typeInfo);
+                }
+
+                if (!context.OperationDescription.Operation.Tags.Any())
+                {
+                    AddControllerNameTag(context);
+                }
             }
 
             return true;

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
@@ -117,22 +118,25 @@ namespace NSwag.Generation.AspNetCore
                     Settings.ApiGroupNames.Length == 0 ||
                     Settings.ApiGroupNames.Contains(group.GroupName))
                 .SelectMany(g => g.Items)
-                .Where(apiDescription => apiDescription.ActionDescriptor is ControllerActionDescriptor)
                 .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new OpenApiSchemaResolver(document, Settings);
 
             var apiGroups = apiDescriptions
-                .Select(apiDescription => new Tuple<ApiDescription, ControllerActionDescriptor>(apiDescription, (ControllerActionDescriptor)apiDescription.ActionDescriptor))
-                .GroupBy(item => item.Item2.ControllerTypeInfo.AsType())
+                .Select(apiDescription => new Tuple<ApiDescription, ActionDescriptor>(apiDescription, apiDescription.ActionDescriptor))
+                .GroupBy(item => (item.Item2 as ControllerActionDescriptor)?.ControllerTypeInfo.AsType())
                 .ToArray();
 
-            var usedControllerTypes = GenerateForControllers(document, apiGroups, schemaResolver);
+            var usedControllerTypes = GenerateApiGroups(document, apiGroups, schemaResolver);
 
             document.GenerateOperationIds();
 
-            var controllerTypes = apiGroups.Select(k => k.Key).ToArray();
+            var controllerTypes = apiGroups
+                .Select(k => k.Key)
+                .Where(t => t != null)
+                .ToArray();
+
             foreach (var processor in Settings.DocumentProcessors)
             {
                 processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
@@ -175,20 +179,21 @@ namespace NSwag.Generation.AspNetCore
             };
         }
 
-        private List<Type> GenerateForControllers(
+        private List<Type> GenerateApiGroups(
             OpenApiDocument document,
-            IGrouping<Type, Tuple<ApiDescription, ControllerActionDescriptor>>[] apiGroups,
+            IGrouping<Type, Tuple<ApiDescription, ActionDescriptor>>[] apiGroups,
             OpenApiSchemaResolver schemaResolver)
         {
             var usedControllerTypes = new List<Type>();
             var swaggerGenerator = new OpenApiDocumentGenerator(Settings, schemaResolver);
 
             var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
-            foreach (var controllerApiDescriptionGroup in apiGroups)
+            foreach (var apiGroup in apiGroups)
             {
-                var controllerType = controllerApiDescriptionGroup.Key;
+                var controllerType = apiGroup.Key;
 
-                var hasIgnoreAttribute = controllerType.GetTypeInfo()
+                var hasIgnoreAttribute = controllerType != null && controllerType
+                    .GetTypeInfo()
                     .GetCustomAttributes()
                     .GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name)
                     .Any();
@@ -196,15 +201,22 @@ namespace NSwag.Generation.AspNetCore
                 if (!hasIgnoreAttribute)
                 {
                     var operations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
-                    foreach (var item in controllerApiDescriptionGroup)
+                    foreach (var item in apiGroup)
                     {
                         var apiDescription = item.Item1;
-                        var method = item.Item2.MethodInfo;
-
-                        var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
-                        if (actionHasIgnoreAttribute)
+                        if (apiDescription.RelativePath == null)
                         {
                             continue;
+                        }
+
+                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo;
+                        if (method != null)
+                        {
+                            var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
+                            if (actionHasIgnoreAttribute)
+                            {
+                                continue;
+                            }
                         }
 
                         var path = apiDescription.RelativePath;
@@ -213,7 +225,6 @@ namespace NSwag.Generation.AspNetCore
                             path = "/" + path;
                         }
 
-                        var controllerActionDescriptor = (ControllerActionDescriptor)apiDescription.ActionDescriptor;
                         var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Where(p =>
                         {
                             return p.Source == Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Body;
@@ -225,8 +236,8 @@ namespace NSwag.Generation.AspNetCore
                             Method = httpMethod,
                             Operation = new OpenApiOperation
                             {
-                                IsDeprecated = IsOperationDeprecated(item.Item1, controllerActionDescriptor, method),
-                                OperationId = GetOperationId(document, controllerActionDescriptor, method, httpMethod),
+                                IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method),
+                                OperationId = GetOperationId(document, apiDescription, method, httpMethod),
                                 Consumes = apiDescription.SupportedRequestFormats
                                    .Select(f => f.MediaType)
                                    .Distinct()
@@ -242,9 +253,9 @@ namespace NSwag.Generation.AspNetCore
                     }
 
                     var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, swaggerGenerator, schemaResolver);
-                    if (addedOperations.Any())
+                    if (addedOperations.Any() && apiGroup.Key != null)
                     {
-                        usedControllerTypes.Add(controllerApiDescriptionGroup.Key);
+                        usedControllerTypes.Add(apiGroup.Key);
                     }
 
                     allOperations.AddRange(addedOperations);
@@ -255,14 +266,14 @@ namespace NSwag.Generation.AspNetCore
             return usedControllerTypes;
         }
 
-        private bool IsOperationDeprecated(ApiDescription apiDescription, ControllerActionDescriptor controllerActionDescriptor, MethodInfo methodInfo)
+        private bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
         {
-            if (methodInfo.GetCustomAttribute<ObsoleteAttribute>() != null)
+            if (methodInfo?.GetCustomAttribute<ObsoleteAttribute>() != null)
             {
                 return true;
             }
 
-            dynamic apiVersionModel = controllerActionDescriptor?
+            dynamic apiVersionModel = actionDescriptor?
                 .Properties
                 .FirstOrDefault(p => p.Key is Type type && type.Name == "ApiVersionModel")
                 .Value;
@@ -388,33 +399,36 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-            // 2. Run from class attributes
-            var operationProcessorAttribute = methodInfo.DeclaringType.GetTypeInfo()
-                .GetCustomAttributes()
-            // 3. Run from method attributes
-                .Concat(methodInfo.GetCustomAttributes())
-                .Where(a => a.GetType().IsAssignableToTypeName("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
-
-            foreach (dynamic attribute in operationProcessorAttribute)
+            if (methodInfo != null)
             {
-                var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ?
-                    (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
-                    (IOperationProcessor)Activator.CreateInstance(attribute.Type);
+                // 2. Run from class attributes
+                var operationProcessorAttribute = methodInfo.DeclaringType.GetTypeInfo()
+                    .GetCustomAttributes()
+                    // 3. Run from method attributes
+                    .Concat(methodInfo.GetCustomAttributes())
+                    .Where(a => a.GetType().IsAssignableToTypeName("SwaggerOperationProcessorAttribute", TypeNameStyle.Name));
 
-                if (operationProcessor.Process(operationProcessorContext) == false)
+                foreach (dynamic attribute in operationProcessorAttribute)
                 {
-                    return false;
+                    var operationProcessor = ObjectExtensions.HasProperty(attribute, "Parameters") ?
+                        (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
+                        (IOperationProcessor)Activator.CreateInstance(attribute.Type);
+
+                    if (operationProcessor.Process(operationProcessorContext) == false)
+                    {
+                        return false;
+                    }
                 }
             }
 
             return true;
         }
 
-        private string GetOperationId(OpenApiDocument document, ControllerActionDescriptor actionDescriptor, MethodInfo method, string httpMethod)
+        private string GetOperationId(OpenApiDocument document, ApiDescription apiDescription, MethodInfo method, string httpMethod)
         {
             string operationId;
 
-            dynamic swaggerOperationAttribute = method
+            dynamic swaggerOperationAttribute = method?
                 .GetCustomAttributes()
                 .FirstAssignableToTypeNameOrDefault("SwaggerOperationAttribute", TypeNameStyle.Name);
 
@@ -423,7 +437,7 @@ namespace NSwag.Generation.AspNetCore
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
                 var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
-                httpAttribute = method
+                httpAttribute = method?
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
             }
@@ -436,13 +450,13 @@ namespace NSwag.Generation.AspNetCore
             {
                 operationId = httpAttribute.Name;
             }
-            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(actionDescriptor.AttributeRouteInfo.Name))
+            else if (Settings.UseRouteNameAsOperationId && !string.IsNullOrEmpty(apiDescription.ActionDescriptor.AttributeRouteInfo.Name))
             {
-                operationId = actionDescriptor.AttributeRouteInfo.Name;
+                operationId = apiDescription.ActionDescriptor.AttributeRouteInfo.Name;
             }
-            else
+            else if (apiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                dynamic openApiControllerAttribute = actionDescriptor
+                dynamic openApiControllerAttribute = controllerActionDescriptor
                     .ControllerTypeInfo?
                     .GetCustomAttributes()?
                     .FirstAssignableToTypeNameOrDefault("OpenApiControllerAttribute", TypeNameStyle.Name);
@@ -450,9 +464,20 @@ namespace NSwag.Generation.AspNetCore
                 var controllerName =
                     openApiControllerAttribute != null && !string.IsNullOrEmpty(openApiControllerAttribute.Name) ?
                     openApiControllerAttribute.Name :
-                    actionDescriptor.ControllerName;
+                    controllerActionDescriptor.ControllerName;
 
-                operationId = controllerName + "_" + GetActionName(actionDescriptor.ActionName);
+                operationId = controllerName + "_" + GetActionName(controllerActionDescriptor.ActionName);
+            }
+            else
+            {
+                // From HTTP method and route
+                operationId = 
+                    httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
+                    string.Join("", apiDescription.RelativePath
+                        .Split('/', '\\', '}', ']', '-', '_')
+                        .Where(t => !t.StartsWith("{"))
+                        .Where(t => !t.StartsWith("["))
+                        .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
             var number = 1;
