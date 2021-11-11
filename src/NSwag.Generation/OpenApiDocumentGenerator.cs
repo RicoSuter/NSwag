@@ -40,7 +40,7 @@ namespace NSwag.Generation
             parameter.Kind = OpenApiParameterKind.Path;
             parameter.IsRequired = true;
 
-            if (_settings.SchemaType == SchemaType.Swagger2)
+            if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
             {
                 parameter.IsNullableRaw = false;
             }
@@ -83,9 +83,9 @@ namespace NSwag.Generation
         /// <returns>The parameter.</returns>
         public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter)
         {
-            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
+            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameter, _settings.SchemaSettings);
 
-            var operationParameter = _settings.SchemaType == SchemaType.Swagger2
+            var operationParameter = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2
                 ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)
                 : CreatePrimitiveOpenApiParameter(contextualParameter, typeDescription);
 
@@ -104,7 +104,7 @@ namespace NSwag.Generation
         private OpenApiParameter CreatePrimitiveOpenApiParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
         {
             OpenApiParameter operationParameter;
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
                 operationParameter = new OpenApiParameter();
                 operationParameter.Schema = new JsonSchema();
@@ -118,7 +118,7 @@ namespace NSwag.Generation
                 {
                     operationParameter.Schema.IsNullableRaw = true;
 
-                    if (_settings.AllowReferencesWithProperties)
+                    if (_settings.SchemaSettings.AllowReferencesWithProperties)
                     {
                         operationParameter.Schema.Reference = referencedSchema.ActualSchema;
                     }
@@ -153,7 +153,7 @@ namespace NSwag.Generation
         private OpenApiParameter CreatePrimitiveSwaggerParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
         {
             OpenApiParameter operationParameter;
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
                 var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 

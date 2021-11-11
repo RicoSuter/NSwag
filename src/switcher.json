@@ -6,5 +6,136 @@
     "NJsonSchema.CodeGeneration": "../../NJsonSchema/src/NJsonSchema.CodeGeneration/NJsonSchema.CodeGeneration.csproj",
     "NJsonSchema.CodeGeneration.CSharp": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.CSharp/NJsonSchema.CodeGeneration.CSharp.csproj",
     "NJsonSchema.CodeGeneration.TypeScript": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.TypeScript/NJsonSchema.CodeGeneration.TypeScript.csproj"
-  }
+  },
+  "restore": [
+    {
+      "name": "NSwag.CodeGeneration",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        },
+        {
+          "packageName": "NJsonSchema.CodeGeneration",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Core",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.AspNet.Owin",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.AspNet.WebApi",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Generation",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.CodeGeneration.CSharp",
+      "packages": [
+        {
+          "packageName": "NJsonSchema.CodeGeneration.CSharp",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.CodeGeneration.TypeScript",
+      "packages": [
+        {
+          "packageName": "NJsonSchema.CodeGeneration.TypeScript",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Generation.WebApi",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Core.Yaml",
+      "packages": [
+        {
+          "packageName": "NJsonSchema.Yaml",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Generation.AspNetCore",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.Commands",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        },
+        {
+          "packageName": "NJsonSchema.Yaml",
+          "version": "10.5.2"
+        },
+        {
+          "packageName": "NJsonSchema.CodeGeneration",
+          "version": "10.5.2"
+        },
+        {
+          "packageName": "NJsonSchema.CodeGeneration.CSharp",
+          "version": "10.5.2"
+        },
+        {
+          "packageName": "NJsonSchema.CodeGeneration.TypeScript",
+          "version": "10.5.2"
+        }
+      ]
+    },
+    {
+      "name": "NSwag.AssemblyLoader",
+      "packages": [
+        {
+          "packageName": "NJsonSchema",
+          "version": "10.5.2"
+        }
+      ]
+    }
+  ],
+  "removeProjects": true
 }

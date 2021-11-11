@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net451;netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <Version>13.14.0</Version>
     <PackageTags>Swagger Documentation AspNetCore</PackageTags>
@@ -26,15 +26,12 @@
   <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" PackagePath="" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="10.5.2" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0' ">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="1.0.4" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
@@ -53,6 +50,8 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="[6, 7)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.NewtonsoftJson\NJsonSchema.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj" />
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
 </Project>

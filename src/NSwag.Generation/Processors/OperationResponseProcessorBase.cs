@@ -172,8 +172,8 @@ namespace NSwag.Generation.Processors
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
-                var typeDescription = _settings.ReflectionService.GetDescription(
-                    contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
+                var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(
+                    contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings);
 
                 var response = new OpenApiResponse
                 {
@@ -189,7 +189,7 @@ namespace NSwag.Generation.Processors
                     var isResponseNullable = nullableXmlAttribute != null ?
                         nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
                         statusCodeGroup.Any(r => r.IsNullable) &&
-                            _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+                            _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                     response.IsNullableRaw = isResponseNullable;
                     response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
@@ -235,7 +235,7 @@ namespace NSwag.Generation.Processors
                 {
                     var contextualResponseType = response.ResponseType.ToContextualType();
 
-                    var isNullable = _settings.ReflectionService.GetDescription(contextualResponseType, _settings).IsNullable;
+                    var isNullable = _settings.SchemaSettings.ReflectionService.GetDescription(contextualResponseType, _settings.SchemaSettings).IsNullable;
                     var schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                         contextualResponseType, isNullable, context.SchemaResolver);
 
@@ -278,7 +278,7 @@ namespace NSwag.Generation.Processors
                 var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
                 var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
-                var typeDescription = _settings.ReflectionService.GetDescription(contextualReturnParameter, _settings);
+                var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.SchemaSettings);
                 var responseSchema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualReturnParameter, typeDescription.IsNullable, context.SchemaResolver);
 

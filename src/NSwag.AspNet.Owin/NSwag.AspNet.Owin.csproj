@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <Version>13.14.0</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
@@ -13,8 +13,8 @@
     <Authors>Rico Suter</Authors>
     <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
     <Company />
-    <RepositoryType>git</RepositoryType> 
-    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -31,10 +31,10 @@
     <EmbeddedResource Include="SwaggerUi3\swagger-ui.css" />
     <EmbeddedResource Include="SwaggerUi3\swagger-ui.js" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;AspNetOwin;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -49,10 +49,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.5.2" />
     <PackageReference Include="Owin" Version="1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />

@@ -79,7 +79,7 @@ namespace NSwag.Generation.WebApi
         public async Task<OpenApiDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
             var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
@@ -110,7 +110,7 @@ namespace NSwag.Generation.WebApi
                 new OpenApiDocument();
 
             document.Generator = "NSwag v" + OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
-            document.SchemaType = Settings.SchemaType;
+            document.SchemaType = Settings.SchemaSettings.SchemaType;
 
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };

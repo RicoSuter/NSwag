@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -49,12 +50,24 @@ namespace NSwag.Generation.AspNetCore
             var typedServiceProvider = (IServiceProvider)serviceProvider;
 
             var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings =
-                mvcOptions.Value.OutputFormatters.Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
-                    GetSystemTextJsonSettings(typedServiceProvider) :
-                    GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
 
-            Settings.ApplySettings(settings, mvcOptions.Value);
+            var newtonsoftSettings = GetJsonSerializerSettings(typedServiceProvider);
+            var systemTextJsonOptions = mvcOptions.Value.OutputFormatters
+                .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ? 
+                GetSystemTextJsonSettings(typedServiceProvider) : null;
+
+            if (systemTextJsonOptions != null)
+            {
+                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);
+            }
+            else if (newtonsoftSettings != null)
+            {
+                Settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
+            }
+            else
+            {
+                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings(), mvcOptions.Value);
+            }
 
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
             return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
@@ -121,7 +134,7 @@ namespace NSwag.Generation.AspNetCore
                 .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
             var apiGroups = apiDescriptions
                 .Select(apiDescription => new Tuple<ApiDescription, ActionDescriptor>(apiDescription, apiDescription.ActionDescriptor))
@@ -148,7 +161,7 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
         /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
+        public static JsonSerializerOptions GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a
             // contract resolver which reflects best the System.Text.Json behavior.
@@ -163,9 +176,9 @@ namespace NSwag.Generation.AspNetCore
 
                     var options = serviceProvider?.GetService(optionsType) as dynamic;
                     var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
-                    if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
+                    if (jsonOptions is JsonSerializerOptions)
                     {
-                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                        return (JsonSerializerOptions)jsonOptions;
                     }
                 }
                 catch
@@ -173,10 +186,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-            return new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            return null;
         }
 
         private List<Type> GenerateApiGroups(
@@ -355,7 +365,7 @@ namespace NSwag.Generation.AspNetCore
                 new OpenApiDocument();
 
             document.Generator = $"NSwag v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
-            document.SchemaType = Settings.SchemaType;
+            document.SchemaType = Settings.SchemaSettings.SchemaType;
 
             if (document.Info == null)
             {
@@ -471,7 +481,7 @@ namespace NSwag.Generation.AspNetCore
             else
             {
                 // From HTTP method and route
-                operationId = 
+                operationId =
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
                     string.Join("", apiDescription.RelativePath
                         .Split('/', '\\', '}', ']', '-', '_')

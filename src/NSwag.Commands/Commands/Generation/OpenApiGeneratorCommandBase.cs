@@ -10,6 +10,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -43,27 +44,6 @@ namespace NSwag.Commands.Generation
         [JsonIgnore]
         protected override TSettings Settings { get; }
 
-        [Argument(Name = nameof(DefaultPropertyNameHandling), IsRequired = false, Description = "The default property name handling ('Default' or 'CamelCase').")]
-        public PropertyNameHandling DefaultPropertyNameHandling
-        {
-            get => Settings.DefaultPropertyNameHandling;
-            set => Settings.DefaultPropertyNameHandling = value;
-        }
-
-        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (Null (default) or NotNull).")]
-        public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
-        {
-            get => Settings.DefaultReferenceTypeNullHandling;
-            set => Settings.DefaultReferenceTypeNullHandling = value;
-        }
-
-        [Argument(Name = nameof(DefaultDictionaryValueReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling of dictionary value types (NotNull (default) or Null).")]
-        public ReferenceTypeNullHandling DefaultDictionaryValueReferenceTypeNullHandling
-        {
-            get => Settings.DefaultDictionaryValueReferenceTypeNullHandling;
-            set => Settings.DefaultDictionaryValueReferenceTypeNullHandling = value;
-        }
-
         [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: NotNull (default) or Null).")]
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
         {
@@ -78,77 +58,70 @@ namespace NSwag.Commands.Generation
             set => Settings.GenerateOriginalParameterNames = value;
         }
 
-        [Argument(Name = "DefaultEnumHandling", IsRequired = false, Description = "The default enum handling ('String' or 'Integer'), default: Integer.")]
-        public EnumHandling DefaultEnumHandling
-        {
-            get => Settings.DefaultEnumHandling;
-            set => Settings.DefaultEnumHandling = value;
-        }
-
         [Argument(Name = "FlattenInheritanceHierarchy", IsRequired = false, Description = "Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]
         public bool FlattenInheritanceHierarchy
         {
-            get => Settings.FlattenInheritanceHierarchy;
-            set => Settings.FlattenInheritanceHierarchy = value;
+            get => Settings.SchemaSettings.FlattenInheritanceHierarchy;
+            set => Settings.SchemaSettings.FlattenInheritanceHierarchy = value;
         }
 
         [Argument(Name = "GenerateKnownTypes", IsRequired = false, Description = "Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
         public bool GenerateKnownTypes
         {
-            get => Settings.GenerateKnownTypes;
-            set => Settings.GenerateKnownTypes = value;
+            get => Settings.SchemaSettings.GenerateKnownTypes;
+            set => Settings.SchemaSettings.GenerateKnownTypes = value;
         }
 
         [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false,
             Description = "Generate a description with number to enum name mappings (for integer enums only, default: false).")]
         public bool GenerateEnumMappingDescription
         {
-            get => Settings.GenerateEnumMappingDescription;
-            set => Settings.GenerateEnumMappingDescription = value;
+            get => Settings.SchemaSettings.GenerateEnumMappingDescription;
+            set => Settings.SchemaSettings.GenerateEnumMappingDescription = value;
         }
 
         [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
         public bool GenerateXmlObjects
         {
-            get => Settings.GenerateXmlObjects;
-            set => Settings.GenerateXmlObjects = value;
+            get => Settings.SchemaSettings.GenerateXmlObjects;
+            set => Settings.SchemaSettings.GenerateXmlObjects = value;
         }
 
         [Argument(Name = "GenerateAbstractProperties", IsRequired = false, Description = "Generate abstract properties (i.e. interface and abstract properties. " +
             "Properties may defined multiple times in a inheritance hierarchy, default: false).")]
         public bool GenerateAbstractProperties
         {
-            get => Settings.GenerateAbstractProperties;
-            set => Settings.GenerateAbstractProperties = value;
+            get => Settings.SchemaSettings.GenerateAbstractProperties;
+            set => Settings.SchemaSettings.GenerateAbstractProperties = value;
         }
 
         [Argument(Name = "GenerateAbstractSchemas", IsRequired = false, Description = "Generate the x-abstract flag on schemas (default: true).")]
         public bool GenerateAbstractSchemas
         {
-            get => Settings.GenerateAbstractSchemas;
-            set => Settings.GenerateAbstractSchemas = value;
+            get => Settings.SchemaSettings.GenerateAbstractSchemas;
+            set => Settings.SchemaSettings.GenerateAbstractSchemas = value;
         }
 
         [Argument(Name = "IgnoreObsoleteProperties", IsRequired = false, Description = "Ignore properties with the ObsoleteAttribute (default: false).")]
         public bool IgnoreObsoleteProperties
         {
-            get => Settings.IgnoreObsoleteProperties;
-            set => Settings.IgnoreObsoleteProperties = value;
+            get => Settings.SchemaSettings.IgnoreObsoleteProperties;
+            set => Settings.SchemaSettings.IgnoreObsoleteProperties = value;
         }
 
         [Argument(Name = "AllowReferencesWithProperties", IsRequired = false, Description = "Use $ref references even if additional properties are defined on " +
             "the object (otherwise allOf/oneOf with $ref is used, default: false).")]
         public bool AllowReferencesWithProperties
         {
-            get => Settings.AllowReferencesWithProperties;
-            set => Settings.AllowReferencesWithProperties = value;
+            get => Settings.SchemaSettings.AllowReferencesWithProperties;
+            set => Settings.SchemaSettings.AllowReferencesWithProperties = value;
         }
 
         [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded type names (same as JsonSchemaIgnoreAttribute).")]
         public string[] ExcludedTypeNames
         {
-            get => Settings.ExcludedTypeNames;
-            set => Settings.ExcludedTypeNames = value;
+            get => Settings.SchemaSettings.ExcludedTypeNames;
+            set => Settings.SchemaSettings.ExcludedTypeNames = value;
         }
 
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
@@ -234,25 +207,36 @@ namespace NSwag.Commands.Generation
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
+
 #if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0 
-            JsonSerializerSettings serializerSettings;
+            JsonSerializerSettings newtonsoftSettings = null;
+            JsonSerializerOptions systemTextJsonOptions = null;
+
             try
             {
                 var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
-                serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+                newtonsoftSettings = mvcJsonOptions?.Value?.SerializerSettings;
             }
             catch
             {
-                serializerSettings = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(serviceProvider);
+                systemTextJsonOptions = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(serviceProvider);
             }
 #else
+            JsonSerializerOptions systemTextJsonOptions = null;
             var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
-            var serializerSettings = mvcJsonOptions?.Value?.SerializerSettings;
+            var newtonsoftSettings = mvcJsonOptions?.Value?.SerializerSettings;
 #endif
 
-            Settings.ApplySettings(serializerSettings, mvcOptions);
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
+            if (systemTextJsonOptions != null)
+            {
+                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions);
+            }
+            else if (newtonsoftSettings != null)
+            {
+                Settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions);
+            }
 
+            Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
             InitializeCustomTypes(assemblyLoader);
 
             return Settings;
