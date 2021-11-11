@@ -29,7 +29,7 @@ Also, since you've come to this repo, we'll assume you want to use NSwag as part
 - Use an existing [nswag config document](https://github.com/RicoSuter/NSwag/wiki/NSwag-Configuration-Document), similar to [sample.nswag](./sample.nswag) from this sample folder.
 - In your App codebase, check for folders similar to `MainApp > Services > [YourRemoteService]`, and `MainApp > Contracts > [YourRemoteService]`, if they are missing, create them
 - If `[YourRemoteService]` has a public unauthenticated Open API Spec endpoint, one that gets appropriately versioned before changes are published, you can use it directly.
-- Otherwise, recommend downloading the desired version (typically current version) of your [Service Swagger](https://petstore.swagger.io/v2/swagger.json) from the Cloud and place the file in the same directory as the [sample.nswag](./sample.nswag).
+- Otherwise, I recommend downloading the desired version (typically current version) of your [Service Swagger](https://petstore.swagger.io/v2/swagger.json) from the Cloud and place the file in the same directory as the [sample.nswag](./sample.nswag).
   - If you downloaded a copy of the OpenAPI-Spec, you may want to include it along side with the nswag generated files, for reference and ad-hoc version tracking.
 - Generate the service client, interface definitions and DTOs by running the `nswag` CLI:
 
