@@ -172,7 +172,9 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
+
 #elif NET || NETCOREAPP || NETSTANDARD
+
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {

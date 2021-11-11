@@ -68,6 +68,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                         null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
                     serviceProvider = webHostBuilder.Build().Services;
                 }
+
 #if NET || NETCOREAPP3_1
                 else
                 {

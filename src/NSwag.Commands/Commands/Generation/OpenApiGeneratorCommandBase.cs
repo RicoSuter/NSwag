@@ -234,6 +234,7 @@ namespace NSwag.Commands.Generation
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
+
 #if NET || NETCOREAPP3_1
             JsonSerializerSettings serializerSettings;
             try

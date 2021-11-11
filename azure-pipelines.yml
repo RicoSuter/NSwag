@@ -20,7 +20,10 @@ steps:
   displayName: 'Install .NET Core SDK'
   inputs:
     packageType: 'sdk'
-    version: '5.0.100'
+    version: '6.0.0'
+    includePreviewVersions: true
+    performMultiLevelLookup: true
+    useGlobalJson: true
 
 - task: CmdLine@2
   displayName: 'Install DNT'
@@ -53,6 +56,7 @@ steps:
     solution: '$(Projects)'
     msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
+
 
 - task: VSTest@2
   displayName: 'Run tests'
