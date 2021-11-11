@@ -59,7 +59,7 @@ nswag run sample.nswag /runtime:Net50
 ```
 
 - Update files, if needed, in your `MainApp > Services  > [YourRemoteService]`, and `MainApp > Contracts > [YourRemoteService]` folders
-- Check if any updates are needed to service instances (or mock instances) registered with the a Dependency Injection container in your App, if any.
+- Check if any updates are needed to service instances (or mock instances) registered with a Dependency Injection container in your App, if any.
 
 ## Sample NSwag config
 
