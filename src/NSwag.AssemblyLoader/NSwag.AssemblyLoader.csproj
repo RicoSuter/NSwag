@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net451;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net461;netstandard2.0</TargetFrameworks>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <Version>13.14.1</Version>
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
@@ -19,11 +19,11 @@
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;FullNet;NET451</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;FullNet;NET461</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;FullNet;NET451</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;FullNet;NET461</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="10.5.2" />
