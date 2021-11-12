@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 namespace NSwag.Commands.Generation.AspNetCore
@@ -47,14 +48,17 @@ namespace NSwag.Commands.Generation.AspNetCore
             }
 
             var entryPointType = assembly.EntryPoint.DeclaringType;
-            var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
+            var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost") ??
+                                     entryPointType.GetMethod("BuildHost");
+
             var args = new string[0];
 
             IServiceProvider serviceProvider = null;
             if (buildWebHostMethod != null)
             {
                 var result = buildWebHostMethod.Invoke(null, new object[] { args });
-                serviceProvider = ((IWebHost)result).Services;
+                serviceProvider = (result as IWebHost)?.Services ??
+                                  (result as IHost)?.Services;
             }
             else
             {
