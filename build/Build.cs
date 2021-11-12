@@ -103,7 +103,7 @@ partial class Build : NukeBuild
         {
             EnsureCleanDirectory(SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
 
-            Info("Build and copy full .NET command line");
+            Info("Build and copy full .NET command line with configuration " + Configuration);
 
             MSBuild(x => x
                     .SetTargetPath(Solution)
