@@ -20,11 +20,13 @@ namespace NSwag.Commands
     {
         public static IServiceProvider GetServiceProvider(Assembly assembly)
         {
+            _ = assembly ?? throw new ArgumentNullException(nameof(assembly));
+
             IServiceProvider serviceProvider = null;
 
-            if (assembly.EntryPoint != null)
+            var entryPointType = assembly.EntryPoint?.DeclaringType;
+            if (entryPointType != null)
             {
-                var entryPointType = assembly.EntryPoint.DeclaringType;
                 var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
                 var args = new string[0];
 
