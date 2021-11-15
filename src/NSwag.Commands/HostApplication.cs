@@ -20,49 +20,48 @@ namespace NSwag.Commands
     {
         public static IServiceProvider GetServiceProvider(Assembly assembly)
         {
-            if (assembly.EntryPoint == null)
-            {
-                throw new InvalidOperationException($"Unable to locate the program entry point for {assembly.GetName()}.");
-            }
-
-            var entryPointType = assembly.EntryPoint.DeclaringType;
-            var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
-            var args = new string[0];
-
             IServiceProvider serviceProvider = null;
-            if (buildWebHostMethod != null)
-            {
-                var result = buildWebHostMethod.Invoke(null, new object[] { args });
-                serviceProvider = ((IWebHost)result).Services;
-            }
-            else
-            {
-                var createWebHostMethod =
-                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
-                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
 
-                if (createWebHostMethod != null)
+            if (assembly.EntryPoint != null)
+            {
+                var entryPointType = assembly.EntryPoint.DeclaringType;
+                var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
+                var args = new string[0];
+
+                if (buildWebHostMethod != null)
                 {
-                    var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                        null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
-                    serviceProvider = webHostBuilder.Build().Services;
+                    var result = buildWebHostMethod.Invoke(null, new object[] { args });
+                    serviceProvider = ((IWebHost)result).Services;
                 }
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
                 else
                 {
-                    var createHostMethod =
-                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
-                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+                    var createWebHostMethod =
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
 
-                    if (createHostMethod != null)
+                    if (createWebHostMethod != null)
                     {
-                        var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                            null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                        var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
+                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-                }
+#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
+                    else
+                    {
+                        var createHostMethod =
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+
+                        if (createHostMethod != null)
+                        {
+                            var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
+                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                            serviceProvider = webHostBuilder.Build().Services;
+                        }
+                    }
 #endif
-            }
+                }
+            }           
 
             if (serviceProvider == null)
             {
@@ -83,7 +82,7 @@ namespace NSwag.Commands
                 return serviceProvider;
             }
 
-            throw new InvalidOperationException($"NSwag requires the entry point type {entryPointType.FullName} to have " +
+            throw new InvalidOperationException($"NSwag requires the assembly {assembly.GetName()} to have " +
                                                 $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
                                                 $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
                                                 $"for suggestions on ways to refactor your startup type.");
