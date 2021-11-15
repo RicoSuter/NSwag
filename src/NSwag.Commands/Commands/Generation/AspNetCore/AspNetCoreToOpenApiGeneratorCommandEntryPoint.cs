@@ -8,8 +8,10 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 
@@ -21,9 +23,11 @@ namespace NSwag.Commands.Generation.AspNetCore
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
             var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
-
             var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
-            var serviceProvider = GetServiceProvider(applicationName);
+
+            var assemblyName = new AssemblyName(applicationName);
+            var assembly = Assembly.Load(assemblyName);
+            var serviceProvider = GetServiceProvider(assembly);
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
             var document = Task.Run(async () =>
@@ -36,14 +40,11 @@ namespace NSwag.Commands.Generation.AspNetCore
             File.WriteAllText(outputFile, json);
         }
 
-        private static IServiceProvider GetServiceProvider(string applicationName)
+        public static IServiceProvider GetServiceProvider(Assembly assembly)
         {
-            var assemblyName = new AssemblyName(applicationName);
-            var assembly = Assembly.Load(assemblyName);
-
             if (assembly.EntryPoint == null)
             {
-                throw new InvalidOperationException($"Unable to locate the program entry point for {assemblyName}.");
+                throw new InvalidOperationException($"Unable to locate the program entry point for {assembly.GetName()}.");
             }
 
             var entryPointType = assembly.EntryPoint.DeclaringType;
@@ -83,6 +84,20 @@ namespace NSwag.Commands.Generation.AspNetCore
                     }
                 }
 #endif
+            }
+
+            if (serviceProvider == null)
+            {
+                serviceProvider = HostingApplication.GetServiceProvider(assembly);
+            }
+
+            if (serviceProvider == null)
+            { 
+                var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
+                if (startupType != null)
+                {
+                    return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                }
             }
 
             if (serviceProvider != null)

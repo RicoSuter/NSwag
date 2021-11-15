@@ -241,6 +241,7 @@ partial class Build : NukeBuild
                 ("NSwag.Sample.NETCore31", "NetCore31"),
                 ("NSwag.Sample.NET50", "Net50"),
                 ("NSwag.Sample.NET60", "Net60"),
+                ("NSwag.Sample.NET60Minimal", "Net60")
             };
 
             foreach (var (projectName, runtime) in dotnetTargets)
