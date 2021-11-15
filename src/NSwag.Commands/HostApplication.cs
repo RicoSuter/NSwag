@@ -1,21 +1,95 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace NSwag.Commands.Generation.AspNetCore
+namespace NSwag.Commands
 {
     // Represents an application that uses Microsoft.Extensions.Hosting and supports
     // the various entry point flavors. The final model *does not* have an explicit CreateHost entry point and thus inverts the typical flow where the
     // execute Main and we wait for events to fire in order to access the appropriate state.
     // This is what allows top level statements to work, but getting the IServiceProvider is slightly more complex.
-    internal class HostingApplication
+    internal static class ServiceProviderResolver
     {
-        internal static IServiceProvider GetServiceProvider(Assembly assembly)
+        public static IServiceProvider GetServiceProvider(Assembly assembly)
+        {
+            if (assembly.EntryPoint == null)
+            {
+                throw new InvalidOperationException($"Unable to locate the program entry point for {assembly.GetName()}.");
+            }
+
+            var entryPointType = assembly.EntryPoint.DeclaringType;
+            var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
+            var args = new string[0];
+
+            IServiceProvider serviceProvider = null;
+            if (buildWebHostMethod != null)
+            {
+                var result = buildWebHostMethod.Invoke(null, new object[] { args });
+                serviceProvider = ((IWebHost)result).Services;
+            }
+            else
+            {
+                var createWebHostMethod =
+                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+
+                if (createWebHostMethod != null)
+                {
+                    var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
+                        null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                    serviceProvider = webHostBuilder.Build().Services;
+                }
+#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
+                else
+                {
+                    var createHostMethod =
+                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+
+                    if (createHostMethod != null)
+                    {
+                        var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
+                            null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                        serviceProvider = webHostBuilder.Build().Services;
+                    }
+                }
+#endif
+            }
+
+            if (serviceProvider == null)
+            {
+                serviceProvider = GetServiceProviderWithHostFactoryResolver(assembly);
+            }
+
+            if (serviceProvider == null)
+            {
+                var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
+                if (startupType != null)
+                {
+                    serviceProvider = WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                }
+            }
+
+            if (serviceProvider != null)
+            {
+                return serviceProvider;
+            }
+
+            throw new InvalidOperationException($"NSwag requires the entry point type {entryPointType.FullName} to have " +
+                                                $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
+                                                $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
+                                                $"for suggestions on ways to refactor your startup type.");
+        }
+
+        internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
 #if NETCOREAPP2_1 || FullNet
             return null;
@@ -99,7 +173,6 @@ namespace NSwag.Commands.Generation.AspNetCore
             public void Dispose() { }
             public Task StartAsync<TContext>(IHttpApplication<TContext> application, CancellationToken cancellationToken) => Task.CompletedTask;
             public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-
         }
     }
 }

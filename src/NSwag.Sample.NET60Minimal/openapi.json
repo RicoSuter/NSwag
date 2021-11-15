@@ -23,9 +23,9 @@
         }
       }
     },
-    "/sum22/{a}/{b}": {
+    "/sum/{a}/{b}": {
       "get": {
-        "operationId": "GetSum22",
+        "operationId": "GetSum",
         "parameters": [
           {
             "name": "a",

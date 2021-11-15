@@ -6,14 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
+
+#pragma warning disable CS0618
 
 namespace NSwag.Commands.Generation.AspNetCore
 {
@@ -27,7 +25,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var assemblyName = new AssemblyName(applicationName);
             var assembly = Assembly.Load(assemblyName);
-            var serviceProvider = GetServiceProvider(assembly);
+            var serviceProvider = ServiceProviderResolver.GetServiceProvider(assembly);
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
             var document = Task.Run(async () =>
@@ -38,77 +36,6 @@ namespace NSwag.Commands.Generation.AspNetCore
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
             File.WriteAllText(outputFile, json);
-        }
-
-        public static IServiceProvider GetServiceProvider(Assembly assembly)
-        {
-            if (assembly.EntryPoint == null)
-            {
-                throw new InvalidOperationException($"Unable to locate the program entry point for {assembly.GetName()}.");
-            }
-
-            var entryPointType = assembly.EntryPoint.DeclaringType;
-            var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
-            var args = new string[0];
-
-            IServiceProvider serviceProvider = null;
-            if (buildWebHostMethod != null)
-            {
-                var result = buildWebHostMethod.Invoke(null, new object[] { args });
-                serviceProvider = ((IWebHost)result).Services;
-            }
-            else
-            {
-                var createWebHostMethod =
-                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
-                    entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
-
-                if (createWebHostMethod != null)
-                {
-                    var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                        null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
-                    serviceProvider = webHostBuilder.Build().Services;
-                }
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
-                else
-                {
-                    var createHostMethod =
-                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
-                        entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
-
-                    if (createHostMethod != null)
-                    {
-                        var webHostBuilder = (Microsoft.Extensions.Hosting.IHostBuilder)createHostMethod.Invoke(
-                            null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
-                        serviceProvider = webHostBuilder.Build().Services;
-                    }
-                }
-#endif
-            }
-
-            if (serviceProvider == null)
-            {
-                serviceProvider = HostingApplication.GetServiceProvider(assembly);
-            }
-
-            if (serviceProvider == null)
-            { 
-                var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
-                if (startupType != null)
-                {
-                    return WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
-                }
-            }
-
-            if (serviceProvider != null)
-            {
-                return serviceProvider;
-            }
-
-            throw new InvalidOperationException($"NSwag requires the entry point type {entryPointType.FullName} to have " +
-                                                $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
-                                                $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
-                                                $"for suggestions on ways to refactor your startup type.");
         }
     }
 }

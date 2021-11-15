@@ -23,7 +23,6 @@ using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.Generation.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
@@ -297,7 +296,7 @@ namespace NSwag.Commands.Generation
             {
                 var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
                 var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
-                return AspNetCoreToOpenApiGeneratorCommandEntryPoint.GetServiceProvider(firstAssembly);
+                return ServiceProviderResolver.GetServiceProvider(firstAssembly);
             }
         }
 
