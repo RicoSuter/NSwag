@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
@@ -470,14 +471,28 @@ namespace NSwag.Generation.AspNetCore
             }
             else
             {
+#if NET6_0 || NET5_0
+                var routeName = apiDescription
+                    .ActionDescriptor
+                    .EndpointMetadata?
+                    .OfType<RouteNameMetadata>()
+                    .FirstOrDefault()?
+                    .RouteName;
+
+                if (routeName != null)
+                {
+                    return routeName;
+                }
+#endif
+
                 // From HTTP method and route
                 operationId =
-                    httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
-                    string.Join("", apiDescription.RelativePath
-                        .Split('/', '\\', '}', ']', '-', '_')
-                        .Where(t => !t.StartsWith("{"))
-                        .Where(t => !t.StartsWith("["))
-                        .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
+                httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
+                string.Join("", apiDescription.RelativePath
+                    .Split('/', '\\', '}', ']', '-', '_')
+                    .Where(t => !t.StartsWith("{"))
+                    .Where(t => !t.StartsWith("["))
+                    .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
             var number = 1;

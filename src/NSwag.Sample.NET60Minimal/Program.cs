@@ -18,6 +18,7 @@ app.UseOpenApi();
 app.UseSwaggerUi3();
 
 app.MapGet("/", (Func<string>)(() => "Hello World!"));
-app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b));
+app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
+    .WithName("CalculateSum");
 
 app.Run();
