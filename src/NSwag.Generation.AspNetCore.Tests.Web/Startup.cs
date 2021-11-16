@@ -18,7 +18,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
+#if NETCOREAPP2_1
+           services
                 .AddMvc(config =>
                 {
                     config.InputFormatters.Add(new CustomTextInputFormatter());
@@ -36,7 +37,26 @@ namespace NSwag.Generation.AspNetCore.Tests.Web
             {
                 options.GroupNameFormat = "VVV";
                 options.SubstituteApiVersionInUrl = true;
-            });
+            }); 
+#else
+            services
+                .AddControllers(config =>
+                {
+                    config.InputFormatters.Add(new CustomTextInputFormatter());
+                    config.OutputFormatters.Add(new CustomTextOutputFormatter());
+                });
+
+            services.AddApiVersioning(options =>
+                {
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+                .AddVersionedApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "VVV";
+                    options.SubstituteApiVersionInUrl = true;
+                });   
+#endif
 
             services
                 .AddSwaggerDocument(document =>
@@ -68,7 +88,16 @@ namespace NSwag.Generation.AspNetCore.Tests.Web
             }
 
             app.UseHttpsRedirection();
+#if NETCOREAPP2_1
             app.UseMvc();
+#else
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+#endif
+            
 
             app.UseSwagger();
             app.UseSwaggerUi3();

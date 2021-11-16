@@ -70,7 +70,7 @@ namespace NSwag.Generation.AspNetCore
             {
                 try
                 {
-                    // Try load ASP.NET Core 3 options
+                    // Try to load ASP.NET Core 3 options
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
                     return (dynamic)sp?.GetService(optionsType);
