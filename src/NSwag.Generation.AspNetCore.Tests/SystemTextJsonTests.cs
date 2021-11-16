@@ -1,3 +1,4 @@
+#if NETCOREAPP3_1_OR_GREATER
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -5,7 +6,7 @@ using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 using Xunit;
 
-namespace NSwag.Generation.AspNetCore3.Tests
+namespace NSwag.Generation.AspNetCore.Tests
 {
     public class SystemTextJsonTests
     {
@@ -32,3 +33,4 @@ namespace NSwag.Generation.AspNetCore3.Tests
         }
     }
 }
+#endif
