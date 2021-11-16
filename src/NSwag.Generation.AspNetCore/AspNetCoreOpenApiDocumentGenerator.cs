@@ -81,10 +81,10 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NETCOREAPP
+#if NET6_0 || NET5_0 || NETCOREAPP3_1
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
-            object options = null;
+            dynamic options = null;
             try
             {
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
@@ -97,7 +97,7 @@ namespace NSwag.Generation.AspNetCore
 
             try
             {
-                return (JsonSerializerSettings)((dynamic)options.GetType().GetProperty("Value")?.GetValue(options))?.SerializerSettings;
+                return (JsonSerializerSettings)options?.Value?.SerializerSettings;
             }
             catch
             {
@@ -156,27 +156,13 @@ namespace NSwag.Generation.AspNetCore
 
             if (serviceProvider != null)
             {
-#if NETCOREAPP
-                try
-                {
-                    var options = serviceProvider.GetService<IOptions<JsonOptions>>();
-                    if (options?.Value?.JsonSerializerOptions != null)
-                    {
-                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(options.Value.JsonSerializerOptions);
-                    }
-                }
-                catch
-                {
-                }
-#else
                 try
                 {
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
 
-                    var options = serviceProvider?.GetService(optionsType);
-                    var jsonOptions = ((dynamic)optionsType.GetProperty("Value")?.GetValue(options))?.JsonSerializerOptions;
-
+                    var options = serviceProvider?.GetService(optionsType) as dynamic;
+                    var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
                     if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
                     {
                         return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
@@ -185,7 +171,6 @@ namespace NSwag.Generation.AspNetCore
                 catch
                 {
                 }
-#endif
             }
 
             return new JsonSerializerSettings
@@ -486,7 +471,7 @@ namespace NSwag.Generation.AspNetCore
             else
             {
                 // From HTTP method and route
-                operationId =
+                operationId = 
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
                     string.Join("", apiDescription.RelativePath
                         .Split('/', '\\', '}', ']', '-', '_')
