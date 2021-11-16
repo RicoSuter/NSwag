@@ -84,7 +84,7 @@ namespace NSwag.Generation.AspNetCore
 #if NET6_0 || NET5_0 || NETCOREAPP3_1
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
-            dynamic options = null;
+            object options = null;
             try
             {
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
@@ -97,7 +97,7 @@ namespace NSwag.Generation.AspNetCore
 
             try
             {
-                return (JsonSerializerSettings)options?.Value?.SerializerSettings;
+                return (JsonSerializerSettings)((dynamic)options.GetType().GetProperty("Value")?.GetValue(options))?.SerializerSettings;
             }
             catch
             {
@@ -161,8 +161,8 @@ namespace NSwag.Generation.AspNetCore
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
 
-                    var options = serviceProvider?.GetService(optionsType) as dynamic;
-                    var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
+                    var options = serviceProvider?.GetService(optionsType);
+                    var jsonOptions = ((dynamic)optionsType.GetProperty("Value")?.GetValue(options))?.JsonSerializerOptions;
                     if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
                     {
                         return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
@@ -471,7 +471,7 @@ namespace NSwag.Generation.AspNetCore
             else
             {
                 // From HTTP method and route
-                operationId = 
+                operationId =
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
                     string.Join("", apiDescription.RelativePath
                         .Split('/', '\\', '}', ']', '-', '_')
