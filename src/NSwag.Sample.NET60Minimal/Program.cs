@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -17,8 +18,11 @@ app.UseDeveloperExceptionPage();
 app.UseOpenApi();
 app.UseSwaggerUi3();
 
-app.MapGet("/", (Func<string>)(() => "Hello World!"));
+app.MapGet("/", (Func<string>)(() => "Hello World!"))
+    .WithTags("General");
+
 app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
-    .WithName("CalculateSum");
+    .WithName("CalculateSum")
+    .WithTags("Calculator");
 
 app.Run();
