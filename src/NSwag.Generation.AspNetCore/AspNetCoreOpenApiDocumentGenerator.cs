@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
@@ -82,7 +83,7 @@ namespace NSwag.Generation.AspNetCore
             {
                 try
                 {
-                    // Try load ASP.NET Core 3 options
+                    // Try to load ASP.NET Core 3 options
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
                     return (dynamic)sp?.GetService(optionsType);
@@ -97,7 +98,7 @@ namespace NSwag.Generation.AspNetCore
 #if NET6_0 || NET5_0 || NETCOREAPP3_1
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
-            dynamic options = null;
+            object options = null;
             try
             {
                 options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
@@ -110,7 +111,7 @@ namespace NSwag.Generation.AspNetCore
 
             try
             {
-                return (JsonSerializerSettings)options?.Value?.SerializerSettings;
+                return (JsonSerializerSettings)((dynamic)options.GetType().GetProperty("Value")?.GetValue(options))?.SerializerSettings;
             }
             catch
             {
@@ -175,7 +176,7 @@ namespace NSwag.Generation.AspNetCore
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
 
                     var options = serviceProvider?.GetService(optionsType) as dynamic;
-                    var jsonOptions = (object)options?.Value?.JsonSerializerOptions;
+                    var jsonOptions = ((dynamic)optionsType.GetProperty("Value")?.GetValue(options))?.JsonSerializerOptions;
                     if (jsonOptions is JsonSerializerOptions)
                     {
                         return (JsonSerializerOptions)jsonOptions;
@@ -480,6 +481,20 @@ namespace NSwag.Generation.AspNetCore
             }
             else
             {
+#if NET6_0 || NET5_0
+                var routeName = apiDescription
+                    .ActionDescriptor
+                    .EndpointMetadata?
+                    .OfType<RouteNameMetadata>()
+                    .FirstOrDefault()?
+                    .RouteName;
+
+                if (routeName != null)
+                {
+                    return routeName;
+                }
+#endif
+
                 // From HTTP method and route
                 operationId =
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
