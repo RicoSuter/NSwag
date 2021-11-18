@@ -6,26 +6,12 @@
     "version": "v1"
   },
   "paths": {
-    "/": {
-      "get": {
-        "operationId": "Get",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/sum/{a}/{b}": {
       "get": {
-        "operationId": "GetSum",
+        "tags": [
+          "Calculator"
+        ],
+        "operationId": "CalculateSum",
         "parameters": [
           {
             "name": "a",
