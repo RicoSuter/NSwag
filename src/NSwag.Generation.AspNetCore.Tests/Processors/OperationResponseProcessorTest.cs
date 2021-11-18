@@ -124,17 +124,15 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
             var swaggerSettings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             var document = new OpenApiDocument();
             var settings = new OpenApiDocumentGeneratorSettings();
-            var schemaGenerator = new OpenApiSchemaGenerator(settings);
             var schemaResolver = new OpenApiSchemaResolver(document, settings.SchemaSettings);
-            swaggerSettings.SchemaGenerator = schemaGenerator;
-
+            var generator = new OpenApiDocumentGenerator(swaggerSettings, schemaResolver);
+           
             var context = new AspNetCoreOperationProcessorContext(
                 document,
                 operationDescription,
                 GetType(),
                 GetType().GetMethod(nameof(SomeAction), BindingFlags.NonPublic | BindingFlags.Instance),
-                new OpenApiDocumentGenerator(swaggerSettings, schemaResolver),
-                schemaGenerator,
+                generator,
                 schemaResolver,
                 swaggerSettings,
                 new List<OpenApiOperationDescription>())

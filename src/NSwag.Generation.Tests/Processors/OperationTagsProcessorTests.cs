@@ -136,7 +136,7 @@ namespace NSwag.Generation.Tests.Processors
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings(),
                 UseControllerSummaryAsTagDescription = true
             };
-            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, null, settings, null);
+            return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, settings, null);
         }
     }
 }

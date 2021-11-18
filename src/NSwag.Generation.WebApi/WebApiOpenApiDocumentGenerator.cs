@@ -81,10 +81,10 @@ namespace NSwag.Generation.WebApi
             var document = await CreateDocumentAsync().ConfigureAwait(false);
             var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
+            var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
             var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
             {
-                var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
                 var isIncluded = GenerateForController(document, controllerType, generator, schemaResolver);
                 if (isIncluded)
                 {
@@ -97,7 +97,7 @@ namespace NSwag.Generation.WebApi
             foreach (var processor in Settings.DocumentProcessors)
             {
                 processor.Process(new DocumentProcessorContext(document, controllerTypes,
-                    usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
+                    usedControllerTypes, schemaResolver, generator.SchemaGenerator, Settings));
             }
 
             return document;
@@ -232,10 +232,11 @@ namespace NSwag.Generation.WebApi
             return addedOperations > 0;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, 
+            List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
-                methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations);
+                methodInfo, generator, schemaResolver, Settings, allOperations);
 
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)

@@ -25,9 +25,15 @@ namespace NSwag.Generation
         /// <param name="schemaResolver">The schema resolver.</param>
         public OpenApiDocumentGenerator(OpenApiDocumentGeneratorSettings settings, JsonSchemaResolver schemaResolver)
         {
+            SchemaGenerator = new OpenApiSchemaGenerator(settings);
             _schemaResolver = schemaResolver;
             _settings = settings;
         }
+
+        /// <summary>
+        /// Gets or sets the schema generator.
+        /// </summary>
+        public OpenApiSchemaGenerator SchemaGenerator { get; private set; }
 
         /// <summary>Creates a path parameter for a given type.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -109,9 +115,9 @@ namespace NSwag.Generation
                 operationParameter = new OpenApiParameter();
                 operationParameter.Schema = new JsonSchema();
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
 
-                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+                var referencedSchema = SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
                 var hasSchemaAnnotations = JsonConvert.SerializeObject(operationParameter.Schema) != "{}";
                 if (hasSchemaAnnotations || typeDescription.IsNullable)
@@ -135,10 +141,10 @@ namespace NSwag.Generation
             else
             {
                 operationParameter = new OpenApiParameter();
-                operationParameter.Schema = _settings.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                operationParameter.Schema = SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualParameter, typeDescription.IsNullable, _schemaResolver);
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -155,7 +161,7 @@ namespace NSwag.Generation
             OpenApiParameter operationParameter;
             if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
-                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+                var referencedSchema = SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
                 operationParameter = new OpenApiParameter
                 {
@@ -174,12 +180,12 @@ namespace NSwag.Generation
                     }
                 }
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
             else
             {
-                operationParameter = _settings.SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
+                operationParameter = SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
