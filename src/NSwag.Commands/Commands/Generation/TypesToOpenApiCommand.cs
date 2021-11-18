@@ -42,8 +42,8 @@ namespace NSwag.Commands.Generation
         //        [JsonIgnore]
         //        protected override JsonSchemaGeneratorSettings Settings { get; }
 
-        //        [Argument(Name = "ClassNames", Description = "The class names.")]
-        //        public string[] ClassNames { get; set; }
+        [Argument(Name = "ClassNames", Description = "The class names.")]
+        public string[] ClassNames { get; set; }
 
         //        [Argument(Name = nameof(DefaultReferenceTypeNullHandling), IsRequired = false, Description = "The default reference type null handling (Null (default) or NotNull).")]
         //        public ReferenceTypeNullHandling DefaultReferenceTypeNullHandling
