@@ -3,6 +3,14 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+	<PackageReference Include="NSwag.MSBuild" Version="13.14.4" />
     <ProjectReference Include="..\NSwag.AspNetCore\NSwag.AspNetCore.csproj" />
   </ItemGroup>
+
+	<Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+		<Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+		<Exec Command="$(NSwagExe_Net60) run /variables:Configuration=$(Configuration)" />
+		<RemoveDir Directories="$(OutDir)References" />
+	</Target>
+
 </Project>
