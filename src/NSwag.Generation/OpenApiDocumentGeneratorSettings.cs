@@ -8,7 +8,6 @@
 
 using Namotion.Reflection;
 using Newtonsoft.Json;
-using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Collections;
@@ -21,9 +20,8 @@ namespace NSwag.Generation
     public class OpenApiDocumentGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGeneratorSettings"/> class.</summary>
-        public OpenApiDocumentGeneratorSettings(JsonSchemaGeneratorSettings settings)
+        public OpenApiDocumentGeneratorSettings()
         {
-            SchemaSettings = settings;
             SchemaGenerator = new OpenApiSchemaGenerator(this);
             DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
         }

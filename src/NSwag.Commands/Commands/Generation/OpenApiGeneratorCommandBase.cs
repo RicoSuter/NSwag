@@ -168,9 +168,6 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "SchemaNameGenerator", IsRequired = false, Description = "The custom ISchemaNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string SchemaNameGeneratorType { get; set; }
 
-        [Argument(Name = "ContractResolver", IsRequired = false, Description = "DEPRECATED: The custom IContractResolver implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
-        public string ContractResolverType { get; set; }
-
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string SerializerSettingsType { get; set; }
 
@@ -314,22 +311,20 @@ namespace NSwag.Commands.Generation
 
             if (!string.IsNullOrEmpty(TypeNameGeneratorType))
             {
-                Settings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
+                Settings.SchemaSettings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
             }
 
             if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
             {
-                Settings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
+                Settings.SchemaSettings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
             }
 
-            if (!string.IsNullOrEmpty(ContractResolverType))
+            if (Settings.SchemaSettings is NewtonsoftJsonSchemaGeneratorSettings settings)
             {
-                Settings.ContractResolver = (IContractResolver)assemblyLoader.CreateInstance(ContractResolverType);
-            }
-
-            if (!string.IsNullOrEmpty(SerializerSettingsType))
-            {
-                Settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
+                if (!string.IsNullOrEmpty(SerializerSettingsType))
+                {
+                    settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
+                }
             }
         }
 

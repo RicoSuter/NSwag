@@ -29,7 +29,7 @@ namespace NSwag.AspNetCore
     public class SwaggerSettings
 #endif
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerSettings"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="SwaggerSettings{T}"/> class.</summary>
         public SwaggerSettings()
         {
 #if AspNetOwin
@@ -70,9 +70,9 @@ namespace NSwag.AspNetCore
 #pragma warning restore 618
 
 #if AspNetOwin
-        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings, object mvcOptions)
+        internal T CreateGeneratorSettings(object mvcOptions)
         {
-            GeneratorSettings.ApplySettings(serializerSettings, mvcOptions);
+            GeneratorSettings.ApplySettings(GeneratorSettings.SchemaSettings, mvcOptions);
             return GeneratorSettings;
         }
 #endif

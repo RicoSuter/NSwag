@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.WebApi.Processors;
 

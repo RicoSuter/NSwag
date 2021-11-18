@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 using Xunit;
+using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests
 {
@@ -29,7 +30,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             var settings = generator.Generator.Settings;
 
             // Assert
-            Assert.Contains(settings.SerializerSettings.Converters, c => c is StringEnumConverter);
+            Assert.Contains(((NewtonsoftJsonSchemaGeneratorSettings)settings.SchemaSettings).SerializerSettings.Converters, c => c is StringEnumConverter);
         }
     }
 }

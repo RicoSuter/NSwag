@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.Converters;
 using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Xunit;
+using NJsonSchema.NewtonsoftJson.Converters;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {

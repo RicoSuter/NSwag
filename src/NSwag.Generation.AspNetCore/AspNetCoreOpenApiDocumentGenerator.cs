@@ -49,27 +49,6 @@ namespace NSwag.Generation.AspNetCore
         public Task<OpenApiDocument> GenerateAsync(object serviceProvider)
         {
             var typedServiceProvider = (IServiceProvider)serviceProvider;
-
-            var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-
-            var newtonsoftSettings = GetJsonSerializerSettings(typedServiceProvider);
-            var systemTextJsonOptions = mvcOptions.Value.OutputFormatters
-                .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ? 
-                GetSystemTextJsonSettings(typedServiceProvider) : null;
-
-            if (systemTextJsonOptions != null)
-            {
-                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);
-            }
-            else if (newtonsoftSettings != null)
-            {
-                Settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
-            }
-            else
-            {
-                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings(), mvcOptions.Value);
-            }
-
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
             return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }

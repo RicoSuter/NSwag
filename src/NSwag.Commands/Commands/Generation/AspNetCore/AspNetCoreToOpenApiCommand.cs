@@ -233,7 +233,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
-                    JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
+                    JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings.SchemaSettings));
 
                     var documentJson = File.ReadAllText(outputFile);
                     var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);

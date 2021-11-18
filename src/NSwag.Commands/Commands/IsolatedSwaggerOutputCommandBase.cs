@@ -18,12 +18,13 @@ using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NJsonSchema.Yaml;
 using NSwag.AssemblyLoader.Utilities;
+using NSwag.Generation;
 
 namespace NSwag.Commands
 {
     /// <summary>A command which is run in isolation.</summary>
     public abstract class IsolatedSwaggerOutputCommandBase<T> : IsolatedCommandBase<string>, IOutputCommand
-        where T : JsonSchemaGeneratorSettings
+        where T : OpenApiDocumentGeneratorSettings, new()
     {
         [JsonIgnore]
         protected abstract T Settings { get; }
@@ -35,8 +36,8 @@ namespace NSwag.Commands
         [Argument(Name = "OutputType", IsRequired = false, Description = "Specifies the output schema type, ignored when UseDocumentProvider is enabled (Swagger2|OpenApi3, default: Swagger2).")]
         public SchemaType OutputType
         {
-            get { return Settings.SchemaType; }
-            set { Settings.SchemaType = value; }
+            get { return Settings.SchemaSettings.SchemaType; }
+            set { Settings.SchemaSettings.SchemaType = value; }
         }
 
         [Argument(Name = "NewLineBehavior", IsRequired = false, Description = "The new line behavior (Auto (OS default), CRLF, LF).")]
@@ -46,7 +47,7 @@ namespace NSwag.Commands
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) =>
-                new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings));
+                new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings.SchemaSettings));
 
             var documentJson = await RunIsolatedAsync((string)null);
             var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
