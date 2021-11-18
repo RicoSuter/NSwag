@@ -23,7 +23,7 @@
                 <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
                 <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$microsoftExtensionsFileProvidersEmbeddedPackageVersion$" exclude="Build,Analyzers" />
             </group>
-            <group targetFramework=".NETStandard1.6">
+            <!--<group targetFramework=".NETStandard1.6">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
@@ -37,7 +37,7 @@
                 <dependency id="NETStandard.Library" version="$netStandardLibraryPackageVersion$" exclude="Build,Analyzers" />
                 <dependency id="System.IO.FileSystem" version="$systemIOFileSystemPackageVersion$" exclude="Build,Analyzers" />
                 <dependency id="System.Xml.XPath.XDocument" version="$systemXmlXPathXDocumentPackageVersion$" exclude="Build,Analyzers" />
-            </group>
+            </group>-->
             <group targetFramework=".NETStandard2.0">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
@@ -87,8 +87,8 @@
         <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
         <file src="bin\$configuration$\net461\NSwag.AspNetCore.dll" target="lib\net461\" />
         <file src="bin\$configuration$\net461\NSwag.AspNetCore.xml" target="lib\net461\" />
-        <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.dll" target="lib\netstandard1.6\" />
-        <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />
+        <!--<file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.dll" target="lib\netstandard1.6\" />
+        <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />-->
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
         <file src="bin\$configuration$\netcoreapp3.1\NSwag.AspNetCore.dll" target="lib\netcoreapp3.1\" />
