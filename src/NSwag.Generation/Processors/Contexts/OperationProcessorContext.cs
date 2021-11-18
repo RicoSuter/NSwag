@@ -42,7 +42,7 @@ namespace NSwag.Generation.Processors.Contexts
             MethodInfo = methodInfo;
 
             DocumentGenerator = documentGenerator;
-            SchemaGenerator = documentGenerator.SchemaGenerator;
+            SchemaGenerator = documentGenerator?.SchemaGenerator;
             SchemaResolver = schemaResolver;
 
             Settings = settings;

@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -48,7 +50,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_enum_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -67,7 +73,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_with_class_fromuri_should_make_enum_nullable()
         {
             //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -87,7 +97,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
         {
             //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act
@@ -105,7 +119,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_setting_is_enabled_then_parameters_are_reordered()
         {
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<TestController>();
 
             //// Act

@@ -30,7 +30,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             var settings = generator.Generator.Settings;
 
             // Assert
-            Assert.Contains(((NewtonsoftJsonSchemaGeneratorSettings)settings.SchemaSettings).SerializerSettings.Converters, c => c is StringEnumConverter);
+            Assert.Contains(((SystemTextJsonSchemaGeneratorSettings)settings.SchemaSettings).SerializerOptions.Converters, c => c is JsonStringEnumConverter);
         }
     }
 }
