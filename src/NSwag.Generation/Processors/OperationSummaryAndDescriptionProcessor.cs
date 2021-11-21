@@ -53,7 +53,7 @@ namespace NSwag.Generation.Processors
 
             if (!string.IsNullOrEmpty(summary))
             {
-                context.OperationDescription.Operation.Summary = summary;
+                context.OperationDescription.Operation.Summary = summary.Trim();
             }
         }
 
