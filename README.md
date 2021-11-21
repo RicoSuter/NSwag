@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
 [![build](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml/badge.svg)](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
+[![Discord](https://img.shields.io/badge/Discord-join%20chat-1dce73.svg)](https://discord.com/channels/912072975283523625/912072975749103649)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/RicoSuter/nswag/wiki)
 [![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
