@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
 using NJsonSchema;
@@ -121,45 +122,48 @@ namespace NSwag.AspNetCore
         internal override string TransformHtml(string html, HttpRequest request)
 #endif
         {
+            var htmlBuilder = new StringBuilder(html);
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
                 if (value is ICollection collection)
                 {
-                    html = html.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(collection));
+                    htmlBuilder.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(collection));
                 }
                 else if (value is bool boolean)
                 {
-                    html = html.Replace("{" + property.Name + "}", boolean.ToString().ToLowerInvariant());
+                    htmlBuilder.Replace("{" + property.Name + "}", boolean.ToString().ToLowerInvariant());
                 }
                 else
                 {
-                    html = html.Replace("{" + property.Name + "}", value?.ToString() ?? "");
+                    htmlBuilder.Replace("{" + property.Name + "}", value?.ToString() ?? "");
                 }
             }
 
-            html = html.Replace("{Urls}", !SwaggerRoutes.Any() ?
-                "undefined" :
-                JsonConvert.SerializeObject(
+            htmlBuilder.Replace("{Urls}", !SwaggerRoutes.Any()
+                ? "undefined"
+                : JsonConvert.SerializeObject(
 #pragma warning disable 618
-                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name, TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
+                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name,
+                        TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
 #pragma warning restore 618
                 ));
 
-            html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
-            html = html.Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings));
-            html = html.Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower());
-            html = html.Replace("{RedirectUrl}", string.IsNullOrEmpty(ServerUrl) ?
-                "window.location.origin + \"" + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"" :
-                "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"");
+            htmlBuilder.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null")
+                .Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings))
+                .Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower())
+                .Replace("{RedirectUrl}",
+                    string.IsNullOrEmpty(ServerUrl)
+                        ? "window.location.origin + \"" + TransformToExternalPath(Path, request) +
+                          "/oauth2-redirect.html\""
+                        : "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"")
+                .Replace("{CustomStyle}", GetCustomStyleHtml(request))
+                .Replace("{CustomScript}", GetCustomScriptHtml(request))
+                .Replace("{CustomHeadContent}", CustomHeadContent)
+                .Replace("{DocumentTitle}", DocumentTitle);
 
-            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
-            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
-            html = html.Replace("{CustomHeadContent}", CustomHeadContent);
-            html = html.Replace("{DocumentTitle}", DocumentTitle);
-
-            return html;
+            return htmlBuilder.ToString();
         }
     }
 
