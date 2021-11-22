@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using Nuke.Common;
-using Nuke.Common.CI.AppVeyor;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -25,7 +24,6 @@ using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
-using Enumerable = System.Linq.Enumerable;
 
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
@@ -185,16 +183,9 @@ partial class Build : NukeBuild
         .After(Compile)
         .Executes(() =>
         {
-            var logger = "";
-            if (AppVeyor.Instance is not null)
-            {
-                // https://github.com/appveyor/ci/issues/1601
-                // logger = "Appveyor";
-            }
-
+            var webApiTest = Solution.GetProject("NSwag.Generation.WebApi.Tests");
             VSTest(x => x
-                .SetLogger(logger)
-                .SetTestAssemblies(SourceDirectory / "NSwag.Generation.WebApi.Tests" / "bin" / Configuration / "NSwag.Generation.WebApi.Tests.dll")
+                .SetTestAssemblies(webApiTest.Directory / "bin" / Configuration / "NSwag.Generation.WebApi.Tests.dll")
             );
 
             /*
@@ -267,6 +258,7 @@ partial class Build : NukeBuild
                 var project = Solution.GetProject(projectName);
                 MSBuild(x => x
                     .SetProcessWorkingDirectory(project.Directory)
+                    .SetNodeReuse(IsLocalBuild)
                 );
                 var process = StartProcess(nswagCommand, $"run /runtime:{runtime}", workingDirectory: project.Directory);
                 process.WaitForExit();
