@@ -2,8 +2,9 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
-[![Build status](https://img.shields.io/appveyor/ci/rsuter/nswag-25x6o.svg?label=build)](https://ci.appveyor.com/project/rsuter/nswag-25x6o)
+[![build](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml/badge.svg)](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
+[![Discord](https://img.shields.io/badge/Discord-join%20chat-1dce73.svg)](https://discord.com/channels/912072975283523625/912072975749103649)
 [![StackOverflow](https://img.shields.io/badge/questions-on%20StackOverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/nswag)
 [![Wiki](https://img.shields.io/badge/docs-in%20wiki-orange.svg?style=flat)](https://github.com/RicoSuter/nswag/wiki)
 [![Backers on Open Collective](https://opencollective.com/NSwag/backers/badge.svg)](#backers) 
@@ -236,3 +237,4 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 Thank you to all our backers!
 
 <a href="https://opencollective.com/NSwag#backers" target="_blank"><img src="https://opencollective.com/NSwag/backers.svg?width=890"></a>
+ 

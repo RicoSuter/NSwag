@@ -23,7 +23,7 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            var attributes = context.MethodInfo.GetCustomAttributes().ToList();
+            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? new Attribute[0];
 
             ProcessSummary(context, attributes);
             ProcessDescription(context, attributes);
@@ -31,7 +31,7 @@ namespace NSwag.Generation.Processors
             return true;
         }
 
-        private void ProcessSummary(OperationProcessorContext context, List<Attribute> attributes)
+        private void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -48,7 +48,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(summary))
             {
-                summary = context.MethodInfo.GetXmlDocsSummary();
+                summary = context.MethodInfo?.GetXmlDocsSummary();
             }
 
             if (!string.IsNullOrEmpty(summary))
@@ -57,7 +57,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessDescription(OperationProcessorContext context, List<Attribute> attributes)
+        private void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -66,7 +66,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(description))
             {
-                description = context.MethodInfo.GetXmlDocsRemarks();
+                description = context.MethodInfo?.GetXmlDocsRemarks();
             }
 
             if (!string.IsNullOrEmpty(description))

@@ -1,4 +1,5 @@
-﻿//-----------------------------------------------------------------------
+﻿#if NETCOREAPP2_1
+//-----------------------------------------------------------------------
 // <copyright file="AspNetCoreToSwaggerGenerator.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -891,3 +892,4 @@ namespace NSwag.Generation.AspNetCore.Tests
         #endregion
     }
 }
+#endif

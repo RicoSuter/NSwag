@@ -127,9 +127,9 @@ namespace NSwag.AspNetCore
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
-                if (value is IDictionary dictionary)
+                if (value is ICollection collection)
                 {
-                    htmlBuilder.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(dictionary));
+                    htmlBuilder.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(collection));
                 }
                 else if (value is bool boolean)
                 {
