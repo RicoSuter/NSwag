@@ -27,6 +27,7 @@
     <Use64BitIISExpress />
     <LangVersion>6</LangVersion>
     <!-- obsolete usage, missing documentation comments -->
+    <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn),618,1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
