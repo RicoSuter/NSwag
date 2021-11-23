@@ -20,7 +20,8 @@
     <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
 
     <LangVersion>latest</LangVersion>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- TODO -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
