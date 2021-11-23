@@ -6,7 +6,7 @@
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <!-- we are testing version mismatch -->
-    <NoWarn>$(NoWarn);NU1605</NoWarn>
+    <NoWarn>$(NoWarn);NU1605;MSB3277</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
