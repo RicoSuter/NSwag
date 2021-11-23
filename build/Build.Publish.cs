@@ -54,10 +54,13 @@ public partial class Build
                 PushDegreeOfParallelism,
                 PushCompleteOnFailure);
 
-            ChocolateyPush(_ => _
-                .SetApiKey(ChocoApiKey)
-                .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
-            );
+            if (!string.IsNullOrWhiteSpace(TagVersion))
+            {
+                ChocolateyPush(_ => _
+                    .SetApiKey(ChocoApiKey)
+                    .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
+                );
+            }
         });
 
     Configure<DotNetNuGetPushSettings> PushSettingsBase => _ => _
@@ -68,7 +71,10 @@ public partial class Build
     Configure<DotNetNuGetPushSettings> PushSettings => _ => _;
     Configure<DotNetNuGetPushSettings> PackagePushSettings => _ => _;
 
-    IEnumerable<AbsolutePath> PushPackageFiles => ArtifactsDirectory.GlobFiles("*.nupkg");
+    IEnumerable<AbsolutePath> PushPackageFiles =>
+        ArtifactsDirectory.GlobFiles("*.nupkg")
+            .Where(x => x.ToString().Contains("NSwagStudio", StringComparison.OrdinalIgnoreCase)
+        );
 
     bool PushCompleteOnFailure => true;
 
