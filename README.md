@@ -1,5 +1,7 @@
 ## NSwag: The Swagger/OpenAPI toolchain for .NET, ASP.NET Core and TypeScript
 
+NSwag | [NJsonSchema](http://njsonschema.org) | [Apimundo](https://apimundo.com) | [Namotion.Reflection](https://github.com/RicoSuter/Namotion.Reflection)
+
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
 [![build](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml/badge.svg)](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml)
