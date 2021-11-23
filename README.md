@@ -81,9 +81,8 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 	    
 **Downloads**
 
-- [Download latest **NSwagStudio MSI installer**](http://rsuter.com/Projects/NSwagStudio/installer.php) (Windows Desktop application)
-- [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](http://rsuter.com/Projects/NSwagStudio/archive.php)
-- [Download latest **CI Build Artifacts** from AppVeyor](https://ci.appveyor.com/project/rsuter/nswag/build/artifacts) (command line tools and NSwagStudio binaries)
+- [Download latest **NSwagStudio MSI installer**](https://github.com/RicoSuter/NSwag/releases) (Windows Desktop application)
+- [Download latest **NSwag command line tools** and NSwagStudio as ZIP archive](https://github.com/RicoSuter/NSwag/releases)
 
 **NPM Packages**
 
