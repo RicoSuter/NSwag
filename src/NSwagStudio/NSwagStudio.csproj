@@ -10,8 +10,8 @@
     <Company>Rico Suter</Company>
     <Product>NSwagStudio</Product>
     <Copyright>Copyright © Rico Suter, 2016</Copyright>
-    <AssemblyVersion>13.14.4</AssemblyVersion>
-    <FileVersion>13.14.4</FileVersion>
+    <AssemblyVersion>13.14.5</AssemblyVersion>
+    <FileVersion>13.14.5</FileVersion>
     <UseWPF>true</UseWPF>
     <StartupObject>NSwagStudio.App</StartupObject>
     <ApplicationIcon>ApplicationIcon.ico</ApplicationIcon>
