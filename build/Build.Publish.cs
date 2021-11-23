@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Chocolatey;
 using Nuke.Common.Tools.DotNet;
 
+using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
 
@@ -18,6 +20,8 @@ public partial class Build
     string MyGetGetSource => "https://www.myget.org/F/nswag/api/v2/package";
     [Parameter] [Secret] string MyGetApiKey;
 
+    [Parameter] [Secret] string ChocoApiKey;
+
     string ApiKeyToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetApiKey : MyGetApiKey;
     string SourceToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetSource : MyGetGetSource;
 
@@ -25,7 +29,7 @@ public partial class Build
          // TODO remove nuke-publish
         .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || GitRepository.Branch == "nuke-publish"))
         .DependsOn(Pack)
-        .Requires(() => NuGetApiKey, () => MyGetApiKey)
+        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey)
         .Executes(() =>
         {
             // this is a bit problematic, we can now fail in only tagging condition as this publish is a bit black-box
@@ -49,6 +53,11 @@ public partial class Build
                     .Apply(PackagePushSettings),
                 PushDegreeOfParallelism,
                 PushCompleteOnFailure);
+
+            ChocolateyPush(_ => _
+                .SetApiKey(ChocoApiKey)
+                .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
+            );
         });
 
     Configure<DotNetNuGetPushSettings> PushSettingsBase => _ => _
