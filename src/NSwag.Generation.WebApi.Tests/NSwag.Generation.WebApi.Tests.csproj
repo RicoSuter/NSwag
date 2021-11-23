@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <NoWarn>$(NoWarn);CS0618;CS1591</NoWarn>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>bin\$(Configuration)\NSwag.Generation.WebApi.Tests.xml</DocumentationFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -14,6 +15,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
@@ -26,6 +28,7 @@
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="DotLiquid" Version="2.0.385" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
@@ -47,8 +50,10 @@
     <PackageReference Include="Swashbuckle.Core" Version="5.5.3" />
     <PackageReference Include="WebActivatorEx" Version="2.0.0" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Remove="OperationProcessors\OpenApiQueryParametersOperationParameterProcessorTests.cs" />
     <Compile Remove="OperationProcessors\SwaggerQueryParametersOperationParameterProcessorTests.cs" />
   </ItemGroup>
+
 </Project>

@@ -1,45 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451;netstandard2.0</TargetFrameworks>
-    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.14.5</Version>
-    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
-    <Copyright>Copyright © Rico Suter, 2020</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
-    <Authors>Rico Suter</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <Company />
-    <RepositoryType>git</RepositoryType> 
-    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl> 
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Templates\AxiosClient.liquid" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\AngularClient.liquid" />
-    <EmbeddedResource Include="Templates\AngularJSClient.liquid" />
-    <EmbeddedResource Include="Templates\AxiosClient.liquid" />
-    <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.HandleStatusCode.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadBodyEnd.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadBodyStart.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.ReadHeaders.liquid" />
-    <EmbeddedResource Include="Templates\Client.ProcessResponse.Return.liquid" />
-    <EmbeddedResource Include="Templates\Client.RequestBody.liquid" />
-    <EmbeddedResource Include="Templates\Client.RequestUrl.liquid" />
-    <EmbeddedResource Include="Templates\FetchClient.liquid" />
-    <EmbeddedResource Include="Templates\File.liquid" />
-    <EmbeddedResource Include="Templates\File.Utilities.liquid" />
-    <EmbeddedResource Include="Templates\JQueryCallbacksClient.liquid" />
-    <EmbeddedResource Include="Templates\JQueryPromisesClient.liquid" />
+    <EmbeddedResource Include="Templates\*.liquid" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <Reference Include="Microsoft.CSharp" />

@@ -9,7 +9,7 @@ using Nuke.Common.Utilities;
     GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
-    OnPullRequestBranches = new [] { "master" },
+    OnPullRequestBranches = new [] { "master", "main" },
     // OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
     //OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = false,
@@ -21,11 +21,13 @@ using Nuke.Common.Utilities;
     GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
-    OnPushBranches = new [] { "master" },
+    // TODO remove nuke-publish
+    OnPushBranches = new [] { "master", "main", "nuke-publish" },
     // OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
     //OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
+    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
+    ImportSecrets = new [] { "NUGET_API_KEY", "MYGET_API_KEY" },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
 ]
 public partial class Build
