@@ -139,6 +139,7 @@ partial class Build : NukeBuild
 
             DotNetPack(s => s
                 .SetProcessWorkingDirectory(SourceDirectory)
+                .SetProject(Solution)
                 .SetAssemblyVersion(TagVersion)
                 .SetFileVersion(TagVersion)
                 .SetInformationalVersion(TagVersion)
@@ -175,11 +176,13 @@ partial class Build : NukeBuild
 
             NuGetPack(x => x
                 .SetOutputDirectory(ArtifactsDirectory)
+                .SetConfiguration(Configuration)
                 .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
             );
 
             NuGetPack(x => x
                 .SetOutputDirectory(ArtifactsDirectory)
+                .SetConfiguration(Configuration)
                 .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
             );
 
