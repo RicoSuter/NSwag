@@ -1,140 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NSwag.Generation.WebApi.Tests</RootNamespace>
-    <AssemblyName>NSwag.Generation.WebApi.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NSwag.Generation.WebApi.Tests.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\NSwag.Generation.WebApi.Tests.XML</DocumentationFile>
+    <TargetFramework>net462</TargetFramework>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DocumentationFile>bin\$(Configuration)\NSwag.Generation.WebApi.Tests.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\SwaggerConfig.cs" />
-    <Compile Include="Attributes\AcceptVerbsTests.cs" />
-    <Compile Include="Attributes\ApiExplorerSettingsAttributeTests.cs" />
-    <Compile Include="Attributes\ComplexParametersTests.cs" />
-    <Compile Include="Attributes\ExtensionDataTests.cs" />
-    <Compile Include="Attributes\ModelBinderQueryParametersTests.cs" />
-    <Compile Include="Attributes\PrimitivePathParametersTests.cs" />
-    <Compile Include="Attributes\PrimitiveQueryParametersTests.cs" />
-    <Compile Include="Attributes\ResponseAttributeTests.cs" />
-    <Compile Include="Attributes\RouteInheritanceTests.cs" />
-    <Compile Include="Attributes\RoutePrefixTests.cs" />
-    <Compile Include="Attributes\RouteTests.cs" />
-    <Compile Include="Attributes\SwaggerIgnoreTests.cs" />
-    <Compile Include="Attributes\TagsTests.cs" />
-    <Compile Include="ControllerClassesTests.cs" />
-    <Compile Include="OperationNameGenerator\MultipleClientsFromFirstTagAndPathSegmentsOperationNameGeneratorTests.cs" />
-    <Compile Include="OperationNameGenerator\MultipleClientsFromOperationIdOperationNameGeneratorTests.cs" />
-    <Compile Include="OperationNameGenerator\MultipleClientsFromPathSegmentsOperationNameGeneratorTests.cs" />
-    <Compile Include="OperationProcessors\ApiVersionProcessorWithWebApiTests.cs" />
-    <Compile Include="Nullability\ParameterNullabilityTests.cs" />
-    <Compile Include="Nullability\ResponseNullabilityTests.cs" />
-    <Compile Include="OperationProcessors\SwaggerOperationProcessorAttributeTests.cs" />
-    <Compile Include="RouteAttributeTests.cs" />
-    <Compile Include="EnumTests.cs" />
-    <Compile Include="FileParameterTests.cs" />
-    <Compile Include="FileResponseTests.cs" />
-    <Compile Include="InheritanceTests.cs" />
-    <Compile Include="Integration\SwashbuckleAnnotationsTests.cs" />
-    <Compile Include="Integration\TemplateRouteTests.cs" />
-    <Compile Include="OperationIdTests.cs" />
-    <Compile Include="ParameterTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponeAttributeTests.cs" />
-    <Compile Include="RouteTests.cs" />
-    <Compile Include="TypesToSwaggerTests.cs" />
-    <Compile Include="WebApiToSwaggerGeneratorTests.cs" />
-    <Compile Include="XmlTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
-      <Project>{CA084154-E758-4A44-938D-7806AF2DD886}</Project>
-      <Name>NSwag.Annotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj">
-      <Project>{46634C60-BA7D-43E6-9049-6AD461488C39}</Project>
-      <Name>NSwag.AssemblyLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj">
-      <Project>{F0036DA5-5DD4-494C-91B0-37689E00511E}</Project>
-      <Name>NSwag.CodeGeneration.CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj">
-      <Project>{9293CFCD-6C7B-43E0-9FBD-88753EBF64CC}</Project>
-      <Name>NSwag.CodeGeneration.TypeScript</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj">
-      <Project>{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}</Project>
-      <Name>NSwag.CodeGeneration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj">
-      <Project>{71b39c21-46a2-471b-aace-226c575b8ac1}</Project>
-      <Name>NSwag.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj">
-      <Project>{2E6174AA-FC75-4821-9E86-51B30568BEC0}</Project>
-      <Name>NSwag.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj">
-      <Project>{37ae85de-b127-4861-b925-1a67a35f314a}</Project>
-      <Name>NSwag.Demo.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj">
-      <Project>{8A547CB0-930F-466D-92EB-E780FF14C0A6}</Project>
-      <Name>NSwag.Generation.WebApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj">
-      <Project>{5EBE3EFF-9558-45F2-9C8F-5C8CFB74D574}</Project>
-      <Name>NSwag.Generation</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
+    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
+    <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj" />
+    <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj" />
+    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
+    <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
+    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.Demo.Web\NSwag.Demo.Web.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
+    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotLiquid" Version="2.0.385" />
@@ -143,18 +33,22 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Versioning" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="4.0.30506" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.3" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
     <PackageReference Include="Namotion.Reflection" Version="2.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.5.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.5.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.5.2" />
     <PackageReference Include="Swashbuckle" Version="5.5.3" />
     <PackageReference Include="Swashbuckle.Core" Version="5.5.3" />
     <PackageReference Include="WebActivatorEx" Version="2.0.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Remove="OperationProcessors\OpenApiQueryParametersOperationParameterProcessorTests.cs" />
+    <Compile Remove="OperationProcessors\SwaggerQueryParametersOperationParameterProcessorTests.cs" />
+  </ItemGroup>
 </Project>

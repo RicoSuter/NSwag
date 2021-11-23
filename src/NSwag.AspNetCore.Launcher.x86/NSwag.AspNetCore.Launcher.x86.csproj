@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFramework>net461</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>13.14.4</Version>
+    <Version>13.14.5</Version>
     <Authors>Rico Suter</Authors>
     <Company>Rico Suter</Company>
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
@@ -15,7 +15,6 @@
     <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore.Launcher\Program.cs" />
   </ItemGroup>
