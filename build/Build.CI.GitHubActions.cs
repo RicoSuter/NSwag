@@ -27,7 +27,7 @@ using Nuke.Common.Utilities;
     //OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = true,
     InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
-    ImportSecrets = new [] { "NUGET_API_KEY", "MYGET_API_KEY" },
+    ImportSecrets = new [] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY" },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
 ]
 public partial class Build

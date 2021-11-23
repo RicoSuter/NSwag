@@ -53,6 +53,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
       - uses: actions/upload-artifact@v1
         with:
           name: artifacts
