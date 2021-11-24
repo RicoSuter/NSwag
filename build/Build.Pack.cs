@@ -32,7 +32,7 @@ public partial class Build
 
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
-                .Where(x => x.ToString().Contains("NSwagStudio"))
+                .Where(x => !x.ToString().Contains("NSwagStudio"))
                 .Select(x => Project.FromFile(x, new ProjectOptions()))
                 .Where(x => !string.Equals(x.GetProperty("IsPackable")?.EvaluatedValue, "true", StringComparison.OrdinalIgnoreCase));
 
@@ -55,6 +55,7 @@ public partial class Build
             CopyDirectoryRecursively(SourceDirectory  / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
 
             var consoleX86Directory = SourceDirectory / "NSwag.Console.x86" / "bin" / Configuration / "net461";
+
             CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe", npmBinariesDirectory / "Win");
             CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
 
@@ -90,8 +91,7 @@ public partial class Build
 
             var artifacts = Array.Empty<AbsolutePath>()
                 .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
-                .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
-                .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
+                .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"));
 
             foreach (var artifact in artifacts)
             {
