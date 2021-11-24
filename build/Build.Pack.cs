@@ -2,6 +2,7 @@ using System;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Microsoft.Build.Definition;
 using Nuke.Common;
 using Nuke.Common.IO;
@@ -33,6 +34,7 @@ public partial class Build
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
                 .Where(x => !x.ToString().Contains("_build") &&
+                            !x.ToString().Contains("NSwag.Console.csproj") && // legacy .net tool is not published as nuget package
                             !x.ToString().Contains("NSwagStudio") &&
                             !x.ToString().Contains("Test") &&
                             !x.ToString().Contains("Demo") &&
@@ -84,12 +86,15 @@ public partial class Build
                 SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec"
             };
 
+            var propsDocument = XDocument.Parse(TextTasks.ReadAllText(SourceDirectory / "Directory.Build.props"));
+            var versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
+
             foreach (var nuspec in nuspecs)
             {
                 NuGetPack(x => x
                     .SetOutputDirectory(ArtifactsDirectory)
                     .SetConfiguration(Configuration)
-                    .SetVersion(TagVersion)
+                    .SetVersion(TagVersion ?? versionPrefix)
                     .SetSuffix(VersionSuffix)
                     .SetTargetPath(nuspec)
                 );
@@ -105,9 +110,9 @@ public partial class Build
             }
 
             // patch npm version
-            var npmPackagesFile = SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec";
+            var npmPackagesFile = SourceDirectory / "NSwag.Npm" / "package.json";
             var content = TextTasks.ReadAllText(npmPackagesFile);
-            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + (TagVersion ?? "1.2.3") + @"""");
+            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + (TagVersion ?? versionPrefix) + @"""");
             TextTasks.WriteAllText(npmPackagesFile, content);
 
             // ZIP directories

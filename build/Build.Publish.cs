@@ -36,7 +36,7 @@ public partial class Build
         .Executes(() =>
         {
             // this is a bit problematic, we can now fail in only tagging condition as this publish is a bit black-box
-            if (string.IsNullOrWhiteSpace(TagVersion))
+            if (!string.IsNullOrWhiteSpace(TagVersion))
             {
                 try
                 {
@@ -81,8 +81,7 @@ public partial class Build
 
     IEnumerable<AbsolutePath> PushPackageFiles =>
         ArtifactsDirectory.GlobFiles("*.nupkg")
-            .Where(x => x.ToString().Contains("NSwagStudio", StringComparison.OrdinalIgnoreCase)
-        );
+            .Where(x => !x.ToString().Contains("NSwagStudio", StringComparison.OrdinalIgnoreCase));
 
     bool PushCompleteOnFailure => true;
 
