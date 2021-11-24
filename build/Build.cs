@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Nuke.Common;
@@ -12,7 +11,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
-using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
@@ -23,7 +21,6 @@ using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
 
 [CheckBuildProjectConfigurations]
@@ -122,85 +119,6 @@ partial class Build : NukeBuild
                     .SetVerbosity(MSBuildVerbosity.Minimal)
             );
         });
-
-
-    // logic from 01_Build.bat
-    Target Pack => _ => _
-        .DependsOn(Compile)
-        .Produces(ArtifactsDirectory / "*.*")
-        .Executes(() =>
-        {
-            if (Configuration != Configuration.Release)
-            {
-                throw new InvalidOperationException("Cannot pack if compilation hasn't been done in Release mode, use --configuration Release");
-            }
-
-            EnsureCleanDirectory(ArtifactsDirectory);
-
-            DotNetPack(s => s
-                .SetProcessWorkingDirectory(SourceDirectory)
-                .SetProject(Solution)
-                .SetAssemblyVersion(TagVersion)
-                .SetFileVersion(TagVersion)
-                .SetInformationalVersion(TagVersion)
-                .SetVersionSuffix(VersionSuffix)
-                .SetConfiguration(Configuration)
-                .SetOutputDirectory(ArtifactsDirectory)
-            );
-
-            var npmBinariesDirectory = SourceDirectory / "NSwag.Npm" / "bin" / "binaries";
-
-            CopyDirectoryRecursively(SourceDirectory  / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
-
-            var consoleX86Directory = SourceDirectory / "NSwag.Console.x86" / "bin" / Configuration / "net461";
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe", npmBinariesDirectory / "Win");
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
-
-            Info("Publish .NET Core command line done in prebuild event for NSwagStudio.Installer.wixproj");
-
-            var consoleCoreDirectory = SourceDirectory / "NSwag.ConsoleCore" / "bin" / Configuration;
-
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net5.0/publish", npmBinariesDirectory / "Net50");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net6.0/publish", npmBinariesDirectory / "Net60");
-
-            // gather relevant artifacts
-            Info("Package nuspecs");
-
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec")
-            );
-
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
-            );
-
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
-            );
-
-            var artifacts = Array.Empty<AbsolutePath>()
-                .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
-                .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
-                .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
-
-            foreach (var artifact in artifacts)
-            {
-                CopyFileToDirectory(artifact, ArtifactsDirectory);
-            }
-
-            // ZIP directories
-            ZipFile.CreateFromDirectory(NSwagNpmBinaries, ArtifactsDirectory / "NSwag.Npm.zip");
-            ZipFile.CreateFromDirectory(NSwagStudioBinaries, ArtifactsDirectory / "NSwag.zip");
-        });
-
 
     // logic from 02_RunUnitTests.bat
     Target UnitTest => _ => _
