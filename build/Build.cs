@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Locator;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -22,10 +24,27 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
+using Project = Nuke.Common.ProjectModel.Project;
 
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
+    public Build()
+    {
+        var msBuildExtensionPath = Environment.GetEnvironmentVariable("MSBuildExtensionsPath");
+        var msBuildExePath = Environment.GetEnvironmentVariable("MSBUILD_EXE_PATH");
+        var msBuildSdkPath = Environment.GetEnvironmentVariable("MSBuildSDKsPath");
+
+        MSBuildLocator.RegisterDefaults();
+        TriggerAssemblyResolution();
+
+        Environment.SetEnvironmentVariable("MSBuildExtensionsPath", msBuildExtensionPath);
+        Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", msBuildExePath);
+        Environment.SetEnvironmentVariable("MSBuildSDKsPath", msBuildSdkPath);
+    }
+
+    static void TriggerAssemblyResolution() => _ = new ProjectCollection();
+
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
     ///   - JetBrains Rider            https://nuke.build/rider
