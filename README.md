@@ -94,48 +94,48 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 
 Specification:
 
-- **[NSwag.Core](https://www.nuget.org/packages/NSwag.Core/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core/versions/latest?tab=types&type=NSwag.OpenApiDocument)
+- **[NSwag.Core](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core/versions/latest)**
     - The OpenAPI/Swagger reader and writer classes, see [OpenApiDocument](https://github.com/RicoSuter/NSwag/wiki/OpenApiDocument) (.NET Standard 1.0 / 2.0 and .NET 4.5)
-- **[NSwag.Core.Yaml](https://www.nuget.org/packages/NSwag.Core.Yaml/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core.Yaml/versions/latest?tab=types) (.NET Standard 1.3 / 2.0 and .NET 4.5)
+- **[NSwag.Core.Yaml](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core.Yaml/versions/latest)** (.NET Standard 1.3 / 2.0 and .NET 4.5)
     - Extensions to read and write YAML OpenAPI specifications
-- **[NSwag.Annotations](https://www.nuget.org/packages/NSwag.Annotations/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Annotations/versions/latest?tab=types) (.NET Standard 1.0 / 2.0 and .NET 4.5)
+- **[NSwag.Annotations](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Annotations/versions/latest)** (.NET Standard 1.0 / 2.0 and .NET 4.5)
     - Attributes to decorate Web API controllers to control the OpenAPI generation
 
 OpenAPI generation:
 
-- **[NSwag.Generation](https://www.nuget.org/packages/NSwag.Generation/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation/versions/latest?tab=types) (.NET Standard 1.0 / 2.0 and .NET 4.5)
+- **[NSwag.Generation](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation/versions/latest/)** (.NET Standard 1.0 / 2.0 and .NET 4.5)
     - Classes to generate OpenAPI specifications
-- **[NSwag.Generation.WebApi](https://www.nuget.org/packages/NSwag.Generation.WebApi/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation.WebApi/versions/latest?tab=types) (.NET Standard 1.0 / 2.0 and .NET 4.5)
+- **[NSwag.Generation.WebApi](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation.WebApi/versions/latest)** (.NET Standard 1.0 / 2.0 and .NET 4.5)
     - Classes to generate OpenAPI specifications from Web API controllers, see [WebApiOpenApiDocumentGenerator](https://github.com/RicoSuter/NSwag/wiki/WebApiOpenApiDocumentGenerator)
-- **[NSwag.Generation.AspNetCore](https://www.nuget.org/packages/NSwag.Generation.AspNetCore/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation.AspNetCore/versions/latest?tab=types) (.NET Standard 1.6 / 2.0 and .NET 4.5.1)
+- **[NSwag.Generation.AspNetCore](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation.AspNetCore/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1)
     - (Experimental) Classes to generate OpenAPI specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
 Code generation:
 
-- **[NSwag.CodeGeneration](https://www.nuget.org/packages/NSwag.CodeGeneration/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration/versions/latest?tab=types) (.NET Standard 1.3 / 2.0 / .NET 4.5.1)
+- **[NSwag.CodeGeneration](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration/versions/latest)** (.NET Standard 1.3 / 2.0 / .NET 4.5.1)
     - Base classes to generate clients from OpenAPI specifications
-- **[NSwag.CodeGeneration.CSharp](https://www.nuget.org/packages/NSwag.CodeGeneration.CSharp/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration.CSharp/versions/latest?tab=types) (.NET Standard 1.3 and .NET 4.5.1)
+- **[NSwag.CodeGeneration.CSharp](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration.CSharp/versions/latest)** (.NET Standard 1.3 and .NET 4.5.1)
     - Classes to generate C# clients from OpenAPI specifications, see [CSharpClientGenerator](https://github.com/RicoSuter/NSwag/wiki/CSharpClientGenerator) and [CSharpControllerGenerator](https://github.com/RicoSuter/NSwag/wiki/CSharpControllerGenerator)
-- **[NSwag.CodeGeneration.TypeScript](https://www.nuget.org/packages/NSwag.CodeGeneration.TypeScript/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration.TypeScript/versions/latest?tab=types) (.NET Standard 1.3 and .NET 4.5.1)
+- **[NSwag.CodeGeneration.TypeScript](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration.TypeScript/versions/latest)** (.NET Standard 1.3 and .NET 4.5.1)
     - Classes to generate TypeScript clients from OpenAPI specifications, see [TypeScriptClientGenerator](https://github.com/RicoSuter/NSwag/wiki/TypeScriptClientGenerator)
 
 ASP.NET and ASP.NET Core:
 
-- **[NSwag.AspNetCore](https://www.nuget.org/packages/NSwag.AspNetCore/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNetCore/versions/latest?tab=types) (.NET Standard 1.6 / 2.0 and .NET 4.5.1+)
-- **[NSwag.AspNet.Owin](https://www.nuget.org/packages/NSwag.AspNet.Owin/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.Owin/versions/latest?tab=types) (.NET 4.5+)
+- **[NSwag.AspNetCore](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNetCore/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+)
+- **[NSwag.AspNet.Owin](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.Owin/versions/latest)** (.NET 4.5+)
     - [ASP.NET Core/OWIN middlewares](https://github.com/RicoSuter/NSwag/wiki/Middlewares) for serving OpenAPI specifications and Swagger UI
-- **[NSwag.AspNet.WebApi](https://www.nuget.org/packages/NSwag.AspNet.WebApi/)** [![Apimundo](https://img.shields.io/badge/API%20docs-Apimundo-728199.svg)](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.WebApi/versions/latest?tab=types) (.NET 4.5+)
+- **[NSwag.AspNet.WebApi](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.WebApi/versions/latest)** (.NET 4.5+)
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/RicoSuter/NSwag/wiki/JsonExceptionFilterAttribute))
 
 Frontends:
 
-- **[NSwag.AssemblyLoader](https://www.nuget.org/packages/NSwag.AssemblyLoader/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
+- **[NSwag.AssemblyLoader](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AssemblyLoader/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate OpenAPI specs from Web API controllers
-- **[NSwag.Commands](https://www.nuget.org/packages/NSwag.Commands/)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
+- **[NSwag.Commands](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Commands/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+): 
     - Commands for the command line tool implementations and UI
-- **[NSwag.MSBuild](https://www.nuget.org/packages/NSwag.MSBuild/)** (MSBuild .targets): 
+- **[NSwag.MSBuild](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.MSBuild/versions/latest)** (MSBuild .targets): 
     - Adds a .targets file to your Visual Studio project, so that you can run the NSwag command line tool in an MSBuild target, see [MSBuild](https://github.com/RicoSuter/NSwag/wiki/MSBuild)
-- **[NSwag.ConsoleCore](https://www.nuget.org/packages/NSwag.ConsoleCore/)** (.NET Core 1.0, 1.1, 2.0, 2.1 and 2.2): 
+- **[NSwag.ConsoleCore](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.ConsoleCore/versions/latest)** (.NET Core 1.0, 1.1, 2.0, 2.1 and 2.2): 
     - Command line tool for .NET Core (`dotnet nswag`)
     - `<DotNetCliToolReference Include="NSwag.ConsoleCore" Version="..." />`
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
