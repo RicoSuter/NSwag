@@ -12,6 +12,7 @@ using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
+using static Nuke.Common.Logger;
 
 public partial class Build
 {
@@ -45,7 +46,19 @@ public partial class Build
                         Path.Combine(userDirectory, ".npmrc"),
                         "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
 
-                    Npm("publish", SourceDirectory / "NSwag.Npm");
+                    var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
+
+                    foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
+                    {
+                        if (output.Type == OutputType.Std)
+                        {
+                            Info(output.Text);
+                        }
+                        else
+                        {
+                            Error(output.Text);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
