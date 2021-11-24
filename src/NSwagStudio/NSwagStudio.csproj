@@ -13,7 +13,6 @@
     <ApplicationIcon>ApplicationIcon.ico</ApplicationIcon>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>$(NoWarn);CS0618</NoWarn>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration))' == 'Debug' ">

@@ -1,6 +1,7 @@
 using System;
 using System.IO.Compression;
 using System.Linq;
+using Microsoft.Build.Definition;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -11,6 +12,7 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Logger;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
+using Project = Microsoft.Build.Evaluation.Project;
 
 public partial class Build
 {
@@ -27,15 +29,17 @@ public partial class Build
 
             EnsureCleanDirectory(ArtifactsDirectory);
 
-            // we have mixed project types so let's select proper ones
-            var projects = Solution.GetProjects("*")
-                .Where(x => !string.Equals(x.GetProperty("IsPackable"), "false", StringComparison.OrdinalIgnoreCase));
+            // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
+            var projects = SourceDirectory.GlobFiles("**/*.csproj")
+                .Where(x => x.ToString().Contains("NSwagStudio"))
+                .Select(x => Project.FromFile(x, new ProjectOptions()))
+                .Where(x => !string.Equals(x.GetProperty("IsPackable")?.EvaluatedValue, "true", StringComparison.OrdinalIgnoreCase));
 
             foreach (var project in projects)
             {
                 DotNetPack(s => s
                     .SetProcessWorkingDirectory(SourceDirectory)
-                    .SetProject(project)
+                    .SetProject(project.FullPath)
                     .SetAssemblyVersion(TagVersion)
                     .SetFileVersion(TagVersion)
                     .SetInformationalVersion(TagVersion)
