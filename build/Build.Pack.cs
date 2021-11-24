@@ -47,6 +47,8 @@ public partial class Build
             foreach (var project in projects)
             {
                 DotNetPack(s => s
+                    .EnableNoBuild()
+                    .EnableNoRestore()
                     .SetProcessWorkingDirectory(SourceDirectory)
                     .SetProject(project.FullPath)
                     .SetAssemblyVersion(TagVersion)
