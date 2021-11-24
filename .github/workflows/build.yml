@@ -21,7 +21,6 @@ on:
     branches:
       - master
       - main
-      - nuke-publish
 
 jobs:
   windows-latest:
