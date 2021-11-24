@@ -20,6 +20,7 @@ on:
   push:
     branches:
       - master
+      - main
 
 jobs:
   windows-latest:
@@ -46,8 +47,13 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj', 'src/**/package.json') }}
-      - name: Run './build.cmd InstallDependencies Compile Test Pack'
-        run: ./build.cmd InstallDependencies Compile Test Pack
+      - name: Run './build.cmd InstallDependencies Compile Test Pack Publish'
+        run: ./build.cmd InstallDependencies Compile Test Pack Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - uses: actions/upload-artifact@v1
         with:
           name: artifacts

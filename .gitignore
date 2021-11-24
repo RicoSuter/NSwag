@@ -15,6 +15,7 @@ src/packages/**
 *.nugetreferenceswitcher
 /src/.vs/config
 **/project.lock.json
+**/package-lock.json
 /src/NSwag.AspNetCore/Output
 /src/Chocolatey/Output
 /src/NSwagStudio.Installer/Generated.wxs
@@ -81,3 +82,4 @@ _ReSharper.Caches/
 .nuke/temp
 
 /artifacts
+*.binlog

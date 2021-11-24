@@ -9,9 +9,9 @@ using Nuke.Common.Utilities;
     GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
-    OnPullRequestBranches = new [] { "master" },
+    OnPullRequestBranches = new[] { "master", "main" },
     // OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
-    //OnPullRequestBranches = new[] { DevelopBranch },
+    // OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = false,
     InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" }),
@@ -21,11 +21,12 @@ using Nuke.Common.Utilities;
     GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
-    OnPushBranches = new [] { "master" },
+    OnPushBranches = new[] { "master", "main" },
     // OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
-    //OnPullRequestBranches = new[] { DevelopBranch },
+    // OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
+    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
+    ImportSecrets = new[] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN" },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
 ]
 public partial class Build

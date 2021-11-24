@@ -1,0 +1,41 @@
+<Project>
+
+  <PropertyGroup>
+    <VersionPrefix>13.14.7</VersionPrefix>
+
+    <Authors>Rico Suter</Authors>
+    <Copyright>Copyright © Rico Suter, 2020</Copyright>
+
+    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
+    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
+    <Company />
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
+
+    <LangVersion>latest</LangVersion>
+    <!-- TODO -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <DebugSymbols>true</DebugSymbols>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+</Project>
