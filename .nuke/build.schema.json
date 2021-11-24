@@ -54,6 +54,10 @@
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
         },
+        "NpmAuthToken": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+        },
         "NuGetApiKey": {
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secret [profile]'"

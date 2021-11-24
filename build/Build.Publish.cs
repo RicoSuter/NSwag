@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -22,14 +23,16 @@ public partial class Build
 
     [Parameter] [Secret] string ChocoApiKey;
 
+    [Parameter] [Secret] string NpmAuthToken;
+
     string ApiKeyToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetApiKey : MyGetApiKey;
     string SourceToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
-         // TODO remove nuke-publish
+        // TODO remove nuke-publish
         .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || GitRepository.Branch == "nuke-publish"))
         .DependsOn(Pack)
-        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey)
+        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
         .Executes(() =>
         {
             // this is a bit problematic, we can now fail in only tagging condition as this publish is a bit black-box
@@ -37,6 +40,11 @@ public partial class Build
             {
                 try
                 {
+                    var userDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    File.WriteAllText(
+                        Path.Combine(userDirectory, ".npmrc"),
+                        "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
+
                     Npm("publish", SourceDirectory / "NSwag.Npm");
                 }
                 catch (Exception ex)

@@ -1,10 +1,10 @@
 using System;
 using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Build.Definition;
 using Nuke.Common;
 using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.NuGet;
@@ -32,9 +32,15 @@ public partial class Build
 
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
-                .Where(x => !x.ToString().Contains("NSwagStudio"))
-                .Select(x => Project.FromFile(x, new ProjectOptions()))
-                .Where(x => !string.Equals(x.GetProperty("IsPackable")?.EvaluatedValue, "true", StringComparison.OrdinalIgnoreCase));
+                .Where(x => !x.ToString().Contains("_build") &&
+                            !x.ToString().Contains("NSwagStudio") &&
+                            !x.ToString().Contains("Test") &&
+                            !x.ToString().Contains("Demo") &&
+                            !x.ToString().Contains("Integration") &&
+                            !x.ToString().Contains("x86") &&
+                            !x.ToString().Contains("Launcher") &&
+                            !x.ToString().Contains("Sample"))
+                .Select(x => Project.FromFile(x, new ProjectOptions()));
 
             foreach (var project in projects)
             {
@@ -52,42 +58,42 @@ public partial class Build
 
             var npmBinariesDirectory = SourceDirectory / "NSwag.Npm" / "bin" / "binaries";
 
-            CopyDirectoryRecursively(SourceDirectory  / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
+            CopyDirectoryRecursively(SourceDirectory / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
 
             var consoleX86Directory = SourceDirectory / "NSwag.Console.x86" / "bin" / Configuration / "net461";
 
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe", npmBinariesDirectory / "Win");
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", npmBinariesDirectory / "Win");
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
 
             Info("Publish .NET Core command line done in prebuild event for NSwagStudio.Installer.wixproj");
 
             var consoleCoreDirectory = SourceDirectory / "NSwag.ConsoleCore" / "bin" / Configuration;
 
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net5.0/publish", npmBinariesDirectory / "Net50");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net6.0/publish", npmBinariesDirectory / "Net60");
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0/publish", npmBinariesDirectory / "Net50");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0/publish", npmBinariesDirectory / "Net60");
 
             // gather relevant artifacts
             Info("Package nuspecs");
 
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec")
-            );
+            var nuspecs = new[]
+            {
+                SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec",
+                SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec",
+                SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec"
+            };
 
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
-            );
-
-            NuGetPack(x => x
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration)
-                .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
-            );
+            foreach (var nuspec in nuspecs)
+            {
+                NuGetPack(x => x
+                    .SetOutputDirectory(ArtifactsDirectory)
+                    .SetConfiguration(Configuration)
+                    .SetVersion(TagVersion)
+                    .SetSuffix(VersionSuffix)
+                    .SetTargetPath(nuspec)
+                );
+            }
 
             var artifacts = Array.Empty<AbsolutePath>()
                 .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
@@ -97,6 +103,12 @@ public partial class Build
             {
                 CopyFileToDirectory(artifact, ArtifactsDirectory);
             }
+
+            // patch npm version
+            var npmPackagesFile = SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec";
+            var content = TextTasks.ReadAllText(npmPackagesFile);
+            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + (TagVersion ?? "1.2.3") + @"""");
+            TextTasks.WriteAllText(npmPackagesFile, content);
 
             // ZIP directories
             ZipFile.CreateFromDirectory(NSwagNpmBinaries, ArtifactsDirectory / "NSwag.Npm.zip");
