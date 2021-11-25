@@ -107,6 +107,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.NewtonsoftJson\NJsonSchema.NewtonsoftJson.csproj">
+      <Project>{CBFA4A70-8C4E-4869-A143-47B41CB904D0}</Project>
+      <Name>NJsonSchema.NewtonsoftJson</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj">
+      <Project>{acc4c14a-0515-468b-8768-412eab512ee5}</Project>
+      <Name>NJsonSchema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj">
       <Project>{ca084154-e758-4a44-938d-7806af2dd886}</Project>
       <Name>NSwag.Annotations</Name>
@@ -144,7 +152,6 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="Namotion.Reflection" Version="2.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="11.0.0-beta-0" />
     <PackageReference Include="Owin" Version="1.0.0" />
   </ItemGroup>
   <PropertyGroup>

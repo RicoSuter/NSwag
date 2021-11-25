@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Web.Http;
 using Newtonsoft.Json;
-using NJsonSchema.Converters;
+using NJsonSchema.NewtonsoftJson.Converters;
 
 namespace NSwag.Demo.Web.Controllers
 {
