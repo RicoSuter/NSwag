@@ -49,7 +49,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_setting_is_enabled_with_enum_fromuri_should_make_enum_nullable()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
@@ -57,14 +57,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var document = await generator.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("TestWithEnumAsync(MyEnum myEnum = null)", code);
             Assert.Contains("TestWithEnumAsync(MyEnum? myEnum = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
@@ -72,7 +72,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_setting_is_enabled_with_class_fromuri_should_make_enum_nullable()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
@@ -80,14 +80,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var document = await generator.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
             Assert.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
@@ -96,7 +96,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
@@ -104,14 +104,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var document = await generator.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateOptionalParameters = true
             });
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
             Assert.DoesNotContain("TestAsync(string a, string b, string c)", code);
         }
@@ -126,7 +126,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var document = await generator.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var operation = document.Operations.First().Operation;
             var lastParameter = operation.Parameters.Last();
             operation.Parameters.Remove(lastParameter);
@@ -139,7 +139,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             });
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
         }
     }

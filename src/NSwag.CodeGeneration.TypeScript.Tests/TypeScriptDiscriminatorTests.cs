@@ -75,7 +75,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_parameter_is_abstract_then_generate_union()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -94,10 +94,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var code = clientGenerator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("test(param: OneChild)", code);
             Assert.Contains("testLeaf(param: OneChild | SecondChild)", code);
             Assert.Contains("testLeafArr(param: (OneChild | SecondChild)[])", code);

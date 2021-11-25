@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_file_is_generated_system_alias_is_there()
         {
-            //// Arrange
+            // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
@@ -30,14 +30,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
 
-            //// Act
+            // Act
             var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 GenerateClientInterfaces = true
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("System = global::System", code);
         }
     }

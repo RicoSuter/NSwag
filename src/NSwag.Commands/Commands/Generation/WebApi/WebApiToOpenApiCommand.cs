@@ -89,7 +89,7 @@ namespace NSwag.Commands.Generation.WebApi
                 controllerNames = GetControllerNames(assemblyLoader).ToList();
             }
 
-            var controllerTypes = await GetControllerTypesAsync(controllerNames, assemblyLoader);
+            var controllerTypes = GetControllerTypes(controllerNames, assemblyLoader);
 
             WebApiOpenApiDocumentGeneratorSettings settings;
             var workingDirectory = Directory.GetCurrentDirectory();
@@ -112,7 +112,7 @@ namespace NSwag.Commands.Generation.WebApi
 
         private string[] GetControllerNames(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-#if FullNet
+#if NETFRAMEWORK
             return PathUtilities.ExpandFileWildcards(AssemblyPaths)
                 .Select(Assembly.LoadFrom)
 #else
@@ -126,7 +126,7 @@ namespace NSwag.Commands.Generation.WebApi
                 .ToArray();
         }
 
-        private async Task<IEnumerable<Type>> GetControllerTypesAsync(IEnumerable<string> controllerNames, AssemblyLoader.AssemblyLoader assemblyLoader)
+        private List<Type> GetControllerTypes(IEnumerable<string> controllerNames, AssemblyLoader.AssemblyLoader assemblyLoader)
 #pragma warning restore 1998
         {
             if (AssemblyPaths == null || AssemblyPaths.Length == 0)

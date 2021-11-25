@@ -13,7 +13,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task TestNoGuardForOptionalBodyParameter()
         {
-            //// Arrange
+            // Arrange
             var swagger =
 @"{
   ""openapi"": ""3.0.1"",
@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 }";
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
-            //// Act
+            // Act
             var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings()
             {
                 UseBaseUrl = false,
@@ -52,20 +52,20 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("throw new System.ArgumentNullException(\"body\")", code);
         }
 
         [Fact]
         public async Task TestNullableBodyWithAllowNullableBodyParameters()
         {
-            //// Arrange
+            // Arrange
             var generator = await GenerateCode(true);
 
-            //// Act
+            // Act
             var code = generator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("throw new System.ArgumentNullException(\"requiredBody\")", code);
             Assert.DoesNotContain("throw new System.ArgumentNullException(\"notRequiredBody\")", code);
         }
@@ -73,13 +73,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task TestNullableBodyWithoutAllowNullableBodyParameters()
         {
-            //// Arrange
+            // Arrange
             var generator = await GenerateCode(false);
 
-            //// Act
+            // Act
             var code = generator.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("throw new System.ArgumentNullException(\"requiredBody\")", code);
             Assert.Contains("throw new System.ArgumentNullException(\"notRequiredBody\")", code);
         }

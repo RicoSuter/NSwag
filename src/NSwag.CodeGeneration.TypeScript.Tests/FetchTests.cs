@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -43,7 +43,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("export class DiscussionClient", code);
             Assert.Contains("export interface IDiscussionClient", code);
         }
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -73,7 +73,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
@@ -86,15 +86,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("export class DiscussionClient", code);
             Assert.DoesNotContain("export interface IDiscussionClient", code);
         }
-        
+
         [Fact]
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -103,7 +103,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
@@ -114,7 +114,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("content_", code);
             Assert.DoesNotContain("FormData", code);
             Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
@@ -123,7 +123,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_abort_signal()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -132,7 +132,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
@@ -144,14 +144,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("signal?: AbortSignal | undefined", code);
         }
 
         [Fact]
         public async Task When_no_abort_signal()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -160,7 +160,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
@@ -171,7 +171,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("signal?: AbortSignal | undefined", code);
             Assert.DoesNotContain("signal", code);;
         }
@@ -179,7 +179,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_includeHttpContext()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -187,7 +187,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
@@ -199,7 +199,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.Contains("httpContext?: HttpContext", code);
             Assert.Contains("context: httpContext", code);
         }
@@ -207,7 +207,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_no_includeHttpContext()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
@@ -216,7 +216,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
@@ -227,7 +227,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.DoesNotContain("httpContext?: HttpContext", code);
             Assert.DoesNotContain("context: httpContext", code);
         }

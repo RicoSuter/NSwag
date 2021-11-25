@@ -46,7 +46,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 Converters = new List<JsonConverter> {new StringEnumConverter()}
             };
 
-            //// Arrange
+            // Arrange
             var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
@@ -58,7 +58,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             };
             var generator = new WebApiOpenApiDocumentGenerator(settings);
 
-            //// Act
+            // Act
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
 
@@ -71,7 +71,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var gen = new TypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();
 
-            //// Assert
+            // Assert
             Assert.NotNull(document.Operations.First().Operation.Parameters.First().Item.Reference);
             Assert.Contains("getFoos(bars: Bar[], ", code);
         }
