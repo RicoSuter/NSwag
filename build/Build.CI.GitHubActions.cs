@@ -22,6 +22,7 @@ using Nuke.Common.Utilities;
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
     OnPushBranches = new[] { "master", "main" },
+    OnPushTags = new[] { "v*.*.*" },
     // OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
     // OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = true,
