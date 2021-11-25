@@ -59,6 +59,8 @@ partial class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
+    private static string DateTimeSuffix = DateTime.UtcNow.ToString("yyyyMMdd-HHmm");
+
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
@@ -71,7 +73,7 @@ partial class Build : NukeBuild
 
     string VersionSuffix =>
         string.IsNullOrWhiteSpace(TagVersion)
-            ? "preview-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmm")
+            ? "preview-" + DateTimeSuffix
             : "";
 
     Target Clean => _ => _
@@ -101,6 +103,7 @@ partial class Build : NukeBuild
             NpmInstall(x => x
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Npm")
             );
+
             NpmInstall(x => x
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Integration.TypeScriptWeb")
             );
