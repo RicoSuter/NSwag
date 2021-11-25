@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Locator;
 using Nuke.Common;
@@ -59,8 +60,6 @@ partial class Build : NukeBuild
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
 
-    private static string DateTimeSuffix = DateTime.UtcNow.ToString("yyyyMMdd-HHmm");
-
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
@@ -69,12 +68,47 @@ partial class Build : NukeBuild
 
     static bool IsRunningOnWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-    string TagVersion => GitRepository.Tags.SingleOrDefault(x => x.StartsWith("v"))?[1..];
+    bool IsTaggedBuild;
+    string VersionPrefix;
+    string VersionSuffix;
 
-    string VersionSuffix =>
-        string.IsNullOrWhiteSpace(TagVersion)
-            ? "preview-" + DateTimeSuffix
+    string DetermineVersionPrefix()
+    {
+        var versionPrefix = GitRepository.Tags.SingleOrDefault(x => x.StartsWith("v"))?[1..];
+        if (!string.IsNullOrWhiteSpace(versionPrefix))
+        {
+            IsTaggedBuild = true;
+            Info($"Tag version {versionPrefix} from Git found, using it as version prefix");
+        }
+        else
+        {
+            var propsDocument = XDocument.Parse(TextTasks.ReadAllText(SourceDirectory / "Directory.Build.props"));
+            versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
+            Info($"Version prefix {versionPrefix} read from Directory.Build.props");
+        }
+
+        return versionPrefix;
+    }
+
+    protected override void OnBuildInitialized()
+    {
+        VersionPrefix = DetermineVersionPrefix();
+
+        VersionSuffix = !IsTaggedBuild
+            ? $"preview-{DateTime.UtcNow:yyyyMMdd-HHmm}"
             : "";
+
+        if (IsLocalBuild)
+        {
+            VersionSuffix = $"dev-{DateTime.UtcNow:yyyyMMdd-HHmm}";
+        }
+
+        using var _ = Block("BUILD SETUP");
+        Info("Configuration:\t" + Configuration);
+        Info("Version prefix:\t" + VersionPrefix);
+        Info("Version suffix:\t" + VersionSuffix);
+        Info("Tagged build:\t" + IsTaggedBuild);
+    }
 
     Target Clean => _ => _
         .Before(Restore)
@@ -134,6 +168,7 @@ partial class Build : NukeBuild
             MSBuild(x => x
                     .SetTargetPath(Solution)
                     .SetTargets("Rebuild")
+                    .SetFileVersion(VersionPrefix)
                     .SetConfiguration(Configuration)
                     .SetMaxCpuCount(Environment.ProcessorCount)
                     .SetNodeReuse(IsLocalBuild)

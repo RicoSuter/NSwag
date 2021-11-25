@@ -28,6 +28,9 @@
     <IncludeSymbols>true</IncludeSymbols>
     <DebugSymbols>true</DebugSymbols>
 
+    <!-- reduce package size by only including english resources -->
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+
   </PropertyGroup>
 
   <ItemGroup>
