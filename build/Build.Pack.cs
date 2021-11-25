@@ -54,6 +54,7 @@ public partial class Build
                     .SetInformationalVersion(TagVersion)
                     .SetVersionSuffix(VersionSuffix)
                     .SetConfiguration(Configuration)
+                    .EnableNoBuild()
                     .SetOutputDirectory(ArtifactsDirectory)
                 );
             }
