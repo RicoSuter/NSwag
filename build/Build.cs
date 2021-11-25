@@ -86,10 +86,10 @@ partial class Build : NukeBuild
 
 
     Target InstallDependencies => _ => _
-        .Before(Compile)
+        .Before(Restore, Compile)
         .Executes(() =>
         {
-            Chocolatey("install wixtoolset");
+            Chocolatey("install wixtoolset -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
