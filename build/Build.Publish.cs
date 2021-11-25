@@ -30,15 +30,18 @@ public partial class Build
     string SourceToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
-        // TODO remove nuke-publish
-        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || GitRepository.Branch == "nuke-publish"))
+        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch()))
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
         .Executes(() =>
         {
-            // this is a bit problematic, we can now fail in only tagging condition as this publish is a bit black-box
             if (!string.IsNullOrWhiteSpace(TagVersion))
             {
+                ChocolateyPush(_ => _
+                    .SetApiKey(ChocoApiKey)
+                    .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
+                );
+
                 try
                 {
                     var userDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -64,23 +67,16 @@ public partial class Build
                 {
                     Console.Error.WriteLine("NPM PUBLISH FAILED: " + ex.Message);
                 }
-            }
 
-            DotNetNuGetPush(_ => _
-                    .Apply(PushSettingsBase)
-                    .Apply(PushSettings)
-                    .CombineWith(PushPackageFiles, (_, v) => _
-                        .SetTargetPath(v))
-                    .Apply(PackagePushSettings),
-                PushDegreeOfParallelism,
-                PushCompleteOnFailure);
-
-            if (!string.IsNullOrWhiteSpace(TagVersion))
-            {
-                ChocolateyPush(_ => _
-                    .SetApiKey(ChocoApiKey)
-                    .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
-                );
+                // TODO: Move outside if to publish to MyGet
+                DotNetNuGetPush(_ => _
+                        .Apply(PushSettingsBase)
+                        .Apply(PushSettings)
+                        .CombineWith(PushPackageFiles, (_, v) => _
+                            .SetTargetPath(v))
+                        .Apply(PackagePushSettings),
+                    PushDegreeOfParallelism,
+                    PushCompleteOnFailure);
             }
         });
 
