@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.156
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration", "NSwag.CodeGeneration\NSwag.CodeGeneration.csproj", "{75B3F91D-687E-4FB3-AD45-CCFA3C406DB4}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.Tests"
 		{37AE85DE-B127-4861-B925-1A67A35F314A} = {37AE85DE-B127-4861-B925-1A67A35F314A}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwagStudio", "NSwagStudio\NSwagStudio.csproj", "{DADA2D11-14E2-40B1-B31D-B68D6F18378C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwagStudio", "NSwagStudio\NSwagStudio.csproj", "{DADA2D11-14E2-40B1-B31D-B68D6F18378C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Annotations", "NSwag.Annotations\NSwag.Annotations.csproj", "{CA084154-E758-4A44-938D-7806AF2DD886}"
 EndProject
@@ -57,13 +57,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.WebAPI", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Integration.ClientPCL", "NSwag.Integration.ClientPCL\NSwag.Integration.ClientPCL.csproj", "{ECD41518-A92C-4706-8E74-9707AFA554B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.ClientPCL.Tests", "NSwag.Integration.ClientPCL.Tests\NSwag.Integration.ClientPCL.Tests.csproj", "{A46ED5E6-95EE-448B-AA88-E43FA32482B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Integration.ClientPCL.Tests", "NSwag.Integration.ClientPCL.Tests\NSwag.Integration.ClientPCL.Tests.csproj", "{A46ED5E6-95EE-448B-AA88-E43FA32482B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNet.WebApi", "NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj", "{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08 Packages", "08 Packages", "{DDBB05AC-B066-48C4-933C-034F401EBB6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Integration.Console", "NSwag.Integration.Console\NSwag.Integration.Console.csproj", "{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Integration.Console", "NSwag.Integration.Console\NSwag.Integration.Console.csproj", "{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Commands", "NSwag.Commands\NSwag.Commands.csproj", "{71B39C21-46A2-471B-AACE-226C575B8AC1}"
 EndProject
@@ -94,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.WebApi", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.CSharp.Tests", "NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj", "{C7923A8B-D0CE-4FD8-ADA0-7507D5F3F693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Generation.WebApi.Tests", "NSwag.Generation.WebApi.Tests\NSwag.Generation.WebApi.Tests.csproj", "{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.WebApi.Tests", "NSwag.Generation.WebApi.Tests\NSwag.Generation.WebApi.Tests.csproj", "{869C5D59-22B5-4FF8-A1D3-94DDD11D1EED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.CodeGeneration.TypeScript.Tests", "NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj", "{95B83E7B-1ADF-4185-AB36-3B17459B0128}"
 EndProject
@@ -106,7 +106,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.ConsoleCore", "NSwag.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 ASP.NET", "04 ASP.NET", "{0AF934BD-80BE-483E-BCB7-D9B3F7B816E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.VersionMissmatchTest", "NSwag.VersionMissmatchTest\NSwag.VersionMissmatchTest.csproj", "{8B57755E-2868-434D-A008-45CE2EDBD879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.VersionMissmatchTest", "NSwag.VersionMissmatchTest\NSwag.VersionMissmatchTest.csproj", "{8B57755E-2868-434D-A008-45CE2EDBD879}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NetCoreAngular", "NSwag.Sample.NetCoreAngular\NSwag.Sample.NetCoreAngular.csproj", "{5A8A4C49-0BEE-4553-9016-DCD74127BBC7}"
 EndProject
@@ -342,26 +342,38 @@ Global
 		{6DF73809-53CA-4A82-AAE6-3C2C62C2D8E8}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|x64.Build.0 = Debug|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Debug|x86.Build.0 = Debug|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|x64.Build.0 = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|x86.ActiveCfg = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.Release|x86.Build.0 = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{ECD41518-A92C-4706-8E74-9707AFA554B7}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|x64.Build.0 = Debug|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Debug|x86.Build.0 = Debug|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|x64.ActiveCfg = Release|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|x64.Build.0 = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|x86.ActiveCfg = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.Release|x86.Build.0 = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{A46ED5E6-95EE-448B-AA88-E43FA32482B6}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -384,14 +396,20 @@ Global
 		{E5AC8F27-F9E2-4E98-AC98-6F9361132A2E}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|x64.Build.0 = Debug|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Debug|x86.Build.0 = Debug|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|x64.Build.0 = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|x86.ActiveCfg = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.Release|x86.Build.0 = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{C683AABE-5FE5-47B8-BB4D-EE5C5E89D9DE}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 		{71B39C21-46A2-471B-AACE-226C575B8AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

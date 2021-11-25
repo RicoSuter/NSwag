@@ -120,7 +120,6 @@ partial class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetVerbosity(DotNetVerbosity.Minimal)
             );
-
         });
 
     // logic from 01_Build.bat
