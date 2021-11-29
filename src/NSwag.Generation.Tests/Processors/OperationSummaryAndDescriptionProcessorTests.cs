@@ -84,7 +84,6 @@ namespace NSwag.Generation.Tests.Processors
             Assert.Equal("This method is documented.", summary);
         }
         
-        
         private OperationProcessorContext GetContext(Type controllerType, MethodInfo methodInfo)
         {
             var document = new OpenApiDocument();
