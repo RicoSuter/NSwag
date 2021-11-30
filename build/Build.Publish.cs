@@ -26,16 +26,16 @@ public partial class Build
 
     [Parameter] [Secret] string NpmAuthToken;
 
-    string ApiKeyToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetApiKey : MyGetApiKey;
-    string SourceToUse => !string.IsNullOrWhiteSpace(TagVersion) ? NuGetSource : MyGetGetSource;
+    string ApiKeyToUse => IsTaggedBuild ? NuGetApiKey : MyGetApiKey;
+    string SourceToUse => IsTaggedBuild ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
-        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || !string.IsNullOrWhiteSpace(TagVersion)))
+        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild))
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
         .Executes(() =>
         {
-            if (!string.IsNullOrWhiteSpace(TagVersion))
+            if (IsTaggedBuild)
             {
                 ChocolateyPush(_ => _
                     .SetApiKey(ChocoApiKey)
@@ -67,8 +67,10 @@ public partial class Build
                 {
                     Console.Error.WriteLine("NPM PUBLISH FAILED: " + ex.Message);
                 }
+            }
 
-                // TODO: Move outside if to publish to MyGet
+            try
+            {
                 DotNetNuGetPush(_ => _
                         .Apply(PushSettingsBase)
                         .Apply(PushSettings)
@@ -78,6 +80,17 @@ public partial class Build
                     PushDegreeOfParallelism,
                     PushCompleteOnFailure);
             }
+            catch (Exception e)
+            {
+                if (IsTaggedBuild)
+                {
+                    // fatal
+                    throw;
+                }
+
+                Error("Could not push: " + e.Message);
+            }
+
         });
 
     Configure<DotNetNuGetPushSettings> PushSettingsBase => _ => _
