@@ -141,7 +141,7 @@ Frontends:
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
 
-CI NuGet Feed: https://www.myget.org/feed/Packages/njsonschema
+CI NuGet Feed: https://www.myget.org/F/nswag/api/v3/index.json
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
