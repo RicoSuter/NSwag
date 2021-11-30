@@ -54,8 +54,8 @@ public partial class Build
                     .SetVersion(VersionPrefix)
                     .SetVersionSuffix(VersionSuffix)
                     .SetConfiguration(Configuration)
-                    .EnableNoBuild()
                     .SetOutputDirectory(ArtifactsDirectory)
+                    .SetDeterministic(IsServerBuild)
                 );
             }
 
