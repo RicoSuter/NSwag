@@ -17,10 +17,6 @@
 name: pr
 
 on:
-  push:
-    paths:
-      - '**/*.*'
-      - '!**/*.md'
   pull_request:
     branches:
       - master
