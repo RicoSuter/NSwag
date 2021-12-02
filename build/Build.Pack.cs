@@ -28,6 +28,12 @@ public partial class Build
                 throw new InvalidOperationException("Cannot pack if compilation hasn't been done in Release mode, use --configuration Release");
             }
 
+            var nugetVersion = VersionPrefix;
+            if (!string.IsNullOrWhiteSpace(VersionSuffix))
+            {
+                nugetVersion += "-" + VersionSuffix;
+            }
+
             EnsureCleanDirectory(ArtifactsDirectory);
 
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
@@ -51,8 +57,7 @@ public partial class Build
                     .SetAssemblyVersion(VersionPrefix)
                     .SetFileVersion(VersionPrefix)
                     .SetInformationalVersion(VersionPrefix)
-                    .SetVersion(VersionPrefix)
-                    .SetVersionSuffix(VersionSuffix)
+                    .SetVersion(nugetVersion)
                     .SetConfiguration(Configuration)
                     .SetOutputDirectory(ArtifactsDirectory)
                     .SetDeterministic(IsServerBuild)
@@ -92,8 +97,7 @@ public partial class Build
                 NuGetPack(x => x
                     .SetOutputDirectory(ArtifactsDirectory)
                     .SetConfiguration(Configuration)
-                    .SetVersion(VersionPrefix)
-                    .SetSuffix(VersionSuffix)
+                    .SetVersion(nugetVersion)
                     .SetTargetPath(nuspec)
                 );
             }
