@@ -1,7 +1,7 @@
 {% if operation.CanRequestBlobs and response.IsFile -%}
 {%     if Framework.IsAngularJS -%}
 const contentDisposition = response.headers ? response.headers("content-disposition") : undefined;
-{%     elseif Framework.IsAxios -%}
+{%     elsif Framework.IsAxios -%}
 const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
 {%     else -%}
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
@@ -11,9 +11,9 @@ const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : 
 {%     if operation.WrapResponse -%}
 {%         if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers }));
-{%         elseif Framework.IsAngularJS -%}
+{%         elsif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
-{%         elseif Framework.IsAxios -%}
+{%         elsif Framework.IsAxios -%}
 return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         else -%}
 return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
@@ -21,9 +21,9 @@ return response.blob().then(blob => { return new {{ operation.ResponseClass }}(s
 {%     else -%}
 {%         if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}<any>responseBlob{% else %}<any>response.blob(){% endif %}, status: status, headers: _headers });
-{%         elseif Framework.IsAngularJS -%}
+{%         elsif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
-{%         elseif Framework.IsAxios -%}
+{%         elsif Framework.IsAxios -%}
 return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
@@ -52,9 +52,9 @@ result{{ response.StatusCode }} = _responseText === "" ? null : <{{ response.Typ
 {%             if operation.WrapResponse -%}
 {%                 if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
-{%                 elseif Framework.IsAngularJS -%}
+{%                 elsif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }}));
-{%                 elseif Framework.IsAxios -%}
+{%                 elsif Framework.IsAxios -%}
 return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, result{{ response.StatusCode }}));
 {%                 else -%}
 return new {{ operation.ResponseClass }}(status, _headers, result{{ response.StatusCode }});
@@ -62,9 +62,9 @@ return new {{ operation.ResponseClass }}(status, _headers, result{{ response.Sta
 {%             else -%}
 {%                 if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}(result{{ response.StatusCode }});
-{%                 elseif Framework.IsAngularJS -%}
+{%                 elsif Framework.IsAngularJS -%}
 return this.q.resolve(result{{ response.StatusCode }});
-{%                 elseif Framework.IsAxios -%}
+{%                 elsif Framework.IsAxios -%}
 return Promise.resolve<{{ operation.ResultType }}>(result{{ response.StatusCode }});
 {%                 else -%}
 return result{{ response.StatusCode }};
@@ -73,13 +73,13 @@ return result{{ response.StatusCode }};
 {%         else -%}
 return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ response.ExceptionDescription }}", status, _responseText, _headers, result{{ response.StatusCode }});
 {%         endif -%}
-{%     elseif response.IsSuccess -%}
+{%     elsif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
 {%             if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%             elseif Framework.IsAngularJS -%}
+{%             elsif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
-{%             elseif Framework.IsAxios -%}
+{%             elsif Framework.IsAxios -%}
 return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, <any>null));
 {%             else -%}
 return new {{ operation.ResponseClass }}(status, _headers, <any>null);
@@ -87,9 +87,9 @@ return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%         else -%}
 {%             if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
-{%             elseif Framework.IsAngularJS -%}
+{%             elsif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(<any>null);
-{%             elseif Framework.IsAxios -%}
+{%             elsif Framework.IsAxios -%}
 return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 {%             else -%}
 return{% if operation.HasResultType %} null{% endif %};

@@ -4,8 +4,8 @@
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.Yaml" Version="10.5.2" />
-    <PackageReference Include="YamlDotNet" Version="9.1.4" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="10.6.0" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />

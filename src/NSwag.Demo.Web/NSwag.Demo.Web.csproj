@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NSwag.Demo.Web</RootNamespace>
     <AssemblyName>NSwag.Demo.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -142,9 +142,9 @@
     <PackageReference Include="Microsoft.Owin.FileSystems" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="3.0.1" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
-    <PackageReference Include="Namotion.Reflection" Version="2.0.3" />
+    <PackageReference Include="Namotion.Reflection" Version="2.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.5.2" />
+    <PackageReference Include="NJsonSchema" Version="10.6.0" />
     <PackageReference Include="Owin" Version="1.0.0" />
   </ItemGroup>
   <PropertyGroup>
