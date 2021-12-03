@@ -5,6 +5,8 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(settings =>
 {
@@ -24,5 +26,7 @@ app.MapGet("/", (Func<string>)(() => "Hello World!"))
 app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
     .WithName("CalculateSum")
     .WithTags("Calculator");
+
+app.MapControllers();
 
 app.Run();

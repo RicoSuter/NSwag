@@ -8,6 +8,9 @@
   "paths": {
     "/": {
       "get": {
+        "tags": [
+          "General"
+        ],
         "operationId": "Get",
         "responses": {
           "200": {
@@ -25,7 +28,10 @@
     },
     "/sum/{a}/{b}": {
       "get": {
-        "operationId": "GetSum",
+        "tags": [
+          "Calculator"
+        ],
+        "operationId": "CalculateSum",
         "parameters": [
           {
             "name": "a",
