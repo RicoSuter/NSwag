@@ -23,6 +23,9 @@ on:
       - main
     tags:
       - 'v*.*.*'
+    paths:
+      - '**/*.*'
+      - '!**/*.md'
 
 jobs:
   windows-latest:

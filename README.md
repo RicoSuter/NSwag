@@ -4,6 +4,7 @@ NSwag | [NJsonSchema](http://njsonschema.org) | [Apimundo](https://apimundo.com)
 
 [![NuGet Version](https://img.shields.io/nuget/v/NSwag.Core.svg)](https://www.nuget.org/packages?q=NSwag)
 [![npm](https://img.shields.io/npm/v/nswag.svg)](https://www.npmjs.com/package/nswag)
+[![MyGet](https://img.shields.io/myget/nswag/v/NSwag.Core.svg?label=preview%20nuget)](https://www.myget.org/feed/Packages/nswag)
 [![build](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml/badge.svg)](https://github.com/RicoSuter/NSwag/actions/workflows/build.yml)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/NSwag/NSwag)
 [![Discord](https://img.shields.io/badge/Discord-join%20chat-1dce73.svg)](https://discord.gg/4x48JjUT)
@@ -141,7 +142,7 @@ Frontends:
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
 
-CI NuGet Feed: https://www.myget.org/feed/Packages/njsonschema
+CI NuGet Feed: https://www.myget.org/F/nswag/api/v3/index.json
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 

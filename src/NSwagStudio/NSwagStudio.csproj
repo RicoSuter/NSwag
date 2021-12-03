@@ -61,7 +61,6 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="5.0.3" />
-    <PackageReference Include="DotLiquid" Version="2.0.385" />
     <PackageReference Include="Expression.Interaction" Version="3.0.40218" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
