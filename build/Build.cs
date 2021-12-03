@@ -168,11 +168,14 @@ partial class Build : NukeBuild
             MSBuild(x => x
                     .SetTargetPath(Solution)
                     .SetTargets("Rebuild")
+                    .SetAssemblyVersion(VersionPrefix)
                     .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
                     .SetConfiguration(Configuration)
                     .SetMaxCpuCount(Environment.ProcessorCount)
                     .SetNodeReuse(IsLocalBuild)
                     .SetVerbosity(MSBuildVerbosity.Minimal)
+                    .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
             );
         });
 
@@ -236,7 +239,7 @@ partial class Build : NukeBuild
             foreach (var (projectName, runtime) in dotnetTargets)
             {
                 var project = Solution.GetProject(projectName);
-                DotNetBuild(x => x
+                DotNetBuild(x => BuildDefaults(x)
                     .SetProcessWorkingDirectory(project.Directory)
                     .SetProperty("CopyLocalLockFileAssemblies", true)
                 );
@@ -277,7 +280,7 @@ partial class Build : NukeBuild
                 Project project,
                 string configurationFile,
                 string runtime,
-                string configuration,
+                Configuration configuration,
                 bool build)
             {
                 var nswagConfigurationFile = project.Directory / $"{configurationFile}.nswag";
@@ -287,9 +290,9 @@ partial class Build : NukeBuild
 
                 if (build)
                 {
-                    DotNetBuild(x => x
-                        .SetProjectFile(project)
+                    DotNetBuild(x => BuildDefaults(x)
                         .SetConfiguration(configuration)
+                        .SetProjectFile(project)
                     );
                 }
                 else
@@ -310,13 +313,23 @@ partial class Build : NukeBuild
 
             var samplesPath = RootDirectory / "samples";
             var sampleSolution = ProjectModelTasks.ParseSolution(samplesPath / "Samples.sln");
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", "Release", true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", "Release", false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", "Release", true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Release, true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Release, false);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Release, true);
 
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", "Debug", true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", "Debug", false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", "Debug", true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Debug, true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
         });
 
+    DotNetBuildSettings BuildDefaults(DotNetBuildSettings s)
+    {
+        return s
+            .SetAssemblyVersion(VersionPrefix)
+            .SetFileVersion(VersionPrefix)
+            .SetInformationalVersion(VersionPrefix)
+            .SetConfiguration(Configuration)
+            .SetDeterministic(IsServerBuild)
+            .SetContinuousIntegrationBuild(IsServerBuild);
+    }
 }
