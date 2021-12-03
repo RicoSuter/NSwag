@@ -32,6 +32,9 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the scope separator.</summary>
         public string ScopeSeparator { get; set; } = " ";
 
+        /// <summary>Gets or sets initially selected scopes.</summary>
+        public ICollection<string> Scopes { get; } = new List<string>();
+
         /// <summary>Gets or sets the additional query string parameters.</summary>
         public IDictionary<string, string> AdditionalQueryStringParameters { get; } = new Dictionary<string, string>();
 

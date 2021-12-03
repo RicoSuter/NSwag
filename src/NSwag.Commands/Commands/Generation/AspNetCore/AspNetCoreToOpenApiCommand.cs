@@ -25,7 +25,7 @@ using NSwag.Generation;
 using NJsonSchema.Generation;
 using Namotion.Reflection;
 
-#if NET5_0 || NETCOREAPP || NETSTANDARD
+#if NET6_0 || NET5_0 || NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
 #endif
 
@@ -172,7 +172,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NET5_0 || NETCOREAPP || NETSTANDARD
+#elif NET6_0 || NET5_0 || NETCOREAPP || NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
@@ -320,11 +320,8 @@ namespace NSwag.Commands.Generation.AspNetCore
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             var currentWorkingDirectory = ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
-            using (var webHost = await CreateWebHostAsync(assemblyLoader))
-            {
-                var document = await GenerateDocumentAsync(assemblyLoader, webHost.TryGetPropertyValue<IServiceProvider>("Services"), currentWorkingDirectory);
-                return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
-            }
+            var document = await GenerateDocumentAsync(assemblyLoader, GetServiceProvider(assemblyLoader), currentWorkingDirectory);
+            return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
         }
 
         private static void TryDeleteFiles(List<string> files)

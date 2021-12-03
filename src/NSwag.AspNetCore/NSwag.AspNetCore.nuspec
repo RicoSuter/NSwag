@@ -70,14 +70,23 @@
                 <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
                 <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5$" exclude="Build,Analyzers" />
             </group>
+            <group targetFramework="net6.0">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6$" exclude="Build,Analyzers" />
+            </group>            
         </dependencies>
     </metadata>
     <files>
         <file src="..\..\assets\NuGetIcon.png" target="NuGetIcon.png" />
         <file src="build\*" target="build\" />
         <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
-        <file src="bin\$configuration$\net451\NSwag.AspNetCore.dll" target="lib\net451\" />
-        <file src="bin\$configuration$\net451\NSwag.AspNetCore.xml" target="lib\net451\" />
+        <file src="bin\$configuration$\net461\NSwag.AspNetCore.dll" target="lib\net461\" />
+        <file src="bin\$configuration$\net461\NSwag.AspNetCore.xml" target="lib\net461\" />
         <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.dll" target="lib\netstandard1.6\" />
         <file src="bin\$configuration$\netstandard1.6\NSwag.AspNetCore.xml" target="lib\netstandard1.6\" />
         <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
@@ -86,5 +95,7 @@
         <file src="bin\$configuration$\netcoreapp3.1\NSwag.AspNetCore.xml" target="lib\netcoreapp3.1\" />
         <file src="bin\$configuration$\net5.0\NSwag.AspNetCore.dll" target="lib\net5.0\" />
         <file src="bin\$configuration$\net5.0\NSwag.AspNetCore.xml" target="lib\net5.0\" />
+        <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.dll" target="lib\net6.0\" />
+        <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.xml" target="lib\net6.0\" />
     </files>
 </package>

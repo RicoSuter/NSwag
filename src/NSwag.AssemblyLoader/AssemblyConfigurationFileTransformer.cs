@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-#if NET451
+#if NETFRAMEWORK
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -127,7 +127,7 @@ public class BindingRedirect
         PublicKeyToken = publicKeyToken;
     }
 
-#if NET451
+#if NETFRAMEWORK
 
     public BindingRedirect(string name, Type newVersionType, string publicKeyToken)
         : this(name, newVersionType.Assembly.GetName().Version.ToString(), publicKeyToken)

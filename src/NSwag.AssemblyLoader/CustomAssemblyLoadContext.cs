@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-#if !NET451
+#if !NETFRAMEWORK
 
 using System;
 using System.Collections.Generic;
