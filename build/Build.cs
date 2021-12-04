@@ -51,6 +51,10 @@ partial class Build : NukeBuild
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [Solution] readonly Solution Solution;
+
+    // the file we want to build, can be either full solution on Windows or a filtered one on other platforms
+    AbsolutePath SolutionFile;
+
     [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
@@ -85,6 +89,8 @@ partial class Build : NukeBuild
 
     protected override void OnBuildInitialized()
     {
+        SolutionFile = IsRunningOnWindows ? Solution.Path : SourceDirectory / "NSwag.NoInstaller.slnf";
+
         VersionPrefix = DetermineVersionPrefix();
 
         var versionParts = VersionPrefix.Split('-');
@@ -122,6 +128,7 @@ partial class Build : NukeBuild
 
     Target InstallDependencies => _ => _
         .Before(Restore, Compile)
+        .OnlyWhenDynamic(() => !IsServerBuild)
         .Executes(() =>
         {
             Chocolatey("install wixtoolset -y");
@@ -138,16 +145,8 @@ partial class Build : NukeBuild
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Npm")
             );
 
-            MSBuild(x => x
-                .SetTargetPath(Solution)
-                .SetTargets("Restore")
-                .SetMaxCpuCount(Environment.ProcessorCount)
-                .SetNodeReuse(IsLocalBuild)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-            );
-
             DotNetRestore(x => x
-                .SetProjectFile(Solution)
+                .SetProjectFile(SolutionFile)
                 .SetVerbosity(DotNetVerbosity.minimal)
             );
         });
@@ -162,41 +161,66 @@ partial class Build : NukeBuild
 
             Serilog.Log.Information("Build and copy full .NET command line with configuration {Configuration}", Configuration);
 
-            // TODO: Fix build here
-            MSBuild(x => x
-                .SetProjectFile(GetProject("NSwagStudio"))
-                .SetTargets("Build")
-                .SetAssemblyVersion(VersionPrefix)
-                .SetFileVersion(VersionPrefix)
-                .SetInformationalVersion(VersionPrefix)
-                .SetConfiguration(Configuration)
-                .SetMaxCpuCount(Environment.ProcessorCount)
-                .SetNodeReuse(IsLocalBuild)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .SetProperty("Deterministic", IsServerBuild)
-                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
-            );
+            if (IsRunningOnWindows)
+            {
+                DotNetMSBuild(x => x
+                    .SetTargetPath(GetProject("NSwagStudio"))
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetMaxCpuCount(Environment.ProcessorCount)
+                    .SetNodeReuse(IsLocalBuild)
+                    .SetVerbosity(DotNetVerbosity.minimal)
+                    .SetDeterministic(IsServerBuild)
+                    .SetContinuousIntegrationBuild(IsServerBuild)
+                    // ensure we don't generate too much output in CI run
+                    // 0  Turns off emission of all warning messages
+                    // 1  Displays severe warning messages
+                    .SetWarningLevel(IsServerBuild ? 0 : 1)
+                );
 
-            MSBuild(x => x
-                .SetTargetPath(Solution)
-                .SetTargets("Build")
-                .SetAssemblyVersion(VersionPrefix)
-                .SetFileVersion(VersionPrefix)
-                .SetInformationalVersion(VersionPrefix)
-                .SetConfiguration(Configuration)
-                .SetMaxCpuCount(Environment.ProcessorCount)
-                .SetNodeReuse(IsLocalBuild)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .SetProperty("Deterministic", IsServerBuild)
-                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
-            );
+                MSBuild(x => x
+                    .SetTargetPath(SolutionFile)
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetMaxCpuCount(Environment.ProcessorCount)
+                    .SetNodeReuse(IsLocalBuild)
+                    .SetVerbosity(MSBuildVerbosity.Minimal)
+                    .SetProperty("Deterministic", IsServerBuild)
+                    .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+                    // ensure we don't generate too much output in CI run
+                    // 0  Turns off emission of all warning messages
+                    // 1  Displays severe warning messages
+                    .SetWarningLevel(IsServerBuild ? 0 : 1)
+                );
+            }
+            else
+            {
+                DotNetBuild(x => x
+                    .SetProjectFile(SolutionFile)
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetVerbosity(DotNetVerbosity.minimal)
+                    .SetDeterministic(IsServerBuild)
+                    .SetContinuousIntegrationBuild(IsServerBuild)
+                    // ensure we don't generate too much output in CI run
+                    // 0  Turns off emission of all warning messages
+                    // 1  Displays severe warning messages
+                    .SetWarningLevel(IsServerBuild ? 0 : 1)
+                );
+            }
 
             // later steps need to have binaries in correct places
             PublishAndCopyConsoleProjects();
         });
 
     Target Test => _ => _
-        .After(Compile)
+        .DependsOn(Compile)
         .Executes(() =>
         {
             foreach (var project in Solution.AllProjects.Where(p => p.Name.EndsWith(".Tests")))
@@ -204,6 +228,7 @@ partial class Build : NukeBuild
                 DotNetTest(x => x
                     .SetProjectFile(project)
                     .EnableNoRestore()
+                    .EnableNoBuild()
                     .SetConfiguration(Configuration)
                 );
             }
@@ -230,34 +255,47 @@ partial class Build : NukeBuild
                     .SetConfiguration(Configuration)
                     .SetDeterministic(IsServerBuild)
                     .SetContinuousIntegrationBuild(IsServerBuild)
+                    // ensure we don't generate too much output in CI run
+                    // 0  Turns off emission of all warning messages
+                    // 1  Displays severe warning messages
+                    .SetWarningLevel(IsServerBuild ? 0 : 1)
                 );
             }
         }
 
-        PublishConsoleProject(consoleX86Project, new[] { "net462" });
-        PublishConsoleProject(consoleProject, new[] { "net462" });
-        PublishConsoleProject(consoleCoreProject, new[] { "net6.0", "net7.0", "net8.0" });
+        if (IsRunningOnWindows)
+        {
+            PublishConsoleProject(consoleX86Project, ["net462"]);
+            PublishConsoleProject(consoleProject, ["net462"]);
+        }
+        PublishConsoleProject(consoleCoreProject, ["net6.0", "net7.0", "net8.0"]);
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
             // take just exe from X86 as other files are shared with console project
-            var consoleX86Directory = ArtifactsDirectory / "publish" / consoleX86Project.Name / Configuration;
-            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
-            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
+            var configuration = Configuration.ToString().ToLowerInvariant();
 
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleProject.Name / Configuration, target / "Win", DirectoryExistsPolicy.Merge);
+            if (IsRunningOnWindows)
+            {
+                var consoleX86Directory = ArtifactsDirectory / "publish" / consoleX86Project.Name / configuration;
+                CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
+                CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
 
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net6.0"), target / "Net60");
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net7.0"), target / "Net70");
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net8.0"), target / "Net80");
+                CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleProject.Name / configuration, target / "Win", DirectoryExistsPolicy.Merge);
+            }
+
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net6.0"), target / "Net60");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net7.0"), target / "Net70");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net8.0"), target / "Net80");
         }
 
-        Serilog.Log.Information("Copy published Console for NSwagStudio");
-
-        CopyConsoleBinaries(target: NSwagStudioBinaries);
+        if (IsRunningOnWindows)
+        {
+            Serilog.Log.Information("Copy published Console for NSwagStudio");
+            CopyConsoleBinaries(target: NSwagStudioBinaries);
+        }
 
         Serilog.Log.Information("Copy published Console for NPM");
-
         CopyConsoleBinaries(target: SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
     }
 

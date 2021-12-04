@@ -23,6 +23,7 @@ public partial class Build
     Target Pack => _ => _
         .DependsOn(Compile)
         .After(Test)
+        .OnlyWhenDynamic(() => IsRunningOnWindows)
         .Executes(() =>
         {
             if (Configuration != Configuration.Release)
