@@ -71,11 +71,11 @@ namespace NSwag.Commands
         {
             try
             {
-                dynamic entryAssembly;
-                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
+                Assembly entryAssembly;
+                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", Array.Empty<Type>());
                 if (getEntryAssemblyMethod != null)
                 {
-                    entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                    entryAssembly = (Assembly) getEntryAssemblyMethod.Invoke(null, Array.Empty<object>());
                 }
                 else
                 {

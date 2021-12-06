@@ -162,8 +162,9 @@ namespace NSwag.Generation.AspNetCore
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.Core"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.JsonOptions", true));
 
-                    var options = serviceProvider?.GetService(optionsType);
-                    var jsonOptions = ((dynamic)optionsType.GetProperty("Value")?.GetValue(options))?.JsonSerializerOptions;
+                    var options = serviceProvider.GetService(optionsType);
+                    var value = optionsType.GetProperty("Value")?.GetValue(options);
+                    var jsonOptions = value?.GetType().GetProperty("JsonSerializerOptions")?.GetValue(value);
                     if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
                     {
                         return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
