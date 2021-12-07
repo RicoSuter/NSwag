@@ -42,9 +42,9 @@
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
-    <PackageReference Include="Namotion.Reflection" Version="2.0.5" />
+    <PackageReference Include="Namotion.Reflection" Version="2.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.6.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.6.1" />
     <PackageReference Include="Swashbuckle" Version="5.5.3" />
     <PackageReference Include="Swashbuckle.Core" Version="5.5.3" />
     <PackageReference Include="WebActivatorEx" Version="2.0.0" />
