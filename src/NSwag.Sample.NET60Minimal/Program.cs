@@ -25,7 +25,7 @@ app.UseSwaggerUi3();
 app.MapGet("/", (Func<string>)(() => "Hello World!"))
     .WithTags("General");
 
-app.MapGet("/sum/{a}/{b}", (int a, int b) => a + b)
+app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
     .WithName("CalculateSum")
     .WithTags("Calculator");
 
@@ -38,6 +38,7 @@ app.UseEndpoints(x =>
 
 app.Run();
 
+// Optional: Use controllers
 [ApiController]
 [Route("examples")]
 public class ExampleController : ControllerBase
