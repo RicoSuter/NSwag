@@ -86,11 +86,11 @@ return new {{ operation.ResponseClass }}(status, _headers, <any>null);
 {%             endif -%}
 {%         else -%}
 {%             if Framework.IsAngular -%}
-{%					if Framework.UseRxJs7 -%}
+{%                 if Framework.UseRxJs7 -%}
 return {{ Framework.RxJs.ObservableOfMethod }}(null);
-{%					else -%}
+{%                 else -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{operation.ResultType}}>(<any>null);
-{%					endif -%}
+{%                 endif -%}
 {%             elsif Framework.IsAngularJS -%}
 return this.q.resolve<{{ operation.ResultType }}>(<any>null);
 {%             elsif Framework.IsAxios -%}
