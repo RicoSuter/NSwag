@@ -28,7 +28,7 @@ namespace NSwag.Commands
             if (entryPointType != null)
             {
                 var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
-                var args = new string[0];
+                var args = Array.Empty<string>();
 
                 if (buildWebHostMethod != null)
                 {
@@ -39,12 +39,12 @@ namespace NSwag.Commands
                 {
                     var createWebHostMethod =
                         entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
-                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", Type.EmptyTypes);
 
                     if (createWebHostMethod != null)
                     {
                         var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
 #if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
@@ -52,12 +52,12 @@ namespace NSwag.Commands
                     {
                         var createHostMethod =
                             entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
-                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", Type.EmptyTypes);
 
                         if (createHostMethod != null)
                         {
                             var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                             serviceProvider = webHostBuilder.Build().Services;
                         }
                     }
