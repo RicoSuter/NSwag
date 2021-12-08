@@ -49,13 +49,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Types = dtoTypes.OrderByBaseDependency().Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
-            SourceSha = _settings.ChecksumCacheEnabled ? _document.GetChecksum() : "";
         }
-
-        /// <summary>
-        /// Gets the checksum for the document that was used to produce the file.
-        /// </summary>
-        public string SourceSha { get; }
 
         /// <summary>Gets framework specific information.</summary>
         public TypeScriptFrameworkModel Framework { get; set; }

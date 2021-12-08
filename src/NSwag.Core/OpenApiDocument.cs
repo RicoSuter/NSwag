@@ -9,10 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -256,31 +254,6 @@ namespace NSwag
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Calculates checksum for this document based on JSON contents.
-        /// </summary>
-        /// <remarks>Will always return null under .NET Standard 1.0.</remarks>
-        public string GetChecksum()
-        {
-#if !NETSTANDARD1_0
-            var json = ToJson(SchemaType, Formatting.None);
-            var sb = new StringBuilder();
-            using (var hash = System.Security.Cryptography.SHA256.Create())
-            {
-                var result = hash.ComputeHash(Encoding.UTF8.GetBytes(json));
-                foreach (var b in result)
-                {
-                    sb.Append(b.ToString("x2"));
-                }
-            }
-
-            return sb.ToString();
-#else
-            // not supported
-            return null;
-#endif
         }
 
         /// <summary>Generates missing or non-unique operation IDs.</summary>
