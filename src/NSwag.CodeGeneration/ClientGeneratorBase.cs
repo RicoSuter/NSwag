@@ -108,7 +108,7 @@ namespace NSwag.CodeGeneration
 
             if (BaseSettings.OperationNameGenerator.SupportsMultipleClients)
             {
-                var controllerOperationsGroups = operations.GroupBy(o => o.ControllerName).ToList();
+                var controllerOperationsGroups = operations.GroupBy(o => o.ControllerName);
                 foreach (var controllerOperations in controllerOperationsGroups)
                 {
                     var controllerName = controllerOperations.Key;
@@ -149,12 +149,16 @@ namespace NSwag.CodeGeneration
         {
             document.GenerateOperationIds();
 
-            return document.Paths
-                .SelectMany(pair => pair.Value.ActualPathItem
-                    .Select(p => new { Path = pair.Key.TrimStart('/'), HttpMethod = p.Key, Operation = p.Value }))
-                .Select(tuple =>
+            var result = new List<TOperationModel>();
+            foreach (var pair in document.Paths)
+            {
+                foreach (var p in pair.Value.ActualPathItem)
                 {
-                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
+                    var path = pair.Key.TrimStart('/');
+                    var httpMethod = p.Key;
+                    var operation = p.Value;
+
+                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
                     if (operationName.Contains("."))
                     {
@@ -166,14 +170,16 @@ namespace NSwag.CodeGeneration
                         operationName = operationName.Substring(0, operationName.Length - "Async".Length);
                     }
 
-                    var operationModel = CreateOperationModel(tuple.Operation, BaseSettings);
-                    operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, tuple.Path, tuple.HttpMethod, tuple.Operation);
-                    operationModel.Path = tuple.Path;
-                    operationModel.HttpMethod = tuple.HttpMethod;
+                    var operationModel = CreateOperationModel(operation, BaseSettings);
+                    operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, path, httpMethod, operation);
+                    operationModel.Path = path;
+                    operationModel.HttpMethod = httpMethod;
                     operationModel.OperationName = operationName;
-                    return operationModel;
-                })
-                .ToList();
+
+                    result.Add(operationModel);
+                }
+            }
+            return result;
         }
     }
 }

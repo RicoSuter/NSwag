@@ -241,7 +241,7 @@ namespace NSwag
         {
             get
             {
-                foreach (var p in Paths)
+                foreach (var p in _paths)
                 {
                     foreach (var o in p.Value.ActualPathItem)
                     {
