@@ -15,7 +15,7 @@ return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
 {%         if Framework.UseRxJs7 -%}
-return {{ Framework.RxJs.ObservableOfMethod }}(null);
+return {{ Framework.RxJs.ObservableOfMethod }}(<any>null);
 {%         else -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%         endif -%}
