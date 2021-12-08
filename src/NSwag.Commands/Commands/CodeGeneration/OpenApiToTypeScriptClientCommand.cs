@@ -411,7 +411,6 @@ namespace NSwag.Commands.CodeGeneration
                     additionalCode = DynamicApis.FileReadAllText(additionalCode);
                 }
 
-                Settings.OutputFilePath = OutputFilePath;
                 Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
                 var document = await GetInputSwaggerDocument().ConfigureAwait(false);
