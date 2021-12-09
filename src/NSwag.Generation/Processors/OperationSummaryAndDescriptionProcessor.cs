@@ -48,7 +48,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(summary))
             {
-                summary = context.MethodInfo?.GetXmlDocsSummary();
+                summary = context.MethodInfo?.GetXmlDocsSummary(context.Settings.ResolveExternalXmlDocumentation);
             }
 
             if (!string.IsNullOrEmpty(summary))
@@ -66,7 +66,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(description))
             {
-                description = context.MethodInfo?.GetXmlDocsRemarks();
+                description = context.MethodInfo?.GetXmlDocsRemarks(context.Settings.ResolveExternalXmlDocumentation);
             }
 
             if (!string.IsNullOrEmpty(description))

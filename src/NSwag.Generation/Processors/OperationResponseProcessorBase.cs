@@ -45,7 +45,7 @@ namespace NSwag.Generation.Processors
 
             var successResponseDescription = returnParameter
                 .ToContextualParameter()
-                .GetDescription() ?? string.Empty;
+                .GetDescription(_settings) ?? string.Empty;
 
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             ProcessOperationDescriptions(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
@@ -63,7 +63,7 @@ namespace NSwag.Generation.Processors
 
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter.ToContextualParameter();
 
-            var returnParameterXmlDocs = returnParameter.GetDescription() ?? string.Empty;
+            var returnParameterXmlDocs = returnParameter.GetDescription(_settings) ?? string.Empty;
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(operationProcessorContext.MethodInfo);
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
@@ -99,7 +99,7 @@ namespace NSwag.Generation.Processors
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
         {
-            var operationXmlDocs = methodInfo?.GetXmlDocsElement();
+            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.ResolveExternalXmlDocumentation);
             return operationXmlDocs?.Nodes()?.OfType<XElement>();
         }
 

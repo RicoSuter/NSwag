@@ -58,8 +58,9 @@ namespace NSwag.Generation.Processors
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
             }
 
+            var summary = context.ControllerType.GetXmlDocsSummary(context.Settings.ResolveExternalXmlDocumentation);
             context.OperationDescription.Operation.Tags.Add(controllerName);
-            UpdateDocumentTagDescription(context, controllerName, context.ControllerType.GetXmlDocsSummary());
+            UpdateDocumentTagDescription(context, controllerName, summary);
         }
 
         /// <summary>
