@@ -147,6 +147,14 @@
                 <TextBlock Text="Generate xmlObject representation for definitions" TextWrapping="Wrap" />
             </CheckBox>
 
+            <CheckBox IsChecked="{Binding Command.UseXmlDocumentation, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseXmlDocumentation">
+                <TextBlock Text="Read XML Docs files." TextWrapping="Wrap" />
+            </CheckBox>
+
+            <CheckBox IsChecked="{Binding Command.ResolveExternalXmlDocumentation, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="ResolveExternalXmlDocumentation">
+                <TextBlock Text="Resolve the XML Docs from the NuGet cache or .NET SDK directory." TextWrapping="Wrap" />
+            </CheckBox>
+
             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
             <dialogs:FileSavePicker DefaultExtension=".cs" 
                                     Filter="OpenAPI/Swagger Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"

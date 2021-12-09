@@ -11,7 +11,7 @@ using NSwag.Collections;
 namespace NSwag
 {
     /// <summary>A collection of headers.</summary>
-    public class OpenApiHeaders : ObservableDictionary<string, OpenApiHeader>
+    public sealed class OpenApiHeaders : ObservableDictionary<string, OpenApiHeader>
     {
     }
 }

@@ -83,11 +83,33 @@ namespace NSwag.Commands.Generation
             set { Settings.SchemaSettings.GenerateKnownTypes = value; }
         }
 
+        [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false,
+            Description = "Generate a description with number to enum name mappings (for integer enums only, default: false).")]
+        public bool GenerateEnumMappingDescription
+        {
+            get => Settings.GenerateEnumMappingDescription;
+            set => Settings.GenerateEnumMappingDescription = value;
+        }
+
         [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
         public bool GenerateXmlObjects
         {
             get { return Settings.SchemaSettings.GenerateXmlObjects; }
             set { Settings.SchemaSettings.GenerateXmlObjects = value; }
+        }
+
+        [Argument(Name = "UseXmlDocumentation", IsRequired = false, Description = "Read XML Docs files (default: true).")]
+        public bool UseXmlDocumentation
+        {
+            get => Settings.UseXmlDocumentation;
+            set => Settings.UseXmlDocumentation = value;
+        }
+
+        [Argument(Name = "ResolveExternalXmlDocumentation", IsRequired = false, Description = "Resolve the XML Docs from the NuGet cache or .NET SDK directory (default: true).")]
+        public bool ResolveExternalXmlDocumentation
+        {
+            get => Settings.ResolveExternalXmlDocumentation;
+            set => Settings.ResolveExternalXmlDocumentation = value;
         }
 
         protected override Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)

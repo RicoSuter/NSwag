@@ -9,10 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +27,8 @@ namespace NSwag
     /// <summary>Describes a JSON web service.</summary>
     public partial class OpenApiDocument : JsonExtensionObject, IDocumentPathProvider
     {
+        private readonly ObservableDictionary<string, OpenApiPathItem> _paths;
+
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocument"/> class.</summary>
         public OpenApiDocument()
         {
@@ -45,12 +45,14 @@ namespace NSwag
                 }
             };
 
-            Paths = paths;
+            _paths = paths;
             Info = new OpenApiInfo();
         }
 
+        private static readonly string _toolChainVersion = typeof(OpenApiDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
+
         /// <summary>Gets the NSwag toolchain version.</summary>
-        public static string ToolchainVersion => typeof(OpenApiDocument).GetTypeInfo().Assembly.GetName().Version.ToString();
+        public static string ToolchainVersion => _toolChainVersion;
 
         /// <summary>Gets or sets the preferred schema type.</summary>
         [JsonIgnore]
@@ -82,7 +84,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiPathItem> Paths { get; }
+        public IDictionary<string, OpenApiPathItem> Paths => _paths;
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -239,45 +241,28 @@ namespace NSwag
         {
             get
             {
-                return Paths.SelectMany(p => p.Value.ActualPathItem.Select(o => new OpenApiOperationDescription
+                foreach (var p in _paths)
                 {
-                    Path = p.Key,
-                    Method = o.Key,
-                    Operation = o.Value
-                }));
-            }
-        }
-
-        /// <summary>
-        /// Calculates checksum for this document based on JSON contents.
-        /// </summary>
-        /// <remarks>Will always return null under .NET Standard 1.0.</remarks>
-        public string GetChecksum()
-        {
-#if !NETSTANDARD1_0
-            var json = ToJson(SchemaType, Formatting.None);
-            var sb = new StringBuilder();
-            using (var hash = System.Security.Cryptography.SHA256.Create())
-            {
-                var result = hash.ComputeHash(Encoding.UTF8.GetBytes(json));
-                foreach (var b in result)
-                {
-                    sb.Append(b.ToString("x2"));
+                    foreach (var o in p.Value.ActualPathItem)
+                    {
+                        yield return new OpenApiOperationDescription
+                        {
+                            Path = p.Key,
+                            Method = o.Key,
+                            Operation = o.Value
+                        };
+                    }
                 }
             }
-
-            return sb.ToString();
-#else
-            // not supported
-            return null;
-#endif
         }
 
         /// <summary>Generates missing or non-unique operation IDs.</summary>
         public void GenerateOperationIds()
         {
             // Generate missing IDs
-            foreach (var operation in Operations.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+            var operationsList = Operations.ToList();
+
+            foreach (var operation in operationsList.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
             {
                 operation.Operation.OperationId = GetOperationNameFromPath(operation);
             }
@@ -285,7 +270,7 @@ namespace NSwag
             // Find non-unique operation IDs
 
             // 1: Append all to methods returning collections
-            foreach (var group in Operations.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
@@ -310,7 +295,7 @@ namespace NSwag
             }
 
             // 2: Append the Method type
-            foreach (var group in Operations.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
@@ -325,7 +310,7 @@ namespace NSwag
             }
 
             // 3: Append numbers as last resort
-            foreach (var group in Operations.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
             {
                 var operations = group.ToList();
                 if (group.Count() > 1)
