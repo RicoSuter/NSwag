@@ -1,7 +1,6 @@
 <Project>
-
   <PropertyGroup>
-    <VersionPrefix>13.15.1</VersionPrefix>
+    <VersionPrefix>14.0.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
     <Copyright>Copyright © Rico Suter, 2021</Copyright>
@@ -41,5 +40,4 @@
   <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
-
 </Project>

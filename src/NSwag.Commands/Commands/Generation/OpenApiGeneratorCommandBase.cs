@@ -143,6 +143,20 @@ namespace NSwag.Commands.Generation
             set => Settings.AllowReferencesWithProperties = value;
         }
 
+        [Argument(Name = "UseXmlDocumentation", IsRequired = false, Description = "Read XML Docs files (default: true).")]
+        public bool UseXmlDocumentation
+        {
+            get => Settings.UseXmlDocumentation;
+            set => Settings.UseXmlDocumentation = value;
+        }
+
+        [Argument(Name = "ResolveExternalXmlDocumentation", IsRequired = false, Description = "Resolve the XML Docs from the NuGet cache or .NET SDK directory (default: true).")]
+        public bool ResolveExternalXmlDocumentation
+        {
+            get => Settings.ResolveExternalXmlDocumentation;
+            set => Settings.ResolveExternalXmlDocumentation = value;
+        }
+
         [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded type names (same as JsonSchemaIgnoreAttribute).")]
         public string[] ExcludedTypeNames
         {
