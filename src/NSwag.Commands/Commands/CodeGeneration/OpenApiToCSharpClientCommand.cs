@@ -169,7 +169,7 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.ExposeJsonSerializerSettings; }
             set { Settings.ExposeJsonSerializerSettings = value; }
         }
-
+        
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier
         {

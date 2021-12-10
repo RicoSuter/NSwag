@@ -9,7 +9,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class PlainResponseTests
     {
-        [Fact]
+        [Fact]    
         public async Task When_openapi3_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated()
         {
             // Arrange
@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
             Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
         }
 
@@ -111,7 +111,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<string> PlainAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
             Assert.Contains("(string)System.Convert.ChangeType(responseData_, typeof(string));", code);
         }
 
@@ -154,7 +154,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
+            Assert.Contains($"public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
             Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
         }
 
@@ -192,7 +192,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<string> PlainAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
         }
     }
 }
