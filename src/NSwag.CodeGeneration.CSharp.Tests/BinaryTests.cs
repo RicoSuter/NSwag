@@ -52,7 +52,7 @@ components:
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<FileToken> AddFileAsync(System.IO.Stream body, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<FileToken> AddFileAsync(System.IO.Stream body, System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("var content_ = new System.Net.Http.StreamContent(body);", code);
         }
 

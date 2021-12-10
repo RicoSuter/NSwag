@@ -99,23 +99,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return "public";
             }
         }
-        
-        /// <summary>Gets the methods virtual</summary>
-        public bool VirtualMethods
-        {
-            get
-            {
-                var settings = _settings as CSharpClientGeneratorSettings;
 
-                if (settings != null)
-                {
-                    return settings.VirtualMethods;
-                }
-                
-                return false;
-            }
-        }
-        
         /// <summary>Gets the actual name of the operation (language specific).</summary>
         public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
             + (MethodAccessModifier == "protected" ? "Core" : string.Empty);

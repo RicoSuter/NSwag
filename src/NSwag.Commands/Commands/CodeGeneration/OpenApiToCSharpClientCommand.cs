@@ -169,14 +169,6 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.ExposeJsonSerializerSettings; }
             set { Settings.ExposeJsonSerializerSettings = value; }
         }
-
-        [Argument(Name = nameof(VirtualMethods), IsRequired = false,
-            Description = "Specifies whether to generate methods with virtual keyword (default: false).")]
-        public bool VirtualMethods
-        {
-            get { return Settings.VirtualMethods; }
-            set { Settings.VirtualMethods = value; }
-        }
         
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier

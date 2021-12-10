@@ -30,7 +30,6 @@ namespace NSwag.CodeGeneration.CSharp
             QueryNullValue = "";
             GenerateBaseUrlProperty = true;
             ExposeJsonSerializerSettings = false;
-            VirtualMethods = false;
             InjectHttpClient = true;
             ProtectedMethods = new string[0];
         }
@@ -113,8 +112,5 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether to generate methods with virtual keyword</summary>
-        public bool VirtualMethods { get; set; }
     }
 }

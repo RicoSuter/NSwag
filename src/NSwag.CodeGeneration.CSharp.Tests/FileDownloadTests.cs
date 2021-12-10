@@ -76,7 +76,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.Contains("public async System.Threading.Tasks.Task<FileResponse> RawAsync(", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<FileResponse> RawAsync(", code);
             Assert.Contains("var fileResponse_ = new FileResponse(", code);
         }
     }

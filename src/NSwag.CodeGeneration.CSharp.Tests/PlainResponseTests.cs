@@ -9,10 +9,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class PlainResponseTests
     {
-        [Theory]
-        [InlineData("public async", false)]
-        [InlineData("public virtual async", true)]
-        public async Task When_openapi3_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated(string expecedStartOfLine, bool virtualMethods)
+        [Fact]    
+        public async Task When_openapi3_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated()
         {
             // Arrange
             var json = @"{
@@ -66,20 +64,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true,
-                VirtualMethods = virtualMethods
+                GenerateClientInterfaces = true
             });
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"{expecedStartOfLine} System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
             Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
         }
 
-        [Theory]
-        [InlineData("public async", false)]
-        [InlineData("public virtual async", true)]
-        public async Task When_openapi3_reponse_contains_plain_text_then_Convert_is_generated(string expecedStartOfLine, bool virtualMethods)
+        [Fact]
+        public async Task When_openapi3_reponse_contains_plain_text_then_Convert_is_generated()
         {
             // Arrange
             var json = @"{
@@ -111,20 +106,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true,
-                VirtualMethods = virtualMethods
+                GenerateClientInterfaces = true
             });
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"{expecedStartOfLine} System.Threading.Tasks.Task<string> PlainAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
             Assert.Contains("(string)System.Convert.ChangeType(responseData_, typeof(string));", code);
         }
 
-        [Theory]
-        [InlineData("public async", false)]
-        [InlineData("public virtual async", true)]
-        public async Task When_swagger_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated(string expecedStartOfLine, bool virtualMethods)
+        [Fact]
+        public async Task When_swagger_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated()
         {
             // Arrange
             var swagger = @"{
@@ -157,20 +149,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true,
-                VirtualMethods = virtualMethods
+                GenerateClientInterfaces = true
             });
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"{expecedStartOfLine} System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
+            Assert.Contains($"public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
             Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
         }
 
-        [Theory]
-        [InlineData("public async", false)]
-        [InlineData("public virtual async", true)]
-        public async Task When_swagger_reponse_contains_plain_text_then_Convert_is_generated(string expecedStartOfLine, bool virtualMethods)
+        [Fact]
+        public async Task When_swagger_reponse_contains_plain_text_then_Convert_is_generated()
         {
             // Arrange
             var swagger = @"{
@@ -198,13 +187,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true,
-                VirtualMethods = virtualMethods
+                GenerateClientInterfaces = true
             });
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"{expecedStartOfLine} System.Threading.Tasks.Task<string> PlainAsync(", code);
+            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
         }
     }
 }
