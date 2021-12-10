@@ -107,5 +107,5 @@ public partial class Build
 
     bool PushCompleteOnFailure => true;
 
-    int PushDegreeOfParallelism => 2;
+    int PushDegreeOfParallelism => 1;
 }
