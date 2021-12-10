@@ -8,14 +8,13 @@ if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %}
 } else {% endfor -%}
 {% if operation.HasDefaultResponse -%}
 {
-{%     assign response = operation.DefaultResponse -%}
+{%-     assign response = operation.DefaultResponse -%}
     {% template Client.ProcessResponse.HandleStatusCode %}
 }
-{% else -%}
-if (status !== 200 && status !== 204) {
+{%- else %}if (status !== 200 && status !== 204) {
     {% template Client.ProcessResponse.ReadBodyStart %}
     return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"An unexpected server error occurred.", status, _responseText, _headers);
     {% template Client.ProcessResponse.ReadBodyEnd %}
 }
-{% template Client.ProcessResponse.Return %}
+{% template Client.ProcessResponse.Return -%}
 {% endif -%}

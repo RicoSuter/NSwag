@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.14.4.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v9.0.0.0))",
+  "x-generator": "NSwag v13.15.0.0 (NJsonSchema v10.6.2.0 (Newtonsoft.Json v9.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Minimal API",
@@ -8,6 +8,9 @@
   "paths": {
     "/": {
       "get": {
+        "tags": [
+          "General"
+        ],
         "operationId": "Get",
         "responses": {
           "200": {
@@ -25,7 +28,10 @@
     },
     "/sum/{a}/{b}": {
       "get": {
-        "operationId": "GetSum",
+        "tags": [
+          "Calculator"
+        ],
+        "operationId": "CalculateSum",
         "parameters": [
           {
             "name": "a",

@@ -7,22 +7,22 @@
     <DependsOnNETStandard>true</DependsOnNETStandard>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AssemblyTitle>NSwagStudio</AssemblyTitle>
-    <Company>Rico Suter</Company>
     <Product>NSwagStudio</Product>
-    <Copyright>Copyright © Rico Suter, 2016</Copyright>
-    <AssemblyVersion>13.14.5</AssemblyVersion>
-    <FileVersion>13.14.5</FileVersion>
     <UseWPF>true</UseWPF>
     <StartupObject>NSwagStudio.App</StartupObject>
     <ApplicationIcon>ApplicationIcon.ico</ApplicationIcon>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration))' == 'Debug' ">
     <DebugType>full</DebugType>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -36,13 +36,13 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="nswag.cmd" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="App.config" CopyToOutputDirectory="PreserveNewest" SubType="Designer" />
     <Content Include="ApplicationIcon.ico" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj" />
@@ -54,25 +54,26 @@
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="5.0.3" />
-    <PackageReference Include="DotLiquid" Version="2.0.385" />
     <PackageReference Include="Expression.Interaction" Version="3.0.40218" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="MyToolkit" Version="2.5.16" />
     <PackageReference Include="MyToolkit.Extended" Version="2.5.16" />
-    <PackageReference Include="Namotion.Reflection" Version="2.0.3" />
+    <PackageReference Include="Namotion.Reflection" Version="2.0.8" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.5.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.5.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.5.2" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.5.2" />
+    <PackageReference Include="NJsonSchema" Version="10.6.4" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.6.4" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.6.4" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.6.4" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.0" />
   </ItemGroup>
+
 </Project>

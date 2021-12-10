@@ -81,3 +81,4 @@ _ReSharper.Caches/
 .nuke/temp
 
 /artifacts
+*.binlog

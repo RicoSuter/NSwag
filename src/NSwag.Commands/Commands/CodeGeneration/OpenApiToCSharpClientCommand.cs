@@ -270,8 +270,6 @@ namespace NSwag.Commands.CodeGeneration
                 }
                 else
                 {
-                    // when generating single file allow caching
-                    Settings.OutputFilePath = OutputFilePath;
                     return new Dictionary<string, string>
                     {
                         { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }

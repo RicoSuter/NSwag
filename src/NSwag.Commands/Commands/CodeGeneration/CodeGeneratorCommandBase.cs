@@ -41,13 +41,6 @@ namespace NSwag.Commands.CodeGeneration
         [Argument(Name = "EnumNameGeneratorType", IsRequired = false, Description = "The custom IEnumNameGenerator implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName').")]
         public string EnumNameGeneratorType { get; set; }
 
-        [Argument(Name = nameof(ChecksumCacheEnabled), IsRequired = false, Description = "Whether output generation can be skipped if source document checksum matches existing output (default: false).")]
-        public bool ChecksumCacheEnabled
-        {
-            get { return Settings.ChecksumCacheEnabled; }
-            set { Settings.ChecksumCacheEnabled = value; }
-        }
-
         // TODO: Use InitializeCustomTypes method
         public void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
