@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -17,6 +17,16 @@
   <ItemGroup>
     <PackageDownload Include="Microsoft.TestPlatform" Version="[17.0.0]" />
     <PackageDownload Include="NuGet.CommandLine" Version="[6.0.0]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\NSwag.Commands\NSwag.Commands.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Build.*.cs">
+      <DependentUpon>Build.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

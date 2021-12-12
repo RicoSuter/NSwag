@@ -23,5 +23,7 @@
   <files>
     <file src="NSwag.ApiDescription.Client.props" target="build" />
     <file src="NSwag.ApiDescription.Client.targets" target="build" />
+    <file src="OpenApiItemsExtensionSchema.xml" target="build" />
+    <file src="OpenApiReferenceUpdate.targets" target="build" />
   </files>
 </package>

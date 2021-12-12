@@ -89,6 +89,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "GeneratePageSchema",
               "InstallDependencies",
               "IntegrationTest",
               "Pack",
@@ -112,6 +113,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "GeneratePageSchema",
               "InstallDependencies",
               "IntegrationTest",
               "Pack",

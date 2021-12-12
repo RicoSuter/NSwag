@@ -10,6 +10,14 @@
         Condition="'$(TargetFramework)' == 'net6.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net60)/dotnet-nswag.dll"</_NSwagCommand>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)OpenApiItemsExtensionSchema.xml">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+  
+  <Import Project="OpenApiReferenceUpdate.targets" />
+
   <!-- OpenApiReference support for C# -->
 
   <Target Name="GenerateNSwagCSharp">
