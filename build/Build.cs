@@ -178,6 +178,9 @@ partial class Build : NukeBuild
                     .SetProperty("Deterministic", IsServerBuild)
                     .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
             );
+
+            // later steps need to have binaries in correct places
+            PublishAndCopyConsoleProjects();
         });
 
     // logic from 02_RunUnitTests.bat
@@ -322,6 +325,61 @@ partial class Build : NukeBuild
             NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
             NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
         });
+
+    void PublishAndCopyConsoleProjects()
+    {
+        var consoleCoreProject = Solution.GetProject("NSwag.ConsoleCore");
+        var consoleX86Project = Solution.GetProject("NSwag.Console.x86");
+        var consoleProject = Solution.GetProject("NSwag.Console");
+
+        Info("Publish command line projects");
+
+        void PublishConsoleProject(Nuke.Common.ProjectModel.Project project, string[] targetFrameworks)
+        {
+            foreach (var targetFramework in targetFrameworks)
+            {
+                DotNetPublish(s => s
+                    .SetProject(project)
+                    .SetFramework(targetFramework)
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetDeterministic(IsServerBuild)
+                    .SetContinuousIntegrationBuild(IsServerBuild)
+                );
+            }
+        }
+
+        PublishConsoleProject(consoleX86Project, new[] { "net461" });
+        PublishConsoleProject(consoleProject, new[] { "net461" });
+        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp2.1", "netcoreapp3.1", "net5.0", "net6.0" });
+
+        void CopyConsoleBinaries(AbsolutePath target)
+        {
+            // take just exe from X86 as other files are shared with console project
+            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net461" / "publish";
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
+
+            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net461" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
+
+            var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1" / "publish", target / "NetCore21");
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0" / "publish", target / "Net50");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
+        }
+
+        Info("Copy published Console for studio");
+
+        CopyConsoleBinaries(target: NSwagStudioBinaries);
+
+        Info("Copy published Console for NPM");
+
+        CopyConsoleBinaries(target: SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+    }
+
 
     DotNetBuildSettings BuildDefaults(DotNetBuildSettings s)
     {
