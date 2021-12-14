@@ -162,6 +162,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             EnsureCleanDirectory(SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+            EnsureCleanDirectory(NSwagStudioBinaries);
 
             Info("Build and copy full .NET command line with configuration " + Configuration);
 
@@ -371,7 +372,7 @@ partial class Build : NukeBuild
             CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
         }
 
-        Info("Copy published Console for studio");
+        Info("Copy published Console for NSwagStudio");
 
         CopyConsoleBinaries(target: NSwagStudioBinaries);
 

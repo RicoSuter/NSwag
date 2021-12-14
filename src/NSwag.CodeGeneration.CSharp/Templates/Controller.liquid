@@ -4,7 +4,9 @@ public interface I{{ Class }}Controller
 {
 {%-     for operation in Operations %}
 {%-         if operation.HasSummary %}
-    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
+    /// <summary>
+    /// {{ operation.Summary | csharpdocs }}
+    /// </summary>
 {%-         endif %}
 {%-         for parameter in operation.Parameters %}
 {%-             if parameter.HasDescription %}
@@ -44,7 +46,9 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
 
 {%     for operation in Operations -%}
 {%         if operation.HasSummary -%}
-    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
+    /// <summary>
+    /// {{ operation.Summary | csharpdocs }}
+    /// </summary>
 {%         endif -%}
 {%         for parameter in operation.Parameters -%}
 {%             if parameter.HasDescription -%}
@@ -94,7 +98,9 @@ public abstract class {{ Class }}ControllerBase : {% if HasBaseClass %}{{ BaseCl
 {
 {%     for operation in Operations -%}
 {%         if operation.HasSummary -%}
-    /// <summary>{{ operation.Summary | csharpdocs }}</summary>
+    /// <summary>
+    /// {{ operation.Summary | csharpdocs }}
+    /// </summary>
 {%         endif -%}
 {%         for parameter in operation.Parameters -%}
 {%             if parameter.HasDescription -%}
