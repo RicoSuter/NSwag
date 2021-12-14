@@ -123,16 +123,14 @@ namespace {{ Namespace }} {
 {%- endif -%}
 {% if RequiresExceptionClass -%}
 {% if ExportTypes %}export {% endif %}class {{ ExceptionClassName }} extends Error {
-    message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
     result: any;
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
-        super();
+        super(message);
 
-        this.message = message;
         this.status = status;
         this.response = response;
         this.headers = headers;
