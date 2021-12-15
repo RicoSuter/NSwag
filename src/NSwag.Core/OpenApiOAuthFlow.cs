@@ -27,7 +27,7 @@ namespace NSwag
         public string RefreshUrl { get; set; }
 
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
-        [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, Required = Required.Always)]
+        [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, Required = Required.DisallowNull)]
         public IDictionary<string, string> Scopes { get; set; } = new Dictionary<string, string>();
     }
 }
