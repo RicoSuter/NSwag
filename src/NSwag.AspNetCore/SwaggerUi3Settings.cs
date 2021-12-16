@@ -104,6 +104,13 @@ namespace NSwag.AspNetCore
             set => AdditionalSettings["tagsSorter"] = value;
         }
 
+        /// <summary>Specifies whether to persist authorization data in Swagger UI 3.</summary>
+        public bool PersistAuthorization
+        {
+            get => (bool)AdditionalSettings["persistAuthorization"];
+            set => AdditionalSettings["persistAuthorization"] = value;
+        }
+
         /// <summary>Gets a value indicating whether to send credentials from the Swagger UI 3 to the backend.</summary>
         public bool WithCredentials
         {
