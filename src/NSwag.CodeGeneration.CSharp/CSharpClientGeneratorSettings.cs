@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.CSharp
         public bool GenerateSyncMethods { get; set; }
 
         /// <summary>
-        /// Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient 
+        /// Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient
         /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
         /// </summary>
         public string HttpClientType { get; set; }
@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.CSharp
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods. 
+        /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods.
         /// If value is set to true, PrepareRequestAsync and ProcessResponseAsync methods must be implemented as part of the client base class (if it has one) or as part of the partial client class. 
         /// If value is set to false, PrepareRequest and ProcessResponse methods will be partial methods, and implement them is optional.
         /// </summary>
