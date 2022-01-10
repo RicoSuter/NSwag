@@ -150,5 +150,25 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains("public partial interface IFooClient : IClientBase", code);
         }
+
+        [Fact]
+        public async Task When_exception_factory_is_specified_then_exceptions_are_sent_to_it()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                ExceptionClass = "MyCustomException",
+                ExceptionFactory = "ConvertExceptionToCustomException"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("throw ConvertExceptionToCustomException(new MyCustomException(", code);
+        }
     }
 }

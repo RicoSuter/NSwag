@@ -7,7 +7,7 @@ disposeClient_ = false; disposeResponse_ = false; // response and client are dis
 return fileResponse_;
 {%         else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+throw {{ ExceptionFactory }}(new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null));
 {%         endif -%}
 {%     elsif response.IsPlainText -%}
 var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -19,14 +19,14 @@ return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, hea
 return result_;
 {%             endif -%}
 {%         else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
+throw {{ ExceptionFactory }}(new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null));
 {%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
 {%         if response.IsNullable == false -%}
 if (objectResponse_.Object == null)
 {
-    throw new {{ ExceptionClass }}("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+    throw {{ ExceptionFactory }}(new {{ ExceptionClass }}("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null));
 }
 {%         endif -%}
 {%         if response.IsSuccess -%}
@@ -43,12 +43,12 @@ responseObject_.Data.Add("HttpStatus", status_.ToString());
 responseObject_.Data.Add("HttpHeaders", headers_);
 responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
 {%                 if WrapDtoExceptions -%}
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, responseObject_);
+throw {{ ExceptionFactory }}(new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, responseObject_));
 {%                 else -%}
 throw responseObject_;
 {%                 endif -%}
 {%             else -%}
-throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+throw {{ ExceptionFactory }}(new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null));
 {%             endif -%}
 {%         endif -%}
 {%     endif -%}
@@ -68,5 +68,5 @@ return;
 {%     endif -%}
 {% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
 string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseText_, headers_, null);
+throw {{ ExceptionFactory }}(new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseText_, headers_, null));
 {% endif %}
