@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the full name of the base interface.</summary>
         public string ClientBaseInterface { get; set; }
 
-        /// <summary>Gets or sets the full name of the configuration class ( <see cref="ClientBaseClass"/> must be set).</summary>
+        /// <summary>Gets or sets the full name of the configuration class (<see cref="ClientBaseClass"/> must be set).</summary>
         public string ConfigurationClass { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
@@ -83,8 +83,10 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to generate synchronous methods (not recommended, default: false).</summary>
         public bool GenerateSyncMethods { get; set; }
 
-        /// <summary>Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient 
-        /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.</summary>
+        /// <summary>
+        /// Gets or sets the HttpClient type which will be used in the generation of the client code. By default the System.Net.Http.HttpClient 
+        /// will be used, but this can be overridden. Just keep in mind that the type you specify has the same default HttpClient method signatures.
+        /// </summary>
         public string HttpClientType { get; set; }
 
         /// <summary>Gets or sets the format for DateTime type method parameters (default: "s").</summary>
@@ -96,9 +98,11 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods. 
+        /// <summary>
+        /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods. 
         /// If value is set to true, PrepareRequestAsync and ProcessResponseAsync methods must be implemented as part of the client base class (if it has one) or as part of the partial client class. 
-        /// If value is set to false, PrepareRequest and ProcessResponse methods will be partial methods, and implement them is optional.</summary>
+        /// If value is set to false, PrepareRequest and ProcessResponse methods will be partial methods, and implement them is optional.
+        /// </summary>
         public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to generate different request and response serialization settings (default: false).</summary>
@@ -110,7 +114,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
         public string QueryNullValue { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property(default: false).</summary>
+        /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
     }
 }
