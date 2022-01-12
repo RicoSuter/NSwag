@@ -15,7 +15,11 @@ return Promise.resolve<{{ operation.ResultType }}>(<any>null);
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
 {%     else -%}
 {%         if Framework.UseRxJs7 -%}
-return {{ Framework.RxJs.ObservableOfMethod }}(<any>null);
+{%             if operation.ResultIsArray -%}
+    return {{ Framework.RxJs.ObservableOfMethod }}(<any {% raw %}[]{% endraw %}>null);{
+{%             else -%}
+    return {{ Framework.RxJs.ObservableOfMethod }}(<any>null);{
+{%             endif -%}
 {%         else -%}
 return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
 {%         endif -%}

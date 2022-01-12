@@ -83,6 +83,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 }
             }
         }
+        
+        /// <summary>Indicates if result type is array.</summary>
+        public bool ResultIsArray => ResultType.Contains("[]");
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
