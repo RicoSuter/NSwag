@@ -6,7 +6,7 @@ using Nuke.Common.Utilities;
 
 [CustomGitHubActionsAttribute(
     "pr",
-    GitHubActionsImage.WindowsLatest,
+    GitHubActionsImage.WindowsServer2022,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
     OnPullRequestBranches = new[] { "master", "main" },
@@ -18,7 +18,7 @@ using Nuke.Common.Utilities;
 ]
 [CustomGitHubActionsAttribute(
     "build",
-    GitHubActionsImage.WindowsLatest,
+    GitHubActionsImage.WindowsServer2022,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
     OnPushBranches = new[] { "master", "main" },
