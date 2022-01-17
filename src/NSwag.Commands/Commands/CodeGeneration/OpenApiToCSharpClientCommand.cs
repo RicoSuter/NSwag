@@ -169,7 +169,7 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.ExposeJsonSerializerSettings; }
             set { Settings.ExposeJsonSerializerSettings = value; }
         }
-        
+
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier
         {
@@ -254,28 +254,23 @@ namespace NSwag.Commands.CodeGeneration
             return result;
         }
 
-        public Task<Dictionary<string, string>> RunAsync()
+        public async Task<Dictionary<string, string>> RunAsync()
         {
-            return Task.Run(async () =>
-            {
-                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new CSharpClientGenerator(document, Settings);
+            var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+            var clientGenerator = new CSharpClientGenerator(document, Settings);
 
-                if (GenerateContractsOutput)
-                {
-                    var result = new Dictionary<string, string>();
-                    GenerateContracts(result, clientGenerator);
-                    GenerateImplementation(result, clientGenerator);
-                    return result;
-                }
-                else
-                {
-                    return new Dictionary<string, string>
-                    {
-                        { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
-                    };
-                }
-            });
+            if (GenerateContractsOutput)
+            {
+                var result = new Dictionary<string, string>();
+                GenerateContracts(result, clientGenerator);
+                GenerateImplementation(result, clientGenerator);
+                return result;
+            }
+
+            return new Dictionary<string, string>
+            {
+                { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
+            };
         }
 
         private void GenerateImplementation(Dictionary<string, string> result, CSharpClientGenerator clientGenerator)

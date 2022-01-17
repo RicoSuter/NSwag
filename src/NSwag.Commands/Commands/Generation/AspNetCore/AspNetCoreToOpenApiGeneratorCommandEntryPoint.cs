@@ -8,7 +8,6 @@
 
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 #pragma warning disable CS0618
@@ -28,8 +27,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             var serviceProvider = ServiceProviderResolver.GetServiceProvider(assembly);
 
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var document = Task.Run(async () =>
-                await command.GenerateDocumentAsync(assemblyLoader, serviceProvider, previousWorkingDirectory)).GetAwaiter().GetResult();
+            var document = command.GenerateDocumentAsync(assemblyLoader, serviceProvider, previousWorkingDirectory).GetAwaiter().GetResult();
 
             var json = command.UseDocumentProvider ? document.ToJson() : document.ToJson(command.OutputType);
 

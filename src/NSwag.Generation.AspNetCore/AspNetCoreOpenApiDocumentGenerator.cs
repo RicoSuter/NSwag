@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -73,7 +74,7 @@ namespace NSwag.Generation.AspNetCore
                     // Try to load ASP.NET Core 3 options
                     var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
                     var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                    return (dynamic)sp?.GetService(optionsType);
+                    return sp?.GetService(optionsType);
                 }
                 catch
                 {
@@ -227,10 +228,13 @@ namespace NSwag.Generation.AspNetCore
                             path = "/" + path;
                         }
 
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Where(p =>
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant();
+                        if (httpMethod == null)
                         {
-                            return p.Source == Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Body;
-                        }).Count() > 0 ? OpenApiOperationMethod.Post : OpenApiOperationMethod.Get);
+                            httpMethod = apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
+                                ? OpenApiOperationMethod.Post
+                                : OpenApiOperationMethod.Get;
+                        }
 
                         var operationDescription = new OpenApiOperationDescription
                         {
@@ -293,29 +297,39 @@ namespace NSwag.Generation.AspNetCore
             OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
         {
             var addedOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
-            var allOperations = operations.Select(t => t.Item1).ToList();
+            var allOperations = new List<OpenApiOperationDescription>(operations.Count);
+            allOperations.AddRange(operations.Select(t => t.Item1));
+
             foreach (var tuple in operations)
             {
                 var operation = tuple.Item1;
                 var apiDescription = tuple.Item2;
                 var method = tuple.Item3;
 
-                var addOperation = RunOperationProcessors(document, apiDescription, controllerType, method, operation,
-                    allOperations, swaggerGenerator, schemaResolver);
+                var addOperation = RunOperationProcessors(
+                    document,
+                    apiDescription,
+                    controllerType,
+                    method,
+                    operation,
+                    allOperations,
+                    swaggerGenerator,
+                    schemaResolver);
+
                 if (addOperation)
                 {
                     var path = operation.Path.Replace("//", "/");
-                    if (!document.Paths.ContainsKey(path))
+                    if (!document.Paths.TryGetValue(path, out var pathItem))
                     {
-                        document.Paths[path] = new OpenApiPathItem();
+                        document.Paths[path] = pathItem = new OpenApiPathItem();
                     }
 
-                    if (document.Paths[path].ContainsKey(operation.Method))
+                    if (pathItem.ContainsKey(operation.Method))
                     {
                         throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times.");
                     }
 
-                    document.Paths[path][operation.Method] = operation.Operation;
+                    pathItem[operation.Method] = operation.Operation;
                     addedOperations.Add(tuple);
                 }
             }
@@ -323,7 +337,8 @@ namespace NSwag.Generation.AspNetCore
             return addedOperations;
         }
 
-        private void UpdateConsumesAndProduces(OpenApiDocument document,
+        private static void UpdateConsumesAndProduces(
+            OpenApiDocument document,
             List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>> allOperations)
         {
             // TODO: Move to SwaggerGenerator class?
@@ -340,13 +355,25 @@ namespace NSwag.Generation.AspNetCore
                 .Distinct()
                 .ToArray();
 
-            foreach (var tuple in allOperations)
+            foreach (var operation in allOperations)
             {
-                var consumes = tuple.Item1.Operation.Consumes.Distinct().ToArray();
-                tuple.Item1.Operation.Consumes = consumes.Any(c => !document.Consumes.Contains(c)) ? consumes.ToList() : null;
+                var description = operation.Item1;
 
-                var produces = tuple.Item1.Operation.Produces.Distinct().ToArray();
-                tuple.Item1.Operation.Produces = produces.Any(c => !document.Produces.Contains(c)) ? produces.ToList() : null;
+                List<string> consumes = null;
+                if (description.Operation.Consumes.Count > 0
+                    && (document.Consumes.Count == 0 || description.Operation.Consumes.Any(c => !document.Consumes.Contains(c))))
+                {
+                    consumes = description.Operation.Consumes.Distinct().ToList();
+                }
+                description.Operation.Consumes = consumes;
+
+                List<string> produces = null;
+                if (description.Operation.Produces.Count > 0
+                    && (document.Produces.Count == 0 || description.Operation.Produces.Any(c => !document.Produces.Contains(c))))
+                {
+                    produces = description.Operation.Produces.Distinct().ToList();
+                }
+                description.Operation.Produces = produces;
             }
         }
 
