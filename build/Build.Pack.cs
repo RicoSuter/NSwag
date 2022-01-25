@@ -11,7 +11,6 @@ using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
 
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Logger;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
@@ -69,7 +68,7 @@ public partial class Build
                 );
             }
 
-            Info("Build WiX installer");
+            Serilog.Log.Information("Build WiX installer");
 
             EnsureCleanDirectory(SourceDirectory / "NSwagStudio.Installer" / "bin");
 
@@ -88,7 +87,7 @@ public partial class Build
             );
 
             // gather relevant artifacts
-            Info("Package nuspecs");
+            Serilog.Log.Information("Package nuspecs");
 
             var nuspecs = new[]
             {

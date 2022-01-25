@@ -28,9 +28,9 @@ on:
       - '!**/*.md'
 
 jobs:
-  windows-latest:
-    name: windows-latest
-    runs-on: windows-latest
+  windows-2022:
+    name: windows-2022
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-dotnet@v1
