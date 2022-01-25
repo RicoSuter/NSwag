@@ -140,7 +140,13 @@ namespace NSwag.Commands
             try
             {
                 // Get the IServiceProvider from the host
+#if NET6_0
+                var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
+                // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
+                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+#else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
+#endif
 
                 // Wait for the application to start so that we know it's fully configured. This is important because
                 // we need the middleware pipeline to be configured before we access the ISwaggerProvider in
