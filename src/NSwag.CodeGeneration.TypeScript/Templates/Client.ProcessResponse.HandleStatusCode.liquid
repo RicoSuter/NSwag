@@ -14,7 +14,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}
 {%         elsif Framework.IsAngularJS -%}
 return this.q.resolve(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
 {%         elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers }));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers }));
 {%         else -%}
 return response.blob().then(blob => { return new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: blob, status: status, headers: _headers }); });
 {%         endif -%}
@@ -24,7 +24,7 @@ return {{ Framework.RxJs.ObservableOfMethod }}({ fileName: fileName, data: {% if
 {%         elsif Framework.IsAngularJS -%}
 return this.q.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
 {%         elsif Framework.IsAxios -%}
-return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data]), headers: _headers });
+return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
 {%         else -%}
 return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
 {%         endif -%}
