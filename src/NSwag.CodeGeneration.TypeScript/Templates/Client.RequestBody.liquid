@@ -27,7 +27,7 @@ else if ({{ parameter.VariableName }} !== undefined)
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => {
         for (let attr_ in item_) {
            if (item_.hasOwnProperty(attr_)) {
-                content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (<any>item_)[attr_]) + "&";
+                content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (item_ as any)[attr_]) + "&";
            }
         }
     });

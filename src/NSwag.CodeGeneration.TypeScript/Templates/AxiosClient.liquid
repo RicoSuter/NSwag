@@ -39,7 +39,7 @@
         {% template Client.RequestBody %}
 
 {%     endif -%}
-        let options_ = <AxiosRequestConfig>{
+        let options_: AxiosRequestConfig = {
 {%     if operation.HasBody -%}
             data: content_,
 {%     endif -%}
