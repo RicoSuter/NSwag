@@ -235,6 +235,14 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.SerializeTypeInformation = value; }
         }
 
+        [Argument(Name = "ObjectInQueryRenderOnlyProperties", IsRequired = false,
+            Description = "If true renders just properties as query parameter in url. Example pageable.page ans pageable.size will be in url as &page=0&size=5 (default: &pageable[page]=0&pageable[size]=5).")]
+        public bool ObjectInQueryRenderOnlyProperties
+        {
+            get { return Settings.ObjectInQueryRenderOnlyProperties; }
+            set { Settings.ObjectInQueryRenderOnlyProperties = value; }
+        }
+
         [Argument(Name = nameof(QueryNullValue), IsRequired = false,
             Description = "The null value used for query parameters which are null (default: '').")]
         public string QueryNullValue

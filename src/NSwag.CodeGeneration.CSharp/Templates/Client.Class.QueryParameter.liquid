@@ -14,7 +14,11 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.
 {%     for property in parameter.PropertyNames -%}
 if ({{parameter.Name}}.{{property.Name}} != null)
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]") + "=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+    {% if ObjectInQueryRenderOnlyProperties -%}  
+        urlBuilder_.Append(System.Uri.EscapeDataString("{{property.Key}}") + "=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");  
+    {% else -%}  
+        urlBuilder_.Append(System.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]") + "=").Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+    {% endif -%}
 }
 {%     endfor -%}
 {%     for property in parameter.CollectionPropertyNames -%}

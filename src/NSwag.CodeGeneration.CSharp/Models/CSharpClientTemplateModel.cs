@@ -143,6 +143,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto).</summary>
         public bool SerializeTypeInformation => _settings.SerializeTypeInformation;
 
+        /// <summary>Gets or sets a value indicating whether to render just properties. Example when set to true pageable.page and pageable.size will be in url as property.Key=value (default: parameter.Name[property.Key].</summary>
+        public bool ObjectInQueryRenderOnlyProperties => _settings.ObjectInQueryRenderOnlyProperties;
+
         /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
         public string QueryNullValue => _settings.QueryNullValue;
 

@@ -16,6 +16,11 @@
 
     <GroupBox Header="DTO Classes" Margin="0,0,0,12">
         <StackPanel Margin="4,8,4,-8">
+
+            <CheckBox IsChecked="{Binding Command.ObjectInQueryRenderOnlyProperties, Mode=TwoWay}" Margin="0,0,0,12">
+                <TextBlock Text="For 'deepObject' set as 'in query' render pure property names and values in query parameters of url. (default: parameter.Name[property.Key])" ToolTip="ObjectInQueryRenderOnlyProperties" TextWrapping="Wrap" />
+            </CheckBox>
+
             <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12">
                 <TextBlock Text="Generate DTO Types (e.g. request and response classes)" ToolTip="GenerateDtoTypes" TextWrapping="Wrap" />
             </CheckBox>

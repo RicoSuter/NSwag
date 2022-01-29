@@ -112,5 +112,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to render just properties. Example when set to true pageable.page and pageable.size will be in url as property.Key=value (default: parameter.Name[property.Key].</summary>
+        public bool ObjectInQueryRenderOnlyProperties { get; set; }
     }
 }
