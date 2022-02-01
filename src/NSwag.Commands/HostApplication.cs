@@ -47,7 +47,7 @@ namespace NSwag.Commands
                             null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
+#if NET5_0_OR_GREATER || NETCOREAPP3_1 || NETCOREAPP3_0
                     else
                     {
                         var createHostMethod =
@@ -140,7 +140,7 @@ namespace NSwag.Commands
             try
             {
                 // Get the IServiceProvider from the host
-#if NET6_0
+#if NET6_0_OR_GREATER
                 var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
                 // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
                 var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;

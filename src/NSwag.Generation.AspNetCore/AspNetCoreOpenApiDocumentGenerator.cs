@@ -83,7 +83,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NET6_0 || NET5_0 || NETCOREAPP3_1
+#if NET5_0_OR_GREATER || NETCOREAPP3_1
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
             object options = null;
@@ -499,7 +499,7 @@ namespace NSwag.Generation.AspNetCore
             }
             else
             {
-#if NET6_0 || NET5_0
+#if NET5_0_OR_GREATER
                 var routeName = apiDescription
                     .ActionDescriptor
                     .EndpointMetadata?
