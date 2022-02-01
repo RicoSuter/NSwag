@@ -21,7 +21,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <inheritdocs />
         public override bool Process(OperationProcessorContext context)
         {
-#if NET6_0
+#if NET6_0_OR_GREATER
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             var tagsAttributes = aspNetCoreContext
                 .ApiDescription?

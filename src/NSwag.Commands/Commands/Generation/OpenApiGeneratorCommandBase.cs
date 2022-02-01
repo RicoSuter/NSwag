@@ -247,7 +247,7 @@ namespace NSwag.Commands.Generation
         public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0 
+#if NET6_0_OR_GREATER || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0 
             JsonSerializerSettings serializerSettings;
             try
             {
