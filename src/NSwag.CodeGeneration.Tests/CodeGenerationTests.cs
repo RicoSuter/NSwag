@@ -226,6 +226,36 @@ public static Person FromJson(string data)
             Assert.False(string.IsNullOrWhiteSpace(operationName));
         }
 
+        [Theory(DisplayName = "Ensure expected client name generation with different operationIds when using the MultipleClientsFromOperationId behavior")]
+        [InlineData("OperationId_SecondUnderscore_Test", "SecondUnderscore")]
+        [InlineData("OperationId_MultipleUnderscores_Client_Test", "Client")]
+        [InlineData("OperationId_Test", "OperationId")]
+        [InlineData("UnderscoreLast_", "UnderscoreLast")]
+        [InlineData("_UnderscoreFirst", "")]
+        [InlineData("NoUnderscore", "")]
+        public void When_using_MultipleClientsFromOperationId_then_ensure_that_underscores_are_handled_as_expected(string operationId, string expectedClientName)
+        {
+            // Arrange
+            var operation = new OpenApiOperation
+            {
+                OperationId = operationId
+            };
+            var generator = new MultipleClientsFromOperationIdOperationNameGenerator();
+
+            // Arrange - "unused"
+            // We don't need these values, because internally GetClientName only uses the operation
+            // Use default values to prevent future exceptions when e.g. any null validation would be added
+            var document = new OpenApiDocument();
+            var path = string.Empty;
+            var httpMethod = string.Empty;
+
+            // Act
+            string clientName = generator.GetClientName(document, path, httpMethod, operation);
+
+            // Assert
+            Assert.Equal(expectedClientName, clientName);
+        }
+
         private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();
