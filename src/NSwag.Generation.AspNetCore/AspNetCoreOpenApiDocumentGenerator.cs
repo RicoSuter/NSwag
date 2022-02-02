@@ -83,7 +83,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NET5_0_OR_GREATER || NETCOREAPP3_1
+#if NETCOREAPP3_1_OR_GREATER
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
             object options = null;
