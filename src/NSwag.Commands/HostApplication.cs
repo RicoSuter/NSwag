@@ -47,7 +47,7 @@ namespace NSwag.Commands
                             null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-#if NET5_0_OR_GREATER || NETCOREAPP3_1 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =

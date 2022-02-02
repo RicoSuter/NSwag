@@ -25,7 +25,7 @@ using NSwag.Generation;
 using NJsonSchema.Generation;
 using Namotion.Reflection;
 
-#if NET5_0_OR_GREATER || NETCOREAPP || NETSTANDARD
+#if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
 #endif
 
@@ -172,7 +172,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NET5_0_OR_GREATER || NETCOREAPP || NETSTANDARD
+#elif NETCOREAPP || NETSTANDARD
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
