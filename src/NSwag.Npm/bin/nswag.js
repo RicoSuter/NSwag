@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "Core21";
+var defaultCoreVersion = "Net60";
 var supportedCoreVersions = [
-    { ver: '2.1', dir: "NetCore21", },
-    { ver: '2.2', dir: "NetCore22", },
-    { ver: '3.0', dir: "NetCore30", },
-    { ver: '3.1', dir: "NetCore31", },
-    { ver: '5.0', dir: "Net50", },
     { ver: '6.0', dir: "Net60", },
+    { ver: '5.0', dir: "Net50", },
+    { ver: '3.1', dir: "NetCore31", },
+    { ver: '3.0', dir: "NetCore30", },
+    { ver: '2.2', dir: "NetCore22", },
+    { ver: '2.1', dir: "NetCore21", },
 ];
 
 // Initialize
@@ -23,7 +23,7 @@ args = args.replace("--core 2.1", "/runtime:NetCore21");
 args = args.replace("--core 3.1", "/runtime:NetCore31");
 args = args.replace("--core 5.0", "/runtime:Net50");
 args = args.replace("--core 6.0", "/runtime:Net60");
-args = args.replace("--core", "/runtime:Net" + defaultCoreVersion);
+args = args.replace("--core", "/runtime:" + defaultCoreVersion);
 
 // Search for full .NET installation
 var hasFullDotNet = false;
