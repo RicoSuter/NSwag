@@ -94,12 +94,9 @@ namespace NSwag.Commands.CodeGeneration
 
         public async Task<string> RunAsync()
         {
-            return await Task.Run(async () =>
-            {
-                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new CSharpControllerGenerator(document, Settings);
-                return clientGenerator.GenerateFile();
-            });
+            var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+            var clientGenerator = new CSharpControllerGenerator(document, Settings);
+            return clientGenerator.GenerateFile();
         }
     }
 }

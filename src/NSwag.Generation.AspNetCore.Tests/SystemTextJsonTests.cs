@@ -24,12 +24,12 @@ namespace NSwag.Generation.AspNetCore.Tests
             var serviceProvider = services.BuildServiceProvider();
 
             // Act
-            var generator = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
-            await generator.Generator.GenerateAsync(serviceProvider);
-            var settings = generator.Generator.Settings;
+            var registration = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
+            var generator = new AspNetCoreOpenApiDocumentGenerator(registration.Settings);
+            await generator.GenerateAsync(serviceProvider);
 
             // Assert
-            Assert.Contains(settings.SerializerSettings.Converters, c => c is StringEnumConverter);
+            Assert.Contains(registration.Settings.SerializerSettings.Converters, c => c is StringEnumConverter);
         }
     }
 }

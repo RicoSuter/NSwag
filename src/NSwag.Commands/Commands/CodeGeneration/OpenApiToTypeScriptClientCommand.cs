@@ -401,22 +401,19 @@ namespace NSwag.Commands.CodeGeneration
             return code;
         }
 
-        public Task<string> RunAsync()
+        public async Task<string> RunAsync()
         {
-            return Task.Run(async () =>
+            var additionalCode = ExtensionCode ?? string.Empty;
+            if (DynamicApis.FileExists(additionalCode))
             {
-                var additionalCode = ExtensionCode ?? string.Empty;
-                if (DynamicApis.FileExists(additionalCode))
-                {
-                    additionalCode = DynamicApis.FileReadAllText(additionalCode);
-                }
+                additionalCode = DynamicApis.FileReadAllText(additionalCode);
+            }
 
-                Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
+            Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;
 
-                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new TypeScriptClientGenerator(document, Settings);
-                return clientGenerator.GenerateFile();
-            });
+            var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+            var clientGenerator = new TypeScriptClientGenerator(document, Settings);
+            return clientGenerator.GenerateFile();
         }
     }
 }

@@ -41,7 +41,7 @@
         {% template Client.RequestBody %}
 {%     endif -%}
 
-        var options_ = <ng.IRequestConfig>{
+        var options_: ng.IRequestConfig = {
             url: url_,
             method: "{{ operation.HttpMethodUpper | upcase }}",
 {%     if operation.IsFile -%}

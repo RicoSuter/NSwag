@@ -46,7 +46,7 @@ else if ({{ parameter.VariableName }} !== undefined)
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
         for (let attr in item)
 			if (item.hasOwnProperty(attr)) {
-				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
 			}
     });
 {%    elsif parameter.IsDateOrDateTime -%}
