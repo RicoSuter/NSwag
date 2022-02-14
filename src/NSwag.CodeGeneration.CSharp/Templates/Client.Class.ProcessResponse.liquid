@@ -67,6 +67,14 @@ return;
 {%         endif -%}
 {%     endif -%}
 {% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
+{%      if response.IsSuccessStatusCode and AllowUntyped2xxResponse -%}
+{%          if operation.WrapResponse -%}
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%          else -%}
+return {{ operation.UnwrappedResultDefaultValue }};
+{%          endif -%}
+{%      else -%}
 string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseText_, headers_, null);
+{%      endif -%}
 {% endif %}
