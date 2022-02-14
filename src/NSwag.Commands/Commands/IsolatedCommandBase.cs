@@ -44,7 +44,7 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected async Task<TResult> RunIsolatedAsync(string configurationFile)
+        protected Task<TResult> RunIsolatedAsync(string configurationFile)
         {
             var assemblyDirectory = AssemblyPaths.Any() ? Path.GetDirectoryName(Path.GetFullPath(PathUtilities.ExpandFileWildcards(AssemblyPaths).First())) : configurationFile;
             var bindingRedirects = GetBindingRedirects();
@@ -56,15 +56,15 @@ namespace NSwag.Commands
                 ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
             }
 
-            using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader<TResult>>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
+            using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
             {
-                return await Task.Run(() => isolated.Object.Run(GetType().FullName, JsonConvert.SerializeObject(this), AssemblyPaths, ReferencePaths)).ConfigureAwait(false);
+                return Task.FromResult(isolated.Object.Run(GetType().FullName, JsonConvert.SerializeObject(this), AssemblyPaths, ReferencePaths));
             }
         }
 
         protected abstract Task<TResult> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader);
 
-        private class IsolatedCommandAssemblyLoader<TResult> : AssemblyLoader.AssemblyLoader
+        private class IsolatedCommandAssemblyLoader : AssemblyLoader.AssemblyLoader
         {
             internal TResult Run(string commandType, string commandData, string[] assemblyPaths, string[] referencePaths)
             {

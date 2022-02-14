@@ -320,7 +320,7 @@ namespace NSwag.Generation.WebApi.Processors
         private OpenApiParameter AddFileParameter(OperationProcessorContext context, ContextualParameterInfo contextualParameter, bool isFileArray)
         {
             // TODO: Check if there is a way to control the property name
-            var parameterDocumentation = contextualParameter.GetDescription();
+            var parameterDocumentation = contextualParameter.GetDescription(_settings);
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                 contextualParameter.Name, parameterDocumentation, contextualParameter);
 
@@ -373,7 +373,7 @@ namespace NSwag.Generation.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = isRequired,
-                    Description = contextualParameter.GetDescription()
+                    Description = contextualParameter.GetDescription(_settings)
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -392,7 +392,7 @@ namespace NSwag.Generation.WebApi.Processors
                     },
                     IsNullableRaw = isNullable,
                     IsRequired = isRequired,
-                    Description = contextualParameter.GetDescription()
+                    Description = contextualParameter.GetDescription(_settings)
                 };
                 operation.Parameters.Add(operationParameter);
             }
@@ -404,7 +404,7 @@ namespace NSwag.Generation.WebApi.Processors
                     Kind = OpenApiParameterKind.Body,
                     IsRequired = isRequired,
                     IsNullableRaw = isNullable,
-                    Description = contextualParameter.GetDescription(),
+                    Description = contextualParameter.GetDescription(_settings),
                     Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                         contextualParameter, isNullable, schemaResolver: context.SchemaResolver)
                 };
@@ -421,7 +421,7 @@ namespace NSwag.Generation.WebApi.Processors
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
             {
-                var parameterDocumentation = contextualParameter.GetDescription();
+                var parameterDocumentation = contextualParameter.GetDescription(_settings);
                 var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
                     name, parameterDocumentation, contextualParameter);
 
@@ -453,7 +453,7 @@ namespace NSwag.Generation.WebApi.Processors
                             propertyName = fromHeaderAttribute?.Name;
                         }
 
-                        var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary();
+                        var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary(_settings.ResolveExternalXmlDocumentation);
                         var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(propertyName, propertySummary, contextualProperty.AccessorType);
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute

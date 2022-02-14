@@ -50,9 +50,9 @@ namespace NSwag.Commands
         /// <summary>Loads an existing NSwagDocument.</summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>The document.</returns>
-        public static async Task<NSwagDocument> LoadAsync(string filePath)
+        public static Task<NSwagDocument> LoadAsync(string filePath)
         {
-            return await LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
+            return LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
             {
                 { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
                 { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
@@ -64,9 +64,9 @@ namespace NSwag.Commands
         /// <param name="filePath">The file path.</param>
         /// <param name="variables">The variables.</param>
         /// <returns>The document.</returns>
-        public static async Task<NSwagDocument> LoadWithTransformationsAsync(string filePath, string variables)
+        public static Task<NSwagDocument> LoadWithTransformationsAsync(string filePath, string variables)
         {
-            return await LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
+            return LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
             {
                 { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
                 { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
@@ -79,12 +79,25 @@ namespace NSwag.Commands
         public override async Task<OpenApiDocumentExecutionResult> ExecuteAsync()
         {
             var document = await GenerateSwaggerDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            var tasks = new List<Task>();
+            foreach (var codeGenerator in CodeGenerators.Items)
             {
-                codeGenerator.Input = document;
-                await codeGenerator.RunAsync(null, null);
-                codeGenerator.Input = null;
+                if (string.IsNullOrEmpty(codeGenerator.OutputFilePath))
+                {
+                    continue;
+                }
+
+                tasks.Add(Task.Run(async () =>
+                {
+                    await Task.Yield();
+
+                    codeGenerator.Input = document;
+                    await codeGenerator.RunAsync(null, null);
+                    codeGenerator.Input = null;
+                }));
             }
+
+            await Task.WhenAll(tasks);
 
             return new OpenApiDocumentExecutionResult(null, null, true);
         }
@@ -94,103 +107,94 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public async Task<OpenApiDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
         {
-            return await Task.Run(async () =>
+            if (Runtime == Runtime.Debug)
             {
-                if (Runtime == Runtime.Debug)
-                {
-                    return await ExecuteAsync();
-                }
+                return await ExecuteAsync();
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var swaggerFilename = baseFilename + "_swagger.json";
-                var filenames = new List<string>();
+            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+            var swaggerFilename = baseFilename + "_swagger.json";
+            var filenames = new List<string>();
 
-                var clone = FromJson<NSwagDocument>(null, ToJson());
-                if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
-                {
-                    clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
-                }
+            var clone = FromJson<NSwagDocument>(null, ToJson());
+            if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
+            {
+                clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
+            }
 
-                foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
+            foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
+            {
+                if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
                 {
-                    if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
-                    {
-                        var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
-                        command.OutputFilePath = codeFilePath;
-                        filenames.Add(codeFilePath);
-                    }
+                    var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
+                    command.OutputFilePath = codeFilePath;
+                    filenames.Add(codeFilePath);
                 }
+            }
 
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, clone.ToJson());
-                try
+            var configFilename = baseFilename + "_config.json";
+            File.WriteAllText(configFilename, clone.ToJson());
+            try
+            {
+                var command = "run \"" + configFilename + "\"";
+                var output = await StartCommandLineProcessAsync(command);
+                return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
+            }
+            finally
+            {
+                DeleteFileIfExists(configFilename);
+                DeleteFileIfExists(swaggerFilename);
+                foreach (var filename in filenames)
                 {
-                    var command = "run \"" + configFilename + "\"";
-                    var output = await StartCommandLineProcessAsync(command);
-                    return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
+                    DeleteFileIfExists(filename);
                 }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                    DeleteFileIfExists(swaggerFilename);
-                    foreach (var filename in filenames)
-                    {
-                        DeleteFileIfExists(filename);
-                    }
-                }
-            });
+            }
         }
 
         /// <summary>Gets the available controller types by calling the command line.</summary>
         /// <returns>The controller names.</returns>
         public async Task<string[]> GetControllersFromCommandLineAsync()
         {
-            return await Task.Run(async () =>
+            if (SelectedSwaggerGenerator is not WebApiToSwaggerCommand)
             {
-                if (!(SelectedSwaggerGenerator is WebApiToSwaggerCommand))
-                {
-                    return new string[0];
-                }
+                return Array.Empty<string>();
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, ToJson());
-                try
-                {
-                    var command = "list-controllers /file:\"" + configFilename + "\"";
-                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
-                }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                }
-            });
+            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+            var configFilename = baseFilename + "_config.json";
+            File.WriteAllText(configFilename, ToJson());
+            try
+            {
+                var command = "list-controllers /file:\"" + configFilename + "\"";
+                return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
+            }
+            finally
+            {
+                DeleteFileIfExists(configFilename);
+            }
         }
 
         /// <summary>Gets the available controller types by calling the command line.</summary>
         /// <returns>The controller names.</returns>
         public async Task<string[]> GetTypesFromCommandLineAsync()
         {
-            return await Task.Run(async () =>
+            if (SelectedSwaggerGenerator is not TypesToSwaggerCommand)
             {
-                if (!(SelectedSwaggerGenerator is TypesToSwaggerCommand))
-                {
-                    return new string[0];
-                }
+                return Array.Empty<string>();
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, ToJson());
-                try
-                {
-                    var command = "list-types /file:\"" + configFilename + "\"";
-                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
-                }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                }
-            });
+            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+            var configFilename = baseFilename + "_config.json";
+            File.WriteAllText(configFilename, ToJson());
+            try
+            {
+                var command = "list-types /file:\"" + configFilename + "\"";
+                return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
+            }
+            finally
+            {
+                DeleteFileIfExists(configFilename);
+            }
         }
 
         /// <summary>Converts to absolute path.</summary>

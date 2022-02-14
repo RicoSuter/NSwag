@@ -5,35 +5,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="References\YamlReferencesTest" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="References\YamlReferencesTest\baseContract.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="References\YamlReferencesTest\baseContract.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="References\YamlReferencesTest\json_contract_with_yaml_reference.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="References\YamlReferencesTest\json_contract_with_json_reference.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="References\YamlReferencesTest\yaml_contract_with_json_reference.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="References\YamlReferencesTest\yaml_contract_with_yaml_reference.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="References\YamlReferencesTest\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="References\YamlReferencesTest\*.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

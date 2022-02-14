@@ -28,7 +28,7 @@ namespace NSwag.Commands
             if (entryPointType != null)
             {
                 var buildWebHostMethod = entryPointType.GetMethod("BuildWebHost");
-                var args = new string[0];
+                var args = Array.Empty<string>();
 
                 if (buildWebHostMethod != null)
                 {
@@ -39,31 +39,31 @@ namespace NSwag.Commands
                 {
                     var createWebHostMethod =
                         entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
-                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new Type[0]);
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", Type.EmptyTypes);
 
                     if (createWebHostMethod != null)
                     {
                         var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
                             entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
-                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new Type[0]);
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", Type.EmptyTypes);
 
                         if (createHostMethod != null)
                         {
                             var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : new object[0]);
+                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                             serviceProvider = webHostBuilder.Build().Services;
                         }
                     }
 #endif
                 }
-            }           
+            }
 
             if (serviceProvider == null)
             {
@@ -92,7 +92,7 @@ namespace NSwag.Commands
 
         internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
-#if NETCOREAPP2_1 || FullNet
+#if NETCOREAPP2_1 || NETFRAMEWORK
             return null;
 #else
             // We're disabling the default server and the console host lifetime. This will disable:
@@ -140,7 +140,13 @@ namespace NSwag.Commands
             try
             {
                 // Get the IServiceProvider from the host
+#if NET6_0_OR_GREATER
+                var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
+                // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
+                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+#else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
+#endif
 
                 // Wait for the application to start so that we know it's fully configured. This is important because
                 // we need the middleware pipeline to be configured before we access the ISwaggerProvider in

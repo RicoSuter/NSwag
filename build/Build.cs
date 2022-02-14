@@ -1,7 +1,10 @@
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Xml.Linq;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Locator;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
@@ -11,7 +14,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
-using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
@@ -22,19 +24,35 @@ using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
+using Project = Nuke.Common.ProjectModel.Project;
 
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
+    public Build()
+    {
+        var msBuildExtensionPath = Environment.GetEnvironmentVariable("MSBuildExtensionsPath");
+        var msBuildExePath = Environment.GetEnvironmentVariable("MSBUILD_EXE_PATH");
+        var msBuildSdkPath = Environment.GetEnvironmentVariable("MSBuildSDKsPath");
+
+        MSBuildLocator.RegisterDefaults();
+        TriggerAssemblyResolution();
+
+        Environment.SetEnvironmentVariable("MSBuildExtensionsPath", msBuildExtensionPath);
+        Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", msBuildExePath);
+        Environment.SetEnvironmentVariable("MSBuildSDKsPath", msBuildSdkPath);
+    }
+
+    static void TriggerAssemblyResolution() => _ = new ProjectCollection();
+
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
     ///   - JetBrains Rider            https://nuke.build/rider
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -43,25 +61,70 @@ partial class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
-    AbsolutePath OutputDirectory => RootDirectory / "artifacts";
+    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     AbsolutePath NSwagStudioBinaries => SourceDirectory / "NSwagStudio" / "bin" / Configuration;
     AbsolutePath NSwagNpmBinaries => SourceDirectory / "NSwag.Npm";
+
+    static bool IsRunningOnWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+    bool IsTaggedBuild;
+    string VersionPrefix;
+    string VersionSuffix;
+
+    string DetermineVersionPrefix()
+    {
+        var versionPrefix = GitRepository.Tags.SingleOrDefault(x => x.StartsWith("v"))?[1..];
+        if (!string.IsNullOrWhiteSpace(versionPrefix))
+        {
+            IsTaggedBuild = true;
+            Serilog.Log.Information($"Tag version {VersionPrefix} from Git found, using it as version prefix", versionPrefix);
+        }
+        else
+        {
+            var propsDocument = XDocument.Parse(TextTasks.ReadAllText(SourceDirectory / "Directory.Build.props"));
+            versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
+            Serilog.Log.Information("Version prefix {VersionPrefix} read from Directory.Build.props", versionPrefix);
+        }
+
+        return versionPrefix;
+    }
+
+    protected override void OnBuildInitialized()
+    {
+        VersionPrefix = DetermineVersionPrefix();
+
+        VersionSuffix = !IsTaggedBuild
+            ? $"preview-{DateTime.UtcNow:yyyyMMdd-HHmm}"
+            : "";
+
+        if (IsLocalBuild)
+        {
+            VersionSuffix = $"dev-{DateTime.UtcNow:yyyyMMdd-HHmm}";
+        }
+
+        Serilog.Log.Information("BUILD SETUP");
+        Serilog.Log.Information("Configuration:\t{Configuration}", Configuration);
+        Serilog.Log.Information("Version prefix:\t{VersionPrefix}", VersionPrefix);
+        Serilog.Log.Information("Version suffix:\t{VersionSuffix}",VersionSuffix);
+        Serilog.Log.Information("Tagged build:\t{IsTaggedBuild}", IsTaggedBuild);
+    }
 
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(OutputDirectory);
+            EnsureCleanDirectory(ArtifactsDirectory);
         });
 
 
     Target InstallDependencies => _ => _
-        .Before(Compile)
+        .Before(Restore, Compile)
         .Executes(() =>
         {
-            Chocolatey("install wixtoolset");
+            Chocolatey("install wixtoolset -y");
+            Chocolatey("install netfx-4.6.1-devpack -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
@@ -75,6 +138,7 @@ partial class Build : NukeBuild
             NpmInstall(x => x
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Npm")
             );
+
             NpmInstall(x => x
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Integration.TypeScriptWeb")
             );
@@ -91,7 +155,6 @@ partial class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetVerbosity(DotNetVerbosity.Minimal)
             );
-
         });
 
     // logic from 01_Build.bat
@@ -100,83 +163,27 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             EnsureCleanDirectory(SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+            EnsureCleanDirectory(NSwagStudioBinaries);
 
-            Info("Build and copy full .NET command line with configuration " + Configuration);
+            Serilog.Log.Information("Build and copy full .NET command line with configuration {Configuration}", Configuration);
 
             MSBuild(x => x
                     .SetTargetPath(Solution)
                     .SetTargets("Rebuild")
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
                     .SetConfiguration(Configuration)
                     .SetMaxCpuCount(Environment.ProcessorCount)
                     .SetNodeReuse(IsLocalBuild)
                     .SetVerbosity(MSBuildVerbosity.Minimal)
+                    .SetProperty("Deterministic", IsServerBuild)
+                    .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
             );
+
+            // later steps need to have binaries in correct places
+            PublishAndCopyConsoleProjects();
         });
-
-
-    // logic from 01_Build.bat
-    Target Pack => _ => _
-        .DependsOn(Compile)
-        .Produces(OutputDirectory / "*.*")
-        .Executes(() =>
-        {
-            if (Configuration != Configuration.Release)
-            {
-                throw new InvalidOperationException("Cannot pack if compilation hasn't been done in Release mode, use --configuration Release");
-            }
-
-            var npmBinariesDirectory = SourceDirectory / "NSwag.Npm" / "bin" / "binaries";
-
-            CopyDirectoryRecursively(SourceDirectory  / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
-
-            var consoleX86Directory = SourceDirectory / "NSwag.Console.x86" / "bin" / Configuration / "net461";
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe", npmBinariesDirectory / "Win");
-            CopyFileToDirectory(consoleX86Directory  / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
-
-            Info("Publish .NET Core command line done in prebuild event for NSwagStudio.Installer.wixproj");
-
-            var consoleCoreDirectory = SourceDirectory / "NSwag.ConsoleCore" / "bin" / Configuration;
-
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net5.0/publish", npmBinariesDirectory / "Net50");
-            CopyDirectoryRecursively(consoleCoreDirectory  / "net6.0/publish", npmBinariesDirectory / "Net60");
-
-            // gather relevant artifacts
-            EnsureCleanDirectory(OutputDirectory);
-
-            Info("Package nuspecs");
-
-            NuGetPack(x => x
-                .SetOutputDirectory(OutputDirectory)
-                .SetTargetPath(SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec")
-            );
-
-            NuGetPack(x => x
-                .SetOutputDirectory(OutputDirectory)
-                .SetTargetPath(SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec")
-            );
-
-            NuGetPack(x => x
-                .SetOutputDirectory(OutputDirectory)
-                .SetTargetPath(SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec")
-            );
-
-            var artifacts = Array.Empty<AbsolutePath>()
-                .Concat(RootDirectory.GlobFiles("**/Release/**/NSwag*.nupkg"))
-                .Concat(SourceDirectory.GlobFiles("**/Release/**/NSwagStudio.msi"))
-                .Concat(SourceDirectory.GlobFiles("**/NSwagStudio/Properties/AssemblyInfo.cs"));
-
-            foreach (var artifact in artifacts)
-            {
-                CopyFileToDirectory(artifact, OutputDirectory);
-            }
-
-            // ZIP directories
-            ZipFile.CreateFromDirectory(NSwagNpmBinaries, OutputDirectory / "NSwag.Npm.zip");
-            ZipFile.CreateFromDirectory(NSwagStudioBinaries, OutputDirectory / "NSwag.zip");
-        });
-
 
     // logic from 02_RunUnitTests.bat
     Target UnitTest => _ => _
@@ -238,7 +245,7 @@ partial class Build : NukeBuild
             foreach (var (projectName, runtime) in dotnetTargets)
             {
                 var project = Solution.GetProject(projectName);
-                DotNetBuild(x => x
+                DotNetBuild(x => BuildDefaults(x)
                     .SetProcessWorkingDirectory(project.Directory)
                     .SetProperty("CopyLocalLockFileAssemblies", true)
                 );
@@ -268,14 +275,6 @@ partial class Build : NukeBuild
     Target Test => _ => _
         .DependsOn(UnitTest, IntegrationTest);
 
-    // logic from 04_Publish.bat
-    Target Publish => _ => _
-        .After(Compile)
-        .Executes(() =>
-        {
-            Npm("publish", SourceDirectory / "NSwag.Npm");
-        });
-
     // logic from runs.ps1
     Target Samples => _ => _
         .After(Compile)
@@ -287,7 +286,7 @@ partial class Build : NukeBuild
                 Project project,
                 string configurationFile,
                 string runtime,
-                string configuration,
+                Configuration configuration,
                 bool build)
             {
                 var nswagConfigurationFile = project.Directory / $"{configurationFile}.nswag";
@@ -297,9 +296,9 @@ partial class Build : NukeBuild
 
                 if (build)
                 {
-                    DotNetBuild(x => x
-                        .SetProjectFile(project)
+                    DotNetBuild(x => BuildDefaults(x)
                         .SetConfiguration(configuration)
+                        .SetProjectFile(project)
                     );
                 }
                 else
@@ -320,13 +319,78 @@ partial class Build : NukeBuild
 
             var samplesPath = RootDirectory / "samples";
             var sampleSolution = ProjectModelTasks.ParseSolution(samplesPath / "Samples.sln");
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", "Release", true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", "Release", false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", "Release", true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Release, true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Release, false);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Release, true);
 
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21","Debug", true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", "Debug", false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", "Debug", true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Debug, true);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
+            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
         });
 
+    void PublishAndCopyConsoleProjects()
+    {
+        var consoleCoreProject = Solution.GetProject("NSwag.ConsoleCore");
+        var consoleX86Project = Solution.GetProject("NSwag.Console.x86");
+        var consoleProject = Solution.GetProject("NSwag.Console");
+
+        Serilog.Log.Information("Publish command line projects");
+
+        void PublishConsoleProject(Nuke.Common.ProjectModel.Project project, string[] targetFrameworks)
+        {
+            foreach (var targetFramework in targetFrameworks)
+            {
+                DotNetPublish(s => s
+                    .SetProject(project)
+                    .SetFramework(targetFramework)
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetDeterministic(IsServerBuild)
+                    .SetContinuousIntegrationBuild(IsServerBuild)
+                );
+            }
+        }
+
+        PublishConsoleProject(consoleX86Project, new[] { "net461" });
+        PublishConsoleProject(consoleProject, new[] { "net461" });
+        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp2.1", "netcoreapp3.1", "net5.0", "net6.0" });
+
+        void CopyConsoleBinaries(AbsolutePath target)
+        {
+            // take just exe from X86 as other files are shared with console project
+            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net461" / "publish";
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
+
+            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net461" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
+
+            var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1" / "publish", target / "NetCore21");
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0" / "publish", target / "Net50");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
+        }
+
+        Serilog.Log.Information("Copy published Console for NSwagStudio");
+
+        CopyConsoleBinaries(target: NSwagStudioBinaries);
+
+        Serilog.Log.Information("Copy published Console for NPM");
+
+        CopyConsoleBinaries(target: SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+    }
+
+
+    DotNetBuildSettings BuildDefaults(DotNetBuildSettings s)
+    {
+        return s
+            .SetAssemblyVersion(VersionPrefix)
+            .SetFileVersion(VersionPrefix)
+            .SetInformationalVersion(VersionPrefix)
+            .SetConfiguration(Configuration)
+            .SetDeterministic(IsServerBuild)
+            .SetContinuousIntegrationBuild(IsServerBuild);
+    }
 }

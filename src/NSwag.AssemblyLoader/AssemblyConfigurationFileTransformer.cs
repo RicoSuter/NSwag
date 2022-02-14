@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-#if FullNet
+#if NETFRAMEWORK
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -127,7 +127,7 @@ public class BindingRedirect
         PublicKeyToken = publicKeyToken;
     }
 
-#if FullNet
+#if NETFRAMEWORK
 
     public BindingRedirect(string name, Type newVersionType, string publicKeyToken)
         : this(name, newVersionType.Assembly.GetName().Version.ToString(), publicKeyToken)

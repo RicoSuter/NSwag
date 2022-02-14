@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-#if FullNet
+#if NETFRAMEWORK
 using System.Diagnostics;
 #else
 using System.Runtime.Loader;
@@ -20,7 +20,7 @@ using System.Runtime.Loader;
 
 namespace NSwag.AssemblyLoader
 {
-#if FullNet
+#if NETFRAMEWORK
     public class AssemblyLoader : MarshalByRefObject
     {
 #else
@@ -46,7 +46,7 @@ namespace NSwag.AssemblyLoader
                     var assemblyName = split[0].Trim();
                     typeName = split[1].Trim();
 
-#if FullNet
+#if NETFRAMEWORK
                     var assembly = AppDomain.CurrentDomain.Load(new AssemblyName(assemblyName));
 #else
                     var assembly = Context.LoadFromAssemblyName(new AssemblyName(assemblyName));
@@ -54,7 +54,7 @@ namespace NSwag.AssemblyLoader
                     return assembly.GetType(typeName, true);
                 }
 
-#if FullNet
+#if NETFRAMEWORK
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     var type = assembly.GetType(typeName, false, true);
@@ -93,7 +93,7 @@ namespace NSwag.AssemblyLoader
             allReferencePaths.Add(Path.GetDirectoryName(typeof(AssemblyLoader).GetTypeInfo().Assembly.Location));
             allReferencePaths = allReferencePaths.Distinct().ToList();
 
-#if !FullNet
+#if !NETFRAMEWORK
             Context.AllReferencePaths = allReferencePaths;
 #else
             allReferencePaths.AddRange(GetAllDirectories(AppDomain.CurrentDomain.SetupInformation.ApplicationBase));

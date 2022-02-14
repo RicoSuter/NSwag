@@ -21,7 +21,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <inheritdocs />
         public override bool Process(OperationProcessorContext context)
         {
-#if NET6_0
+#if NET6_0_OR_GREATER
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             var tagsAttributes = aspNetCoreContext
                 .ApiDescription?
@@ -48,8 +48,9 @@ namespace NSwag.Generation.AspNetCore.Processors
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
+                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.ResolveExternalXmlDocumentation);
                 aspNetCoreContext.OperationDescription.Operation.Tags.Add(controllerActionDescriptor.ControllerName);
-                UpdateDocumentTagDescription(context, controllerActionDescriptor.ControllerName, controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary());
+                UpdateDocumentTagDescription(context, controllerActionDescriptor.ControllerName, summary);
             }
             else
             {

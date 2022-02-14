@@ -34,7 +34,7 @@ namespace NSwag.AspNetCore
     public class SwaggerUi3Settings : SwaggerUiSettingsBase
 #endif
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Settings"/> class.</summary>
+        /// <summary>Initializes a new instance of the class.</summary>
         public SwaggerUi3Settings()
         {
             DocExpansion = "none";
@@ -102,6 +102,13 @@ namespace NSwag.AspNetCore
         {
             get => (string)AdditionalSettings["tagsSorter"];
             set => AdditionalSettings["tagsSorter"] = value;
+        }
+
+        /// <summary>Specifies whether to persist authorization data in Swagger UI 3.</summary>
+        public bool PersistAuthorization
+        {
+            get => (bool)AdditionalSettings["persistAuthorization"];
+            set => AdditionalSettings["persistAuthorization"] = value;
         }
 
         /// <summary>Gets a value indicating whether to send credentials from the Swagger UI 3 to the backend.</summary>

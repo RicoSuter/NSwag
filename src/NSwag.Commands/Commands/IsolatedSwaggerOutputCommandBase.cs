@@ -56,7 +56,7 @@ namespace NSwag.Commands
 
         protected Assembly[] LoadAssemblies(IEnumerable<string> assemblyPaths, AssemblyLoader.AssemblyLoader assemblyLoader)
         {
-#if FullNet
+#if NETFRAMEWORK
             var assemblies = PathUtilities.ExpandFileWildcards(assemblyPaths)
                 .Select(path => Assembly.LoadFrom(path)).ToArray();
 #else
