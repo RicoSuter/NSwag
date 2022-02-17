@@ -3,12 +3,12 @@
 
 var defaultCoreVersion = "Net60";
 var supportedCoreVersions = [
-    { ver: '6.0', dir: "Net60", },
-    { ver: '5.0', dir: "Net50", },
-    { ver: '3.1', dir: "NetCore31", },
-    { ver: '3.0', dir: "NetCore30", },
-    { ver: '2.2', dir: "NetCore22", },
     { ver: '2.1', dir: "NetCore21", },
+    { ver: '2.2', dir: "NetCore22", },
+    { ver: '3.0', dir: "NetCore30", },
+    { ver: '3.1', dir: "NetCore31", },
+    { ver: '5.0', dir: "Net50", },
+    { ver: '6.0', dir: "Net60", },
 ];
 
 // Initialize
