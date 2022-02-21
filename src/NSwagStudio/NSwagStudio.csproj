@@ -65,10 +65,10 @@
     <PackageReference Include="Namotion.Reflection" Version="2.0.10" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.6.8" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.6.8" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.6.8" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.6.8" />
+    <PackageReference Include="NJsonSchema" Version="10.6.10" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.6.10" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.6.10" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.6.10" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
