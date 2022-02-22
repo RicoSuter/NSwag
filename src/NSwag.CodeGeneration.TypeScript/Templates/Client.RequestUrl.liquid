@@ -41,7 +41,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 {%        endif -%}
 {%    endif -%}
 {%    if parameter.IsDateOrDateTimeArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
+    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
 {%    elsif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
         for (let attr in item)
@@ -50,7 +50,7 @@ else if ({{ parameter.VariableName }} !== undefined)
 			}
     });
 {%    elsif parameter.IsDateOrDateTime -%}
-    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&";
+    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
 {%    elsif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
 {%    else -%}
