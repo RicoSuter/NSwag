@@ -161,6 +161,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
         public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
 
+        /// <summary>Gets a value indicating whether the target TypeScript version supports override keyword.</summary>
+        public bool SupportsOverrideKeyword => _settings.TypeScriptGeneratorSettings.SupportsOverrideKeyword;
+
         private string GenerateExtensionCodeAfter()
         {
             var clientClassesVariable = "{" + string.Join(", ", _clientTypes

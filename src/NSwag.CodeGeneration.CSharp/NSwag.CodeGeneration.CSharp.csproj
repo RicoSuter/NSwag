@@ -6,45 +6,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Templates\Client.Class.Annotations.liquid" />
-    <None Remove="Templates\Client.Class.BeforeSend.liquid" />
-    <None Remove="Templates\Client.Class.Body.liquid" />
-    <None Remove="Templates\Client.Class.Constructor.liquid" />
-    <None Remove="Templates\Client.Class.ConvertToString.liquid" />
-    <None Remove="Templates\Client.Class.HeaderParameter.liquid" />
-    <None Remove="Templates\Client.Class.PathParameter.liquid" />
-    <None Remove="Templates\Client.Class.QueryParameter.liquid" />
-    <None Remove="Templates\Client.Class.ReadObjectResponse.liquid" />
-    <None Remove="Templates\Client.Method.Annotations.liquid" />
-    <None Remove="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
-    <None Remove="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
-    <None Remove="Templates\Controller.Class.Annotations.liquid" />
-    <None Remove="Templates\Controller.Method.Annotations.liquid" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\Client.Class.Annotations.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.Body.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.Constructor.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.BeforeSend.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.HeaderParameter.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.PathParameter.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.ProcessResponse.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.ConvertToString.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.QueryParameter.liquid" />
-    <EmbeddedResource Include="Templates\Client.Class.ReadObjectResponse.liquid" />
-    <EmbeddedResource Include="Templates\Client.Interface.Annotations.liquid" />
-    <EmbeddedResource Include="Templates\Client.Interface.Body.liquid" />
-    <EmbeddedResource Include="Templates\Client.Interface.liquid" />
-    <EmbeddedResource Include="Templates\Client.Method.Annotations.liquid" />
-    <EmbeddedResource Include="Templates\Client.Method.Documentation.liquid" />
-    <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderBinding.liquid" />
-    <EmbeddedResource Include="Templates\Controller.AspNet.FromHeaderAttribute.liquid" />
-    <EmbeddedResource Include="Templates\Controller.Class.Annotations.liquid" />
-    <EmbeddedResource Include="Templates\Controller.liquid" />
-    <EmbeddedResource Include="Templates\Controller.Method.Annotations.liquid" />
-    <EmbeddedResource Include="Templates\File.liquid" />
-    <EmbeddedResource Include="Templates\JsonExceptionConverter.liquid" />
+    <EmbeddedResource Include="Templates\*.liquid" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +18,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.6.8" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.6.10" />
   </ItemGroup>
 </Project>
