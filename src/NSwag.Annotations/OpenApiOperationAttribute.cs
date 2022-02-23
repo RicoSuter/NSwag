@@ -48,7 +48,7 @@ namespace NSwag.Annotations
         public string Description { get; private set; }
     }
 
-    /// <summary>Specifies the operation id.</summary>
+    /// <summary>Specifies the operation ID.</summary>
     [AttributeUsage(AttributeTargets.Method)]
     [Obsolete("Use " + nameof(OpenApiOperationAttribute) + " instead.")]
     public class SwaggerOperationAttribute : Attribute
