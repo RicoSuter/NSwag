@@ -9,6 +9,15 @@ return fileResponse_;
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%         endif -%}
+{%     elsif operation.GenerateResponseAsIAsyncEnumerable and response.IsSuccess -%}
+var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+var result_ = System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<{{operation.InnerIAsyncEnumerableType}}>(responseStream_, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken);
+disposeResponse_ = false; // response is disposed by IAsyncEnumerable PROBABLY???
+{%         if operation.WrapResponse -%}
+return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_);
+{%         else -%}
+return result_;
+{%         endif -%}
 {%     elsif response.IsPlainText -%}
 var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
 var result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));

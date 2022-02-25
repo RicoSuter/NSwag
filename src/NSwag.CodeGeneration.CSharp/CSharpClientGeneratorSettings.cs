@@ -112,5 +112,12 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to generate top level array response types as IAsyncEnumerable instead of as <see cref="CSharpGeneratorBaseSettings.ResponseArrayType"/>.
+        /// IAsyncEnumerable will be deserialized in a streaming fashion.
+        /// If value is set to true, <see cref="NJsonSchema.CodeGeneration.CSharp.CSharpGeneratorSettings.JsonLibrary"/> must be set to <see cref="NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson"/>.
+        /// </summary>
+        public bool GenerateTopLevelArrayResponsesAsIAsyncEnumerables { get; set; }
     }
 }

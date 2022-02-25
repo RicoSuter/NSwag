@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -110,10 +111,29 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether the operation has a result type.</summary>
         public bool HasResult => UnwrappedResultType != "void";
 
+        /// <summary>Gets a value indicating whether the response should be generated as an IAsyncEnumerable instead of the default ArrayType.</summary>
+        public bool GenerateResponseAsIAsyncEnumerable => (_settings as CSharpClientGeneratorSettings)?.GenerateTopLevelArrayResponsesAsIAsyncEnumerables == true && base.UnwrappedResultType.StartsWith(_settings.CSharpGeneratorSettings.ArrayType + "<");
+
         /// <summary>
         /// The default value of the result type, i.e. default(T) or default(T)! depending on whether NRT are enabled.
         /// </summary>
         public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){((_settings as CSharpClientGeneratorSettings)?.CSharpGeneratorSettings.GenerateNullableReferenceTypes == true ? "!" : "")}";
+
+        /// <summary>Gets the type of the unwrapped result type (without Task).</summary>
+        public override string UnwrappedResultType
+        {
+            get
+            {
+                if (GenerateResponseAsIAsyncEnumerable)
+                {
+                    // Replace only the first instance
+                    var regex = new Regex(Regex.Escape(_settings.CSharpGeneratorSettings.ArrayType + "<"));
+                    return regex.Replace(base.UnwrappedResultType, "System.Collections.Generic.IAsyncEnumerable<", 1);
+                }
+
+                return base.UnwrappedResultType;
+            }
+        }
 
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
@@ -139,6 +159,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 return SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
                     : "System.Threading.Tasks.Task<" + SyncResultType + ">";
+            }
+        }
+
+        /// <summary>Gets the type of the inner array result type (without IAsyncEnumerable).</summary>
+        public string InnerIAsyncEnumerableType
+        {
+            get
+            {
+                var removedBeginningType = UnwrappedResultType.Replace("System.Collections.Generic.IAsyncEnumerable<", string.Empty);
+                return removedBeginningType.Substring(0, removedBeginningType.Length - 1);
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
@@ -10,6 +11,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public class FooController : Controller
         {
             public object GetPerson(bool @override = false)
+            {
+                return null;
+            }
+        }
+
+        public class BarController : Controller
+        {
+            public IEnumerable<object> GetPeople(bool @override = false)
             {
                 return null;
             }
@@ -149,6 +158,27 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("public partial interface IFooClient : IClientBase", code);
+        }
+
+        [Fact]
+        public async Task When_GenerateResponseAsIAsyncEnumerable_is_set_then_IAsyncEnumerable_response_is_generated()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<BarController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateTopLevelArrayResponsesAsIAsyncEnumerables = true,
+            });
+            generator.Settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IAsyncEnumerable<object>> GetPeopleAsync", code);
+            Assert.Contains("var result_ = System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<object>(responseStream_, JsonSerializerSettings, cancellationToken);", code);
         }
     }
 }
