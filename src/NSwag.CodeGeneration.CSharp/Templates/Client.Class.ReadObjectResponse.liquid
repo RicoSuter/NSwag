@@ -58,3 +58,26 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         }
     }
 }
+
+{%- if GenerateTopLevelArrayResponsesAsIAsyncEnumerables -%}
+protected virtual async System.Collections.Generic.IAsyncEnumerable<T> StreamResponseAsync<T>(System.Net.Http.HttpResponseMessage response, [System.Runtime.CompilerServices.EnumeratorCancellationAttribute] System.Threading.CancellationToken cancellationToken)
+{
+    try
+    {
+        using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+        {
+            var stream = System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<T>(responseStream, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken);
+            await foreach (var item in stream)
+            {
+                yield return item;
+            }
+        }
+    }
+    finally
+    {
+        response.Dispose();
+    }
+}
+{%- else -%}
+FIXME
+{%- endif -%}

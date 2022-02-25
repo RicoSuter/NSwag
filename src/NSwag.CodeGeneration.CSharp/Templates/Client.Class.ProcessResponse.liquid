@@ -10,9 +10,8 @@ var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(respons
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%         endif -%}
 {%     elsif operation.GenerateResponseAsIAsyncEnumerable and response.IsSuccess -%}
-var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-var result_ = System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<{{operation.InnerIAsyncEnumerableType}}>(responseStream_, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken);
-disposeResponse_ = false; // response is disposed by IAsyncEnumerable PROBABLY???
+var result_ = StreamResponseAsync<{{operation.InnerIAsyncEnumerableType}}>(response_, cancellationToken);
+disposeResponse_ = false; // response is disposed by StreamResponseAsync
 {%         if operation.WrapResponse -%}
 return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_);
 {%         else -%}

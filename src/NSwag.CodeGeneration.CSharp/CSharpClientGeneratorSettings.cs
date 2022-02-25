@@ -32,6 +32,7 @@ namespace NSwag.CodeGeneration.CSharp
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
             ProtectedMethods = new string[0];
+            GenerateTopLevelArrayResponsesAsIAsyncEnumerables = false;
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>

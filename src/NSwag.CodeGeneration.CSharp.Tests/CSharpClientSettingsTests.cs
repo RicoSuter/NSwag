@@ -177,8 +177,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
+            Assert.Contains("protected virtual async System.Collections.Generic.IAsyncEnumerable<T> StreamResponseAsync<T>(System.Net.Http.HttpResponseMessage response, [System.Runtime.CompilerServices.EnumeratorCancellationAttribute] System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IAsyncEnumerable<object>> GetPeopleAsync", code);
-            Assert.Contains("var result_ = System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<object>(responseStream_, JsonSerializerSettings, cancellationToken);", code);
+            Assert.Contains("var result_ = StreamResponseAsync<object>(response_, cancellationToken);", code);
         }
     }
 }

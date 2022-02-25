@@ -37,6 +37,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to use System.Text.Json</summary>
         public bool UseSystemTextJson => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson;
 
+        /// <summary>Gets or sets a value indicating whether to generate top level array response types as IAsyncEnumerable instead of as <see cref="CSharpGeneratorBaseSettings.ResponseArrayType"/>.</summary>
+        public bool GenerateTopLevelArrayResponsesAsIAsyncEnumerables => (_settings as CSharpClientGeneratorSettings)?.GenerateTopLevelArrayResponsesAsIAsyncEnumerables == true;
+
         /// <summary>Gets the JSON serializer settings type.</summary>
         public string JsonSerializerSettingsType => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson ? 
             "System.Text.Json.JsonSerializerOptions" :
