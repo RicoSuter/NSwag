@@ -7,9 +7,11 @@ const contentDisposition = response.headers ? response.headers["content-disposit
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
 {%     endif -%}
 let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-let fileName = fileNameMatch && fileNameMatch.length > 1 ? decodeURIComponent(fileNameMatch[fileNameMatch.length - 1]) : undefined;
-if (!fileName) {
-	fileNameMatch = contentDisposition ?  /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+if (fileName) {
+	fileName = decodeURIComponent(fileName);
+} else {
+	fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
 	fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
 }
 {%     if operation.WrapResponse -%}
