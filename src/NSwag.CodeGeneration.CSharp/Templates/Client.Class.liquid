@@ -184,13 +184,15 @@
 {%     endif -%}
             {
 {%     for parameter in operation.HeaderParameters %}
-{%         if parameter.IsRequired -%}
+{%         if parameter.Name != "Content-Disposition"%}
+{%             if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
-                {% template Client.Class.HeaderParameter %}
-{%         else -%}
+                    {% template Client.Class.HeaderParameter %}
+{%             else -%}
                 if ({{ parameter.VariableName }} != null)
                     {% template Client.Class.HeaderParameter %}
+{%             endif -%}
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent -%}
@@ -215,6 +217,18 @@
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         endif -%}
                 request_.Content = content_;
+{%         for parameter in operation.HeaderParameters %}
+{%             if parameter.Name == "Content-Disposition" %}
+{%                 if parameter.IsRequired -%}
+                if ({{ parameter.VariableName }} == null)
+                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                request_.Content.Headers.ContentDisposition = content_Disposition;
+{%                 else -%}
+                if ({{ parameter.VariableName }} != null)
+                    request_.Content.Headers.ContentDisposition = content_Disposition;
+{%                 endif -%}
+{%             endif -%}
+{%         endfor -%}
 {%     else -%}
 {%         if operation.HasFormParameters -%}
 {%             if operation.ConsumesFormUrlEncoded -%}
