@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="OperationConsumesProcessor.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -39,14 +39,8 @@ namespace NSwag.Generation.WebApi.Processors
 
             if (consumesAttribute != null && consumesAttribute.ContentTypes != null)
             {
-                if (context.OperationDescription.Operation.Consumes == null)
-                {
-                    context.OperationDescription.Operation.Consumes = new List<string>(consumesAttribute.ContentTypes);
-                }
-                else
-                {
-                    context.OperationDescription.Operation.Consumes.AddRange(consumesAttribute.ContentTypes);
-                }
+                foreach (var contentType in consumesAttribute.ContentTypes)
+                    context.OperationDescription.Operation.TryAddConsumes(contentType);
             }
 
             return true;
