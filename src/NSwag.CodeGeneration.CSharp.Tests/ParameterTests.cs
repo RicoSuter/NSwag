@@ -381,5 +381,40 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("FooAsync(string bar,", code);
             Assert.Contains("EscapeDataString(\"foo\")", code);
         }
+
+        [Fact]
+        public void When_operation_path_contains_fragment_then_fragment_is_discarded()
+        {
+            // Arrange
+            var document = new OpenApiDocument();
+            document.Paths["foo#v=1"] = new OpenApiPathItem
+            {
+                {
+                    OpenApiOperationMethod.Get, new OpenApiOperation
+                    {
+                        Parameters =
+                        {
+                            new OpenApiParameter
+                            {
+                                Kind = OpenApiParameterKind.Query,
+                                Name = "foo",
+                                OriginalName = "bar",
+                                Schema = new JsonSchema
+                                {
+                                    Type = JsonObjectType.String
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("urlBuilder_.Append(\"foo?\")", code);
+        }
     }
 }
