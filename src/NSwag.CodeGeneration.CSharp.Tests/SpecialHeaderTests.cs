@@ -138,11 +138,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             // Test required
-            Assert.Contains("TestContentDispositionHeaderAsync(System.Net.Http.Headers.ContentDispositionHeaderValue content_Disposition", code);
-            Assert.Contains("TestContentDispositionHeader([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"X-Session-ID\")] string x_Session_ID,", code);
-            Assert.Contains("_implementation.TestContentDispositionHeaderAsync(Request.Headers.ContentDisposition,", code);
-
-            Assert.Single(Regex.Matches(code, "\"content_Disposition\""));
+            Assert.Contains("public abstract System.Threading.Tasks.Task<string> TestContentDispositionHeader([Microsoft.AspNetCore.Mvc.FromHeader(Name = \"X-Session-ID\")]", code);
         }
     }
 }
