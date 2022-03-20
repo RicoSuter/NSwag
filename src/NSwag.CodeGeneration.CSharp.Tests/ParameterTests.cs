@@ -386,7 +386,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public void When_operation_path_contains_fragment_then_fragment_is_discarded()
         {
             // Arrange
-            var document = new OpenApiDocument();
+            var document = new OpenApiDocument() { };
             document.Paths["foo#v=1"] = new OpenApiPathItem
             {
                 {
@@ -410,7 +410,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             // Act
-            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings { UseBaseUrl = false }));
             var code = generator.GenerateFile();
 
             // Assert
