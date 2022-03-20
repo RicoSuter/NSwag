@@ -410,7 +410,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             };
 
             // Act
-            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings { UseBaseUrl = false }));
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings { UseBaseUrl = false });
             var code = generator.GenerateFile();
 
             // Assert
