@@ -40,7 +40,9 @@ namespace NSwag.Generation.WebApi.Processors
             if (consumesAttribute != null && consumesAttribute.ContentTypes != null)
             {
                 foreach (var contentType in consumesAttribute.ContentTypes)
+                {
                     context.OperationDescription.Operation.TryAddConsumes(contentType);
+                }
             }
 
             return true;
