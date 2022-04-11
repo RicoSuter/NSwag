@@ -15,7 +15,7 @@
     <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="3.0.0" />
+      <dependency id="Microsoft.Extensions.ApiDescription.Client" version="6.0.3" />
       <dependency id="NSwag.MSBuild" version="13.14.5" />
     </dependencies>
     <references />
