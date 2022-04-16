@@ -40,21 +40,51 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%        endif -%}
 {%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
-{%    elsif parameter.IsObjectArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
-        for (let attr in item)
-			if (item.hasOwnProperty(attr)) {
-				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-			}
-    });
-{%    elsif parameter.IsDateOrDateTime -%}
-    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
-{%    elsif parameter.IsArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
+{%    if parameter.IsArray -%}
+{%      if parameter.IsForm or parameter.IsSimple -%}
+    if ({{ parameter.VariableName }}.length)
+    {
+        url_ += "{{ parameter.Name }}=";
+        {{ parameter.VariableName }}.forEach(item => { url_ += encodeURIComponent("" + item) + ","; });
+        url_ = url_.replace(/,$/, "");
+    }
+{%      elsif parameter.IsLabel -%}
+    if ({{ parameter.VariableName }}.length)
+    {
+        url_ += "{{ parameter.Name }}=";
+        {{ parameter.VariableName }}.forEach(item => { url_ += "." encodeURIComponent("" + item); });
+    }
+{%      elsif parameter.IsMatrix -%}
+{
+    {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + ";"; });
+    url_ = url_.replace(/;$/, "");
+}
+{%      elsif parameter.IsSpaceDelimeted -%}
+{
+    {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + " "; });
+    url_ = url_.replace(/ $/, "");
+}
+{%      elsif parameter.IsPipeDelimited -%}
+{
+    {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "|"; });
+    url_ = url_.replace(/|$/, "");
+}
+{%      elsif parameter.IsDeepObject -%}
+{{ parameter.VariableName }}.forEach((item, index) => {
+    for (let attr in item)
+        if (item.hasOwnProperty(attr)) {
+            url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+        }
+});
+{%      else -%}
+{{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
+{%      endif -%}
 {%    else -%}
+{%      if parameter.IsDateOrDateTime -%}
+    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
+{%      else -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
+{%      endif -%}
 {%    endif -%}
 {% endfor -%}
 url_ = url_.replace(/[?&]$/, "");
