@@ -98,8 +98,23 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
 
-        /// <summary>Gets a value indicating whether the parameter has form style.</summary>
+        /// <summary>Gets a value indicating whether the parameter has 'form' style.</summary>
         public bool IsForm => _parameter.Style == OpenApiParameterStyle.Form;
+
+        /// <summary>Gets a value indicating whether the parameter has 'simple' style.</summary>
+        public bool IsSimple => _parameter.Style == OpenApiParameterStyle.Simple;
+
+        /// <summary>Gets a value indicating whether the parameter has 'label' style.</summary>
+        public bool IsLabel => _parameter.Style == OpenApiParameterStyle.Label;
+
+        /// <summary>Gets a value indicating whether the parameter has 'matrix' style.</summary>
+        public bool IsMatrix => _parameter.Style == OpenApiParameterStyle.Matrix;
+
+        /// <summary>Gets a value indicating whether the parameter has 'spaceDelimited' style.</summary>
+        public bool IsSpaceDelimited => _parameter.Style == OpenApiParameterStyle.SpaceDelimeted;
+
+        /// <summary>Gets a value indicating whether the parameter has 'pipeDelimited' style.</summary>
+        public bool IsPipeDelimited => _parameter.Style == OpenApiParameterStyle.PipeDelimited;
 
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
         public IEnumerable<PropertyModel> PropertyNames
