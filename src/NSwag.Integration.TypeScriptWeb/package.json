@@ -15,7 +15,7 @@
     "typescript": "^2.2.1"
   },
   "dependencies": {
-    "aurelia-framework": "^1.1.0",
+    "aurelia-framework": "^1.4.1",
     "aurelia-fetch-client": "^1.1.1",
     "@angular/common": "^2.4.8",
     "@angular/core": "^2.4.8",
