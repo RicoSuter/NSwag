@@ -11,7 +11,7 @@
     <MicrosoftAspNetCoreMvcCorePackageVersion>1.0.6</MicrosoftAspNetCoreMvcCorePackageVersion>
     <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.6</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
     <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.4</MicrosoftAspNetCoreStaticFilesPackageVersion>
-    <MicrosoftExtensionsApiDescriptionServerPackageVersion>3.0.0</MicrosoftExtensionsApiDescriptionServerPackageVersion>
+    <MicrosoftExtensionsApiDescriptionServerPackageVersion>6.0.3</MicrosoftExtensionsApiDescriptionServerPackageVersion>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>[1.0.1, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>[3.1, 4.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>[5, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
