@@ -239,11 +239,7 @@ namespace NSwag.Commands
 #if NET462
 
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.NetCore31)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore31/dotnet-nswag.dll") + "\" ";
-            }
-            else if (runtime == Runtime.Net60)
+            if (runtime == Runtime.Net60)
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net60/dotnet-nswag.dll") + "\" ";
             }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.CI.GitHubActions.Configuration;
 using Nuke.Common.Execution;
@@ -7,7 +6,7 @@ using Nuke.Common.Utilities;
 
 [CustomGitHubActions(
     "pr",
-    GitHubActionsImage.WindowsServer2022,
+    GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
     OnPullRequestBranches = new[] { "master", "main" },
@@ -15,11 +14,12 @@ using Nuke.Common.Utilities;
     OnPullRequestExcludePaths = new[] { "**/*.md" },
     PublishArtifacts = false,
     InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
-    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" }),
+    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" },
+    JobConcurrencyCancelInProgress = true),
 ]
 [CustomGitHubActions(
     "build",
-    GitHubActionsImage.WindowsServer2022,
+    GitHubActionsImage.WindowsLatest,
     // GitHubActionsImage.UbuntuLatest,
     // GitHubActionsImage.MacOsLatest,
     OnPushBranches = new[] { "master", "main" },
@@ -46,13 +46,6 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var job = base.GetJobs(image, relevantTargets);
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
-
-        // only need to list the ones that are missing from default image
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] 
-        {
-            "2.1.*", 
-            "5.0.*" 
-        }));
 
         newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
         newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());

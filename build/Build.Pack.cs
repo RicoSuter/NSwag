@@ -37,7 +37,7 @@ public partial class Build
                 nugetVersion += "-" + VersionSuffix;
             }
 
-            EnsureCleanDirectory(ArtifactsDirectory);
+            ArtifactsDirectory.CreateOrCleanDirectory();
 
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
@@ -70,10 +70,10 @@ public partial class Build
 
             Serilog.Log.Information("Build WiX installer");
 
-            EnsureCleanDirectory(SourceDirectory / "NSwagStudio.Installer" / "bin");
+            (SourceDirectory / "NSwagStudio.Installer" / "bin").CreateOrCleanDirectory();
 
             MSBuild(x => x
-                .SetTargetPath(Solution.GetProject("NSwagStudio.Installer"))
+                .SetTargetPath(GetProject("NSwagStudio.Installer"))
                 .SetTargets("Rebuild")
                 .SetAssemblyVersion(VersionPrefix)
                 .SetFileVersion(VersionPrefix)
@@ -90,9 +90,9 @@ public partial class Build
             Serilog.Log.Information("Package nuspecs");
 
             var apiDescriptionClientNuSpec = SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec";
-            var content = TextTasks.ReadAllText(apiDescriptionClientNuSpec);
+            var content = apiDescriptionClientNuSpec.ReadAllText();
             content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + nugetVersion + "\" />");
-            TextTasks.WriteAllText(apiDescriptionClientNuSpec, content);
+            apiDescriptionClientNuSpec.WriteAllText(content);
 
             var nuspecs = new[]
             {
@@ -122,9 +122,9 @@ public partial class Build
 
             // patch npm version
             var npmPackagesFile = SourceDirectory / "NSwag.Npm" / "package.json";
-            content = TextTasks.ReadAllText(npmPackagesFile);
+            content = npmPackagesFile.ReadAllText();
             content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + nugetVersion + @"""");
-            TextTasks.WriteAllText(npmPackagesFile, content);
+            npmPackagesFile.WriteAllText(content);
 
             // ZIP directories
             ZipFile.CreateFromDirectory(NSwagNpmBinaries, ArtifactsDirectory / "NSwag.Npm.zip");
