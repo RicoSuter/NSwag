@@ -9,12 +9,6 @@
             HasConfigurationCondition="false" SourceOfDefaultValue="AfterContext" />
     </Rule.DataSource>
 
-    <Rule.Categories>
-      <Category Name="NSwagCodeGen" DisplayName="NSwag Code Generation" />
-      <Category Name="NSwagCSharpCodeGen" DisplayName="NSwag C# Code Generation" />
-      <Category Name="NSwagTypeScriptCodeGen" DisplayName="NSwag TypeScript Code Generation" />
-    </Rule.Categories>
-
     <StringProperty Name="Options" DisplayName="Generator options"
                     Category="CodeGen"
                     Description="Options to pass to the code generator."
