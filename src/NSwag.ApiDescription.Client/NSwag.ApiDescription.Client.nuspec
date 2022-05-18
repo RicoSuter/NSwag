@@ -16,7 +16,7 @@
     <developmentDependency>true</developmentDependency>
     <dependencies>
       <dependency id="Microsoft.Extensions.ApiDescription.Client" version="6.0.3" />
-      <dependency id="NSwag.MSBuild" version="13.14.5" />
+      <dependency id="NSwag.MSBuild" version="1.0.0" />
     </dependencies>
     <references />
   </metadata>
