@@ -164,6 +164,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether the target TypeScript version supports override keyword.</summary>
         public bool SupportsOverrideKeyword => _settings.TypeScriptGeneratorSettings.SupportsOverrideKeyword;
 
+        /// <summary>Gets a value indicating whether the target TypeScript version supports Type-Only imports</summary>
+        public bool SupportsTypeOnlyImports => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 3.8m;
+
         private string GenerateExtensionCodeAfter()
         {
             var clientClassesVariable = "{" + string.Join(", ", _clientTypes
