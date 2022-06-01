@@ -98,6 +98,9 @@
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Model class name template" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ModelClassName, Mode=TwoWay}" ToolTip="ModelClassName" Margin="0,0,0,12" />
+                                
                                 <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" 
                                          ToolTip="ClientClassAccessModifier" Margin="0,0,0,12" />
