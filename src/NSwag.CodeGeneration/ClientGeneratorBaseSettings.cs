@@ -37,6 +37,9 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets the class name of the service client or controller.</summary>
         public string ClassName { get; set; }
 
+        /// <summary>Gets or sets the class name prefix for model classes.</summary>
+        public string ModelClassName { get; set; }
+        
         /// <summary>Gets or sets a value indicating whether to generate DTO classes (default: true).</summary>
         public bool GenerateDtoTypes { get; set; }
 
@@ -66,6 +69,14 @@ namespace NSwag.CodeGeneration
             return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
 
+        /// <summary>Generates the name of the model based on the provided settings.</summary>
+        /// <param name="modelName">Name of the model.</param>
+        /// <returns>The model name.</returns>
+        public string GenerateModelName(string modelName)
+        {
+            return !string.IsNullOrWhiteSpace(ModelClassName) && ModelClassName.Contains("{model}") ? ModelClassName.Replace("{model}", modelName): modelName;
+        }
+        
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses { get; set; }
 

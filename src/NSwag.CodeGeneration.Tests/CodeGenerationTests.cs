@@ -35,6 +35,46 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
+        public void When_generating_CSharp_code_then_output_contains_expected_classes_with_class_name_pre_and_postfix()
+        {
+            // Arrange
+            var document = CreateDocument();
+            
+            // Act
+            var settings = new CSharpClientGeneratorSettings
+                {ClassName = "MyClass", ModelClassName = "CustomPrefix{model}CustomPostfix"};
+            settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+            
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+            
+            // Assert
+            Assert.Contains("class MyClass", code);
+            Assert.Contains("class CustomPrefixPersonCustomPostfix", code);
+            Assert.Contains("class CustomPrefixAddressCustomPostfix", code);
+        }
+        
+        [Fact]
+        public void When_generating_CSharp_code_then_output_contains_expected_classes_skipping_model_class_name_if_missing_template()
+        {
+            // Arrange
+            var document = CreateDocument();
+            
+            // Act
+            var settings = new CSharpClientGeneratorSettings
+                {ClassName = "MyClass", ModelClassName = "CustomPrefix}model{CustomPostfix"};
+            settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+            
+            // Assert
+            Assert.Contains("class MyClass", code);
+            Assert.Contains("class Person", code);
+            Assert.Contains("class Address", code);
+        }
+        
+        [Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
         {
             // Arrange
