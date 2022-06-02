@@ -8,7 +8,7 @@
     "@angular/animations": "4.3.3",
     "@angular/common": "4.3.3",
     "@angular/compiler": "4.3.3",
-    "@angular/core": "4.3.3",
+    "@angular/core": "11.0.5",
     "@angular/forms": "4.3.3",
     "@angular/http": "4.3.3",
     "@angular/platform-browser": "4.3.3",
