@@ -38,7 +38,7 @@ let resultData{{ response.StatusCode }}  = _responseText;
 {%             if response.UseDtoClass -%}
 {{ response.DataConversionCode }}
 {%             else -%}
-result{{ response.StatusCode }} = {% unless response.IsPlainText %}JSON.parse({% endunless %}resultData{{ response.StatusCode }}{% unless response.IsPlainText %}){% endunless %};
+result{{ response.StatusCode }} = resultData{{ response.StatusCode }};
 {%             endif -%}
 {%         else -%}
 {%              if response.UseDtoClass or response.IsDateOrDateTime -%}
