@@ -323,6 +323,13 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.TypeScriptGeneratorSettings.HandleReferences = value; }
         }
 
+        [Argument(Name = "GenerateTypeCheckFunctions", IsRequired = false, Description = "Generate type check functions (only available when TypeStyle is Interface, default: false).")]
+        public bool GenerateTypeCheckFunctions
+        {
+            get { return Settings.TypeScriptGeneratorSettings.GenerateTypeCheckFunctions; }
+            set { Settings.TypeScriptGeneratorSettings.GenerateTypeCheckFunctions = value; }
+        }
+
         [Argument(Name = "GenerateConstructorInterface", IsRequired = false, Description = "Generate an class interface which is used in the constructor to initialize the class (only available when TypeStyle is Class, default: true).")]
         public bool GenerateConstructorInterface
         {
