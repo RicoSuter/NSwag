@@ -142,7 +142,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true)
+                if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true || _settings.ProtectedMethods?.Contains("*") == true)
                 {
                     return "protected ";
                 }

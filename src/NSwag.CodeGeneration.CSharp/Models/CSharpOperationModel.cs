@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
                 var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null && (settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true || settings.ProtectedMethods?.Contains("all") == true))
+                if (settings != null && (settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true || settings.ProtectedMethods?.Contains("*") == true))
                 {
                     return "protected";
                 }
