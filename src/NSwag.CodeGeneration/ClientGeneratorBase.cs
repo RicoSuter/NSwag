@@ -162,7 +162,7 @@ namespace NSwag.CodeGeneration
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
                     // Strip any character that is not a word character or a period
-                    operationName = Regex.Replace(operationName, @"[^\w\.]", "", RegexOptions.None);
+                    operationName = Regex.Replace(operationName, @"[^\w\.-]", "", RegexOptions.None);
 
                     if (operationName.Contains("."))
                     {
