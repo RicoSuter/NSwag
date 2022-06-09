@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
@@ -159,6 +160,9 @@ namespace NSwag.CodeGeneration
                     var operation = p.Value;
 
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
+
+                    // Strip any character that is not a word character or a period
+                    operationName = Regex.Replace(operationName, @"[^\w\.]", "", RegexOptions.None);
 
                     if (operationName.Contains("."))
                     {
