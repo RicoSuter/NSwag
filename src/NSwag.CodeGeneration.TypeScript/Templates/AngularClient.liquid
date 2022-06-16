@@ -86,7 +86,7 @@
         return this.http.request({% if Framework.Angular.UseHttpClient %}"{{ operation.HttpMethodLower }}", {% endif %}url_, options_).{% if Framework.UseRxJs6 %}pipe({% endif %}{{ Framework.RxJs.ObservableMergeMapMethod }}((response_ : any) => {
 {%-    endif -%}
 {%-    if UseTransformResultMethod -%}
-            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
+            return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r as any));
 {%-    else -%}
             return this.process{{ operation.ActualOperationNameUpper }}(response_);
 {%-    endif -%}
@@ -94,15 +94,15 @@
             if (response_ instanceof {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}) {
                 try {
 {%-    if UseTransformResultMethod -%}
-                    return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(<any>r));
+                    return this.transformResult(url_, response_, (r) => this.process{{ operation.ActualOperationNameUpper }}(r as any));
 {%-    else -%}
-                    return this.process{{ operation.ActualOperationNameUpper }}(<any>response_);
+                    return this.process{{ operation.ActualOperationNameUpper }}(response_ as any);
 {%-    endif -%}
                 } catch (e) {
-                    return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(e);
+                    return {{ Framework.RxJs.ObservableThrowMethod }}(e) as any as Observable<{{ operation.ResultType }}>;
                 }
             } else
-                return <Observable<{{ operation.ResultType }}>><any>{{ Framework.RxJs.ObservableThrowMethod }}(response_);
+                return {{ Framework.RxJs.ObservableThrowMethod }}(response_) as any as Observable<{{ operation.ResultType }}>;
         }){% if Framework.UseRxJs6 %}){% endif %};
     }
 
@@ -111,7 +111,7 @@
 {%- if Framework.Angular.UseHttpClient -%}
         const responseBlob =
             response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
 {%- endif -%}
 
         {% template Client.ProcessResponse %}

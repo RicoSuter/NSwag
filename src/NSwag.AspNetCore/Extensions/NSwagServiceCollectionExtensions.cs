@@ -81,8 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     settings.OperationProcessors.Add(operationProcessor);
                 }
 
-                var generator = new AspNetCoreOpenApiDocumentGenerator(settings);
-                return new OpenApiDocumentRegistration(settings.DocumentName, generator);
+                return new OpenApiDocumentRegistration(settings.DocumentName, settings);
             });
 
             var descriptor = serviceCollection.SingleOrDefault(d => d.ServiceType == typeof(OpenApiDocumentProvider));

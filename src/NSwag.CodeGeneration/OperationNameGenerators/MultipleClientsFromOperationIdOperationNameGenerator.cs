@@ -73,10 +73,36 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
 
         private static ReadOnlySpan<char> GetClientName(OpenApiOperation operation)
         {
-            var idx = operation.OperationId.IndexOf('_');
-            return idx != -1 && idx < operation.OperationId.Length - 1
-                ? operation.OperationId.AsSpan(0,idx)
-                : string.Empty.AsSpan();
+            ReadOnlySpan<char> operationIdSpan = operation.OperationId.AsSpan();
+            const char underscoreSeparator = '_';
+            int idxFirst = operationIdSpan.IndexOf(underscoreSeparator);
+
+            // no underscore, fast path
+            if (idxFirst == -1)
+            {
+                return ReadOnlySpan<char>.Empty;
+            }
+
+            int idxLast = operationIdSpan.LastIndexOf(underscoreSeparator);
+
+            // only one underscore
+            if (idxFirst == idxLast)
+            {
+                // underscore is the first character
+                if (idxFirst == 0)
+                {
+                    return ReadOnlySpan<char>.Empty;
+                }
+
+                return operationIdSpan.Slice(0, idxFirst);
+            }
+
+            // backwards search for the second underscore
+            // e.g. OperationId_SecondUnderscore_Test => SecondUnderscore
+            operationIdSpan = operationIdSpan.Slice(0, idxLast);
+            int idxSecondLast = operationIdSpan.LastIndexOf(underscoreSeparator);
+
+            return operationIdSpan.Slice(idxSecondLast + 1, operationIdSpan.Length - idxSecondLast - 1);
         }
 
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)

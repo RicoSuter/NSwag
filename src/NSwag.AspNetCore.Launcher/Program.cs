@@ -89,42 +89,6 @@ namespace NSwag.AspNetCore.Launcher
 
             Console.WriteLine("Launcher directory: " + codeBaseDirectory);
 
-#if NETCOREAPP1_0
-            var loadContext = System.Runtime.Loader.AssemblyLoadContext.Default;
-            loadContext.Resolving += (context, assemblyName) =>
-            {
-                var name = assemblyName.Name;
-
-                if (!NSwagReferencedAssemblies.TryGetValue(name, out var assemblyInfo))
-                {
-                    return null;
-                }
-
-                // If we've loaded a higher version from the app's closure, return it.
-                if (assemblyInfo.LoadedAssembly != null)
-                {
-                    return assemblyInfo.LoadedAssembly;
-                }
-
-                var assemblyLocation = Path.Combine(toolsDirectory, name + ".dll");
-                if (!File.Exists(assemblyLocation))
-                {
-                    assemblyLocation = Path.Combine(codeBaseDirectory, name + ".dll");
-                    if (!File.Exists(assemblyLocation))
-                    {
-                        assemblyLocation = Path.Combine(codeBaseDirectory, "Publish", name + ".dll");
-                        if (!File.Exists(assemblyLocation))
-                        {
-                            Console.WriteLine($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
-                            throw new InvalidOperationException($"Referenced assembly '{assemblyName}' was not found in {toolsDirectory} and {codeBaseDirectory}.");
-                        }
-                    }
-                }
-
-                return context.LoadFromAssemblyPath(assemblyLocation);
-            };
-            var assembly = loadContext.LoadFromAssemblyName(CommandsAssemblyName);
-#else
             AppDomain.CurrentDomain.AssemblyResolve += (source, eventArgs) =>
             {
                 var assemblyName = new AssemblyName(eventArgs.Name);
@@ -160,8 +124,6 @@ namespace NSwag.AspNetCore.Launcher
             };
 
             var assembly = Assembly.Load(CommandsAssemblyName);
-#endif
-
             var type = assembly.GetType(EntryPointType, throwOnError: true);
             var method = type.GetMethod("Process", BindingFlags.Public | BindingFlags.Static);
 

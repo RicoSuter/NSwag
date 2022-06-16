@@ -281,6 +281,13 @@
                                              Margin="0,0,0,12" />
                                 </StackPanel>
 
+                                <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='Interface', Converter={StaticResource EqualityConverter}}">
+                                    <CheckBox IsChecked="{Binding Command.GenerateTypeCheckFunctions, Mode=TwoWay}" 
+                                              Content="Generate type check functions"
+                                              ToolTip="GenerateTypeCheckFunctions"
+                                              Margin="0,0,0,12" />
+                                </StackPanel>
+
                                 <GroupBox Header="Serialization" Margin="0,0,0,12" Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
                                     <StackPanel Margin="4,8,4,-8">
                                         <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 

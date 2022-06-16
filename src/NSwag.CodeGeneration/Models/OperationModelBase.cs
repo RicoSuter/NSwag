@@ -349,6 +349,7 @@ namespace NSwag.CodeGeneration.Models
                     Name = p.Key,
                     Kind = OpenApiParameterKind.FormData,
                     Schema = p.Value,
+                    Description = p.Value.Description,
                     CollectionFormat = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ?
                         OpenApiParameterCollectionFormat.Multi : OpenApiParameterCollectionFormat.Undefined,
                     //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,

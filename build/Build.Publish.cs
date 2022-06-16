@@ -12,7 +12,6 @@ using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.Logger;
 
 public partial class Build
 {
@@ -55,11 +54,11 @@ public partial class Build
                     {
                         if (output.Type == OutputType.Std)
                         {
-                            Info(output.Text);
+                            Serilog.Log.Information(output.Text);
                         }
                         else
                         {
-                            Error(output.Text);
+                            Serilog.Log.Error(output.Text);
                         }
                     }
                 }
@@ -88,7 +87,7 @@ public partial class Build
                     throw;
                 }
 
-                Error("Could not push: " + e.Message);
+                Serilog.Log.Error("Could not push: {Message}", e.Message);
             }
 
         });
