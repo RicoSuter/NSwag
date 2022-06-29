@@ -53,6 +53,10 @@ else if ({{ parameter.VariableName }} !== undefined)
     url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
 {%    elsif parameter.IsArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
+{%    elsif parameter.IsObject -%}
+    for (const [key, value] of Object.entries({{ parameter.Name }})) {
+        url_ += encodeURIComponent("" + key) + "=" + encodeURIComponent("" + value) + "&";
+    }
 {%    else -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
 {%    endif -%}
