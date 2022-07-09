@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿#nullable enable
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.Annotations;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
 {
@@ -43,5 +46,30 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
         {
             return Ok();
         }
+
+
+        [HttpPost(nameof(OperationWithNullString))]
+        public Task<string?> OperationWithNullString()
+        {
+            return Task.FromResult((string?)null);
+        }
+        [HttpPost(nameof(OperationWithNullObj))]
+        public Task<NullableResponseController?> OperationWithNullObj()
+        {
+            return Task.FromResult((NullableResponseController?)null);
+        }
+
+        [HttpPost(nameof(OperationWithNullObjAndCanBeNull))]
+        [return:CanBeNull] public Task<NullableResponseController?> OperationWithNullObjAndCanBeNull()
+        {
+            return Task.FromResult((NullableResponseController?)null);
+        }
+
+        [HttpPost(nameof(OperationWithNullObjAndNotNull))]
+        [return:NotNull] public Task<NullableResponseController?> OperationWithNullObjAndNotNull()
+        {
+            return Task.FromResult((NullableResponseController?)null);
+        }
+
     }
 }

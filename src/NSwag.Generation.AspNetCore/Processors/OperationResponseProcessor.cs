@@ -10,6 +10,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NSwag.Generation.Processors;
@@ -78,13 +79,24 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
-                        var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
+                        var returnParameter = context.MethodInfo?.ReturnParameter;
+                        var returnTypeAttributes = returnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
-
+                        var isNullable = false;
+#if NET6_0_OR_GREATER
+                        var nullabilityInfo = new NullabilityInfoContext().Create(returnParameter);
+                        isNullable =
+                            nullabilityInfo.Type.IsGenericType && nullabilityInfo.Type.GetGenericTypeDefinition() == typeof(Task<>)
+                                ? nullabilityInfo.GenericTypeArguments.First().ReadState == NullabilityState.Nullable
+                                : nullabilityInfo.ReadState == NullabilityState.Nullable;
+#endif
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
+                        var jsonTypeDescription = _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
                         var isResponseNullable = nullableXmlAttribute != null ?
                                                  nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
-                                                 _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+                                                 jsonTypeDescription.ContextualType.Nullability == Nullability.NotNullable
+                                                     ? isNullable
+                                                     : jsonTypeDescription.IsNullable;
 
                         response.IsNullableRaw = isResponseNullable;
                         response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
