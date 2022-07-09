@@ -124,6 +124,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             Assert.True(operation.ActualResponses.First().Value.Schema.IsNullable(SchemaType.OpenApi3));
         }
 
+#if NET6_0_OR_GREATER
         [Fact]
         public async Task When_return_string_parameter_isNullable_then_parameter_isNullable()
         {
@@ -199,7 +200,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
 
             Assert.True(operation.ActualResponses.First().Value.Schema.IsNullable(SchemaType.OpenApi3));
         }
-
+#endif
     }
 
 }
