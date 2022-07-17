@@ -82,3 +82,9 @@ _ReSharper.Caches/
 
 /artifacts
 *.binlog
+
+# codegen
+/src/NSwag.ApiDescription.Client/OpenApiReference*.xml
+/src/NSwag.ApiDescription.Client/OpenApiReference*.targets
+/src/NSwag.MSBuild/NSwagController*.xml
+/src/NSwag.MSBuild/NSwagController*.targets
