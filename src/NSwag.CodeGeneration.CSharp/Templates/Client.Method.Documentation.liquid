@@ -3,6 +3,11 @@
 /// {{ operation.Summary | csharpdocs }}
 /// </summary>
 {% endif -%}
+{% if operation.HasDescription -%}
+/// <remarks>
+/// {{ operation.Description | csharpdocs }}
+/// </remarks>
+{% endif -%}
 {% for parameter in operation.Parameters -%}
 {%     if parameter.HasDescription -%}
 /// <param name="{{ parameter.VariableIdentifier }}">{{ parameter.Description | csharpdocs }}</param>

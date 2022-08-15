@@ -71,7 +71,7 @@ namespace NSwag.Generation.Processors
 
             if (!string.IsNullOrEmpty(description))
             {
-                context.OperationDescription.Operation.Description = description;
+                context.OperationDescription.Operation.Description = description.Trim();
             }
         }
     }
