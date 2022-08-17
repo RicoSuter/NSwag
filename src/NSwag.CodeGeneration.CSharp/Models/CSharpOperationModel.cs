@@ -246,6 +246,11 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             var schema = parameter.ActualSchema;
 
+            if (parameter.Kind == OpenApiParameterKind.Header && parameter.Name == "Content-Disposition")
+            {
+                return "System.Net.Http.Headers.ContentDispositionHeaderValue";
+            }
+
             if (parameter.IsBinaryBodyParameter)
             {
                 if (_settings is CSharpControllerGeneratorSettings controllerSettings)
