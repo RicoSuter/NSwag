@@ -27,8 +27,8 @@ namespace NSwag.Generation.WebApi.Tests.Attributes
             }
         }
 
-        [System.Web.Http.Route("api1/{regionId:int}/food")]
-        [System.Web.Http.Route("api2/{regionId:int}/food")]
+        [System.Web.Http.Route("api/{regionId:int}/beverages")]
+        [System.Web.Http.Route("api/{regionId:int}/fluids")]
         public class BeveragesController : RegionalItemController
         {
             [System.Web.Http.HttpGet]
@@ -66,8 +66,8 @@ namespace NSwag.Generation.WebApi.Tests.Attributes
 
             // Assert
             var operations = document.Operations.ToArray();
-            Assert.IsTrue(operations[0].Path.Contains("api1"));
-            Assert.IsTrue(operations[1].Path.Contains("api2"));
+            Assert.IsTrue(operations[0].Path.Contains("beverages"));
+            Assert.IsTrue(operations[1].Path.Contains("fluids"));
             Assert.AreEqual("regionId", operations[0].Operation.Parameters.First().Name);
             Assert.AreEqual("regionId", operations[1].Operation.Parameters.First().Name);
         }
