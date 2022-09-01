@@ -454,7 +454,7 @@ namespace NSwag.Generation.WebApi
                 var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
 
                 var routeAttributes = GetRouteAttributes(attributes);
-                if (routeAttributes != null)
+                if (routeAttributes != null && routeAttributes.Any())
                 {
                     return routeAttributes;
                 }
