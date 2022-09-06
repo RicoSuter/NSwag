@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -82,9 +83,15 @@ namespace NSwag
         [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
 
-        /// <summary>Gets or sets the operations.</summary>
-        [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <summary>Gets the operations.</summary>
+        [JsonIgnore]
         public IDictionary<string, OpenApiPathItem> Paths => _paths;
+
+        /// <summary>
+        /// This property is used to output the paths sorted by key
+        /// </summary>
+        [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        internal IDictionary<string, OpenApiPathItem> SortedPaths => new SortedDictionary<string, OpenApiPathItem>(_paths);
 
         /// <summary>Gets or sets the components.</summary>
         [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
