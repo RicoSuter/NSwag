@@ -16,7 +16,7 @@
     "aurelia-templating-binding": "^1.0.0",
     "aurelia-templating-resources": "^1.0.0",
     "aurelia-templating-router": "^1.0.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.5.0"
   },
