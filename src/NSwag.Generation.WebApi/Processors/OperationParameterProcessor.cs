@@ -453,7 +453,7 @@ namespace NSwag.Generation.WebApi.Processors
                             propertyName = fromHeaderAttribute?.Name;
                         }
 
-                        var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary(_settings.ResolveExternalXmlDocumentation);
+                        var propertySummary = contextualProperty.PropertyInfo.GetXmlDocsSummary(_settings.GetXmlDocsOptions());
                         var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(propertyName, propertySummary, contextualProperty.AccessorType);
 
                         // TODO: Check if required can be controlled with mechanisms other than RequiredAttribute

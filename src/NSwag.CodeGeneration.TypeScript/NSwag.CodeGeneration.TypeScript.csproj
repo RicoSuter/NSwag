@@ -18,6 +18,6 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.7.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.8.0" />
   </ItemGroup>
 </Project>

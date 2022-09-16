@@ -99,7 +99,7 @@ namespace NSwag.Generation.Processors
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
         {
-            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.ResolveExternalXmlDocumentation);
+            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.GetXmlDocsOptions());
             return operationXmlDocs?.Nodes()?.OfType<XElement>();
         }
 
