@@ -77,6 +77,5 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value));", code);
             Assert.Contains("var content_ = new System.Net.Http.StringContent(body);", code);
         }
-
     }
 }
