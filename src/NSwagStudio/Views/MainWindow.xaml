@@ -53,7 +53,14 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="{Binding Document.Name}" VerticalAlignment="Center" Margin="0,2,0,0" />
+                                <TextBlock Text="{Binding Document.Name}" VerticalAlignment="Center" Margin="0,2,0,0">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding
+                                            CommandParameter="{Binding}"
+                                            Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}"
+                                            Gesture="MiddleClick" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
                                 <Button Grid.Column="1"
                                         Content="X" Padding="6,2,6,2" Margin="8,3,0,2"
                                         CommandParameter="{Binding}"

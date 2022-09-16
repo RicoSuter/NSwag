@@ -594,9 +594,18 @@ namespace NSwag.Generation.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                var httpMethods = acceptVerbsAttribute.HttpMethods is ICollection
-                    ? ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant())
-                    : ((IEnumerable<string>)acceptVerbsAttribute.HttpMethods).Select(v => v.ToLowerInvariant());
+                IEnumerable<string> httpMethods = new List<string>();
+
+                if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "HttpMethods"))
+                {
+                    httpMethods = acceptVerbsAttribute.HttpMethods is ICollection
+                        ? ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant())
+                        : ((IEnumerable<string>)acceptVerbsAttribute.HttpMethods).Select(v => v.ToLowerInvariant());
+                }
+                else if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "Verbs"))
+                {
+                    httpMethods = ((IEnumerable<string>)acceptVerbsAttribute.Verbs).Select(v => v.ToLowerInvariant());
+                }
 
                 foreach (var verb in httpMethods)
                 {
