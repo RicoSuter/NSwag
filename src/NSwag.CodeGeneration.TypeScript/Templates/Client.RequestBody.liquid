@@ -78,6 +78,8 @@ const content_ = {{ operation.ContentParameter.VariableName }};
 const content_ = Object.keys({{ operation.ContentParameter.VariableName }} as any).map((key) => {
     return encodeURIComponent(key) + '=' + encodeURIComponent(({{ operation.ContentParameter.VariableName }} as any)[key]);
 }).join('&')
+{%-         elsif operation.HasPlainTextBodyParameter -%}
+const content_ = {{ operation.ContentParameter.VariableName }};
 {%-         else -%}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
 {%-         endif -%}

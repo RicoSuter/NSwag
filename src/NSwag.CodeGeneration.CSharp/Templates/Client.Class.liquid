@@ -210,6 +210,9 @@
                 var dictionary_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, string>>(json_, _settings.Value);
                 var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%         elsif operation.HasPlainTextBodyParameter -%}
+                var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
                 var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value);
                 var content_ = new System.Net.Http.StringContent(json_);
