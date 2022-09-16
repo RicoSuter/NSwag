@@ -8,7 +8,7 @@ using NJsonSchema.Generation;
 using NJsonSchema.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NSwag.Generation.WebApi.Tests.Nullability
+namespace NSwag.Generation.WebApi.Nullable.Tests.Nullability
 {
     [TestClass]
     public class ResponseNullabilityTests
@@ -63,22 +63,17 @@ namespace NSwag.Generation.WebApi.Tests.Nullability
             Assert.IsTrue(responseAbc.IsNullable(SchemaType.Swagger2));
             Assert.IsFalse(responseDef.IsNullable(SchemaType.Swagger2));
             Assert.IsFalse(responseGhi.IsNullable(SchemaType.Swagger2));
-
-            Assert.IsTrue(responseAbc.IsNullable(SchemaType.OpenApi3));
-            Assert.IsFalse(responseDef.IsNullable(SchemaType.OpenApi3));
-            Assert.IsFalse(responseGhi.IsNullable(SchemaType.OpenApi3));
-    }
+        }
 
         public class NullableReferenceTypesResponseTestController : ApiController
         {
-            [Route("Abc")]
-            public Task<string> Abc()
+            [Route("Abc")]        
+            public Task<string?> Abc()
             {
-                return Task.FromResult<string>(null);
+                return Task.FromResult<string?>(null);
             }
 
-            [Route("Def")]
-            [return: NotNull]
+            [Route("Def")]        
             public Task<object> Def()
             {
                 return Task.FromResult(new object());
@@ -86,12 +81,12 @@ namespace NSwag.Generation.WebApi.Tests.Nullability
         }
 
         [TestMethod]
-        public async Task When_response_is_task()
+        public async Task When_response_is_not_nullable_then_nullable_is_false_in_spec_respecting_nullable_reference_types()
         {
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-              DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
             });
 
             // Act
@@ -106,7 +101,7 @@ namespace NSwag.Generation.WebApi.Tests.Nullability
 
             Assert.IsTrue(responseAbc.IsNullable(SchemaType.Swagger2));
             Assert.IsFalse(responseDef.IsNullable(SchemaType.Swagger2));
-
+            
             Assert.IsTrue(responseAbc.IsNullable(SchemaType.OpenApi3));
             Assert.IsFalse(responseDef.IsNullable(SchemaType.OpenApi3));
         }

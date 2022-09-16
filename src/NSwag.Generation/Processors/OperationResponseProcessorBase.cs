@@ -7,13 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Namotion.Reflection;
 using NJsonSchema;
+using System.Xml.Linq;
+using System.Reflection;
+using Namotion.Reflection;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using NJsonSchema.Infrastructure;
 using NSwag.Generation.Processors.Contexts;
 

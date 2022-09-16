@@ -172,6 +172,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET60", "NSwag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET60Minimal", "NSwag.Sample.NET60Minimal\NSwag.Sample.NET60Minimal.csproj", "{24693FBC-445E-4360-A1E8-B6F136C563FB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Generation.WebApi.Nullable.Tests", "NSwag.Generation.WebApi.Nullable.Tests\NSwag.Generation.WebApi.Nullable.Tests.csproj", "{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1069,6 +1071,24 @@ Global
 		{24693FBC-445E-4360-A1E8-B6F136C563FB}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
 		{24693FBC-445E-4360-A1E8-B6F136C563FB}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
 		{24693FBC-445E-4360-A1E8-B6F136C563FB}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|x64.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.Release|x86.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|Any CPU.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|Any CPU.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|x64.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|x64.Build.0 = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|x86.ActiveCfg = Release|Any CPU
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865}.ReleaseTypeScriptStrict|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1129,6 +1149,7 @@ Global
 		{AC3D8125-AE21-49FC-A217-D96C7B585FF9} = {6F5E4FDF-0A82-42D5-94AC-A9CD43CC931D}
 		{DE82965A-6935-43E0-A9A1-F3F35B4487EB} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
 		{24693FBC-445E-4360-A1E8-B6F136C563FB} = {D8CC0D1C-8DAC-49FE-AA78-C028DC124DD5}
+		{F7B6E52B-FA9D-423B-BB40-6B3DBED93865} = {634E4ABD-29EC-4EB2-81EF-7E41D6D6F6E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98FCEEE2-A45C-41E7-B2ED-1B14755E9067}
