@@ -7,10 +7,10 @@
 //-----------------------------------------------------------------------
 
 using System;
-using NJsonSchema;
-using NJsonSchema.CodeGeneration;
 using System.Collections.Generic;
 using System.Linq;
+using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration.Models
 {
@@ -210,6 +210,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is supplied through the request headers.</summary>
         public bool IsHeader => Kind == OpenApiParameterKind.Header;
+
+        /// <summary>Gets a value indicating whether the parameter allows empty values.</summary>
+        public bool AllowEmptyValue => _parameter.AllowEmptyValue;
 
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;
