@@ -79,7 +79,7 @@ import { DateTime, Duration } from "luxon";
 {% if ExportTypes %}export {% endif %}module {{ ModuleName }} {
 {%- endif -%}
 {% if HasNamespace -%}
-namespace {{ Namespace }} {
+{% if ExportTypes %}export {% endif %}namespace {{ Namespace }} {
 {%- endif -%}
 {% if GenerateClientClasses and Framework.IsAngular -%}
 {% if ExportTypes %}export {% endif %}const {{ Framework.Angular.BaseUrlTokenName }} = new {{ Framework.Angular.InjectionTokenType }}{% if Framework.Angular.InjectionTokenType == "InjectionToken" %}<string>{% endif %}('{{ Framework.Angular.BaseUrlTokenName }}');
