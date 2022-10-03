@@ -13,5 +13,20 @@
     <NSwagDir_Core31>$(MSBuildThisFileDirectory)../tools/NetCore31/</NSwagDir_Core31>
     <NSwagDir_Net50>$(MSBuildThisFileDirectory)../tools/Net50/</NSwagDir_Net50>
     <NSwagDir_Net60>$(MSBuildThisFileDirectory)../tools/Net60/</NSwagDir_Net60>
+
+    <NSwagControllerPropertyPageEnabled Condition="'$(NSwagControllerPropertyPageEnabled)' == ''"></NSwagControllerPropertyPageEnabled>
+    <NSwagControllerGenerateCodeOptions Condition="'$(NSwagControllerGenerateCodeOptions)' == ''"></NSwagControllerGenerateCodeOptions>
+    <NSwagControllerCodeDirectory Condition="'$(NSwagControllerCodeDirectory)' == ''">$(BaseIntermediateOutputPath)</NSwagControllerCodeDirectory>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AvailableItemName Include="NSwagController" />
+  </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <NSwagController>
+      <Namespace>$(RootNamespace)</Namespace>
+      <Options>$(NSwagControllerGenerateCodeOptions)</Options>
+    </NSwagController>
+  </ItemDefinitionGroup>
 </Project>

@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.MSBuild", "NSwag.MSBu
 		NSwag.MSBuild\build.bat = NSwag.MSBuild\build.bat
 		NSwag.MSBuild\NSwag.MSBuild.nuspec = NSwag.MSBuild\NSwag.MSBuild.nuspec
 		NSwag.MSBuild\NSwag.MSBuild.props = NSwag.MSBuild\NSwag.MSBuild.props
+		NSwag.MSBuild\NSwag.MSBuild.targets = NSwag.MSBuild\NSwag.MSBuild.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.AspNet.Owin", "NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj", "{69A692EB-C277-46AB-BA55-B33E7E6E129C}"
@@ -147,6 +148,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.ApiDescription.Client", "NSwag.ApiDescription.Client", "{E6E40935-0C79-480B-BF29-8C493AC7E518}"
 	ProjectSection(SolutionItems) = preProject
 		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.nuspec = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.nuspec
+		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.props = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.props
 		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.targets = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.targets
 	EndProjectSection
 EndProject

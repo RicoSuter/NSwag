@@ -1,0 +1,23 @@
+﻿<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule Name="OpenApiReference"
+      DisplayName="File Properties"
+      PageTemplate="generic"
+      Description="File Properties"
+      OverrideMode="Extend">
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Configuration" ItemType="OpenApiReference"
+            HasConfigurationCondition="false" SourceOfDefaultValue="AfterContext" />
+    </Rule.DataSource>
+
+    <StringProperty Name="Options" DisplayName="Generator options"
+                    Category="CodeGen"
+                    Description="Options to pass to the code generator."
+                    ReadOnly="true">
+      <StringProperty.DataSource>
+        <DataSource ItemType="OpenApiReference" SourceOfDefaultValue="AfterContext"
+                    PersistenceStyle="Attribute" />
+      </StringProperty.DataSource>
+    </StringProperty>
+
+  </Rule>
+</ProjectSchemaDefinitions>

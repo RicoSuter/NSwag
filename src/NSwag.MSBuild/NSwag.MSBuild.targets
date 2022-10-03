@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_NSwagMSBuildCommand>$(NSwagExe)</_NSwagMSBuildCommand>
+    <_NSwagMSBuildCommand
+        Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Core31)dotnet-nswag.dll"</_NSwagMSBuildCommand>
+    <_NSwagMSBuildCommand
+        Condition="'$(TargetFramework)' == 'net5.0'">dotnet --roll-forward Major "$(NSwagDir_Net50)dotnet-nswag.dll"</_NSwagMSBuildCommand>
+    <_NSwagMSBuildCommand
+        Condition="'$(TargetFramework)' == 'net6.0'">dotnet --roll-forward Major "$(NSwagDir_Net60)dotnet-nswag.dll"</_NSwagMSBuildCommand>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(NSwagControllerPropertyPageEnabled)' == 'true'">
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)NSwagControllerExtensionSchemaCSharp.xml">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+
+  <ItemGroup>
+    <NSwagController Update="@(NSwagController)">
+      <OutputPath Condition="'%(OutputPath)' == ''">$([System.IO.Path]::Combine('$(NSwagControllerCodeDirectory)', '%(Filename)Controller.g.cs'))</OutputPath>
+      <Options>/input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Options>
+    </NSwagController>
+  </ItemGroup>
+  
+  <Import Project="$(MSBuildThisFileDirectory)NSwagControllerUpdateCSharp.targets" Condition="'$(NSwagControllerPropertyPageEnabled)' == 'true'"/>
+
+  <Target Name="_NSwagController_Generate"
+        BeforeTargets="BeforeCompile"
+        Inputs="$(MSBuildProjectFile);@(NSwagController)"
+        Outputs="@(NSwagController->'%(OutputPath)')"
+        Condition="'@(NSwagController)' != ''">
+
+    <ItemGroup>
+      <Compile Include="@(NSwagController->'%(OutputPath)')"/>
+    </ItemGroup>
+
+    <Message Text="$(_NSwagMSBuildCommand) openapi2cscontroller %(NSwagController.Options)" Importance="high"/>
+    <Exec Command="$(_NSwagMSBuildCommand) openapi2cscontroller %(NSwagController.Options)"/>
+  </Target>
+
+  <Target Name="_NSwagController_CoreClean"
+          AfterTargets="CoreClean">
+    <Delete Files="%(NSwagController.OutputPath)" TreatErrorsAsWarnings="true"/>
+  </Target>
+
+</Project>

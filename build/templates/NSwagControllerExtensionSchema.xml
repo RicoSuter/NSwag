@@ -1,0 +1,86 @@
+﻿<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <ContentType Name="NSwagController"
+              DisplayName="NSwag controller file reference"
+              ItemType="NSwagController" />
+
+  <ItemType Name="NSwagController"
+            DisplayName="NSwagController File Reference" />
+
+  <Rule Name="NSwagController"
+      DisplayName="File Properties"
+      PageTemplate="generic"
+      Description="File Properties"
+      OverrideMode="Extend">
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Configuration" ItemType="NSwagController"
+            HasConfigurationCondition="false" SourceOfDefaultValue="AfterContext" />
+    </Rule.DataSource>
+
+    <Rule.Categories>
+      <Category Name="Advanced" DisplayName="Advanced" />
+      <Category Name="CodeGen" DisplayName="Code Generation" />
+      <Category Name="Misc" DisplayName="Misc" />
+    </Rule.Categories>
+
+    <DynamicEnumProperty Name="{}{ItemType}" DisplayName="Build Action"  Category="Advanced"
+                         Description="How the file relates to the build and deployment processes."
+                         EnumProvider="ItemTypes" />
+
+    <StringProperty Name="Identity" Visible="false" ReadOnly="true">
+      <StringProperty.DataSource>
+        <DataSource Persistence="Intrinsic" ItemType="NSwagController"
+                    PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+      </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="FullPath"
+                    DisplayName="Full Path"
+                    ReadOnly="true"
+                    Category="Misc"
+                    Description="Location of the file.">
+      <StringProperty.DataSource>
+        <DataSource Persistence="Intrinsic" ItemType="NSwagController"
+                    PersistedName="FullPath" SourceOfDefaultValue="AfterContext" />
+      </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="FileNameAndExtension"
+                    DisplayName="File Name"
+                    ReadOnly="true"
+                    Category="Misc"
+                    Description="Name of the file.">
+      <StringProperty.DataSource>
+        <DataSource Persistence="Intrinsic" ItemType="NSwagController"
+                    PersistedName="FileNameAndExtension" SourceOfDefaultValue="AfterContext" />
+      </StringProperty.DataSource>
+    </StringProperty>
+
+    <BoolProperty Name="Visible" Visible="false" Default="true" />
+
+    <StringProperty Name="DependentUpon" Visible="false">
+      <StringProperty.Metadata>
+        <NameValuePair Name="DoNotCopyAcrossProjects" Value="true" />
+      </StringProperty.Metadata>
+    </StringProperty>
+
+    <StringProperty Name="Link" Visible="false">
+      <StringProperty.DataSource>
+        <DataSource SourceOfDefaultValue="AfterContext" PersistenceStyle="Attribute" />
+      </StringProperty.DataSource>
+      <StringProperty.Metadata>
+        <NameValuePair Name="DoNotCopyAcrossProjects" Value="true" />
+      </StringProperty.Metadata>
+    </StringProperty>
+
+    <StringProperty Name="Options" DisplayName="Generator options"
+                    Category="CodeGen"
+                    Description="Options to pass to the code generator."
+                    ReadOnly="true">
+      <StringProperty.DataSource>
+        <DataSource ItemType="NSwagController" SourceOfDefaultValue="AfterContext"
+                    PersistenceStyle="Attribute" />
+      </StringProperty.DataSource>
+    </StringProperty>
+
+  </Rule>
+</ProjectSchemaDefinitions>

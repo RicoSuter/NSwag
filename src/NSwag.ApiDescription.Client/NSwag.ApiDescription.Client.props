@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project>
+  <PropertyGroup>
+    <!-- 
+    Enable file properties for @(OpenApiReference).
+    Supported values CSharp, TypeScript
+    -->
+    <NSwagPropertyPageType Condition="('$(NSwagPropertyPageSchemaType)' != 'CSharp') And ('$(NSwagPropertyPageSchemaType)' != 'TypeScript')"></NSwagPropertyPageType>
+  </PropertyGroup>
+  
   <!-- Reset well-known metadata of the code generator item groups to make NSwag C# generator the default. -->
   <ItemDefinitionGroup>
     <OpenApiReference>
