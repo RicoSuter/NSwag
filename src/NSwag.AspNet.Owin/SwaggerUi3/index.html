@@ -85,16 +85,21 @@ window.onload = function() {
   });
 
   if ("{ClientId}") {
-    ui.initOAuth({
+    const oAuthConfig = {
       clientId: "{ClientId}",
-      clientSecret: "{ClientSecret}",
       realm: "{Realm}",
       appName: "{AppName}",
       scopeSeparator: "{ScopeSeparator}",
       scopes: {Scopes},
       additionalQueryStringParams: {AdditionalQueryStringParameters},
       usePkceWithAuthorizationCodeGrant: {UsePkceWithAuthorizationCodeGrant}
-    });
+    };
+
+    if (!{UsePkceWithAuthorizationCodeGrant}) {
+      oAuthConfig.clientSecret = "{ClientSecret}";
+    }
+    
+    ui.initOAuth(oAuthConfig);
   }
 
   window.ui = ui;
