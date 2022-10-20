@@ -53,8 +53,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj', 'src/**/package.json') }}
-      - name: Run './build.cmd InstallDependencies Compile Test Pack Publish'
-        run: ./build.cmd InstallDependencies Compile Test Pack Publish
+      - name: Run './build.cmd InstallDependencies Compile Pack Publish'
+        run: ./build.cmd InstallDependencies Compile Pack Publish
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
