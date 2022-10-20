@@ -212,15 +212,23 @@ namespace NSwag.Generation.AspNetCore
                             continue;
                         }
 
-                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo;
-                        if (method != null)
+                        MethodInfo method = null;
+                        if (item.Item2 is ControllerActionDescriptor cad && cad.MethodInfo != null)
                         {
-                            var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
+                            var actionHasIgnoreAttribute = cad.MethodInfo.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
                             if (actionHasIgnoreAttribute)
                             {
                                 continue;
                             }
                         }
+#if NETCOREAPP3_1_OR_GREATER
+
+                        else if(item.Item2 is Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor acd)
+                        {
+                            var methodInfos = item.Item2.EndpointMetadata;
+                            method = methodInfos.OfType<MethodInfo>().FirstOrDefault();
+                        }
+#endif
 
                         var path = apiDescription.RelativePath;
                         if (!path.StartsWith("/", StringComparison.Ordinal))
