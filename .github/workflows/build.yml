@@ -21,6 +21,7 @@ on:
     branches:
       - master
       - main
+      - codespace-cebc
     tags:
       - 'v*.*.*'
     paths:
