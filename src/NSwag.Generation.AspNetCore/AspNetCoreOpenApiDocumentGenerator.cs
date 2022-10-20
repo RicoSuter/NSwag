@@ -223,10 +223,10 @@ namespace NSwag.Generation.AspNetCore
                         }
 #if NETCOREAPP3_1_OR_GREATER
 
-                        else if(item.Item2 is Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor acd)
+                        else
                         {
-                            var methodInfos = item.Item2.EndpointMetadata;
-                            method = methodInfos.OfType<MethodInfo>().FirstOrDefault();
+                            var methodInfos = item.Item2?.EndpointMetadata;
+                            method = methodInfos?.OfType<MethodInfo>().FirstOrDefault();
                         }
 #endif
 
