@@ -49,13 +49,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             Types = dtoTypes.OrderByBaseDependency().Concatenate();
             ExtensionCodeBottom = GenerateExtensionCodeAfter();
             Framework = new TypeScriptFrameworkModel(settings);
-            SourceSha = _settings.ChecksumCacheEnabled ? _document.GetChecksum() : "";
         }
-
-        /// <summary>
-        /// Gets the checksum for the document that was used to produce the file.
-        /// </summary>
-        public string SourceSha { get; }
 
         /// <summary>Gets framework specific information.</summary>
         public TypeScriptFrameworkModel Framework { get; set; }
@@ -96,6 +90,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
+
+        /// <summary>Gets a value indicating whether to include the httpContext parameter (Angular template only, default: false).</summary>
+        public bool IncludeHttpContext => _settings.IncludeHttpContext;
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
@@ -163,6 +160,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
         public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
+
+        /// <summary>Gets a value indicating whether the target TypeScript version supports override keyword.</summary>
+        public bool SupportsOverrideKeyword => _settings.TypeScriptGeneratorSettings.SupportsOverrideKeyword;
+
+        /// <summary>Gets a value indicating whether the target TypeScript version supports Type-Only imports</summary>
+        public bool SupportsTypeOnlyImports => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 3.8m;
 
         private string GenerateExtensionCodeAfter()
         {

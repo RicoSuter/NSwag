@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace NSwag.Sample.NETCore31
+namespace NSwag.Sample.NET50
 {
     public class Program
     {

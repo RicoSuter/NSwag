@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
@@ -31,7 +32,12 @@ namespace NSwag.Commands
         /// <summary>Processes the command line arguments.</summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The result.</returns>
-        public int Process(string[] args)
+        public int Process(string[] args) => ProcessAsync(args).GetAwaiter().GetResult();
+
+        /// <summary>Processes the command line arguments.</summary>
+        /// <param name="args">The arguments.</param>
+        /// <returns>The result.</returns>
+        public async Task<int> ProcessAsync(string[] args)
         {
             _host.WriteMessage("toolchain v" + OpenApiDocument.ToolchainVersion +
                 " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
@@ -52,7 +58,7 @@ namespace NSwag.Commands
 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                processor.Process(args);
+                await processor.ProcessAsync(args).ConfigureAwait(false);
                 stopwatch.Stop();
 
                 _host.WriteMessage("\nDuration: " + stopwatch.Elapsed + "\n");
@@ -71,11 +77,11 @@ namespace NSwag.Commands
         {
             try
             {
-                dynamic entryAssembly;
-                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
+                Assembly entryAssembly;
+                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", Array.Empty<Type>());
                 if (getEntryAssemblyMethod != null)
                 {
-                    entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                    entryAssembly = (Assembly) getEntryAssemblyMethod.Invoke(null, Array.Empty<object>());
                 }
                 else
                 {

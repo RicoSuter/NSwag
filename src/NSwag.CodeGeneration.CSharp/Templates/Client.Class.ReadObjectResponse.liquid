@@ -4,11 +4,11 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
 {
     if (response == null || response.Content == null)
     {
-{% if GenerateNullableReferenceTypes -%}
+{%- if GenerateNullableReferenceTypes -%}
         return new ObjectResponseResult<T>(default(T)!, string.Empty);
-{% else -%}
+{%- else -%}
         return new ObjectResponseResult<T>(default(T), string.Empty);
-{% endif -%}
+{%- endif -%}
     }
 
     if (ReadResponseAsString)
@@ -17,11 +17,11 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         try
         {
             var typedBody = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<T>(responseText, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings);
-{% if GenerateNullableReferenceTypes -%}
+{%- if GenerateNullableReferenceTypes -%}
             return new ObjectResponseResult<T>(typedBody!, responseText);
-{% else -%}
+{%- else -%}
             return new ObjectResponseResult<T>(typedBody, responseText);
-{% endif -%}
+{%- endif -%}
         }
         catch ({% if UseSystemTextJson %}System.Text.Json.JsonException{% else %}Newtonsoft.Json.JsonException{% endif %} exception)
         {
@@ -34,21 +34,21 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         try
         {
             using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-{% if UseSystemTextJson -%}
+{%- if UseSystemTextJson -%}
             {
                 var typedBody = await System.Text.Json.JsonSerializer.DeserializeAsync<T>(responseStream, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken).ConfigureAwait(false);
-{% else -%}
+{%- else -%}
             using (var streamReader = new System.IO.StreamReader(responseStream))
             using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
             {
                 var serializer = Newtonsoft.Json.JsonSerializer.Create({% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings);
                 var typedBody = serializer.Deserialize<T>(jsonTextReader);
-{% endif -%}
-{% if GenerateNullableReferenceTypes -%}
+{%- endif -%}
+{%- if GenerateNullableReferenceTypes -%}
                 return new ObjectResponseResult<T>(typedBody!, string.Empty);
-{% else -%}
+{%- else -%}
                 return new ObjectResponseResult<T>(typedBody, string.Empty);
-{% endif -%}
+{%- endif -%}
             }
         }
         catch ({% if UseSystemTextJson %}System.Text.Json.JsonException{% else %}Newtonsoft.Json.JsonException{% endif %} exception)

@@ -33,6 +33,7 @@ namespace NSwag.CodeGeneration
                 .Replace("-", "_")
                 .Replace(".", "_")
                 .Replace("$", string.Empty)
+                .Replace("@", string.Empty)
                 .Replace("[", string.Empty)
                 .Replace("]", string.Empty), true);
 

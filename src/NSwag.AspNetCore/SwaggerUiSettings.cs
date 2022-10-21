@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Reflection;
+using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
 
@@ -56,23 +57,24 @@ namespace NSwag.AspNetCore
         internal override string TransformHtml(string html, HttpRequest request)
 #endif
         {
+            var htmlBuilder = new StringBuilder(html);
             var oauth2Settings = OAuth2Client ?? new OAuth2ClientSettings();
             foreach (var property in oauth2Settings.GetType().GetRuntimeProperties())
             {
                 var value = property.GetValue(oauth2Settings);
-                html = html.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
+                htmlBuilder.Replace("{" + property.Name + "}", value is IDictionary ? JsonConvert.SerializeObject(value) : value?.ToString() ?? "");
             }
 
-            html = html.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null");
-            html = html.Replace("{DocExpansion}", DocExpansion);
-            html = html.Replace("{SupportedSubmitMethods}", JsonConvert.SerializeObject(SupportedSubmitMethods ?? new string[] { }));
-            html = html.Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false");
-            html = html.Replace("{DefaultModelRendering}", DefaultModelRendering);
-            html = html.Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false");
-            html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
-            html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
+            htmlBuilder.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null")
+                .Replace("{DocExpansion}", DocExpansion)
+                .Replace("{SupportedSubmitMethods}", JsonConvert.SerializeObject(SupportedSubmitMethods ?? new string[] { }))
+                .Replace("{UseJsonEditor}", UseJsonEditor ? "true" : "false")
+                .Replace("{DefaultModelRendering}", DefaultModelRendering)
+                .Replace("{ShowRequestHeaders}", ShowRequestHeaders ? "true" : "false")
+                .Replace("{CustomStyle}", GetCustomStyleHtml(request))
+                .Replace("{CustomScript}", GetCustomScriptHtml(request));
 
-            return html;
+            return htmlBuilder.ToString();
         }
     }
 }

@@ -31,16 +31,19 @@ namespace NSwag.Generation.Processors
                 operation.ExtensionData = new Dictionary<string, object>();
             }
 
-            foreach (var extensionDataAttribute in
-                    from extensionDataAttribute
-                    in context.MethodInfo.GetCustomAttributes()
-                        .GetAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name)
-                    select (dynamic)extensionDataAttribute)
+            if (context.MethodInfo != null)
             {
-                string key = extensionDataAttribute.Key;
-                string value = extensionDataAttribute.Value;
+                foreach (var extensionDataAttribute in
+                        from extensionDataAttribute
+                        in context.MethodInfo.GetCustomAttributes()
+                            .GetAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name)
+                        select (dynamic)extensionDataAttribute)
+                {
+                    string key = extensionDataAttribute.Key;
+                    string value = extensionDataAttribute.Value;
 
-                operation.ExtensionData[key] = value;
+                    operation.ExtensionData[key] = value;
+                }
             }
 
             foreach (var parameter in context.Parameters)

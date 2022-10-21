@@ -1,7 +1,7 @@
 {% if parameter.IsStringArray -%}
 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", {{ parameter.VariableName }});
-{% elseif parameter.IsDateTime -%}
-request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}{{ if parameter.IsNullable }}?{{ endif }}.ToString("{{ ParameterDateTimeFormat }}"), System.Globalization.CultureInfo.InvariantCulture));
+{% elsif parameter.IsDateTime -%}
+request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}{% if parameter.IsNullable %}?{% endif %}.ToString("{{ ParameterDateTimeFormat }}"), System.Globalization.CultureInfo.InvariantCulture));
 {% else -%}
 request_.Headers.TryAddWithoutValidation("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture));
-{% endif -%}
+{%- endif %}

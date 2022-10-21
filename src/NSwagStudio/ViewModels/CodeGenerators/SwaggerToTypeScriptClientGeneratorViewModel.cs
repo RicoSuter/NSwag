@@ -32,7 +32,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the supported TypeScript versions.</summary>
-        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m };
+        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m, 4.3m };
 
         /// <summary>Gets the supported RxJs versions.</summary>
         public decimal[] RxJsVersions => new[] { 5.0m, 6.0m, 7.0m };

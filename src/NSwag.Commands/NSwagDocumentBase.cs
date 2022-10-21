@@ -165,47 +165,44 @@ namespace NSwag.Commands
         /// <param name="applyTransformations">Specifies whether to expand environment variables and convert variables.</param>
         /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
-        protected static Task<TDocument> LoadAsync<TDocument>(
+        protected static async Task<TDocument> LoadAsync<TDocument>(
             string filePath,
             string variables,
             bool applyTransformations,
             IDictionary<Type, Type> mappings)
             where TDocument : NSwagDocumentBase, new()
         {
-            return Task.Run(async () =>
-            {
-                var data = DynamicApis.FileReadAllText(filePath);
-                data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
+            var data = DynamicApis.FileReadAllText(filePath);
+            data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
 
-                if (requiredLegacyTransformations)
+            if (requiredLegacyTransformations)
+            {
+                // Save now to avoid transformations
+                var document = LoadDocument<TDocument>(filePath, mappings, data);
+                await document.SaveAsync();
+            }
+
+            if (applyTransformations)
+            {
+                data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => EscapeJsonString(Environment.ExpandEnvironmentVariables(p.Value)));
+
+                foreach (var p in ConvertVariables(variables))
                 {
-                    // Save now to avoid transformations
-                    var document = LoadDocument<TDocument>(filePath, mappings, data);
-                    await document.SaveAsync();
+                    data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
                 }
 
-                if (applyTransformations)
+                var obj = JObject.Parse(data);
+                if (obj["defaultVariables"] != null)
                 {
-                    data = Regex.Replace(data, "%[A-Za-z0-9_]*?%", p => EscapeJsonString(Environment.ExpandEnvironmentVariables(p.Value)));
-
-                    foreach (var p in ConvertVariables(variables))
+                    var defaultVariables = obj["defaultVariables"].Value<string>();
+                    foreach (var p in ConvertVariables(defaultVariables))
                     {
                         data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
                     }
-
-                    var obj = JObject.Parse(data);
-                    if (obj["defaultVariables"] != null)
-                    {
-                        var defaultVariables = obj["defaultVariables"].Value<string>();
-                        foreach (var p in ConvertVariables(defaultVariables))
-                        {
-                            data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
-                        }
-                    }
                 }
+            }
 
-                return LoadDocument<TDocument>(filePath, mappings, data);
-            });
+            return LoadDocument<TDocument>(filePath, mappings, data);
         }
 
         private static TDocument LoadDocument<TDocument>(string filePath, IDictionary<Type, Type> mappings, string data)
@@ -244,11 +241,9 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
-            return Task.Run(() =>
-            {
-                DynamicApis.FileWriteAllText(Path, ToJsonWithRelativePaths());
-                _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
-            });
+            DynamicApis.FileWriteAllText(Path, ToJsonWithRelativePaths());
+            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            return Task.CompletedTask;
         }
 
         /// <summary>Converts the document to JSON with relative paths.</summary>
@@ -277,7 +272,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         protected async Task<OpenApiDocument> GenerateSwaggerDocumentAsync()
         {
-            return (OpenApiDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
+            return (OpenApiDocument) await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static string EscapeJsonString(string value)
@@ -394,7 +389,7 @@ namespace NSwag.Commands
 
                 if (CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory != null && !Directory.Exists(CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory))
                 {
-                    throw new InvalidOperationException($"The template directory \"{CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory}\" does not exist");   
+                    throw new InvalidOperationException($"The template directory \"{CodeGenerators.OpenApiToCSharpClientCommand.TemplateDirectory}\" does not exist");
                 }
             }
 

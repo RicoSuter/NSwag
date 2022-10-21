@@ -10,7 +10,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NSwag.Generation.Processors;
@@ -41,7 +40,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 return false;
             }
 
-            var responseTypeAttributes = context.MethodInfo
+            var responseTypeAttributes = context.MethodInfo?
                 .GetCustomAttributes()
                 .Where(a => a.GetType().IsAssignableToTypeName("ResponseTypeAttribute", TypeNameStyle.Name) ||
                             a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
@@ -49,9 +48,9 @@ namespace NSwag.Generation.AspNetCore.Processors
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
                     .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
                                 a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)))
-                .ToList();
+                .ToArray() ?? new Attribute[0];
 
-            if (responseTypeAttributes.Count > 0)
+            if (responseTypeAttributes.Length > 0)
             {
                 // if SwaggerResponseAttribute \ ResponseTypeAttributes are present, we'll only use those.
                 ProcessResponseTypeAttributes(context, responseTypeAttributes);
@@ -79,7 +78,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                     if (IsVoidResponse(returnType) == false)
                     {
-                        var returnTypeAttributes = context.MethodInfo.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
+                        var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");

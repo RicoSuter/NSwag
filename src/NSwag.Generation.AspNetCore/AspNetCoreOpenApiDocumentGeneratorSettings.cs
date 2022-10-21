@@ -40,7 +40,7 @@ namespace NSwag.Generation.AspNetCore
         /// <summary>
         /// Gets or sets a value indicating whether a route name associated with an action is used to generate its operationId.
         /// </summary>
-        /// <remarks>If <see cref="NSwag.Annotations.SwaggerOperationAttribute"/> is present, it will be preferred over the route name irrespective of this property.</remarks>
+        /// <remarks>If <code>SwaggerOperationAttribute</code> is present, it will be preferred over the route name irrespective of this property.</remarks>
         public bool UseRouteNameAsOperationId { get; set; }
     }
 }
