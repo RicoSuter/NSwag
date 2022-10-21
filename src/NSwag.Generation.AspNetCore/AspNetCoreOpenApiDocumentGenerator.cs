@@ -215,20 +215,25 @@ namespace NSwag.Generation.AspNetCore
                         MethodInfo method = null;
                         if (item.Item2 is ControllerActionDescriptor cad && cad.MethodInfo != null)
                         {
-                            var actionHasIgnoreAttribute = cad.MethodInfo.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
-                            if (actionHasIgnoreAttribute)
-                            {
-                                continue;
-                            }
+                            method = cad.MethodInfo;
                         }
 #if NETCOREAPP3_1_OR_GREATER
 
                         else
                         {
-                            var methodInfos = item.Item2?.EndpointMetadata;
-                            method = methodInfos?.OfType<MethodInfo>().FirstOrDefault();
+                            var metaData = item.Item2?.EndpointMetadata;
+                            method = metaData?.OfType<MethodInfo>().FirstOrDefault();
+                            
                         }
 #endif
+                        if (method != null)
+                        {
+                            var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
+                            if (actionHasIgnoreAttribute)
+                            {
+                                continue;
+                            }
+                        }
 
                         var path = apiDescription.RelativePath;
                         if (!path.StartsWith("/", StringComparison.Ordinal))
