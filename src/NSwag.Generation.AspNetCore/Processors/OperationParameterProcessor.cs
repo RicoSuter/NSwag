@@ -65,7 +65,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
                 // effort attempt.
-                var extendedApiParameter = new ExtendedApiParameterDescription(_settings)
+                var extendedApiParameter = new ExtendedApiParameterDescription(_settings.SchemaSettings)
                 {
                     ApiParameter = apiParameter,
                     Attributes = Enumerable.Empty<Attribute>(),

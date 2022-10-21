@@ -119,15 +119,15 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "UseXmlDocumentation", IsRequired = false, Description = "Read XML Docs files (default: true).")]
         public bool UseXmlDocumentation
         {
-            get => Settings.UseXmlDocumentation;
-            set => Settings.UseXmlDocumentation = value;
+            get => Settings.SchemaSettings.UseXmlDocumentation;
+            set => Settings.SchemaSettings.UseXmlDocumentation = value;
         }
 
         [Argument(Name = "ResolveExternalXmlDocumentation", IsRequired = false, Description = "Resolve the XML Docs from the NuGet cache or .NET SDK directory (default: true).")]
         public bool ResolveExternalXmlDocumentation
         {
-            get => Settings.ResolveExternalXmlDocumentation;
-            set => Settings.ResolveExternalXmlDocumentation = value;
+            get => Settings.SchemaSettings.ResolveExternalXmlDocumentation;
+            set => Settings.SchemaSettings.ResolveExternalXmlDocumentation = value;
         }
 
         [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded type names (same as JsonSchemaIgnoreAttribute).")]

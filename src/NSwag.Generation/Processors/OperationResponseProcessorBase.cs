@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Namotion.Reflection;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.Generation.Processors.Contexts;
 
@@ -45,7 +46,7 @@ namespace NSwag.Generation.Processors
 
             var successResponseDescription = returnParameter
                 .ToContextualParameter()
-                .GetDescription(_settings) ?? string.Empty;
+                .GetDescription(_settings.SchemaSettings) ?? string.Empty;
 
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             ProcessOperationDescriptions(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
@@ -63,7 +64,7 @@ namespace NSwag.Generation.Processors
 
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter.ToContextualParameter();
 
-            var returnParameterXmlDocs = returnParameter.GetDescription(_settings) ?? string.Empty;
+            var returnParameterXmlDocs = returnParameter.GetDescription(_settings.SchemaSettings) ?? string.Empty;
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(operationProcessorContext.MethodInfo);
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
@@ -99,7 +100,7 @@ namespace NSwag.Generation.Processors
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
         {
-            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.GetXmlDocsOptions());
+            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.SchemaSettings.GetXmlDocsOptions());
             return operationXmlDocs?.Nodes()?.OfType<XElement>();
         }
 

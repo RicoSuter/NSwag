@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
+using NJsonSchema.Generation;
 using NSwag.Generation.Collections;
 using NSwag.Generation.Processors.Contexts;
 
@@ -58,7 +59,7 @@ namespace NSwag.Generation.Processors
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
             }
 
-            var summary = context.ControllerType.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+            var summary = context.ControllerType.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
             context.OperationDescription.Operation.Tags.Add(controllerName);
             UpdateDocumentTagDescription(context, controllerName, summary);
         }

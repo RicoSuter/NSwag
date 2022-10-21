@@ -78,7 +78,7 @@ namespace NSwag.Generation
         /// <returns>The parameter.</returns>
         public OpenApiParameter CreatePrimitiveParameter(string name, ContextualParameterInfo contextualParameter)
         {
-            var documentation = contextualParameter.GetDescription(_settings);
+            var documentation = contextualParameter.GetDescription(_settings.SchemaSettings);
             return CreatePrimitiveParameter(name, documentation, contextualParameter);
         }
 
