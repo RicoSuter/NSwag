@@ -1,34 +1,34 @@
 {% if Framework.IsFetchOrAurelia -%}
 {%     if operation.WrapResponse -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%     else -%}
-return Promise.resolve<{{ operation.ResultType }}>(<any>null);
+return Promise.resolve<{{ operation.ResultType }}>(null as any);
 {%     endif -%}
 {% elsif Framework.IsAxios -%}
 {%     if operation.WrapResponse -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%     else -%}
-return Promise.resolve<{{ operation.ResultType }}>(<any>null);
+return Promise.resolve<{{ operation.ResultType }}>(null as any);
 {%     endif -%}
 {% elsif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%     else -%}
 {%         if Framework.UseRxJs7 -%}
-return {{ Framework.RxJs.ObservableOfMethod }}(<any>null);
+return {{ Framework.RxJs.ObservableOfMethod }}(null as any);
 {%         else -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(<any>null);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(null as any);
 {%         endif -%}
 {%     endif -%}
 {% elsif Framework.IsAngularJS -%}
 {%     if operation.WrapResponse -%}
-return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, <any>null));
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
 {%     else -%}
-return this.q.resolve<{{ operation.ResultType }}>(<any>null);
+return this.q.resolve<{{ operation.ResultType }}>(null as any);
 {%     endif -%}
 {% else -%}
 {%     if operation.WrapResponse -%}
-return new {{ operation.ResponseClass }}(status, _headers, <any>null);
+return new {{ operation.ResponseClass }}(status, _headers, null as any);
 {%     else -%}
 return{% if operation.HasResultType %} null{% endif %};
 {%     endif -%}

@@ -31,6 +31,19 @@ namespace NSwag.Core.Tests
             Assert.True(document.SchemaType == NJsonSchema.SchemaType.Swagger2);
         }
 
+        [Fact]
+        public async Task When_openapi_is_loaded_without_scopes_it_should_deserialize()
+        {
+            // Arrange
+
+
+            // Act
+            var document = await OpenApiDocument.FromUrlAsync("https://raw.githubusercontent.com/microsoft/commercial-marketplace-openapi/main/Microsoft.Marketplace.SaaS/2018-08-31/saasapi.v2.json");
+
+            // Assert
+            Assert.True(document.SchemaType == NJsonSchema.SchemaType.OpenApi3);
+        }
+
         // TODO: Reenable test
         [Fact(Skip = "TODO")]
         public async Task When_OpenApi_is_loaded_from_url_schematype_is_OpenApi3()

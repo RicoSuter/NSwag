@@ -65,7 +65,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
                 // effort attempt.
-                var extendedApiParameter = new ExtendedApiParameterDescription
+                var extendedApiParameter = new ExtendedApiParameterDescription(_settings)
                 {
                     ApiParameter = apiParameter,
                     Attributes = Enumerable.Empty<Attribute>(),
@@ -495,6 +495,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private class ExtendedApiParameterDescription
         {
+            private readonly IXmlDocsSettings _xmlDocsSettings;
+
             public ApiParameterDescription ApiParameter { get; set; }
 
             public ParameterInfo ParameterInfo { get; set; }
@@ -504,6 +506,11 @@ namespace NSwag.Generation.AspNetCore.Processors
             public Type ParameterType { get; set; }
 
             public IEnumerable<Attribute> Attributes { get; set; } = Enumerable.Empty<Attribute>();
+
+            public ExtendedApiParameterDescription(IXmlDocsSettings xmlDocsSettings)
+            {
+                _xmlDocsSettings = xmlDocsSettings;
+            }
 
             public bool IsRequired(bool requireParametersWithoutDefault)
             {
@@ -543,11 +550,11 @@ namespace NSwag.Generation.AspNetCore.Processors
                 var parameterDocumentation = string.Empty;
                 if (ParameterInfo != null)
                 {
-                    parameterDocumentation = ParameterInfo.ToContextualParameter().GetDescription();
+                    parameterDocumentation = ParameterInfo.ToContextualParameter().GetDescription(_xmlDocsSettings);
                 }
                 else if (PropertyInfo != null)
                 {
-                    parameterDocumentation = PropertyInfo.ToContextualProperty().GetDescription();
+                    parameterDocumentation = PropertyInfo.ToContextualProperty().GetDescription(_xmlDocsSettings);
                 }
 
                 return parameterDocumentation;

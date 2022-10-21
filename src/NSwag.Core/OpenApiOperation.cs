@@ -113,14 +113,24 @@ namespace NSwag
             get
             {
                 var parameters = Parameters.Select(p => p.ActualParameter);
-                var allParameters = Parent?.Parameters == null ? parameters :
-                    parameters.Concat(Parent.Parameters.Select(p => p.ActualParameter))
-                    .GroupBy(p => p.Name + "|" + p.Kind)
-                    .Select(p => p.First());
+                IEnumerable<OpenApiParameter> allParameters;
+                if (Parent?.Parameters == null)
+                {
+                    allParameters = parameters;
+                }
+                else
+                {
+                    allParameters = parameters
+                        .Concat(Parent.Parameters.Select(p => p.ActualParameter))
+                        .GroupBy(p => new NameKindPair(p.Name, p.Kind))
+                        .Select(p => p.First());
+                }
 
-                return new ReadOnlyCollection<OpenApiParameter>(allParameters.ToList());
+                return allParameters.ToList();
             }
         }
+
+        private readonly record struct NameKindPair(string Name, OpenApiParameterKind ParameterKind);
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -148,15 +158,15 @@ namespace NSwag
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
+        public ICollection<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
 
         /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<string> ActualProduces => Produces ?? Parent.Parent.Produces;
+        public ICollection<string> ActualProduces => Produces ?? Parent.Parent.Produces;
 
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public IEnumerable<OpenApiSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
+        public ICollection<OpenApiSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
         /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]

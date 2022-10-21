@@ -12,30 +12,30 @@ namespace NSwag
     public static class OpenApiOperationMethod
     {
         /// <summary>An undefined method.</summary>
-        public static string Undefined { get; } = "undefined";
+        public const string Undefined = "undefined";
 
         /// <summary>The HTTP GET method. </summary>
-        public static string Get { get; } = "get";
+        public const string Get = "get";
 
         /// <summary>The HTTP POST method. </summary>
-        public static string Post { get; } = "post";
+        public const string Post = "post";
 
         /// <summary>The HTTP PUT method. </summary>
-        public static string Put { get; } = "put";
+        public const string Put = "put";
 
         /// <summary>The HTTP DELETE method. </summary>
-        public static string Delete { get; } = "delete";
+        public const string Delete = "delete";
 
         /// <summary>The HTTP OPTIONS method. </summary>
-        public static string Options { get; } = "options";
+        public const string Options = "options";
 
         /// <summary>The HTTP HEAD method. </summary>
-        public static string Head { get; } = "head";
+        public const string Head = "head";
 
         /// <summary>The HTTP PATCH method. </summary>
-        public static string Patch { get; } = "patch";
+        public const string Patch = "patch";
 
         /// <summary>The HTTP TRACE method (OpenAPI only). </summary>
-        public static string Trace { get; } = "trace";
+        public const string Trace = "trace";
     }
 }

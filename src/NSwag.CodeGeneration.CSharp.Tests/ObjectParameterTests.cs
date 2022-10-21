@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -72,7 +72,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
-            Assert.Contains("content_.Add(new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(propertyDto, _settings.Value)), \"propertyDto\");", code);
+            Assert.Contains("var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(propertyDto, _settings.Value)", code);
+            Assert.Contains("content_.Add(new System.Net.Http.StringContent(json_), \"propertyDto\");", code);
         }
     }
 }

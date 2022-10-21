@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NJsonSchema;
@@ -224,6 +226,86 @@ public static Person FromJson(string data)
             Assert.DoesNotContain("{", operationName);
             Assert.DoesNotContain("}", operationName);
             Assert.False(string.IsNullOrWhiteSpace(operationName));
+        }
+
+        [Theory(DisplayName = "Ensure expected client name generation when using MultipleClientsFromFirstTagAndOperationName behavior")]
+        [InlineData(new string[] { "firstTag", "secondTag" }, "FirstTag")]
+        [InlineData(new string[] { "firsttag", "secondtag" }, "Firsttag")]
+        public void When_using_MultipleClientsFromFirstTagAndOperationName_then_ensure_that_clientname_is_from_first_tag(string[] tags, string expectedClientName)
+        {
+            // Arrange
+            var operation = new OpenApiOperation
+            {
+                Tags = tags.ToList()
+            };
+            var generator = new MultipleClientsFromFirstTagAndOperationNameGenerator();
+
+            var document = new OpenApiDocument();
+            var path = string.Empty;
+            var httpMethod = string.Empty;
+
+            // Act
+            string clientName = generator.GetClientName(document, path, httpMethod, operation);
+
+            // Assert
+            Assert.Equal(expectedClientName, clientName);
+        }
+
+        [Theory(DisplayName = "Ensure expected operation name generation when using MultipleClientsFromFirstTagAndOperationName behavior")]
+        [InlineData("OperationId_SecondUnderscore_Test", "Test")]
+        [InlineData("OperationId_MultipleUnderscores_Client_Test", "Test")]
+        [InlineData("OperationId_Test", "Test")]
+        [InlineData("UnderscoreLast_", "UnderscoreLast_")]
+        [InlineData("_UnderscoreFirst", "UnderscoreFirst")]
+        [InlineData("NoUnderscore", "NoUnderscore")]
+        public void When_using_MultipleClientsFromFirstTagAndOperationName_then_ensure_that_operationname_is_last_part_of_operation_id(string operationId, string expectedOperationName)
+        {
+            // Arrange
+            var operation = new OpenApiOperation
+            {
+                OperationId = operationId
+            };
+            var generator = new MultipleClientsFromFirstTagAndOperationNameGenerator();
+
+            var document = new OpenApiDocument();
+            var path = string.Empty;
+            var httpMethod = string.Empty;
+
+            // Act
+            string operationName = generator.GetOperationName(document, path, httpMethod, operation);
+
+            // Assert
+            Assert.Equal(expectedOperationName, operationName);
+        }
+
+        [Theory(DisplayName = "Ensure expected client name generation with different operationIds when using the MultipleClientsFromOperationId behavior")]
+        [InlineData("OperationId_SecondUnderscore_Test", "SecondUnderscore")]
+        [InlineData("OperationId_MultipleUnderscores_Client_Test", "Client")]
+        [InlineData("OperationId_Test", "OperationId")]
+        [InlineData("UnderscoreLast_", "UnderscoreLast")]
+        [InlineData("_UnderscoreFirst", "")]
+        [InlineData("NoUnderscore", "")]
+        public void When_using_MultipleClientsFromOperationId_then_ensure_that_underscores_are_handled_as_expected(string operationId, string expectedClientName)
+        {
+            // Arrange
+            var operation = new OpenApiOperation
+            {
+                OperationId = operationId
+            };
+            var generator = new MultipleClientsFromOperationIdOperationNameGenerator();
+
+            // Arrange - "unused"
+            // We don't need these values, because internally GetClientName only uses the operation
+            // Use default values to prevent future exceptions when e.g. any null validation would be added
+            var document = new OpenApiDocument();
+            var path = string.Empty;
+            var httpMethod = string.Empty;
+
+            // Act
+            string clientName = generator.GetClientName(document, path, httpMethod, operation);
+
+            // Assert
+            Assert.Equal(expectedClientName, clientName);
         }
 
         private static OpenApiDocument CreateDocument()

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
@@ -47,13 +48,14 @@ namespace NSwag.AspNetCore
             }
 
             var document = _documents.SingleOrDefault(g => g.DocumentName == documentName);
-            if (document?.Generator == null)
+            if (document?.Settings == null)
             {
                 throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for the document name '{documentName}'. " +
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 
-            return document.Generator.GenerateAsync(_serviceProvider);
+            var generator = new AspNetCoreOpenApiDocumentGenerator(document?.Settings);
+            return generator.GenerateAsync(_serviceProvider);
         }
 
         // Called by the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.

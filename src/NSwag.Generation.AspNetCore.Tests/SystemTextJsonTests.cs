@@ -25,9 +25,11 @@ namespace NSwag.Generation.AspNetCore.Tests
             var serviceProvider = services.BuildServiceProvider();
 
             // Act
-            var generator = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
-            await generator.Generator.GenerateAsync(serviceProvider);
-            var settings = generator.Generator.Settings;
+            var registration = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
+            var generator = new AspNetCoreOpenApiDocumentGenerator(registration.Settings);
+            await generator.GenerateAsync(serviceProvider);
+         
+            var settings = generator.Settings;
 
             // Assert
             Assert.Contains(((SystemTextJsonSchemaGeneratorSettings)settings.SchemaSettings).SerializerOptions.Converters, c => c is JsonStringEnumConverter);

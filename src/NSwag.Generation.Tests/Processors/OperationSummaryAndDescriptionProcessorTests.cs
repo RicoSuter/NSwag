@@ -12,19 +12,22 @@ namespace NSwag.Generation.Tests.Processors
     {
         public class DocumentedController
         {
-            [OpenApiOperation("\r\n\t This method is documented. \r\n\t", "")]
+            [OpenApiOperation("\r\n\t This method has a summary. \r\n\t", "\r\n\t This method has a description. \r\n\t")]
             public void DocumentedMethodWithOpenApiOperationAttribute()
             {
             }
             
-            [Description("\r\n\t This method is documented. \r\n\t")]
+            [Description("\r\n\t This method has a description. \r\n\t")]
             public void DocumentedMethodWithDescriptionAttribute()
             {
             }
 
             /// <summary>
-            ///     This method is documented.
+            ///     This method has a summary.
             /// </summary>
+            /// <remarks>
+            ///     This method has a description.
+            /// </remarks>
             public void DocumentedMethodWithSummary()
             {
             }
@@ -45,7 +48,10 @@ namespace NSwag.Generation.Tests.Processors
 
             //// Assert
             var summary = context.OperationDescription.Operation.Summary;
-            Assert.Equal("This method is documented.", summary);
+            Assert.Equal("This method has a summary.", summary);
+
+            var description = context.OperationDescription.Operation.Description;
+            Assert.Equal("This method has a description.", description);
         }
         
         [Fact]
@@ -63,7 +69,10 @@ namespace NSwag.Generation.Tests.Processors
 
             //// Assert
             var summary = context.OperationDescription.Operation.Summary;
-            Assert.Equal("This method is documented.", summary);
+            Assert.Equal("This method has a description.", summary);
+
+            var description = context.OperationDescription.Operation.Description;
+            Assert.Null(description);
         }
         
         [Fact]
@@ -81,7 +90,10 @@ namespace NSwag.Generation.Tests.Processors
 
             //// Assert
             var summary = context.OperationDescription.Operation.Summary;
-            Assert.Equal("This method is documented.", summary);
+            Assert.Equal("This method has a summary.", summary);
+
+            var description = context.OperationDescription.Operation.Description;
+            Assert.Equal("This method has a description.", description);
         }
         
         private OperationProcessorContext GetContext(Type controllerType, MethodInfo methodInfo)

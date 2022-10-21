@@ -78,13 +78,13 @@ partial class Build : NukeBuild
         if (!string.IsNullOrWhiteSpace(versionPrefix))
         {
             IsTaggedBuild = true;
-            Info($"Tag version {versionPrefix} from Git found, using it as version prefix");
+            Serilog.Log.Information($"Tag version {VersionPrefix} from Git found, using it as version prefix", versionPrefix);
         }
         else
         {
             var propsDocument = XDocument.Parse(TextTasks.ReadAllText(SourceDirectory / "Directory.Build.props"));
             versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
-            Info($"Version prefix {versionPrefix} read from Directory.Build.props");
+            Serilog.Log.Information("Version prefix {VersionPrefix} read from Directory.Build.props", versionPrefix);
         }
 
         return versionPrefix;
@@ -103,11 +103,11 @@ partial class Build : NukeBuild
             VersionSuffix = $"dev-{DateTime.UtcNow:yyyyMMdd-HHmm}";
         }
 
-        using var _ = Block("BUILD SETUP");
-        Info("Configuration:\t" + Configuration);
-        Info("Version prefix:\t" + VersionPrefix);
-        Info("Version suffix:\t" + VersionSuffix);
-        Info("Tagged build:\t" + IsTaggedBuild);
+        Serilog.Log.Information("BUILD SETUP");
+        Serilog.Log.Information("Configuration:\t{Configuration}", Configuration);
+        Serilog.Log.Information("Version prefix:\t{VersionPrefix}", VersionPrefix);
+        Serilog.Log.Information("Version suffix:\t{VersionSuffix}",VersionSuffix);
+        Serilog.Log.Information("Tagged build:\t{IsTaggedBuild}", IsTaggedBuild);
     }
 
     Target Clean => _ => _
@@ -124,6 +124,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             Chocolatey("install wixtoolset -y");
+            Chocolatey("install netfx-4.6.1-devpack -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
@@ -162,8 +163,9 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             EnsureCleanDirectory(SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+            EnsureCleanDirectory(NSwagStudioBinaries);
 
-            Info("Build and copy full .NET command line with configuration " + Configuration);
+            Serilog.Log.Information("Build and copy full .NET command line with configuration {Configuration}", Configuration);
 
             MSBuild(x => x
                     .SetTargetPath(Solution)
@@ -178,6 +180,9 @@ partial class Build : NukeBuild
                     .SetProperty("Deterministic", IsServerBuild)
                     .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
             );
+
+            // later steps need to have binaries in correct places
+            PublishAndCopyConsoleProjects();
         });
 
     // logic from 02_RunUnitTests.bat
@@ -322,6 +327,61 @@ partial class Build : NukeBuild
             NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
             NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
         });
+
+    void PublishAndCopyConsoleProjects()
+    {
+        var consoleCoreProject = Solution.GetProject("NSwag.ConsoleCore");
+        var consoleX86Project = Solution.GetProject("NSwag.Console.x86");
+        var consoleProject = Solution.GetProject("NSwag.Console");
+
+        Serilog.Log.Information("Publish command line projects");
+
+        void PublishConsoleProject(Nuke.Common.ProjectModel.Project project, string[] targetFrameworks)
+        {
+            foreach (var targetFramework in targetFrameworks)
+            {
+                DotNetPublish(s => s
+                    .SetProject(project)
+                    .SetFramework(targetFramework)
+                    .SetAssemblyVersion(VersionPrefix)
+                    .SetFileVersion(VersionPrefix)
+                    .SetInformationalVersion(VersionPrefix)
+                    .SetConfiguration(Configuration)
+                    .SetDeterministic(IsServerBuild)
+                    .SetContinuousIntegrationBuild(IsServerBuild)
+                );
+            }
+        }
+
+        PublishConsoleProject(consoleX86Project, new[] { "net461" });
+        PublishConsoleProject(consoleProject, new[] { "net461" });
+        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp2.1", "netcoreapp3.1", "net5.0", "net6.0" });
+
+        void CopyConsoleBinaries(AbsolutePath target)
+        {
+            // take just exe from X86 as other files are shared with console project
+            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net461" / "publish";
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
+            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
+
+            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net461" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
+
+            var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1" / "publish", target / "NetCore21");
+            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0" / "publish", target / "Net50");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
+        }
+
+        Serilog.Log.Information("Copy published Console for NSwagStudio");
+
+        CopyConsoleBinaries(target: NSwagStudioBinaries);
+
+        Serilog.Log.Information("Copy published Console for NPM");
+
+        CopyConsoleBinaries(target: SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
+    }
+
 
     DotNetBuildSettings BuildDefaults(DotNetBuildSettings s)
     {

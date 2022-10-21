@@ -218,7 +218,7 @@ namespace NSwag.Commands.Generation
         {
             var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
 
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0 
+#if NETCOREAPP3_0_OR_GREATER 
             JsonSerializerSettings newtonsoftSettings = null;
             JsonSerializerOptions systemTextJsonOptions = null;
 

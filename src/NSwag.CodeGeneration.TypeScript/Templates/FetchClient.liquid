@@ -21,7 +21,7 @@
 {%-    if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-    endif -%}
-        this.http = http ? http : <any>window;
+        this.http = http ? http : window as any;
 {%-    if UseGetBaseUrlMethod -%}
         this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%-    else -%}
@@ -43,7 +43,7 @@
         {% template Client.RequestBody %}
 
 {%-    endif -%}
-        let options_ = <RequestInit>{
+        let options_: RequestInit = {
 {%-    if operation.HasBody -%}
             body: content_,
 {%-    endif -%}

@@ -7,11 +7,14 @@ using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
+
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Logger;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
+
 using Project = Microsoft.Build.Evaluation.Project;
 
 public partial class Build
@@ -65,31 +68,36 @@ public partial class Build
                 );
             }
 
-            var npmBinariesDirectory = SourceDirectory / "NSwag.Npm" / "bin" / "binaries";
+            Serilog.Log.Information("Build WiX installer");
 
-            CopyDirectoryRecursively(SourceDirectory / "NSwag.Console" / "bin" / Configuration / "net461", npmBinariesDirectory / "Win");
+            EnsureCleanDirectory(SourceDirectory / "NSwagStudio.Installer" / "bin");
 
-            var consoleX86Directory = SourceDirectory / "NSwag.Console.x86" / "bin" / Configuration / "net461";
-
-            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", npmBinariesDirectory / "Win");
-            CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", npmBinariesDirectory / "Win");
-
-            Info("Publish .NET Core command line done in prebuild event for NSwagStudio.Installer.wixproj");
-
-            var consoleCoreDirectory = SourceDirectory / "NSwag.ConsoleCore" / "bin" / Configuration;
-
-            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1/publish", npmBinariesDirectory / "NetCore21");
-            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1/publish", npmBinariesDirectory / "NetCore31");
-            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0/publish", npmBinariesDirectory / "Net50");
-            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0/publish", npmBinariesDirectory / "Net60");
+            MSBuild(x => x
+                .SetTargetPath(Solution.GetProject("NSwagStudio.Installer"))
+                .SetTargets("Rebuild")
+                .SetAssemblyVersion(VersionPrefix)
+                .SetFileVersion(VersionPrefix)
+                .SetInformationalVersion(VersionPrefix)
+                .SetConfiguration(Configuration)
+                .SetMaxCpuCount(Environment.ProcessorCount)
+                .SetNodeReuse(IsLocalBuild)
+                .SetVerbosity(MSBuildVerbosity.Minimal)
+                .SetProperty("Deterministic", IsServerBuild)
+                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+            );
 
             // gather relevant artifacts
-            Info("Package nuspecs");
+            Serilog.Log.Information("Package nuspecs");
+
+            var apiDescriptionClientNuSpec = SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec";
+            var content = TextTasks.ReadAllText(apiDescriptionClientNuSpec);
+            content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + VersionPrefix + "\" />");
+            TextTasks.WriteAllText(apiDescriptionClientNuSpec, content);
 
             var nuspecs = new[]
             {
+                apiDescriptionClientNuSpec,
                 SourceDirectory / "NSwag.MSBuild" / "NSwag.MSBuild.nuspec",
-                SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec",
                 SourceDirectory / "NSwagStudio.Chocolatey" / "NSwagStudio.nuspec"
             };
 
@@ -114,7 +122,7 @@ public partial class Build
 
             // patch npm version
             var npmPackagesFile = SourceDirectory / "NSwag.Npm" / "package.json";
-            var content = TextTasks.ReadAllText(npmPackagesFile);
+            content = TextTasks.ReadAllText(npmPackagesFile);
             content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + VersionPrefix + @"""");
             TextTasks.WriteAllText(npmPackagesFile, content);
 

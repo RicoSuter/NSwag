@@ -47,7 +47,7 @@ namespace NSwag.Commands
                             null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-#if NET6_0 || NET5_0 || NETCOREAPP3_1 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
@@ -140,7 +140,13 @@ namespace NSwag.Commands
             try
             {
                 // Get the IServiceProvider from the host
+#if NET6_0_OR_GREATER
+                var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
+                // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
+                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+#else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
+#endif
 
                 // Wait for the application to start so that we know it's fully configured. This is important because
                 // we need the middleware pipeline to be configured before we access the ISwaggerProvider in
