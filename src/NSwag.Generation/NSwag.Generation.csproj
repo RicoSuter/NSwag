@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;net462;netstandard2.0</TargetFrameworks>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <!-- obsolete warning -->
     <NoWarn>$(NoWarn),618</NoWarn>
@@ -11,7 +11,7 @@
     <PackageReference Include="NJsonSchema" Version="10.8.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 

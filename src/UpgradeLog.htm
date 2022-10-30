@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+ <html xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><meta content="en-us" http-equiv="Content-Language" /><meta content="text/html; charset=utf-16" http-equiv="Content-Type" /><title _locID="ConversionReport0">
+          Migration Report
+        </title><style> 
+                    /* Body style, for the entire document */
+                    body
+                    {
+                        background: #F3F3F4;
+                        color: #1E1E1F;
+                        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    /* Header1 style, used for the main title */
+                    h1
+                    {
+                        padding: 10px 0px 10px 10px;
+                        font-size: 21pt;
+                        background-color: #E2E2E2;
+                        border-bottom: 1px #C1C1C2 solid; 
+                        color: #201F20;
+                        margin: 0;
+                        font-weight: normal;
+                    }
+
+                    /* Header2 style, used for "Overview" and other sections */
+                    h2
+                    {
+                        font-size: 18pt;
+                        font-weight: normal;
+                        padding: 15px 0 5px 0;
+                        margin: 0;
+                    }
+
+                    /* Header3 style, used for sub-sections, such as project name */
+                    h3
+                    {
+                        font-weight: normal;
+                        font-size: 15pt;
+                        margin: 0;
+                        padding: 15px 0 5px 0;
+                        background-color: transparent;
+                    }
+
+                    /* Color all hyperlinks one color */
+                    a
+                    {
+                        color: #1382CE;
+                    }
+
+                    /* Table styles */ 
+                    table
+                    {
+                        border-spacing: 0 0;
+                        border-collapse: collapse;
+                        font-size: 10pt;
+                    }
+
+                    table th
+                    {
+                        background: #E7E7E8;
+                        text-align: left;
+                        text-decoration: none;
+                        font-weight: normal;
+                        padding: 3px 6px 3px 6px;
+                    }
+
+                    table td
+                    {
+                        vertical-align: top;
+                        padding: 3px 6px 5px 5px;
+                        margin: 0px;
+                        border: 1px solid #E7E7E8;
+                        background: #F7F7F8;
+                    }
+
+                    /* Local link is a style for hyperlinks that link to file:/// content, there are lots so color them as 'normal' text until the user mouse overs */
+                    .localLink
+                    {
+                        color: #1E1E1F;
+                        background: #EEEEED;
+                        text-decoration: none;
+                    }
+
+                    .localLink:hover
+                    {
+                        color: #1382CE;
+                        background: #FFFF99;
+                        text-decoration: none;
+                    }
+
+                    /* Center text, used in the over views cells that contain message level counts */ 
+                    .textCentered
+                    {
+                        text-align: center;
+                    }
+
+                    /* The message cells in message tables should take up all avaliable space */
+                    .messageCell
+                    {
+                        width: 100%;
+                    }
+
+                    /* Padding around the content after the h1 */ 
+                    #content 
+                    {
+	                    padding: 0px 12px 12px 12px; 
+                    }
+
+                    /* The overview table expands to width, with a max width of 97% */ 
+                    #overview table
+                    {
+                        width: auto;
+                        max-width: 75%; 
+                    }
+
+                    /* The messages tables are always 97% width */
+                    #messages table
+                    {
+                        width: 97%;
+                    }
+
+                    /* All Icons */
+                    .IconSuccessEncoded, .IconInfoEncoded, .IconWarningEncoded, .IconErrorEncoded
+                    {
+                        min-width:18px;
+                        min-height:18px; 
+                        background-repeat:no-repeat;
+                        background-position:center;
+                    }
+
+                    /* Success icon encoded */
+                    .IconSuccessEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconSuccess#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcElEQVR4Xq2TsUsCURzHv15g8ZJcBWlyiYYgCIWcb9DFRRwMW5TA2c0/QEFwFkxxUQdxVlBwCYWOi6IhWgQhBLHJUCkhLr/BW8S7gvrAg+N+v8/v+x68Z8MGy+XSCyABQAXgBgHGALoASkIIDWSLeLBetdHryMjd5IxQPWT4rn1c/P7+xxp72Cs9m5SZ0Bq2vPnbPFafK2zDvmNHypdC0BPkLlQhxJsCAhQoZwdZU5mwxh720qGo8MzTxTTKZDPCx2HoVzp6lz0Q9tKhyx0kGs8Ny+TkWRKk8lCROwEduhyg9l/6lunOPSfmH3NUH6uQ0KHLAe7JYvJjevm+DAMGJHToKtigE+vwvIidxLamb8IBY9e+C5LiXREkfho3TSd06HJA13/oh6T51MTsfQbHrsMynQ5dDihFjiK8JJAU9AKIWTp76dCVN7HWHrajmUEGvyF9nkbAE6gLIS7kTUyuf2gscLoJrElZo/Mvj+nPz/kLTmfnEwP3tB0AAAAASUVORK5CYII=);
+                    }
+
+                    /* Information icon encoded */
+                    .IconInfoEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconInformation#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVR4Xs2TsUoDQRRF7wwoziokjZUKadInhdhukR9YP8DMX1hYW+QvdsXa/QHBbcXC7W0CamWTQnclFutceIQJwwaWNLlwm5k5d94M76mmaeCrrmsLYOocY12FcxZFUeozCqKqqgYA8uevv1H6VuPxcwlfk5N92KHBxfFeCSAxxswlYAW/Xr989x/mv9gkhtyMDhcAxgzRsp7flj8B/HF1RsMXq+NZMkopaHe7lbKxQUEIGbKsYNoGn969060hZBkQex/W8oRQwsQaW2o3Ago2SVcJUzAgY3N0lTCZZm+zPS8HB51gMmS1DEYyOz9acKO1D8JWTlafKIMxdhvlfdyT94Vv5h7P8Ky7nQzACmhvKq3zk3PjW9asz9D/1oigecsioooAAAAASUVORK5CYII=);
+                    }
+
+                    /* Warning icon encoded */
+                    .IconWarningEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconWarning#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAx0lEQVR4XpWSMQ7CMAxFf4xAyBMLCxMrO8dhaBcuwdCJS3RJBw7SA/QGTCxdWJgiQYWKXJWKIXHIlyw5lqr34tQgEOdcBsCOx5yZK3hCCKdYXneQkh4pEfqzLfu+wVDSyyzFoJjfz9NB+pAF+eizx2Vruts0k15mPgvS6GYvpVtQhB61IB/dk6AF6fS4Ben0uIX5odtFe8Q/eW1KvFeH4e8khT6+gm5B+t3juyDt7n0jpe+CANTd+oTUjN/U3yVaABnSUjFz/gFq44JaVSCXeQAAAABJRU5ErkJggg==);
+                    }
+
+                    /* Error icon encoded */
+                    .IconErrorEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconError#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVR4XqWTvUoEQRCE6wYPZUA80AfwAQz23uCMjA7MDRQEIzPBVEyNTQUFIw00vcQTTMzuAh/AxEQQT8HF/3G/oGGnEUGuoNnd6qoZuqltyKEsyzVJq5I6rnUp6SjGeGhESikzzlc1eL7opfuVbrqbU1Zw9NCgtQMaZpY0eNnaaL2fHusvTK5vKu7sjSS1Y4y3QUA6K3e3Mau5UFDyMP7tYF9o8cAHZv68vipoIJg971PZIZ5HiwdvYGGvFVFHmGmZ2MxwmQYPXubPl9Up0tfoMQGetXd6mRbvhBw+boZ6WF7Mbv1+GsHRk0fQmPAH1GfmZirbCfDJ61tw3Px8/8pZsPAG4jlVhcPgZ7adwNWBB68lkRQWFiTgFlbnLY3DGGM7izIJIyT/jjIvEJw6fdJTc6krDzh6aMwMP9bvDH4ADSsa9uSWVJkAAAAASUVORK5CYII=);
+                    }
+                 </style><script type="text/javascript" language="javascript"> 
+          
+            // Startup 
+            // Hook up the the loaded event for the document/window, to linkify the document content
+            var startupFunction = function() { linkifyElement("messages"); };
+            
+            if(window.attachEvent)
+            {
+              window.attachEvent('onload', startupFunction);
+            }
+            else if (window.addEventListener) 
+            {
+              window.addEventListener('load', startupFunction, false);
+            }
+            else 
+            {
+              document.addEventListener('load', startupFunction, false);
+            } 
+            
+            // Toggles the visibility of table rows with the specified name 
+            function toggleTableRowsByName(name)
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  if(!!currentName && currentName.indexOf(name) == 0)
+                  {
+                      var isVisible = allRows[i].style.display == ''; 
+                      isVisible ? allRows[i].style.display = 'none' : allRows[i].style.display = '';
+                  }
+               }
+            }
+            
+            function scrollToFirstVisibleRow(name) 
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  var isVisible = allRows[i].style.display == ''; 
+                  if(!!currentName && currentName.indexOf(name) == 0 && isVisible)
+                  {
+                     allRows[i].scrollIntoView(true); 
+                     return true; 
+                  }
+               }
+               
+               return false;
+            }
+            
+            // Linkifies the specified text content, replaces candidate links with html links 
+            function linkify(text)
+            {
+                 if(!text || 0 === text.length)
+                 {
+                     return text; 
+                 }
+
+                 // Find http, https and ftp links and replace them with hyper links 
+                 var urlLink = /(http|https|ftp)\:\/\/[a-zA-Z0-9\-\.]+(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~;\{\}])*/gi;
+                 
+                 return text.replace(urlLink, '<a href="$&">$&</a>') ;
+            }
+            
+            // Linkifies the specified element by ID
+            function linkifyElement(id)
+            {
+                var element = document.getElementById(id);
+                if(!!element)
+                {
+                  element.innerHTML = linkify(element.innerHTML); 
+                }
+            }
+            
+            function ToggleMessageVisibility(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              toggleTableRowsByName("MessageRowClass" + projectName);
+              toggleTableRowsByName('MessageRowHeaderShow' + projectName);
+              toggleTableRowsByName('MessageRowHeaderHide' + projectName); 
+            }
+            
+            function ScrollToFirstVisibleMessage(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              // First try the 'Show messages' row
+              if(!scrollToFirstVisibleRow('MessageRowHeaderShow' + projectName))
+              {
+                // Failed to find a visible row for 'Show messages', try an actual message row 
+                scrollToFirstVisibleRow('MessageRowClass' + projectName); 
+              }
+            }
+           </script></head><body><h1 _locID="ConversionReport">
+          Migration Report - </h1><div id="content"><h2 _locID="OverviewTitle">Overview</h2><div id="overview"><table><tr><th></th><th _locID="ProjectTableHeader">Project</th><th _locID="PathTableHeader">Path</th><th _locID="ErrorsTableHeader">Errors</th><th _locID="WarningsTableHeader">Warnings</th><th _locID="MessagesTableHeader">Messages</th></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#NSwagStudio.Installer">NSwagStudio.Installer</a></strong></td><td>NSwagStudio.Installer\NSwagStudio.Installer.wixproj</td><td class="textCentered"><a href="#NSwagStudio.InstallerError">1</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#_build">_build</a></strong></td><td>..\build\_build.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#00 Build">00 Build</a></strong></td><td>00 Build</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#01 Core">01 Core</a></strong></td><td>01 Core</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#02 Generation">02 Generation</a></strong></td><td>02 Generation</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#03 CodeGeneration">03 CodeGeneration</a></strong></td><td>03 CodeGeneration</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#04 ASP.NET">04 ASP.NET</a></strong></td><td>04 ASP.NET</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#05 Frontends">05 Frontends</a></strong></td><td>05 Frontends</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#06 Tests">06 Tests</a></strong></td><td>06 Tests</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#07 Integration Tests">07 Integration Tests</a></strong></td><td>07 Integration Tests</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#08 Packages">08 Packages</a></strong></td><td>08 Packages</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#09 Samples">09 Samples</a></strong></td><td>09 Samples</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Annotations">NSwag.Annotations</a></strong></td><td>NSwag.Annotations\NSwag.Annotations.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.ApiDescription.Client">NSwag.ApiDescription.Client</a></strong></td><td>NSwag.ApiDescription.Client</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AspNet.Owin">NSwag.AspNet.Owin</a></strong></td><td>NSwag.AspNet.Owin\NSwag.AspNet.Owin.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AspNet.WebApi">NSwag.AspNet.WebApi</a></strong></td><td>NSwag.AspNet.WebApi\NSwag.AspNet.WebApi.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AspNetCore">NSwag.AspNetCore</a></strong></td><td>NSwag.AspNetCore\NSwag.AspNetCore.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AspNetCore.Launcher">NSwag.AspNetCore.Launcher</a></strong></td><td>NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AspNetCore.Launcher.x86">NSwag.AspNetCore.Launcher.x86</a></strong></td><td>NSwag.AspNetCore.Launcher.x86\NSwag.AspNetCore.Launcher.x86.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AssemblyLoader">NSwag.AssemblyLoader</a></strong></td><td>NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.AssemblyLoader.Tests">NSwag.AssemblyLoader.Tests</a></strong></td><td>NSwag.AssemblyLoader.Tests\NSwag.AssemblyLoader.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration">NSwag.CodeGeneration</a></strong></td><td>NSwag.CodeGeneration\NSwag.CodeGeneration.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration.CSharp">NSwag.CodeGeneration.CSharp</a></strong></td><td>NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration.CSharp.Tests">NSwag.CodeGeneration.CSharp.Tests</a></strong></td><td>NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration.Tests">NSwag.CodeGeneration.Tests</a></strong></td><td>NSwag.CodeGeneration.Tests\NSwag.CodeGeneration.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration.TypeScript">NSwag.CodeGeneration.TypeScript</a></strong></td><td>NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.CodeGeneration.TypeScript.Tests">NSwag.CodeGeneration.TypeScript.Tests</a></strong></td><td>NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Commands">NSwag.Commands</a></strong></td><td>NSwag.Commands\NSwag.Commands.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Console">NSwag.Console</a></strong></td><td>NSwag.Console\NSwag.Console.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Console.x86">NSwag.Console.x86</a></strong></td><td>NSwag.Console.x86\NSwag.Console.x86.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.ConsoleCore">NSwag.ConsoleCore</a></strong></td><td>NSwag.ConsoleCore\NSwag.ConsoleCore.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Core">NSwag.Core</a></strong></td><td>NSwag.Core\NSwag.Core.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Core.Tests">NSwag.Core.Tests</a></strong></td><td>NSwag.Core.Tests\NSwag.Core.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Core.Yaml">NSwag.Core.Yaml</a></strong></td><td>NSwag.Core.Yaml\NSwag.Core.Yaml.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Core.Yaml.Tests">NSwag.Core.Yaml.Tests</a></strong></td><td>NSwag.Core.Yaml.Tests\NSwag.Core.Yaml.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation">NSwag.Generation</a></strong></td><td>NSwag.Generation\NSwag.Generation.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.AspNetCore">NSwag.Generation.AspNetCore</a></strong></td><td>NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.AspNetCore.Tests">NSwag.Generation.AspNetCore.Tests</a></strong></td><td>NSwag.Generation.AspNetCore.Tests\NSwag.Generation.AspNetCore.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.AspNetCore.Tests.Web">NSwag.Generation.AspNetCore.Tests.Web</a></strong></td><td>NSwag.Generation.AspNetCore.Tests.Web\NSwag.Generation.AspNetCore.Tests.Web.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.Tests">NSwag.Generation.Tests</a></strong></td><td>NSwag.Generation.Tests\NSwag.Generation.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.WebApi">NSwag.Generation.WebApi</a></strong></td><td>NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Generation.WebApi.Tests">NSwag.Generation.WebApi.Tests</a></strong></td><td>NSwag.Generation.WebApi.Tests\NSwag.Generation.WebApi.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Integration.ClientPCL">NSwag.Integration.ClientPCL</a></strong></td><td>NSwag.Integration.ClientPCL\NSwag.Integration.ClientPCL.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Integration.ClientPCL.Tests">NSwag.Integration.ClientPCL.Tests</a></strong></td><td>NSwag.Integration.ClientPCL.Tests\NSwag.Integration.ClientPCL.Tests.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Integration.Console">NSwag.Integration.Console</a></strong></td><td>NSwag.Integration.Console\NSwag.Integration.Console.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.MSBuild">NSwag.MSBuild</a></strong></td><td>NSwag.MSBuild</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Npm">NSwag.Npm</a></strong></td><td>NSwag.Npm</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.Common">NSwag.Sample.Common</a></strong></td><td>NSwag.Sample.Common\NSwag.Sample.Common.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NET50">NSwag.Sample.NET50</a></strong></td><td>NSwag.Sample.NET50\NSwag.Sample.NET50.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NET60">NSwag.Sample.NET60</a></strong></td><td>NSwag.Sample.NET60\NSwag.Sample.NET60.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NET60Minimal">NSwag.Sample.NET60Minimal</a></strong></td><td>NSwag.Sample.NET60Minimal\NSwag.Sample.NET60Minimal.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NETCore20">NSwag.Sample.NETCore20</a></strong></td><td>NSwag.Sample.NETCore20\NSwag.Sample.NETCore20.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NETCore20.Part">NSwag.Sample.NETCore20.Part</a></strong></td><td>NSwag.Sample.NETCore20.Part\NSwag.Sample.NETCore20.Part.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NETCore21">NSwag.Sample.NETCore21</a></strong></td><td>NSwag.Sample.NETCore21\NSwag.Sample.NETCore21.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NETCore31">NSwag.Sample.NETCore31</a></strong></td><td>NSwag.Sample.NETCore31\NSwag.Sample.NETCore31.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NetCoreAngular">NSwag.Sample.NetCoreAngular</a></strong></td><td>NSwag.Sample.NetCoreAngular\NSwag.Sample.NetCoreAngular.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NetCoreAngular.Clients">NSwag.Sample.NetCoreAngular.Clients</a></strong></td><td>NSwag.Sample.NetCoreAngular.Clients\NSwag.Sample.NetCoreAngular.Clients.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.Sample.NetCoreAurelia">NSwag.Sample.NetCoreAurelia</a></strong></td><td>NSwag.Sample.NetCoreAurelia\NSwag.Sample.NetCoreAurelia.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwag.VersionMissmatchTest">NSwag.VersionMissmatchTest</a></strong></td><td>NSwag.VersionMissmatchTest\NSwag.VersionMissmatchTest.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwagStudio">NSwagStudio</a></strong></td><td>NSwagStudio\NSwagStudio.csproj</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#NSwagStudio.Chocolatey">NSwagStudio.Chocolatey</a></strong></td><td>NSwagStudio.Chocolatey</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Sample Configurations">Sample Configurations</a></strong></td><td>Sample Configurations</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#">0</a></td></tr><tr><td class="IconSuccessEncoded" /><td><strong><a href="#Solution"><span _locID="OverviewSolutionSpan">Solution</span></a></strong></td><td>NSwag.sln</td><td class="textCentered"><a>0</a></td><td class="textCentered"><a>0</a></td><td class="textCentered"><a href="#" onclick="ScrollToFirstVisibleMessage('Solution'); return false;">1</a></td></tr></table></div><h2 _locID="SolutionAndProjectsTitle">Solution and projects</h2><div id="messages"><a name="NSwagStudio.Installer" /><h3>NSwagStudio.Installer</h3><table><tr id="NSwagStudio.InstallerHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr name="ErrorRowClassNSwagStudio.Installer"><td class="IconErrorEncoded"><a name="NSwagStudio.InstallerError" /></td><td class="messageCell"><strong>NSwagStudio.Installer\NSwagStudio.Installer.wixproj:
+        </strong><span>The application which this project type is based on was not found. Please try this link for further information: 930c7802-8a8c-48f9-8165-68863bccd9dd</span></td></tr></table><a name="_build" /><h3>_build</h3><table><tr id="_buildHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">_build logged no messages.
+                  </td></tr></table><a name="00 Build" /><h3>00 Build</h3><table><tr id="00 BuildHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">00 Build logged no messages.
+                  </td></tr></table><a name="01 Core" /><h3>01 Core</h3><table><tr id="01 CoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">01 Core logged no messages.
+                  </td></tr></table><a name="02 Generation" /><h3>02 Generation</h3><table><tr id="02 GenerationHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">02 Generation logged no messages.
+                  </td></tr></table><a name="03 CodeGeneration" /><h3>03 CodeGeneration</h3><table><tr id="03 CodeGenerationHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">03 CodeGeneration logged no messages.
+                  </td></tr></table><a name="04 ASP.NET" /><h3>04 ASP.NET</h3><table><tr id="04 ASP.NETHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">04 ASP.NET logged no messages.
+                  </td></tr></table><a name="05 Frontends" /><h3>05 Frontends</h3><table><tr id="05 FrontendsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">05 Frontends logged no messages.
+                  </td></tr></table><a name="06 Tests" /><h3>06 Tests</h3><table><tr id="06 TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">06 Tests logged no messages.
+                  </td></tr></table><a name="07 Integration Tests" /><h3>07 Integration Tests</h3><table><tr id="07 Integration TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">07 Integration Tests logged no messages.
+                  </td></tr></table><a name="08 Packages" /><h3>08 Packages</h3><table><tr id="08 PackagesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">08 Packages logged no messages.
+                  </td></tr></table><a name="09 Samples" /><h3>09 Samples</h3><table><tr id="09 SamplesHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">09 Samples logged no messages.
+                  </td></tr></table><a name="NSwag.Annotations" /><h3>NSwag.Annotations</h3><table><tr id="NSwag.AnnotationsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Annotations logged no messages.
+                  </td></tr></table><a name="NSwag.ApiDescription.Client" /><h3>NSwag.ApiDescription.Client</h3><table><tr id="NSwag.ApiDescription.ClientHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.ApiDescription.Client logged no messages.
+                  </td></tr></table><a name="NSwag.AspNet.Owin" /><h3>NSwag.AspNet.Owin</h3><table><tr id="NSwag.AspNet.OwinHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AspNet.Owin logged no messages.
+                  </td></tr></table><a name="NSwag.AspNet.WebApi" /><h3>NSwag.AspNet.WebApi</h3><table><tr id="NSwag.AspNet.WebApiHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AspNet.WebApi logged no messages.
+                  </td></tr></table><a name="NSwag.AspNetCore" /><h3>NSwag.AspNetCore</h3><table><tr id="NSwag.AspNetCoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AspNetCore logged no messages.
+                  </td></tr></table><a name="NSwag.AspNetCore.Launcher" /><h3>NSwag.AspNetCore.Launcher</h3><table><tr id="NSwag.AspNetCore.LauncherHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AspNetCore.Launcher logged no messages.
+                  </td></tr></table><a name="NSwag.AspNetCore.Launcher.x86" /><h3>NSwag.AspNetCore.Launcher.x86</h3><table><tr id="NSwag.AspNetCore.Launcher.x86HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AspNetCore.Launcher.x86 logged no messages.
+                  </td></tr></table><a name="NSwag.AssemblyLoader" /><h3>NSwag.AssemblyLoader</h3><table><tr id="NSwag.AssemblyLoaderHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AssemblyLoader logged no messages.
+                  </td></tr></table><a name="NSwag.AssemblyLoader.Tests" /><h3>NSwag.AssemblyLoader.Tests</h3><table><tr id="NSwag.AssemblyLoader.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.AssemblyLoader.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration" /><h3>NSwag.CodeGeneration</h3><table><tr id="NSwag.CodeGenerationHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration.CSharp" /><h3>NSwag.CodeGeneration.CSharp</h3><table><tr id="NSwag.CodeGeneration.CSharpHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration.CSharp logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration.CSharp.Tests" /><h3>NSwag.CodeGeneration.CSharp.Tests</h3><table><tr id="NSwag.CodeGeneration.CSharp.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration.CSharp.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration.Tests" /><h3>NSwag.CodeGeneration.Tests</h3><table><tr id="NSwag.CodeGeneration.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration.TypeScript" /><h3>NSwag.CodeGeneration.TypeScript</h3><table><tr id="NSwag.CodeGeneration.TypeScriptHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration.TypeScript logged no messages.
+                  </td></tr></table><a name="NSwag.CodeGeneration.TypeScript.Tests" /><h3>NSwag.CodeGeneration.TypeScript.Tests</h3><table><tr id="NSwag.CodeGeneration.TypeScript.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.CodeGeneration.TypeScript.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Commands" /><h3>NSwag.Commands</h3><table><tr id="NSwag.CommandsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Commands logged no messages.
+                  </td></tr></table><a name="NSwag.Console" /><h3>NSwag.Console</h3><table><tr id="NSwag.ConsoleHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Console logged no messages.
+                  </td></tr></table><a name="NSwag.Console.x86" /><h3>NSwag.Console.x86</h3><table><tr id="NSwag.Console.x86HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Console.x86 logged no messages.
+                  </td></tr></table><a name="NSwag.ConsoleCore" /><h3>NSwag.ConsoleCore</h3><table><tr id="NSwag.ConsoleCoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.ConsoleCore logged no messages.
+                  </td></tr></table><a name="NSwag.Core" /><h3>NSwag.Core</h3><table><tr id="NSwag.CoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Core logged no messages.
+                  </td></tr></table><a name="NSwag.Core.Tests" /><h3>NSwag.Core.Tests</h3><table><tr id="NSwag.Core.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Core.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Core.Yaml" /><h3>NSwag.Core.Yaml</h3><table><tr id="NSwag.Core.YamlHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Core.Yaml logged no messages.
+                  </td></tr></table><a name="NSwag.Core.Yaml.Tests" /><h3>NSwag.Core.Yaml.Tests</h3><table><tr id="NSwag.Core.Yaml.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Core.Yaml.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Generation" /><h3>NSwag.Generation</h3><table><tr id="NSwag.GenerationHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.AspNetCore" /><h3>NSwag.Generation.AspNetCore</h3><table><tr id="NSwag.Generation.AspNetCoreHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.AspNetCore logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.AspNetCore.Tests" /><h3>NSwag.Generation.AspNetCore.Tests</h3><table><tr id="NSwag.Generation.AspNetCore.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.AspNetCore.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.AspNetCore.Tests.Web" /><h3>NSwag.Generation.AspNetCore.Tests.Web</h3><table><tr id="NSwag.Generation.AspNetCore.Tests.WebHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.AspNetCore.Tests.Web logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.Tests" /><h3>NSwag.Generation.Tests</h3><table><tr id="NSwag.Generation.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.WebApi" /><h3>NSwag.Generation.WebApi</h3><table><tr id="NSwag.Generation.WebApiHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.WebApi logged no messages.
+                  </td></tr></table><a name="NSwag.Generation.WebApi.Tests" /><h3>NSwag.Generation.WebApi.Tests</h3><table><tr id="NSwag.Generation.WebApi.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Generation.WebApi.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Integration.ClientPCL" /><h3>NSwag.Integration.ClientPCL</h3><table><tr id="NSwag.Integration.ClientPCLHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Integration.ClientPCL logged no messages.
+                  </td></tr></table><a name="NSwag.Integration.ClientPCL.Tests" /><h3>NSwag.Integration.ClientPCL.Tests</h3><table><tr id="NSwag.Integration.ClientPCL.TestsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Integration.ClientPCL.Tests logged no messages.
+                  </td></tr></table><a name="NSwag.Integration.Console" /><h3>NSwag.Integration.Console</h3><table><tr id="NSwag.Integration.ConsoleHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Integration.Console logged no messages.
+                  </td></tr></table><a name="NSwag.MSBuild" /><h3>NSwag.MSBuild</h3><table><tr id="NSwag.MSBuildHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.MSBuild logged no messages.
+                  </td></tr></table><a name="NSwag.Npm" /><h3>NSwag.Npm</h3><table><tr id="NSwag.NpmHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Npm logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.Common" /><h3>NSwag.Sample.Common</h3><table><tr id="NSwag.Sample.CommonHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.Common logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NET50" /><h3>NSwag.Sample.NET50</h3><table><tr id="NSwag.Sample.NET50HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NET50 logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NET60" /><h3>NSwag.Sample.NET60</h3><table><tr id="NSwag.Sample.NET60HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NET60 logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NET60Minimal" /><h3>NSwag.Sample.NET60Minimal</h3><table><tr id="NSwag.Sample.NET60MinimalHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NET60Minimal logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NETCore20" /><h3>NSwag.Sample.NETCore20</h3><table><tr id="NSwag.Sample.NETCore20HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NETCore20 logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NETCore20.Part" /><h3>NSwag.Sample.NETCore20.Part</h3><table><tr id="NSwag.Sample.NETCore20.PartHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NETCore20.Part logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NETCore21" /><h3>NSwag.Sample.NETCore21</h3><table><tr id="NSwag.Sample.NETCore21HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NETCore21 logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NETCore31" /><h3>NSwag.Sample.NETCore31</h3><table><tr id="NSwag.Sample.NETCore31HeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NETCore31 logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NetCoreAngular" /><h3>NSwag.Sample.NetCoreAngular</h3><table><tr id="NSwag.Sample.NetCoreAngularHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NetCoreAngular logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NetCoreAngular.Clients" /><h3>NSwag.Sample.NetCoreAngular.Clients</h3><table><tr id="NSwag.Sample.NetCoreAngular.ClientsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NetCoreAngular.Clients logged no messages.
+                  </td></tr></table><a name="NSwag.Sample.NetCoreAurelia" /><h3>NSwag.Sample.NetCoreAurelia</h3><table><tr id="NSwag.Sample.NetCoreAureliaHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.Sample.NetCoreAurelia logged no messages.
+                  </td></tr></table><a name="NSwag.VersionMissmatchTest" /><h3>NSwag.VersionMissmatchTest</h3><table><tr id="NSwag.VersionMissmatchTestHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwag.VersionMissmatchTest logged no messages.
+                  </td></tr></table><a name="NSwagStudio" /><h3>NSwagStudio</h3><table><tr id="NSwagStudioHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwagStudio logged no messages.
+                  </td></tr></table><a name="NSwagStudio.Chocolatey" /><h3>NSwagStudio.Chocolatey</h3><table><tr id="NSwagStudio.ChocolateyHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">NSwagStudio.Chocolatey logged no messages.
+                  </td></tr></table><a name="Sample Configurations" /><h3>Sample Configurations</h3><table><tr id="Sample ConfigurationsHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr><td class="IconInfoEncoded" /><td class="messageCell" _locID="NoMessagesRow">Sample Configurations logged no messages.
+                  </td></tr></table><a name="Solution" /><h3 _locID="ProjectDisplayNameHeader">Solution</h3><table><tr id="SolutionHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr name="MessageRowHeaderShowSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="ShowAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          Show 1 additional messages
+        </a></td></tr><tr name="MessageRowClassSolution" style="display: none"><td class="IconInfoEncoded"><a name="SolutionMessage" /></td><td class="messageCell"><strong>NSwag.sln:
+        </strong><span>The solution file does not require migration.</span></td></tr><tr style="display: none" name="MessageRowHeaderHideSolution"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="HideAdditionalMessages" href="#" name="SolutionMessage" onclick="ToggleMessageVisibility('Solution'); return false;">
+          Hide 1 additional messages
+        </a></td></tr></table></div></div></body></html>

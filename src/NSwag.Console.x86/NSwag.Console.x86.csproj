@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <OutputType>Exe</OutputType>
     <ApplicationIcon />
     <OutputTypeEx>exe</OutputTypeEx>
@@ -10,7 +10,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DependsOnNETStandard>true</DependsOnNETStandard>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net46'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net462'">
     <DefineConstants>TRACE;DEBUG;net46</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
