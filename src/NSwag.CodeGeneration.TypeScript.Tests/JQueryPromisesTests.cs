@@ -62,7 +62,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
-            var json = document.ToJson();
+            //var json = document.ToJson();
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings

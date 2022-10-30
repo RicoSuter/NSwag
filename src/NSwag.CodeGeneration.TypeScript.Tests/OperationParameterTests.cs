@@ -8,6 +8,7 @@ using NJsonSchema;
 using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using Xunit;
+using System.Web.Mvc;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -15,7 +16,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
     {
         public class FooController : Controller
         {
-            [Route("foos/")]
+            [Microsoft.AspNetCore.Mvc.Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
             {
                 return new Foo[0];

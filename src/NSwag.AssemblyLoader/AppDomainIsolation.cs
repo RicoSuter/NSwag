@@ -22,7 +22,7 @@ namespace NSwag.AssemblyLoader
     public sealed class AppDomainIsolation<T> : IDisposable where T : AssemblyLoader
     {
         /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
-        public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<string> preloadedAssemblies)
+        public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<Assembly> preloadedAssemblies)
         {
             if (string.IsNullOrEmpty(assemblyDirectory))
             {
@@ -40,7 +40,7 @@ namespace NSwag.AssemblyLoader
 
             foreach (var pa in preloadedAssemblies)
             {
-                Domain.Load(new AssemblyName { CodeBase = pa });
+                Domain.Load(new AssemblyName { CodeBase = pa.EscapedCodeBase });
             }
 
             var type = typeof(T);
@@ -70,7 +70,7 @@ namespace NSwag.AssemblyLoader
 
 #else
 
-    public sealed class AppDomainIsolation<T> : IDisposable where T : AssemblyLoader, new()
+	public sealed class AppDomainIsolation<T> : IDisposable where T : AssemblyLoader, new()
     {
         /// <exception cref="ArgumentNullException"><paramref name="assemblyDirectory"/> is <see langword="null" />.</exception>
         public AppDomainIsolation(string assemblyDirectory, string assemblyConfiguration, IEnumerable<BindingRedirect> bindingRedirects, IEnumerable<Assembly> preloadedAssemblies)
