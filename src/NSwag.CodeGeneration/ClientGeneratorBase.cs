@@ -181,5 +181,15 @@ namespace NSwag.CodeGeneration
             }
             return result;
         }
+
+        public CodeGenerationResults GenerateFiles(ClientGeneratorOutputType outputType)
+        {
+
+        }
+
+        public void GenerateFiles()
+        {
+
+        }
     }
 }
