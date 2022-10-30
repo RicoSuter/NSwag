@@ -8,9 +8,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
+using Parlot.Fluent;
 
 namespace NSwag.CodeGeneration
 {
@@ -99,9 +101,62 @@ namespace NSwag.CodeGeneration
         /// <returns>The code.</returns>
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
 
-        /// <summary>Generates the client types.</summary>
-        /// <returns>The code artifact collection.</returns>
-        protected virtual IEnumerable<CodeArtifact> GenerateAllClientTypes()
+		public CodeGenerationResult GenerateFiles(ClientGeneratorOutputType outputType)
+		{
+			var clientTypes = GenerateAllClientTypes();
+            
+            var dtoTypes = BaseSettings.GenerateDtoTypes ?
+                GenerateDtoTypes() :
+                Enumerable.Empty<CodeArtifact>();
+
+            clientTypes =
+                outputType == ClientGeneratorOutputType.Full ? clientTypes :
+                outputType == ClientGeneratorOutputType.Implementation ? clientTypes.Where(t => t.Category != CodeArtifactCategory.Contract) :
+                outputType == ClientGeneratorOutputType.Contracts ? clientTypes.Where(t => t.Category == CodeArtifactCategory.Contract) :
+                Enumerable.Empty<CodeArtifact>();
+
+            dtoTypes =
+                outputType == ClientGeneratorOutputType.Full ||
+                outputType == ClientGeneratorOutputType.Contracts ? dtoTypes : Enumerable.Empty<CodeArtifact>();
+
+            CodeGenerationResult genResult = new();
+            List<CodeGenerationArtifact> artifactList = new();
+
+            foreach (var clientType in clientTypes)
+            {
+                IEnumerable<CodeArtifact> type = new List<CodeArtifact>() { clientType };
+                IEnumerable<CodeArtifact> emptyList = Enumerable.Empty<CodeArtifact>();
+                CodeGenerationArtifact artifact = new()
+                {
+                    Code = GenerateFile(type, emptyList, outputType)
+                };
+                artifactList.Add(artifact);
+            }
+
+			foreach (var dtoType in dtoTypes)
+			{
+				IEnumerable<CodeArtifact> type = new List<CodeArtifact>() { dtoType };
+				IEnumerable<CodeArtifact> emptyList = Enumerable.Empty<CodeArtifact>();
+				CodeGenerationArtifact artifact = new()
+				{
+					Code = GenerateFile(emptyList, type, outputType)
+				};
+				artifactList.Add(artifact);
+			}
+
+            genResult.artifacts = artifactList;
+
+			return genResult;
+		}
+
+		public void GenerateFiles()
+		{
+
+		}
+
+		/// <summary>Generates the client types.</summary>
+		/// <returns>The code artifact collection.</returns>
+		protected virtual IEnumerable<CodeArtifact> GenerateAllClientTypes()
         {
             var operations = GetOperations(_document);
             var clientTypes = new List<CodeArtifact>();
@@ -180,16 +235,6 @@ namespace NSwag.CodeGeneration
                 }
             }
             return result;
-        }
-
-        public CodeGenerationResults GenerateFiles(ClientGeneratorOutputType outputType)
-        {
-
-        }
-
-        public void GenerateFiles()
-        {
-
         }
     }
 }

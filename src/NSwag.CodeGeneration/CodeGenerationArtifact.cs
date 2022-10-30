@@ -6,10 +6,14 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NJsonSchema.CodeGeneration;
+
 namespace NSwag.CodeGeneration
 {
 	public class CodeGenerationArtifact
 	{
-
+		public string Name { get; }
+		public CodeArtifactType Type { get; }
+		public string Code { get; set; }
 	}
 }

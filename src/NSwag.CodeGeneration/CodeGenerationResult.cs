@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace NSwag.CodeGeneration
 {
-	public class CodeGenerationResults
+	public class CodeGenerationResult
 	{
 		public Result result;
 		public IEnumerable<CodeGenerationArtifact> artifacts;
