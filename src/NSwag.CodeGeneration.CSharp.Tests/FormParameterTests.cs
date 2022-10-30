@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.Generation.WebApi;

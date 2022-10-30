@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -14,7 +15,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
         public class DiscussionController : Controller
         {
-            [HttpPost]
+            [Microsoft.AspNetCore.Mvc.HttpPost]
             public void AddMessage([FromBody]Foo message)
             {
             }
@@ -22,7 +23,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         
         public class UrlEncodedRequestConsumingController: Controller
         {
-            [HttpPost]
+            [Microsoft.AspNetCore.Mvc.HttpPost]
             [Consumes("application/x-www-form-urlencoded")]
             public void AddMessage([FromForm]Foo message, [FromForm]string messageId)
             {

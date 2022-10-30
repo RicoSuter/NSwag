@@ -12,7 +12,12 @@
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.WebApi.Tests\NSwag.Generation.WebApi.Tests.csproj" />
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
 </Project>

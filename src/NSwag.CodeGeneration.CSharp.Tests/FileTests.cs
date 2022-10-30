@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -11,7 +12,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class FileDownloadController : Controller
         {
-            [Route("DownloadFile")]
+            [Microsoft.AspNetCore.Mvc.Route("DownloadFile")]
             public HttpResponseMessage DownloadFile()
             {
                 throw new NotImplementedException();

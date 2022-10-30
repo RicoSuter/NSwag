@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
 

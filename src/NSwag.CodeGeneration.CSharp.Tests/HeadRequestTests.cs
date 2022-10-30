@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -9,7 +10,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class HeadRequestController : Controller
         {
-            [HttpHead]
+            [Microsoft.AspNetCore.Mvc.HttpHead]
             public void Foo()
             {
             }

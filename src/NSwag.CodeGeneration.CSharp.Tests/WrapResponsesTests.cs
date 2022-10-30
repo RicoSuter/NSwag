@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -10,13 +11,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class TestController : Controller
         {
-            [Route("Foo")]
+            [Microsoft.AspNetCore.Mvc.Route("Foo")]
             public string Foo()
             {
                 throw new NotImplementedException();
             }
 
-            [Route("Bar")]
+            [Microsoft.AspNetCore.Mvc.Route("Bar")]
             public void Bar()
             {
                 throw new NotImplementedException();

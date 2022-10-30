@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -11,17 +12,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class TestController : Controller
         {
-            [Route("Test")]
+            [Microsoft.AspNetCore.Mvc.Route("Test")]
             public void Test(string a, string b, string c = null)
             {
             }
 
-            [Route("TestWithClass")]
+            [Microsoft.AspNetCore.Mvc.Route("TestWithClass")]
             public void TestWithClass([FromUri] MyClass objet)
             {
             }
 
-            [Route("TestWithEnum")]
+            [Microsoft.AspNetCore.Mvc.Route("TestWithEnum")]
             public void TestWithEnum([FromUri] MyEnum? myEnum = null)
             {
             }
