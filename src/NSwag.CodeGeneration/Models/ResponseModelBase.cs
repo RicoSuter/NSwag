@@ -61,6 +61,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether to check for the chunked HTTP status code (206, true when file response and 200/204).</summary>
         public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
 
+        /// <summary>Gets a flag to say if the StatusCode can be interpreted as an integer. (e.g. 5XX cannot be treated as a number)</summary>
+        public bool StatusCodeIsInt => int.TryParse(StatusCode, out _);
+
         /// <summary>Gets the type of the response.</summary>
         public string Type =>
             _response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() :

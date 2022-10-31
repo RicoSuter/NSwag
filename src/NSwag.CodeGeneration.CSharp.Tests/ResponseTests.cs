@@ -355,6 +355,177 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task When_response_code_is_a_range()
+        {
+            // Arrange
+            string json = @"{
+  ""openapi"": ""3.0.1"",
+  ""info"": {
+    ""title"": ""WebApplication"",
+    ""version"": ""1.0""
+  },
+  ""servers"": [
+    {
+      ""url"": ""/WebApplication""
+    }
+  ],
+  ""paths"": {
+    ""/Account/Authenticate"": {
+      ""post"": {
+        ""tags"": [
+          ""Account""
+        ],
+        ""requestBody"": {
+          ""content"": {
+            ""application/json"": {
+              ""schema"": {
+                ""$ref"": ""#/components/schemas/AuthenticationRequest""
+              }
+            }
+          }
+        },
+        ""responses"": {
+          ""200"": {
+            ""description"": ""Success"",
+            ""content"": {
+              ""text/plain"": {
+                ""schema"": {
+                  ""type"": ""string""
+                }
+              }
+            }
+          },
+          ""400"": {
+            ""description"": ""Bad Request"",
+            ""content"": {
+              ""application/problem+json"": {
+                ""schema"": {
+                  ""$ref"": ""#/components/schemas/ValidationProblemDetails""
+                }
+              }
+            }
+          },
+          ""401"": {
+            ""description"": ""Unauthorized"",
+            ""content"": {
+              ""application/problem+json"": {
+                ""schema"": {
+                  ""$ref"": ""#/components/schemas/ProblemDetails""
+                }
+              }
+            }
+          },
+          ""415"": {
+            ""description"": ""Unsupported Media Type"",
+            ""content"": {
+              ""application/problem+json"": {
+                ""schema"": {
+                  ""$ref"": ""#/components/schemas/ProblemDetails""
+                }
+              }
+            }
+          },
+          ""5xx"": {
+            ""description"": ""Internal Server Error"",
+            ""content"": {
+              ""application/problem+json"": {
+                ""schema"": {
+                  ""$ref"": ""#/components/schemas/ProblemDetails""
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""schemas"": {
+      ""AuthenticationRequest"": {
+        ""type"": ""object"",
+        ""additionalProperties"": false
+      },
+      ""ValidationProblemDetails"": {
+        ""type"": ""object"",
+        ""properties"": {
+          ""type"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""title"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""status"": {
+            ""type"": ""integer"",
+            ""format"": ""int32"",
+            ""nullable"": true
+          },
+          ""detail"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""instance"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""errors"": {
+            ""type"": ""object"",
+            ""additionalProperties"": {
+              ""type"": ""array"",
+              ""items"": {
+                ""type"": ""string""
+              }
+            },
+            ""nullable"": true,
+            ""readOnly"": true
+          }
+        },
+        ""additionalProperties"": { }
+      },
+      ""ProblemDetails"": {
+        ""type"": ""object"",
+        ""properties"": {
+          ""type"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""title"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""status"": {
+            ""type"": ""integer"",
+            ""format"": ""int32"",
+            ""nullable"": true
+          },
+          ""detail"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          },
+          ""instance"": {
+            ""type"": ""string"",
+            ""nullable"": true
+          }
+        },
+        ""additionalProperties"": { }
+      }
+    }
+  }
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("if (StatusInRange(status_, \"5xx\"))", code);
+        }
+
+        [Fact]
         public async Task When_responses_produce_primitive_types()
         {
             // Arrange

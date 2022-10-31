@@ -322,7 +322,7 @@
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
-                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+                    {% if response.StatusCodeIsInt %}if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %}){% else %}if (StatusInRange(status_, "{{ response.StatusCode }}")){% endif %}
                     {
                         {% template Client.Class.ProcessResponse %}
                     }
@@ -403,6 +403,14 @@
         public T Object { get; }
 
         public string Text { get; }
+    }
+
+    private bool StatusInRange(int value, string match)
+    {
+        var regexBody = match.Replace("x", "\\d", System.StringComparison.OrdinalIgnoreCase);
+        var result = System.Text.RegularExpressions.Regex.IsMatch(value.ToString(), "^" + regexBody + "$");
+
+        return result;
     }
 
     {% template Client.Class.ReadObjectResponse %}
