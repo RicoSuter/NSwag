@@ -1,9 +1,13 @@
+#if NETFRAMEWORK
+using System.Web.Mvc;
+using System.Web.Http;
+#else
 using Microsoft.AspNetCore.Mvc;
+#endif
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.Generation.WebApi;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests

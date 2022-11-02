@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NJsonSchema;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using NJsonSchema;
 using Xunit;
 
 namespace NSwag.Core.Yaml.Tests.References
@@ -31,7 +31,7 @@ namespace NSwag.Core.Yaml.Tests.References
 
         private string GetTestDirectory()
         {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var codeBase = Assembly.GetExecutingAssembly().Location;
             var uri = new UriBuilder(codeBase);
             return Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
         }
