@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using NJsonSchema;
+using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CSharp;
@@ -36,7 +39,64 @@ namespace NSwag.CodeGeneration.Tests
             Assert.Contains("class Address", code);
         }
 
-        [Fact]
+		[Fact]
+		public void When_generating_CSharp_code_with_empty_client_types_output_returns_empty_list()
+		{
+			// Arrange
+			var document = CreateDocument();
+			IEnumerable<CodeArtifact> emptyArtifactList = new List<CodeArtifact>();
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+			var generator = new CSharpClientGenerator(document, settings);
+            var result = generator.GenerateClientFiles(emptyArtifactList, ClientGeneratorOutputType.Full);
+
+            // Assert
+            Assert.Empty(result);
+		}
+
+		[Fact]
+		public void When_generating_CSharp_code_with_empty_DTO_types_output_returns_empty_list()
+		{
+			// Arrange
+			var document = CreateDocument();
+			IEnumerable<CodeArtifact> emptyArtifactList = new List<CodeArtifact>();
+
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+			var generator = new CSharpClientGenerator(document, settings);
+			var result = generator.GenerateDTOFiles(emptyArtifactList, ClientGeneratorOutputType.Full);
+
+            // Assert
+			Assert.Empty(result);
+		}
+
+		[Fact]
+		public void When_generating_CSharp_code_with_single_client_type_output_returns_list_with_single_item()
+		{
+            // Arrange
+            var document = CreateDocument();
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var template = settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", new object());
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+            var generator = new CSharpClientGenerator(document, settings);
+            CodeArtifact sampleArtifact = new CodeArtifact("testClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			IEnumerable<CodeArtifact> artifactList = new List<CodeArtifact>() { sampleArtifact };
+			var code = generator.GenerateClientFiles(artifactList, ClientGeneratorOutputType.Full);
+
+            // Assert
+            Assert.Single(code);
+		}
+
+		[Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
         {
             // Arrange

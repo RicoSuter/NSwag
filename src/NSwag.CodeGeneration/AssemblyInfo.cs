@@ -1,0 +1,8 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+[assembly: ComVisible(false)]
+
+[assembly: Guid("09febf7c-895c-4e55-8043-e35880d9ca3f")]
+
+[assembly: InternalsVisibleTo("NSwag.CodeGeneration.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100eba55a5211cd3198b5ba4b96c5cb70484b376ce083664d47dcb7439a97c3368a26ea54de3ec6d90d2899d39c4e3b65cb4ac7ef8ba5c9ded7c8aa6538757b31291624e96f374c23fdbeeaa85dfe841ab6afffbd3593d2a40c96a0f0888f25d7bd9361611db9450041b57776d33e3acb90794254c428251ddd63aa329d86ec809f")]
