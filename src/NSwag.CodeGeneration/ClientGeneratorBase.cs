@@ -101,11 +101,16 @@ namespace NSwag.CodeGeneration
         /// <returns>The code.</returns>
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
 
+		/// <summary>Generates multiple files containing all the needed types.</summary>
+		/// <returns>The code.</returns>
 		public CodeGenerationResult GenerateFiles()
 		{
 			return GenerateFiles(ClientGeneratorOutputType.Full);
 		}
 
+		/// <summary>Generates multiple files containing all the needed types.</summary>
+		/// <param name="outputType">Type of the output.</param>
+		/// <returns>The code.</returns>
 		public CodeGenerationResult GenerateFiles(ClientGeneratorOutputType outputType)
 		{
 			var clientTypes = GenerateAllClientTypes();
@@ -138,7 +143,11 @@ namespace NSwag.CodeGeneration
 			return genResult;
 		}
 
-        internal IEnumerable<CodeGenerationArtifact> GenerateClientFiles(IEnumerable<CodeArtifact> clientTypes, ClientGeneratorOutputType outputType)
+		/// <summary>Generates files for all the needed client types.</summary>
+        /// <param name="clientTypes">List of client types</param>
+		/// <param name="outputType">Type of the output.</param>
+		/// <returns>A list of files.</returns>
+		internal IEnumerable<CodeGenerationArtifact> GenerateClientFiles(IEnumerable<CodeArtifact> clientTypes, ClientGeneratorOutputType outputType)
         {
             List<CodeGenerationArtifact> clientFileList = new();
 			foreach (var clientType in clientTypes)
@@ -154,6 +163,10 @@ namespace NSwag.CodeGeneration
             return clientFileList;
 		}
 
+		/// <summary>Generates files for all the needed DTO types.</summary>
+		/// <param name="dtoTypes">List of client types</param>
+		/// <param name="outputType">Type of the output.</param>
+		/// <returns>A list of files.</returns>
 		internal IEnumerable<CodeGenerationArtifact> GenerateDTOFiles(IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
 		{
             List<CodeGenerationArtifact> dtoFileList = new();

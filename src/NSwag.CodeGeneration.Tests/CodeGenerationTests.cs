@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.Tests
 		}
 
 		[Fact]
-		public void When_generating_CSharp_code_with_single_client_type_output_returns_list_with_single_item()
+		public void When_generating_CSharp_code_with_single_client_type_output_returns_expected_items()
 		{
             // Arrange
             var document = CreateDocument();
@@ -97,6 +97,26 @@ namespace NSwag.CodeGeneration.Tests
 		}
 
 		[Fact]
+		public void When_generating_CSharp_code_with_single_DTO_type_output_returns_expected_items()
+		{
+			// Arrange
+			var document = CreateDocument();
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+			var template = settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", new object());
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+			var generator = new CSharpClientGenerator(document, settings);
+			CodeArtifact sampleArtifact = new CodeArtifact("testClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			IEnumerable<CodeArtifact> artifactList = new List<CodeArtifact>() { sampleArtifact };
+			var code = generator.GenerateDTOFiles(artifactList, ClientGeneratorOutputType.Full);
+
+			// Assert
+			Assert.Single(code);
+		}
+
+		[Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
         {
             // Arrange
@@ -113,7 +133,49 @@ namespace NSwag.CodeGeneration.Tests
             Assert.Contains("new System.Text.Json.JsonSerializerOptions()", code);
         }
 
-        [Fact]
+		[Fact]
+		public void When_generating_CSharp_code_with_multiple_client_types_output_returns_expected_items()
+		{
+			// Arrange
+			var document = CreateDocument();
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+			var template = settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", new object());
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+			var generator = new CSharpClientGenerator(document, settings);
+			CodeArtifact sampleArtifact = new CodeArtifact("testClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			CodeArtifact alternateSampleArtifact = new CodeArtifact("anotherTestClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			IEnumerable<CodeArtifact> artifactList = new List<CodeArtifact>() { sampleArtifact, alternateSampleArtifact };
+			var code = generator.GenerateClientFiles(artifactList, ClientGeneratorOutputType.Full);
+
+            // Assert
+            Assert.Equal(2, code.Count());
+		}
+
+		[Fact]
+		public void When_generating_CSharp_code_with_multiple_DTO_types_output_returns_expected_items()
+		{
+			// Arrange
+			var document = CreateDocument();
+
+			// Act
+			var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+			var template = settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller", new object());
+			settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+
+			var generator = new CSharpClientGenerator(document, settings);
+			CodeArtifact sampleArtifact = new CodeArtifact("testClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			CodeArtifact alternateSampleArtifact = new CodeArtifact("anotherTestClass", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Undefined, template);
+			IEnumerable<CodeArtifact> artifactList = new List<CodeArtifact>() { sampleArtifact, alternateSampleArtifact };
+			var code = generator.GenerateDTOFiles(artifactList, ClientGeneratorOutputType.Full);
+
+			// Assert
+			Assert.Equal(2, code.Count());
+		}
+
+		[Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_and_JsonSerializerSettingsTransformationMethod_then_output_contains_expected_code()
         {
             // Arrange
