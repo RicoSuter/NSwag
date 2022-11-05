@@ -101,10 +101,15 @@ namespace NSwag.CodeGeneration
         /// <returns>The code.</returns>
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
 
+		public CodeGenerationResult GenerateFiles()
+		{
+			return GenerateFiles(ClientGeneratorOutputType.Full);
+		}
+
 		public CodeGenerationResult GenerateFiles(ClientGeneratorOutputType outputType)
 		{
 			var clientTypes = GenerateAllClientTypes();
-            
+
             var dtoTypes = BaseSettings.GenerateDtoTypes ?
                 GenerateDtoTypes() :
                 Enumerable.Empty<CodeArtifact>();
@@ -120,23 +125,22 @@ namespace NSwag.CodeGeneration
                 outputType == ClientGeneratorOutputType.Contracts ? dtoTypes : Enumerable.Empty<CodeArtifact>();
 
             CodeGenerationResult genResult = new();
-            List<CodeGenerationArtifact> artifactList = new();
 
-            artifactList = GenerateClientFiles(artifactList, clientTypes, outputType);
-            artifactList = GenerateDTOFiles(artifactList, dtoTypes, outputType);
-			
+			var clientFileList = GenerateClientFiles(clientTypes, outputType);
+            var dtoFileList = GenerateDTOFiles(dtoTypes, outputType);
+
+            List<CodeGenerationArtifact> artifactList = new();
+            artifactList.AddRange(clientFileList);
+            artifactList.AddRange(dtoFileList);
+
             genResult.artifacts = artifactList;
 
 			return genResult;
 		}
 
-		public void GenerateFiles()
-		{
-
-		}
-
-        internal List<CodeGenerationArtifact> GenerateClientFiles(List<CodeGenerationArtifact> result, IEnumerable<CodeArtifact> clientTypes, ClientGeneratorOutputType outputType)
+        internal IEnumerable<CodeGenerationArtifact> GenerateClientFiles(IEnumerable<CodeArtifact> clientTypes, ClientGeneratorOutputType outputType)
         {
+            List<CodeGenerationArtifact> clientFileList = new();
 			foreach (var clientType in clientTypes)
 			{
 				IEnumerable<CodeArtifact> type = new List<CodeArtifact>() { clientType };
@@ -145,13 +149,14 @@ namespace NSwag.CodeGeneration
 				{
 					Code = GenerateFile(type, emptyList, outputType)
 				};
-				result.Add(artifact);
+				clientFileList.Add(artifact);
 			}
-            return result;
+            return clientFileList;
 		}
 
-		internal List<CodeGenerationArtifact> GenerateDTOFiles(List<CodeGenerationArtifact> result, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
+		internal IEnumerable<CodeGenerationArtifact> GenerateDTOFiles(IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
 		{
+            List<CodeGenerationArtifact> dtoFileList = new();
 			foreach (var dtoType in dtoTypes)
 			{
 				IEnumerable<CodeArtifact> type = new List<CodeArtifact>() { dtoType };
@@ -160,9 +165,9 @@ namespace NSwag.CodeGeneration
 				{
 					Code = GenerateFile(emptyList, type, outputType)
 				};
-				result.Add(artifact);
+				dtoFileList.Add(artifact);
 			}
-            return result;
+            return dtoFileList;
 		}
 
 		/// <summary>Generates the client types.</summary>
