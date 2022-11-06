@@ -18,7 +18,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     public class SwaggerToCSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
+        private SwaggerToCSharpClientCommand _command = new();
 
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpClientCommand Command

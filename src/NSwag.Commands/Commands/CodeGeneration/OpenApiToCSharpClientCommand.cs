@@ -273,10 +273,21 @@ namespace NSwag.Commands.CodeGeneration
                 return result;
             }
 
-            return new Dictionary<string, string>
+            if (Settings.GenerationStyle == CSharpClientGenerationStyle.OneFilePerType)
             {
-                { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
-            };
+                var returnValue = new Dictionary<string, string>();
+                var genResult = clientGenerator.GenerateFiles(ClientGeneratorOutputType.Full);
+                foreach (var artifact in genResult.artifacts)
+                {
+                    returnValue.Add(OutputFilePath ?? "Full", artifact.Code);
+                }
+                return returnValue;
+            }
+
+            return new Dictionary<string, string>
+                {
+                    { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
+                };
         }
 
         private void GenerateImplementation(Dictionary<string, string> result, CSharpClientGenerator clientGenerator)
