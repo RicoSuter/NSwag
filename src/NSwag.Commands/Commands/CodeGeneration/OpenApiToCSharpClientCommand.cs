@@ -13,9 +13,7 @@ using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.CSharp;
-using NSwag.Commands.Commands.CodeGeneration;
-
-#pragma warning disable 1591
+using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwag.Commands.CodeGeneration
 {
@@ -110,10 +108,10 @@ namespace NSwag.Commands.CodeGeneration
         }
 
         [Argument(Name = "GenerationStyle", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
-        public CSharpGenerationStyle GenerationStyle
+        public CSharpClientGenerationStyle GenerationStyle
         {
-            get { return GenerationStyleConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
-            set { Settings.GenerationStyle = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
+            get { return Settings.GenerationStyle; }
+            set { Settings.GenerationStyle = value; }
         }
 
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]

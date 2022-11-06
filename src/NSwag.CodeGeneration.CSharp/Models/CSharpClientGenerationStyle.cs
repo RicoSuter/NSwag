@@ -10,9 +10,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
     public enum CSharpClientGenerationStyle
     {
         /// <summary>Output a single file.</summary>
-        Single,
+        SingleFile,
 
         /// <summary>Output one file per type.</summary>
-        Multiple
+        OneFilePerType
     }
 }
