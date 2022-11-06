@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.Commands.Commands.CodeGeneration;
 
 #pragma warning disable 1591
 
@@ -106,6 +107,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.WrapDtoExceptions; }
             set { Settings.WrapDtoExceptions = value; }
+        }
+
+        [Argument(Name = "GenerationStyle", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
+        public CSharpGenerationStyle GenerationStyle
+        {
+            get { return GenerationStyleConverter.GetOperationGenerationMode(Settings.OperationNameGenerator); }
+            set { Settings.GenerationStyle = OperationGenerationModeConverter.GetOperationNameGenerator(value); }
         }
 
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
