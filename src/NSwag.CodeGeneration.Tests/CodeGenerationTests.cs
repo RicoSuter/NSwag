@@ -117,23 +117,6 @@ namespace NSwag.CodeGeneration.Tests
 		}
 
 		[Fact]
-        public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
-        {
-            // Arrange
-            var document = CreateDocument();
-
-            // Act
-            var settings = new CSharpClientGeneratorSettings();
-            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
-
-            var generator = new CSharpClientGenerator(document, settings);
-            var code = generator.GenerateFile();
-
-            // Assert
-            Assert.Contains("new System.Text.Json.JsonSerializerOptions()", code);
-        }
-
-		[Fact]
 		public void When_generating_CSharp_code_with_multiple_client_types_output_returns_expected_items()
 		{
 			// Arrange
@@ -175,7 +158,24 @@ namespace NSwag.CodeGeneration.Tests
 			Assert.Equal(2, code.Count());
 		}
 
-		[Fact]
+        [Fact]
+        public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("new System.Text.Json.JsonSerializerOptions()", code);
+        }
+
+        [Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_and_JsonSerializerSettingsTransformationMethod_then_output_contains_expected_code()
         {
             // Arrange

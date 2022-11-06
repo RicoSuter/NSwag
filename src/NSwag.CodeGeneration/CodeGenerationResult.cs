@@ -11,9 +11,13 @@ using System.Collections.Generic;
 
 namespace NSwag.CodeGeneration
 {
+	/// <summary>The result of multi-file code generation.</summary>
 	public class CodeGenerationResult
 	{
+		/// <summary>Indicator of whether file generation was successful.</summary>
 		public Result result;
+
+		/// <summary>List of generated files.</summary>
 		public IEnumerable<CodeGenerationArtifact> artifacts;
 	}
 }

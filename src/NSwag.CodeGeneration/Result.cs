@@ -8,9 +8,13 @@
 
 namespace NSwag.CodeGeneration
 {
+	/// <summary>Indicates whether a code generation attempt has been successful.</summary>
 	public enum Result
 	{
-		SUCCESS,
-		FAILURE
+		/// <summary>Code generation was a success.</summary>
+		Success,
+
+		/// <summary>Code generation was a failure.</summary>
+		Failure
 	}
 }
