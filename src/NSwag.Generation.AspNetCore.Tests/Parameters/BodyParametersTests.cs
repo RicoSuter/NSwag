@@ -34,7 +34,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_RequiredPrimitiveWithDefault").Operation;
 
-            Assert.True(operation.ActualParameters.First().IsRequired);
+            Assert.False(operation.ActualParameters.First().IsRequired);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First(o => o.Operation.OperationId == "BodyParameters_RequiredComplexWithDefault").Operation;
 
-            Assert.True(operation.ActualParameters.First().IsRequired);
+            Assert.False(operation.ActualParameters.First().IsRequired);
         }
     }
 }
