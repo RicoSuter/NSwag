@@ -152,7 +152,7 @@ namespace NSwag.CodeGeneration
             {
                 IEnumerable<CodeArtifact> listWithClientTypeToGenerate = new List<CodeArtifact>() { clientType };
                 IEnumerable<CodeArtifact> emptyDtoTypeList = Enumerable.Empty<CodeArtifact>();
-                CodeGenerationArtifact artifact = new()
+                CodeGenerationArtifact artifact = new(clientType)
                 {
                     Code = GenerateFile(listWithClientTypeToGenerate, emptyDtoTypeList, outputType)
                 };
@@ -172,7 +172,7 @@ namespace NSwag.CodeGeneration
             {
                 IEnumerable<CodeArtifact> listWithDtoTypeToGenerate = new List<CodeArtifact>() { dtoType };
                 IEnumerable<CodeArtifact> emptyClientTypeList = Enumerable.Empty<CodeArtifact>();
-                CodeGenerationArtifact artifact = new()
+                CodeGenerationArtifact artifact = new(dtoType)
                 {
                     Code = GenerateFile(emptyClientTypeList, listWithDtoTypeToGenerate, outputType)
                 };

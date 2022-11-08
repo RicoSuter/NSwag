@@ -10,14 +10,43 @@ using NJsonSchema.CodeGeneration;
 
 namespace NSwag.CodeGeneration
 {
-	/// <summary>The generated file.</summary>
+	/// <summary>An output from the multi-file generation process.</summary>
 	public class CodeGenerationArtifact
 	{
-		/// <summary>Name of generated file.</summary>
-		public string Name { get; }
-		/// <summary>Type of generated file.</summary>
-		public CodeArtifactType Type { get; }
-		/// <summary>The generated code.</summary>
+		private readonly CodeArtifact _sourceArtifact;
+
+		/// <summary>
+		/// Main constructor for the type
+		/// </summary>
+		/// <param name="sourceArtifact">The source artifact from which this generated result was created</param>
+		public CodeGenerationArtifact(CodeArtifact sourceArtifact)
+		{
+			_sourceArtifact = sourceArtifact;
+		}
+
+		/// <summary>
+		/// The name of the type that was generated
+		/// </summary>
+		public string TypeName => _sourceArtifact.TypeName;
+
+		/// <summary>
+		/// The type of artifact that was generated
+		/// </summary>
+		public CodeArtifactType Type => _sourceArtifact.Type;
+
+		/// <summary>
+		/// The language of the generated artifact
+		/// </summary>
+		public CodeArtifactLanguage Language => _sourceArtifact.Language;
+
+		/// <summary>
+		/// The category of the generated artifact
+		/// </summary>
+		public CodeArtifactCategory Category => _sourceArtifact.Category;
+
+		/// <summary>
+		/// The code that was generated for this artifact
+		/// </summary>
 		public string Code { get; set; }
 	}
 }
