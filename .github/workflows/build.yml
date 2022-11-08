@@ -32,6 +32,8 @@ jobs:
     name: windows-2022
     runs-on: windows-2022
     steps:
+      - name: 'Allow long file path'
+        run: git config --system core.longpaths true
       - uses: actions/checkout@v1
       - uses: actions/setup-dotnet@v1
         with:
