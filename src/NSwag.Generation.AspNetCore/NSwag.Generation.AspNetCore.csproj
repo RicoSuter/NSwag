@@ -30,8 +30,8 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[6, 7)" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="[6, 7)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[6, 8)" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="[6, 8)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
