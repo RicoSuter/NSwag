@@ -69,6 +69,16 @@ namespace NSwag.CodeGeneration.CSharp
             }
         }
 
+		/// <summary>
+		/// Calculate the filename for the code artifact, for use in multi-file generation .
+		/// </summary>
+		/// <param name="artifact">The artifact for which a filename is required.</param>
+		/// <returns>The name of the file into which to place the generated code.</returns>
+		protected override string GetOutputFileName(CodeArtifact artifact)
+        {
+            return artifact.TypeName + ".cs";
+        }
+
         /// <summary>Creates an operation model.</summary>
         /// <param name="operation">The operation.</param>
         /// <param name="settings">The settings.</param>
