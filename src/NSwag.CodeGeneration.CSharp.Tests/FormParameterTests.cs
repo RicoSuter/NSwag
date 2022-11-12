@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿#if NETFRAMEWORK
 using System.Web.Mvc;
+using System.Web.Http;
+#else
 using Microsoft.AspNetCore.Mvc;
+#endif
+using System.Threading.Tasks;
 using NJsonSchema;
 using NSwag.Generation.WebApi;
 using Xunit;

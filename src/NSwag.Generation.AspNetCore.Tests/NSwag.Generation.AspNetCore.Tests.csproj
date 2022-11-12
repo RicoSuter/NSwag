@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <NoWarn>$(NoWarn),618,1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -9,10 +9,6 @@
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">

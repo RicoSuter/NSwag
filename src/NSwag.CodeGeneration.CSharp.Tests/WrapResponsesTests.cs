@@ -1,7 +1,10 @@
+#if NETFRAMEWORK
+using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc;
+#endif
 using System;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -56,7 +59,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 WrapResponses = true
             });
             var code = codeGen.GenerateFile();
-            
+
             // Assert
             Assert.Contains("Task<SwaggerResponse<string>>", code);
             Assert.Contains("Task<SwaggerResponse>", code);
@@ -76,7 +79,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 WrapResponses = true,
-                
+
             });
             var code = codeGen.GenerateFile();
 

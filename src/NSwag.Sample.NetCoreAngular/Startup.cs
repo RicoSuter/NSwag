@@ -1,20 +1,19 @@
-using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using NSwag.AspNetCore;
+using System.Collections.Generic;
 
 namespace NSwag.Sample.NetCoreAngular
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -30,7 +29,7 @@ namespace NSwag.Sample.NetCoreAngular
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc().AddJsonOptions(o =>
+            services.AddMvc().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
                 o.SerializerSettings.Converters = new List<JsonConverter> { new StringEnumConverter() };
@@ -40,7 +39,7 @@ namespace NSwag.Sample.NetCoreAngular
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggingBuilder loggingBuilder)
         {
             app.UseCors(builder => builder
                 .WithOrigins("*")
@@ -48,8 +47,8 @@ namespace NSwag.Sample.NetCoreAngular
                 .AllowAnyHeader()
                 .WithExposedHeaders("content-disposition", "content-type"));
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggingBuilder.AddConsole();
+            loggingBuilder.AddDebug();
 
             app.UseSwaggerUi3();
 

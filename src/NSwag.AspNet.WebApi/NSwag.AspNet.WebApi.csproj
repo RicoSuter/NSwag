@@ -6,7 +6,7 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET462</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />

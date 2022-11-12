@@ -1,7 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿#if NETFRAMEWORK
 using System.Web.Mvc;
+#else
 using Microsoft.AspNetCore.Mvc;
+#endif
+using System;
+using System.Threading.Tasks;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Generation.WebApi;
 using Xunit;
