@@ -30,6 +30,11 @@ namespace NSwag.CodeGeneration
 		public string TypeName => _sourceArtifact.TypeName;
 
 		/// <summary>
+		/// The name of the file the code will be placed in
+		/// </summary>
+		public string FileName { get; set; }
+
+		/// <summary>
 		/// The type of artifact that was generated
 		/// </summary>
 		public CodeArtifactType Type => _sourceArtifact.Type;

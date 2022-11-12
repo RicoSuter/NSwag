@@ -277,9 +277,10 @@ namespace NSwag.Commands.CodeGeneration
             {
                 var returnValue = new Dictionary<string, string>();
                 var genResult = clientGenerator.GenerateFiles(ClientGeneratorOutputType.Full);
+                var fileName = string.Empty;
                 foreach (var artifact in genResult.artifacts)
                 {
-                    returnValue.Add(OutputFilePath ?? "Full", artifact.Code);
+                    returnValue.Add(OutputFilePath + artifact.FileName ?? "Full" + artifact.TypeName, artifact.Code);
                 }
                 return returnValue;
             }

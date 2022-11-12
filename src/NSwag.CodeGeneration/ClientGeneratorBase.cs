@@ -99,9 +99,16 @@ namespace NSwag.CodeGeneration
         /// <returns>The code.</returns>
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
 
-        /// <summary>Generates multiple files containing all the needed types.</summary>
-        /// <returns>The code.</returns>
-        public CodeGenerationResult GenerateFiles()
+		/// <summary>
+		/// Calculate the filename for the code artifact, for use in multi-file generation .
+		/// </summary>
+		/// <param name="artifact">The artifact for which a filename is required.</param>
+		/// <returns>The name of the file into which to place the generated code.</returns>
+		protected abstract string GetOutputFileName(CodeArtifact artifact);
+
+		/// <summary>Generates multiple files containing all the needed types.</summary>
+		/// <returns>The code.</returns>
+		public CodeGenerationResult GenerateFiles()
         {
             return GenerateFiles(ClientGeneratorOutputType.Full);
         }
@@ -154,6 +161,7 @@ namespace NSwag.CodeGeneration
                 IEnumerable<CodeArtifact> emptyDtoTypeList = Enumerable.Empty<CodeArtifact>();
                 CodeGenerationArtifact artifact = new(clientType)
                 {
+                    FileName = GetOutputFileName(clientType),
                     Code = GenerateFile(listWithClientTypeToGenerate, emptyDtoTypeList, outputType)
                 };
                 clientFileList.Add(artifact);
