@@ -11,14 +11,13 @@ namespace NSwagStudio.Converters
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			CSharpClientGenerationStyle style = (CSharpClientGenerationStyle)value;
-			CSharpClientGenerationStyle target;
-			Enum.TryParse<CSharpClientGenerationStyle>((string)parameter, out target);
+			Enum.TryParse<CSharpClientGenerationStyle>((string)parameter, out CSharpClientGenerationStyle target);
 
 			if (style.Equals(target))
 			{
 				return Visibility.Visible;
 			}
-			return Visibility.Hidden;
+			return Visibility.Collapsed;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

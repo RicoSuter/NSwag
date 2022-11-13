@@ -29,12 +29,12 @@
     <Reference Include="System.IO" />
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+	  <Reference Include="Ookii.Dialogs.Wpf"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +69,7 @@
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.8.0" />
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.8.0" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
