@@ -31,5 +31,6 @@
     <file src="..\NSwag.ConsoleCore\bin\Release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
     <file src="..\NSwag.ConsoleCore\bin\Release\net5.0\Publish\**" target="tools/Net50" />
     <file src="..\NSwag.ConsoleCore\bin\release\net6.0\Publish\**" target="tools/Net60" />    
+    <file src="..\NSwag.ConsoleCore\bin\release\net7.0\Publish\**" target="tools/Net70" />    
   </files>
 </package>
