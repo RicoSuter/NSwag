@@ -15,12 +15,26 @@ variables:
   Projects: 'src/NSwag.sln'
 
 steps:
+- task: CmdLine@2
+  displayName: 'Allow long file path'
+  inputs:
+    script: 'git config --system core.longpaths true'
+- checkout: self
 # Install required SDKs and tools
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK'
   inputs:
     packageType: 'sdk'
     version: '6.0.0'
+    includePreviewVersions: true
+    performMultiLevelLookup: true
+    useGlobalJson: true
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '7.0.x'
     includePreviewVersions: true
     performMultiLevelLookup: true
     useGlobalJson: true

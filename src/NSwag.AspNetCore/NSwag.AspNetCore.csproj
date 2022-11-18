@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.6;netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard1.6;netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
     <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
@@ -16,6 +16,7 @@
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>[3.1, 4.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>[5, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>[6.0.0, 7.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>[7.0.0, 8.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>
     <NETStandardLibraryPackageVersion>1.6.1</NETStandardLibraryPackageVersion>
     <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
     <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
@@ -54,6 +55,10 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6)" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7)" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
@@ -79,6 +84,7 @@
         microsoftExtensionsFileProvidersEmbeddedPackageVersionCore31=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31);
         microsoftExtensionsFileProvidersEmbeddedPackageVersionNet5=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5);
         microsoftExtensionsFileProvidersEmbeddedPackageVersionNet6=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6);
+        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet7=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7);
         netStandardLibraryPackageVersion=$(NETStandardLibraryPackageVersion);
         systemIOFileSystemPackageVersion=$(SystemIOFileSystemPackageVersion);
         systemXmlXPathXDocumentPackageVersion=$(SystemXmlXPathXDocumentPackageVersion);
