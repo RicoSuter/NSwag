@@ -10,21 +10,20 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using MyToolkit.Command;
 using MyToolkit.Storage;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
+using System.Windows;
+using System.Windows.Input;
+
+using MessageBox = System.Windows.Forms.MessageBox;
+using System.Windows.Forms;
 
 namespace NSwagStudio.ViewModels
 {
-    using System.Windows;
-    using System.Windows.Input;
-
-    using MessageBox = System.Windows.Forms.MessageBox;
-
     /// <summary>The view model for the MainWindow.</summary>
     public class MainWindowModel : ViewModelBase
     {
@@ -198,7 +197,7 @@ namespace NSwagStudio.ViewModels
             {
                 if (File.Exists(document.Document.Path))
                 {
-                    FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
+                    FocusManager.SetFocusedElement(System.Windows.Application.Current.MainWindow, null);
                     await document.Document.SaveAsync();
                     MessageBox.Show($"The file {document.Document.Name} has been saved.", "File saved");
                     return true;
@@ -216,7 +215,7 @@ namespace NSwagStudio.ViewModels
         private async Task<bool> SaveAllDocumentAsync(ObservableCollection<DocumentModel> documents)
         {
             int changeCount = 0;
-            FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
+            FocusManager.SetFocusedElement(System.Windows.Application.Current.MainWindow, null);
             foreach (var document in documents)
             {
                 if (document.Document.IsDirty)
@@ -251,7 +250,7 @@ namespace NSwagStudio.ViewModels
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 document.Document.Path = dlg.FileName;
-                FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
+                FocusManager.SetFocusedElement(System.Windows.Application.Current.MainWindow, null);
                 await document.Document.SaveAsync();
                 return true;
             }

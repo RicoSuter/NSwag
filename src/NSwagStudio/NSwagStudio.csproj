@@ -30,11 +30,12 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-	  <Reference Include="Ookii.Dialogs.Wpf"/>
+	  <Reference Include="Ookii.Dialogs.Wpf" />
   </ItemGroup>
 
   <ItemGroup>
