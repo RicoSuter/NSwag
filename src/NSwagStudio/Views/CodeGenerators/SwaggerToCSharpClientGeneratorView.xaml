@@ -24,7 +24,6 @@
         <localConverters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
         <localConverters:StringArrayConverter x:Key="StringArrayConverter" />
         <localConverters:StyleTypeToVisibilityConverter x:Key="StyleTypeToVisibilityConverter"/>
-        <csharpGeneration:CSharpClientGenerationStyle x:Key="CSharpGenerationStyle"/>
     </UserControl.Resources>
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
@@ -289,7 +288,7 @@
                     </GroupBox>
 
                     <GroupBox Header="Single File Output" Margin="0,0,0,12">
-                        <StackPanel Margin="4,8,4,-8"  Visibility="{Binding Command.GenerationStyle, Converter={StaticResource StyleTypeToVisibilityConverter}, ConverterParameter='SingleFile'}">
+                        <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                             FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}"

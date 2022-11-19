@@ -68,7 +68,7 @@ namespace NSwagStudio.ViewModels
         public AsyncRelayCommand OpenDocumentCommand { get; }
 
         public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; }
-        
+
         public AsyncRelayCommand<ObservableCollection<DocumentModel>> CloseAllDocumentsCommand { get; }
 
         public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; }
@@ -132,11 +132,13 @@ namespace NSwagStudio.ViewModels
 
         private async Task OpenDocumentAsync()
         {
-            var dlg = new OpenFileDialog();
-            dlg.Multiselect = true;
-            dlg.Title = "Open NSwag settings file";
-            dlg.Filter = "NSwag file (*.nswag;*nswag.json)|*.nswag;*nswag.json";
-            dlg.RestoreDirectory = true;
+            var dlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = "Open NSwag settings file",
+                Filter = "NSwag file (*.nswag;*nswag.json)|*.nswag;*nswag.json",
+                RestoreDirectory = true
+            };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 foreach (var fileName in dlg.FileNames)
@@ -243,10 +245,12 @@ namespace NSwagStudio.ViewModels
 
         private async Task<bool> SaveAsDocumentAsync(DocumentModel document)
         {
-            var dlg = new SaveFileDialog();
-            dlg.Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json";
-            dlg.RestoreDirectory = true;
-            dlg.AddExtension = true;
+            var dlg = new SaveFileDialog
+            {
+                Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json",
+                RestoreDirectory = true,
+                AddExtension = true
+            };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 document.Document.Path = dlg.FileName;
