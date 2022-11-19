@@ -182,6 +182,7 @@ namespace NSwag.CodeGeneration
                 IEnumerable<CodeArtifact> emptyClientTypeList = Enumerable.Empty<CodeArtifact>();
                 CodeGenerationArtifact artifact = new(dtoType)
                 {
+                    FileName = GetOutputFileName(dtoType),
                     Code = GenerateFile(emptyClientTypeList, listWithDtoTypeToGenerate, outputType)
                 };
                 dtoFileList.Add(artifact);
