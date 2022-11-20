@@ -281,6 +281,10 @@ namespace NSwag.Commands.CodeGeneration
                 string InterfaceOutputFilePath = OutputFilePath + "Interfaces\\";
                 string currentOutputFilePath = "";
                 string FileName = "";
+                int interfacesContain;
+                CodeGenerationArtifact containedIn = null;
+                List<CodeGenerationArtifact> interfaceList = new List<CodeGenerationArtifact>();
+                Dictionary<CodeGenerationArtifact, string> interfaceFiles = new Dictionary<CodeGenerationArtifact, string>();
                 foreach (var artifact in genResult.artifacts)
                 {
                     FileName = artifact.FileName;
@@ -289,6 +293,28 @@ namespace NSwag.Commands.CodeGeneration
                     {
                         currentOutputFilePath = InterfaceOutputFilePath;
                         FileName = "I" + FileName;
+                        interfaceList.Add(artifact);
+                        interfaceFiles.Add(artifact, OutputFilePath + "Models\\"+ artifact.TypeName + "\\");
+                    }
+                    else
+                    {
+                        interfacesContain = 0;
+                        foreach (var intArtifact in interfaceList)
+                        {
+                            if (intArtifact.Code.Contains("<" + artifact.TypeName + ">"))
+                            {
+                                containedIn = intArtifact;
+                                interfacesContain += 1;
+                            }
+                        }
+                        if (interfacesContain == 1)
+                        {
+                            interfaceFiles.TryGetValue(containedIn, out currentOutputFilePath);
+                        }
+                        else
+                        {
+                            currentOutputFilePath = OutputFilePath + "Models\\";
+                        }
                     }
                     returnValue.Add(currentOutputFilePath + FileName ?? ("Full" + artifact.TypeName), artifact.Code);
                 }
