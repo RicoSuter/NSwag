@@ -278,9 +278,19 @@ namespace NSwag.Commands.CodeGeneration
                 var returnValue = new Dictionary<string, string>();
                 var genResult = clientGenerator.GenerateFiles(ClientGeneratorOutputType.Full);
                 OutputFilePath = OutputFilePath.Substring(0, OutputFilePath.Length-4);
+                string InterfaceOutputFilePath = OutputFilePath + "Interfaces\\";
+                string currentOutputFilePath = "";
+                string FileName = "";
                 foreach (var artifact in genResult.artifacts)
                 {
-                    returnValue.Add(OutputFilePath + artifact.FileName ?? ("Full" + artifact.TypeName), artifact.Code);
+                    FileName = artifact.FileName;
+                    currentOutputFilePath = OutputFilePath;
+                    if (artifact.Code.Contains("partial interface"))
+                    {
+                        currentOutputFilePath = InterfaceOutputFilePath;
+                        FileName = "I" + FileName;
+                    }
+                    returnValue.Add(currentOutputFilePath + FileName ?? ("Full" + artifact.TypeName), artifact.Code);
                 }
                 return returnValue;
             }
