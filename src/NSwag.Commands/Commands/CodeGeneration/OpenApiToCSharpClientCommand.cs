@@ -296,18 +296,25 @@ namespace NSwag.Commands.CodeGeneration
                         interfaceList.Add(artifact);
                         interfaceFiles.Add(artifact, OutputFilePath + "Models\\"+ artifact.TypeName + "\\");
                     }
+                    else if (artifact.Code.Contains(": Exception"))
+                    {
+                        currentOutputFilePath = OutputFilePath + "Exceptions\\";
+                    }
                     else
                     {
                         interfacesContain = 0;
                         foreach (var intArtifact in interfaceList)
                         {
-                            if (intArtifact.Code.Contains("<" + artifact.TypeName + ">"))
+                            if (intArtifact.Code.Contains(artifact.TypeName))
                             {
-                                containedIn = intArtifact;
+                                if (interfacesContain == 0)
+                                {
+                                    containedIn = intArtifact;
+                                }
                                 interfacesContain += 1;
                             }
                         }
-                        if (interfacesContain == 1)
+                        if (interfacesContain >= 1)
                         {
                             interfaceFiles.TryGetValue(containedIn, out currentOutputFilePath);
                         }
