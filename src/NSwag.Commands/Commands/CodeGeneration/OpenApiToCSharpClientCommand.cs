@@ -289,10 +289,6 @@ namespace NSwag.Commands.CodeGeneration
 						interfaceList.Add(artifact);
 						interfaceFiles.Add(artifact, OutputFilePath + "Models\\" + artifact.TypeName + "\\");
 					}
-					else if (artifact.Code.Contains(": Exception"))
-					{
-						currentOutputFilePath = OutputFilePath + "Exceptions\\";
-					}
 					else
 					{
 						interfacesFound = 0;
