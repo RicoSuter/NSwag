@@ -266,14 +266,6 @@ namespace NSwag.Commands.CodeGeneration
 			var document = await GetInputSwaggerDocument().ConfigureAwait(false);
 			var clientGenerator = new CSharpClientGenerator(document, Settings);
 
-			if (GenerateContractsOutput)
-			{
-				var result = new Dictionary<string, string>();
-				GenerateContracts(result, clientGenerator);
-				GenerateImplementation(result, clientGenerator);
-				return result;
-			}
-
 			if (Settings.GenerationStyle == CSharpClientGenerationStyle.OneFilePerType)
 			{
 				var returnValue = new Dictionary<string, string>();
@@ -327,6 +319,14 @@ namespace NSwag.Commands.CodeGeneration
 					returnValue.Add(currentOutputFilePath + fileName ?? ("Full" + artifact.TypeName), artifact.Code);
 				}
 				return returnValue;
+			}
+
+			if (GenerateContractsOutput)
+			{
+				var result = new Dictionary<string, string>();
+				GenerateContracts(result, clientGenerator);
+				GenerateImplementation(result, clientGenerator);
+				return result;
 			}
 
 			return new Dictionary<string, string>
