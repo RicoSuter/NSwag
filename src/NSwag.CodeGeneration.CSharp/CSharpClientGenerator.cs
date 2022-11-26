@@ -61,7 +61,7 @@ namespace NSwag.CodeGeneration.CSharp
                 if (model.GenerateClientInterfaces)
                 {
                     var interfaceTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, interfaceTemplate);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Interface, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, interfaceTemplate);
                 }
 
                 var classTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);

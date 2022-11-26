@@ -274,10 +274,6 @@ namespace NSwag.Commands.CodeGeneration
 				OutputFilePath = OutputFilePath.Substring(0, lastPathSeparatorIndex + 1);
 				string interfaceOutputFilePath = OutputFilePath + "Interfaces\\";
 				string fileName;
-				int interfacesFound;
-				CodeGenerationArtifact containedIn = null;
-				List<CodeGenerationArtifact> interfaceList = new List<CodeGenerationArtifact>();
-				Dictionary<CodeGenerationArtifact, string> interfaceFiles = new Dictionary<CodeGenerationArtifact, string>();
 				foreach (var artifact in genResult.artifacts)
 				{
 					fileName = artifact.FileName;
@@ -286,31 +282,10 @@ namespace NSwag.Commands.CodeGeneration
 					{
 						currentOutputFilePath = interfaceOutputFilePath;
 						fileName = "I" + fileName;
-						interfaceList.Add(artifact);
-						interfaceFiles.Add(artifact, OutputFilePath + "Models\\" + artifact.TypeName + "\\");
 					}
 					else
 					{
-						interfacesFound = 0;
-						foreach (var intArtifact in interfaceList)
-						{
-							if (intArtifact.Code.Contains(artifact.TypeName))
-							{
-								if (interfacesFound == 0)
-								{
-									containedIn = intArtifact;
-								}
-								interfacesFound += 1;
-							}
-						}
-						if (interfacesFound >= 1)
-						{
-							interfaceFiles.TryGetValue(containedIn, out currentOutputFilePath);
-						}
-						else
-						{
-							currentOutputFilePath = OutputFilePath + "Models\\";
-						}
+						currentOutputFilePath = OutputFilePath + "Models\\";
 					}
 					returnValue.Add(currentOutputFilePath + fileName ?? ("Full" + artifact.TypeName), artifact.Code);
 				}
