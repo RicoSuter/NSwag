@@ -322,11 +322,29 @@
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
+{%          if response.StatusCode != "204" -%}
                     if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
                     {
                         {% template Client.Class.ProcessResponse %}
                     }
                     else
+{%          else -%}
+                    if (status_ == 204)
+                    {
+{%             if operation.HasResultType -%}
+{%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+{%                 else -%}
+                        return {{ operation.UnwrappedResultDefaultValue }};
+{%                 endif -%}
+{%             elsif operation.WrapResponse -%}
+                        return new {{ ResponseClass }}(status_, headers_);
+{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
+                        return;
+{%             endif -%}
+                    }
+                    else
+{%          endif -%}
 {%     endfor -%}
 {%     if operation.HasDefaultResponse -%}
 {%         if operation.DefaultResponse.HasType -%}
