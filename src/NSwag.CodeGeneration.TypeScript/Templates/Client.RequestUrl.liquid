@@ -6,9 +6,13 @@ if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} =
 {%    else -%}
 if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
 {%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
+{%    if parameter.IsDateArray -%}
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? formatDate(s_) : "null").join()));
+{%    elsif parameter.IsDateTimeArray -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.{{ parameter.GetDateTimeToString }} : "null").join()));
-{%    elsif parameter.IsDateOrDateTime -%}
+{%    elsif parameter.IsDate -%}
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + formatDate({{ parameter.VariableName }}) : "null"));
+{%    elsif parameter.IsDateTime -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "null"));
 {%    elsif parameter.IsArray -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.join()));
