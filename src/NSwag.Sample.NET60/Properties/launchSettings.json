@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "NSwag.Sample.NET50": {
+    "NSwag.Sample.NET60": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

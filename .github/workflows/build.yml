@@ -32,19 +32,24 @@ jobs:
     name: windows-2022
     runs-on: windows-2022
     steps:
+      - name: 'Allow long file path'
+        run: git config --system core.longpaths true
       - uses: actions/checkout@v1
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 2.1.*
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 3.1.*
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 5.0.*
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.*
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.*
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:

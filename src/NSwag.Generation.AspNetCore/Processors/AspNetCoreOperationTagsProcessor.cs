@@ -48,7 +48,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.ResolveExternalXmlDocumentation);
+                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
                 aspNetCoreContext.OperationDescription.Operation.Tags.Add(controllerActionDescriptor.ControllerName);
                 UpdateDocumentTagDescription(context, controllerActionDescriptor.ControllerName, summary);
             }

@@ -78,7 +78,16 @@
                 <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
                 <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6$" exclude="Build,Analyzers" />
-            </group>            
+            </group>
+            <group targetFramework="net7.0">
+                <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Core.Yaml" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation.AspNetCore" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="NSwag.Generation" version="$version$" exclude="Build,Analyzers" />
+                <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
+                <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7$" exclude="Build,Analyzers" />
+            </group>
         </dependencies>
     </metadata>
     <files>
@@ -97,5 +106,7 @@
         <file src="bin\$configuration$\net5.0\NSwag.AspNetCore.xml" target="lib\net5.0\" />
         <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.dll" target="lib\net6.0\" />
         <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.xml" target="lib\net6.0\" />
+        <file src="bin\$configuration$\net7.0\NSwag.AspNetCore.dll" target="lib\net7.0\" />
+        <file src="bin\$configuration$\net7.0\NSwag.AspNetCore.xml" target="lib\net7.0\" />
     </files>
 </package>

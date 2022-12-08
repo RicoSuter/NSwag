@@ -9,7 +9,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class PlainResponseTests
     {
-        [Fact]    
+        [Fact]
         public async Task When_openapi3_reponse_contains_plain_text_string_array_then_ReadObjectResponseAsync_is_generated()
         {
             // Arrange

@@ -6,8 +6,14 @@ const contentDisposition = response.headers ? response.headers["content-disposit
 {%     else -%}
 const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
 {%     endif -%}
-const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+if (fileName) {
+    fileName = decodeURIComponent(fileName);
+} else {
+    fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+    fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+}
 {%     if operation.WrapResponse -%}
 {%         if Framework.IsAngular -%}
 return {{ Framework.RxJs.ObservableOfMethod }}(new {{ operation.ResponseClass }}(status, _headers, { fileName: fileName, data: {% if Framework.Angular.UseHttpClient %}responseBlob as any{% else %}response.blob() as any{% endif %}, status: status, headers: _headers }));

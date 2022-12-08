@@ -224,6 +224,12 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the summary text.</summary>
         public string Summary => ConversionUtilities.TrimWhiteSpaces(_operation.Summary);
 
+        /// <summary>Gets a value indicating whether the operation has description.</summary>
+        public bool HasDescription => !string.IsNullOrEmpty(Description);
+
+        /// <summary>Gets the remarks text.</summary>
+        public string Description => ConversionUtilities.TrimWhiteSpaces(_operation.Description);
+
         /// <summary>Gets a value indicating whether the operation has any documentation.</summary>
         public bool HasDocumentation => HasSummary || HasResultDescription || Parameters.Any(p => p.HasDescription) || _operation.IsDeprecated;
 
@@ -235,6 +241,9 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets or sets a value indicating whether this operation has an binary body parameter.</summary>
         public bool HasBinaryBodyParameter => Parameters.Any(p => p.IsBinaryBodyParameter);
+
+        /// <summary>Gets a value indicating whether this operation has a text/plain body parameter.</summary>
+        public bool HasPlainTextBodyParameter => Consumes == "text/plain";
 
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
