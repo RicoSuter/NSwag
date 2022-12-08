@@ -64,7 +64,7 @@
     <PackageReference Include="MyToolkit.Extended" Version="2.5.16" />
     <PackageReference Include="Namotion.Reflection" Version="2.1.0" />
     <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NJsonSchema" Version="10.8.0" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.8.0" />
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0" />
