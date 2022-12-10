@@ -45,16 +45,30 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var job = base.GetJobs(image, relevantTargets);
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
-        foreach (var version in new[] { "6.0.*", "5.0.*", "3.1.*", "2.1.*" })
+        foreach (var version in new[] { "7.0.*", "6.0.*", "5.0.*", "3.1.*", "2.1.*" })
         {
             newSteps.Insert(1, new GitHubActionsSetupDotNetStep
             {
                 Version = version
             });
         }
+        
+        newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
 
         job.Steps = newSteps.ToArray();
         return job;
+    }
+}
+
+class GitHubActionsConfigureLongPathsStep : GitHubActionsStep
+{
+    public override void Write(CustomFileWriter writer)
+    {
+        writer.WriteLine("- name: 'Allow long file path'");
+        using (writer.Indent())
+        {
+            writer.WriteLine("run: git config --system core.longpaths true");
+        }
     }
 }
 
@@ -64,7 +78,7 @@ class GitHubActionsSetupDotNetStep : GitHubActionsStep
 
     public override void Write(CustomFileWriter writer)
     {
-        writer.WriteLine("- uses: actions/setup-dotnet@v1");
+        writer.WriteLine("- uses: actions/setup-dotnet@v3");
 
         using (writer.Indent())
         {

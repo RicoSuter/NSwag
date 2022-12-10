@@ -1,4 +1,4 @@
-{
+﻿{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "NSwag.Sample.NET60": {
+    "NSwag.Sample.NET70": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
