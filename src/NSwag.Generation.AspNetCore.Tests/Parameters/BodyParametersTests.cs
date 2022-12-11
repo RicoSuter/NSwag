@@ -25,7 +25,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         }
 
         [Fact(
-#if !NET7_0_OR_GREATER
+#if !NET6_0_OR_GREATER
             Skip = "Failing before .Net 6"
 #endif
         )]
@@ -42,7 +42,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
 
             Assert.False(operation.ActualParameters.First().IsRequired);
         }
-        
+
         [Fact(
 #if NET7_0_OR_GREATER
             Skip = "Wrong in .Net 7"
@@ -51,7 +51,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task When_primitive_body_parameter_has_default_value_then_it_is_required_before_net7()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));
@@ -78,7 +78,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         }
 
         [Fact(
-#if !NET7_0_OR_GREATER
+#if !NET6_0_OR_GREATER
             Skip = "Failing before .Net 6"
 #endif
         )]
@@ -95,7 +95,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
 
             Assert.False(operation.ActualParameters.First().IsRequired);
         }
-        
+
         [Fact(
 #if NET7_0_OR_GREATER
             Skip = "Wrong in .Net 7"
@@ -104,7 +104,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task When_complex_body_parameter_has_default_value_then_it_is_required_before_net7()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));
