@@ -108,7 +108,7 @@ namespace NSwag.Commands.CodeGeneration
 			set { Settings.WrapDtoExceptions = value; }
 		}
 
-		[Argument(Name = "GenerationStyle", IsRequired = false, Description = "The operation generation mode ('SingleClientFromOperationId' or 'MultipleClientsFromPathSegments').")]
+		[Argument(Name = "GenerationStyle", IsRequired = false, Description = "The operation generation mode ('SingleFile' or 'OneFilePerType').")]
 		public CSharpClientGenerationStyle GenerationStyle
 		{
 			get { return Settings.GenerationStyle; }
