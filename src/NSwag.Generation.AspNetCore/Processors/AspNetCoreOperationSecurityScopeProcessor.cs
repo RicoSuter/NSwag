@@ -41,7 +41,7 @@ namespace NSwag.Generation.Processors.Security
         {
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
 
-            var endpointMetadata = aspNetCoreContext?.ApiDescription?.ActionDescriptor?.TryGetPropertyValue<IList<object>>("EndpointMetadata");
+            var endpointMetadata = aspNetCoreContext?.ApiDescription?.ActionDescriptor?.EndpointMetadata;
             if (endpointMetadata != null)
             {
                 var allowAnonymous = endpointMetadata.OfType<AllowAnonymousAttribute>().Any();
