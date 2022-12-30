@@ -46,7 +46,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public void FolderPicker(object sender, RoutedEventArgs x)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
             var result = folderBrowserDialog.ShowDialog();
             if (result.ToString() != string.Empty)
             {

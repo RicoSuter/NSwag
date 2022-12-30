@@ -14,7 +14,7 @@
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
                                       xmlns:csharpGeneration="clr-namespace:NSwag.CodeGeneration.CSharp.Models;assembly=NSwag.CodeGeneration.CSharp"
                                       xmlns:ookiiDialog="clr-namespace:Ookii.Dialogs.Wpf;assembly=Ookii.Dialogs.Wpf"
-                                      mc:Ignorable="d" d:DesignWidth="800" Height="4328">
+                                      mc:Ignorable="d" d:DesignWidth="800" Height="4248">
 
     <UserControl.Resources>
         <viewModels:SwaggerToCSharpClientGeneratorViewModel x:Key="ViewModel" />
@@ -286,7 +286,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Header="Single File Output" Margin="0,0,0,12">
+                    <GroupBox Header="Single File Output" Margin="0,0,0,12" Visibility="{Binding Command.GenerationStyle, Converter={StaticResource StyleTypeToVisibilityConverter}, ConverterParameter='SingleFile'}">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
@@ -301,16 +301,19 @@
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
-                            <StackPanel Margin="4,7,4,-8">
-                                <TextBlock Text="Folder file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="path" Text="{Binding Command.OutputFilePath, Mode=TwoWay}"></TextBox>
-                                <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,20" Click="FolderPicker"></Button>
-                            </StackPanel>
-
-
                             <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
                             <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Multi-File Output" Margin="0,0,0,12" Visibility="{Binding Command.GenerationStyle, Converter={StaticResource StyleTypeToVisibilityConverter}, ConverterParameter='OneFilePerType'}">
+                        <StackPanel Margin="4,7,4,-8">
+                            <TextBlock Text="Folder file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="path" Text="{Binding Command.OutputFilePath, Mode=TwoWay}"></TextBox>
+                            <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,12" Click="FolderPicker"></Button>
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
+
+                       </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </ScrollViewer>
