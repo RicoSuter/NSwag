@@ -14,8 +14,7 @@
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
                                       xmlns:csharpGeneration="clr-namespace:NSwag.CodeGeneration.CSharp.Models;assembly=NSwag.CodeGeneration.CSharp"
                                       xmlns:ookiiDialog="clr-namespace:Ookii.Dialogs.Wpf;assembly=Ookii.Dialogs.Wpf"
-                                      mc:Ignorable="d"
-                                      d:DesignHeight="800" d:DesignWidth="800">
+                                      mc:Ignorable="d" d:DesignWidth="800" Height="4328">
 
     <UserControl.Resources>
         <viewModels:SwaggerToCSharpClientGeneratorViewModel x:Key="ViewModel" />
@@ -26,7 +25,7 @@
         <localConverters:StyleTypeToVisibilityConverter x:Key="StyleTypeToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
+    <TabControl TabStripPlacement="Left" Margin="8,8,8,3590" Name="TabControl" DataContext="{StaticResource ViewModel}">
         <TabItem Header="Settings" HeaderTemplate="{StaticResource RotatedTabItem}">
             <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible"
                           HorizontalScrollBarVisibility="Hidden"
@@ -297,11 +296,17 @@
 
                             <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <controls:FolderSavePicker
+                                <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
                                                 FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}"
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
+                            <StackPanel Margin="4,7,4,-8">
+                                <TextBlock Text="Folder file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="path" Text="{Binding Command.OutputFilePath, Mode=TwoWay}"></TextBox>
+                                <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,20" Click="FolderPicker"></Button>
+                            </StackPanel>
+
 
                             <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
                             <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />

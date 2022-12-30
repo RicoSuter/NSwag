@@ -270,9 +270,7 @@ namespace NSwag.Commands.CodeGeneration
 			{
 				var returnValue = new Dictionary<string, string>();
 				var genResult = clientGenerator.GenerateFiles(ClientGeneratorOutputType.Full);
-				var lastPathSeparatorIndex = OutputFilePath.LastIndexOf(@"\");
-				OutputFilePath = OutputFilePath.Substring(0, lastPathSeparatorIndex + 1);
-				string interfaceOutputFilePath = OutputFilePath + "Interfaces\\";
+				string interfaceOutputFilePath = OutputFilePath + "\\Interfaces\\";
 				string fileName;
 				foreach (var artifact in genResult.artifacts)
 				{
@@ -285,7 +283,7 @@ namespace NSwag.Commands.CodeGeneration
 					}
 					else
 					{
-						currentOutputFilePath = OutputFilePath + "Models\\";
+						currentOutputFilePath = OutputFilePath + "\\Models\\";
 					}
 					returnValue.Add(currentOutputFilePath + fileName ?? ("Full" + artifact.TypeName), artifact.Code);
 				}
