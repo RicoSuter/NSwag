@@ -297,7 +297,7 @@
 
                             <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
+                                <controls:FolderSavePicker
                                                 FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}"
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
