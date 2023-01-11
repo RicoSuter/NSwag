@@ -11,6 +11,8 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.
 {% elsif parameter.IsArray and parameter.Explode == false -%}
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=");
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(","); }
+urlBuilder_.Length--;
+urlBuilder_.Append("&");
 {% elsif parameter.IsDictionary -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key) + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {% elsif parameter.IsDeepObject -%}
