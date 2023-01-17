@@ -67,6 +67,7 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(OpenApiParameter), "x-position");
 
                 resolver.IgnoreProperty(typeof(OpenApiResponse), "content");
+                resolver.IgnoreProperty(typeof(OpenApiResponse), "description");
                 resolver.IgnoreProperty(typeof(OpenApiResponse), "links");
 
                 resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scheme");

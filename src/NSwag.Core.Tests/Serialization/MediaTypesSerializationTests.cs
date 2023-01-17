@@ -22,7 +22,6 @@ namespace NSwag.Core.Tests.Serialization
         ""operationId"": ""foo"",
         ""responses"": {
           ""200"": {
-            ""description"": """",
             ""schema"": {
               ""type"": ""string""
             },
@@ -93,7 +92,6 @@ namespace NSwag.Core.Tests.Serialization
         ""operationId"": ""foo"",
         ""responses"": {
           ""200"": {
-            ""description"": """",
             ""schema"": {
               ""type"": ""file""
             },
