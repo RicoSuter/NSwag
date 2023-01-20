@@ -93,7 +93,18 @@ namespace NSwag.CodeGeneration.Models
         public OpenApiParameterStyle Style => _parameter.Style;
 
         /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
-        public bool Explode => _parameter.Explode;
+        //public bool Explode => _parameter.Explode;
+        public bool Explode
+        {
+            get
+            {
+                if (_settings.SchemaType == SchemaType.Swagger2)
+                {
+                    return _parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi || _parameter.CollectionFormat == OpenApiParameterCollectionFormat.Undefined;
+                }
+                return _parameter.Explode;
+            }
+        }
 
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;

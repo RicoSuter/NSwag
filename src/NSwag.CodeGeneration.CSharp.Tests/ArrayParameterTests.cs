@@ -6,7 +6,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     public class ArrayParameterTests
     {
         [Fact]
-        public async Task When_parameter_is_array_then_CSharp_is_correct()
+        public async Task When_parameter_is_array_then_CSharp_is_correct_no_format()
         {
             // Arrange
             var swagger = @"{
@@ -68,7 +68,139 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
         }
-        
+
+        [Fact]
+        public async Task When_parameter_is_array_then_CSharp_is_correct_multi_format()
+        {
+            // Arrange
+            var swagger = @"{
+  ""swagger"" : ""2.0"",
+  ""info"" : {
+    ""version"" : ""1.0.2"",
+    ""title"" : ""Test API""
+  },
+  ""host"" : ""localhost:8080"",
+  ""basePath"" : ""/"",
+  ""tags"" : [ {
+    ""name"" : ""api""
+  } ],
+  ""schemes"" : [ ""http"" ],
+  ""paths"" : {
+     ""/removeElement"" : {
+      ""delete"" : {
+        ""tags"" : [ ""api"" ],
+        ""summary"" : ""Removes elements"",
+        ""description"" : ""Removes elements"",
+        ""operationId"" : ""removeElement"",
+        ""consumes"" : [ ""application/json"" ],
+        ""produces"" : [ ""application/json"" ],
+        ""parameters"" : [ {
+          ""name"" : ""X-User"",
+          ""in"" : ""header"",
+          ""description"" : ""User identifier"",
+          ""required"" : true,
+          ""type"" : ""string""
+        }, {
+          ""name"" : ""elementId"",
+          ""in"" : ""query"",
+          ""description"" : ""The ids of existing elements that should be removed"",
+          ""required"" : false,
+          ""type"" : ""array"",
+          ""collectionFormat"" : ""multi"",
+          ""items"" : {
+            ""type"" : ""integer"",
+            ""format"" : ""int64""
+          },
+        } ],
+        ""responses"" : {
+          ""default"" : {
+            ""description"" : ""successful operation""
+          }
+        }
+      }
+    }
+  },
+    ""definitions"" : { }
+}
+";
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(""&""); }", code);
+        }
+        [Fact]
+        public async Task When_parameter_is_array_then_CSharp_is_correct_csv_format()
+        {
+            // Arrange
+            var swagger = @"{
+  ""swagger"" : ""2.0"",
+  ""info"" : {
+    ""version"" : ""1.0.2"",
+    ""title"" : ""Test API""
+  },
+  ""host"" : ""localhost:8080"",
+  ""basePath"" : ""/"",
+  ""tags"" : [ {
+    ""name"" : ""api""
+  } ],
+  ""schemes"" : [ ""http"" ],
+  ""paths"" : {
+     ""/removeElement"" : {
+      ""delete"" : {
+        ""tags"" : [ ""api"" ],
+        ""summary"" : ""Removes elements"",
+        ""description"" : ""Removes elements"",
+        ""operationId"" : ""removeElement"",
+        ""consumes"" : [ ""application/json"" ],
+        ""produces"" : [ ""application/json"" ],
+        ""parameters"" : [ {
+          ""name"" : ""X-User"",
+          ""in"" : ""header"",
+          ""description"" : ""User identifier"",
+          ""required"" : true,
+          ""type"" : ""string""
+        }, {
+          ""name"" : ""elementId"",
+          ""in"" : ""query"",
+          ""description"" : ""The ids of existing elements that should be removed"",
+          ""required"" : false,
+          ""type"" : ""array"",
+          ""collectionFormat"" : ""Csv"",
+          ""items"" : {
+            ""type"" : ""integer"",
+            ""format"" : ""int64""
+          },
+        } ],
+        ""responses"" : {
+          ""default"" : {
+            ""description"" : ""successful operation""
+          }
+        }
+      }
+    }
+  },
+    ""definitions"" : { }
+}
+";
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains(@"urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"") + ""="");", code);
+            Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("",""); }", code);
+        }
+
+
+
         [Fact]
         public async Task when_content_is_formdata_with_property_array_then_content_should_be_added_in_foreach_in_csharp()
         {

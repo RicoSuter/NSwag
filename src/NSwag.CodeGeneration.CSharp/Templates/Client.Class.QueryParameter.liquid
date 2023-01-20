@@ -6,8 +6,18 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
 {% elsif parameter.IsDate -%}
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append("&");
-{% elsif parameter.IsArray -%}
+
+{% elsif parameter.IsArray and parameter.Explode == true -%}
+// multi format
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+
+{% elsif parameter.IsArray -%}
+// csv format
+urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=");
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(","); }
+urlBuilder_.Length--;
+urlBuilder_.Append("&");
+
 {% elsif parameter.IsDictionary -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key) + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
 {% elsif parameter.IsDeepObject -%}
