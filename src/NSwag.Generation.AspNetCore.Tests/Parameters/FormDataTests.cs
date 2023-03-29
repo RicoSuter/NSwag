@@ -25,6 +25,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.Equal("binary", schema.Properties["file"].Format);
             Assert.Equal(JsonObjectType.String, schema.Properties["file"].Type);
             Assert.Equal(JsonObjectType.String, schema.Properties["test"].Type);
+            Assert.Equal(JsonObjectType.String, schema.Properties["test2"].Type);
+            Assert.True(schema.Properties["test2"].IsRequired);
 
             Assert.Contains(@"    ""/api/FileUpload/UploadFiles"": {
       ""post"": {
