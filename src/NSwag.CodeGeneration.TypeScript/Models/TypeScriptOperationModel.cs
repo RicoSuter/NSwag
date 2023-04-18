@@ -162,6 +162,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <returns>The parameter type name.</returns>
         protected override string ResolveParameterType(OpenApiParameter parameter)
         {
+            if (parameter.Content != null)
+            {
+                var contentSchema = parameter.ContentSchema;
+                if (contentSchema != null)
+                    parameter.Schema = contentSchema;
+            }
+            
             if (parameter.IsBinaryBodyParameter)
             {
                 return "Blob";

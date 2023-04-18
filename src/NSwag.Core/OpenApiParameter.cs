@@ -23,6 +23,7 @@ namespace NSwag
         private OpenApiParameterStyle _style;
         private bool _isRequired = false;
         private JsonSchema _schema;
+        private IDictionary<string, IDictionary<string, JsonSchema>> _content;
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;
         private int? _position;
@@ -131,7 +132,7 @@ namespace NSwag
                 ParentOperation?.UpdateRequestBody(this);
             }
         }
-
+        
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
         [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema Schema
@@ -147,6 +148,64 @@ namespace NSwag
         /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
         [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public JsonSchema CustomSchema { get; set; }
+
+        /// <summary>
+        /// From https://swagger.io/docs/specification/describing-parameters/
+        /// Schema vs Content
+        /// To describe the parameter contents, you can use either the <see cref="Schema"/> or <see cref="Content"/> keyword.
+        /// They are mutually exclusive and used in different scenarios.
+        /// <see cref="Content"/> is used in complex serialization scenarios that are not covered by <see cref="Schema"/>.
+        /// For example, if you need to send a JSON string in the query string like so:
+        /// `filter={"type":"t-shirt","color":"blue"}`
+        /// In this case, you need to wrap the parameter schema into content/&lt media-type &gt; as shown below.
+        /// The schema defines the parameter data structure, and the media type (in this example – application/json)
+        /// serves as a reference to an external specification that describes the serialization format.
+        /// E.g.:
+        /// "content": {
+        ///     "application/json": {
+        ///         "schema": {
+        ///             "nullable": true,
+        ///             "oneOf": [
+        ///                 {
+        ///                     "$ref": "#/components/schemas/DummyDto"
+        ///                 }
+        ///             ]
+        ///         }
+        ///     }
+        /// }
+        /// </summary>
+        [JsonProperty(PropertyName = "content", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public IDictionary<string, IDictionary<string, JsonSchema>>? Content
+        {
+            get => _content;
+            set
+            {
+                _content = value;
+                if (value != null)
+                {
+                    if (value.Count != 1)
+                    {
+                        throw new ArgumentException(
+                            $"Content should contain a single element, actually contains {value.Count}. Data: {JsonConvert.SerializeObject(value)}");
+                    }
+                    if (value.First().Value.FirstOrDefault().Key != "schema")
+                    {
+                        throw new ArgumentException(
+                            $"Key of the first child should be 'schema'. Actually: {JsonConvert.SerializeObject(value)}");
+                    }
+                }
+
+                ParentOperation?.UpdateRequestBody(this);
+            }
+        }
+        
+        /// <summary>
+        /// Null if <see cref="Content"/> is not set.
+        /// If <see cref="Content"/> is set, returns the underlying Schema.
+        /// </summary>
+        [JsonIgnore]
+        public JsonSchema ContentSchema => Content?.FirstOrDefault().Value?.FirstOrDefault().Value;
+
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

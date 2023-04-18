@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -24,6 +25,8 @@ namespace NSwag.CodeGeneration.Models
         private readonly TypeResolverBase _typeResolver;
         private readonly IEnumerable<PropertyModel> _properties;
 
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
+        
         /// <summary>Initializes a new instance of the <see cref="ParameterModelBase" /> class.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="variableName">Name of the variable.</param>
@@ -216,5 +219,20 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _parameter.ExtensionData;
+        
+        
+        /// <summary>
+        /// Null if <see cref="OpenApiParameter.Content"/> is not set.
+        /// If <see cref="OpenApiParameter.Content"/> is set, defines the way to serialize the parameter.
+        /// Usually 'application/json'.
+        /// </summary>
+        public string ContentSerializationType => _parameter.Content?.Keys?.FirstOrDefault();
+        
+        /// <summary>
+        /// False if <see cref="OpenApiParameter.Content"/> is not set.
+        /// True if <see cref="OpenApiParameter.Content"/> is set and it's first child is 'application/json'.
+        /// </summary>
+        public bool IsContentSerializationTypeJson => ContentSerializationType != null && AppJsonRegex.IsMatch(ContentSerializationType);
+
     }
 }

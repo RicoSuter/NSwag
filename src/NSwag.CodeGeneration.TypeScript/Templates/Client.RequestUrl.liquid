@@ -40,7 +40,9 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%        endif -%}
 {%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
+{%    if parameter.IsContentSerializationTypeJson -%}
+    url_ += "{{ parameter.Name }}=" + JSON.stringify(item_) + "&";
+{%    elsif parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
 {%    elsif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
