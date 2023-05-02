@@ -94,7 +94,14 @@ namespace NSwag.Generation.Processors
         protected XElement GetResponseXmlDocsElement(MethodInfo methodInfo, string responseCode)
         {
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(methodInfo);
-            return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            try 
+            {
+                return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException($"Multiple response tags with code '{responseCode}' found in XML documentation for method '{methodInfo.Name}'.", ex);
+            }
         }
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
