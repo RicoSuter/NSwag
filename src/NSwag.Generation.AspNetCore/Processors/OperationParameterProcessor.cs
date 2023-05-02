@@ -50,7 +50,9 @@ namespace NSwag.Generation.AspNetCore.Processors
             var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
 
             var position = 1;
-            foreach (var apiParameter in parameters.Where(p => p.Source != null))
+            foreach (var apiParameter in parameters.Where(p => 
+                p.Source != null && 
+                (p.ModelMetadata == null || p.ModelMetadata.IsBindingAllowed)))
             {
                 // TODO: Provide extension point so that this can be implemented in the ApiVersionProcessor class
                 var versionProcessor = _settings.OperationProcessors.TryGet<ApiVersionProcessor>();
