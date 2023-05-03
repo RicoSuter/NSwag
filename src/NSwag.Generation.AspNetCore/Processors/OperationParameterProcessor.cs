@@ -135,6 +135,13 @@ namespace NSwag.Generation.AspNetCore.Processors
                     (apiParameter.Source == BindingSource.Custom &&
                      httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
+                    var isRequired = apiParameter.RouteInfo?.IsOptional == false;
+                    if (isRequired)
+                    {
+                        // This NotNullAttribute is only processed if NRT is off
+                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat(new[] { new NotNullAttribute() });
+                    }
+
                     operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                     operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
