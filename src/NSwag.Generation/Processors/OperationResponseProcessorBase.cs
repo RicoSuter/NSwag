@@ -94,7 +94,7 @@ namespace NSwag.Generation.Processors
         protected XElement GetResponseXmlDocsElement(MethodInfo methodInfo, string responseCode)
         {
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(methodInfo);
-            try 
+            try
             {
                 return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
             }
@@ -268,7 +268,8 @@ namespace NSwag.Generation.Processors
                 returnType = typeof(void);
             }
 
-            GenericResultWrapperTypes.RemoveGenericWrapperTypes (ref returnType,t=>t.Name,t=>t.GenericTypeArguments[0]);
+            returnType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
+                returnType, t => t.Name, t => t.GenericTypeArguments[0]);
 
             if (IsVoidResponse(returnType))
             {

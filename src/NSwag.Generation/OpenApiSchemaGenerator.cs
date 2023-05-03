@@ -51,18 +51,19 @@ namespace NSwag.Generation
             }
         }
 
-		/// <summary>Generetes a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
-		/// <typeparam name="TSchemaType">The resulted schema type which may reference the actual schema.</typeparam>
-		/// <param name="contextualType">The type of the schema to generate.</param>
-		/// <param name="isNullable">Specifies whether the property, parameter or requested schema type is nullable.</param>
-		/// <param name="schemaResolver">The schema resolver.</param>
-		/// <param name="transformation">An action to transform the resulting schema (e.g. property or parameter) before the type of reference is determined (with $ref or allOf/oneOf).</param>
-		/// <returns>The requested schema object.</returns>
-		public override TSchemaType GenerateWithReferenceAndNullability<TSchemaType>(
+        /// <summary>Generetes a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
+        /// <typeparam name="TSchemaType">The resulted schema type which may reference the actual schema.</typeparam>
+        /// <param name="contextualType">The type of the schema to generate.</param>
+        /// <param name="isNullable">Specifies whether the property, parameter or requested schema type is nullable.</param>
+        /// <param name="schemaResolver">The schema resolver.</param>
+        /// <param name="transformation">An action to transform the resulting schema (e.g. property or parameter) before the type of reference is determined (with $ref or allOf/oneOf).</param>
+        /// <returns>The requested schema object.</returns>
+        public override TSchemaType GenerateWithReferenceAndNullability<TSchemaType>(
             ContextualType contextualType, bool isNullable,
             JsonSchemaResolver schemaResolver, Action<TSchemaType, JsonSchema> transformation = null)
         {
-            GenericResultWrapperTypes.RemoveGenericWrapperTypes (ref contextualType,t=>t.TypeName,t=>t.OriginalGenericArguments[0]);
+            contextualType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
+                contextualType, t => t.TypeName, t => t.OriginalGenericArguments[0]);
 
             if (IsFileResponse(contextualType))
             {
