@@ -4,6 +4,7 @@
     <TargetFrameworks>net5.0;net6.0;net7.0;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn),618,1591</NoWarn>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

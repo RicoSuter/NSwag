@@ -440,8 +440,10 @@ namespace NSwag.Generation.AspNetCore.Processors
             OperationProcessorContext context,
             ExtendedApiParameterDescription extendedApiParameter)
         {
-            var contextualParameterType = extendedApiParameter.ParameterType
-                .ToContextualType(extendedApiParameter.Attributes);
+            var contextualParameterType =
+                extendedApiParameter.ParameterInfo?.ToContextualParameter() as ContextualType ??
+                extendedApiParameter.PropertyInfo?.ToContextualProperty()?.PropertyType ??
+                extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
 
             var description = extendedApiParameter.GetDocumentation();
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
