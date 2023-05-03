@@ -20,14 +20,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(NonNullablePathParameterControl));
-            var json = document.ToJson();
 
             // Assert
             var nonNullableParameter = document.Operations.First().Operation.Parameters.First();
             var nullableParameter = document.Operations.First().Operation.Parameters.Last();
 
-            Assert.False(nonNullableParameter.IsNullable(SchemaType.OpenApi3));
-            Assert.True(nullableParameter.IsNullable(SchemaType.OpenApi3));
+            Assert.False(nonNullableParameter.IsNullable(SchemaType.OpenApi3)); // string path parameter not nullable via NRT
+            Assert.False(nullableParameter.IsNullable(SchemaType.OpenApi3)); // nullabe path parameter not possible in ASP.NET Core
         }
     }
 }

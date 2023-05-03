@@ -50,8 +50,8 @@ namespace NSwag.Generation.AspNetCore.Processors
             var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
 
             var position = 1;
-            foreach (var apiParameter in parameters.Where(p => 
-                p.Source != null && 
+            foreach (var apiParameter in parameters.Where(p =>
+                p.Source != null &&
                 (p.ModelMetadata == null || p.ModelMetadata.IsBindingAllowed)))
             {
                 // TODO: Provide extension point so that this can be implemented in the ApiVersionProcessor class
@@ -135,14 +135,10 @@ namespace NSwag.Generation.AspNetCore.Processors
                     (apiParameter.Source == BindingSource.Custom &&
                      httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
-                    var isRequired = apiParameter.RouteInfo?.IsOptional == false;
-                    if (isRequired)
-                    {
-                        // This NotNullAttribute is only processed if NRT is off
-                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat(new[] { new NotNullAttribute() });
-                    }
+                    // required path parameters are not nullable
+                    var enforceNotNull = apiParameter.RouteInfo?.IsOptional == false;
 
-                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter, enforceNotNull);
                     operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
@@ -445,7 +441,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private OpenApiParameter CreatePrimitiveParameter(
             OperationProcessorContext context,
-            ExtendedApiParameterDescription extendedApiParameter)
+            ExtendedApiParameterDescription extendedApiParameter,
+            bool enforceNotNull = false)
         {
             var contextualParameterType =
                 extendedApiParameter.ParameterInfo?.ToContextualParameter() as ContextualType ??
@@ -454,7 +451,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var description = extendedApiParameter.GetDocumentation();
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
-                extendedApiParameter.ApiParameter.Name, description, contextualParameterType);
+                extendedApiParameter.ApiParameter.Name, description, contextualParameterType, enforceNotNull);
 
             var exampleValue = extendedApiParameter.PropertyInfo != null ?
                 context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualAccessor()) : null;

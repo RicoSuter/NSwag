@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -24,6 +23,7 @@ namespace NSwag.Generation.Tests
                 SchemaType = schemaType,
                 ReflectionService = new DefaultReflectionService()
             };
+
             var schemaResolver = new JsonSchemaResolver(new OpenApiDocument(), generatorSettings);
             var generator = new OpenApiDocumentGenerator(generatorSettings, schemaResolver);
             var methodInfo = typeof(TestController)
