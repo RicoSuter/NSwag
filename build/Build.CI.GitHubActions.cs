@@ -48,8 +48,11 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var newSteps = new List<GitHubActionsStep>(job.Steps);
 
         // only need to list the ones that are missing from default image
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] { "2.1.*" }));
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] { "5.0.*" }));
+        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] 
+        {
+            "2.1.*", 
+            "5.0.*" 
+        }));
 
         newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
         newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());

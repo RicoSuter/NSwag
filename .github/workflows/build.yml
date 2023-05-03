@@ -44,6 +44,7 @@ jobs:
         with:
           dotnet-version: |
             2.1.*
+            5.0.*
       - uses: actions/checkout@v3
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
