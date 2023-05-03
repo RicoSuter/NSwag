@@ -268,10 +268,7 @@ namespace NSwag.Generation.Processors
                 returnType = typeof(void);
             }
 
-            while (returnType.Name == "Task`1" || returnType.Name == "ActionResult`1")
-            {
-                returnType = returnType.GenericTypeArguments[0];
-            }
+            GenericResultWrapperTypes.RemoveGenericWrapperTypes (ref returnType,t=>t.Name,t=>t.GenericTypeArguments[0]);
 
             if (IsVoidResponse(returnType))
             {
