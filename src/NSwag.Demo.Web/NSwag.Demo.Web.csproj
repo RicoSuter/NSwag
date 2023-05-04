@@ -142,7 +142,7 @@
     <PackageReference Include="Microsoft.Owin.FileSystems" Version="3.0.1" />
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="3.0.1" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0" />
-    <PackageReference Include="NJsonSchema" Version="10.8.0" />
+    <PackageReference Include="NJsonSchema" Version="10.9.0" />
     <PackageReference Include="Owin" Version="1.0.0" />
   </ItemGroup>
   <PropertyGroup>

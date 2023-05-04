@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>13.18.2</VersionPrefix>
+    <VersionPrefix>13.19.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
-    <Copyright>Copyright © Rico Suter, 2021</Copyright>
+    <Copyright>Copyright © Rico Suter, 2023</Copyright>
 
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

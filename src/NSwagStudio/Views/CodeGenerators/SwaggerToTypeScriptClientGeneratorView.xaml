@@ -1,7 +1,7 @@
 ﻿<codeGenerators:CodeGeneratorViewBase x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToTypeScriptClientGeneratorView"
                                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                       xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
                                       xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
@@ -25,7 +25,7 @@
 
     <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
         <TabItem Header="Settings" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible" 
+            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible"
                           HorizontalScrollBarVisibility="Hidden"
                           IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
                 <StackPanel Margin="8,8,8,0" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
@@ -38,53 +38,53 @@
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" ToolTip="Namespace" Margin="0,0,0,12" />
 
                     <TextBlock Text="TypeScript Version" FontWeight="Bold" Margin="0,0,0,6" />
-                    <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}" 
+                    <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}"
                               ToolTip="TypeScriptVersion"
                               ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" 
+                    <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}"
                           ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
                         <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
                     </CheckBox>
 
-                    <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" 
+                    <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}"
                           ToolTip="InlineNamedAny" Margin="0,0,0,12">
                         <TextBlock Text="Inline named any schemas" TextWrapping="Wrap" />
                     </CheckBox>
 
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,4,4,-8">
-                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}"
                                       ToolTip="GenerateClientClasses"
                                       Content="Generate Client Classes" Margin="0,4,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Template" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.Template, Mode=TwoWay}"
                                           ToolTip="Template"
                                           ItemsSource="{Binding Templates}" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.Template, ConverterParameter='JQueryPromises', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="Promise Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}" 
-                                              ToolTip="PromiseTypes" 
+                                    <ComboBox SelectedItem="{Binding Command.PromiseType, Mode=TwoWay}"
+                                              ToolTip="PromiseTypes"
                                               ItemsSource="{Binding PromiseTypes}" Margin="0,0,0,12" />
                                 </StackPanel>
 
-                                <GroupBox Header="Angular" 
+                                <GroupBox Header="Angular"
                                           Visibility="{Binding Command.Template, ConverterParameter='Angular', Converter={StaticResource EqualityConverter}}" Margin="0,0,0,12">
                                     <StackPanel Margin="4,4,4,-8">
                                         <TextBlock Text="RxJs Version" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="Angular 6+ requires RxJs 6" Margin="0,0,0,6" />
-                                        <ComboBox SelectedItem="{Binding Command.RxJsVersion, Mode=TwoWay}" 
+                                        <ComboBox SelectedItem="{Binding Command.RxJsVersion, Mode=TwoWay}"
                                                   ToolTip="RxJsVersion"
                                                   ItemsSource="{Binding RxJsVersions}" Margin="0,0,0,12" />
 
-                                        <CheckBox IsChecked="{Binding Command.UseSingletonProvider, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.UseSingletonProvider, Mode=TwoWay}"
                                                   ToolTip="UseSingletonProvider"
                                                   Content="Use Angular 6 Singleton Provider" Margin="0,4,0,12" />
 
-                                        <CheckBox IsChecked="{Binding Command.IncludeHttpContext, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.IncludeHttpContext, Mode=TwoWay}"
                                                   ToolTip="IncludeHttpContext"
                                                   Content="Include the httpContext parameter" Margin="0,4,0,12" />
 
@@ -95,11 +95,11 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <ComboBox Grid.Column="0" 
-                                                      SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}" 
-                                                      ToolTip="HttpClass" 
+                                            <ComboBox Grid.Column="0"
+                                                      SelectedItem="{Binding Command.HttpClass, Mode=TwoWay}"
+                                                      ToolTip="HttpClass"
                                                       ItemsSource="{Binding HttpClasses}" Margin="0,0,0,12" />
-                                            <CheckBox Grid.Column="1" 
+                                            <CheckBox Grid.Column="1"
                                                       Content="With Credentials"
                                                       ToolTip="Send withCredentials parameter in http requests"
                                                       Visibility="{Binding Command.HttpClass, Converter={localConverters:IsValueToVisibilityConverter Target={x:Static typeScriptEnums:HttpClass.HttpClient}}}"
@@ -108,19 +108,19 @@
 
                                         <TextBlock Text="Injection token type" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="InjectionToken recommended for new projects (Angular 4+)" Margin="0,0,0,6" />
-                                        <ComboBox SelectedItem="{Binding Command.InjectionTokenType, Mode=TwoWay}" 
-                                                  ToolTip="InjectionTokenType" 
+                                        <ComboBox SelectedItem="{Binding Command.InjectionTokenType, Mode=TwoWay}"
+                                                  ToolTip="InjectionTokenType"
                                                   ItemsSource="{Binding InjectionTokenTypes}" Margin="0,0,0,12" />
 
                                         <TextBlock Text="Base URL Token Name" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.BaseUrlTokenName, Mode=TwoWay}" 
+                                        <TextBox Text="{Binding Command.BaseUrlTokenName, Mode=TwoWay}"
                                                  ToolTip="BaseUrlTokenName" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
 
-                                <CheckBox IsChecked="{Binding Command.UseAbortSignal, Mode=TwoWay}" 
-                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch,Aurelia', Converter={StaticResource EqualityConverter}}"
-                                          Content="Use the AbortSignal (Fetch/Aurelia template only)"
+                                <CheckBox IsChecked="{Binding Command.UseAbortSignal, Mode=TwoWay}"
+                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch,Aurelia,Axios', Converter={StaticResource EqualityConverter}}"
+                                          Content="Use the AbortSignal (Aurelia/Axios/Fetch template only)"
                                           ToolTip="UseAbortSignal"
                                           Margin="0,0,0,12" />
 
@@ -129,7 +129,7 @@
                                         <LineBreak />
                                         The operation name detection and replacement strategy of the {controller} placeholder in the Class Name setting:
                                 </TextBlock>
-                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}"
                                           ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
@@ -138,7 +138,7 @@
 
                                 <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)"
                                            FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          ToolTip="ClientBaseClass" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
@@ -146,48 +146,48 @@
                                     <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Margin="0,0,0,12" ToolTip="ConfigurationClass" />
 
-                                    <CheckBox IsChecked="{Binding Command.UseGetBaseUrlMethod, Mode=TwoWay}" 
+                                    <CheckBox IsChecked="{Binding Command.UseGetBaseUrlMethod, Mode=TwoWay}"
                                               ToolTip="UseGetBaseUrlMethod"
                                               Content="Use the 'getBaseUrl(defaultUrl: string)' method from the base class" Margin="0,0,0,12" />
                                 </StackPanel>
 
                                 <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}"
                                          ToolTip="QueryNullValue" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.ExportTypes, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.ExportTypes, Mode=TwoWay}"
                                           ToolTip="ExportTypes"
                                           Content="Export types (classes, interfaces and enums)" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}"
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" ToolTip="GenerateOptionalParameters"
-                                          Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" 
+                                          Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)"
                                           Margin="0,0,0,12" />
 
                                 <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ExcludedParameterNames" 
-                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                <TextBox ToolTip="ExcludedParameterNames"
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                          Margin="0,0,0,12" />
 
                                 <TextBlock Text="Exception class name" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" 
+                                <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}"
                                          ToolTip="ExceptionClass"
                                          Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" ToolTip="WrapDtoExceptions"
                                           Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}"
                                           ToolTip="WrapResponses"
                                           Content="Wrap success responses to allow full response access (experimental)" Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                     <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox ToolTip="WrapResponseMethods" 
-                                             Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                    <TextBox ToolTip="WrapResponseMethods"
+                                             Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                              Margin="0,0,0,12" />
 
                                     <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}"
@@ -209,7 +209,7 @@
                                 </CheckBox>
 
                                 <TextBlock Text="Methods with a protected access modifier to use in class extensions ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ProtectedMethods" 
+                                <TextBox ToolTip="ProtectedMethods"
                                          Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                          Margin="0,0,0,12" />
                             </StackPanel>
@@ -218,71 +218,71 @@
 
                     <GroupBox Header="DTO Types" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" 
+                            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}"
                                       ToolTip="GenerateDtoTypes"
                                       Content="Generate DTO types (e.g. request and response types)" Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateDtoTypes, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Type Style" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.TypeStyle, Mode=TwoWay}"
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding TypeStyles}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Enum Style" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.EnumStyle, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.EnumStyle, Mode=TwoWay}"
                                           ToolTip="TypeStyle"
                                           ItemsSource="{Binding EnumStyles}" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.UseLeafType, Mode=TwoWay}" 
-                                          ToolTip="UseLeafType" 
+                                <CheckBox IsChecked="{Binding Command.UseLeafType, Mode=TwoWay}"
+                                          ToolTip="UseLeafType"
                                           Margin="0,0,0,12">
                                     <TextBlock Text="Generate leaf types for an object with discriminator" TextWrapping="Wrap" />
                                 </CheckBox>
 
                                 <TextBlock Text="Null value used in object initializers" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.NullValue, Mode=TwoWay}"
                                           ToolTip="NullValue"
                                           ItemsSource="{Binding NullValues}" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}"
                                           ToolTip="DateTimeType"
                                           ItemsSource="{Binding DateTimeTypes}" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
-                                          ToolTip="GenerateDefaultValues" 
+                                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}"
+                                          ToolTip="GenerateDefaultValues"
                                           Margin="0,0,0,12">
                                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                                 </CheckBox>
 
-                                <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.MarkOptionalProperties, Mode=TwoWay}"
                                           ToolTip="MarkOptionalProperties"
                                           Content="Mark optional properties with ?" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateCloneMethod, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.GenerateCloneMethod, Mode=TwoWay}"
                                           Content="Generate clone() method"
                                           ToolTip="GenerateCloneMethod"
                                           Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.ImportRequiredTypes, Mode=TwoWay}"
                                           Content="Import required types (e.g. Angular types, Moment.js, DayJS, JQuery, etc.)"
                                           ToolTip="ImportRequiredTypes"
                                           Margin="0,0,0,12" />
 
                                 <TextBlock Text="Excluded Type Names (comma separated, must be defined in ExtensionCode or custom import)." FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox ToolTip="ExcludedTypeNames" 
-                                         Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                <TextBox ToolTip="ExcludedTypeNames"
+                                         Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                          Margin="0,0,0,12" />
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='!Class', Converter={StaticResource EqualityConverter}}">
                                     <TextBlock Text="The type names which always generate plain TypeScript classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                    <TextBox ToolTip="ClassTypes" 
-                                             Text="{Binding Command.ClassTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                    <TextBox ToolTip="ClassTypes"
+                                             Text="{Binding Command.ClassTypes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                              Margin="0,0,0,12" />
                                 </StackPanel>
 
                                 <StackPanel Visibility="{Binding Command.TypeStyle, ConverterParameter='Interface', Converter={StaticResource EqualityConverter}}">
-                                    <CheckBox IsChecked="{Binding Command.GenerateTypeCheckFunctions, Mode=TwoWay}" 
+                                    <CheckBox IsChecked="{Binding Command.GenerateTypeCheckFunctions, Mode=TwoWay}"
                                               Content="Generate type check functions"
                                               ToolTip="GenerateTypeCheckFunctions"
                                               Margin="0,0,0,12" />
@@ -290,17 +290,17 @@
 
                                 <GroupBox Header="Serialization" Margin="0,0,0,12" Visibility="{Binding Command.TypeStyle, ConverterParameter='Class', Converter={StaticResource EqualityConverter}}">
                                     <StackPanel Margin="4,8,4,-8">
-                                        <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}"
                                                   Content="Handle JSON references ($ref, $id, $values) (experimental, generates more code)"
                                                   ToolTip="HandleReferences"
                                                   Margin="0,0,0,12" />
 
-                                        <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.GenerateConstructorInterface, Mode=TwoWay}"
                                                   Content="Generate constructor interface which is used to initialize the class"
                                                   ToolTip="GenerateConstructorInterface"
                                                   Margin="0,0,0,12" />
 
-                                        <CheckBox IsChecked="{Binding Command.ConvertConstructorInterfaceData, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.ConvertConstructorInterfaceData, Mode=TwoWay}"
                                                   Visibility="{Binding Command.GenerateConstructorInterface, Converter={StaticResource VisibilityConverter}}"
                                                   Content="Convert POJO objects in the constructor data to DTO instances (generates more code)"
                                                   ToolTip="ConvertConstructorInterfaceData"
@@ -314,15 +314,15 @@
                     <GroupBox Header="Class Extensions" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Extended classes (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox ToolTip="ExtendedClasses" 
-                                     Text="{Binding Command.ExtendedClasses, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                            <TextBox ToolTip="ExtendedClasses"
+                                     Text="{Binding Command.ExtendedClasses, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                      Margin="0,0,0,12" />
 
-                            <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)" 
+                            <TextBlock Text="Path to class extension code file (the module import 'generated' is removed and class export keywords are added)"
                                        FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileOpenPicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
                                                     ToolTip="ExtensionCode"
-                                                    FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}" 
+                                                    FilePath="{Binding Command.ExtensionCode, Mode=TwoWay}"
                                                     Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
@@ -350,7 +350,7 @@
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileSavePicker DefaultExtension=".ts" Filter="TypeScript Files (.ts)|*.ts"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}"
                                             ToolTip="Output"
                                             Margin="0,0,0,12" />
 

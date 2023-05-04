@@ -20,6 +20,7 @@
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
     <file src="NSwag.MSBuild.props" target="buildCrossTargeting" />
+    <file src="NSwag.MSBuild.props" target="buildTransitive" />
 
     <file src="..\NSwag.Console\bin\Release\net461\*" target="tools/Win" />
     <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.AspNetCore.Launcher.x86.exe" target="tools/Win" />

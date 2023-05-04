@@ -94,7 +94,14 @@ namespace NSwag.Generation.Processors
         protected XElement GetResponseXmlDocsElement(MethodInfo methodInfo, string responseCode)
         {
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(methodInfo);
-            return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            try
+            {
+                return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException($"Multiple response tags with code '{responseCode}' found in XML documentation for method '{methodInfo.Name}'.", ex);
+            }
         }
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
@@ -261,10 +268,8 @@ namespace NSwag.Generation.Processors
                 returnType = typeof(void);
             }
 
-            while (returnType.Name == "Task`1" || returnType.Name == "ActionResult`1")
-            {
-                returnType = returnType.GenericTypeArguments[0];
-            }
+            returnType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
+                returnType, t => t.Name, t => t.GenericTypeArguments[0]);
 
             if (IsVoidResponse(returnType))
             {
