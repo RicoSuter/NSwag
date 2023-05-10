@@ -35,14 +35,14 @@
 
                     <TextBlock Text="Namespace" FontWeight="Bold"
                                Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}"
+                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              ToolTip="Namespace"
                              Margin="0,0,0,12" />
 
                     <TextBlock Text="Additional Namespace Usages (comma separated)"
                                FontWeight="Bold"
                                Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
+                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                              ToolTip="AdditionalNamespaceUsages"
                              Margin="0,0,0,12" />
 
@@ -55,14 +55,14 @@
                         <TextBlock Text="Contracts Namespace"
                                    FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
+                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  ToolTip="ContractsNamespace"
                                  Margin="0,0,0,12" />
 
                         <TextBlock Text="Additional Contract Namespace Usages (comma separated)"
                                    FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.AdditionalContractNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
+                        <TextBox Text="{Binding Command.AdditionalContractNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                                  ToolTip="AdditionalContractNamespaceUsages"
                                  Margin="0,0,0,12" />
                     </StackPanel>
@@ -76,7 +76,7 @@
                         <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)"
                                    FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}"
+                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  ToolTip="ExceptionClass"
                                  Margin="0,0,0,12" />
                     </StackPanel>
@@ -132,7 +132,7 @@
 
                                 <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
                                 <TextBox ToolTip="ExcludedParameterNames"
-                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                                          Margin="0,0,0,12" />
 
                                 <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}"
@@ -226,7 +226,7 @@
                                         <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                             <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
                                             <TextBox ToolTip="WrapResponseMethods"
-                                                     Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
+                                                     Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                                                      Margin="0,0,0,12" />
 
                                             <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}"
@@ -235,7 +235,7 @@
 
                                             <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
                                                 <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
-                                                <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
+                                                <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseClass" Margin="0,0,0,12" />
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
@@ -244,20 +244,20 @@
                                 <GroupBox Header="Parameter Types" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
                                         <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay}" ToolTip="ParameterArrayType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ParameterArrayType" Margin="0,0,0,12" />
 
                                         <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay}" ToolTip="ParameterDictionaryType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ParameterDictionaryType" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
 
                                 <GroupBox Header="Response Types" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
                                         <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay}" ToolTip="ResponseArrayType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseArrayType" Margin="0,0,0,12" />
 
                                         <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
                             </StackPanel>
@@ -272,7 +272,7 @@
                             <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" ToolTip="ServiceHost" Margin="0,0,0,12" />
 
                             <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}"
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, UpdateSourceTrigger=PropertyChanged}"
                                      ToolTip="ServiceSchemes" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
@@ -280,7 +280,7 @@
                     <GroupBox Header="Templating" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
+                            <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      ToolTip="TemplateDirectory"
                                      Margin="0,0,0,12" />
                         </StackPanel>
@@ -290,14 +290,14 @@
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}"
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="Output"
                                             Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}"
+                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
