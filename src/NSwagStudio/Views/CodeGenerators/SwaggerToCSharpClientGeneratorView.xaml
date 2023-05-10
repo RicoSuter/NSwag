@@ -309,7 +309,7 @@
                         <StackPanel Margin="4,7,4,-8">
                             <TextBlock Text="Folder file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="path" Text="{Binding Command.OutputFilePath, Mode=TwoWay}"></TextBox>
-                            <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Text="{Binding Command.OutputFilePath, Mode=OneWay}"></TextBox>
+                            <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Text="{Binding Command.OutputFilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,12" Click="FolderPicker"></Button>
                             <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
                             <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
