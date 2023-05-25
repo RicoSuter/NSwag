@@ -9,16 +9,20 @@
 
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     private baseUrl: string{% if SupportsStrictNullChecks %} | undefined{% endif %} = undefined;
+{%  if UseBaseHttpClient == false %}
     private http: ng.IHttpService;
+{% endif %}
     private q: ng.IQService;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {%- if HasExtendedConstructor == false -%}
-    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}$http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}{% if UseBaseHttpClient == false %}$http: ng.IHttpService, {% endif %}$q: ng.IQService, baseUrl?: string) {
 {%-     if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-     endif -%}
+{%      if UseBaseHttpClient == false %}
         this.http = $http;
+{%      endif %}
         this.q = $q;
 {%-     if UseGetBaseUrlMethod -%}
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");

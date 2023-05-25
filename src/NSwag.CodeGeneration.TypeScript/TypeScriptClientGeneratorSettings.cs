@@ -84,6 +84,9 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to use the 'getBaseUrl(defaultUrl: string)' from the base class (default: false).</summary>
         public bool UseGetBaseUrlMethod { get; set; }
+        
+        /// <summary>Gets or sets a value indicating whether to use the 'instance/http' from the base class (default: false).</summary>
+        public bool UseBaseHttpClient { get; set; }
 
         /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
         public string QueryNullValue { get; set; }

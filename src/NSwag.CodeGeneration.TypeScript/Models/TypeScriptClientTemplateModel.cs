@@ -59,6 +59,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets or sets a value indicating whether to use the getBaseUrl(defaultUrl: string) from the base class.</summary>
         public bool UseGetBaseUrlMethod => _settings.UseGetBaseUrlMethod;
+        
+        /// <summary>Gets or sets a value indicating whether to use the 'instance/http' from the base class.</summary>
+        public bool UseBaseHttpClient => _settings.UseBaseHttpClient;
 
         /// <summary>Gets the configuration class name.</summary>
         public string ConfigurationClass => _settings.ConfigurationClass;

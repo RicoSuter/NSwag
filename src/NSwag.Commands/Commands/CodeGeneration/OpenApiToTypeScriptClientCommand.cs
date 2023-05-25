@@ -357,6 +357,13 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.UseGetBaseUrlMethod; }
             set { Settings.UseGetBaseUrlMethod = value; }
         }
+        
+        [Argument(Name = "UseBaseHttpClient", IsRequired = false, Description = "Specifies whether to use the 'instance/http' from the base class (default: false).")]
+        public bool UseBaseHttpClient
+        {
+            get { return Settings.UseBaseHttpClient; }
+            set { Settings.UseBaseHttpClient = value; }
+        }
 
         [Argument(Name = "BaseUrlTokenName", IsRequired = false, Description = "The token name for injecting the API base URL string (used in the Angular template, default: 'API_BASE_URL').")]
         public string BaseUrlTokenName
