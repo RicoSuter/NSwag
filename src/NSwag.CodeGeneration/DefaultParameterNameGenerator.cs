@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NJsonSchema;
@@ -37,7 +38,7 @@ namespace NSwag.CodeGeneration
                 .Replace("[", string.Empty)
                 .Replace("]", string.Empty), true);
 
-            if (allParameters.Count(p => p.Name == name) > 1)
+            if (allParameters.Count(p => string.Equals(p.Name, name, StringComparison.CurrentCultureIgnoreCase)) > 1)
             {
                 return variableName + parameter.Kind;
             }
