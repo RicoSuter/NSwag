@@ -53,5 +53,15 @@ namespace NSwagStudio.Views.CodeGenerators
                 path.Text = folderBrowserDialog.SelectedPath;
             }
         }
+
+        public void TemplateFolderPicker(object sender, RoutedEventArgs x)
+        {
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+            var result = folderBrowserDialog.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                TemplatePath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
     }
 }
