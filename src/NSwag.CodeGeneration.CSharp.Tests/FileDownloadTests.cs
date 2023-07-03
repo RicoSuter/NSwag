@@ -1,7 +1,11 @@
-﻿using System;
+﻿#if NETFRAMEWORK
+using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc;
+#endif
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -11,7 +15,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class FileDownloadController : Controller
         {
-            [Route("DownloadFile")]
+            [Microsoft.AspNetCore.Mvc.Route("DownloadFile")]
             public HttpResponseMessage DownloadFile()
             {
                 throw new NotImplementedException();

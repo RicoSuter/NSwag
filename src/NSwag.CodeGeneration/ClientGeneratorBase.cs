@@ -6,11 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NSwag.CodeGeneration
 {
@@ -98,6 +98,97 @@ namespace NSwag.CodeGeneration
         /// <param name="outputType">Type of the output.</param>
         /// <returns>The code.</returns>
         protected abstract string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType);
+
+		/// <summary>
+		/// Calculate the filename for the code artifact, for use in multi-file generation .
+		/// </summary>
+		/// <param name="artifact">The artifact for which a filename is required.</param>
+		/// <returns>The name of the file into which to place the generated code.</returns>
+		protected abstract string GetOutputFileName(CodeArtifact artifact);
+
+		/// <summary>Generates multiple files containing all the needed types.</summary>
+		/// <returns>The code.</returns>
+		public CodeGenerationResult GenerateFiles()
+        {
+            return GenerateFiles(ClientGeneratorOutputType.Full);
+        }
+
+        /// <summary>Generates multiple files containing all the needed types.</summary>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>The code.</returns>
+        public CodeGenerationResult GenerateFiles(ClientGeneratorOutputType outputType)
+        {
+            var clientTypes = GenerateAllClientTypes();
+
+            var dtoTypes = BaseSettings.GenerateDtoTypes ?
+                GenerateDtoTypes() :
+                Enumerable.Empty<CodeArtifact>();
+
+            clientTypes =
+                outputType == ClientGeneratorOutputType.Full ? clientTypes :
+                outputType == ClientGeneratorOutputType.Implementation ? clientTypes.Where(t => t.Category != CodeArtifactCategory.Contract) :
+                outputType == ClientGeneratorOutputType.Contracts ? clientTypes.Where(t => t.Category == CodeArtifactCategory.Contract) :
+                Enumerable.Empty<CodeArtifact>();
+
+            dtoTypes =
+                outputType == ClientGeneratorOutputType.Full ||
+                outputType == ClientGeneratorOutputType.Contracts ? dtoTypes : Enumerable.Empty<CodeArtifact>();
+
+            CodeGenerationResult genResult = new();
+
+            var clientFileList = GenerateClientFiles(clientTypes, outputType);
+            var dtoFileList = GenerateDTOFiles(dtoTypes, outputType);
+
+            List<CodeGenerationArtifact> artifactList = new();
+            artifactList.AddRange(clientFileList);
+            artifactList.AddRange(dtoFileList);
+
+            genResult.artifacts = artifactList;
+
+            return genResult;
+        }
+
+        /// <summary>Generates files for all the needed client types.</summary>
+        /// <param name="clientTypes">List of client types</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>A list of files.</returns>
+        internal IEnumerable<CodeGenerationArtifact> GenerateClientFiles(IEnumerable<CodeArtifact> clientTypes, ClientGeneratorOutputType outputType)
+        {
+            List<CodeGenerationArtifact> clientFileList = new();
+            foreach (var clientType in clientTypes)
+            {
+                IEnumerable<CodeArtifact> listWithClientTypeToGenerate = new List<CodeArtifact>() { clientType };
+                IEnumerable<CodeArtifact> emptyDtoTypeList = Enumerable.Empty<CodeArtifact>();
+                CodeGenerationArtifact artifact = new(clientType)
+                {
+                    FileName = GetOutputFileName(clientType),
+                    Code = GenerateFile(listWithClientTypeToGenerate, emptyDtoTypeList, outputType)
+                };
+                clientFileList.Add(artifact);
+            }
+            return clientFileList;
+        }
+
+        /// <summary>Generates files for all the needed DTO types.</summary>
+        /// <param name="dtoTypes">List of DTO types</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <returns>A list of files.</returns>
+        internal IEnumerable<CodeGenerationArtifact> GenerateDTOFiles(IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
+        {
+            List<CodeGenerationArtifact> dtoFileList = new();
+            foreach (var dtoType in dtoTypes)
+            {
+                IEnumerable<CodeArtifact> listWithDtoTypeToGenerate = new List<CodeArtifact>() { dtoType };
+                IEnumerable<CodeArtifact> emptyClientTypeList = Enumerable.Empty<CodeArtifact>();
+                CodeGenerationArtifact artifact = new(dtoType)
+                {
+                    FileName = GetOutputFileName(dtoType),
+                    Code = GenerateFile(emptyClientTypeList, listWithDtoTypeToGenerate, outputType)
+                };
+                dtoFileList.Add(artifact);
+            }
+            return dtoFileList;
+        }
 
         /// <summary>Generates the client types.</summary>
         /// <returns>The code artifact collection.</returns>

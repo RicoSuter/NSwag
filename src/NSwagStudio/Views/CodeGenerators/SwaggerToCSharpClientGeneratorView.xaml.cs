@@ -2,6 +2,7 @@
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 using NSwagStudio.ViewModels.CodeGenerators;
+using System.Windows;
 
 namespace NSwagStudio.Views.CodeGenerators
 {
@@ -40,6 +41,26 @@ namespace NSwagStudio.Views.CodeGenerators
                     Model.Command = _document.CodeGenerators.OpenApiToCSharpClientCommand;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public void FolderPicker(object sender, RoutedEventArgs x)
+        {
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+            var result = folderBrowserDialog.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                path.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        public void TemplateFolderPicker(object sender, RoutedEventArgs x)
+        {
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+            var result = folderBrowserDialog.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                TemplatePath.Text = folderBrowserDialog.SelectedPath;
             }
         }
     }

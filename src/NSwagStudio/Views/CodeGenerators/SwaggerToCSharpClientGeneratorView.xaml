@@ -1,7 +1,7 @@
 ﻿<codeGenerators:CodeGeneratorViewBase x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToCSharpClientGeneratorView"
                                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                       xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
                                       xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
@@ -12,8 +12,7 @@
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
-                                      mc:Ignorable="d" 
-                                      d:DesignHeight="800" d:DesignWidth="800">
+                                      mc:Ignorable="d" d:DesignWidth="800" Height="4248">
 
     <UserControl.Resources>
         <viewModels:SwaggerToCSharpClientGeneratorViewModel x:Key="ViewModel" />
@@ -21,11 +20,12 @@
         <converters:NotConverter x:Key="NotConverter" />
         <localConverters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
         <localConverters:StringArrayConverter x:Key="StringArrayConverter" />
+        <localConverters:StyleTypeToVisibilityConverter x:Key="StyleTypeToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <TabControl TabStripPlacement="Left" Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
+    <TabControl TabStripPlacement="Left" Margin="8,8,8,3590" Name="TabControl" DataContext="{StaticResource ViewModel}">
         <TabItem Header="Settings" HeaderTemplate="{StaticResource RotatedTabItem}">
-            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible" 
+            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible"
                           HorizontalScrollBarVisibility="Hidden"
                           IsEnabled="{Binding IsLoading, Converter={StaticResource NotConverter}}">
                 <StackPanel Margin="8,8,8,0" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
@@ -33,55 +33,64 @@
 
                     <TextBlock Text="Namespace" FontWeight="Bold"
                                Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" 
+                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              ToolTip="Namespace"
                              Margin="0,0,0,12" />
 
-                    <TextBlock Text="Additional Namespace Usages (comma separated)" 
-                               FontWeight="Bold" 
+                    <TextBlock Text="Additional Namespace Usages (comma separated)"
+                               FontWeight="Bold"
                                Margin="0,0,0,6" />
-                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                             ToolTip="AdditionalNamespaceUsages" 
+                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
+                             ToolTip="AdditionalNamespaceUsages"
                              Margin="0,0,0,12" />
 
-                    <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" 
+                    <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}"
                               ToolTip="GenerateContractsOutput"
-                              Content="Generate contracts output" 
+                              Content="Generate contracts output"
                               Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace"
-                                   FontWeight="Bold" 
+                                   FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}"
+                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  ToolTip="ContractsNamespace"
                                  Margin="0,0,0,12" />
 
-                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)" 
-                                   FontWeight="Bold" 
+                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)"
+                                   FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.AdditionalContractNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                                 ToolTip="AdditionalContractNamespaceUsages" 
+                        <TextBox Text="{Binding Command.AdditionalContractNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="AdditionalContractNamespaceUsages"
                                  Margin="0,0,0,12" />
                     </StackPanel>
 
-                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" 
-                              Content="Generate exception classes (when disabled, exception classes must be imported)" 
+                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}"
+                              Content="Generate exception classes (when disabled, exception classes must be imported)"
                               ToolTip="GenerateExceptionClasses"
                               Margin="0,0,0,12" />
 
                     <StackPanel Visibility="{Binding Command.GenerateExceptionClasses, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" 
-                                   FontWeight="Bold" 
+                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)"
+                                   FontWeight="Bold"
                                    Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" 
+                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  ToolTip="ExceptionClass"
                                  Margin="0,0,0,12" />
                     </StackPanel>
 
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                    <Run Text="Generation Style" FontWeight="Bold" />
+                        </TextBlock>
+                        <ComboBox SelectedItem="{Binding Command.GenerationStyle, Mode=TwoWay}"
+                                          ToolTip="GenerationStyle"
+                                          ItemsSource="{Binding GenerationStyles}" Margin="0,0,0,12" />
+                    </StackPanel>
+
                     <GroupBox Header="Client" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
-                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" 
+                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}"
                                       ToolTip="GenerateClientClasses"
                                       Content="Generate Client Classes" Margin="0,0,0,12" />
 
@@ -91,7 +100,7 @@
                                     <LineBreak />
                                     The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy).
                                 </TextBlock>
-                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}"
                                           ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
 
@@ -99,53 +108,53 @@
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" 
+                                <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}"
                                          ToolTip="ClientClassAccessModifier" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Methods with a protected access modifier to use in partial methods ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                <TextBox Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                          ToolTip="ProtectedMethods" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" 
-                                          Content="Use the base URL for the request" 
+                                <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}"
+                                          Content="Use the base URL for the request"
                                           ToolTip="UseBaseUrl" Margin="0,0,0,12" />
-                                
-                                <CheckBox IsChecked="{Binding Command.GenerateBaseUrlProperty, Mode=TwoWay}" 
+
+                                <CheckBox IsChecked="{Binding Command.GenerateBaseUrlProperty, Mode=TwoWay}"
                                           Visibility="{Binding Command.UseBaseUrl, Converter={StaticResource VisibilityConverter}}"
-                                          Content="Generate the BaseUrl property (must be defined on the base class otherwise)" 
+                                          Content="Generate the BaseUrl property (must be defined on the base class otherwise)"
                                           ToolTip="GenerateBaseUrlProperty" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}"
                                           ToolTip="GenerateOptionalParameters"
                                           Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
-                                <TextBox ToolTip="ExcludedParameterNames" 
-                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                <TextBox ToolTip="ExcludedParameterNames"
+                                         Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                                          Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" 
-                                          Content="Generate synchronous methods (not recommended)" 
+                                <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}"
+                                          Content="Generate synchronous methods (not recommended)"
                                           ToolTip="GenerateSyncMethods" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GeneratePrepareRequestAndProcessResponseAsAsyncMethods, Mode=TwoWay}" 
-                                          Content="Generate PrepareRequest and ProcessResponse as asynchronous methods (if selected, methods must be defined in the base class or in the partial class)" 
+                                <CheckBox IsChecked="{Binding Command.GeneratePrepareRequestAndProcessResponseAsAsyncMethods, Mode=TwoWay}"
+                                          Content="Generate PrepareRequest and ProcessResponse as asynchronous methods (if selected, methods must be defined in the base class or in the partial class)"
                                           ToolTip="GeneratePrepareRequestAndProcessResponseAsAsyncMethods" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.ExposeJsonSerializerSettings, Mode=TwoWay}" 
-                                          Content="Expose the JsonSerializerSettings property" 
+                                <CheckBox IsChecked="{Binding Command.ExposeJsonSerializerSettings, Mode=TwoWay}"
+                                          Content="Expose the JsonSerializerSettings property"
                                           ToolTip="ExposeJsonSerializerSettings" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}"
                                           ToolTip="InjectHttpClient"
                                           Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.DisposeHttpClient, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.DisposeHttpClient, Mode=TwoWay}"
                                           ToolTip="DisposeHttpClient"
                                           Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
                                           Content="Dispose the HttpClient (life cycle must be handled by the base class and CreateHttpClientAsync())" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}"
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
 
@@ -155,7 +164,7 @@
                                          Visibility="{Binding Command.GenerateClientInterfaces, Converter={StaticResource VisibilityConverter}}"
                                          ToolTip="ClientBaseInterface" Margin="0,0,0,12" />
 
-                                <CheckBox IsChecked="{Binding Command.SerializeTypeInformation, Mode=TwoWay}" 
+                                <CheckBox IsChecked="{Binding Command.SerializeTypeInformation, Mode=TwoWay}"
                                           ToolTip="SerializeTypeInformation"
                                           Content="Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto)" Margin="0,0,0,12" />
 
@@ -169,17 +178,17 @@
                                 <TextBox Text="{Binding Command.ParameterDateFormat, Mode=TwoWay}" ToolTip="ParameterDateFormat" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" 
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}"
                                          ToolTip="QueryNullValue" Margin="0,0,0,12" />
 
                                 <GroupBox Header="Base Class and Configuration Class" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
                                         <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  ToolTip="ClientBaseClass" Margin="0,0,0,12" />
 
                                         <StackPanel Visibility="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
-                                            <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" 
+                                            <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12"
                                                         Visibility="{Binding Command.InjectHttpClient, Converter={StaticResource NotConverter}}"
                                                         ToolTip="UseHttpClientCreationMethod">
                                                 <TextBlock Text="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" TextWrapping="Wrap" />
@@ -190,8 +199,8 @@
                                                 <TextBlock Text="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" TextWrapping="Wrap" />
                                             </CheckBox>
 
-                                            <CheckBox IsChecked="{Binding Command.GenerateUpdateJsonSerializerSettingsMethod, Mode=TwoWay}" 
-                                                        Content="Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise)." 
+                                            <CheckBox IsChecked="{Binding Command.GenerateUpdateJsonSerializerSettingsMethod, Mode=TwoWay}"
+                                                        Content="Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise)."
                                                         ToolTip="GenerateUpdateJsonSerializerSettingsMethod"
                                                         Margin="0,0,0,12" />
 
@@ -204,27 +213,27 @@
 
                                 <GroupBox Header="Response Wrapping" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
-                                        <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}"
                                               ToolTip="WrapDtoExceptions"
                                               Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
 
-                                        <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" 
+                                        <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}"
                                               ToolTip="WrapResponses"
                                               Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
 
                                         <StackPanel Visibility="{Binding Command.WrapResponses, Converter={StaticResource VisibilityConverter}}">
                                             <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
-                                            <TextBox ToolTip="WrapResponseMethods" 
-                                                     Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                            <TextBox ToolTip="WrapResponseMethods"
+                                                     Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=',', UpdateSourceTrigger=PropertyChanged}"
                                                      Margin="0,0,0,12" />
 
-                                            <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" 
+                                            <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}"
                                                   ToolTip="GenerateResponseClasses"
                                                   Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />
 
                                             <StackPanel Visibility="{Binding Command.GenerateResponseClasses, Converter={StaticResource VisibilityConverter}}">
                                                 <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
-                                                <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip="ResponseClass" Margin="0,0,0,12" />
+                                                <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseClass" Margin="0,0,0,12" />
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
@@ -233,20 +242,20 @@
                                 <GroupBox Header="Parameter Types" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
                                         <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay}" ToolTip="ParameterArrayType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ParameterArrayType" Margin="0,0,0,12" />
 
                                         <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay}" ToolTip="ParameterDictionaryType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ParameterDictionaryType" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
 
                                 <GroupBox Header="Response Types" Margin="0,0,0,12">
                                     <StackPanel Margin="4,8,4,-8">
                                         <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay}" ToolTip="ResponseArrayType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseArrayType" Margin="0,0,0,12" />
 
                                         <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
-                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
+                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
                             </StackPanel>
@@ -261,7 +270,7 @@
                             <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" ToolTip="ServiceHost" Margin="0,0,0,12" />
 
                             <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}"
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, UpdateSourceTrigger=PropertyChanged}"
                                      ToolTip="ServiceSchemes" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
                         </StackPanel>
                     </GroupBox>
@@ -269,31 +278,39 @@
                     <GroupBox Header="Templating" Margin="0,0,0,12">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}"
-                                     ToolTip="TemplateDirectory"
-                                     Margin="0,0,0,12" />
+                            <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="TemplatePath" Text="{Binding Command.TemplateDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,12" Click="TemplateFolderPicker"></Button>
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Header="Output" Margin="0,0,0,12">
+                    <GroupBox Header="Single File Output" Margin="0,0,0,12" Visibility="{Binding Command.GenerationStyle, Converter={StaticResource StyleTypeToVisibilityConverter}, ConverterParameter='SingleFile'}">
                         <StackPanel Margin="4,8,4,-8">
                             <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
                             <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" 
+                                            FilePath="{Binding Command.OutputFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="Output"
                                             Margin="0,0,0,12" />
 
                             <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
                                 <dialogs:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs"
-                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" 
+                                                FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 ToolTip="ContractsOutput"
                                                 Margin="0,0,0,12" />
                             </StackPanel>
-
                             <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
                             <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
                         </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Multi-File Output" Margin="0,0,0,12" Visibility="{Binding Command.GenerationStyle, Converter={StaticResource StyleTypeToVisibilityConverter}, ConverterParameter='OneFilePerType'}">
+                        <StackPanel Margin="4,7,4,-8">
+                            <TextBlock Text="Folder file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Width="700" Height="18" Margin="0,0,0,12" HorizontalAlignment="Left" Name="path" Text="{Binding Command.OutputFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <Button Content="Select Folder" Width="80" Height="25" HorizontalAlignment="Left" Margin="0,0,0,12" Click="FolderPicker"></Button>
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
+
+                       </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </ScrollViewer>

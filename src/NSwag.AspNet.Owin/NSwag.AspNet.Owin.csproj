@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -17,11 +17,11 @@
     <EmbeddedResource Include="SwaggerUi3\swagger-ui.css" />
     <EmbeddedResource Include="SwaggerUi3\swagger-ui.js" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;AspNetOwin;NET462</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;AspNetOwin;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;AspNetOwin;NET462</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\HttpRequestExtension.cs" Link="HttpRequestExtension.cs" />

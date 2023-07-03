@@ -129,7 +129,17 @@ namespace NSwag.CodeGeneration.TypeScript
             return new TypeScriptOperationModel(operation, (TypeScriptClientGeneratorSettings)settings, this, Resolver);
         }
 
-        private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)
+		/// <summary>
+		/// Calculate the filename for the code artifact, for use in multi-file generation .
+		/// </summary>
+		/// <param name="artifact">The artifact for which a filename is required.</param>
+		/// <returns>The name of the file into which to place the generated code.</returns>
+		protected override string GetOutputFileName(CodeArtifact artifact)
+		{
+			return artifact.TypeName + ".ts";
+		}
+
+		private void UpdateUseDtoClassAndDataConversionCodeProperties(IEnumerable<TypeScriptOperationModel> operations)
         {
             // TODO: Remove this method => move to appropriate location
 

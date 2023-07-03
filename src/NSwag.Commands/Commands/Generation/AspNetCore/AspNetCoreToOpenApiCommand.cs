@@ -124,7 +124,6 @@ namespace NSwag.Commands.Generation.AspNetCore
                 var args = new List<string>();
                 string executable;
 
-#if NET461
                 var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
@@ -172,41 +171,41 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETCOREAPP || NETSTANDARD
-                var toolDirectory = AppContext.BaseDirectory;
-                if (!Directory.Exists(toolDirectory))
-                {
-                    toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
-                }
+                //#elif NETCOREAPP || NETSTANDARD
+                //                var toolDirectory = AppContext.BaseDirectory;
+                //                if (!Directory.Exists(toolDirectory))
+                //                {
+                //                    toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToSwaggerCommand).GetTypeInfo().Assembly.Location);
+                //                }
 
-                if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
-                    projectMetadata.TargetFrameworkIdentifier == "net5.0")
-                {
-                    executable = "dotnet";
-                    args.Add("exec");
-                    args.Add("--depsfile");
-                    args.Add(projectMetadata.ProjectDepsFilePath);
+                //                if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
+                //                    projectMetadata.TargetFrameworkIdentifier == "net5.0")
+                //                {
+                //                    executable = "dotnet";
+                //                    args.Add("exec");
+                //                    args.Add("--depsfile");
+                //                    args.Add(projectMetadata.ProjectDepsFilePath);
 
-                    args.Add("--runtimeconfig");
-                    args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
+                //                    args.Add("--runtimeconfig");
+                //                    args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
 
-                    var binaryName = LauncherBinaryName + ".dll";
-                    var executorBinary = Path.Combine(toolDirectory, binaryName);
-                   
-                    if (!File.Exists(executorBinary))
-                    {
-                        binaryName = LauncherBinaryName + ".exe";
-                        executorBinary = Path.Combine(toolDirectory, binaryName);
-                    }
+                //                    var binaryName = LauncherBinaryName + ".dll";
+                //                    var executorBinary = Path.Combine(toolDirectory, binaryName);
 
-                    if (!File.Exists(executorBinary))
-                    {
-                        throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
-                    }
+                //                    if (!File.Exists(executorBinary))
+                //                    {
+                //                        binaryName = LauncherBinaryName + ".exe";
+                //                        executorBinary = Path.Combine(toolDirectory, binaryName);
+                //                    }
 
-                    args.Add(executorBinary);
-                }
-#endif
+                //                    if (!File.Exists(executorBinary))
+                //                    {
+                //                        throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+                //                    }
+
+                //                    args.Add(executorBinary);
+                //                }
+                //#endif
                 else
                 {
                     throw new InvalidOperationException($"Unsupported target framework '{projectMetadata.TargetFrameworkIdentifier}'.");

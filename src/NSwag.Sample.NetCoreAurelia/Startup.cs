@@ -1,17 +1,16 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NSwag.AspNetCore;
 
 namespace NSwag_Sample_NetCoreAurelia
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -32,7 +31,7 @@ namespace NSwag_Sample_NetCoreAurelia
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggingBuilder loggingBuilder)
         {
             app.UseCors(builder => builder
                 .WithOrigins("*")
@@ -40,8 +39,8 @@ namespace NSwag_Sample_NetCoreAurelia
                 .AllowAnyHeader()
                 .WithExposedHeaders("content-disposition", "content-type"));
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggingBuilder.AddConsole();
+            loggingBuilder.AddDebug();
 
             app.UseSwaggerUi3();
 
@@ -49,7 +48,8 @@ namespace NSwag_Sample_NetCoreAurelia
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = false // Aurelia Webpack Plugin HMR currently has issues. Leave this set to false.
                 });
             }

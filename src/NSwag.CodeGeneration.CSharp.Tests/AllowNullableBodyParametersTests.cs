@@ -1,4 +1,9 @@
+#if NETFRAMEWORK
+using System.Web.Mvc;
+using System.Web.Http;
+#else
 using Microsoft.AspNetCore.Mvc;
+#endif
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.Generation.WebApi;
 using System.ComponentModel.DataAnnotations;
@@ -102,13 +107,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
         public class TestController : Controller
         {
-            [Route("Foo")]
+            [Microsoft.AspNetCore.Mvc.Route("Foo")]
             public string Foo([FromBody][Required] T requiredBody)
             {
                 return string.Empty;
             }
 
-            [Route("Bar")]
+            [Microsoft.AspNetCore.Mvc.Route("Bar")]
             public void Bar([FromBody] T notRequiredBody)
             {
             }

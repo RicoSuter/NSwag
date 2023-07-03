@@ -1,28 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
-using Microsoft.Build.Evaluation;
-using Microsoft.Build.Locator;
-using Nuke.Common;
-using Nuke.Common.Git;
-using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.MSBuild;
-using Nuke.Common.Tools.Npm;
-using Nuke.Common.Tools.VSTest;
-using Nuke.Common.Utilities.Collections;
-
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Tooling.ProcessTasks;
-using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
-using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.Tools.VSTest.VSTestTasks;
 using Project = Nuke.Common.ProjectModel.Project;
 
 partial class Build : NukeBuild
@@ -103,7 +78,7 @@ partial class Build : NukeBuild
         Serilog.Log.Information("BUILD SETUP");
         Serilog.Log.Information("Configuration:\t{Configuration}", Configuration);
         Serilog.Log.Information("Version prefix:\t{VersionPrefix}", VersionPrefix);
-        Serilog.Log.Information("Version suffix:\t{VersionSuffix}",VersionSuffix);
+        Serilog.Log.Information("Version suffix:\t{VersionSuffix}", VersionSuffix);
         Serilog.Log.Information("Tagged build:\t{IsTaggedBuild}", IsTaggedBuild);
     }
 
@@ -352,9 +327,9 @@ partial class Build : NukeBuild
             }
         }
 
-        PublishConsoleProject(consoleX86Project, new[] { "net461" });
-        PublishConsoleProject(consoleProject, new[] { "net461" });
-        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp2.1", "netcoreapp3.1", "net5.0", "net6.0", "net7.0" });
+        PublishConsoleProject(consoleX86Project, new[] { "net462" });
+        PublishConsoleProject(consoleProject, new[] { "net462" });
+        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp3.1", "net5.0", "net6.0", "net7.0" });
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
@@ -366,7 +341,6 @@ partial class Build : NukeBuild
             CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net461" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
 
             var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
-            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1" / "publish", target / "NetCore21");
             CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
             CopyDirectoryRecursively(consoleCoreDirectory / "net5.0" / "publish", target / "Net50");
             CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");

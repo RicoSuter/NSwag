@@ -56,7 +56,7 @@ namespace NSwag.Commands
                 ReferencePaths = ReferencePaths.Concat(defaultNugetPackages).ToArray();
             }
 
-            using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader>(assemblyDirectory, AssemblyConfig, bindingRedirects, assemblies))
+            using (var isolated = new AppDomainIsolation<IsolatedCommandAssemblyLoader>(assemblyDirectory, AssemblyConfig, bindingRedirects, (IEnumerable<Assembly>)assemblies))
             {
                 return Task.FromResult(isolated.Object.Run(GetType().FullName, JsonConvert.SerializeObject(this), AssemblyPaths, ReferencePaths));
             }

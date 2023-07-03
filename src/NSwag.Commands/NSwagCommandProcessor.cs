@@ -88,7 +88,7 @@ namespace NSwag.Commands
                     entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
                 }
 
-                var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
+                var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.Location).LocalPath);
                 _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
             }
             catch (Exception exception)

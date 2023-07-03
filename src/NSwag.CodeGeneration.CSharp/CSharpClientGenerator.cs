@@ -61,12 +61,22 @@ namespace NSwag.CodeGeneration.CSharp
                 if (model.GenerateClientInterfaces)
                 {
                     var interfaceTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
-                    yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, interfaceTemplate);
+                    yield return new CodeArtifact(model.Class, CodeArtifactType.Interface, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, interfaceTemplate);
                 }
 
                 var classTemplate = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Class", model);
                 yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, classTemplate);
             }
+        }
+
+		/// <summary>
+		/// Calculate the filename for the code artifact, for use in multi-file generation .
+		/// </summary>
+		/// <param name="artifact">The artifact for which a filename is required.</param>
+		/// <returns>The name of the file into which to place the generated code.</returns>
+		protected override string GetOutputFileName(CodeArtifact artifact)
+        {
+            return artifact.TypeName + ".cs";
         }
 
         /// <summary>Creates an operation model.</summary>

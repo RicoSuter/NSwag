@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using NSwag.CodeGeneration.CSharp.Models;
+
 namespace NSwag.CodeGeneration.CSharp
 {
     /// <summary>Settings for the <see cref="CSharpClientGenerator"/>.</summary>
@@ -112,5 +114,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to output a single file or one file per type.</summary>
+        public CSharpClientGenerationStyle GenerationStyle { get; set; }
     }
 }

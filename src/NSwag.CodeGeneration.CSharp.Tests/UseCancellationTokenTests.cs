@@ -1,6 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿#if NETFRAMEWORK
+using System.Web.Mvc;
+#else
 using Microsoft.AspNetCore.Mvc;
+#endif
+using System;
+using System.Threading.Tasks;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -11,13 +15,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class TestController : Controller
         {
-            [Route("Foo")]
+            [Microsoft.AspNetCore.Mvc.Route("Foo")]
             public string Foo(string test, bool test2)
             {
                 throw new NotImplementedException();
             }
 
-            [Route("Bar")]
+            [Microsoft.AspNetCore.Mvc.Route("Bar")]
             public void Bar()
             {
                 throw new NotImplementedException();

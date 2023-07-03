@@ -11,13 +11,14 @@ using System.Linq;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
+using NSwag.CodeGeneration.CSharp.Models;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
 {
     public class SwaggerToCSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
+        private SwaggerToCSharpClientCommand _command = new();
 
         /// <summary>Gets the settings.</summary>
         public SwaggerToCSharpClientCommand Command
@@ -33,6 +34,10 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the list of operation modes. </summary>
         public OperationGenerationMode[] OperationGenerationModes { get; } = Enum.GetNames(typeof(OperationGenerationMode))
             .Select(t => (OperationGenerationMode)Enum.Parse(typeof(OperationGenerationMode), t))
+            .ToArray();
+
+        public NSwag.CodeGeneration.CSharp.Models.CSharpClientGenerationStyle[] GenerationStyles { get; } = Enum.GetNames(typeof(CSharpClientGenerationStyle))
+            .Select(t => (CSharpClientGenerationStyle)Enum.Parse(typeof(CSharpClientGenerationStyle), t))
             .ToArray();
 
         /// <summary>Gets the list of class styles. </summary>
