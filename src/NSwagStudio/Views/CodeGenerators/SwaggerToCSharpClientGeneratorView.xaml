@@ -12,8 +12,6 @@
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
                                       xmlns:views="clr-namespace:NSwagStudio.Views.CodeGenerators.Views"
-                                      xmlns:csharpGeneration="clr-namespace:NSwag.CodeGeneration.CSharp.Models;assembly=NSwag.CodeGeneration.CSharp"
-                                      xmlns:ookiiDialog="clr-namespace:Ookii.Dialogs.Wpf;assembly=Ookii.Dialogs.Wpf"
                                       mc:Ignorable="d" d:DesignWidth="800" Height="4248">
 
     <UserControl.Resources>
