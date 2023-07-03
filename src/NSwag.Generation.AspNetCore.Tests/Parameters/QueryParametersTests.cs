@@ -83,5 +83,21 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.Equal("month", parameter.Name);
             Assert.Equal("months", parameter.OriginalName);
         }
+
+        [Fact]
+        public async Task When_parameter_has_bind_never_then_it_is_ignored()
+        {
+            // Arrange
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = false };
+
+            // Act
+            var document = await GenerateDocumentAsync(settings, typeof(BindNeverQueryParameterController));
+
+            // Assert
+            var parameters = document.Operations.First().Operation.ActualParameters.ToArray();
+
+            Assert.Single(parameters);
+            Assert.Equal("a", parameters.First().Name);
+        }
     }
 }

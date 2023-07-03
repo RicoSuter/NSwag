@@ -80,10 +80,12 @@ namespace NSwag.Generation
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="contextualParameter">Type of the parameter.</param>
+        /// <param name="enforceNotNull">Specifies whether the parameter must never be nullable.</param>
         /// <returns>The parameter.</returns>
-        public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter)
+        public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter, bool enforceNotNull = false)
         {
             var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
+            typeDescription.IsNullable = enforceNotNull == false && typeDescription.IsNullable;
 
             var operationParameter = _settings.SchemaType == SchemaType.Swagger2
                 ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)

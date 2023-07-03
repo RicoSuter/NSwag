@@ -32,7 +32,7 @@
 {% for operation in Operations %}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined): Promise<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal | undefined{% else %}{% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -59,7 +59,11 @@
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
             },
+{%-    if UseAbortSignal -%}
+            signal
+{%-     else -%}
             cancelToken
+{%-     endif -%}
         };
 
 {%     if UseTransformOptionsMethod -%}
