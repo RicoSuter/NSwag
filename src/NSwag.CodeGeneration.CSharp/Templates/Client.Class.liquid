@@ -322,7 +322,20 @@
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
-                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+{% liquid
+        assign statusEnding = response.StatusCode | slice: 1,2
+        if statusEnding == "XX"
+            assign statusPrefix = response.StatusCode | slice: 0,1
+            assign firstValue = statusPrefix | append: "00"
+            assign lastValue = statusPrefix | append: "99"
+            assign comparisonFirst = "status_ >= " | append: firstValue
+            assign comparisonSecond = "status_ <= " | append: lastValue
+            assign statusCodeComparison = comparisonFirst | append: " && " | append: comparisonSecond
+        else
+            assign statusCodeComparison = "status_ == " | append: response.StatusCode
+        endif
+-%}
+                    if ({{ statusCodeComparison }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
                     {
                         {% template Client.Class.ProcessResponse %}
                     }
