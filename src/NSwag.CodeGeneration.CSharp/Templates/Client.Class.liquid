@@ -206,8 +206,8 @@
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.ConsumesFormUrlEncoded -%}
-                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, _settings.Value);
-                var dictionary_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, string>>(json_, _settings.Value);
+                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, _settings.Value);
+                var dictionary_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<System.Collections.Generic.Dictionary<string, string>>(json_, _settings.Value);
                 var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.HasPlainTextBodyParameter -%}
