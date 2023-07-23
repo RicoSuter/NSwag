@@ -309,7 +309,7 @@ namespace NSwag.Commands.Generation
             else
             {
                 var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
-                var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
+                var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assemblies loaded from AssemblyPaths:" + string.Join(",", AssemblyPaths));
                 return ServiceProviderResolver.GetServiceProvider(firstAssembly);
             }
         }
