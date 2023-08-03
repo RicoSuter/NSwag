@@ -522,7 +522,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("if (StatusInRange(status_, \"5xx\"))", code);
+            Assert.Contains("if (StatusInRange(status_, new System.Text.RegularExpressions.Regex(\"^5\\d\\d$\"))", code);
         }
 
         [Fact]

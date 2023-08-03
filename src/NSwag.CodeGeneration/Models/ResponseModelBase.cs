@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -63,6 +64,19 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a flag to say if the StatusCode can be interpreted as an integer. (e.g. 5XX cannot be treated as a number)</summary>
         public bool StatusCodeIsInt => int.TryParse(StatusCode, out _);
+        public string CreateRegex {
+            get
+            {
+                if (Regex.IsMatch(StatusCode, @"^[xX\d]{3}$"))
+                {
+                    var regexBody = StatusCode.ToLower().Replace("x", "\\d");
+                    return $"new System.Text.RegularExpressions.Regex(\"^{regexBody}$\")";
+                }
+
+                // This will make the code non compilable and it is intentional because this StatusCode is not valid
+                return StatusCode;
+            }
+        }
 
         /// <summary>Gets the type of the response.</summary>
         public string Type =>
