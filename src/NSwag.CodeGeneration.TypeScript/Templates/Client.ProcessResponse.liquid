@@ -3,7 +3,7 @@
 let _mappings: { source: any, target: any }[] = [];
 {% endif -%}
 {% for response in operation.Responses -%}
-{% if response.StatusCodeIsInt %}if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}){% else %}if (`${status}`.match('^{{ response.StatusCode }}$'.replace(/x/gi, '\\d'))){% endif %} {
+{% if response.StatusCodeIsInt %}if (status === {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status === 206{% endif %}){% else %}if (`${status}`.match({{ response.CreateRegexForTS }})){% endif %} {
     {% template Client.ProcessResponse.HandleStatusCode %}
 } else {% endfor -%}
 {% if operation.HasDefaultResponse -%}

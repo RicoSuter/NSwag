@@ -322,7 +322,7 @@
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
-                    {% if response.StatusCodeIsInt %}if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %}){% else %}if (StatusInRange(status_, {{ response.CreateRegex }})){% endif %}
+                    {% if response.StatusCodeIsInt %}if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %}){% else %}if (StatusInRange(status_, {{ response.CreateRegexFoxCS }})){% endif %}
                     {
                         {% template Client.Class.ProcessResponse %}
                     }

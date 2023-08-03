@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = gen.GenerateFile();
 
             // Assert
-            Assert.Contains("if (`${status}`.match('^5xX$'.replace(/x/gi, '\\\\d')))", code);
+            Assert.Contains("if (`${status}`.match(/^5\\d\\d$/))", code);
             Assert.Contains("if (status === 200)", code);
         }
     }
