@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NJsonSchema;
 using NSwag.CodeGeneration.CSharp.Models;
@@ -87,6 +88,69 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool? test2)", code);
             Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> BarAsync();", code);
             Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()", code);
+        }
+
+        [Fact]
+        public void When_response_type_attribute_inuse_with_abstract_then_actiontype_and_attributes_are_generated()
+        {
+            // Arrange
+            var document = GetOpenApiDocument();
+
+            // Act
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                UseResponseTypeAttributes = true
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(200, Type = typeof(string))]", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool? test2);", code);
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(200, Type = typeof(ComplexTypeResponse))]", code);
+            Assert.Contains("public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType);", code);
+        }
+
+        [Fact]
+        public void When_response_type_attribute_inuse_with_partial_then_actiontype_and_attributes_are_generated()
+        {
+            // Arrange
+            var document = GetOpenApiDocument();
+
+            // Act
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Partial,
+                UseResponseTypeAttributes = true
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(200, Type = typeof(string))]", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool? test2)", code);
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(200, Type = typeof(ComplexTypeResponse))]", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
+        }
+
+        [Fact]
+        public void When_response_type_attribute_inuse_multiple_response_types_are_generated()
+        {
+            // Arrange
+            var document = GetOpenApiDocument();
+
+            // Act
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
+            {
+                ControllerStyle = CSharpControllerStyle.Partial,
+                UseResponseTypeAttributes = true
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route(\"MultipleResponseTypes\")]", code);
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(200, Type = typeof(ComplexType))]", code);
+            Assert.Contains("[Microsoft.AspNetCore.Mvc.ProducesResponseType(400, Type = typeof(ErrorResponse))]", code);
+            Assert.Contains("public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> MultipleResponseTypes([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)", code);
         }
 
         [Fact]
@@ -260,6 +324,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             complexTypeSchema.Properties["Prop3"] = new JsonSchemaProperty { Type = JsonObjectType.Boolean, IsRequired = true };
             complexTypeSchema.Properties["Prop4"] = new JsonSchemaProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
+            JsonSchema errorResponseSchema = new JsonSchema();
+            errorResponseSchema.Title = "ErrorResponse";
+            errorResponseSchema.Properties["ErrorCode"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true };
+            errorResponseSchema.Properties["ErrorMessage"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true };
+
             JsonSchema complexTypeReponseSchema = new JsonSchema();
             complexTypeReponseSchema.Title = "ComplexTypeResponse";
             complexTypeReponseSchema.Properties["Prop1"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true };
@@ -428,8 +497,42 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 }
             };
 
+            document.Paths["MultipleResponseTypes"] = new OpenApiPathItem
+            {
+                {
+                    OpenApiOperationMethod.Post,
+                    new OpenApiOperation
+                    {
+                        OperationId = "Test_MultipleResponseTypes",
+                        Parameters =
+                        {
+                            new OpenApiParameter
+                            {
+                                Name = "complexType",
+                                IsRequired = true,
+                                Kind = OpenApiParameterKind.Body,
+                                Type = JsonObjectType.Object,
+                                Reference = complexTypeSchema
+                            }
+                        },
+                        Responses =
+                        {
+                            new KeyValuePair<string, OpenApiResponse>("200", new OpenApiResponse
+                            {
+                                Schema = complexTypeSchema
+                            }),
+                            new KeyValuePair<string, OpenApiResponse>("400", new OpenApiResponse
+                            {
+                                Schema = errorResponseSchema
+                            })
+                        }
+                    }
+                }
+            };
+
             document.Definitions["ComplexType"] = complexTypeSchema;
             document.Definitions["ComplexTypeResponse"] = complexTypeReponseSchema;
+            document.Definitions["ErrorResponse"] = errorResponseSchema;
             return document;
         }
 

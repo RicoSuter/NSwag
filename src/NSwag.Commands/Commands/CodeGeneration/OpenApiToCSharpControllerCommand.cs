@@ -63,6 +63,13 @@ namespace NSwag.Commands.CodeGeneration
             get { return Settings.UseActionResultType; }
             set { Settings.UseActionResultType = value; }
         }
+        
+        [Argument(Name = "UseResponseTypeAttributes", Description = "Use IActionResult as return type and generate ProducesResponseType attributes (default: false)", IsRequired = false)]
+        public bool UseResponseTypeAttributes
+        {
+            get { return Settings.UseResponseTypeAttributes; }
+            set { Settings.UseResponseTypeAttributes = value; }
+        }
 
         [Argument(Name = "GenerateModelValidationAttributes", Description = "Add model validation attributes (default: false).", IsRequired = false)]
         public bool GenerateModelValidationAttributes
