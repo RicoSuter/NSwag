@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
+using System.Threading.Tasks;
+using System.Threading;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -52,9 +54,9 @@ namespace NSwag.AspNetCore
         public bool ShowRequestHeaders { get; set; } = false;
 
 #if AspNetOwin
-        internal override string TransformHtml(string html, IOwinRequest request)
+        internal override Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
 #else
-        internal override string TransformHtml(string html, HttpRequest request)
+        internal override Task<string> TransformHtmlAsync(string html, HttpRequest request, CancellationToken cancellationToken)
 #endif
         {
             var htmlBuilder = new StringBuilder(html);
@@ -74,7 +76,7 @@ namespace NSwag.AspNetCore
                 .Replace("{CustomStyle}", GetCustomStyleHtml(request))
                 .Replace("{CustomScript}", GetCustomScriptHtml(request));
 
-            return htmlBuilder.ToString();
+            return Task.FromResult(htmlBuilder.ToString());
         }
     }
 }
