@@ -8,6 +8,7 @@ using NJsonSchema;
 
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
@@ -17,7 +18,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
         public async Task When_response_is_wrapped_in_certain_generic_result_types_then_discard_the_wrapper_type()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(WrappedResponseController));

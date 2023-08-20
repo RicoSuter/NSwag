@@ -106,7 +106,14 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task When_parameter_has_bind_never_then_it_is_ignored()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = false };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                RequireParametersWithoutDefault = false,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BindNeverQueryParameterController));
