@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
             }
         }
-        
+
         public class UrlEncodedRequestConsumingController: Controller
         {
             [HttpPost]
@@ -90,7 +90,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.DoesNotContain("export class DiscussionClient", code);
             Assert.DoesNotContain("export interface IDiscussionClient", code);
         }
-                
+
         [Fact]
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
@@ -136,6 +136,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = false,
                 TypeScriptGeneratorSettings =
                 {
                     TypeScriptVersion = 2.0m
@@ -145,6 +146,30 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             // Assert
             Assert.Contains("cancelToken?: CancelToken | undefined", code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("signal?: AbortSignal | undefined", code);
         }
     }
 }

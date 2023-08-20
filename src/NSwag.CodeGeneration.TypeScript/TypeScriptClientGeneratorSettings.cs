@@ -91,7 +91,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets the name of the exception class (default 'ApiException').</summary>
         public string ExceptionClass { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to use the AbortSignal (Fetch/Aurelia template only, default: false).</summary>
+        /// <summary>Gets or sets a value indicating whether to use the AbortSignal (Aurelia/Axios/Fetch template only, default: false).</summary>
         public bool UseAbortSignal { get; set; } = false;
 
         // TODO: Angular specific => move

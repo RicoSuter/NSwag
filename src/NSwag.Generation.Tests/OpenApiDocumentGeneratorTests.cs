@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;

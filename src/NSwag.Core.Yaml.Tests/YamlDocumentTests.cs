@@ -69,7 +69,7 @@ info:
 paths:
   /bar:
     x-swagger-router-controller:
-     bar: baz
+      bar: baz
     get:
       responses:
         '200':

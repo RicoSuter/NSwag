@@ -26,7 +26,10 @@ namespace NSwag.Generation.AspNetCore.Tests
 
             var controllerTypeNames = controllerTypes.Select(t => t.FullName);
             var groups = new ApiDescriptionGroupCollection(provider.ApiDescriptionGroups.Items
-                .Select(i => new ApiDescriptionGroup(i.GroupName, i.Items.Where(u => controllerTypeNames.Contains(((ControllerActionDescriptor)u.ActionDescriptor).ControllerTypeInfo.FullName)).ToList())).ToList(),
+                    .Select(i => new ApiDescriptionGroup(i.GroupName, i.Items
+                        .Where(u => controllerTypeNames.Contains(((ControllerActionDescriptor)u.ActionDescriptor).ControllerTypeInfo.FullName))
+                        .ToList()))
+                    .ToList(),
                 provider.ApiDescriptionGroups.Version);
 
             var document = await generator.GenerateAsync(groups);

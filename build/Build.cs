@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Locator;
 using Nuke.Common;
-using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -18,7 +17,6 @@ using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Logger;
 using static Nuke.Common.Tooling.ProcessTasks;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -27,7 +25,6 @@ using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
 using Project = Nuke.Common.ProjectModel.Project;
 
-[CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
     public Build()
@@ -125,6 +122,7 @@ partial class Build : NukeBuild
         {
             Chocolatey("install wixtoolset -y");
             Chocolatey("install netfx-4.6.1-devpack -y");
+            Chocolatey("install dotnetcore-3.1-sdk -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
