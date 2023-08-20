@@ -22,15 +22,13 @@
     <file src="NSwag.MSBuild.props" target="buildCrossTargeting" />
     <file src="NSwag.MSBuild.props" target="buildTransitive" />
 
-    <file src="..\NSwag.Console\bin\Release\net461\*" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.AspNetCore.Launcher.x86.exe" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.AspNetCore.Launcher.x86.exe.config" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
+    <file src="..\NSwag.Console\bin\Release\net462\*" target="tools/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net462\NSwag.AspNetCore.Launcher.x86.exe" target="tools/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net462\NSwag.AspNetCore.Launcher.x86.exe.config" target="tools/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net462\NSwag.x86.exe" target="tools/Win" />
+    <file src="..\NSwag.Console.x86\bin\Release\net462\NSwag.x86.exe.config" target="tools/Win" />
 
-    <file src="..\NSwag.ConsoleCore\bin\Release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
     <file src="..\NSwag.ConsoleCore\bin\Release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
-    <file src="..\NSwag.ConsoleCore\bin\Release\net5.0\Publish\**" target="tools/Net50" />
     <file src="..\NSwag.ConsoleCore\bin\release\net6.0\Publish\**" target="tools/Net60" />    
     <file src="..\NSwag.ConsoleCore\bin\release\net7.0\Publish\**" target="tools/Net70" />    
   </files>

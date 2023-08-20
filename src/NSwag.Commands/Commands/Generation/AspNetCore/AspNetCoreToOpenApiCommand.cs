@@ -124,7 +124,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                 var args = new List<string>();
                 string executable;
 
-#if NET461
+#if NET462
                 var toolDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
@@ -172,7 +172,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                         cleanupFiles.Add(copiedAppConfig);
                     }
                 }
-#elif NETCOREAPP || NETSTANDARD
+#else
                 var toolDirectory = AppContext.BaseDirectory;
                 if (!Directory.Exists(toolDirectory))
                 {
