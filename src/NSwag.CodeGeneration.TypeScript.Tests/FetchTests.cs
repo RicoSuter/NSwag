@@ -201,5 +201,56 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.DoesNotContain("httpContext?: HttpContext", code);
             Assert.DoesNotContain("context: httpContext", code);
         }
+
+        [Fact]
+        public async Task When_use_base_http_client_true_then_do_not_add_instance()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                UseBaseHttpClient = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };", code);
+            Assert.DoesNotContain(", http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }", code);
+            Assert.DoesNotContain("this.http = http ? http : window as any;", code);
+        }
+
+        [Fact]
+        public async Task When_not_use_base_http_client_false_then_do_add_instance()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };", code);
+            Assert.Contains(", http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }", code);
+            Assert.Contains("this.http = http ? http : window as any;", code);
+        }
     }
 }

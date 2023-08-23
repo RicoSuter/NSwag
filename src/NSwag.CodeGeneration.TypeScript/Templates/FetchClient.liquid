@@ -12,16 +12,20 @@
 @inject({% if HasConfigurationClass %}{{ ConfigurationClass }}, {% endif %}String, HttpClient)
 {%- endif -%}
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if UseBaseHttpClient == false %}
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+{% endif %}
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 {{ '' }}
 {%- if HasExtendedConstructor == false -%}
-    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string{% if UseBaseHttpClient == false %}, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }{%  endif %}) {
 {%-    if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-    endif -%}
+{%     if UseBaseHttpClient == false %}
         this.http = http ? http : window as any;
+{%     endif %}
 {%-    if UseGetBaseUrlMethod -%}
         this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%-    else -%}

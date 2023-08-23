@@ -15,16 +15,20 @@
 @Injectable()
 {%- endif -%}
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if UseBaseHttpClient == false %}
     private http: {{ Framework.Angular.HttpClass }};
+{% endif %}
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {%- if HasExtendedConstructor == false -%}
-    constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}@Inject({{ Framework.Angular.HttpClass }}) http: {{ Framework.Angular.HttpClass }}, @Optional() @Inject({{ Framework.Angular.BaseUrlTokenName }}) baseUrl?: string) {
+    constructor({% if HasConfigurationClass %}@Inject({{ ConfigurationClass }}) configuration: {{ ConfigurationClass }}, {% endif %}{% if UseBaseHttpClient == false %}@Inject({{ Framework.Angular.HttpClass }}) http: {{ Framework.Angular.HttpClass }},{% endif %} @Optional() @Inject({{ Framework.Angular.BaseUrlTokenName }}) baseUrl?: string) {
 {%-    if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-    endif -%}
+{%     if UseBaseHttpClient == false %}
         this.http = http;
+{%     endif %}
 {%-    if UseGetBaseUrlMethod -%}
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
 {%-    else -%}

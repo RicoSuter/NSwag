@@ -153,5 +153,56 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Assert
             Assert.Contains("signal?: AbortSignal | undefined", code);
         }
+
+        [Fact]
+        public async Task When_use_base_http_client_true_then_do_not_add_instance()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseBaseHttpClient = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("private instance: AxiosInstance;", code);
+            Assert.DoesNotContain(", instance?: AxiosInstance", code);
+            Assert.DoesNotContain("this.instance = instance ? instance : axios.create();", code);
+        }
+
+        [Fact]
+        public async Task When_not_use_base_http_client_false_then_do_add_instance()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("private instance: AxiosInstance;", code);
+            Assert.Contains(", instance?: AxiosInstance", code);
+            Assert.Contains("this.instance = instance ? instance : axios.create();", code);
+        }
     }
 }

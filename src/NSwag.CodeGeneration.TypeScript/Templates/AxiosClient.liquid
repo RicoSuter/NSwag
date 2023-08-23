@@ -8,16 +8,20 @@
 {%- endif %}
 
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+{% if UseBaseHttpClient == false %}
     private instance: AxiosInstance;
+{% endif %}
     private baseUrl: string;
     protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
 
 {%- if HasExtendedConstructor == false %}
-    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, instance?: AxiosInstance) {
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string{% if UseBaseHttpClient == false %}, instance?: AxiosInstance{% endif %}) {
 {%-     if HasBaseClass %}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-     endif %}
+{%      if UseBaseHttpClient == false %}
         this.instance = instance ? instance : axios.create();
+{%  endif %}
 {%-     if UseGetBaseUrlMethod %}
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
 {%-     else %}
