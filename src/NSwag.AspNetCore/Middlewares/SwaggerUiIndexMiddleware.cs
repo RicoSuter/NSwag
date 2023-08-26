@@ -30,7 +30,11 @@ namespace NSwag.AspNetCore.Middlewares
                 {
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
-                    await context.Response.WriteAsync(_settings.TransformHtml(await reader.ReadToEndAsync(), context.Request));
+                    await context.Response.WriteAsync(
+                        await _settings.TransformHtmlAsync(
+                            await reader.ReadToEndAsync(), 
+                            context.Request, 
+                            context.RequestAborted));
                 }
             }
             else

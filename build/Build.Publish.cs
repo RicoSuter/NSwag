@@ -39,6 +39,7 @@ public partial class Build
                 ChocolateyPush(_ => _
                     .SetApiKey(ChocoApiKey)
                     .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
+                    .SetSource("https://push.chocolatey.org/")
                 );
 
                 try

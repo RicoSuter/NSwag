@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.Generation;
@@ -30,7 +31,7 @@ namespace NSwag.AspNet.Owin.Middlewares
                 {
                     context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
                     context.Response.StatusCode = 200;
-                    context.Response.Write(_settings.TransformHtml(reader.ReadToEnd(), context.Request));
+                    context.Response.Write(await _settings.TransformHtmlAsync(reader.ReadToEnd(), context.Request, CancellationToken.None));
                 }
             }
             else

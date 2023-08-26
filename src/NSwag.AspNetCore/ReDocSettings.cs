@@ -8,6 +8,8 @@
 
 using NSwag.Generation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -30,15 +32,15 @@ namespace NSwag.AspNetCore
         public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
 
 #if AspNetOwin
-        internal override string TransformHtml(string html, IOwinRequest request)
+        internal override Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
 #else
-        internal override string TransformHtml(string html, HttpRequest request)
+        internal override Task<string> TransformHtmlAsync(string html, HttpRequest request, CancellationToken cancellationToken)
 #endif
         {
             html = html.Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings));
             html = html.Replace("{CustomStyle}", GetCustomStyleHtml(request));
             html = html.Replace("{CustomScript}", GetCustomScriptHtml(request));
-            return html;
+            return Task.FromResult(html);
         }
     }
 }

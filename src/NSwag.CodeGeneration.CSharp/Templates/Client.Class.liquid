@@ -37,10 +37,10 @@
     {
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true));
-        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false));
+        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
+        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
 {% else -%}
-        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings);
+        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
 {% endif -%}
         {% template Client.Class.Constructor %}
     }
