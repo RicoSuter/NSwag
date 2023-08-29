@@ -47,7 +47,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-            var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
+            var methodParameters = context.MethodInfo?.GetParameters() ?? Array.Empty<ParameterInfo>();
 
             var position = operationProcessorContext.Parameters.Count;
             foreach (var apiParameter in parameters.Where(p =>
