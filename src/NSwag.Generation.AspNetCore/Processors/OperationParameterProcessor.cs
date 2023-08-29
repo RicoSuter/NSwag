@@ -49,7 +49,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             var parameters = context.ApiDescription.ParameterDescriptions;
             var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
 
-            var position = 1;
+            var position = operationProcessorContext.Parameters.Count;
             foreach (var apiParameter in parameters.Where(p =>
                 p.Source != null &&
                 (p.ModelMetadata == null || p.ModelMetadata.IsBindingAllowed)))
