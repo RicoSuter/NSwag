@@ -645,7 +645,7 @@ namespace NSwag.Integration.ClientPCL
         }
 
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occured.</exception>
+        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occurred.</exception>
         public virtual System.Threading.Tasks.Task<SwaggerResponse> SaveItemsAsync(GenericRequestOfAddressAndPerson request)
         {
             return SaveItemsAsync(request, System.Threading.CancellationToken.None);
@@ -653,7 +653,7 @@ namespace NSwag.Integration.ClientPCL
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="GeoClientException">A server side error occurred.</exception>
-        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occured.</exception>
+        /// <exception cref="GeoClientClientException{System.Exception}">A custom error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<SwaggerResponse> SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -707,7 +707,7 @@ namespace NSwag.Integration.ClientPCL
                             responseObject_.Data.Add("HttpStatus", status_.ToString());
                             responseObject_.Data.Add("HttpHeaders", headers_);
                             responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
-                            throw new GeoClientException("A custom error occured.", status_, objectResponse_.Text, headers_, responseObject_);
+                            throw new GeoClientException("A custom error occurred.", status_, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         {

@@ -638,7 +638,7 @@ namespace NSwag.Integration.Console
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{System.Exception}">A custom error occured.</exception>
+        /// <exception cref="SwaggerException{System.Exception}">A custom error occurred.</exception>
         public virtual System.Threading.Tasks.Task SaveItemsAsync(GenericRequestOfAddressAndPerson request)
         {
             return SaveItemsAsync(request, System.Threading.CancellationToken.None);
@@ -646,7 +646,7 @@ namespace NSwag.Integration.Console
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        /// <exception cref="SwaggerException{System.Exception}">A custom error occured.</exception>
+        /// <exception cref="SwaggerException{System.Exception}">A custom error occurred.</exception>
         public virtual async System.Threading.Tasks.Task SaveItemsAsync(GenericRequestOfAddressAndPerson request, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -700,7 +700,7 @@ namespace NSwag.Integration.Console
                             responseObject_.Data.Add("HttpStatus", status_.ToString());
                             responseObject_.Data.Add("HttpHeaders", headers_);
                             responseObject_.Data.Add("HttpResponse", objectResponse_.Text);
-                            throw new SwaggerException("A custom error occured.", status_, objectResponse_.Text, headers_, responseObject_);
+                            throw new SwaggerException("A custom error occurred.", status_, objectResponse_.Text, headers_, responseObject_);
                         }
                         else
                         {

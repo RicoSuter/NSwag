@@ -241,7 +241,7 @@
           },
           "450": {
             "x-nullable": false,
-            "description": "A custom error occured.",
+            "description": "A custom error occurred.",
             "schema": {
               "$ref": "#/definitions/Exception"
             }

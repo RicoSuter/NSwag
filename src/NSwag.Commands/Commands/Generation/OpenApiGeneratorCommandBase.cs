@@ -70,7 +70,7 @@ namespace NSwag.Commands.Generation
             set => Settings.DefaultResponseReferenceTypeNullHandling = value;
         }
 
-        [Argument(Name = nameof(GenerateOriginalParameterNames), IsRequired = false, Description = "Generate x-originalName properties when parameter name is differnt in .NET and HTTP (default: true).")]
+        [Argument(Name = nameof(GenerateOriginalParameterNames), IsRequired = false, Description = "Generate x-originalName properties when parameter name is different in .NET and HTTP (default: true).")]
         public bool GenerateOriginalParameterNames
         {
             get => Settings.GenerateOriginalParameterNames;

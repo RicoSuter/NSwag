@@ -67,7 +67,7 @@ namespace NSwag.Integration.WebAPI.Controllers
 
         [HttpPost]
         [ResponseType("204", typeof(void))]
-        [ResponseType("450", typeof(Exception), Description = "A custom error occured.")]
+        [ResponseType("450", typeof(Exception), Description = "A custom error occurred.")]
         public void SaveItems(GenericRequest<Address, Person> request)
         {
             throw new ArgumentException("Test");
