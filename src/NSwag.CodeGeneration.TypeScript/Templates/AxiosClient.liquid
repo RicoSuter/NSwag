@@ -17,7 +17,7 @@
 {%-     if HasBaseClass %}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-     endif %}
-        this.instance = instance ? instance : axios.create();
+        this.instance = instance || axios.create();
 {%-     if UseGetBaseUrlMethod %}
         this.baseUrl = baseUrl ?? this.getBaseUrl("{{ BaseUrl }}");
 {%-     else %}
