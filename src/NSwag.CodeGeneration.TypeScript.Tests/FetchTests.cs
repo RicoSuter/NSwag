@@ -127,7 +127,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("signal?: AbortSignal | undefined", code);
+            Assert.Contains("signal?: AbortSignal", code);
         }
 
         [Fact]
@@ -150,8 +150,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("signal?: AbortSignal | undefined", code);
-            Assert.DoesNotContain("signal", code);;
+            Assert.DoesNotContain("signal?: AbortSignal", code);
+            Assert.DoesNotContain("signal", code);
         }
 
         [Fact]
