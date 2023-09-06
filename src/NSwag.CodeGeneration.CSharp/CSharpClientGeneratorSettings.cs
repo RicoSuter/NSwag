@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.CSharp
             ClassName = "{controller}Client";
 
             GenerateExceptionClasses = true;
-            ExceptionClass = "ApiException";
+            ExceptionClass = $"{ClassName}Exception";
             ClientClassAccessModifier = "public";
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
