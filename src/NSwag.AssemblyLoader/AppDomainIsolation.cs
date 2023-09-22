@@ -10,14 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-#if NETFRAMEWORK
+#if NET462
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 #endif
 
 namespace NSwag.AssemblyLoader
 {
-#if NETFRAMEWORK
+#if NET462
 
     public sealed class AppDomainIsolation<T> : IDisposable where T : AssemblyLoader
     {

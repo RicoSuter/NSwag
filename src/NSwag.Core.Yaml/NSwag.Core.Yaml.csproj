@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.Yaml" Version="10.8.0" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="10.9.0" />
     <PackageReference Include="YamlDotNet" Version="13.2.0" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.Yaml\NJsonSchema.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
   </ItemGroup>
+  
 </Project>

@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Locator;
 using Nuke.Common;
-using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -18,7 +17,6 @@ using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Logger;
 using static Nuke.Common.Tooling.ProcessTasks;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -27,7 +25,6 @@ using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.VSTest.VSTestTasks;
 using Project = Nuke.Common.ProjectModel.Project;
 
-[CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
     public Build()
@@ -125,6 +122,7 @@ partial class Build : NukeBuild
         {
             Chocolatey("install wixtoolset -y");
             Chocolatey("install netfx-4.6.1-devpack -y");
+            Chocolatey("install dotnetcore-3.1-sdk -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
@@ -237,7 +235,6 @@ partial class Build : NukeBuild
             {
                 ("NSwag.Sample.NETCore21", "NetCore21"),
                 ("NSwag.Sample.NETCore31", "NetCore31"),
-                ("NSwag.Sample.NET50", "Net50"),
                 ("NSwag.Sample.NET60", "Net60"),
                 ("NSwag.Sample.NET60Minimal", "Net60"),
                 ("NSwag.Sample.NET70", "Net70"),
@@ -338,7 +335,7 @@ partial class Build : NukeBuild
 
         Serilog.Log.Information("Publish command line projects");
 
-        void PublishConsoleProject(Nuke.Common.ProjectModel.Project project, string[] targetFrameworks)
+        void PublishConsoleProject(Project project, string[] targetFrameworks)
         {
             foreach (var targetFramework in targetFrameworks)
             {
@@ -355,23 +352,21 @@ partial class Build : NukeBuild
             }
         }
 
-        PublishConsoleProject(consoleX86Project, new[] { "net461" });
-        PublishConsoleProject(consoleProject, new[] { "net461" });
-        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp2.1", "netcoreapp3.1", "net5.0", "net6.0", "net7.0" });
+        PublishConsoleProject(consoleX86Project, new[] { "net462" });
+        PublishConsoleProject(consoleProject, new[] { "net462" });
+        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp3.1", "net6.0", "net7.0" });
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
             // take just exe from X86 as other files are shared with console project
-            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net461" / "publish";
+            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net462" / "publish";
             CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
             CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
 
-            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net461" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
+            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net462" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
 
             var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
-            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp2.1" / "publish", target / "NetCore21");
             CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
-            CopyDirectoryRecursively(consoleCoreDirectory / "net5.0" / "publish", target / "Net50");
             CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
             CopyDirectoryRecursively(consoleCoreDirectory / "net7.0" / "publish", target / "Net70");
         }

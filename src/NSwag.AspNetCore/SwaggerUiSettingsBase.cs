@@ -14,6 +14,8 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -62,11 +64,11 @@ namespace NSwag.AspNetCore
 #if AspNetOwin
         public Func<string, IOwinRequest, string> TransformToExternalPath { get; set; }
 
-        internal abstract string TransformHtml(string html, IOwinRequest request);
+        internal abstract Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken);
 #else
         public Func<string, HttpRequest, string> TransformToExternalPath { get; set; }
 
-        internal abstract string TransformHtml(string html, HttpRequest request);
+        internal abstract Task<string> TransformHtmlAsync(string html, HttpRequest request, CancellationToken cancellationToken);
 #endif
 
         /// <summary>

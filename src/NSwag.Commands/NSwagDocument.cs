@@ -25,7 +25,7 @@ namespace NSwag.Commands
     /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
-#if NET461
+#if NET462
 
         /// <summary>Gets or sets the root binary directory where the command line executables loaded from.</summary>
         public static string RootBinaryDirectory { get; set; } =
@@ -305,9 +305,9 @@ namespace NSwag.Commands
 
         private string GetArgumentsPrefix()
         {
-#if NET461
+#if NET462
 
-	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.NetCore21)
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore21/dotnet-nswag.dll") + "\" ";
@@ -335,9 +335,9 @@ namespace NSwag.Commands
 
         private string GetProgramName()
         {
-#if NET461
+#if NET462
 
-	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");

@@ -8,6 +8,7 @@
 
 using Namotion.Reflection;
 using Newtonsoft.Json;
+using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Collections;
@@ -26,7 +27,10 @@ namespace NSwag.Generation
         }
 
         /// <summary></summary>
-        public JsonSchemaGeneratorSettings SchemaSettings { get; set; }
+        public JsonSchemaGeneratorSettings SchemaSettings { get; set; } = new SystemTextJsonSchemaGeneratorSettings
+        {
+            SchemaType = SchemaType.OpenApi3
+        };
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "My Title";

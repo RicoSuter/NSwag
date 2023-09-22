@@ -373,7 +373,7 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.QueryNullValue = value; }
         }
 
-        [Argument(Name = "UseAbortSignal", IsRequired = false, Description = "Specifies whether to use the AbortSignal (Fetch/Aurelia template only, default: false).")]
+        [Argument(Name = "UseAbortSignal", IsRequired = false, Description = "Specifies whether to use the AbortSignal (Aurelia/Axios/Fetch template only, default: false).")]
         public bool UseAbortSignal
         {
             get { return Settings.UseAbortSignal; }

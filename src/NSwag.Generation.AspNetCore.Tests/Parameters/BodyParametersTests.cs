@@ -25,14 +25,20 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         }
 
         [Fact(
-#if !NET6_0_OR_GREATER
+#if !NET7_0_OR_GREATER
             Skip = "Failing before .Net 6"
 #endif
         )]
         public async Task When_primitive_body_parameter_has_default_value_then_it_is_optional()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));
@@ -78,7 +84,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         }
 
         [Fact(
-#if !NET6_0_OR_GREATER
+#if !NET7_0_OR_GREATER
             Skip = "Failing before .Net 6"
 #endif
         )]

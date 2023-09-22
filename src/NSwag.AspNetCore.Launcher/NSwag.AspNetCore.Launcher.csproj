@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
-    <PlatformTarget Condition="'$(TargetFramework)'=='net461'">x64</PlatformTarget>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+    <PlatformTarget Condition="'$(TargetFramework)'=='net462'">x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

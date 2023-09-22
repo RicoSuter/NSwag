@@ -99,7 +99,7 @@ namespace NSwag.Commands
             return new[] { Path.GetFullPath(path) };
         }
 
-#if NET461
+#if NET462
         public IEnumerable<string> GetAssemblies(string assemblyDirectory)
         {
             var codeBaseDirectory = Path.GetDirectoryName(new Uri(typeof(IsolatedCommandBase<>).GetTypeInfo().Assembly.CodeBase).LocalPath);
@@ -129,7 +129,7 @@ namespace NSwag.Commands
 
         public IEnumerable<BindingRedirect> GetBindingRedirects()
         {
-#if NET461
+#if NET462
             yield return new BindingRedirect("Newtonsoft.Json", typeof(JToken), "30ad4fe6b2a6aeed");
             yield return new BindingRedirect("Namotion.Reflection", typeof(ContextualType), "c2f9c3bdfae56102");
             yield return new BindingRedirect("NJsonSchema", typeof(JsonSchema), "c2f9c3bdfae56102");

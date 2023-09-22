@@ -50,7 +50,9 @@ namespace NSwag.Generation.AspNetCore.Processors
             var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
 
             var position = 1;
-            foreach (var apiParameter in parameters.Where(p => p.Source != null))
+            foreach (var apiParameter in parameters.Where(p =>
+                p.Source != null &&
+                (p.ModelMetadata == null || p.ModelMetadata.IsBindingAllowed)))
             {
                 // TODO: Provide extension point so that this can be implemented in the ApiVersionProcessor class
                 var versionProcessor = _settings.OperationProcessors.TryGet<ApiVersionProcessor>();
@@ -133,7 +135,10 @@ namespace NSwag.Generation.AspNetCore.Processors
                     (apiParameter.Source == BindingSource.Custom &&
                      httpPath.Contains($"{{{apiParameter.Name}}}")))
                 {
-                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
+                    // required path parameters are not nullable
+                    var enforceNotNull = apiParameter.RouteInfo?.IsOptional == false;
+
+                    operationParameter = CreatePrimitiveParameter(context, extendedApiParameter, enforceNotNull);
                     operationParameter.Kind = OpenApiParameterKind.Path;
                     operationParameter.IsRequired = true; // apiParameter.RouteInfo?.IsOptional == false;
 
@@ -436,14 +441,17 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private OpenApiParameter CreatePrimitiveParameter(
             OperationProcessorContext context,
-            ExtendedApiParameterDescription extendedApiParameter)
+            ExtendedApiParameterDescription extendedApiParameter,
+            bool enforceNotNull = false)
         {
-            var contextualParameterType = extendedApiParameter.ParameterType
-                .ToContextualType(extendedApiParameter.Attributes);
+            var contextualParameterType =
+                extendedApiParameter.ParameterInfo?.ToContextualParameter() as ContextualType ??
+                extendedApiParameter.PropertyInfo?.ToContextualProperty()?.PropertyType ??
+                extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
 
             var description = extendedApiParameter.GetDocumentation();
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(
-                extendedApiParameter.ApiParameter.Name, description, contextualParameterType);
+                extendedApiParameter.ApiParameter.Name, description, contextualParameterType, enforceNotNull);
 
             var exampleValue = extendedApiParameter.PropertyInfo != null ?
                 context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualAccessor()) : null;
