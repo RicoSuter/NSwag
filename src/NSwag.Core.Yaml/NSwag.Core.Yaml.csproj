@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NJsonSchema.Yaml" Version="10.8.0" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    <PackageReference Include="YamlDotNet" Version="13.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.Yaml\NJsonSchema.Yaml.csproj" />
