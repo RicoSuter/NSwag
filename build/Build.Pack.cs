@@ -22,7 +22,7 @@ public partial class Build
     // logic from 01_Build.bat
     Target Pack => _ => _
         .DependsOn(Compile)
-        .After(Test, IntegrationTest, UnitTest, Samples)
+        .After(Test, IntegrationTest, UnitTest)
         .Produces(ArtifactsDirectory / "*.*")
         .Executes(() =>
         {
