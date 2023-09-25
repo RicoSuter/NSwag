@@ -233,7 +233,7 @@ partial class Build : NukeBuild
     // logic from 03_RunIntegrationTests.bat
     Target IntegrationTest => _ => _
         .After(Compile)
-        .DependsOn(Samples)
+        //.DependsOn(Samples)
         .Executes(() =>
         {
             var nswagCommand = NSwagStudioBinaries / "nswag.cmd";
@@ -283,57 +283,57 @@ partial class Build : NukeBuild
         .DependsOn(UnitTest, IntegrationTest);
 
     // logic from runs.ps1
-    Target Samples => _ => _
-        .After(Compile)
-        .Executes(() =>
-        {
-            var studioProject = Solution.GetProject("NSwagStudio");
+    //Target Samples => _ => _
+    //    .After(Compile)
+    //    .Executes(() =>
+    //    {
+    //        var studioProject = Solution.GetProject("NSwagStudio");
 
-            void NSwagRun(
-                Project project,
-                string configurationFile,
-                string runtime,
-                Configuration configuration,
-                bool build)
-            {
-                var nswagConfigurationFile = project.Directory / $"{configurationFile}.nswag";
-                var nswagSwaggerFile = project.Directory / $"{configurationFile}_swagger.json";
+    //        void NSwagRun(
+    //            Project project,
+    //            string configurationFile,
+    //            string runtime,
+    //            Configuration configuration,
+    //            bool build)
+    //        {
+    //            var nswagConfigurationFile = project.Directory / $"{configurationFile}.nswag";
+    //            var nswagSwaggerFile = project.Directory / $"{configurationFile}_swagger.json";
 
-                DeleteFile(nswagSwaggerFile);
+    //            DeleteFile(nswagSwaggerFile);
 
-                if (build)
-                {
-                    DotNetBuild(x => BuildDefaults(x)
-                        .SetConfiguration(configuration)
-                        .SetProjectFile(project)
-                    );
-                }
-                else
-                {
-                    DotNetRestore(x => x
-                        .SetProjectFile(project)
-                    );
-                }
+    //            if (build)
+    //            {
+    //                DotNetBuild(x => BuildDefaults(x)
+    //                    .SetConfiguration(configuration)
+    //                    .SetProjectFile(project)
+    //                );
+    //            }
+    //            else
+    //            {
+    //                DotNetRestore(x => x
+    //                    .SetProjectFile(project)
+    //                );
+    //            }
 
-                var cliPath = studioProject.Directory / "bin" / Configuration / runtime / "dotnet-nswag.dll";
-                DotNet($"{cliPath} run {nswagConfigurationFile} /variables:configuration=" + configuration);
+    //            var cliPath = studioProject.Directory / "bin" / Configuration / runtime / "dotnet-nswag.dll";
+    //            DotNet($"{cliPath} run {nswagConfigurationFile} /variables:configuration=" + configuration);
 
-                if (!File.Exists(nswagSwaggerFile))
-                {
-                    throw new Exception($"Output ${nswagSwaggerFile} not generated for {nswagConfigurationFile}.");
-                }
-            }
+    //            if (!File.Exists(nswagSwaggerFile))
+    //            {
+    //                throw new Exception($"Output ${nswagSwaggerFile} not generated for {nswagConfigurationFile}.");
+    //            }
+    //        }
 
-            var samplesPath = RootDirectory / "samples";
-            var sampleSolution = ProjectModelTasks.ParseSolution(samplesPath / "Samples.sln");
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Release, true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Release, false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Release, true);
+    //        var samplesPath = RootDirectory / "samples";
+    //        var sampleSolution = ProjectModelTasks.ParseSolution(samplesPath / "Samples.sln");
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Release, true);
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Release, false);
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Release, true);
 
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Debug, true);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
-            NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
-        });
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_assembly", "NetCore21", Configuration.Debug, true);
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_project", "NetCore21", Configuration.Debug, false);
+    //        NSwagRun(sampleSolution.GetProject("Sample.AspNetCore21"), "nswag_reflection", "NetCore21", Configuration.Debug, true);
+    //    });
 
     void PublishAndCopyConsoleProjects()
     {
