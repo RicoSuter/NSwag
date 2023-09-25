@@ -262,8 +262,7 @@ partial class Build : NukeBuild
             // project name + runtime pairs
             var msbuildTargets = new[]
             {
-                ("NSwag.Sample.NetGlobalAsax", "Winx64"),
-                ("NSwag.Integration.WebAPI", "Winx64")
+                ("NSwag.Sample.NetGlobalAsax", "Winx64")
             };
 
             foreach (var (projectName, runtime) in msbuildTargets)
