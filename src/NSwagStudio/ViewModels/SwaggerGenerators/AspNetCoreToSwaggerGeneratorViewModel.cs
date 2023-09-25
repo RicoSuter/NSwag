@@ -21,7 +21,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class AspNetCoreToSwaggerGeneratorViewModel : ViewModelBase
     {
-        private string[] _allControllerNames = { };
         private AspNetCoreToSwaggerCommand _command = new AspNetCoreToSwaggerCommand();
         private NSwagDocument _document;
 

@@ -325,19 +325,6 @@ namespace NSwag.Commands
                 }
             }
 
-            if (SwaggerGenerators.WebApiToOpenApiCommand != null)
-            {
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
-
-                SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate = ConvertToAbsolutePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig);
-            }
-
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
@@ -357,14 +344,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory);
-            }
-
-            if (SwaggerGenerators.TypesToOpenApiCommand != null)
-            {
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)
@@ -420,19 +399,6 @@ namespace NSwag.Commands
                 }
             }
 
-            if (SwaggerGenerators.WebApiToOpenApiCommand != null)
-            {
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
-
-                SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate = ConvertToRelativePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig);
-            }
-
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
@@ -452,15 +418,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory);
-            }
-
-
-            if (SwaggerGenerators.TypesToOpenApiCommand != null)
-            {
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)

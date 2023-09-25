@@ -29,7 +29,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             var assemblyLoader = new AssemblyLoader.AssemblyLoader();
             var document = command.GenerateDocumentAsync(assemblyLoader, serviceProvider, previousWorkingDirectory).GetAwaiter().GetResult();
 
-            var json = command.UseDocumentProvider ? document.ToJson() : document.ToJson(command.OutputType);
+            var json = document.ToJson();
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);

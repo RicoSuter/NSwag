@@ -7,136 +7,18 @@
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using NConsole;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using NConsole;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using NJsonSchema;
-using NJsonSchema.Generation;
-using NJsonSchema.Infrastructure;
-using NSwag.AssemblyLoader.Utilities;
-using NSwag.Generation;
-using NSwag.Generation.AspNetCore;
-using NSwag.Generation.Processors;
 
 namespace NSwag.Commands.Generation
 {
     /// <inheritdoc />
-    public abstract class OpenApiGeneratorCommandBase<TSettings> : IsolatedSwaggerOutputCommandBase<TSettings>
-        where TSettings : OpenApiDocumentGeneratorSettings, new()
+    public abstract class OpenApiGeneratorCommandBase : IsolatedSwaggerOutputCommandBase
     {
-        /// <summary>Initializes a new instance of the <see cref="OpenApiGeneratorCommandBase{T}"/> class.</summary>
-        protected OpenApiGeneratorCommandBase()
-        {
-            Settings = new TSettings();
-        }
-
-        [JsonIgnore]
-        protected override TSettings Settings { get; }
-
-        [Argument(Name = nameof(DefaultResponseReferenceTypeNullHandling), IsRequired = false, Description = "The default response reference type null handling (default: NotNull (default) or Null).")]
-        public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling
-        {
-            get => Settings.DefaultResponseReferenceTypeNullHandling;
-            set => Settings.DefaultResponseReferenceTypeNullHandling = value;
-        }
-
-        [Argument(Name = nameof(GenerateOriginalParameterNames), IsRequired = false, Description = "Generate x-originalName properties when parameter name is differnt in .NET and HTTP (default: true).")]
-        public bool GenerateOriginalParameterNames
-        {
-            get => Settings.GenerateOriginalParameterNames;
-            set => Settings.GenerateOriginalParameterNames = value;
-        }
-
-        [Argument(Name = "FlattenInheritanceHierarchy", IsRequired = false, Description = "Flatten the inheritance hierarchy instead of using allOf to describe inheritance (default: false).")]
-        public bool FlattenInheritanceHierarchy
-        {
-            get => Settings.SchemaSettings.FlattenInheritanceHierarchy;
-            set => Settings.SchemaSettings.FlattenInheritanceHierarchy = value;
-        }
-
-        [Argument(Name = "GenerateKnownTypes", IsRequired = false, Description = "Generate schemas for types in KnownTypeAttribute attributes (default: true).")]
-        public bool GenerateKnownTypes
-        {
-            get => Settings.SchemaSettings.GenerateKnownTypes;
-            set => Settings.SchemaSettings.GenerateKnownTypes = value;
-        }
-
-        [Argument(Name = "GenerateEnumMappingDescription", IsRequired = false,
-            Description = "Generate a description with number to enum name mappings (for integer enums only, default: false).")]
-        public bool GenerateEnumMappingDescription
-        {
-            get => Settings.SchemaSettings.GenerateEnumMappingDescription;
-            set => Settings.SchemaSettings.GenerateEnumMappingDescription = value;
-        }
-
-        [Argument(Name = "GenerateXmlObjects", IsRequired = false, Description = "Generate xmlObject representation for definitions (default: false).")]
-        public bool GenerateXmlObjects
-        {
-            get => Settings.SchemaSettings.GenerateXmlObjects;
-            set => Settings.SchemaSettings.GenerateXmlObjects = value;
-        }
-
-        [Argument(Name = "GenerateAbstractProperties", IsRequired = false, Description = "Generate abstract properties (i.e. interface and abstract properties. " +
-            "Properties may defined multiple times in a inheritance hierarchy, default: false).")]
-        public bool GenerateAbstractProperties
-        {
-            get => Settings.SchemaSettings.GenerateAbstractProperties;
-            set => Settings.SchemaSettings.GenerateAbstractProperties = value;
-        }
-
-        [Argument(Name = "GenerateAbstractSchemas", IsRequired = false, Description = "Generate the x-abstract flag on schemas (default: true).")]
-        public bool GenerateAbstractSchemas
-        {
-            get => Settings.SchemaSettings.GenerateAbstractSchemas;
-            set => Settings.SchemaSettings.GenerateAbstractSchemas = value;
-        }
-
-        [Argument(Name = "IgnoreObsoleteProperties", IsRequired = false, Description = "Ignore properties with the ObsoleteAttribute (default: false).")]
-        public bool IgnoreObsoleteProperties
-        {
-            get => Settings.SchemaSettings.IgnoreObsoleteProperties;
-            set => Settings.SchemaSettings.IgnoreObsoleteProperties = value;
-        }
-
-        [Argument(Name = "AllowReferencesWithProperties", IsRequired = false, Description = "Use $ref references even if additional properties are defined on " +
-            "the object (otherwise allOf/oneOf with $ref is used, default: false).")]
-        public bool AllowReferencesWithProperties
-        {
-            get => Settings.SchemaSettings.AllowReferencesWithProperties;
-            set => Settings.SchemaSettings.AllowReferencesWithProperties = value;
-        }
-
-        [Argument(Name = "UseXmlDocumentation", IsRequired = false, Description = "Read XML Docs files (default: true).")]
-        public bool UseXmlDocumentation
-        {
-            get => Settings.SchemaSettings.UseXmlDocumentation;
-            set => Settings.SchemaSettings.UseXmlDocumentation = value;
-        }
-
-        [Argument(Name = "ResolveExternalXmlDocumentation", IsRequired = false, Description = "Resolve the XML Docs from the NuGet cache or .NET SDK directory (default: true).")]
-        public bool ResolveExternalXmlDocumentation
-        {
-            get => Settings.SchemaSettings.ResolveExternalXmlDocumentation;
-            set => Settings.SchemaSettings.ResolveExternalXmlDocumentation = value;
-        }
-
-        [Argument(Name = "ExcludedTypeNames", IsRequired = false, Description = "The excluded type names (same as JsonSchemaIgnoreAttribute).")]
-        public string[] ExcludedTypeNames
-        {
-            get => Settings.SchemaSettings.ExcludedTypeNames;
-            set => Settings.SchemaSettings.ExcludedTypeNames = value;
-        }
-
         [Argument(Name = "ServiceHost", IsRequired = false, Description = "Overrides the service host of the web service (optional, use '.' to remove the hostname).")]
         public string ServiceHost { get; set; }
 
@@ -145,27 +27,6 @@ namespace NSwag.Commands.Generation
 
         [Argument(Name = "ServiceSchemes", IsRequired = false, Description = "Overrides the allowed schemes of the web service (optional, comma separated, 'http', 'https', 'ws', 'wss').")]
         public string[] ServiceSchemes { get; set; } = new string[0];
-
-        [Argument(Name = "InfoTitle", IsRequired = false, Description = "Specify the title of the Swagger specification (ignored when DocumentTemplate is set).")]
-        public string InfoTitle
-        {
-            get => Settings.Title;
-            set => Settings.Title = value;
-        }
-
-        [Argument(Name = "InfoDescription", IsRequired = false, Description = "Specify the description of the Swagger specification (ignored when DocumentTemplate is set).")]
-        public string InfoDescription
-        {
-            get => Settings.Description;
-            set => Settings.Description = value;
-        }
-
-        [Argument(Name = "InfoVersion", IsRequired = false, Description = "Specify the version of the Swagger specification (default: 1.0.0, ignored when DocumentTemplate is set).")]
-        public string InfoVersion
-        {
-            get => Settings.Version;
-            set => Settings.Version = value;
-        }
 
         [Argument(Name = "DocumentTemplate", IsRequired = false, Description = "Specifies the Swagger document template (may be a path or JSON, default: none).")]
         public string DocumentTemplate { get; set; }
@@ -185,9 +46,6 @@ namespace NSwag.Commands.Generation
         [Argument(Name = "SerializerSettings", IsRequired = false, Description = "The custom JsonSerializerSettings implementation type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string SerializerSettingsType { get; set; }
 
-        [Argument(Name = "UseDocumentProvider", IsRequired = false, Description = "Generate document using SwaggerDocumentProvider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), most CLI settings will be ignored).")]
-        public bool UseDocumentProvider { get; set; } = true;
-
         [Argument(Name = "DocumentName", IsRequired = false, Description = "The document name to use in SwaggerDocumentProvider (default: v1).")]
         public string DocumentName { get; set; } = "v1";
 
@@ -199,58 +57,6 @@ namespace NSwag.Commands.Generation
 
         [Argument(Name = "Startup", IsRequired = false, Description = "The Startup class type in the form 'assemblyName:fullTypeName' or 'fullTypeName'.")]
         public string StartupType { get; set; }
-
-        [Argument(Name = "AllowNullableBodyParameters", IsRequired = false, Description = "Nullable body parameters are allowed (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available (ASP.NET Core 2.0+), default: true).")]
-        public bool AllowNullableBodyParameters
-        {
-            get => Settings.AllowNullableBodyParameters;
-            set => Settings.AllowNullableBodyParameters = value;
-        }
-
-        [Argument(Name = "UseHttpAttributeNameAsOperationId", IsRequired = false, Description = "Gets or sets a value indicating whether the HttpMethodAttribute Name property shall be used as OperationId.")]
-        public bool UseHttpAttributeNameAsOperationId
-        {
-            get => Settings.UseHttpAttributeNameAsOperationId;
-            set => Settings.UseHttpAttributeNameAsOperationId = value;
-        }
-
-        public async Task<TSettings> CreateSettingsAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string workingDirectory)
-        {
-            var mvcOptions = serviceProvider?.GetRequiredService<IOptions<MvcOptions>>().Value;
-
-#if NETCOREAPP3_0_OR_GREATER 
-            JsonSerializerSettings newtonsoftSettings = null;
-            JsonSerializerOptions systemTextJsonOptions = null;
-
-            try
-            {
-                var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>();
-                newtonsoftSettings = mvcJsonOptions?.Value?.SerializerSettings;
-            }
-            catch
-            {
-                systemTextJsonOptions = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(serviceProvider);
-            }
-#else
-            JsonSerializerOptions systemTextJsonOptions = null;
-            var mvcJsonOptions = serviceProvider?.GetRequiredService<IOptions<MvcJsonOptions>>();
-            var newtonsoftSettings = mvcJsonOptions?.Value?.SerializerSettings;
-#endif
-
-            if (systemTextJsonOptions != null)
-            {
-                Settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions);
-            }
-            else if (newtonsoftSettings != null)
-            {
-                Settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions);
-            }
-
-            Settings.DocumentTemplate = await GetDocumentTemplateAsync(workingDirectory);
-            InitializeCustomTypes(assemblyLoader);
-
-            return Settings;
-        }
 
         protected IServiceProvider GetServiceProvider(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
@@ -292,109 +98,6 @@ namespace NSwag.Commands.Generation
                 var assemblies = LoadAssemblies(AssemblyPaths, assemblyLoader);
                 var firstAssembly = assemblies.FirstOrDefault() ?? throw new InvalidOperationException("No assembly are be loaded from AssemblyPaths.");
                 return ServiceProviderResolver.GetServiceProvider(firstAssembly);
-            }
-        }
-
-        protected void InitializeCustomTypes(AssemblyLoader.AssemblyLoader assemblyLoader)
-        {
-            if (DocumentProcessorTypes != null)
-            {
-                foreach (var p in DocumentProcessorTypes)
-                {
-                    var processor = (IDocumentProcessor)assemblyLoader.CreateInstance(p);
-                    Settings.DocumentProcessors.Add(processor);
-                }
-            }
-
-            if (OperationProcessorTypes != null)
-            {
-                var prependIndex = 0;
-                foreach (var p in OperationProcessorTypes)
-                {
-                    var processor = (IOperationProcessor)assemblyLoader.CreateInstance(p[0] == ':' ? p.Substring(1) : p);
-                    if (p[0] == ':')
-                    {
-                        Settings.OperationProcessors.Insert(prependIndex++, processor);
-                    }
-                    else
-                    {
-                        Settings.OperationProcessors.Add(processor);
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(TypeNameGeneratorType))
-            {
-                Settings.SchemaSettings.TypeNameGenerator = (ITypeNameGenerator)assemblyLoader.CreateInstance(TypeNameGeneratorType);
-            }
-
-            if (!string.IsNullOrEmpty(SchemaNameGeneratorType))
-            {
-                Settings.SchemaSettings.SchemaNameGenerator = (ISchemaNameGenerator)assemblyLoader.CreateInstance(SchemaNameGeneratorType);
-            }
-
-            if (Settings.SchemaSettings is NewtonsoftJsonSchemaGeneratorSettings settings)
-            {
-                if (!string.IsNullOrEmpty(SerializerSettingsType))
-                {
-                    settings.SerializerSettings = (JsonSerializerSettings)assemblyLoader.CreateInstance(SerializerSettingsType);
-                }
-            }
-        }
-
-        protected void PostprocessDocument(OpenApiDocument document)
-        {
-            if (ServiceHost == ".")
-            {
-                document.Host = string.Empty;
-            }
-            else if (!string.IsNullOrEmpty(ServiceHost))
-            {
-                document.Host = ServiceHost;
-            }
-
-            if (ServiceSchemes != null && ServiceSchemes.Any())
-            {
-                document.Schemes = ServiceSchemes
-                    .Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true))
-                    .ToList();
-            }
-
-            if (!string.IsNullOrEmpty(ServiceBasePath))
-            {
-                document.BasePath = ServiceBasePath;
-            }
-        }
-
-        private async Task<string> GetDocumentTemplateAsync(string workingDirectory)
-        {
-            if (!string.IsNullOrEmpty(DocumentTemplate))
-            {
-                var file = PathUtilities.MakeAbsolutePath(DocumentTemplate, workingDirectory);
-                if (DynamicApis.FileExists(file))
-                {
-                    var json = DynamicApis.FileReadAllText(file);
-                    if (json.StartsWith("{") == false)
-                    {
-                        return (await OpenApiYamlDocument.FromYamlAsync(json)).ToJson();
-                    }
-                    else
-                    {
-                        return json;
-                    }
-                }
-                else if (DocumentTemplate.StartsWith("{") == false)
-                {
-                    return (await OpenApiYamlDocument.FromYamlAsync(DocumentTemplate)).ToJson();
-                }
-                else
-                {
-                    return DocumentTemplate;
-                }
-            }
-            else
-            {
-                return null;
             }
         }
     }

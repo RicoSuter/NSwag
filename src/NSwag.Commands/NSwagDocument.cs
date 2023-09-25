@@ -15,9 +15,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
-using NSwag.Commands.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -36,8 +34,6 @@ namespace NSwag.Commands
         public NSwagDocument()
         {
             SwaggerGenerators.AspNetCoreToOpenApiCommand = new AspNetCoreToOpenApiCommand();
-            SwaggerGenerators.WebApiToOpenApiCommand = new WebApiToOpenApiCommand();
-            SwaggerGenerators.TypesToOpenApiCommand = new TypesToOpenApiCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -55,8 +51,6 @@ namespace NSwag.Commands
             return LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
             {
                 { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-                { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
-                { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
             });
         }
 
@@ -69,8 +63,6 @@ namespace NSwag.Commands
             return LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
             {
                 { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-                { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
-                { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
             });
         }
 
@@ -148,52 +140,6 @@ namespace NSwag.Commands
                 {
                     DeleteFileIfExists(filename);
                 }
-            }
-        }
-
-        /// <summary>Gets the available controller types by calling the command line.</summary>
-        /// <returns>The controller names.</returns>
-        public async Task<string[]> GetControllersFromCommandLineAsync()
-        {
-            if (SelectedSwaggerGenerator is not WebApiToSwaggerCommand)
-            {
-                return Array.Empty<string>();
-            }
-
-            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-            var configFilename = baseFilename + "_config.json";
-            File.WriteAllText(configFilename, ToJson());
-            try
-            {
-                var command = "list-controllers /file:\"" + configFilename + "\"";
-                return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
-            }
-            finally
-            {
-                DeleteFileIfExists(configFilename);
-            }
-        }
-
-        /// <summary>Gets the available controller types by calling the command line.</summary>
-        /// <returns>The controller names.</returns>
-        public async Task<string[]> GetTypesFromCommandLineAsync()
-        {
-            if (SelectedSwaggerGenerator is not TypesToSwaggerCommand)
-            {
-                return Array.Empty<string>();
-            }
-
-            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-            var configFilename = baseFilename + "_config.json";
-            File.WriteAllText(configFilename, ToJson());
-            try
-            {
-                var command = "list-types /file:\"" + configFilename + "\"";
-                return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
-            }
-            finally
-            {
-                DeleteFileIfExists(configFilename);
             }
         }
 

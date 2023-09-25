@@ -13,17 +13,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
-using NSwag.Generation.AspNetCore;
 using NJsonSchema.Yaml;
 using NJsonSchema;
-using Microsoft.AspNetCore.Hosting;
 using NSwag.Generation;
 using NJsonSchema.Generation;
-using Namotion.Reflection;
 
 #if NETCOREAPP || NETSTANDARD
 using System.Runtime.Loader;
@@ -39,7 +35,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
     /// <summary>The generator.</summary>
     [Command(Name = "aspnetcore2swagger", Description = "Generates a Swagger specification ASP.NET Core Mvc application using ApiExplorer (obsolete: use aspnetcore2openapi instead).")]
-    public class AspNetCoreToSwaggerCommand : OpenApiGeneratorCommandBase<AspNetCoreOpenApiDocumentGeneratorSettings>
+    public class AspNetCoreToSwaggerCommand : OpenApiGeneratorCommandBase
     {
         private const string LauncherBinaryName = "NSwag.AspNetCore.Launcher";
 
@@ -69,21 +65,6 @@ namespace NSwag.Commands.Generation.AspNetCore
 
         [Argument(Name = nameof(WorkingDirectory), IsRequired = false, Description = "The working directory to use.")]
         public string WorkingDirectory { get; set; }
-
-        [Argument(Name = "RequireParametersWithoutDefault", IsRequired = false, Description = "Parameters without default value are always required" +
-                                                                                              "(i.e. api explorer info and only optional when default is set, legacy, default: false).")]
-        public bool RequireParametersWithoutDefault
-        {
-            get => Settings.RequireParametersWithoutDefault;
-            set => Settings.RequireParametersWithoutDefault = value;
-        }
-
-        [Argument(Name = "ApiGroupNames", IsRequired = false, Description = "The ASP.NET Core API Explorer group names to include (comma separated, default: empty = all).")]
-        public string[] ApiGroupNames
-        {
-            get => Settings.ApiGroupNames;
-            set => Settings.ApiGroupNames = value;
-        }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -233,10 +214,8 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                     host?.WriteMessage($"Output written to {outputFile}.{Environment.NewLine}");
 
-                    JsonReferenceResolver ReferenceResolverFactory(OpenApiDocument d) => new JsonAndYamlReferenceResolver(new JsonSchemaResolver(d, Settings.SchemaSettings));
-
                     var documentJson = File.ReadAllText(outputFile);
-                    var document = await OpenApiDocument.FromJsonAsync(documentJson, null, OutputType, ReferenceResolverFactory).ConfigureAwait(false);
+                    var document = await OpenApiDocument.FromJsonAsync(documentJson, null).ConfigureAwait(false);
                     await this.TryWriteDocumentOutputAsync(host, NewLineBehavior, () => document).ConfigureAwait(false);
                     return document;
                 }
@@ -283,15 +262,7 @@ namespace NSwag.Commands.Generation.AspNetCore
         public async Task<OpenApiDocument> GenerateDocumentAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string currentWorkingDirectory)
         {
             Directory.SetCurrentDirectory(currentWorkingDirectory);
-
-            if (UseDocumentProvider)
-            {
-                return await GenerateDocumentWithDocumentProviderAsync(serviceProvider);
-            }
-            else
-            {
-                return await GenerateDocumentWithApiDescriptionAsync(assemblyLoader, serviceProvider, currentWorkingDirectory);
-            }
+            return await GenerateDocumentWithDocumentProviderAsync(serviceProvider);
         }
 
         private async Task<OpenApiDocument> GenerateDocumentWithDocumentProviderAsync(IServiceProvider serviceProvider)
@@ -301,27 +272,11 @@ namespace NSwag.Commands.Generation.AspNetCore
             return document;
         }
 
-        private async Task<OpenApiDocument> GenerateDocumentWithApiDescriptionAsync(AssemblyLoader.AssemblyLoader assemblyLoader, IServiceProvider serviceProvider, string currentWorkingDirectory)
-        {
-            InitializeCustomTypes(assemblyLoader);
-
-            // In the case of KeyNotFoundException, see https://github.com/aspnet/Mvc/issues/5690
-            var apiDescriptionProvider = serviceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
-
-            var settings = await CreateSettingsAsync(assemblyLoader, serviceProvider, currentWorkingDirectory);
-            var generator = new AspNetCoreOpenApiDocumentGenerator(settings);
-            var document = await generator.GenerateAsync(apiDescriptionProvider.ApiDescriptionGroups).ConfigureAwait(false);
-
-            PostprocessDocument(document);
-
-            return document;
-        }
-
         protected override async Task<string> RunIsolatedAsync(AssemblyLoader.AssemblyLoader assemblyLoader)
         {
             var currentWorkingDirectory = ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
             var document = await GenerateDocumentAsync(assemblyLoader, GetServiceProvider(assemblyLoader), currentWorkingDirectory);
-            return UseDocumentProvider ? document.ToJson() : document.ToJson(OutputType);
+            return document.ToJson();
         }
 
         private static void TryDeleteFiles(List<string> files)
