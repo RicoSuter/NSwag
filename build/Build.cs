@@ -91,9 +91,18 @@ partial class Build : NukeBuild
     {
         VersionPrefix = DetermineVersionPrefix();
 
-        VersionSuffix = !IsTaggedBuild
-            ? $"preview-{DateTime.UtcNow:yyyyMMdd-HHmm}"
-            : "";
+        var versionParts = VersionPrefix.Split('-');
+        if (versionParts.Length == 2)
+        {
+            VersionPrefix = versionParts[0];
+            VersionSuffix = versionParts[1];
+        }
+        else
+        {
+            VersionSuffix = !IsTaggedBuild
+                ? $"preview-{DateTime.UtcNow:yyyyMMdd-HHmm}"
+                : "";
+        }
 
         if (IsLocalBuild)
         {
