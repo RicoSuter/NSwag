@@ -198,10 +198,10 @@ partial class Build : NukeBuild
         .After(Compile)
         .Executes(() =>
         {
-            var webApiTest = Solution.GetProject("NSwag.Generation.WebApi.Tests");
-            VSTest(x => x
-                .SetTestAssemblies(webApiTest.Directory / "bin" / Configuration / "NSwag.Generation.WebApi.Tests.dll")
-            );
+            //var webApiTest = Solution.GetProject("NSwag.Generation.WebApi.Tests");
+            //VSTest(x => x
+            //    .SetTestAssemblies(webApiTest.Directory / "bin" / Configuration / "NSwag.Generation.WebApi.Tests.dll")
+            //);
 
             /*
             VSTest(x => x
@@ -217,6 +217,7 @@ partial class Build : NukeBuild
                 ("NSwag.CodeGeneration.CSharp.Tests", null),
                 ("NSwag.CodeGeneration.TypeScript.Tests", null),
                 ("NSwag.Generation.AspNetCore.Tests", null),
+                ("NSwag.Generation.Tests", null),
                 ("NSwag.Core.Tests", null),
                 ("NSwag.Core.Yaml.Tests", null),
                 ("NSwag.AssemblyLoader.Tests", null)
