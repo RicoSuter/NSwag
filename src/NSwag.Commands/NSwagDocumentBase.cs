@@ -163,7 +163,6 @@ namespace NSwag.Commands
         /// <param name="filePath">The file path.</param>
         /// <param name="variables">The variables.</param>
         /// <param name="applyTransformations">Specifies whether to expand environment variables and convert variables.</param>
-        /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
         protected static async Task<TDocument> LoadAsync<TDocument>(
             string filePath,

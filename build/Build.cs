@@ -241,7 +241,7 @@ partial class Build : NukeBuild
             // project name + runtime pairs
             var dotnetTargets = new[]
             {
-                ("NSwag.Sample.NETCore21", "NetCore21"),
+                //("NSwag.Sample.NETCore21", "NetCore21"),
                 ("NSwag.Sample.NETCore31", "NetCore31"),
                 ("NSwag.Sample.NET60", "Net60"),
                 ("NSwag.Sample.NET60Minimal", "Net60"),
