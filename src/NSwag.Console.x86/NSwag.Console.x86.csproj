@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <OutputType>Exe</OutputType>
@@ -48,5 +47,4 @@
       <HintPath>..\libs\System.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
 </Project>

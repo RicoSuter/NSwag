@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0;netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
-    <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
 
@@ -97,5 +95,4 @@
       </NuspecProperties>
     </PropertyGroup>
   </Target>
-  
 </Project>

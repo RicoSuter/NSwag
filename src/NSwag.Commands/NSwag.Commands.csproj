@@ -5,9 +5,11 @@
     <!-- obsolete usage, missing comments -->
     <NoWarn>$(NoWarn),618,1591</NoWarn>
   </PropertyGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Commands\Generation\AspNetCore\AspNetCore.targets" />
   </ItemGroup>
+  
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
@@ -20,12 +22,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -55,9 +51,11 @@
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0-preview001" />
     <PackageReference Include="NJsonSchema.Yaml" Version="11.0.0-preview001" />
   </ItemGroup>
+  
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />

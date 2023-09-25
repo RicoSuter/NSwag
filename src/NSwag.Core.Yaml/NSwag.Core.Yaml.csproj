@@ -3,10 +3,12 @@
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>NSwag</RootNamespace>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="NJsonSchema.Yaml" Version="11.0.0-preview001" />
     <PackageReference Include="YamlDotNet" Version="13.2.0" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
   </ItemGroup>
