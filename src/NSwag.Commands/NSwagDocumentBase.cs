@@ -168,8 +168,7 @@ namespace NSwag.Commands
         protected static async Task<TDocument> LoadAsync<TDocument>(
             string filePath,
             string variables,
-            bool applyTransformations,
-            IDictionary<Type, Type> mappings)
+            bool applyTransformations)
             where TDocument : NSwagDocumentBase, new()
         {
             var data = DynamicApis.FileReadAllText(filePath);
@@ -178,7 +177,7 @@ namespace NSwag.Commands
             if (requiredLegacyTransformations)
             {
                 // Save now to avoid transformations
-                var document = LoadDocument<TDocument>(filePath, mappings, data);
+                var document = LoadDocument<TDocument>(filePath, data);
                 await document.SaveAsync();
             }
 
@@ -202,15 +201,12 @@ namespace NSwag.Commands
                 }
             }
 
-            return LoadDocument<TDocument>(filePath, mappings, data);
+            return LoadDocument<TDocument>(filePath, data);
         }
 
-        private static TDocument LoadDocument<TDocument>(string filePath, IDictionary<Type, Type> mappings, string data)
+        private static TDocument LoadDocument<TDocument>(string filePath, string data)
             where TDocument : NSwagDocumentBase, new()
         {
-            var settings = GetSerializerSettings();
-            settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
-
             var document = FromJson<TDocument>(filePath, data);
             return document;
         }
@@ -327,16 +323,6 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
-
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig);
-
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.Project = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.Project);
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
@@ -401,16 +387,6 @@ namespace NSwag.Commands
 
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
-
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig);
-
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.Project = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.Project);
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(

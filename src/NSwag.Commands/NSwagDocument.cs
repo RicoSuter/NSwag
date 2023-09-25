@@ -48,10 +48,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         public static Task<NSwagDocument> LoadAsync(string filePath)
         {
-            return LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
-            {
-                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-            });
+            return LoadAsync<NSwagDocument>(filePath, null, false);
         }
 
         /// <summary>Loads an existing NSwagDocument with environment variable expansions and variables.</summary>
@@ -60,10 +57,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         public static Task<NSwagDocument> LoadWithTransformationsAsync(string filePath, string variables)
         {
-            return LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
-            {
-                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-            });
+            return LoadAsync<NSwagDocument>(filePath, variables, true);
         }
 
         /// <summary>Executes the document.</summary>
