@@ -5,7 +5,6 @@
     <DefineConstants>$(DefineConstants);ASPNETCORE</DefineConstants>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' OR '$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.4" />
@@ -14,34 +13,31 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[3.1, 6]" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="[3.1, 6]" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[5, 6]" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="[5, 6]" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[6, 8)" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="[6, 8)" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[7, 8)" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="[7, 8)" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.NewtonsoftJson\NJsonSchema.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj" />
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema.NewtonsoftJson" Version="11.0.0-preview001" />
+    <PackageReference Include="NJsonSchema" Version="11.0.0-preview001" />
   </ItemGroup>
 </Project>
