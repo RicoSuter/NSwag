@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
@@ -17,12 +16,10 @@ using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.Tooling.ProcessTasks;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
-using static Nuke.Common.Tools.VSTest.VSTestTasks;
 using Project = Nuke.Common.ProjectModel.Project;
 
 partial class Build : NukeBuild
@@ -139,7 +136,6 @@ partial class Build : NukeBuild
             );
         });
 
-    // logic from 00_Install.bat
     Target Restore => _ => _
         .Executes(() =>
         {
@@ -165,7 +161,6 @@ partial class Build : NukeBuild
             );
         });
 
-    // logic from 01_Build.bat
     Target Compile => _ => _
         .DependsOn(Restore)
         .Executes(() =>
@@ -193,7 +188,6 @@ partial class Build : NukeBuild
             PublishAndCopyConsoleProjects();
         });
 
-    // logic from 02_RunUnitTests.bat
     Target UnitTest => _ => _
         .After(Compile)
         .Executes(() =>
@@ -207,8 +201,7 @@ partial class Build : NukeBuild
                 ("NSwag.Generation.AspNetCore.Tests", null),
                 ("NSwag.Generation.Tests", null),
                 ("NSwag.Core.Tests", null),
-                ("NSwag.Core.Yaml.Tests", null),
-                ("NSwag.AssemblyLoader.Tests", null)
+                ("NSwag.Core.Yaml.Tests", null)
             };
 
             foreach (var (project, targetFramework) in dotNetTestTargets)
@@ -220,55 +213,6 @@ partial class Build : NukeBuild
                 );
             }
         });
-
-    // logic from 03_RunIntegrationTests.bat
-    Target IntegrationTest => _ => _
-        .After(Compile)
-        .Executes(() =>
-        {
-            var nswagCommand = NSwagStudioBinaries / "nswag.cmd";
-
-            // project name + runtime pairs
-            var dotnetTargets = new[]
-            {
-                ("NSwag.Sample.NETCore31", "NetCore31"),
-                ("NSwag.Sample.NET60", "Net60"),
-                ("NSwag.Sample.NET60Minimal", "Net60"),
-                ("NSwag.Sample.NET70", "Net70"),
-                ("NSwag.Sample.NET70Minimal", "Net70")
-            };
-
-            foreach (var (projectName, runtime) in dotnetTargets)
-            {
-                var project = Solution.GetProject(projectName);
-                DotNetBuild(x => BuildDefaults(x)
-                    .SetProcessWorkingDirectory(project.Directory)
-                    .SetProperty("CopyLocalLockFileAssemblies", true)
-                );
-                var process = StartProcess(nswagCommand, $"run /runtime:{runtime}", workingDirectory: project.Directory);
-                process.WaitForExit();
-            }
-
-            // project name + runtime pairs
-            var msbuildTargets = new[]
-            {
-                ("NSwag.Sample.NetGlobalAsax", "Winx64")
-            };
-
-            foreach (var (projectName, runtime) in msbuildTargets)
-            {
-                var project = Solution.GetProject(projectName);
-                MSBuild(x => x
-                    .SetProcessWorkingDirectory(project.Directory)
-                    .SetNodeReuse(IsLocalBuild)
-                );
-                var process = StartProcess(nswagCommand, $"run /runtime:{runtime}", workingDirectory: project.Directory);
-                process.WaitForExit();
-            }
-        });
-
-    Target Test => _ => _
-        .DependsOn(UnitTest, IntegrationTest);
 
     void PublishAndCopyConsoleProjects()
     {
@@ -322,7 +266,6 @@ partial class Build : NukeBuild
 
         CopyConsoleBinaries(target: SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
     }
-
 
     DotNetBuildSettings BuildDefaults(DotNetBuildSettings s)
     {

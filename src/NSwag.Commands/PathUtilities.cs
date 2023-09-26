@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="PathUtilities.cs" company="NSwag">
+// <copyright file="NSwagDocument.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
@@ -13,11 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NSwag.AssemblyLoader.Utilities
+namespace NSwag.Commands
 {
-    // TODO: Move to MyToolkit
-
-    /// <summary>Provides file path utility methods.</summary>
     public static class PathUtilities
     {
         /// <summary>Expands the given wildcards (** or *) in the path.</summary>

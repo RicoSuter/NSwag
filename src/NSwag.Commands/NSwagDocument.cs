@@ -12,9 +12,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NSwag.AssemblyLoader.Utilities;
 using NSwag.Commands.Generation.AspNetCore;
 
 namespace NSwag.Commands
@@ -161,15 +161,6 @@ namespace NSwag.Commands
             }
 
             return pathToConvert?.Replace("\\", "/");
-        }
-
-        private string[] GetListFromCommandLineOutput(string output)
-        {
-            return output.Replace("\r\n", "\n")
-                .Split(new string[] { "\n\n" }, StringSplitOptions.None)[1]
-                .Split('\n')
-                .Where(t => !string.IsNullOrEmpty(t))
-                .ToArray();
         }
 
         private OpenApiDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
