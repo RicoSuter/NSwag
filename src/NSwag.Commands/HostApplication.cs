@@ -106,6 +106,18 @@ namespace NSwag.Commands
                 {
                     services.AddSingleton<IServer, NoopServer>();
                     services.AddSingleton<IHostLifetime, NoopHostLifetime>();
+
+                    for (var i = services.Count - 1; i >= 0; i--)
+                    {
+                        // exclude all implementations of IHostedService
+                        // except Microsoft.AspNetCore.Hosting.GenericWebHostService because that one will build/configure
+                        // the WebApplication/Middleware pipeline in the case of the GenericWebHostBuilder.
+                        if (typeof(IHostedService).IsAssignableFrom(services[i].ServiceType)
+                            && services[i].ImplementationType is not { FullName: "Microsoft.AspNetCore.Hosting.GenericWebHostService" })
+                        {
+                            services.RemoveAt(i);
+                        }
+                    }
                 });
             }
 
