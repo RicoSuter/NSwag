@@ -143,10 +143,6 @@ partial class Build : NukeBuild
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Npm")
             );
 
-            NpmInstall(x => x
-                .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Integration.TypeScriptWeb")
-            );
-
             MSBuild(x => x
                 .SetTargetPath(Solution)
                 .SetTargets("Restore")
