@@ -14,7 +14,7 @@ using Nuke.Common.Utilities;
     OnPullRequestIncludePaths = new[] { "**/*.*" },
     OnPullRequestExcludePaths = new[] { "**/*.md" },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(UnitTest), nameof(Pack) },
+    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" }),
 ]
 [CustomGitHubActions(
@@ -27,7 +27,7 @@ using Nuke.Common.Utilities;
     OnPushIncludePaths = new[] { "**/*.*" },
     OnPushExcludePaths = new[] { "**/*.md" },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(UnitTest), nameof(Pack), nameof(Publish) },
+    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
     ImportSecrets = new[] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN" },
     CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
 ]

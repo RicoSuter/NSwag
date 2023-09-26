@@ -188,7 +188,7 @@ partial class Build : NukeBuild
             PublishAndCopyConsoleProjects();
         });
 
-    Target UnitTest => _ => _
+    Target Test => _ => _
         .After(Compile)
         .Executes(() =>
         {
