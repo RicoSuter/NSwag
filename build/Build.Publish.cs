@@ -50,7 +50,7 @@ public partial class Build
                         "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
 
                     // do not publish preview packages to npm
-                    if (!string.IsNullOrEmpty(VersionSuffix))
+                    if (string.IsNullOrEmpty(VersionSuffix))
                     {
                         var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
 
