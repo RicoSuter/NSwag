@@ -198,18 +198,6 @@ partial class Build : NukeBuild
         .After(Compile)
         .Executes(() =>
         {
-            //var webApiTest = Solution.GetProject("NSwag.Generation.WebApi.Tests");
-            //VSTest(x => x
-            //    .SetTestAssemblies(webApiTest.Directory / "bin" / Configuration / "NSwag.Generation.WebApi.Tests.dll")
-            //);
-
-            /*
-            VSTest(x => x
-                .SetLogger(logger)
-                .SetTestAssemblies(SourceDirectory / "NSwag.Tests" / "bin" / Configuration / "NSwag.Tests.dll")
-            );
-            */
-
             // project name + target framework pairs
             var dotNetTestTargets = new (string ProjectName, string Framework)[]
             {
