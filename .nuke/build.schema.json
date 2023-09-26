@@ -91,12 +91,10 @@
               "Clean",
               "Compile",
               "InstallDependencies",
-              "IntegrationTest",
               "Pack",
               "Publish",
               "Restore",
-              "Test",
-              "UnitTest"
+              "Test"
             ]
           }
         },
@@ -113,12 +111,10 @@
               "Clean",
               "Compile",
               "InstallDependencies",
-              "IntegrationTest",
               "Pack",
               "Publish",
               "Restore",
-              "Test",
-              "UnitTest"
+              "Test"
             ]
           }
         },

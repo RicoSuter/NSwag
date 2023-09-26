@@ -166,18 +166,33 @@ partial class Build : NukeBuild
 
             Serilog.Log.Information("Build and copy full .NET command line with configuration {Configuration}", Configuration);
 
+            // TODO: Fix build here
             MSBuild(x => x
-                    .SetTargetPath(Solution)
-                    .SetTargets("Rebuild")
-                    .SetAssemblyVersion(VersionPrefix)
-                    .SetFileVersion(VersionPrefix)
-                    .SetInformationalVersion(VersionPrefix)
-                    .SetConfiguration(Configuration)
-                    .SetMaxCpuCount(Environment.ProcessorCount)
-                    .SetNodeReuse(IsLocalBuild)
-                    .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .SetProperty("Deterministic", IsServerBuild)
-                    .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+                .SetProjectFile(Solution.GetProject("NSwagStudio"))
+                .SetTargets("Build")
+                .SetAssemblyVersion(VersionPrefix)
+                .SetFileVersion(VersionPrefix)
+                .SetInformationalVersion(VersionPrefix)
+                .SetConfiguration(Configuration)
+                .SetMaxCpuCount(Environment.ProcessorCount)
+                .SetNodeReuse(IsLocalBuild)
+                .SetVerbosity(MSBuildVerbosity.Minimal)
+                .SetProperty("Deterministic", IsServerBuild)
+                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+            );
+
+            MSBuild(x => x
+                .SetTargetPath(Solution)
+                .SetTargets("Build")
+                .SetAssemblyVersion(VersionPrefix)
+                .SetFileVersion(VersionPrefix)
+                .SetInformationalVersion(VersionPrefix)
+                .SetConfiguration(Configuration)
+                .SetMaxCpuCount(Environment.ProcessorCount)
+                .SetNodeReuse(IsLocalBuild)
+                .SetVerbosity(MSBuildVerbosity.Minimal)
+                .SetProperty("Deterministic", IsServerBuild)
+                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
             );
 
             // later steps need to have binaries in correct places
@@ -188,23 +203,11 @@ partial class Build : NukeBuild
         .After(Compile)
         .Executes(() =>
         {
-            // project name + target framework pairs
-            var dotNetTestTargets = new (string ProjectName, string Framework)[]
-            {
-                ("NSwag.CodeGeneration.Tests", null),
-                ("NSwag.CodeGeneration.CSharp.Tests", null),
-                ("NSwag.CodeGeneration.TypeScript.Tests", null),
-                ("NSwag.Generation.AspNetCore.Tests", null),
-                ("NSwag.Generation.Tests", null),
-                ("NSwag.Core.Tests", null),
-                ("NSwag.Core.Yaml.Tests", null)
-            };
-
-            foreach (var (project, targetFramework) in dotNetTestTargets)
+            foreach (var project in Solution.AllProjects.Where(p => p.Name.EndsWith(".Tests")))
             {
                 DotNetTest(x => x
-                    .SetProjectFile(Solution.GetProject(project))
-                    .SetFramework(targetFramework)
+                    .SetProjectFile(project)
+                    .EnableNoRestore()
                     .SetConfiguration(Configuration)
                 );
             }
