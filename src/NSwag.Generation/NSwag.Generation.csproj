@@ -8,7 +8,7 @@
   
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NJsonSchema" Version="11.0.0-preview001" />
+    <PackageReference Include="NJsonSchema" Version="11.0.0-preview002" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">

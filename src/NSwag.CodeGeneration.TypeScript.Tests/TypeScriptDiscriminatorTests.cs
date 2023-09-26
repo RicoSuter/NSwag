@@ -9,6 +9,7 @@ using Xunit;
 using NJsonSchema.NewtonsoftJson.Converters;
 using NJsonSchema.Generation;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {

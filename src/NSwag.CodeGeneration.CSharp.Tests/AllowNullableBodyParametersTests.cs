@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.Generation.WebApi;
 using System.ComponentModel.DataAnnotations;

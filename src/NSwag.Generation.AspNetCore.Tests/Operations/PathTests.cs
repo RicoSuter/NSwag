@@ -1,5 +1,5 @@
 ﻿using NJsonSchema;
-using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using System.Linq;
 using System.Threading.Tasks;

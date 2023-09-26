@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
 

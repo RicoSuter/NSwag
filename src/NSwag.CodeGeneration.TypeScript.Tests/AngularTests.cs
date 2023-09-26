@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using NJsonSchema.Generation;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {

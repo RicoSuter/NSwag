@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
-using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Inheritance;
 using Xunit;
 

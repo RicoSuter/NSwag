@@ -4,6 +4,7 @@ using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Generation;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {

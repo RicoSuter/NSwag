@@ -14,6 +14,7 @@ using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;

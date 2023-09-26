@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
 

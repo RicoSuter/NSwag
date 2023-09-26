@@ -9,6 +9,7 @@ using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using Xunit;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {

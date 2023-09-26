@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;

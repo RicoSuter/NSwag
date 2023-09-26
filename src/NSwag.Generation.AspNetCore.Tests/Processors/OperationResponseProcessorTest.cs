@@ -8,10 +8,9 @@
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using NJsonSchema;
-using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Processors.Tests
@@ -123,10 +122,17 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
         {
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var document = new OpenApiDocument();
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
+
             var schemaResolver = new OpenApiSchemaResolver(document, settings.SchemaSettings);
             var generator = new OpenApiDocumentGenerator(settings, schemaResolver);
-           
+
             var context = new AspNetCoreOperationProcessorContext(
                 document,
                 operationDescription,

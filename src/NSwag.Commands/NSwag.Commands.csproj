@@ -45,11 +45,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="NConsole" Version="3.12.6605.26941" />
-    <PackageReference Include="NJsonSchema" Version="11.0.0-preview001" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="11.0.0-preview001" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.0-preview001" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0-preview001" />
-    <PackageReference Include="NJsonSchema.Yaml" Version="11.0.0-preview001" />
+    <PackageReference Include="NJsonSchema" Version="11.0.0-preview002" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="11.0.0-preview002" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.0-preview002" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0-preview002" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="11.0.0-preview002" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
