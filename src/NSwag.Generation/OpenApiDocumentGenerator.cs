@@ -90,7 +90,11 @@ namespace NSwag.Generation
         /// <returns>The parameter.</returns>
         public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter, bool enforceNotNull = false)
         {
-            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameter, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings);
+            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(
+                contextualParameter,
+                _settings.SchemaSettings.DefaultReferenceTypeNullHandling,
+                _settings.SchemaSettings);
+
             typeDescription.IsNullable = enforceNotNull == false && typeDescription.IsNullable;
 
             var operationParameter = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2
