@@ -1,14 +1,13 @@
 ﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "NSwag.Sample.NET70Minimal": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "swagger/v1/swagger.json",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7001;http://localhost:7000"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
