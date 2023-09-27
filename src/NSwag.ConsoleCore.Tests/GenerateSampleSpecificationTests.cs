@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using VerifyTests;
 using VerifyXunit;
 using Xunit;
 
@@ -12,11 +11,11 @@ namespace NSwag.ConsoleCore.Tests
     public class GenerateSampleSpecificationTests
     {
         [Theory]
-        [InlineData("NSwag.Sample.NET60", "net6.0")]
-        [InlineData("NSwag.Sample.NET60Minimal", "net6.0")]
-        [InlineData("NSwag.Sample.NET70", "net7.0")]
-        [InlineData("NSwag.Sample.NET70Minimal", "net7.0")]
-        public async Task Should_generate_openapi_for_project(string projectName, string targetFramework)
+        [InlineData("NSwag.Sample.NET60", "net6.0", false)]
+        [InlineData("NSwag.Sample.NET60Minimal", "net6.0", false)]
+        [InlineData("NSwag.Sample.NET70", "net7.0", false)]
+        [InlineData("NSwag.Sample.NET70Minimal", "net7.0", true)]
+        public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange
 #if DEBUG
@@ -27,7 +26,14 @@ namespace NSwag.ConsoleCore.Tests
             var nswagJsonPath = $"../../../../{projectName}/nswag.json";
             var openApiJsonPath = $"../../../../{projectName}/openapi.json";
 
+            var generatedClientsCsPath = $"../../../../{projectName}/GeneratedClientsCs.gen";
+            var generatedClientsTsPath = $"../../../../{projectName}/GeneratedClientsTs.gen";
+            var generatedControllersCsPath = $"../../../../{projectName}/GeneratedControllersCs.gen";
+
             File.Delete(openApiJsonPath);
+            File.Delete(generatedClientsTsPath);
+            File.Delete(generatedClientsCsPath);
+            File.Delete(generatedControllersCsPath);
             Assert.False(File.Exists(openApiJsonPath));
 
             // Act
@@ -38,16 +44,49 @@ namespace NSwag.ConsoleCore.Tests
                 CreateNoWindow = true,
             });
 
-            process.WaitForExit(20000);
-            process.Kill();
+            try
+            {
+                process.WaitForExit(20000);
+            }
+            finally
+            {
+                process.Kill();
+            }
 
             // Assert
             Assert.Equal(0, process.ExitCode);
 
             var json = File.ReadAllText(openApiJsonPath);
             json = Regex.Replace(json, "\"NSwag v.*\"", "\"NSwag\"");
+            await Verifier.Verify(json).UseParameters(projectName, targetFramework, generatesCode);
 
-            await Verifier.Verify(json).UseParameters(projectName, targetFramework);
+            if (generatesCode)
+            {
+                await CheckTypeScriptAsync(projectName, targetFramework, generatesCode, generatedClientsTsPath);
+                await CheckCSharpClientsAsync(projectName, targetFramework, generatesCode, generatedClientsCsPath);
+                await CheckCSharpControllersAsync(projectName, targetFramework, generatesCode, generatedControllersCsPath);
+            }
+        }
+
+        private static async Task CheckCSharpControllersAsync(string projectName, string targetFramework, bool generatesCode, string generatedControllersCsPath)
+        {
+            var code = File.ReadAllText(generatedControllersCsPath);
+            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpControllersAsync)).UseParameters(projectName, targetFramework, generatesCode);
+        }
+
+        private static async Task CheckCSharpClientsAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsCsPath)
+        {
+            var code = File.ReadAllText(generatedClientsCsPath);
+            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpClientsAsync)).UseParameters(projectName, targetFramework, generatesCode);
+        }
+
+        private static async Task CheckTypeScriptAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsTsPath)
+        {
+            var code = File.ReadAllText(generatedClientsTsPath);
+            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            await Verifier.Verify(code).UseMethodName(nameof(CheckTypeScriptAsync)).UseParameters(projectName, targetFramework, generatesCode);
         }
     }
 }
