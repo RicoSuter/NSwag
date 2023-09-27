@@ -8,6 +8,8 @@ using NJsonSchema;
 using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using Xunit;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -49,8 +51,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
-                SerializerSettings = serializerSettings,
-                SchemaType = SchemaType.Swagger2,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SerializerSettings = serializerSettings,
+                    SchemaType = SchemaType.Swagger2
+                }
             };
             var generator = new WebApiOpenApiDocumentGenerator(settings);
 

@@ -7,10 +7,10 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using NJsonSchema.Generation;
+using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Processors.Tests
@@ -121,22 +121,26 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
         private AspNetCoreOperationProcessorContext GetContext(ApiDescription apiDescription)
         {
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
-            var swaggerSettings = new AspNetCoreOpenApiDocumentGeneratorSettings();
             var document = new OpenApiDocument();
-            var schemaGeneratorSettings = new OpenApiDocumentGeneratorSettings();
-            var schemaGenerator = new OpenApiSchemaGenerator(schemaGeneratorSettings);
-            var schemaResolver = new OpenApiSchemaResolver(document, schemaGeneratorSettings);
-            swaggerSettings.SchemaGenerator = schemaGenerator;
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
+
+            var schemaResolver = new OpenApiSchemaResolver(document, settings.SchemaSettings);
+            var generator = new OpenApiDocumentGenerator(settings, schemaResolver);
 
             var context = new AspNetCoreOperationProcessorContext(
                 document,
                 operationDescription,
                 GetType(),
                 GetType().GetMethod(nameof(SomeAction), BindingFlags.NonPublic | BindingFlags.Instance),
-                new OpenApiDocumentGenerator(swaggerSettings, schemaResolver),
-                schemaGenerator,
+                generator,
                 schemaResolver,
-                swaggerSettings,
+                settings,
                 new List<OpenApiOperationDescription>())
             {
                 ApiDescription = apiDescription,

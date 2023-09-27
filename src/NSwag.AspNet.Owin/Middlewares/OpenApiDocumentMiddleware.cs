@@ -93,7 +93,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateDocumentAsync(IOwinContext context)
         {
-            var settings = _settings.CreateGeneratorSettings(null, null);
+            var settings = _settings.CreateGeneratorSettings(null);
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

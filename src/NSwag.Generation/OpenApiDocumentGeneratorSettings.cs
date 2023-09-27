@@ -18,18 +18,19 @@ using System;
 namespace NSwag.Generation
 {
     /// <summary>Settings for the Swagger generator.</summary>
-    public class OpenApiDocumentGeneratorSettings : JsonSchemaGeneratorSettings
+    public class OpenApiDocumentGeneratorSettings
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGeneratorSettings"/> class.</summary>
         public OpenApiDocumentGeneratorSettings()
         {
-            SchemaGenerator = new OpenApiSchemaGenerator(this);
             DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
-            SchemaType = SchemaType.Swagger2;
         }
 
-        /// <summary>Gets or sets the JSON Schema generator.</summary>
-        public OpenApiSchemaGenerator SchemaGenerator { get; set; }
+        /// <summary></summary>
+        public JsonSchemaGeneratorSettings SchemaSettings { get; set; } = new SystemTextJsonSchemaGeneratorSettings
+        {
+            SchemaType = SchemaType.OpenApi3
+        };
 
         /// <summary>Gets or sets the Swagger specification title.</summary>
         public string Title { get; set; } = "My Title";
@@ -46,7 +47,7 @@ namespace NSwag.Generation
         /// <summary>Gets or sets the default response reference type null handling when no nullability information is available (if NotNullAttribute and CanBeNullAttribute are missing, default: NotNull).</summary>
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to generate x-originalName properties when parameter name is differnt in .NET and HTTP (default: true).</summary>
+        /// <summary>Gets or sets a value indicating whether to generate x-originalName properties when parameter name is different in .NET and HTTP (default: true).</summary>
         public bool GenerateOriginalParameterNames { get; set; } = true;
 
         /// <summary>Gets the operation processors.</summary>
@@ -85,22 +86,13 @@ namespace NSwag.Generation
         }
 
         /// <summary>Applies the given settings to this settings object.</summary>
-        /// <param name="serializerSettings">The serializer settings.</param>
+        /// <param name="schemaSettings">The schema generator settings.</param>
         /// <param name="mvcOptions">The MVC options.</param>
-        public void ApplySettings(JsonSerializerSettings serializerSettings, object mvcOptions)
+        public void ApplySettings(JsonSchemaGeneratorSettings schemaSettings, object mvcOptions)
         {
-            if (serializerSettings != null)
+            if (schemaSettings != null)
             {
-                var areSerializerSettingsSpecified =
-                    DefaultPropertyNameHandling != PropertyNameHandling.Default ||
-                    DefaultEnumHandling != EnumHandling.Integer ||
-                    ContractResolver != null ||
-                    SerializerSettings != null;
-
-                if (!areSerializerSettingsSpecified)
-                {
-                    SerializerSettings = serializerSettings;
-                }
+                SchemaSettings = schemaSettings;
             }
 
             if (mvcOptions != null && mvcOptions.HasProperty("AllowEmptyInputInBodyModelBinding"))

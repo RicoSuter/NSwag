@@ -34,24 +34,20 @@ jobs:
     steps:
       - name: 'Allow long file path'
         run: git config --system core.longpaths true
-      - uses: actions/checkout@v1
+      - if: ${{ runner.os == 'Windows' }}
+        name: 'Use GNU tar'
+        shell: cmd
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 2.1.*
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 3.1.*
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 5.0.*
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.*
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.*
+          dotnet-version: |
+            2.1.*
+            5.0.*
+      - uses: actions/checkout@v3
       - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
@@ -64,7 +60,7 @@ jobs:
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: artifacts

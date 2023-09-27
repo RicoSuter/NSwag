@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using Xunit;
@@ -16,8 +17,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -35,8 +39,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -54,8 +61,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -73,8 +83,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -92,8 +105,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -111,8 +127,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null
+                DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.Null,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act

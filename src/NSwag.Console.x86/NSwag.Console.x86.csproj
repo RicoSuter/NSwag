@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <OutputType>Exe</OutputType>
     <ApplicationIcon />
     <OutputTypeEx>exe</OutputTypeEx>
@@ -10,16 +10,19 @@
     <PlatformTarget>x86</PlatformTarget>
     <DependsOnNETStandard>true</DependsOnNETStandard>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net46'">
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net462'">
     <DefineConstants>TRACE;DEBUG;net46</DefineConstants>
   </PropertyGroup>
+  
   <ItemGroup>
     <Compile Include="..\NSwag.Console\Program.cs" Link="Program.cs" />
   </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
-    <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NConsole" Version="3.12.6605.26941" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="5.0.1" />
@@ -27,13 +30,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.1.18" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AspNetCore.Launcher.x86\NSwag.AspNetCore.Launcher.x86.csproj" />
-    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
     <Reference Include="System.IO">
       <HintPath>..\libs\System.IO.dll</HintPath>

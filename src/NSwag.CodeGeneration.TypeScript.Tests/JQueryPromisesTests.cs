@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -33,7 +36,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
             // Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
@@ -59,7 +66,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
             // Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
 
@@ -85,7 +96,11 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
             // Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
 

@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -22,7 +24,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_response_is_file_and_stream_is_not_used_then_byte_array_is_returned()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
 
             // Act

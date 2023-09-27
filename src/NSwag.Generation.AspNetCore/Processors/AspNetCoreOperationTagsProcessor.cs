@@ -12,6 +12,7 @@ using Namotion.Reflection;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 using System.Linq;
+using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Processors
 {
@@ -48,7 +49,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
                 aspNetCoreContext.OperationDescription.Operation.Tags.Add(controllerActionDescriptor.ControllerName);
                 UpdateDocumentTagDescription(context, controllerActionDescriptor.ControllerName, summary);
             }

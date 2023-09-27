@@ -22,7 +22,7 @@ public partial class Build
     // logic from 01_Build.bat
     Target Pack => _ => _
         .DependsOn(Compile)
-        .After(Test, IntegrationTest, UnitTest, Samples)
+        .After(Test)
         .Produces(ArtifactsDirectory / "*.*")
         .Executes(() =>
         {
@@ -123,7 +123,7 @@ public partial class Build
             // patch npm version
             var npmPackagesFile = SourceDirectory / "NSwag.Npm" / "package.json";
             content = TextTasks.ReadAllText(npmPackagesFile);
-            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + VersionPrefix + @"""");
+            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + nugetVersion + @"""");
             TextTasks.WriteAllText(npmPackagesFile, content);
 
             // ZIP directories

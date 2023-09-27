@@ -84,7 +84,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
                         var isResponseNullable = nullableXmlAttribute != null ?
                                                  nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
-                                                 _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+                                                 _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                         response.IsNullableRaw = isResponseNullable;
                         response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
@@ -102,8 +102,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                     IsNullableRaw = true,
                     Schema = new JsonSchema
                     {
-                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
-                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                        Type = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                        Format = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
                     }
                 };
             }

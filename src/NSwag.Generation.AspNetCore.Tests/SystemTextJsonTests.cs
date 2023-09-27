@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 using Xunit;
+using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests
 {
@@ -27,9 +28,11 @@ namespace NSwag.Generation.AspNetCore.Tests
             var registration = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
             var generator = new AspNetCoreOpenApiDocumentGenerator(registration.Settings);
             await generator.GenerateAsync(serviceProvider);
+         
+            var settings = generator.Settings;
 
             // Assert
-            Assert.Contains(registration.Settings.SerializerSettings.Converters, c => c is StringEnumConverter);
+            Assert.Contains(((SystemTextJsonSchemaGeneratorSettings)settings.SchemaSettings).SerializerOptions.Converters, c => c is JsonStringEnumConverter);
         }
     }
 }

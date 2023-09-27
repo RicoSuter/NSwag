@@ -228,7 +228,7 @@ namespace NSwag.Commands.CodeGeneration
         }
 
         [Argument(Name = "SerializeTypeInformation", IsRequired = false,
-            Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: true).")]
+            Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: false).")]
         public bool SerializeTypeInformation
         {
             get { return Settings.SerializeTypeInformation; }

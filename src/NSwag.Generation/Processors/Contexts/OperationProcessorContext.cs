@@ -21,18 +21,16 @@ namespace NSwag.Generation.Processors.Contexts
         /// <param name="operationDescription">The operation description.</param>
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="methodInfo">The method information.</param>
-        /// <param name="openApiDocumentGenerator">The swagger generator.</param>
+        /// <param name="documentGenerator">The OpenAPI generator.</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <param name="settings">The settings.</param>
         /// <param name="allOperationDescriptions">All operation descriptions.</param>
-        /// <param name="schemaGenerator">The schema generator.</param>
         public OperationProcessorContext(
             OpenApiDocument document,
             OpenApiOperationDescription operationDescription,
             Type controllerType,
             MethodInfo methodInfo,
-            OpenApiDocumentGenerator openApiDocumentGenerator,
-            JsonSchemaGenerator schemaGenerator,
+            OpenApiDocumentGenerator documentGenerator,
             JsonSchemaResolver schemaResolver,
             OpenApiDocumentGeneratorSettings settings,
             IList<OpenApiOperationDescription> allOperationDescriptions)
@@ -43,8 +41,8 @@ namespace NSwag.Generation.Processors.Contexts
             ControllerType = controllerType;
             MethodInfo = methodInfo;
 
-            DocumentGenerator = openApiDocumentGenerator;
-            SchemaGenerator = schemaGenerator;
+            DocumentGenerator = documentGenerator;
+            SchemaGenerator = documentGenerator?.SchemaGenerator;
             SchemaResolver = schemaResolver;
 
             Settings = settings;

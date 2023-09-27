@@ -15,6 +15,8 @@ using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
 using NJsonSchema;
+using System.Threading;
+using System.Threading.Tasks;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -121,12 +123,19 @@ namespace NSwag.AspNetCore
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
         public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
 
+        /// <summary>Gets or sets the Swagger URL routes factory (SwaggerRoutes is ignored when set).</summary>
+#if AspNetOwin
+        public Func<IOwinRequest, CancellationToken, Task<IEnumerable<SwaggerUi3Route>>> SwaggerRoutesFactory { get; set; }
+#else
+        public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUi3Route>>> SwaggerRoutesFactory { get; set; }
+#endif
+
         internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
 
 #if AspNetOwin
-        internal override string TransformHtml(string html, IOwinRequest request)
+        internal override async Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
 #else
-        internal override string TransformHtml(string html, HttpRequest request)
+        internal override async Task<string> TransformHtmlAsync(string html, HttpRequest request, CancellationToken cancellationToken)
 #endif
         {
             var htmlBuilder = new StringBuilder(html);
@@ -148,11 +157,15 @@ namespace NSwag.AspNetCore
                 }
             }
 
-            htmlBuilder.Replace("{Urls}", !SwaggerRoutes.Any()
+            var swaggerRoutes = SwaggerRoutesFactory != null ? 
+                (await SwaggerRoutesFactory(request, cancellationToken)).ToList() : 
+                SwaggerRoutes;
+
+            htmlBuilder.Replace("{Urls}", !swaggerRoutes.Any()
                 ? "undefined"
                 : JsonConvert.SerializeObject(
 #pragma warning disable 618
-                    SwaggerRoutes.Select(r => new SwaggerUi3Route(r.Name,
+                    swaggerRoutes.Select(r => new SwaggerUi3Route(r.Name,
                         TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
 #pragma warning restore 618
                 ));
