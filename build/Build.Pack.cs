@@ -91,7 +91,7 @@ public partial class Build
 
             var apiDescriptionClientNuSpec = SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec";
             var content = TextTasks.ReadAllText(apiDescriptionClientNuSpec);
-            content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + VersionPrefix + "\" />");
+            content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + nugetVersion + "\" />");
             TextTasks.WriteAllText(apiDescriptionClientNuSpec, content);
 
             var nuspecs = new[]
