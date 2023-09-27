@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Moq;
+using NJsonSchema;
+using NJsonSchema.Generation;
 using NSwag.Annotations;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -38,7 +40,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerDocumentIsGeneratedForCustomCreatedApiDescriptions()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = new[]
             {
                 new ApiDescription
@@ -183,7 +185,11 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task When_generating_swagger_all_apidescriptions_are_discovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var apiDescriptions = GetApiDescriptionGroups(typeof(TestController));
 
             // Act
@@ -213,7 +219,11 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task When_generating_swagger_all_apidescriptions_are_discovered_for_2_1_applications()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var apiDescriptions = Get2_1_ApiDescriptionGroups(typeof(TestController));
 
             // Act
@@ -247,7 +257,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task ControllersWithSwaggerIgnoreAttribute_AreIgnored()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithSwaggerIgnoreAttribute));
 
             // Act
@@ -261,7 +271,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task ActionsWithSwaggerIgnoreAttribute_AreIgnored()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ActionWithSwaggerIgnoreAttribute));
 
             // Act
@@ -277,7 +287,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task ParametersWithSwaggerIgnoreAttribute_AreIgnored()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ParameterWithSwaggerIgnoreAttribute));
 
             // Act
@@ -297,7 +307,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerOperationMethods_AreParsed()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(HttpMethodsController));
 
             // Act
@@ -332,7 +342,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerOperationAttribute_AreUsedToCalculateOperationId_IfPresent()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ActionWithSwaggerOperationAttribute));
 
             // Act
@@ -347,7 +357,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerOperationProcessorAttributesOnControllerTypes_AreDiscoveredAndExecuted()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithSwaggerOperationProcessor));
 
             // Act
@@ -361,7 +371,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerOperationProcessorAttributesOnActions_AreDiscoveredAndExecuted()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ActionWithSwaggerOperationProcessor));
 
             // Act
@@ -375,7 +385,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerResponseAttributesOnControllersAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithSwaggerResponseTypeAttribute));
 
             // Act
@@ -393,7 +403,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task SwaggerResponseAttributesOnActionsAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ActionWithSwaggerResponseAttribute));
 
             // Act
@@ -411,7 +421,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task FromHeaderParametersAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -428,7 +438,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task FromBodyParametersAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -446,7 +456,12 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task FromFormParametersAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true });
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -464,7 +479,12 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task QueryParametersAreDiscovered()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true });
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 }
+            });
+
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -488,8 +508,8 @@ namespace NSwag.Generation.AspNetCore.Tests
         [Fact]
         public async Task FormFileParametersAreDiscovered()
         {
-            // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            //// Arrange
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -506,7 +526,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task ComplexQueryParametersAreProcessed()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithParameters));
 
             // Act
@@ -537,7 +557,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task BoundPropertiesAreProcessed()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithBoundProperties));
 
             // Act
@@ -568,7 +588,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         public async Task When_no_IncludedVersions_are_defined_then_all_routes_are_available_and_replaced()
         {
             // Arrange
-            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings());
+            var generator = new AspNetCoreOpenApiDocumentGenerator(new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } });
             var apiDescriptions = GetApiDescriptionGroups(typeof(ControllerWithReCodeAttribute));
 
             // Act
@@ -620,7 +640,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         private class ParameterWithSwaggerIgnoreAttribute
         {
             [HttpPost("{id}/{name?}")]
-            public Task<TestModel> GetModel([FromRoute] int id, [FromRoute] [SwaggerIgnore] string name) => null;
+            public Task<TestModel> GetModel([FromRoute] int id, [FromRoute][SwaggerIgnore] string name) => null;
         }
 
         [Route("[controller]/[action]")]

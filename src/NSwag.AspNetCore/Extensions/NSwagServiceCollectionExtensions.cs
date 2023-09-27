@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;
@@ -41,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return AddSwaggerDocument(serviceCollection, (settings, services) =>
             {
-                settings.SchemaType = SchemaType.OpenApi3;
+                settings.SchemaSettings.SchemaType = SchemaType.OpenApi3;
                 configure?.Invoke(settings, services);
             });
         }
@@ -64,10 +66,28 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             serviceCollection.AddSingleton(services =>
             {
-                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+
+                var mvcOptions = services.GetRequiredService<IOptions<MvcOptions>>();
+                var newtonsoftSettings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(services);
+                var systemTextJsonOptions = mvcOptions.Value.OutputFormatters
+                    .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
+                    AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(services) : null;
+
+                if (systemTextJsonOptions != null)
                 {
-                    SchemaType = SchemaType.Swagger2,
-                };
+                    settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);
+                }
+                else if (newtonsoftSettings != null)
+                {
+                    settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
+                }
+                else
+                {
+                    settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings(), mvcOptions.Value);
+                }
+
+                settings.SchemaSettings.SchemaType = SchemaType.Swagger2;
 
                 configure?.Invoke(settings, services);
 

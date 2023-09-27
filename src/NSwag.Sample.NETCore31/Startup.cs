@@ -28,7 +28,7 @@ namespace NSwag.Sample.NETCore31
             services.AddOpenApiDocument(document =>
             {
                 document.Description = "Hello world!";
-                document.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
+                document.SchemaSettings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
             });
         }
 

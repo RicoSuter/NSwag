@@ -1,4 +1,6 @@
-﻿using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
+﻿using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,7 +13,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Operations
         public async Task When_route_is_empty_then_path_is_slash()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(EmptyPathController));
@@ -27,7 +29,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Operations
         public async Task When_route_is_not_empty_then_path_starts_with_slash()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(BodyParametersController));

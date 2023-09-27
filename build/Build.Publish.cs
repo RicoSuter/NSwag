@@ -49,17 +49,21 @@ public partial class Build
                         Path.Combine(userDirectory, ".npmrc"),
                         "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
 
-                    var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
-
-                    foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
+                    // do not publish preview packages to npm
+                    if (string.IsNullOrEmpty(VersionSuffix))
                     {
-                        if (output.Type == OutputType.Std)
+                        var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
+
+                        foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
                         {
-                            Serilog.Log.Information(output.Text);
-                        }
-                        else
-                        {
-                            Serilog.Log.Error(output.Text);
+                            if (output.Type == OutputType.Std)
+                            {
+                                Serilog.Log.Information(output.Text);
+                            }
+                            else
+                            {
+                                Serilog.Log.Error(output.Text);
+                            }
                         }
                     }
                 }

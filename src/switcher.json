@@ -1,10 +1,12 @@
 {
   "solution": "NSwag.Min.sln",
+  "solutionFolder": null,
   "mappings": {
     "NJsonSchema": "../../NJsonSchema/src/NJsonSchema/NJsonSchema.csproj",
     "NJsonSchema.Yaml": "../../NJsonSchema/src/NJsonSchema.Yaml/NJsonSchema.Yaml.csproj",
     "NJsonSchema.CodeGeneration": "../../NJsonSchema/src/NJsonSchema.CodeGeneration/NJsonSchema.CodeGeneration.csproj",
     "NJsonSchema.CodeGeneration.CSharp": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.CSharp/NJsonSchema.CodeGeneration.CSharp.csproj",
     "NJsonSchema.CodeGeneration.TypeScript": "../../NJsonSchema/src/NJsonSchema.CodeGeneration.TypeScript/NJsonSchema.CodeGeneration.TypeScript.csproj"
-  }
+  },
+  "removeProjects": true
 }

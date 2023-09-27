@@ -53,11 +53,7 @@ namespace NSwagStudio.ViewModels
                 var redirectOutput = type != "files";
 
                 var start = Stopwatch.GetTimestamp();
-#if DEBUG
-                var result = await Document.Document.ExecuteAsync();
-#else
                 var result = await Document.Document.ExecuteCommandLineAsync(redirectOutput);
-#endif
                 var duration = TimeSpan.FromSeconds((Stopwatch.GetTimestamp() - start) / Stopwatch.Frequency);
 
                 if (redirectOutput)

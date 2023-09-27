@@ -70,16 +70,6 @@ namespace NSwag.Commands.Document
                                                         "Change the runtime with the '/runtime:" + document.Runtime + "' parameter " +
                                                         "or run the file with the correct command line binary.");
                 }
-
-                if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToOpenApiCommand &&
-                    document.SwaggerGenerators.WebApiToOpenApiCommand.IsAspNetCore == false &&
-                    document.Runtime != Runtime.Debug &&
-                    document.Runtime != Runtime.WinX86 &&
-                    document.Runtime != Runtime.WinX64)
-                {
-                    throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
-                                                        "with ASP.NET Core. Enable /isAspNetCore:true.");
-                }
             }
 
             await document.ExecuteAsync();

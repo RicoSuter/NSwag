@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.Converters;
 using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Xunit;
+using NJsonSchema.NewtonsoftJson.Converters;
+using NJsonSchema.Generation;
+using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -74,8 +77,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_abstract_then_generate_union()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
-            var document = await swaggerGenerator.GenerateForControllerAsync<DiscriminatorController>();
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<DiscriminatorController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =

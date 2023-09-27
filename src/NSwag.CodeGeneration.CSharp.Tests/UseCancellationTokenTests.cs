@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -28,7 +30,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             // Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             // Act
@@ -49,7 +54,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleispartial_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             // Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             // Act
@@ -71,7 +79,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasnoparameter_then_cancellationtoken_is_added()
         {
             // Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             // Act
@@ -91,7 +103,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_controllerstyleisabstract_and_usecancellationtokenistrue_and_requesthasparameter_then_cancellationtoken_is_added()
         {
             // Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             // Act
@@ -111,7 +127,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_usecancellationtokenparameter_notsetted_then_cancellationtoken_isnot_added()
         {
             // Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
             // Act

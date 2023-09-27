@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
+using NJsonSchema.Generation;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors
@@ -48,7 +49,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(summary))
             {
-                summary = context.MethodInfo?.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+                summary = context.MethodInfo?.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
             }
 
             if (!string.IsNullOrEmpty(summary))
@@ -66,7 +67,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(description))
             {
-                description = context.MethodInfo?.GetXmlDocsRemarks(context.Settings.GetXmlDocsOptions());
+                description = context.MethodInfo?.GetXmlDocsRemarks(context.Settings.SchemaSettings.GetXmlDocsOptions());
             }
 
             if (!string.IsNullOrEmpty(description))

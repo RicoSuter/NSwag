@@ -1,23 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
   </PropertyGroup>
+  
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Templates\*.liquid" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.9.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0-preview003" />
   </ItemGroup>
 </Project>

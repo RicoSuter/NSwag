@@ -126,9 +126,10 @@ namespace NSwagStudio.ViewModels
 
         private void CreateDocument()
         {
-            var document = new DocumentModel(NSwagDocument.Create());
-            Documents.Add(document);
-            SelectedDocument = document;
+            var document = NSwagDocument.Create();
+            var documentModel = new DocumentModel(document);
+            Documents.Add(documentModel);
+            SelectedDocument = documentModel;
         }
 
         private async Task OpenDocumentAsync()

@@ -209,7 +209,7 @@ namespace NSwag
                 }
                 else
                 {
-                    var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                    var schemaResolver = new OpenApiSchemaResolver(document, new SystemTextJsonSchemaGeneratorSettings());
                     return new JsonReferenceResolver(schemaResolver);
                 }
             }, contractResolver, cancellationToken).ConfigureAwait(false);

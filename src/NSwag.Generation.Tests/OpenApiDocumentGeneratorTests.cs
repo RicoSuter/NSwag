@@ -2,6 +2,7 @@
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using Xunit;
 
 namespace NSwag.Generation.Tests
@@ -20,11 +21,13 @@ namespace NSwag.Generation.Tests
         {
             var generatorSettings = new OpenApiDocumentGeneratorSettings
             {
-                SchemaType = schemaType,
-                ReflectionService = new DefaultReflectionService()
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = schemaType,
+                }
             };
 
-            var schemaResolver = new JsonSchemaResolver(new OpenApiDocument(), generatorSettings);
+            var schemaResolver = new JsonSchemaResolver(new OpenApiDocument(), generatorSettings.SchemaSettings);
             var generator = new OpenApiDocumentGenerator(generatorSettings, schemaResolver);
             var methodInfo = typeof(TestController)
                 .ToContextualType()

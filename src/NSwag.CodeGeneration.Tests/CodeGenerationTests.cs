@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;
@@ -311,7 +312,7 @@ public static Person FromJson(string data)
         private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();
-            var settings = new JsonSchemaGeneratorSettings();
+            var settings = new NewtonsoftJsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
             document.Paths["/Person"] = new OpenApiPathItem();

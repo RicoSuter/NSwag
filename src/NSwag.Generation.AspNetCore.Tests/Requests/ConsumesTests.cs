@@ -1,4 +1,6 @@
-﻿using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Requests;
+﻿using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Requests;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,8 +15,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
         public async Task When_consumes_is_defined_on_all_operations_then_it_is_added_to_the_document()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
-
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController));
             var json = document.ToJson();
@@ -30,7 +31,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
         public async Task When_consumes_is_defined_on_single_operations_then_it_is_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController));
@@ -48,7 +49,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
         public async Task When_operation_consumes_is_different_in_several_controllers_then_they_are_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ConsumesController), typeof(MultipartConsumesController));
@@ -57,7 +58,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
             // Assert
             const string expectedTestContentType = "foo/bar";
             const string expectedMultipartContentType = "multipart/form-data";
-            
+
             var operation = document.Operations
                 .First(o => o.Operation.OperationId == "Consumes_ConsumesOnOperation")
                 .Operation;
@@ -65,7 +66,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
             var multipartOperation = document.Operations
                 .First(o => o.Operation.OperationId == "MultipartConsumes_ConsumesOnOperation")
                 .Operation;
-            
+
             Assert.DoesNotContain(expectedTestContentType, document.Consumes);
             Assert.DoesNotContain(expectedMultipartContentType, document.Consumes);
 

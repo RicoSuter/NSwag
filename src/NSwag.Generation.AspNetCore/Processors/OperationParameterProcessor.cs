@@ -67,7 +67,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 // value that's different than the parameter name. Additionally, ApiExplorer will recurse in to complex model bound types
                 // and expose properties as top level parameters. Consequently, determining the property or parameter of an Api is best
                 // effort attempt.
-                var extendedApiParameter = new ExtendedApiParameterDescription(_settings)
+                var extendedApiParameter = new ExtendedApiParameterDescription(_settings.SchemaSettings)
                 {
                     ApiParameter = apiParameter,
                     Attributes = Enumerable.Empty<Attribute>(),
@@ -164,7 +164,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else if (apiParameter.Source == BindingSource.Form)
                 {
-                    if (_settings.SchemaType == SchemaType.Swagger2)
+                    if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
                     {
                         operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                         operationParameter.Kind = OpenApiParameterKind.FormData;
@@ -192,7 +192,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     operationParameter.Position = position;
                     position++;
 
-                    if (_settings.SchemaType == SchemaType.OpenApi3)
+                    if (_settings.SchemaSettings.SchemaType == SchemaType.OpenApi3)
                     {
                         operationParameter.IsNullableRaw = null;
                     }
@@ -239,8 +239,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                     {
                         Schema = mimeType == "application/json" ? JsonSchema.CreateAnySchema() : new JsonSchema
                         {
-                            Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
-                            Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                            Type = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                            Format = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
                         }
                     };
                 }
@@ -280,7 +280,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         private bool TryAddFileParameter(
             OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter)
         {
-            var typeInfo = _settings.ReflectionService.GetDescription(extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes), _settings);
+            var typeInfo = _settings.SchemaSettings.ReflectionService.GetDescription(extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes), _settings.SchemaSettings);
 
             var isFileArray = IsFileArray(extendedApiParameter.ApiParameter.Type, typeInfo);
 
@@ -303,7 +303,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
         private void AddFileParameter(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, bool isFileArray)
         {
-            if (_settings.SchemaType == SchemaType.Swagger2)
+            if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
             {
                 var operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                 operationParameter.Type = JsonObjectType.File;
@@ -364,7 +364,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
             {
-                var description = _settings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings);
+                var description = _settings.SchemaSettings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings.SchemaSettings);
                 if (description.Type == JsonObjectType.File || description.Format == JsonFormatStrings.Binary)
                 {
                     return true;
@@ -381,7 +381,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             var contextualParameterType = extendedApiParameter.ParameterType
                 .ToContextualType(extendedApiParameter.Attributes);
 
-            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameterType, _settings);
+            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameterType, _settings.SchemaSettings);
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable;
             var operation = context.OperationDescription.Operation;
 
@@ -464,14 +464,14 @@ namespace NSwag.Generation.AspNetCore.Processors
                 var defaultValue = hasDefaultValue ? context.SchemaGenerator
                     .ConvertDefaultValue(contextualParameterType, extendedApiParameter.ParameterInfo.DefaultValue) : null;
 
-                if (_settings.SchemaType == SchemaType.Swagger2)
+                if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
                 {
                     operationParameter.Default = defaultValue;
                     operationParameter.Example = exampleValue;
                 }
                 else if (operationParameter.Schema.HasReference)
                 {
-                    if (_settings.AllowReferencesWithProperties)
+                    if (_settings.SchemaSettings.AllowReferencesWithProperties)
                     {
                         operationParameter.Schema = new JsonSchema
                         {

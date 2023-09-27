@@ -32,7 +32,7 @@ namespace NSwag.Sample.NET60
             services.AddOpenApiDocument(document =>
             {
                 document.Description = "Hello world!";
-                document.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
+                document.SchemaSettings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
             });
         }
 

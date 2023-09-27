@@ -71,7 +71,6 @@ steps:
     msbuildArchitecture: 'x86'
     configuration: '$(BuildConfiguration)'
 
-
 - task: VSTest@2
   displayName: 'Run tests'
   inputs:

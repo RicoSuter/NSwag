@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -49,15 +50,6 @@ namespace NSwag.Generation.AspNetCore
         public Task<OpenApiDocument> GenerateAsync(object serviceProvider)
         {
             var typedServiceProvider = (IServiceProvider)serviceProvider;
-
-            var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings =
-                mvcOptions.Value.OutputFormatters.Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
-                    GetSystemTextJsonSettings(typedServiceProvider) :
-                    GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
-
-            Settings.ApplySettings(settings, mvcOptions.Value);
-
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
             return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
@@ -123,14 +115,15 @@ namespace NSwag.Generation.AspNetCore
                 .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
             var apiGroups = apiDescriptions
                 .Select(apiDescription => new Tuple<ApiDescription, ActionDescriptor>(apiDescription, apiDescription.ActionDescriptor))
                 .GroupBy(item => (item.Item2 as ControllerActionDescriptor)?.ControllerTypeInfo.AsType())
                 .ToArray();
 
-            var usedControllerTypes = GenerateApiGroups(document, apiGroups, schemaResolver);
+            var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
+            var usedControllerTypes = GenerateApiGroups(generator, document, apiGroups, schemaResolver);
 
             document.GenerateOperationIds();
 
@@ -141,7 +134,7 @@ namespace NSwag.Generation.AspNetCore
 
             foreach (var processor in Settings.DocumentProcessors)
             {
-                processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
+                processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, generator.SchemaGenerator, Settings));
             }
 
             Settings.PostProcess?.Invoke(document);
@@ -150,7 +143,7 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
         /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
+        public static JsonSerializerOptions GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a
             // contract resolver which reflects best the System.Text.Json behavior.
@@ -166,9 +159,9 @@ namespace NSwag.Generation.AspNetCore
                     var options = serviceProvider.GetService(optionsType);
                     var value = optionsType.GetProperty("Value")?.GetValue(options);
                     var jsonOptions = value?.GetType().GetProperty("JsonSerializerOptions")?.GetValue(value);
-                    if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
+                    if (jsonOptions is JsonSerializerOptions)
                     {
-                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                        return (JsonSerializerOptions)jsonOptions;
                     }
                 }
                 catch
@@ -176,20 +169,16 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-            return new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            return null;
         }
 
         private List<Type> GenerateApiGroups(
+            OpenApiDocumentGenerator generator,
             OpenApiDocument document,
             IGrouping<Type, Tuple<ApiDescription, ActionDescriptor>>[] apiGroups,
             OpenApiSchemaResolver schemaResolver)
         {
             var usedControllerTypes = new List<Type>();
-            var swaggerGenerator = new OpenApiDocumentGenerator(Settings, schemaResolver);
-
             var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             foreach (var apiGroup in apiGroups)
             {
@@ -258,7 +247,7 @@ namespace NSwag.Generation.AspNetCore
                         operations.Add(new Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
                     }
 
-                    var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, swaggerGenerator, schemaResolver);
+                    var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, generator, schemaResolver);
                     if (addedOperations.Any() && apiGroup.Key != null)
                     {
                         usedControllerTypes.Add(apiGroup.Key);
@@ -384,7 +373,7 @@ namespace NSwag.Generation.AspNetCore
                 new OpenApiDocument();
 
             document.Generator = $"NSwag v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
-            document.SchemaType = Settings.SchemaType;
+            document.SchemaType = Settings.SchemaSettings.SchemaType;
 
             if (document.Info == null)
             {
@@ -412,10 +401,10 @@ namespace NSwag.Generation.AspNetCore
             return document;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool RunOperationProcessors(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             // 1. Run from settings
-            var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations)
+            var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, generator, schemaResolver, Settings, allOperations)
             {
                 ApiDescription = apiDescription,
             };
@@ -515,12 +504,12 @@ namespace NSwag.Generation.AspNetCore
 
                 // From HTTP method and route
                 operationId =
-                httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
-                string.Join("", apiDescription.RelativePath
-                    .Split('/', '\\', '}', ']', '-', '_')
-                    .Where(t => !t.StartsWith("{"))
-                    .Where(t => !t.StartsWith("["))
-                    .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
+                    httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
+                    string.Join("", apiDescription.RelativePath
+                        .Split('/', '\\', '}', ']', '-', '_')
+                        .Where(t => !t.StartsWith("{"))
+                        .Where(t => !t.StartsWith("["))
+                        .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
             var number = 1;

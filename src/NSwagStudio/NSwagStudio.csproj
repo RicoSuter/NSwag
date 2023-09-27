@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DependsOnNETStandard>true</DependsOnNETStandard>
@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.AssemblyLoader\NSwag.AssemblyLoader.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
@@ -62,13 +61,9 @@
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="MyToolkit" Version="2.5.16" />
     <PackageReference Include="MyToolkit.Extended" Version="2.5.16" />
-    <PackageReference Include="Namotion.Reflection" Version="2.1.2" />
-    <PackageReference Include="NConsole" Version="3.9.6519.30868" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.9.0" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.9.0" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.9.0" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.9.0" />
+    <PackageReference Include="Namotion.Reflection" Version="3.0.0" />
+    <PackageReference Include="NConsole" Version="3.12.6605.26941" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
