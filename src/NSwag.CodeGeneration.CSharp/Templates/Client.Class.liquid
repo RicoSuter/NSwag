@@ -270,7 +270,7 @@
                     }
 {%                     elsif parameter.IsObject -%}
                     var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value);
-                    content_.Add(new System.Net.Http.StringContent(json_), "{{ parameter.Name }}");
+                    content_.Add(new System.Net.Http.StringContent(json_, System.Text.Encoding.UTF8, "application/json"), "{{ parameter.Name }}");
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
