@@ -1,4 +1,4 @@
-﻿{% if HasOperations -%}
+{% if HasOperations -%}
 {% if GenerateClientInterfaces -%}
 {% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
@@ -17,11 +17,11 @@
 {%-     if HasBaseClass %}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-     endif %}
-        this.instance = instance ? instance : axios.create();
+        this.instance = instance || axios.create();
 {%-     if UseGetBaseUrlMethod %}
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = baseUrl ?? this.getBaseUrl("{{ BaseUrl }}");
 {%-     else %}
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl = baseUrl ?? "{{ BaseUrl }}";
 {%-     endif %}
     }
 {%- endif %}
@@ -32,7 +32,7 @@
 {% for operation in Operations %}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal | undefined{% else %}{% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken | undefined{% endif %}): Promise<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal{% else %}{% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken{% endif %}): Promise<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}

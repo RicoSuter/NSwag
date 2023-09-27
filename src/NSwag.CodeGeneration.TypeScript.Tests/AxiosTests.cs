@@ -146,7 +146,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("cancelToken?: CancelToken | undefined", code);
+            Assert.Contains("cancelToken?: CancelToken", code);
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("signal?: AbortSignal | undefined", code);
+            Assert.Contains("signal?: AbortSignal", code);
         }
     }
 }
