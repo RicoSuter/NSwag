@@ -40,16 +40,16 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext operationProcessorContext)
         {
-            if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
+            if (operationProcessorContext is not AspNetCoreOperationProcessorContext context)
             {
                 return false;
             }
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-            var methodParameters = context.MethodInfo?.GetParameters() ?? new ParameterInfo[0];
+            var methodParameters = context.MethodInfo?.GetParameters() ?? Array.Empty<ParameterInfo>();
 
-            var position = 1;
+            var position = operationProcessorContext.Parameters.Count(x => x.Value.Kind is not OpenApiParameterKind.Body) + 1;
             foreach (var apiParameter in parameters.Where(p =>
                 p.Source != null &&
                 (p.ModelMetadata == null || p.ModelMetadata.IsBindingAllowed)))
