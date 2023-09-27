@@ -201,7 +201,13 @@ namespace NSwag.Generation.AspNetCore
                             continue;
                         }
 
-                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo;
+                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo ??
+#if NETCOREAPP3_1_OR_GREATER
+                            item.Item2?.EndpointMetadata?.OfType<MethodInfo>().FirstOrDefault();
+#else
+                            null;
+#endif
+
                         if (method != null)
                         {
                             var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
