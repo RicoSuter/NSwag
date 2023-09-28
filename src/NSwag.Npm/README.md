@@ -41,6 +41,10 @@ To specify what .NET Core binaries to execute, either use (default)
 
     nswag version /runtime:Net60
 
+or
+
+    nswag version /runtime:Net70
+
 ## Development
 
 Run the following command to compile and copy the current NSwag console binaries into the NPM module directory `binaries` directory:
