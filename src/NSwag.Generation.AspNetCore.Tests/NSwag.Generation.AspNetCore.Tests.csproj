@@ -1,9 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <NoWarn>$(NoWarn),618,1591</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
@@ -12,12 +11,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.0" />
-  </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
   </ItemGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0" />
   </ItemGroup>
@@ -27,4 +24,5 @@
     <ProjectReference Include="..\NSwag.Generation.AspNetCore.Tests.Web\NSwag.Generation.AspNetCore.Tests.Web.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
   </ItemGroup>
+
 </Project>

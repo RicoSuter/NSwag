@@ -26,9 +26,12 @@ on:
       - '!**/*.md'
 
 jobs:
-  windows-2022:
-    name: windows-2022
-    runs-on: windows-2022
+  windows-latest:
+    name: windows-latest
+    runs-on: windows-latest
+    concurrency:
+      group: ${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.run_id }}
+      cancel-in-progress: true
     steps:
       - name: 'Allow long file path'
         run: git config --system core.longpaths true
@@ -38,18 +41,13 @@ jobs:
         run: |
           echo "Adding GNU tar to PATH"
           echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: |
-            2.1.*
-            5.0.*
       - uses: actions/checkout@v3
-      - name: Cache .nuke/temp, ~/.nuget/packages
+      - name: 'Cache: .nuke/temp, ~/.nuget/packages'
         uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj', 'src/**/package.json') }}
-      - name: Run './build.cmd InstallDependencies Compile Test Pack'
+      - name: 'Run: InstallDependencies, Compile, Test, Pack'
         run: ./build.cmd InstallDependencies Compile Test Pack

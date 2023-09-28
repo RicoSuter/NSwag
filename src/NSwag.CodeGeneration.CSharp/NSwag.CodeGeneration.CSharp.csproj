@@ -2,23 +2,19 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Include="Templates\*.liquid" />
   </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.0-preview003" />
   </ItemGroup>

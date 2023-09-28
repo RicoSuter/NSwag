@@ -12,7 +12,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
-using Nuke.Common.Tools.VSTest;
 using Nuke.Common.Utilities.Collections;
 
 using static Nuke.Common.IO.FileSystemTasks;
@@ -76,7 +75,7 @@ partial class Build : NukeBuild
         }
         else
         {
-            var propsDocument = XDocument.Parse(TextTasks.ReadAllText(SourceDirectory / "Directory.Build.props"));
+            var propsDocument = XDocument.Parse((SourceDirectory / "Directory.Build.props").ReadAllText());
             versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
             Serilog.Log.Information("Version prefix {VersionPrefix} read from Directory.Build.props", versionPrefix);
         }
@@ -117,19 +116,15 @@ partial class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(ArtifactsDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(x => x.DeleteDirectory());
+            ArtifactsDirectory.CreateOrCleanDirectory();
         });
-
 
     Target InstallDependencies => _ => _
         .Before(Restore, Compile)
         .Executes(() =>
         {
             Chocolatey("install wixtoolset -y");
-            Chocolatey("install dotnetcore-3.1-sdk -y");
-            Chocolatey("install netfx-4.6.2-devpack -y");
-            Chocolatey("install dotnet-7.0-sdk -y");
             NpmInstall(x => x
                 .EnableGlobal()
                 .AddPackages("dotnettools")
@@ -157,18 +152,19 @@ partial class Build : NukeBuild
             );
         });
 
+    // logic from 01_Build.bat
     Target Compile => _ => _
         .DependsOn(Restore)
         .Executes(() =>
         {
-            EnsureCleanDirectory(SourceDirectory / "NSwag.Npm" / "bin" / "binaries");
-            EnsureCleanDirectory(NSwagStudioBinaries);
+            (SourceDirectory / "NSwag.Npm" / "bin" / "binaries").CreateOrCleanDirectory();
+            NSwagStudioBinaries.CreateOrCleanDirectory();
 
             Serilog.Log.Information("Build and copy full .NET command line with configuration {Configuration}", Configuration);
 
             // TODO: Fix build here
             MSBuild(x => x
-                .SetProjectFile(Solution.GetProject("NSwagStudio"))
+                .SetProjectFile(GetProject("NSwagStudio"))
                 .SetTargets("Build")
                 .SetAssemblyVersion(VersionPrefix)
                 .SetFileVersion(VersionPrefix)
@@ -215,9 +211,9 @@ partial class Build : NukeBuild
 
     void PublishAndCopyConsoleProjects()
     {
-        var consoleCoreProject = Solution.GetProject("NSwag.ConsoleCore");
-        var consoleX86Project = Solution.GetProject("NSwag.Console.x86");
-        var consoleProject = Solution.GetProject("NSwag.Console");
+        var consoleCoreProject = GetProject("NSwag.ConsoleCore");
+        var consoleX86Project = GetProject("NSwag.Console.x86");
+        var consoleProject = GetProject("NSwag.Console");
 
         Serilog.Log.Information("Publish command line projects");
 
@@ -240,7 +236,7 @@ partial class Build : NukeBuild
 
         PublishConsoleProject(consoleX86Project, new[] { "net462" });
         PublishConsoleProject(consoleProject, new[] { "net462" });
-        PublishConsoleProject(consoleCoreProject, new[] { "netcoreapp3.1", "net6.0", "net7.0" });
+        PublishConsoleProject(consoleCoreProject, new[] { "net6.0", "net7.0" });
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
@@ -252,7 +248,6 @@ partial class Build : NukeBuild
             CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net462" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
 
             var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
-            CopyDirectoryRecursively(consoleCoreDirectory / "netcoreapp3.1" / "publish", target / "NetCore31");
             CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
             CopyDirectoryRecursively(consoleCoreDirectory / "net7.0" / "publish", target / "Net70");
         }
@@ -276,4 +271,8 @@ partial class Build : NukeBuild
             .SetDeterministic(IsServerBuild)
             .SetContinuousIntegrationBuild(IsServerBuild);
     }
+
+    // Solution.GetProject only returns solution's direct descendants since NUKE 7.0.1
+    private Project GetProject(string projectName) =>
+        Solution.AllProjects.FirstOrDefault(x => x.Name == projectName) ?? throw new ArgumentException($"Could not find project {projectName} from solution");
 }

@@ -92,7 +92,7 @@ namespace NSwag.Commands
 
         internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
-#if NETCOREAPP2_1 || NETFRAMEWORK
+#if NETFRAMEWORK
             return null;
 #else
             // We're disabling the default server and the console host lifetime. This will disable:

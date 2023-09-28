@@ -20,9 +20,6 @@ namespace NSwag.Commands
         /// <summary>Full .NET framework, x86.</summary>
         WinX86,
 
-        /// <summary>.NET Core 3.1 app.</summary>
-        NetCore31,
-
         /// <summary>.NET 6 app.</summary>
         Net60,
 

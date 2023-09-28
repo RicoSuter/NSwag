@@ -6,7 +6,6 @@
   
   <ItemGroup>
     <PackageReference Include="NJsonSchema.Yaml" Version="11.0.0-preview003" />
-    <PackageReference Include="YamlDotNet" Version="13.2.0" />
   </ItemGroup>
   
   <ItemGroup>
