@@ -9,10 +9,10 @@
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings;
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings;
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
 {% else -%}
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _settings;
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
 {% endif -%}
 
 {% if HasConfigurationClass -%}
@@ -36,16 +36,10 @@
     public {{ Class }}()
     {
 {% endif -%}
-{% if UseRequestAndResponseSerializationSettings -%}
-        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
-        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
-{% else -%}
-        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
-{% endif -%}
         {% template Client.Class.Constructor %}
     }
 
-    private {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
@@ -82,9 +76,9 @@
 
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
 {%     if UseRequestAndResponseSerializationSettings -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
 {%     else -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
 {%     endif -%}
 {% endif -%}
 
