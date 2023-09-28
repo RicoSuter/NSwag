@@ -54,7 +54,7 @@ namespace NSwag.Commands
             {
                 var processor = new CommandLineProcessor(_host);
 
-                processor.RegisterCommandsFromAssembly(typeof(SwaggerToCSharpControllerCommand).GetTypeInfo().Assembly);
+                processor.RegisterCommandsFromAssembly(typeof(OpenApiToCSharpControllerCommand).GetTypeInfo().Assembly);
 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();

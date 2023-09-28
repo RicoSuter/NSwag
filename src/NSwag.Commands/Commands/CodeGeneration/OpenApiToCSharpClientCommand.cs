@@ -19,15 +19,9 @@ using NSwag.CodeGeneration.CSharp;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "openapi2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification.")]
-    public class OpenApiToCSharpClientCommand : SwaggerToCSharpClientCommand
+    public class OpenApiToCSharpClientCommand : OpenApiToCSharpCommandBase<CSharpClientGeneratorSettings>
     {
-    }
-
-    [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification (obsolete: use openapi2csclient instead).")]
-    [Obsolete("Use openapi2csclient instead.")]
-    public class SwaggerToCSharpClientCommand : OpenApiToCSharpCommandBase<CSharpClientGeneratorSettings>
-    {
-        public SwaggerToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
+        public OpenApiToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
         {
         }
 

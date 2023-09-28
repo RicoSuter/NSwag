@@ -18,15 +18,9 @@ using NSwag.CodeGeneration.TypeScript;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "openapi2tsclient", Description = "Generates TypeScript client code from a Swagger/OpenAPI specification.")]
-    public class OpenApiToTypeScriptClientCommand : SwaggerToTypeScriptClientCommand
+    public class OpenApiToTypeScriptClientCommand : CodeGeneratorCommandBase<TypeScriptClientGeneratorSettings>
     {
-    }
-
-    [Command(Name = "swagger2tsclient", Description = "Generates TypeScript client code from a Swagger/OpenAPI specification (obsolete: use openapi2tsclient instead).")]
-    [Obsolete("Use openapi2tsclient instead.")]
-    public class SwaggerToTypeScriptClientCommand : CodeGeneratorCommandBase<TypeScriptClientGeneratorSettings>
-    {
-        public SwaggerToTypeScriptClientCommand()
+        public OpenApiToTypeScriptClientCommand()
             : base(new TypeScriptClientGeneratorSettings())
         {
         }
