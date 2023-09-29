@@ -25,6 +25,11 @@ namespace NSwag.Commands
                 var framework = PlatformServices.Default.Application.RuntimeFramework;
                 if (framework.Identifier == ".NETCoreApp")
                 {
+                    if (framework.Version.Major >= 8)
+                    {
+                        return Runtime.Net80;
+                    }
+					
                     if (framework.Version.Major >= 7)
                     {
                         return Runtime.Net70;
