@@ -40,6 +40,10 @@ jobs:
         run: |
           echo "Adding GNU tar to PATH"
           echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            8.0.100-rc.1.23463.5
       - uses: actions/checkout@v3
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
         uses: actions/cache@v3
