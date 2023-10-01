@@ -13,7 +13,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
   </ItemGroup>
   
