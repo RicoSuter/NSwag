@@ -21,9 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.AspNetCore.Launcher\NSwag.AspNetCore.Launcher.csproj" />
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Commands\NSwag.Commands.csproj" />
   </ItemGroup>
 

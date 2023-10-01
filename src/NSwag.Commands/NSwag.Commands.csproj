@@ -36,15 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj" />
     <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript\NSwag.CodeGeneration.TypeScript.csproj" />
-    <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
-    <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
-    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
 
 </Project>
