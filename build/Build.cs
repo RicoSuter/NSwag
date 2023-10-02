@@ -236,7 +236,7 @@ partial class Build : NukeBuild
 
         PublishConsoleProject(consoleX86Project, new[] { "net462" });
         PublishConsoleProject(consoleProject, new[] { "net462" });
-        PublishConsoleProject(consoleCoreProject, new[] { "net6.0", "net7.0" });
+        PublishConsoleProject(consoleCoreProject, new[] { "net6.0", "net7.0", "net8.0" });
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
@@ -250,6 +250,7 @@ partial class Build : NukeBuild
             var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
             CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
             CopyDirectoryRecursively(consoleCoreDirectory / "net7.0" / "publish", target / "Net70");
+            CopyDirectoryRecursively(consoleCoreDirectory / "net8.0" / "publish", target / "Net80");
         }
 
         Serilog.Log.Information("Copy published Console for NSwagStudio");

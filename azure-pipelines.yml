@@ -39,6 +39,15 @@ steps:
     performMultiLevelLookup: true
     useGlobalJson: true
 
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.100-rc.1.23463.5'
+    includePreviewVersions: true
+    performMultiLevelLookup: true
+    useGlobalJson: true
+
 - task: CmdLine@2
   displayName: 'Install DNT'
   inputs:

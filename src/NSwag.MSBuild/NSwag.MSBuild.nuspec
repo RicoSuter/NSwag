@@ -30,5 +30,6 @@
 
     <file src="..\NSwag.ConsoleCore\bin\release\net6.0\Publish\**" target="tools/Net60" />
     <file src="..\NSwag.ConsoleCore\bin\release\net7.0\Publish\**" target="tools/Net70" />
+    <file src="..\NSwag.ConsoleCore\bin\release\net8.0\Publish\**" target="tools/Net80" />
   </files>
 </package>

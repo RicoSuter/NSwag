@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -144,8 +144,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             }
 
             if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
-                projectMetadata.TargetFrameworkIdentifier == "net6.0" ||
-                projectMetadata.TargetFrameworkIdentifier == "net7.0")
+                projectMetadata.TargetFrameworkIdentifier.StartsWith("net"))
             {
                 executable = "dotnet";
                 args.Add("exec");

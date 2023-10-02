@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <PackageTags>Swagger Documentation AspNetCore</PackageTags>
     <DefineConstants>$(DefineConstants);ASPNETCORE</DefineConstants>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -22,6 +22,12 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[7, 8)" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="[7, 8)" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.1.23419.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0-rc.1.23419.4" />
   </ItemGroup>
 
   <ItemGroup>

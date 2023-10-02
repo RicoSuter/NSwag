@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "Net70";
+var defaultCoreVersion = "Net80";
 var supportedCoreVersions = [
     { ver: '6.0', dir: "Net60", },
     { ver: '7.0', dir: "Net70", },
+    { ver: '8.0', dir: "Net80", },
 ];
 
 // Initialize
@@ -17,6 +18,7 @@ args = args.replace("--x86", "/runtime:WinX86");
 args = args.replace("/runtime:x86", "/runtime:WinX86");
 args = args.replace("--core 6.0", "/runtime:Net60");
 args = args.replace("--core 7.0", "/runtime:Net70");
+args = args.replace("--core 8.0", "/runtime:Net80");
 args = args.replace("--core", "/runtime:" + defaultCoreVersion);
 
 // Search for full .NET installation
