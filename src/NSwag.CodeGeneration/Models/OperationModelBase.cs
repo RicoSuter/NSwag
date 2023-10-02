@@ -350,14 +350,9 @@ namespace NSwag.CodeGeneration.Models
                 _operation?.RequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
                 _operation.RequestBody.Content["multipart/form-data"]?.Schema : null;
 
-            var formDataProperties = formDataSchema?.ActualProperties.Count > 0
-                ? formDataSchema.ActualProperties
-                : formDataSchema?.Reference?.ActualProperties.Count > 0
-                    ? formDataSchema.Reference.ActualProperties
-                    : null;
-
-            if (formDataProperties != null)
+            if (formDataSchema != null && formDataSchema.ActualSchema.ActualProperties.Count > 0)
             {
+                var formDataProperties = formDataSchema.ActualSchema.ActualProperties.ToList();
                 return parameters.Where(p => !p.IsBinaryBodyParameter).Concat(formDataProperties.Select((p, i) => new OpenApiParameter
                 {
                     Name = p.Key,
