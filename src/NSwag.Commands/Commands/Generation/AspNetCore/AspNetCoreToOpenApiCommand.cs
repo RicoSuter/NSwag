@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="NSwagSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -95,43 +95,46 @@ namespace NSwag.Commands.Generation.AspNetCore
                 toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToOpenApiCommand).GetTypeInfo().Assembly.Location);
             }
 
-            string binaryName;
-            var is32BitProject = string.Equals(projectMetadata.PlatformTarget, "x86", StringComparison.OrdinalIgnoreCase);
-            if (is32BitProject)
+            if (projectMetadata.TargetFrameworkIdentifier == ".NETFramework")
             {
-                if (Environment.Is64BitProcess)
+                string binaryName;
+                var is32BitProject = string.Equals(projectMetadata.PlatformTarget, "x86", StringComparison.OrdinalIgnoreCase);
+                if (is32BitProject)
                 {
-                    throw new InvalidOperationException($"The ouput of {projectFile} is a 32-bit application and requires NSwag.Console.x86 to be processed.");
+                    if (Environment.Is64BitProcess)
+                    {
+                        throw new InvalidOperationException($"The ouput of {projectFile} is a 32-bit application and requires NSwag.Console.x86 to be processed.");
+                    }
+
+                    binaryName = LauncherBinaryName + ".x86.exe";
+                }
+                else
+                {
+                    if (!Environment.Is64BitProcess)
+                    {
+                        throw new InvalidOperationException($"The ouput of {projectFile} is a 64-bit application and requires NSwag.Console to be processed.");
+                    }
+
+                    binaryName = LauncherBinaryName + ".exe";
                 }
 
-                binaryName = LauncherBinaryName + ".x86.exe";
-            }
-            else
-            {
-                if (!Environment.Is64BitProcess)
+                var executableSource = Path.Combine(toolDirectory, binaryName);
+                if (!File.Exists(executableSource))
                 {
-                    throw new InvalidOperationException($"The ouput of {projectFile} is a 64-bit application and requires NSwag.Console to be processed.");
+                    throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
                 }
 
-                binaryName = LauncherBinaryName + ".exe";
-            }
+                executable = Path.Combine(projectMetadata.OutputPath, binaryName);
+                File.Copy(executableSource, executable, overwrite: true);
+                cleanupFiles.Add(executable);
 
-            var executableSource = Path.Combine(toolDirectory, binaryName);
-            if (!File.Exists(executableSource))
-            {
-                throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
-            }
-
-            executable = Path.Combine(projectMetadata.OutputPath, binaryName);
-            File.Copy(executableSource, executable, overwrite: true);
-            cleanupFiles.Add(executable);
-
-            var appConfig = Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName + ".config");
-            if (File.Exists(appConfig))
-            {
-                var copiedAppConfig = Path.ChangeExtension(executable, ".exe.config");
-                File.Copy(appConfig, copiedAppConfig, overwrite: true);
-                cleanupFiles.Add(copiedAppConfig);
+                var appConfig = Path.Combine(projectMetadata.OutputPath, projectMetadata.TargetFileName + ".config");
+                if (File.Exists(appConfig))
+                {
+                    var copiedAppConfig = Path.ChangeExtension(executable, ".exe.config");
+                    File.Copy(appConfig, copiedAppConfig, overwrite: true);
+                    cleanupFiles.Add(copiedAppConfig);
+                }
             }
 #else
             var toolDirectory = AppContext.BaseDirectory;
@@ -140,30 +143,39 @@ namespace NSwag.Commands.Generation.AspNetCore
                 toolDirectory = Path.GetDirectoryName(typeof(AspNetCoreToOpenApiCommand).GetTypeInfo().Assembly.Location);
             }
 
-            executable = "dotnet";
-            args.Add("exec");
-            args.Add("--depsfile");
-            args.Add(projectMetadata.ProjectDepsFilePath);
+            if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
+                projectMetadata.TargetFrameworkIdentifier.StartsWith("net"))
+            {
+                executable = "dotnet";
+                args.Add("exec");
+                args.Add("--depsfile");
+                args.Add(projectMetadata.ProjectDepsFilePath);
 
-            args.Add("--runtimeconfig");
-            args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
+                args.Add("--runtimeconfig");
+                args.Add(projectMetadata.ProjectRuntimeConfigFilePath);
 
-            var binaryName = LauncherBinaryName + ".dll";
-            var executorBinary = Path.Combine(toolDirectory, binaryName);
+                var binaryName = LauncherBinaryName + ".dll";
+                var executorBinary = Path.Combine(toolDirectory, binaryName);
                    
-            if (!File.Exists(executorBinary))
-            {
-                binaryName = LauncherBinaryName + ".exe";
-                executorBinary = Path.Combine(toolDirectory, binaryName);
-            }
+                if (!File.Exists(executorBinary))
+                {
+                    binaryName = LauncherBinaryName + ".exe";
+                    executorBinary = Path.Combine(toolDirectory, binaryName);
+                }
 
-            if (!File.Exists(executorBinary))
-            {
-                throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
-            }
+                if (!File.Exists(executorBinary))
+                {
+                    throw new InvalidOperationException($"Unable to locate {binaryName} in {toolDirectory}.");
+                }
 
-            args.Add(executorBinary);
+                args.Add(executorBinary);
+            }
 #endif
+            else
+            {
+                throw new InvalidOperationException($"Unsupported target framework '{projectMetadata.TargetFrameworkIdentifier}'.");
+            }
+
             var commandFile = Path.GetTempFileName();
             var outputFile = Path.GetTempFileName();
             File.WriteAllText(commandFile, JsonConvert.SerializeObject(this));
