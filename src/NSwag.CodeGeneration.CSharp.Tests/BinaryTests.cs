@@ -6,6 +6,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 {
     public class BinaryTests
     {
+
         [Fact]
         public async Task When_body_is_binary_then_stream_is_used_as_parameter_in_CSharp()
         {
@@ -381,6 +382,131 @@ components:
             Assert.Contains("class FileParameter", code);
             Assert.Contains("content_.Add(content_contents_, \"Contents\", contents.FileName ?? \"Contents\");", code);
         }
+        [Fact]
+        public async Task When_multipart_with_ref_should_read_schema()
+        {
+            var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Add File'
+      operationId: addFile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAddFileResponse'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateAddFileRequest'
+components:
+  schemas:
+    CreateAddFileResponse:
+      type: object
+      required:
+        - fileId    
+      properties:  
+        fileId:
+          type: string
+          format: uuid
+    CreateAddFileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+         type: string     
+         format: binary
+        model:
+         type: string
+         enum: ['model-1']
+      required:
+      - file
+      - model";
 
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model? model, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("public partial class FileParameter", code);
+        }
+        [Fact]
+        public async Task When_multipart_inline_schema()
+        {
+            var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Add File'
+      operationId: addFile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAddFileResponse'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                file:
+                 type: string     
+                 format: binary
+                model:
+                 type: string
+                 enum: ['model-1']
+              required:
+              - file
+              - model
+components:
+  schemas:
+    CreateAddFileResponse:
+      type: object
+      required:
+        - fileId    
+      properties:  
+        fileId:
+          type: string
+          format: uuid";
+
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model? model, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
+            Assert.Contains("public partial class FileParameter", code);
+        }
     }
 }
