@@ -301,7 +301,7 @@
                 var disposeResponse_ = true;
                 try
                 {
-                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value, System.StringComparer.OrdinalIgnoreCase);
                     if (response_.Content != null && response_.Content.Headers != null)
                     {
                         foreach (var item_ in response_.Content.Headers)
