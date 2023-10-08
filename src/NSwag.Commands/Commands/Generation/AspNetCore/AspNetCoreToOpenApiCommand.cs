@@ -17,7 +17,7 @@ using NConsole;
 using Newtonsoft.Json;
 using NSwag.Generation;
 
-#if NETCOREAPP || NETSTANDARD
+#if !NETFRAMEWORK
 using System.Runtime.Loader;
 #endif
 

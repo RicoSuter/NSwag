@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETFRAMEWORK
+
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -47,7 +49,6 @@ namespace NSwag.Commands
                             null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
                         serviceProvider = webHostBuilder.Build().Services;
                     }
-#if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
@@ -61,7 +62,6 @@ namespace NSwag.Commands
                             serviceProvider = webHostBuilder.Build().Services;
                         }
                     }
-#endif
                 }
             }
 
@@ -92,9 +92,6 @@ namespace NSwag.Commands
 
         internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
-#if NETFRAMEWORK
-            return null;
-#else
             // We're disabling the default server and the console host lifetime. This will disable:
             // 1. Listening on ports
             // 2. Logging to the console from the default host.
@@ -152,13 +149,9 @@ namespace NSwag.Commands
             try
             {
                 // Get the IServiceProvider from the host
-#if NET6_0_OR_GREATER
                 var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
                 // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
                 var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
-#else
-                var services = ((IHost)factory(Array.Empty<string>())).Services;
-#endif
 
                 // Wait for the application to start so that we know it's fully configured. This is important because
                 // we need the middleware pipeline to be configured before we access the ISwaggerProvider in
@@ -177,7 +170,6 @@ namespace NSwag.Commands
             }
 
             return null;
-#endif
         }
 
         private class NoopHostLifetime : IHostLifetime
@@ -195,3 +187,5 @@ namespace NSwag.Commands
         }
     }
 }
+
+#endif

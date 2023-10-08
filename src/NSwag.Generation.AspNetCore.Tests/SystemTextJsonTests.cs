@@ -1,8 +1,8 @@
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
+
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 using Xunit;
 using NJsonSchema.Generation;

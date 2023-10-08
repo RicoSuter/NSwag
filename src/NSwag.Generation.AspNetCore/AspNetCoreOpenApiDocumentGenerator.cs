@@ -75,7 +75,7 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
             dynamic options = GetJsonOptionsWithReflection(serviceProvider);
 #else
             object options = null;
@@ -202,7 +202,7 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo ??
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
                             item.Item2?.EndpointMetadata?.OfType<MethodInfo>().FirstOrDefault();
 #else
                             null;

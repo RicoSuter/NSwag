@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -19,6 +20,9 @@ namespace NSwag.Commands.Generation.AspNetCore
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
+#if NETFRAMEWORK
+            throw new NotSupportedException("ASP.NET Core running on Full Framework is not supported");
+#else
             var command = JsonConvert.DeserializeObject<AspNetCoreToOpenApiCommand>(commandContent);
             var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
 
@@ -32,6 +36,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);
             File.WriteAllText(outputFile, json);
+#endif
         }
     }
 }
