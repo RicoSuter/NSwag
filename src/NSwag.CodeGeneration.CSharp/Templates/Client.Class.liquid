@@ -3,7 +3,7 @@
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
-    private string _baseUrl = "{{ BaseUrl }}";
+    private string _baseUrl;
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
@@ -36,6 +36,9 @@
     public {{ Class }}()
     {
 {% endif -%}
+{% if UseBaseUrl and GenerateBaseUrlProperty -%}
+        BaseUrl = "{{ BaseUrl }}";
+{% endif -%}
         {% template Client.Class.Constructor %}
     }
 
@@ -58,7 +61,12 @@
     public string BaseUrl
     {
         get { return _baseUrl; }
-        set { _baseUrl = value; }
+        set
+        {
+            _baseUrl = value;
+            if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
+                baseUrl += '/';
+        }
     }
 
 {% endif -%}
@@ -132,7 +140,8 @@
 
 {%     endif -%}
         var urlBuilder_ = new System.Text.StringBuilder();
-        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
+        {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
+        urlBuilder_.Append("{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsOptional -%}
         if ({{ parameter.VariableName }} != null)
