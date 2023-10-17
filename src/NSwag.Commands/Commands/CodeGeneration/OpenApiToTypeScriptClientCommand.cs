@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -405,9 +406,9 @@ namespace NSwag.Commands.CodeGeneration
         public async Task<string> RunAsync()
         {
             var additionalCode = ExtensionCode ?? string.Empty;
-            if (DynamicApis.FileExists(additionalCode))
+            if (File.Exists(additionalCode))
             {
-                additionalCode = DynamicApis.FileReadAllText(additionalCode);
+                additionalCode = File.ReadAllText(additionalCode);
             }
 
             Settings.TypeScriptGeneratorSettings.ExtensionCode = additionalCode;

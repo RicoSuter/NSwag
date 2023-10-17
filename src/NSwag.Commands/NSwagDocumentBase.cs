@@ -170,7 +170,7 @@ namespace NSwag.Commands
             bool applyTransformations)
             where TDocument : NSwagDocumentBase, new()
         {
-            var data = DynamicApis.FileReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
             data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
 
             if (requiredLegacyTransformations)
@@ -236,7 +236,7 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
-            DynamicApis.FileWriteAllText(Path, ToJsonWithRelativePaths());
+            File.WriteAllText(Path, ToJsonWithRelativePaths());
             _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             return Task.CompletedTask;
         }

@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
@@ -33,14 +34,14 @@ namespace NSwag.Commands.Document
             }
             else
             {
-                var hasNSwagJson = DynamicApis.FileExists("nswag.json");
+                var hasNSwagJson = File.Exists("nswag.json");
                 if (hasNSwagJson)
                 {
                     await ExecuteDocumentAsync(host, "nswag.json");
                 }
 
-                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
-                var files = DynamicApis.DirectoryGetFiles(currentDirectory, "*.nswag");
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var files = Directory.GetFiles(currentDirectory, "*.nswag");
                 if (files.Any())
                 {
                     foreach (var file in files)

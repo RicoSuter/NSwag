@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.Infrastructure;
@@ -32,10 +33,10 @@ namespace NSwag.Commands
         {
             if (!string.IsNullOrEmpty(path))
             {
-                var directory = DynamicApis.PathGetDirectoryName(path);
-                if (!string.IsNullOrEmpty(directory) && DynamicApis.DirectoryExists(directory) == false)
+                var directory = Path.GetDirectoryName(path);
+                if (!string.IsNullOrEmpty(directory) && Directory.Exists(directory) == false)
                 {
-                    DynamicApis.DirectoryCreateDirectory(directory);
+                    Directory.CreateDirectory(directory);
                 }
 
                 var data = generator();
@@ -44,9 +45,9 @@ namespace NSwag.Commands
                 data = newLineBehavior == NewLineBehavior.Auto ? data.Replace("\n", Environment.NewLine) :
                        newLineBehavior == NewLineBehavior.CRLF ? data.Replace("\n", "\r\n") : data;
 
-                if (!DynamicApis.FileExists(path) || DynamicApis.FileReadAllText(path) != data)
+                if (!File.Exists(path) || File.ReadAllText(path) != data)
                 {
-                    DynamicApis.FileWriteAllText(path, data);
+                    File.WriteAllText(path, data);
 
                     host?.WriteMessage("Code has been successfully written to file.\n");
                 }

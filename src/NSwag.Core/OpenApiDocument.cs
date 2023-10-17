@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -221,7 +222,7 @@ namespace NSwag
         /// <returns>The <see cref="OpenApiDocument" />.</returns>
         public static async Task<OpenApiDocument> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var data = DynamicApis.FileReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
             return await FromJsonAsync(data, filePath, cancellationToken).ConfigureAwait(false);
         }
 

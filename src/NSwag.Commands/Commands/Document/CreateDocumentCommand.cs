@@ -6,9 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.IO;
 using System.Threading.Tasks;
 using NConsole;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 
 #pragma warning disable 1591
@@ -20,7 +20,7 @@ namespace NSwag.Commands.Document
     {
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (!DynamicApis.FileExists("nswag.json"))
+            if (!File.Exists("nswag.json"))
             {
                 await CreateDocumentAsync("nswag.json");
                 host.WriteMessage("nswag.json file created.");
