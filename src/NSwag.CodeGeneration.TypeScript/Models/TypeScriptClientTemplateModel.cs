@@ -122,5 +122,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to include the httpContext (Angular template only, default: false).</summary>
         public bool IncludeHttpContext => _settings.IncludeHttpContext;
+
+        /// <summary>Gets or sets a value indicating whether to include an optional headers parameter (Aurelia/Axios/Fetch template only, default: false).</summary>
+        public bool AddOptionalHeaders => _settings.AddOptionalHeaders;
     }
 }

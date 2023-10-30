@@ -178,6 +178,61 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         }
 
         [Fact]
+        public async Task When_headers_included()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                AddOptionalHeaders = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            //Assert.Contains("headers?: HeadersInit", code);
+            Assert.Contains("...headers", code);
+        }
+
+        [Fact]
+        public async Task When_headers_not_included()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("headers?: HeadersInit", code);
+            Assert.DoesNotContain("...headers", code);
+        }
+
+        [Fact]
         public async Task When_includeHttpContext()
         {
             // Arrange
