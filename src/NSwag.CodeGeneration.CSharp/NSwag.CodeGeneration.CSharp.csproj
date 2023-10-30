@@ -16,6 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.0-preview004" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.0-preview005" />
   </ItemGroup>
 </Project>
