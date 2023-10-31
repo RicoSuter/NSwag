@@ -178,6 +178,20 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.CSharpGeneratorSettings.TypeAccessModifier = value; }
         }
 
+        [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]
+        public string PropertySetterAccessModifier
+        {
+            get { return Settings.CSharpGeneratorSettings.PropertySetterAccessModifier; }
+            set { Settings.CSharpGeneratorSettings.PropertySetterAccessModifier = value; }
+        }
+
+        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Generate C# 9.0 record types instead of record-like classes (default: false).")]
+        public bool GenerateNativeRecords
+        {
+            get { return Settings.CSharpGeneratorSettings.GenerateNativeRecords; }
+            set { Settings.CSharpGeneratorSettings.GenerateNativeRecords = value; }
+        }
+
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }

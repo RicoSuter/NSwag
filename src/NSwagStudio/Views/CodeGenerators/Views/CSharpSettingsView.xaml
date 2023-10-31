@@ -39,7 +39,11 @@
                 <TextBox Text="{Binding Command.TypeAccessModifier, Mode=TwoWay}" 
                          ToolTip="TypeAccessModifier" Margin="0,0,0,12" />
 
-                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
+                <TextBlock Text="DTO property setter access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.PropertySetterAccessModifier, Mode=TwoWay}"
+                         ToolTip="PropertySetterAccessModifier" Margin="0,0,0,12" />
+
+                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}"
                           ToolTip="GenerateDefaultValues" Margin="0,0,0,12">
                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                 </CheckBox>

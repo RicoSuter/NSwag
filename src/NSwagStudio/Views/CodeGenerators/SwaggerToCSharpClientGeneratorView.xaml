@@ -49,6 +49,11 @@
                               Content="Generate contracts output" 
                               Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.GenerateNativeRecords, Mode=TwoWay}"
+                              ToolTip="GenerateNativeRecords"
+                              Content="Generate record types"
+                              Margin="0,0,0,12" />
+
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace"
                                    FontWeight="Bold" 
