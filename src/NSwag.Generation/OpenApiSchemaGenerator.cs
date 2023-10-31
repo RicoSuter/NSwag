@@ -63,7 +63,7 @@ namespace NSwag.Generation
             JsonSchemaResolver schemaResolver, Action<TSchemaType, JsonSchema> transformation = null)
         {
             contextualType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
-                contextualType, t => t.TypeName, t => t.OriginalGenericArguments[0]);
+                contextualType, t => t.Name, t => t.OriginalGenericArguments[0]);
 
             if (IsFileResponse(contextualType))
             {

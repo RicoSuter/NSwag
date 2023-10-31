@@ -445,7 +445,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             bool enforceNotNull = false)
         {
             var contextualParameterType =
-                extendedApiParameter.ParameterInfo?.ToContextualParameter() as ContextualType ??
+                extendedApiParameter.ParameterInfo?.ToContextualParameter()?.ParameterType ??
                 extendedApiParameter.PropertyInfo?.ToContextualProperty()?.PropertyType ??
                 extendedApiParameter.ParameterType.ToContextualType(extendedApiParameter.Attributes);
 

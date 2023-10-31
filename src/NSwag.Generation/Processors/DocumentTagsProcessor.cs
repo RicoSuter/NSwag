@@ -33,7 +33,7 @@ namespace NSwag.Generation.Processors
         {
             dynamic tagsAttribute = controllerType
                 .ToCachedType()
-                .InheritedAttributes
+                .GetAttributes(true)
                 .FirstAssignableToTypeNameOrDefault("SwaggerTagsAttribute", TypeNameStyle.Name);
 
             if (tagsAttribute != null)
@@ -64,7 +64,7 @@ namespace NSwag.Generation.Processors
         {
             var tagAttributes = controllerType
                 .ToCachedType()
-                .InheritedAttributes
+                .GetAttributes(true)
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
                 .Select(a => (dynamic)a)
                 .ToArray();

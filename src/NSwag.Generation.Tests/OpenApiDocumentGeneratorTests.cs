@@ -9,7 +9,6 @@ namespace NSwag.Generation.Tests
 {
     public class OpenApiDocumentGeneratorTests
     {
-
         public class TestController
         {
             public void HasArrayParameter(string[] foo)
@@ -34,7 +33,7 @@ namespace NSwag.Generation.Tests
                 .Methods
                 .Single(m => m.Name == "HasArrayParameter");
 
-            return generator.CreatePrimitiveParameter("foo", "bar", methodInfo.Parameters.First());
+            return generator.CreatePrimitiveParameter("foo", "bar", methodInfo.Parameters.First().ParameterType);
         }
 
         [Fact]

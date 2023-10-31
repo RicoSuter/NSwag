@@ -79,7 +79,7 @@ namespace NSwag.Generation
         public OpenApiParameter CreatePrimitiveParameter(string name, ContextualParameterInfo contextualParameter)
         {
             var documentation = contextualParameter.GetDescription(_settings.SchemaSettings);
-            return CreatePrimitiveParameter(name, documentation, contextualParameter);
+            return CreatePrimitiveParameter(name, documentation, contextualParameter.ParameterType);
         }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
@@ -102,7 +102,7 @@ namespace NSwag.Generation
                 : CreatePrimitiveOpenApiParameter(contextualParameter, typeDescription);
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
+            operationParameter.IsRequired = contextualParameter.GetContextAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
 
             if (description != string.Empty)

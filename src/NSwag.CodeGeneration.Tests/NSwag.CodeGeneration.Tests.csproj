@@ -5,7 +5,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="NJsonSchema.NewtonsoftJson" Version="11.0.0-preview005" />
+    <PackageReference Include="NJsonSchema.NewtonsoftJson" Version="11.0.0-preview006" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
   </ItemGroup>
