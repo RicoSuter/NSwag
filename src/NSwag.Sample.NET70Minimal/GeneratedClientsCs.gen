@@ -22,7 +22,7 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Client 
     {
-        private string _baseUrl = "";
+        private string _baseUrl;
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
@@ -30,6 +30,7 @@ namespace MyNamespace
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
+            BaseUrl = "";
         }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -42,7 +43,12 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
-            set { _baseUrl = value; }
+            set
+            {
+                _baseUrl = value;
+                if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
+                    baseUrl += '/';
+            }
         }
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
@@ -64,7 +70,8 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<string> GetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/");
+            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+            urlBuilder_.Append("");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -142,7 +149,8 @@ namespace MyNamespace
                 throw new System.ArgumentNullException("b");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/sum/{a}/{b}");
+            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+            urlBuilder_.Append("sum/{a}/{b}");
             urlBuilder_.Replace("{a}", System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
             urlBuilder_.Replace("{b}", System.Uri.EscapeDataString(ConvertToString(b, System.Globalization.CultureInfo.InvariantCulture)));
 
@@ -311,7 +319,7 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ExampleClient 
     {
-        private string _baseUrl = "";
+        private string _baseUrl;
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
@@ -319,6 +327,7 @@ namespace MyNamespace
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
+            BaseUrl = "";
         }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -331,7 +340,12 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
-            set { _baseUrl = value; }
+            set
+            {
+                _baseUrl = value;
+                if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
+                    baseUrl += '/';
+            }
         }
 
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
@@ -353,7 +367,8 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<FileResponse> GetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/examples");
+            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+            urlBuilder_.Append("examples");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
