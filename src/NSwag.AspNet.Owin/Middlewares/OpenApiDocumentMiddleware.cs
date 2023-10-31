@@ -34,7 +34,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
-            _path = path;
+            _path = path.StartsWith("/") ? path : '/' + path;
             _controllerTypes = controllerTypes;
             _settings = settings;
         }
@@ -44,7 +44,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The task.</returns>
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value, _path, StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GetDocumentAsync(context);
 

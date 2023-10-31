@@ -44,7 +44,7 @@ namespace NSwag.AspNetCore.Middlewares
             _nextDelegate = nextDelegate;
 
             _documentName = documentName;
-            _path = path;
+            _path = path.StartsWith("/") ? path : '/' + path;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
@@ -59,11 +59,11 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value, _path, StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GetDocumentAsync(context);
                 context.Response.StatusCode = 200;
-                context.Response.Headers["Content-Type"] = _path.ToLowerInvariant().Contains(".yaml") ?
+                context.Response.Headers["Content-Type"] = _path.IndexOf(".yaml", StringComparison.OrdinalIgnoreCase) >= 0 ?
                     "application/yaml; charset=utf-8" :
                     "application/json; charset=utf-8";
 
@@ -104,7 +104,7 @@ namespace NSwag.AspNetCore.Middlewares
             try
             {
                 var openApiDocument = await GenerateDocumentAsync(context);
-                var data = _path.ToLowerInvariant().Contains(".yaml") ?
+                var data = _path.IndexOf(".yaml", StringComparison.OrdinalIgnoreCase) >= 0 ?
                     OpenApiYamlDocument.ToYaml(openApiDocument) :
                     openApiDocument.ToJson();
 
