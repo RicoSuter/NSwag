@@ -32,7 +32,7 @@
 {% for operation in Operations %}
 
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal{% else %}{% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken{% endif %}{% if AddOptionalHeaders %}{% if operation.Parameters.size > 0 %}, {% endif %}headers?: HeadersInit{% endif %}): Promise<{{ operation.ResultType }}> {
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal{% else %}{% if operation.Parameters.size > 0 %},{%endif%} cancelToken?: CancelToken{% endif %}{% if AddOptionalHeaders %}{% if operation.Parameters.size > 0 or UseAbortSignal == true %}, {% endif %}headers?: HeadersInit{% endif %}): Promise<{{ operation.ResultType }}> {
         {% template Client.RequestUrl %}
 
 {%     if operation.HasBody -%}
@@ -56,10 +56,10 @@
                 "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
-                "Accept": "{{ operation.Produces }}"
+                "Accept": "{{ operation.Produces }}",
 {%     endif -%}
 {%-    if AddOptionalHeaders -%}
-                , ...headers
+                ...headers
 {%-    endif -%}
             },
 {%-    if UseAbortSignal -%}
