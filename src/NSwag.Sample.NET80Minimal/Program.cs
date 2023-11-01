@@ -20,7 +20,7 @@ var app = builder.Build();
 app.UseDeveloperExceptionPage();
 
 app.UseOpenApi();
-app.UseSwaggerUi3();
+app.UseSwaggerUi();
 
 app.MapGet("/", (Func<string>)(() => "Hello World!"))
     .WithTags("General");

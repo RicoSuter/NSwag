@@ -6,16 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\index.html" />
-    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-    <EmbeddedResource Include="SwaggerUi3\favicon-16x16.png" />
-    <EmbeddedResource Include="SwaggerUi3\favicon-32x32.png" />
-    <EmbeddedResource Include="SwaggerUi3\index.html" />
-    <EmbeddedResource Include="SwaggerUi3\oauth2-redirect.html" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui-bundle.js" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui-standalone-preset.js" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui.css" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui.js" />
+    <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+	<EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,8 +15,7 @@
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\ReDocSettings.cs" Link="ReDocSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUi3Settings.cs" Link="SwaggerUi3Settings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUi3Settings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettingsBase.cs" Link="SwaggerUiSettingsBase.cs" />
   </ItemGroup>
 

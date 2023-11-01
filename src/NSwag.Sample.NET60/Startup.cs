@@ -52,7 +52,7 @@ namespace NSwag.Sample.NET60
             });
 
             app.UseOpenApi(p => p.Path = "/swagger/{documentName}/swagger.yaml");
-            app.UseSwaggerUi3(p => p.DocumentPath = "/swagger/{documentName}/swagger.yaml");
+            app.UseSwaggerUi(p => p.DocumentPath = "/swagger/{documentName}/swagger.yaml");
             //app.UseApimundo();
             app.UseApimundo(settings =>
             {

@@ -71,8 +71,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Web
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUi3();
+            app.UseOpenApi();
+            app.UseSwaggerUi();
         }
     }
 }
