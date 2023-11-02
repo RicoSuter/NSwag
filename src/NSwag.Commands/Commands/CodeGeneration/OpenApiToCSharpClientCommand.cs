@@ -46,11 +46,25 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.GenerateClientClasses = value; }
         }
 
+        [Argument(Name = "SuppressClientClassesOutput", IsRequired = false, Description = "Specifies whether generate output for client classes.")]
+        public bool SuppressClientClassesOutput
+        {
+            get { return Settings.SuppressClientClassesOutput; }
+            set { Settings.SuppressClientClassesOutput = value; }
+        }
+
         [Argument(Name = "GenerateClientInterfaces", IsRequired = false, Description = "Specifies whether generate interfaces for the client classes.")]
         public bool GenerateClientInterfaces
         {
             get { return Settings.GenerateClientInterfaces; }
             set { Settings.GenerateClientInterfaces = value; }
+        }
+
+        [Argument(Name = "SuppressClientInterfacesOutput", IsRequired = false, Description = "Specifies whether generate output for interfaces for the client classes.")]
+        public bool SuppressClientInterfacesOutput
+        {
+            get { return Settings.SuppressClientInterfacesOutput; }
+            set { Settings.SuppressClientInterfacesOutput = value; }
         }
 
         [Argument(Name = "ClientBaseInterface", IsRequired = false, Description = "Base interface for client interfaces (empty for no client base interface).")]

@@ -83,6 +83,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate client interfaces.</summary>
         public bool GenerateClientInterfaces => _settings.GenerateClientInterfaces;
 
+        /// <summary>Gets a value indicating whether to generate the output of client interfaces.</summary>
+        public bool SuppressClientInterfacesOutput => _settings.SuppressClientInterfacesOutput;
+
+        /// <summary>Gets a value indicating whether to generate the output of client classes.</summary>
+        public bool SuppressClientClassesOutput => _settings.SuppressClientClassesOutput;
+
         /// <summary>Gets client base interface.</summary>
         public string ClientBaseInterface => _settings.ClientBaseInterface;
 

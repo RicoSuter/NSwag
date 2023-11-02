@@ -19,6 +19,8 @@ namespace NSwag.CodeGeneration
         protected ClientGeneratorBaseSettings()
         {
             GenerateClientClasses = true;
+            SuppressClientClassesOutput = false;
+            SuppressClientInterfacesOutput = false;
             GenerateDtoTypes = true;
 
             OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator();
@@ -43,8 +45,14 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets a value indicating whether to generate interfaces for the client classes (default: false).</summary>
         public bool GenerateClientInterfaces { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate the output of interfaces for the client classes (default: false).</summary>
+        public bool SuppressClientInterfacesOutput { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
         public bool GenerateClientClasses { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate the output of client types (default: false).</summary>
+        public bool SuppressClientClassesOutput { get; set; }
 
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
