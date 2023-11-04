@@ -18,6 +18,7 @@ namespace NSwag.CodeGeneration.CSharp
 
             GenerateExceptionClasses = true;
             ExceptionClass = "ApiException";
+            ExceptionFactory = "DefaultExceptionFactory";
             ClientClassAccessModifier = "public";
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
@@ -48,6 +49,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the name of the exception class (supports the '{controller}' placeholder, default 'ApiException').</summary>
         public string ExceptionClass { get; set; }
+
+        /// <summary>Gets or sets the name of the ExceptionFactory to call when an exception occurs, default 'DefaultExceptionFactory'</summary>
+        public string ExceptionFactory { get; set; }
 
         /// <summary>Gets or sets a value indicating whether an HttpClient instance is injected into the client (default: true).</summary>
         public bool InjectHttpClient { get; set; }

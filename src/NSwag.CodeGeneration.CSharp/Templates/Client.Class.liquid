@@ -340,7 +340,7 @@
 {%         elsif operation.HasSuccessResponse -%}
                     {
                         var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+                        throw {{ ExceptionFactory }}(new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null));
                     }
 {%        elsif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
@@ -376,7 +376,7 @@
 {%         endif -%}
                     {
                         var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        throw {{ ExceptionFactory }}(new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null));
                     }
 {%     endif -%}
                 }
@@ -412,4 +412,9 @@
 
     {% template Client.Class.ConvertToString %}
     {% template Client.Class.Body %}
+
+    private static Exception DefaultExceptionFactory({{ExceptionClass}} ex)
+    {
+        return ex;
+    }
 }

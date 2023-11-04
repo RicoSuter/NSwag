@@ -45,6 +45,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
             BaseClass = _settings.ClientBaseClass?.Replace("{controller}", controllerName);
             ExceptionClass = _settings.ExceptionClass.Replace("{controller}", controllerName);
+            ExceptionFactory = _settings.ExceptionFactory;
         }
 
         /// <summary>Gets the class name.</summary>
@@ -100,6 +101,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the exception class name.</summary>
         public string ExceptionClass { get; }
+
+        /// <summary>Gets the exception factory method name.</summary>
+        public string ExceptionFactory { get; }
 
         /// <summary>Gets a value indicating whether to generate optional parameters.</summary>
         public bool GenerateOptionalParameters => _settings.GenerateOptionalParameters;
