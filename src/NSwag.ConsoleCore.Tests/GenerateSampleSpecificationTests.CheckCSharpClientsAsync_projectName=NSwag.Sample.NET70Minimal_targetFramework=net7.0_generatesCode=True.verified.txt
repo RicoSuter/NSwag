@@ -30,7 +30,6 @@ namespace MyNamespace
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
-            BaseUrl = "";
         }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -47,7 +46,7 @@ namespace MyNamespace
             {
                 _baseUrl = value;
                 if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                    baseUrl += '/';
+                    _baseUrl += '/';
             }
         }
 
@@ -327,7 +326,6 @@ namespace MyNamespace
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
-            BaseUrl = "";
         }
 
         private static Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -344,7 +342,7 @@ namespace MyNamespace
             {
                 _baseUrl = value;
                 if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                    baseUrl += '/';
+                    _baseUrl += '/';
             }
         }
 

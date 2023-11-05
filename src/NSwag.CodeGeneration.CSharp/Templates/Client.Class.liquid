@@ -35,11 +35,11 @@
 {% else -%}
     public {{ Class }}()
     {
-{% endif -%}
-{% if UseBaseUrl and GenerateBaseUrlProperty -%}
+{%     if UseBaseUrl and GenerateBaseUrlProperty -%}
         BaseUrl = "{{ BaseUrl }}";
+{%     endif -%}
 {% endif -%}
-        {% template Client.Class.Constructor %}
+    {% template Client.Class.Constructor %}
     }
 
     private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
@@ -65,7 +65,7 @@
         {
             _baseUrl = value;
             if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                baseUrl += '/';
+                _baseUrl += '/';
         }
     }
 
