@@ -19,7 +19,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 
@@ -31,6 +30,7 @@ namespace NSwag.Commands
     {
         private string _path;
         private string _latestData;
+        private bool _latestDataSorted;
         private IOutputCommand _selectedSwaggerGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
@@ -78,7 +78,7 @@ namespace NSwag.Commands
                         key[0].ToString().ToLowerInvariant() + key.Substring(1),
                         SelectedSwaggerGenerator
                     }
-                }, JsonSerializer.Create(GetSerializerSettings()));
+                }, JsonSerializer.Create(GetSerializerSettings(sortProperties: true)));
             }
             set
             {
@@ -132,7 +132,7 @@ namespace NSwag.Commands
 
         /// <summary>Gets a value indicating whether the document is dirty (has any changes).</summary>
         [JsonIgnore]
-        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(_latestDataSorted));
 
         /// <summary>Gets the selected Swagger generator.</summary>
         [JsonIgnore]
@@ -233,22 +233,24 @@ namespace NSwag.Commands
         }
 
         /// <summary>Saves the document.</summary>
-        /// <returns>The task.</returns>
-        public Task SaveAsync()
+        /// <param name="sortProperties">Whether to sort the JSON members alphabetically.</param>
+        public Task SaveAsync(bool sortProperties = false)
         {
-            File.WriteAllText(Path, ToJsonWithRelativePaths());
-            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            File.WriteAllText(Path, ToJsonWithRelativePaths(sortProperties));
+            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(sortProperties));
+            _latestDataSorted = sortProperties;
             return Task.CompletedTask;
         }
 
         /// <summary>Converts the document to JSON with relative paths.</summary>
+        /// <param name="sortProperties">Whether to sort the JSON members alphabetically.</param>
         /// <returns>The JSON data.</returns>
-        public string ToJsonWithRelativePaths()
+        public string ToJsonWithRelativePaths(bool sortProperties = false)
         {
             ConvertToRelativePaths();
             try
             {
-                return ToJson();
+                return ToJson(sortProperties);
             }
             finally
             {
@@ -257,10 +259,11 @@ namespace NSwag.Commands
         }
 
         /// <summary>Converts the document to JSON.</summary>
+        /// <param name="sortProperties">Whether to sort the JSON members alphabetically.</param>
         /// <returns>The JSON data.</returns>
-        public string ToJson()
+        public string ToJson(bool sortProperties = false)
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(sortProperties));
         }
 
         /// <summary>Generates the <see cref="OpenApiDocument"/> with the currently selected generator.</summary>
@@ -296,18 +299,47 @@ namespace NSwag.Commands
             }
         }
 
-        private static JsonSerializerSettings GetSerializerSettings()
+        private static JsonSerializerSettings GetSerializerSettings(bool sortProperties = false)
         {
             return new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Include,
                 NullValueHandling = NullValueHandling.Include,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                ContractResolver = sortProperties ? new OrderedCamelCasePropertyNamesContractResolver() : new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter>
                 {
                     new StringEnumConverter()
                 }
             };
+        }
+
+        private sealed class OrderedCamelCasePropertyNamesContractResolver : CamelCasePropertyNamesContractResolver
+        {
+            protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+            {
+                // sort simple properties first, then container objects, then sort by name
+                var properties = base.CreateProperties(type, memberSerialization)
+                    .OrderBy(x =>
+                    {
+                        // document generator before code generators
+                        if (x.PropertyName == "documentGenerator")
+                        {
+                            return 5;
+                        }
+
+                        if (x.PropertyType?.Namespace?.StartsWith("NSwag") == true && x.PropertyType?.IsEnum != true || x.PropertyType == typeof(JObject))
+                        {
+                            // later than others
+                            return 10;
+                        }
+
+                        return 1;
+                    })
+                    .ThenBy(x => x.PropertyName, StringComparer.Ordinal)
+                    .ToList();
+
+                return properties;
+            }
         }
 
         private void ConvertToAbsolutePaths()
@@ -512,12 +544,6 @@ namespace NSwag.Commands
             if (data.Contains("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\""))
             {
                 data = data.Replace("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\"", "\"controllerTarget\": \"AspNetCore\"");
-                saveFile = true;
-            }
-
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
-            {
-                data = data.Replace("\"noBuild\":", "\"useDocumentProvider\": false, \"noBuild\":");
                 saveFile = true;
             }
 

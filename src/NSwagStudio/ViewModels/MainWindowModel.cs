@@ -200,7 +200,7 @@ namespace NSwagStudio.ViewModels
                 if (File.Exists(document.Document.Path))
                 {
                     FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
-                    await document.Document.SaveAsync();
+                    await document.Document.SaveAsync(sortProperties: true);
                     MessageBox.Show($"The file {document.Document.Name} has been saved.", "File saved");
                     return true;
                 }
@@ -225,7 +225,7 @@ namespace NSwagStudio.ViewModels
                     changeCount++;
                     if (File.Exists(document.Document.Path))
                     {
-                        await document.Document.SaveAsync();
+                        await document.Document.SaveAsync(sortProperties: true);
                     }
                     else
                     {
@@ -253,7 +253,7 @@ namespace NSwagStudio.ViewModels
             {
                 document.Document.Path = dlg.FileName;
                 FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
-                await document.Document.SaveAsync();
+                await document.Document.SaveAsync(sortProperties: true);
                 return true;
             }
             return false;
