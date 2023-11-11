@@ -139,33 +139,6 @@
             throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
 {%     endif -%}
-        var urlBuilder_ = new System.Text.StringBuilder();
-        {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
-        urlBuilder_.Append("{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
-{%     for parameter in operation.PathParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-            {% template Client.Class.PathParameter %}
-        else
-            urlBuilder_.Replace("/{{ "{" }}{{ parameter.Name }}}", string.Empty);
-{%         else -%}
-        {% template Client.Class.PathParameter %}
-{%         endif -%}
-{%     endfor -%}
-{%     for parameter in operation.QueryParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
-{%         else -%}
-        {% template Client.Class.QueryParameter %}
-{%         endif -%}
-{%     endfor -%}
-{%     if operation.HasQueryParameters -%}
-        urlBuilder_.Length--;
-{%     endif -%}
-
 {%     if InjectHttpClient -%}
         var client_ = _httpClient;
 {%     elsif UseHttpClientCreationMethod -%}
@@ -288,6 +261,56 @@
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
+{%     endif -%}
+
+                var urlBuilder_ = new System.Text.StringBuilder();
+                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
+{%     assign pathParts = operation.Path | split: "/" -%}
+{%     unless operation.Path == "" -%}
+{%         for pathPart in pathParts -%}
+{%             assign pathPartLength = pathPart | size -%}
+{%             unless pathPartLength == 0 -%}
+{%                 assign firstPathPartChar = pathPart | slice: 0 -%}
+{%                 assign lastPathPartChar = pathPart | slice: -1 -%}
+{%                 if firstPathPartChar == "{" and lastPathPartChar == "}" -%}
+{%                     assign pathParameterPartLength = pathPartLength | minus: 2 -%}
+{%                     assign pathParameterPart = pathPart | slice: 1, pathParameterPartLength -%}
+{%                     for parameter in operation.PathParameters -%}
+{%                         if parameter.Name == pathParameterPart -%}
+{%                             if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null)
+        {
+            {% template Client.Class.PathParameter %}
+        }
+        else
+            if (urlBuilder_.Length > 0) urlBuilder_.Length--;
+{%                         else -%}
+                {% template Client.Class.PathParameter %}
+{%                             endif -%}
+{%                         endif -%}
+{%                     endfor -%}
+{%                 else -%}
+                urlBuilder_.Append("{{ pathPart }}");
+{%                 endif -%}
+{%                 if forloop.last == false -%}
+                urlBuilder_.Append('/');
+{%                 endif -%}
+{%             endunless -%}
+{%         endfor -%}
+{%     endunless -%}
+{%     if operation.HasQueryParameters -%}
+        urlBuilder_.Append('?');
+{%         for parameter in operation.QueryParameters -%}
+{%             if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null)
+        {
+            {% template Client.Class.QueryParameter %}
+        }
+{%             else -%}
+        {% template Client.Class.QueryParameter %}
+{%             endif -%}
+{%         endfor -%}
+        urlBuilder_.Length--;
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
