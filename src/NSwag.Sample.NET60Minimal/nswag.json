@@ -40,7 +40,6 @@
       "schemaNameGeneratorType": null,
       "contractResolverType": null,
       "serializerSettingsType": null,
-      "useDocumentProvider": true,
       "documentName": "v1",
       "aspNetCoreEnvironment": null,
       "createWebHostBuilderMethod": null,

@@ -515,12 +515,6 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
-            {
-                data = data.Replace("\"noBuild\":", "\"useDocumentProvider\": false, \"noBuild\":");
-                saveFile = true;
-            }
-
             if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
