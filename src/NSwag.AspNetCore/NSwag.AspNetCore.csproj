@@ -30,7 +30,7 @@
   <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" PackagePath="" />
     <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-	<EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="**\swagger-ui-es-*.js;bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' OR '$(TargetFramework)' == 'netstandard2.0' ">
