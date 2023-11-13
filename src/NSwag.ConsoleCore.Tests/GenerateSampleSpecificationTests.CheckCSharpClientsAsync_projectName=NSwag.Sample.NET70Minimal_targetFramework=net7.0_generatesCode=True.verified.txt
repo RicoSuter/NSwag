@@ -68,10 +68,6 @@ namespace MyNamespace
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<string> GetAsync(System.Threading.CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-            urlBuilder_.Append("");
-
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
@@ -80,6 +76,9 @@ namespace MyNamespace
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -147,12 +146,6 @@ namespace MyNamespace
             if (b == null)
                 throw new System.ArgumentNullException("b");
 
-            var urlBuilder_ = new System.Text.StringBuilder();
-            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-            urlBuilder_.Append("sum/{a}/{b}");
-            urlBuilder_.Replace("{a}", System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{b}", System.Uri.EscapeDataString(ConvertToString(b, System.Globalization.CultureInfo.InvariantCulture)));
-
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
@@ -161,6 +154,14 @@ namespace MyNamespace
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    urlBuilder_.Append("sum");
+                    urlBuilder_.Append('/');
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('/');
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(b, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -364,10 +365,6 @@ namespace MyNamespace
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<FileResponse> GetAsync(System.Threading.CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-            urlBuilder_.Append("examples");
-
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
@@ -376,6 +373,10 @@ namespace MyNamespace
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    urlBuilder_.Append("examples");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
