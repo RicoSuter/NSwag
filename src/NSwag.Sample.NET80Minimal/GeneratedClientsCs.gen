@@ -47,7 +47,7 @@ namespace MyNamespace
             {
                 _baseUrl = value;
                 if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                    baseUrl += '/';
+                    _baseUrl += '/';
             }
         }
 
@@ -344,7 +344,7 @@ namespace MyNamespace
             {
                 _baseUrl = value;
                 if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                    baseUrl += '/';
+                    _baseUrl += '/';
             }
         }
 
