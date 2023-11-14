@@ -43,7 +43,7 @@ steps:
   displayName: 'Install .NET Core SDK'
   inputs:
     packageType: 'sdk'
-    version: '8.0.100-rc.1.23463.5'
+    version: '8.0.100'
     includePreviewVersions: true
     performMultiLevelLookup: true
     useGlobalJson: true

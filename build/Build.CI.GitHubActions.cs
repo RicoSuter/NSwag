@@ -50,7 +50,7 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         // only need to list the ones that are missing from default image
         newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] 
         {
-            "8.0.100-rc.1.23463.5"
+            "8.0.100"
         }));
 		
         newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
