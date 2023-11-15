@@ -17,7 +17,7 @@
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>[5, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>[6.0.0, 7.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>[7.0.0, 8.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>8.0.0-rc.1.23421.29</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>[8.0.0, 9.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
     <NETStandardLibraryPackageVersion>1.6.1</NETStandardLibraryPackageVersion>
     <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
     <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
