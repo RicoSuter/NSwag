@@ -270,7 +270,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains(@"""options[optionalOrder.id]"") + ""=""", code);
+            Assert.Contains(@"""options[optionalOrder.id]"")).Append('=')", code);
             Assert.Contains("options.OptionalOrderId", code);
         }
 

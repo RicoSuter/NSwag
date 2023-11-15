@@ -265,39 +265,50 @@
 
                 var urlBuilder_ = new System.Text.StringBuilder();
                 {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
-{%     assign pathParts = operation.Path | split: "/" -%}
-{%     unless operation.Path == "" -%}
-{%         for pathPart in pathParts -%}
-{%             assign pathPartLength = pathPart | size -%}
-{%             unless pathPartLength == 0 -%}
-{%                 assign firstPathPartChar = pathPart | slice: 0 -%}
-{%                 assign lastPathPartChar = pathPart | slice: -1 -%}
-{%                 if firstPathPartChar == "{" and lastPathPartChar == "}" -%}
-{%                     assign pathParameterPartLength = pathPartLength | minus: 2 -%}
-{%                     assign pathParameterPart = pathPart | slice: 1, pathParameterPartLength -%}
-{%                     for parameter in operation.PathParameters -%}
-{%                         if parameter.Name == pathParameterPart -%}
-{%                             if parameter.IsOptional -%}
+                // Operation Path: "{{ operation.Path }}"
+{%     if operation.Path contains "{" -%}
+{%        assign pathParts = operation.Path | split: "{" -%}
+{%        for pathPart in pathParts -%}
+{%            if pathPart contains "}" -%}
+{%                assign pathParameterParts = pathPart | split: "}" -%}
+{%                assign pathParameterFound = true -%}
+{%                for parameter in operation.PathParameters -%}
+{%                    if parameter.Name == pathParameterParts[0] -%}
+{%                        if parameter.IsOptional -%}
+{%                            assign pathParameterFound = false -%}
         if ({{ parameter.VariableName }} != null)
         {
             {% template Client.Class.PathParameter %}
         }
         else
             if (urlBuilder_.Length > 0) urlBuilder_.Length--;
-{%                         else -%}
+{%                        else -%}
                 {% template Client.Class.PathParameter %}
-{%                             endif -%}
-{%                         endif -%}
-{%                     endfor -%}
-{%                 else -%}
+{%                        endif -%}
+{%                    endif -%}
+{%                endfor -%}
+{%                comment -%} >>> just in case {% endcomment -%}
+{%                unless pathParameterFound -%}
+                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
+{%                endunless -%}
+{%                comment -%} <<< just in case {% endcomment -%}
+{%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
+{%                if nonParameterPartLengh == 1 -%}
+                urlBuilder_.Append('{{ pathParameterParts[1] }}');
+{%                elsif nonParameterPartLengh > 0 -%}
+                urlBuilder_.Append("{{ pathParameterParts[1] }}");
+{%                endif -%}
+{%            else -%}
+{%                 unless pathPart == "" -%}
                 urlBuilder_.Append("{{ pathPart }}");
-{%                 endif -%}
-{%                 if forloop.last == false -%}
-                urlBuilder_.Append('/');
-{%                 endif -%}
-{%             endunless -%}
-{%         endfor -%}
-{%     endunless -%}
+{%                 endunless -%}
+{%            endif -%}
+{%        endfor -%}
+{%    else -%}
+{%        unless operation.Path == "" -%}
+                urlBuilder_.Append("{{ operation.Path }}");
+{%        endunless -%}
+{%    endif -%}
 {%     if operation.HasQueryParameters -%}
         urlBuilder_.Append('?');
 {%         for parameter in operation.QueryParameters -%}

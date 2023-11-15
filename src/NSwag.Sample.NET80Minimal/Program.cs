@@ -29,6 +29,10 @@ app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
     .WithName("CalculateSum")
     .WithTags("Calculator");
 
+app.MapGet("/abs({a})", (Func<int, int>)(a => Math.Abs(a)))
+    .WithName("AbsoluteValue")
+    .WithTags("Calculator");
+
 // Optional: Use controllers
 app.UseRouting();
 app.MapControllers();

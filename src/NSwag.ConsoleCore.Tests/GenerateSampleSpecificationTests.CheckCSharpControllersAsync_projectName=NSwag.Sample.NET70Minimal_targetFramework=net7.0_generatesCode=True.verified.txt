@@ -29,6 +29,9 @@ namespace MyNamespace
 
         System.Threading.Tasks.Task<int> CalculateSumAsync(int a, int b);
 
+
+        System.Threading.Tasks.Task<int> AbsoluteValueAsync(int a);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -54,6 +57,13 @@ namespace MyNamespace
         {
 
             return _implementation.CalculateSumAsync(a, b);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("abs({a})")]
+        public System.Threading.Tasks.Task<int> AbsoluteValue(int a)
+        {
+
+            return _implementation.AbsoluteValueAsync(a);
         }
 
     }
