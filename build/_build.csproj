@@ -9,6 +9,11 @@
     <NukeScriptDirectory>..</NukeScriptDirectory>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <UseArtifactsOutput>false</UseArtifactsOutput>
+    <NukeExcludeConfig>true</NukeExcludeConfig>
+    <NukeExcludeDirectoryBuild>true</NukeExcludeDirectoryBuild>
+    <NukeExcludeLogs>true</NukeExcludeLogs>
   </PropertyGroup>
 
   <ItemGroup>

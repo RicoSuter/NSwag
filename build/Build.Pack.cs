@@ -37,8 +37,6 @@ public partial class Build
                 nugetVersion += "-" + VersionSuffix;
             }
 
-            ArtifactsDirectory.CreateOrCleanDirectory();
-
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
                 .Where(x => !x.ToString().Contains("_build") &&

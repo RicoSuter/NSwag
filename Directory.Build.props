@@ -31,6 +31,8 @@
     <!-- reduce package size by only including english resources -->
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+
   </PropertyGroup>
 
   <ItemGroup>

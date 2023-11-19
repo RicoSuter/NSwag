@@ -19,16 +19,17 @@ namespace NSwag.ConsoleCore.Tests
         {
             // Arrange
 #if DEBUG
-            var executablePath = $"../../../../NSwag.ConsoleCore/bin/Debug/{targetFramework}/dotnet-nswag.dll";
+            const string configuration = "Debug";
 #else
-            var executablePath = $"../../../../NSwag.ConsoleCore/bin/Release/{targetFramework}/dotnet-nswag.dll";
+            const string configuration = "Release";
 #endif
-            var nswagJsonPath = $"../../../../{projectName}/nswag.json";
-            var openApiJsonPath = $"../../../../{projectName}/openapi.json";
+            var executablePath = Path.GetFullPath($"../../../../artifacts/bin/NSwag.ConsoleCore/{configuration}_{targetFramework}/dotnet-nswag.dll");
+            var nswagJsonPath = Path.GetFullPath($"../../../../src/{projectName}/nswag.json");
+            var openApiJsonPath = Path.GetFullPath($"../../../../src/{projectName}/openapi.json");
 
-            var generatedClientsCsPath = $"../../../../{projectName}/GeneratedClientsCs.gen";
-            var generatedClientsTsPath = $"../../../../{projectName}/GeneratedClientsTs.gen";
-            var generatedControllersCsPath = $"../../../../{projectName}/GeneratedControllersCs.gen";
+            var generatedClientsCsPath = Path.GetFullPath($"../../../../src/{projectName}/GeneratedClientsCs.gen");
+            var generatedClientsTsPath = Path.GetFullPath($"../../../../src/{projectName}/GeneratedClientsTs.gen");
+            var generatedControllersCsPath = Path.GetFullPath($"../../../../src/{projectName}/GeneratedControllersCs.gen");
 
             File.Delete(openApiJsonPath);
             File.Delete(generatedClientsTsPath);
@@ -42,6 +43,8 @@ namespace NSwag.ConsoleCore.Tests
                 FileName = "dotnet",
                 Arguments = executablePath + " run " + nswagJsonPath,
                 CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true
             });
 
             try
@@ -54,7 +57,12 @@ namespace NSwag.ConsoleCore.Tests
             }
 
             // Assert
-            Assert.Equal(0, process.ExitCode);
+            if (process.ExitCode != 0)
+            {
+                var output = await process.StandardOutput.ReadToEndAsync();
+                var error = await process.StandardError.ReadToEndAsync();
+                Assert.True(false, output + error);
+            }
 
             var json = File.ReadAllText(openApiJsonPath);
             json = Regex.Replace(json, "\"NSwag v.*\"", "\"NSwag\"");
