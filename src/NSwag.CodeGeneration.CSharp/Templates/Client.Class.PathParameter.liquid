@@ -1,13 +1,25 @@
 {% if parameter.IsDateTimeArray -%}
-urlBuilder_.Append(System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
+for (var i = 0; i < {{ parameter.VariableName }}.Length; i++)
+{
+    if (i > 0) urlBuilder_.Append(',');
+    urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}[i].ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+}
 {% elsif parameter.IsDateArray -%}
-urlBuilder_.Append(System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => s_.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)))));
+for (var i = 0; i < {{ parameter.VariableName }}.Length; i++)
+{
+    if (i > 0) urlBuilder_.Append(',');
+    urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}[i].ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+}
 {% elsif parameter.IsDateTime -%}
 urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {% elsif parameter.IsDate -%}
 urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {% elsif parameter.IsArray -%}
-urlBuilder_.Append(System.Uri.EscapeDataString(string.Join(",", System.Linq.Enumerable.Select({{ parameter.VariableName }}, s_ => ConvertToString(s_, System.Globalization.CultureInfo.InvariantCulture)))));
+for (var i = 0; i < {{ parameter.VariableName }}.Length; i++)
+{
+    if (i > 0) urlBuilder_.Append(',');
+    urlBuilder_.Append(ConvertToString({{ parameter.VariableName }}[i], System.Globalization.CultureInfo.InvariantCulture));
+}
 {% else -%}
 urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
 {%- endif %}

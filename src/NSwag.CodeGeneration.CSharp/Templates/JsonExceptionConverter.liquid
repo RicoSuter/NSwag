@@ -126,27 +126,47 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
     private System.Collections.Generic.IDictionary<System.Reflection.PropertyInfo, string> GetExceptionProperties(System.Type exceptionType)
     {
         var result = new System.Collections.Generic.Dictionary<System.Reflection.PropertyInfo, string>();
-        foreach (var property in System.Linq.Enumerable.Where(System.Reflection.RuntimeReflectionExtensions.GetRuntimeProperties(exceptionType), 
-            p => p.GetMethod?.IsPublic == true))
+        foreach (var property in System.Reflection.RuntimeReflectionExtensions.GetRuntimeProperties(exceptionType))
         {
+            if (property.GetMethod?.IsPublic != true)
+            {
+                continue;
+            }
+
             var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute<Newtonsoft.Json.JsonPropertyAttribute>(property);
             var propertyName = attribute != null ? attribute.PropertyName : property.Name;
-    
-            if (!System.Linq.Enumerable.Contains(new[] { "Message", "StackTrace", "Source", "InnerException", "Data", "TargetSite", "HelpLink", "HResult" }, propertyName))
-                result[property] = propertyName;
+
+            switch (propertyName)
+            {
+                case "Message":
+                case "StackTrace":
+                case "Source":
+                case "InnerException":
+                case "Data":
+                case "TargetSite":
+                case "HelpLink":
+                case "HResult":
+                    break;
+                default:
+                    result[property] = propertyName;
+                    break;
+            }
         }
         return result;
     }
     
-    private void SetExceptionFieldValue(Newtonsoft.Json.Linq.JObject jObject, string propertyName, object value, string fieldName, Newtonsoft.Json.Serialization.IContractResolver resolver, Newtonsoft.Json.JsonSerializer serializer)
-    {
-        var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(System.Exception)).GetDeclaredField(fieldName);
-        var jsonPropertyName = resolver is Newtonsoft.Json.Serialization.DefaultContractResolver ? ((Newtonsoft.Json.Serialization.DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
-        var property = System.Linq.Enumerable.FirstOrDefault(jObject.Properties(), p => System.String.Equals(p.Name, jsonPropertyName, System.StringComparison.OrdinalIgnoreCase));
-        if (property != null)
+        private void SetExceptionFieldValue(Newtonsoft.Json.Linq.JObject jObject, string propertyName, object value, string fieldName, Newtonsoft.Json.Serialization.IContractResolver resolver, Newtonsoft.Json.JsonSerializer serializer)
         {
-            var fieldValue = property.Value.ToObject(field.FieldType, serializer);
-            field.SetValue(value, fieldValue);
+            var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(System.Exception)).GetDeclaredField(fieldName);
+            var jsonPropertyName = resolver is Newtonsoft.Json.Serialization.DefaultContractResolver ? ((Newtonsoft.Json.Serialization.DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
+            foreach (var property in jObject.Properties())
+            {
+                if (System.String.Equals(p.Name, jsonPropertyName, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    var fieldValue = property.Value.ToObject(field.FieldType, serializer);
+                    field.SetValue(value, fieldValue);
+                    break;
+                }
+            }
         }
     }
-}
