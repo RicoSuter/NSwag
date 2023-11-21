@@ -38,6 +38,13 @@ namespace NSwag.Sample.NET60.Controllers
             return TestEnum.Foo;
         }
 
+        // GET api/values/ToString(5)
+        [HttpGet("ToString({id})")]
+        public ActionResult<string> GetToString(int id)
+        {
+            return TestEnum.Foo.ToString();
+        }
+
         // GET api/values/5
         [HttpGet("{id}/foo")]
         public ActionResult<string> GetFooBar(int id)
