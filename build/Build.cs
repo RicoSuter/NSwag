@@ -56,7 +56,7 @@ partial class Build : NukeBuild
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
-    AbsolutePath NSwagStudioBinaries => SourceDirectory / "NSwagStudio" / "bin" / Configuration;
+    AbsolutePath NSwagStudioBinaries => ArtifactsDirectory / "bin" / "NSwagStudio" / Configuration;
     AbsolutePath NSwagNpmBinaries => SourceDirectory / "NSwag.Npm";
 
     static bool IsRunningOnWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -75,7 +75,7 @@ partial class Build : NukeBuild
         }
         else
         {
-            var propsDocument = XDocument.Parse((SourceDirectory / "Directory.Build.props").ReadAllText());
+            var propsDocument = XDocument.Parse((RootDirectory / "Directory.Build.props").ReadAllText());
             versionPrefix = propsDocument.Element("Project").Element("PropertyGroup").Element("VersionPrefix").Value;
             Serilog.Log.Information("Version prefix {VersionPrefix} read from Directory.Build.props", versionPrefix);
         }
@@ -241,16 +241,15 @@ partial class Build : NukeBuild
         void CopyConsoleBinaries(AbsolutePath target)
         {
             // take just exe from X86 as other files are shared with console project
-            var consoleX86Directory = consoleX86Project.Directory / "bin" / Configuration / "net462" / "publish";
+            var consoleX86Directory = ArtifactsDirectory / "publish" / consoleX86Project.Name / Configuration;
             CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
             CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
 
-            CopyDirectoryRecursively(consoleProject.Directory / "bin" / Configuration / "net462" / "publish", target / "Win", DirectoryExistsPolicy.Merge);
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleProject.Name / Configuration, target / "Win", DirectoryExistsPolicy.Merge);
 
-            var consoleCoreDirectory = consoleCoreProject.Directory / "bin" / Configuration;
-            CopyDirectoryRecursively(consoleCoreDirectory / "net6.0" / "publish", target / "Net60");
-            CopyDirectoryRecursively(consoleCoreDirectory / "net7.0" / "publish", target / "Net70");
-            CopyDirectoryRecursively(consoleCoreDirectory / "net8.0" / "publish", target / "Net80");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net6.0"), target / "Net60");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net7.0"), target / "Net70");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net7.0"), target / "Net80");
         }
 
         Serilog.Log.Information("Copy published Console for NSwagStudio");

@@ -70,15 +70,15 @@
         <file src="..\..\assets\NuGetIcon.png" target="NuGetIcon.png" />
         <file src="build\*" target="build\" />
         <file src="buildMultiTargeting\*" target="buildMultiTargeting\" />
-        <file src="bin\$configuration$\net462\NSwag.AspNetCore.dll" target="lib\net462\" />
-        <file src="bin\$configuration$\net462\NSwag.AspNetCore.xml" target="lib\net462\" />
-        <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
-        <file src="bin\$configuration$\netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
-        <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.dll" target="lib\net6.0\" />
-        <file src="bin\$configuration$\net6.0\NSwag.AspNetCore.xml" target="lib\net6.0\" />
-        <file src="bin\$configuration$\net7.0\NSwag.AspNetCore.dll" target="lib\net7.0\" />
-        <file src="bin\$configuration$\net7.0\NSwag.AspNetCore.xml" target="lib\net7.0\" />
-        <file src="bin\$configuration$\net8.0\NSwag.AspNetCore.dll" target="lib\net8.0\" />
-        <file src="bin\$configuration$\net8.0\NSwag.AspNetCore.xml" target="lib\net8.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net462\NSwag.AspNetCore.dll" target="lib\net462\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net462\NSwag.AspNetCore.xml" target="lib\net462\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_netstandard2.0\NSwag.AspNetCore.dll" target="lib\netstandard2.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net6.0\NSwag.AspNetCore.dll" target="lib\net6.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net6.0\NSwag.AspNetCore.xml" target="lib\net6.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net7.0\NSwag.AspNetCore.dll" target="lib\net7.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net7.0\NSwag.AspNetCore.xml" target="lib\net7.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net8.0\NSwag.AspNetCore.dll" target="lib\net8.0\" />
+        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net8.0\NSwag.AspNetCore.xml" target="lib\net8.0\" />
     </files>
 </package>

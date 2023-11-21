@@ -9,8 +9,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <SuppressIces>ICE69</SuppressIces>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <OutputPath>..\..\artifacts\bin\NSwagStudio.Installer\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\..\artifacts\obj\NSwagStudio.Installer\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Generated.wxs" />
@@ -40,7 +40,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="Heat" AfterTargets="PreBuildEvent">
     <PropertyGroup>
-      <DefineConstants>SourcePath=..\NSwagStudio\bin\$(Configuration)</DefineConstants>
+      <DefineConstants>SourcePath=..\..\artifacts\bin\NSwagStudio\$(Configuration)</DefineConstants>
     </PropertyGroup>
     <HeatDirectory
             DirectoryRefId="RootDirectory"
@@ -51,7 +51,7 @@
             OutputFile="Generated.wxs"
             RunAsSeparateProcess="true"
             PreprocessorVariable="var.SourcePath"
-            Directory="..\NSwagStudio\bin\$(Configuration)"
+            Directory="..\..\artifacts\bin\NSwagStudio\$(Configuration)"
             ComponentGroupName="SourceComponentGroup"
             ToolPath="$(WixToolPath)" />
   </Target>
