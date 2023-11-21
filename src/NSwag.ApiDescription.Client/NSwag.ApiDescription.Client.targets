@@ -34,7 +34,13 @@
         <Command Condition="'%(NSwagGenerateClientClasses)' != ''">%(Command) /generateClientClasses:%(NSwagGenerateClientClasses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagSuppressClientClassesOutput)' != ''">%(Command) /suppressClientClassesOutput:%(NSwagSuppressClientClassesOutput)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
         <Command Condition="'%(NSwagGenerateClientInterfaces)' != ''">%(Command) /generateClientInterfaces:%(NSwagGenerateClientInterfaces)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagSuppressClientInterfacesOutput)' != ''">%(Command) /suppressClientInterfacesOutput:%(NSwagSuppressClientInterfacesOutput)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagClientBaseInterface)' != ''">%(Command) /clientBaseInterface:%(NSwagClientBaseInterface)</Command>

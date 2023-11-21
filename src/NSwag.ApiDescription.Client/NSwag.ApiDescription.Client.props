@@ -7,7 +7,9 @@
       <NSwagClientBaseClass>$(NSwagClientBaseClass)</NSwagClientBaseClass>
       <NSwagConfigurationClass>$(NSwagConfigurationClass)</NSwagConfigurationClass>
       <NSwagGenerateClientClasses>$(NSwagGenerateClientClasses)</NSwagGenerateClientClasses>
+      <NSwagSuppressClientClassesOutput>$(NSwagSuppressClientClassesOutput)</NSwagSuppressClientClassesOutput>
       <NSwagGenerateClientInterfaces>$(NSwagGenerateClientInterfaces)</NSwagGenerateClientInterfaces>
+      <NSwagSuppressClientInterfacesOutput>$(NSwagSuppressClientInterfacesOutput)</NSwagSuppressClientInterfacesOutput>
       <NSwagClientBaseInterface>$(NSwagClientBaseInterface)</NSwagClientBaseInterface>
       <NSwagInjectHttpClient>$(NSwagInjectHttpClient)</NSwagInjectHttpClient>
       <NSwagDisposeHttpClient>$(NSwagDisposeHttpClient)</NSwagDisposeHttpClient>
@@ -93,7 +95,9 @@
       <NSwagClientBaseClass>$(NSwagClientBaseClass)</NSwagClientBaseClass>
       <NSwagConfigurationClass>$(NSwagConfigurationClass)</NSwagConfigurationClass>
       <NSwagGenerateClientClasses>$(NSwagGenerateClientClasses)</NSwagGenerateClientClasses>
+      <NSwagSuppressClientClassesOutput>$(NSwagSuppressClientClassesOutput)</NSwagSuppressClientClassesOutput>
       <NSwagGenerateClientInterfaces>$(NSwagGenerateClientInterfaces)</NSwagGenerateClientInterfaces>
+      <NSwagSuppressClientInterfacesOutput>$(NSwagSuppressClientInterfacesOutput)</NSwagSuppressClientInterfacesOutput>
       <NSwagClientBaseInterface>$(NSwagClientBaseInterface)</NSwagClientBaseInterface>
       <NSwagInjectHttpClient>$(NSwagInjectHttpClient)</NSwagInjectHttpClient>
       <NSwagDisposeHttpClient>$(NSwagDisposeHttpClient)</NSwagDisposeHttpClient>
