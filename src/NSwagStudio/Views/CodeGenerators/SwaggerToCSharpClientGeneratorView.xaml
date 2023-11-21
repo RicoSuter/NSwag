@@ -90,6 +90,10 @@
                                       ToolTip="GenerateClientClasses"
                                       Content="Generate Client Classes" Margin="0,0,0,12" />
 
+                            <CheckBox IsChecked="{Binding Command.SuppressClientClassesOutput, Mode=TwoWay}" 
+                                      ToolTip="SuppressClientClassesOutput"
+                                      Content="Suppress output of generated Client Classes" Margin="0,0,0,12" />
+
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                     <Run Text="Operation Generation Mode" FontWeight="Bold" />
@@ -153,6 +157,10 @@
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.SuppressClientInterfacesOutput, Mode=TwoWay}" 
+                                          ToolTip="SuppressClientInterfacesOutput"
+                                          Content="Suppress output of generated interfaces for Client classes" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Base interface for Client Interfaces (optional)" FontWeight="Bold" Margin="0,0,0,6"
                                            Visibility="{Binding Command.GenerateClientInterfaces, Converter={StaticResource VisibilityConverter}}" />
