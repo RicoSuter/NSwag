@@ -1,7 +1,7 @@
 ﻿{%              if GenerateNullableReferenceTypes -%}
-private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+protected virtual string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
 {%              else -%}
-private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+protected virtual string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
     if (value == null)
