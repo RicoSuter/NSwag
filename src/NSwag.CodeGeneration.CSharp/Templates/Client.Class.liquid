@@ -263,9 +263,11 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-                var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
-                // Operation Path: "{{ operation.Path }}"
+                string url_;
+                var urlBuilder_ = GetStringBuilder();
+                try
+                {
+                    // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
 {%        for pathPart in pathParts -%}
@@ -276,47 +278,47 @@
 {%                    if parameter.Name == pathParameterParts[0] -%}
 {%                        if parameter.IsOptional -%}
 {%                            assign pathParameterFound = false -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.PathParameter %}
-        }
-        else
-            if (urlBuilder_.Length > 0) urlBuilder_.Length--;
+                    if ({{ parameter.VariableName }} != null)
+                    {
+                        {% template Client.Class.PathParameter %}
+                    }
+                    else
+                        if (urlBuilder_.Length > 0) urlBuilder_.Length--;
 {%                        else -%}
-                {% template Client.Class.PathParameter %}
+                            {% template Client.Class.PathParameter %}
 {%                        endif -%}
 {%                    endif -%}
 {%                endfor -%}
 {%                comment -%} >>> just in case {% endcomment -%}
 {%                unless pathParameterFound -%}
-                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
+                    urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
 {%                endunless -%}
 {%                comment -%} <<< just in case {% endcomment -%}
 {%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
 {%                if nonParameterPartLengh == 1 -%}
-                urlBuilder_.Append('{{ pathParameterParts[1] }}');
+                    urlBuilder_.Append('{{ pathParameterParts[1] }}');
 {%                elsif nonParameterPartLengh > 0 -%}
-                urlBuilder_.Append("{{ pathParameterParts[1] }}");
+                    urlBuilder_.Append("{{ pathParameterParts[1] }}");
 {%                endif -%}
 {%            else -%}
 {%                 unless pathPart == "" -%}
-                urlBuilder_.Append("{{ pathPart }}");
+                    urlBuilder_.Append("{{ pathPart }}");
 {%                 endunless -%}
 {%            endif -%}
 {%        endfor -%}
 {%    else -%}
 {%        unless operation.Path == "" -%}
-                urlBuilder_.Append("{{ operation.Path }}");
+                    urlBuilder_.Append("{{ operation.Path }}");
 {%        endunless -%}
 {%    endif -%}
 {%     if operation.HasQueryParameters -%}
-        urlBuilder_.Append('?');
+                    urlBuilder_.Append('?');
 {%         for parameter in operation.QueryParameters -%}
 {%             if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
+                    if ({{ parameter.VariableName }} != null)
+                    {
+                        {% template Client.Class.QueryParameter %}
+                    }
 {%             else -%}
         {% template Client.Class.QueryParameter %}
 {%             endif -%}
@@ -325,12 +327,18 @@
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
-                await PrepareRequestAsync(client_, request_, urlBuilder_, cancellationToken).ConfigureAwait(false);
+                    await PrepareRequestAsync(client_, request_, urlBuilder_, cancellationToken).ConfigureAwait(false);
 {% else -%}
-                PrepareRequest(client_, request_, urlBuilder_);
+                    PrepareRequest(client_, request_, urlBuilder_);
 {% endif -%}
 
-                var url_ = urlBuilder_.ToString();
+                    url_ = urlBuilder_.ToString();
+                }
+                finally
+                {
+                    ReturnStringBuilder(urlBuilder_);
+                }
+
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
@@ -448,4 +456,6 @@
 
     {% template Client.Class.ConvertToString %}
     {% template Client.Class.Body %}
+
+    {% template Client.Class.StringBuilder %}
 }
