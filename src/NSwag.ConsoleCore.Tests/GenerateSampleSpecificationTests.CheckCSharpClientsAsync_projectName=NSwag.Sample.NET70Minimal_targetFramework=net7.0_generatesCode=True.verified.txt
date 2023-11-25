@@ -144,10 +144,10 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<int> CalculateSumAsync(int a, int b, System.Threading.CancellationToken cancellationToken)
         {
             if (a == null)
-                throw new System.ArgumentNullException("a");
+                ThrowArgumentNullException("a");
 
             if (b == null)
-                throw new System.ArgumentNullException("b");
+                ThrowArgumentNullException("b");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -229,7 +229,7 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<int> AbsoluteValueAsync(int a, System.Threading.CancellationToken cancellationToken)
         {
             if (a == null)
-                throw new System.ArgumentNullException("a");
+                ThrowArgumentNullException("a");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -258,7 +258,9 @@ namespace MyNamespace
                     var disposeResponse_ = true;
                     try
                     {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
                         if (response_.Content != null && response_.Content.Headers != null)
                         {
                             foreach (var item_ in response_.Content.Headers)
@@ -309,6 +311,8 @@ namespace MyNamespace
 
             public string Text { get; }
         }
+
+        private static void ThrowArgumentNullException(string parameterName) => throw new global::System.ArgumentNullException(parameterName);
 
         public bool ReadResponseAsString { get; set; }
 
@@ -534,6 +538,8 @@ namespace MyNamespace
 
             public string Text { get; }
         }
+
+        private static void ThrowArgumentNullException(string parameterName) => throw new global::System.ArgumentNullException(parameterName);
 
         public bool ReadResponseAsString { get; set; }
 

@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains("new System.Net.Http.MultipartFormDataContent", code);
             Assert.Contains("if (foo != null)", code);
-            Assert.Contains("throw new System.ArgumentNullException(\"bar\");", code);
+            Assert.Contains("ThrowArgumentNullException(\"bar\");", code);
         }
 
         public class FileUploadController : Controller
@@ -128,7 +128,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains("new System.Net.Http.FormUrlEncodedContent", code);
             Assert.Contains("if (foo != null)", code);
-            Assert.Contains("throw new System.ArgumentNullException(\"bar\");", code);
+            Assert.Contains("ThrowArgumentNullException(\"bar\");", code);
         }
 
         // TODO: Implement for JQuery, AngularJS and Angular 2
