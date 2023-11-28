@@ -1,6 +1,6 @@
 ﻿public bool ReadResponseAsString { get; set; }
 
-protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
+protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Threading.CancellationToken cancellationToken)
 {
     if (response == null || response.Content == null)
     {
@@ -26,7 +26,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         catch ({% if UseSystemTextJson %}System.Text.Json.JsonException{% else %}Newtonsoft.Json.JsonException{% endif %} exception)
         {
             var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, responseText, headers, exception);
+            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, responseText, GetResponseHeaders(response), exception);
         }
     }
     else
@@ -54,7 +54,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         catch ({% if UseSystemTextJson %}System.Text.Json.JsonException{% else %}Newtonsoft.Json.JsonException{% endif %} exception)
         {
             var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, string.Empty, headers, exception);
+            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, string.Empty, GetResponseHeaders(response), exception);
         }
     }
 }

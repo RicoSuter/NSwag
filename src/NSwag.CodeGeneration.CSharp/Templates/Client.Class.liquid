@@ -344,15 +344,6 @@
                 var disposeResponse_ = true;
                 try
                 {
-                    var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                    foreach (var item_ in response_.Headers)
-                        headers_[item_.Key] = item_.Value;
-                    if (response_.Content != null && response_.Content.Headers != null)
-                    {
-                        foreach (var item_ in response_.Content.Headers)
-                            headers_[item_.Key] = item_.Value;
-                    }
-
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                     await ProcessResponseAsync(client_, response_, cancellationToken).ConfigureAwait(false);
 {% else %}
@@ -376,16 +367,16 @@
 {%         elsif operation.HasSuccessResponse -%}
                     {
                         var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
+                        throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, GetResponseHeaders(response_), null);
                     }
 {%        elsif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+                    return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, GetResponseHeaders(response_), {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
                     return {{ operation.UnwrappedResultDefaultValue }};
 {%             endif -%}
 {%         elsif operation.WrapResponse -%}
-                    return new {{ ResponseClass }}(status_, headers_);
+                    return new {{ ResponseClass }}(status_, GetResponseHeaders(response_));
 {%         endif -%}
 {%     else -%}
 {%         if operation.HasSuccessResponse == false -%}
@@ -398,12 +389,12 @@
                     {
 {%             if operation.HasResultType -%}
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
-                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
+                        return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, GetResponseHeaders(response_), {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
                         return {{ operation.UnwrappedResultDefaultValue }};
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
-                        return new {{ ResponseClass }}(status_, headers_);
+                        return new {{ ResponseClass }}(status_, GetResponseHeaders(response_));
 {%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
                         return;
 {%             endif -%}
@@ -412,7 +403,7 @@
 {%         endif -%}
                     {
                         var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, GetResponseHeaders(response_), null);
                     }
 {%     endif -%}
                 }
@@ -442,6 +433,19 @@
         public T Object { get; }
 
         public string Text { get; }
+    }
+
+    private static System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>> GetResponseHeaders(System.Net.Http.HttpResponseMessage response)
+    {
+        var headers = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+        foreach (var item in response.Headers)
+            headers[item.Key] = item.Value;
+        if (response.Content != null && response.Content.Headers != null)
+        {
+            foreach (var item in response.Content.Headers)
+                headers[item.Key] = item.Value;
+        }
+        return headers;
     }
 
     {% template Client.Class.ReadObjectResponse %}
