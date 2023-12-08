@@ -77,13 +77,21 @@ namespace MyNamespace
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: ""
+                    string url_;
+                    var urlBuilder_ = GetStringBuilder();
+                    try
+                    {
+                        // Operation Path: ""
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
+                        url_ = urlBuilder_.ToString();
+                    }
+                    finally
+                    {
+                        ReturnStringBuilder(urlBuilder_);
+                    }
+
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
@@ -158,17 +166,25 @@ namespace MyNamespace
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: "sum/{a}/{b}"
-                    urlBuilder_.Append("sum/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append('/');
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(b, System.Globalization.CultureInfo.InvariantCulture)));
+                    string url_;
+                    var urlBuilder_ = GetStringBuilder();
+                    try
+                    {
+                        // Operation Path: "sum/{a}/{b}"
+                        urlBuilder_.Append("sum/");
+                                urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append('/');
+                                urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(b, System.Globalization.CultureInfo.InvariantCulture)));
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
+                        url_ = urlBuilder_.ToString();
+                    }
+                    finally
+                    {
+                        ReturnStringBuilder(urlBuilder_);
+                    }
+
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
@@ -240,16 +256,24 @@ namespace MyNamespace
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: "abs({a})"
-                    urlBuilder_.Append("abs(");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append(')');
+                    string url_;
+                    var urlBuilder_ = GetStringBuilder();
+                    try
+                    {
+                        // Operation Path: "abs({a})"
+                        urlBuilder_.Append("abs(");
+                                urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
+                        urlBuilder_.Append(')');
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
+                        url_ = urlBuilder_.ToString();
+                    }
+                    finally
+                    {
+                        ReturnStringBuilder(urlBuilder_);
+                    }
+
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
@@ -409,6 +433,10 @@ namespace MyNamespace
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+
+        private static global::System.Text.StringBuilder GetStringBuilder() => new global::System.Text.StringBuilder(8000);
+
+        private partial static void ReturnStringBuilder(global::System.Text.StringBuilder sb);
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -469,14 +497,22 @@ namespace MyNamespace
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: "examples"
-                    urlBuilder_.Append("examples");
+                    string url_;
+                    var urlBuilder_ = GetStringBuilder();
+                    try
+                    {
+                        // Operation Path: "examples"
+                        urlBuilder_.Append("examples");
 
-                    PrepareRequest(client_, request_, urlBuilder_);
+                        PrepareRequest(client_, request_, urlBuilder_);
 
-                    var url_ = urlBuilder_.ToString();
+                        url_ = urlBuilder_.ToString();
+                    }
+                    finally
+                    {
+                        ReturnStringBuilder(urlBuilder_);
+                    }
+
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
@@ -634,6 +670,10 @@ namespace MyNamespace
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+
+        private static global::System.Text.StringBuilder GetStringBuilder() => new global::System.Text.StringBuilder(8000);
+
+        private partial static void ReturnStringBuilder(global::System.Text.StringBuilder sb);
     }
 
     
