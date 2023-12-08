@@ -5,7 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="11.0.0-preview007" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" Version="11.0.0-preview008" />
   </ItemGroup>
   
   <ItemGroup>
