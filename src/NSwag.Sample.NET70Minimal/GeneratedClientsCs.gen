@@ -144,10 +144,10 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<int> CalculateSumAsync(int a, int b, System.Threading.CancellationToken cancellationToken)
         {
             if (a == null)
-                throw new System.ArgumentNullException("a");
+                ThrowArgumentNullException("a");
 
             if (b == null)
-                throw new System.ArgumentNullException("b");
+                ThrowArgumentNullException("b");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -229,7 +229,7 @@ namespace MyNamespace
         public virtual async System.Threading.Tasks.Task<int> AbsoluteValueAsync(int a, System.Threading.CancellationToken cancellationToken)
         {
             if (a == null)
-                throw new System.ArgumentNullException("a");
+                ThrowArgumentNullException("a");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -311,6 +311,8 @@ namespace MyNamespace
 
             public string Text { get; }
         }
+
+        private static void ThrowArgumentNullException(string parameterName) => throw new global::System.ArgumentNullException(parameterName);
 
         public bool ReadResponseAsString { get; set; }
 
@@ -536,6 +538,8 @@ namespace MyNamespace
 
             public string Text { get; }
         }
+
+        private static void ThrowArgumentNullException(string parameterName) => throw new global::System.ArgumentNullException(parameterName);
 
         public bool ReadResponseAsString { get; set; }
 

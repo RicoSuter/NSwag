@@ -123,20 +123,20 @@
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            ThrowArgumentNullException("{{ parameter.VariableName }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            ThrowArgumentNullException("{{ parameter.VariableName }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
+            ThrowArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
 {%     endif -%}
 {%     if InjectHttpClient -%}
@@ -162,7 +162,7 @@
 {%     for parameter in operation.HeaderParameters %}
 {%         if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    ThrowArgumentNullException("{{ parameter.VariableName }}");
                 {% template Client.Class.HeaderParameter %}
 {%         else -%}
                 if ({{ parameter.VariableName }} != null)
@@ -204,7 +204,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    ThrowArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
                     keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
@@ -220,7 +220,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    ThrowArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
                 {
@@ -443,6 +443,8 @@
 
         public string Text { get; }
     }
+
+    private static void ThrowArgumentNullException(string parameterName) => throw new global::System.ArgumentNullException(parameterName);
 
     {% template Client.Class.ReadObjectResponse %}
 
