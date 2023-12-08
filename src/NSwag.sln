@@ -102,6 +102,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NSwag.ApiDescription.Client", "NSwag.ApiDescription.Client", "{E6E40935-0C79-480B-BF29-8C493AC7E518}"
 	ProjectSection(SolutionItems) = preProject
 		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.nuspec = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.nuspec
+		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.props = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.props
 		NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.targets = NSwag.ApiDescription.Client\NSwag.ApiDescription.Client.targets
 	EndProjectSection
 EndProject
