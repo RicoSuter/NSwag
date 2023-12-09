@@ -32,6 +32,9 @@ namespace MyNamespace
 
         System.Threading.Tasks.Task<int> AbsoluteValueAsync(int a);
 
+
+        System.Threading.Tasks.Task<int> IdentityAsync(int id);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -64,6 +67,13 @@ namespace MyNamespace
         {
 
             return _implementation.AbsoluteValueAsync(a);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("id:{id}")]
+        public System.Threading.Tasks.Task<int> Identity(int id)
+        {
+
+            return _implementation.IdentityAsync(id);
         }
 
     }

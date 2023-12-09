@@ -33,6 +33,10 @@ app.MapGet("/abs({a})", (Func<int, int>)(a => Math.Abs(a)))
     .WithName("AbsoluteValue")
     .WithTags("Calculator");
 
+app.MapGet("/id:{id}", (int id) => id)
+    .WithName("Identity")
+    .WithTags("Calculator");
+
 // Optional: Use controllers
 app.UseRouting();
 app.MapControllers();
