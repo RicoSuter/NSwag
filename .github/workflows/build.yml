@@ -40,27 +40,31 @@ jobs:
         run: |
           echo "Adding GNU tar to PATH"
           echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: |
-            8.0.100
       - uses: actions/checkout@v3
-      - name: 'Cache: .nuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v3
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj', 'src/**/package.json') }}
-      - name: 'Run: InstallDependencies, Compile, Test, Pack, Publish'
-        run: ./build.cmd InstallDependencies Compile Test Pack Publish
+      - name: 'Run: Compile, Test, Pack, Publish'
+        run: ./build.cmd Compile Test Pack Publish
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - name: 'Publish: artifacts'
+      - name: 'Publish: NSwag.zip'
         uses: actions/upload-artifact@v3
         with:
-          name: artifacts
-          path: artifacts
+          name: NSwag.zip
+          path: artifacts/NSwag.zip
+      - name: 'Publish: NSwag.Npm.zip'
+        uses: actions/upload-artifact@v3
+        with:
+          name: NSwag.Npm.zip
+          path: artifacts/NSwag.Npm.zip
+      - name: 'Publish: NSwagStudio.msi'
+        uses: actions/upload-artifact@v3
+        with:
+          name: NSwagStudio.msi
+          path: artifacts/NSwagStudio.msi
+      - name: 'Publish: NuGet Packages'
+        uses: actions/upload-artifact@v3
+        with:
+          name: NuGet Packages
+          path: artifacts/*.nupkg
