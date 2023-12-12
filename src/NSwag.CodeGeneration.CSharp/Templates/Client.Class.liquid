@@ -3,7 +3,9 @@
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
+#pragma warning disable 8618 // Set by constructor via BaseUrl property
     private string _baseUrl;
+#pragma restore disable 8618 // Set by constructor via BaseUrl property
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;

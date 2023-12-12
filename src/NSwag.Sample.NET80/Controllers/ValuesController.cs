@@ -45,6 +45,13 @@ namespace NSwag.Sample.NET80.Controllers
             return TestEnum.Foo.ToString();
         }
 
+        // GET api/values/id:5
+        [HttpGet("id:{id}")]
+        public ActionResult<string> GetToId(int id)
+        {
+            return TestEnum.Foo.ToString();
+        }
+
         // GET api/values/5
         [HttpGet("{id}/foo")]
         public ActionResult<string> GetFooBar(int id)
