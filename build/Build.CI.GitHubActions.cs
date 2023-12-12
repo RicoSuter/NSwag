@@ -13,8 +13,8 @@ using Nuke.Common.Utilities;
     OnPullRequestIncludePaths = new[] { "**/*.*" },
     OnPullRequestExcludePaths = new[] { "**/*.md" },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
-    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" },
+    InvokedTargets = new[] { nameof(Compile), nameof(Test), nameof(Pack) },
+    CacheKeyFiles = new string[0],
     JobConcurrencyCancelInProgress = true),
 ]
 [CustomGitHubActions(
@@ -27,9 +27,9 @@ using Nuke.Common.Utilities;
     OnPushIncludePaths = new[] { "**/*.*" },
     OnPushExcludePaths = new[] { "**/*.md" },
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
+    InvokedTargets = new[] { nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
     ImportSecrets = new[] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN" },
-    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
+    CacheKeyFiles = new string[0])
 ]
 public partial class Build
 {
@@ -48,13 +48,24 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var newSteps = new List<GitHubActionsStep>(job.Steps);
 
         // only need to list the ones that are missing from default image
+        /*
         newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[] 
         {
             "8.0.100"
         }));
-		
+        */
+
         newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
         newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
+
+        // add artifacts manually as they would otherwise by hard to configure via attributes
+        if (PublishArtifacts)
+        {
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.zip", Path = "artifacts/NSwag.zip" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.Npm.zip", Path = "artifacts/NSwag.Npm.zip" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwagStudio.msi", Path = "artifacts/NSwagStudio.msi" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NuGet Packages", Path = "artifacts/*.nupkg" });
+        }
 
         job.Steps = newSteps.ToArray();
         return job;

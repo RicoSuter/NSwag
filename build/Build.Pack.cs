@@ -23,7 +23,6 @@ public partial class Build
     Target Pack => _ => _
         .DependsOn(Compile)
         .After(Test)
-        .Produces(ArtifactsDirectory / "*.*")
         .Executes(() =>
         {
             if (Configuration != Configuration.Release)
@@ -127,6 +126,9 @@ public partial class Build
             // ZIP directories
             ZipFile.CreateFromDirectory(NSwagNpmBinaries, ArtifactsDirectory / "NSwag.Npm.zip");
             ZipFile.CreateFromDirectory(NSwagStudioBinaries, ArtifactsDirectory / "NSwag.zip");
+
+            // NSwagStudio.msi
+            CopyFileToDirectory(ArtifactsDirectory / "bin" / "NSwagStudio.Installer" / Configuration / "NSwagStudio.msi", ArtifactsDirectory);
         });
 }
 
