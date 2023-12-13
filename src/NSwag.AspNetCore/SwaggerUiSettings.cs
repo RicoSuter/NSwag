@@ -121,13 +121,13 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
-        public ICollection<SwaggerUi3Route> SwaggerRoutes { get; } = new List<SwaggerUi3Route>();
+        public ICollection<SwaggerUiRoute> SwaggerRoutes { get; } = new List<SwaggerUiRoute>();
 
         /// <summary>Gets or sets the Swagger URL routes factory (SwaggerRoutes is ignored when set).</summary>
 #if AspNetOwin
-        public Func<IOwinRequest, CancellationToken, Task<IEnumerable<SwaggerUi3Route>>> SwaggerRoutesFactory { get; set; }
+        public Func<IOwinRequest, CancellationToken, Task<IEnumerable<SwaggerUiRoute>>> SwaggerRoutesFactory { get; set; }
 #else
-        public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUi3Route>>> SwaggerRoutesFactory { get; set; }
+        public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUiRoute>>> SwaggerRoutesFactory { get; set; }
 #endif
 
         internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
@@ -165,7 +165,7 @@ namespace NSwag.AspNetCore
                 ? "undefined"
                 : JsonConvert.SerializeObject(
 #pragma warning disable 618
-                    swaggerRoutes.Select(r => new SwaggerUi3Route(r.Name,
+                    swaggerRoutes.Select(r => new SwaggerUiRoute(r.Name,
                         TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
 #pragma warning restore 618
                 ));
@@ -188,10 +188,10 @@ namespace NSwag.AspNetCore
     }
 
     /// <summary>Specifies a route in the Swagger dropdown.</summary>
-    public class SwaggerUi3Route
+    public class SwaggerUiRoute
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerUi3Route"/> class.</summary>
-        public SwaggerUi3Route(string name, string url)
+        /// <summary>Initializes a new instance of the <see cref="SwaggerUiRoute"/> class.</summary>
+        public SwaggerUiRoute(string name, string url)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

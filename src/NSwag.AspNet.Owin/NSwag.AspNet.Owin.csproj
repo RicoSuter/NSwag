@@ -15,7 +15,7 @@
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\ReDocSettings.cs" Link="ReDocSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUi3Settings.cs" />
+    <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettingsBase.cs" Link="SwaggerUiSettingsBase.cs" />
   </ItemGroup>
 

@@ -70,7 +70,7 @@ namespace Microsoft.AspNetCore.Builder
                 foreach (var document in documents)
                 {
                     var swaggerRoute = swaggerRouteWithPlaceholder.Replace("{documentName}", document.DocumentName);
-                    settings.SwaggerRoutes.Add(new SwaggerUi3Route(document.DocumentName, swaggerRoute));
+                    settings.SwaggerRoutes.Add(new SwaggerUiRoute(document.DocumentName, swaggerRoute));
                 }
 
                 return true;
