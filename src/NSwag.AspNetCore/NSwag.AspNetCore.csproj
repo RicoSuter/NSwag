@@ -13,12 +13,12 @@
     <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.6</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
     <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.4</MicrosoftAspNetCoreStaticFilesPackageVersion>
     <MicrosoftExtensionsApiDescriptionServerPackageVersion>6.0.3</MicrosoftExtensionsApiDescriptionServerPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>[1.0.1, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>[3.1, 4.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>[5, 6.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>[6.0.0, 7.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>[7.0.0, 8.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>[8.0.0, 9.0)</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>1.0.1</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>3.1.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>5.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>6.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>7.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>8.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
     <NETStandardLibraryPackageVersion>1.6.1</NETStandardLibraryPackageVersion>
     <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
     <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
