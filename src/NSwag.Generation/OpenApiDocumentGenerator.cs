@@ -25,7 +25,8 @@ namespace NSwag.Generation
         /// <param name="schemaResolver">The schema resolver.</param>
         public OpenApiDocumentGenerator(OpenApiDocumentGeneratorSettings settings, JsonSchemaResolver schemaResolver)
         {
-            SchemaGenerator = new OpenApiSchemaGenerator(settings);
+            SchemaGenerator = settings.SchemaGeneratorFactory();
+
             _schemaResolver = schemaResolver;
             _settings = settings;
         }

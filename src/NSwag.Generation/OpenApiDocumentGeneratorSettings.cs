@@ -23,8 +23,12 @@ namespace NSwag.Generation
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentGeneratorSettings"/> class.</summary>
         public OpenApiDocumentGeneratorSettings()
         {
+            SchemaGeneratorFactory = () => new OpenApiSchemaGenerator(this);
             DefaultResponseReferenceTypeNullHandling = ReferenceTypeNullHandling.NotNull;
         }
+
+        /// <summary>Gets or sets the JSON Schema generator factory (default: new instance of <see cref="OpenApiSchemaGenerator"/>.</summary>
+        public Func<OpenApiSchemaGenerator> SchemaGeneratorFactory { get; set; }
 
         /// <summary></summary>
         public JsonSchemaGeneratorSettings SchemaSettings { get; set; } = new SystemTextJsonSchemaGeneratorSettings

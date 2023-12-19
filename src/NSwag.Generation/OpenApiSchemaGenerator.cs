@@ -21,12 +21,13 @@ namespace NSwag.Generation
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings) : base(settings.SchemaSettings)
+        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings) 
+            : base(settings.SchemaSettings)
         {
         }
 
         /// <summary>Generates the properties for the given type and schema.</summary>
-        /// <param name="typeDescription">The type desription.</param>
+        /// <param name="typeDescription">The type description.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
@@ -51,7 +52,7 @@ namespace NSwag.Generation
             }
         }
 
-        /// <summary>Generetes a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
+        /// <summary>Generates a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
         /// <typeparam name="TSchemaType">The resulted schema type which may reference the actual schema.</typeparam>
         /// <param name="contextualType">The type of the schema to generate.</param>
         /// <param name="isNullable">Specifies whether the property, parameter or requested schema type is nullable.</param>
