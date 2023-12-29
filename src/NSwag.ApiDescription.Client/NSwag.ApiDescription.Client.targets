@@ -25,256 +25,256 @@
         <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagClientBaseClass)' != ''">%(Command) /clientBaseClass:%(NSwagClientBaseClass)</Command>
+        <Command Condition="('%(NSwagClientBaseClass)' != '') AND (%(Options.IndexOf(/clientBaseClass:, 'OrdinalIgnoreCase') &gt;= 0)">%(Command) /clientBaseClass:%(NSwagClientBaseClass)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagConfigurationClass)' != ''">%(Command) /configurationClass:%(NSwagConfigurationClass)</Command>
+        <Command Condition="('%(NSwagConfigurationClass)' != '') AND (%(Options.IndexOf(/configurationClass:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /configurationClass:%(NSwagConfigurationClass)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateClientClasses)' != ''">%(Command) /generateClientClasses:%(NSwagGenerateClientClasses)</Command>
+        <Command Condition="('%(NSwagGenerateClientClasses)' != '') AND (%(Options.IndexOf(/generateClientClasses:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateClientClasses:%(NSwagGenerateClientClasses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagSuppressClientClassesOutput)' != ''">%(Command) /suppressClientClassesOutput:%(NSwagSuppressClientClassesOutput)</Command>
+        <Command Condition="('%(NSwagSuppressClientClassesOutput)' != '') AND (%(Options.IndexOf(/suppressClientClassesOutput:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /suppressClientClassesOutput:%(NSwagSuppressClientClassesOutput)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateClientInterfaces)' != ''">%(Command) /generateClientInterfaces:%(NSwagGenerateClientInterfaces)</Command>
+        <Command Condition="('%(NSwagGenerateClientInterfaces)' != '') AND (%(Options.IndexOf(/generateClientInterfaces:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateClientInterfaces:%(NSwagGenerateClientInterfaces)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagSuppressClientInterfacesOutput)' != ''">%(Command) /suppressClientInterfacesOutput:%(NSwagSuppressClientInterfacesOutput)</Command>
+        <Command Condition="('%(NSwagSuppressClientInterfacesOutput)' != '') AND (%(Options.IndexOf(/suppressClientInterfacesOutput:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /suppressClientInterfacesOutput:%(NSwagSuppressClientInterfacesOutput)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagClientBaseInterface)' != ''">%(Command) /clientBaseInterface:%(NSwagClientBaseInterface)</Command>
+        <Command Condition="('%(NSwagClientBaseInterface)' != '') AND (%(Options.IndexOf(/clientBaseInterface:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /clientBaseInterface:%(NSwagClientBaseInterface)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagInjectHttpClient)' != ''">%(Command) /injectHttpClient:%(NSwagInjectHttpClient)</Command>
+        <Command Condition="('%(NSwagInjectHttpClient)' != '') AND (%(Options.IndexOf(/injectHttpClient:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /injectHttpClient:%(NSwagInjectHttpClient)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDisposeHttpClient)' != ''">%(Command) /disposeHttpClient:%(NSwagDisposeHttpClient)</Command>
+        <Command Condition="('%(NSwagDisposeHttpClient)' != '') AND (%(Options.IndexOf(/disposeHttpClient:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /disposeHttpClient:%(NSwagDisposeHttpClient)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagProtectedMethods)' != ''">%(Command) /protectedMethods:%(NSwagProtectedMethods)</Command>
+        <Command Condition="('%(NSwagProtectedMethods)' != '') AND (%(Options.IndexOf(/protectedMethods:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /protectedMethods:%(NSwagProtectedMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagExceptionClass)' != ''">%(Command) /exceptionClass:%(NSwagExceptionClass)</Command>
+        <Command Condition="('%(NSwagExceptionClass)' != '') AND (%(Options.IndexOf(/exceptionClass:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /exceptionClass:%(NSwagExceptionClass)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagWrapDtoExceptions)' != ''">%(Command) /wrapDtoExceptions:%(NSwagWrapDtoExceptions)</Command>
+        <Command Condition="('%(NSwagWrapDtoExceptions)' != '') AND (%(Options.IndexOf(/wrapDtoExceptions:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /wrapDtoExceptions:%(NSwagWrapDtoExceptions)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagUseHttpClientCreationMethod)' != ''">%(Command) /useHttpClientCreationMethod:%(NSwagUseHttpClientCreationMethod)</Command>
+        <Command Condition="('%(NSwagUseHttpClientCreationMethod)' != '') AND (%(Options.IndexOf(/useHttpClientCreationMethod:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /useHttpClientCreationMethod:%(NSwagUseHttpClientCreationMethod)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagHttpClientType)' != ''">%(Command) /httpClientType:%(NSwagHttpClientType)</Command>
+        <Command Condition="('%(NSwagHttpClientType)' != '') AND (%(Options.IndexOf(/httpClientType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /httpClientType:%(NSwagHttpClientType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagUseHttpRequestMessageCreationMethod)' != ''">%(Command) /useHttpRequestMessageCreationMethod:%(NSwagUseHttpRequestMessageCreationMethod)</Command>
+        <Command Condition="('%(NSwagUseHttpRequestMessageCreationMethod)' != '') AND (%(Options.IndexOf(/useHttpRequestMessageCreationMethod:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /useHttpRequestMessageCreationMethod:%(NSwagUseHttpRequestMessageCreationMethod)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagUseBaseUrl)' != ''">%(Command) /useBaseUrl:%(NSwagUseBaseUrl)</Command>
+        <Command Condition="('%(NSwagUseBaseUrl)' != '') AND (%(Options.IndexOf(/useBaseUrl:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /useBaseUrl:%(NSwagUseBaseUrl)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateBaseUrlProperty)' != ''">%(Command) /generateBaseUrlProperty:%(NSwagGenerateBaseUrlProperty)</Command>
+        <Command Condition="('%(NSwagGenerateBaseUrlProperty)' != '') AND (%(Options.IndexOf(/generateBaseUrlProperty:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateBaseUrlProperty:%(NSwagGenerateBaseUrlProperty)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateSyncMethods)' != ''">%(Command) /generateSyncMethods:%(NSwagGenerateSyncMethods)</Command>
+        <Command Condition="('%(NSwagGenerateSyncMethods)' != '') AND (%(Options.IndexOf(/generateSyncMethods:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateSyncMethods:%(NSwagGenerateSyncMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGeneratePrepareRequestAndProcessResponseAsAsyncMethods)' != ''">%(Command) /generatePrepareRequestAndProcessResponseAsAsyncMethods:%(NSwagGeneratePrepareRequestAndProcessResponseAsAsyncMethods)</Command>
+        <Command Condition="('%(NSwagGeneratePrepareRequestAndProcessResponseAsAsyncMethods)' != '') AND (%(Options.IndexOf(/generatePrepareRequestAndProcessResponseAsAsyncMethods:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generatePrepareRequestAndProcessResponseAsAsyncMethods:%(NSwagGeneratePrepareRequestAndProcessResponseAsAsyncMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagExposeJsonSerializerSettings)' != ''">%(Command) /exposeJsonSerializerSettings:%(NSwagExposeJsonSerializerSettings)</Command>
+        <Command Condition="('%(NSwagExposeJsonSerializerSettings)' != '') AND (%(Options.IndexOf(/exposeJsonSerializerSettings:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /exposeJsonSerializerSettings:%(NSwagExposeJsonSerializerSettings)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagClientClassAccessModifier)' != ''">%(Command) /clientClassAccessModifier:%(NSwagClientClassAccessModifier)</Command>
+        <Command Condition="('%(NSwagClientClassAccessModifier)' != '') AND (%(Options.IndexOf(/clientClassAccessModifier:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /clientClassAccessModifier:%(NSwagClientClassAccessModifier)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagTypeAccessModifier)' != ''">%(Command) /typeAccessModifier:%(NSwagTypeAccessModifier)</Command>
+        <Command Condition="('%(NSwagTypeAccessModifier)' != '') AND (%(Options.IndexOf(/typeAccessModifier:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /typeAccessModifier:%(NSwagTypeAccessModifier)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateContractsOutput)' != ''">%(Command) /generateContractsOutput:%(NSwagGenerateContractsOutput)</Command>
+        <Command Condition="('%(NSwagGenerateContractsOutput)' != '') AND (%(Options.IndexOf(/generateContractsOutput:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateContractsOutput:%(NSwagGenerateContractsOutput)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagContractsNamespace)' != ''">%(Command) /contractsNamespace:%(NSwagContractsNamespace)</Command>
+        <Command Condition="('%(NSwagContractsNamespace)' != '') AND (%(Options.IndexOf(/contractsNamespace:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /contractsNamespace:%(NSwagContractsNamespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagContractsOutputFilePath)' != ''">%(Command) /contractsOutputFilePath:%(NSwagContractsOutputFilePath)</Command>
+        <Command Condition="('%(NSwagContractsOutputFilePath)' != '') AND (%(Options.IndexOf(/contractsOutputFilePath:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /contractsOutputFilePath:%(NSwagContractsOutputFilePath)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagParameterDateTimeFormat)' != ''">%(Command) /parameterDateTimeFormat:%(NSwagParameterDateTimeFormat)</Command>
+        <Command Condition="('%(NSwagParameterDateTimeFormat)' != '') AND (%(Options.IndexOf(/parameterDateTimeFormat:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /parameterDateTimeFormat:%(NSwagParameterDateTimeFormat)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagParameterDateFormat)' != ''">%(Command) /parameterDateFormat:%(NSwagParameterDateFormat)</Command>
+        <Command Condition="('%(NSwagParameterDateFormat)' != '') AND (%(Options.IndexOf(/parameterDateFormat:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /parameterDateFormat:%(NSwagParameterDateFormat)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateUpdateJsonSerializerSettingsMethod)' != ''">%(Command) /generateUpdateJsonSerializerSettingsMethod:%(NSwagGenerateUpdateJsonSerializerSettingsMethod)</Command>
+        <Command Condition="('%(NSwagGenerateUpdateJsonSerializerSettingsMethod)' != '') AND (%(Options.IndexOf(/generateUpdateJsonSerializerSettingsMethod:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateUpdateJsonSerializerSettingsMethod:%(NSwagGenerateUpdateJsonSerializerSettingsMethod)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagUseRequestAndResponseSerializationSettings)' != ''">%(Command) /useRequestAndResponseSerializationSettings:%(NSwagUseRequestAndResponseSerializationSettings)</Command>
+        <Command Condition="('%(NSwagUseRequestAndResponseSerializationSettings)' != '') AND (%(Options.IndexOf(/useRequestAndResponseSerializationSettings:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /useRequestAndResponseSerializationSettings:%(NSwagUseRequestAndResponseSerializationSettings)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagSerializeTypeInformation)' != ''">%(Command) /serializeTypeInformation:%(NSwagSerializeTypeInformation)</Command>
+        <Command Condition="('%(NSwagSerializeTypeInformation)' != '') AND (%(Options.IndexOf(/serializeTypeInformation:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /serializeTypeInformation:%(NSwagSerializeTypeInformation)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagQueryNullValue)' != ''">%(Command) /queryNullValue:%(NSwagQueryNullValue)</Command>
+        <Command Condition="('%(NSwagQueryNullValue)' != '') AND (%(Options.IndexOf(/queryNullValue:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /queryNullValue:%(NSwagQueryNullValue)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagOperationGenerationMode)' != ''">%(Command) /operationGenerationMode:%(NSwagOperationGenerationMode)</Command>
+        <Command Condition="('%(NSwagOperationGenerationMode)' != '') AND (%(Options.IndexOf(/operationGenerationMode:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /operationGenerationMode:%(NSwagOperationGenerationMode)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagAdditionalNamespaceUsages)' != ''">%(Command) /additionalNamespaceUsages:%(NSwagAdditionalNamespaceUsages)</Command>
+        <Command Condition="('%(NSwagAdditionalNamespaceUsages)' != '') AND (%(Options.IndexOf(/additionalNamespaceUsages:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /additionalNamespaceUsages:%(NSwagAdditionalNamespaceUsages)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagAdditionalContractNamespaceUsages)' != ''">%(Command) /additionalContractNamespaceUsages:%(NSwagAdditionalContractNamespaceUsages)</Command>
+        <Command Condition="('%(NSwagAdditionalContractNamespaceUsages)' != '') AND (%(Options.IndexOf(/additionalContractNamespaceUsages:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /additionalContractNamespaceUsages:%(NSwagAdditionalContractNamespaceUsages)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateOptionalParameters)' != ''">%(Command) /generateOptionalParameters:%(NSwagGenerateOptionalParameters)</Command>
+        <Command Condition="('%(NSwagGenerateOptionalParameters)' != '') AND (%(Options.IndexOf(/generateOptionalParameters:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateOptionalParameters:%(NSwagGenerateOptionalParameters)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateJsonMethods)' != ''">%(Command) /generateJsonMethods:%(NSwagGenerateJsonMethods)</Command>
+        <Command Condition="('%(NSwagGenerateJsonMethods)' != '') AND (%(Options.IndexOf(/generateJsonMethods:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateJsonMethods:%(NSwagGenerateJsonMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagEnforceFlagEnums)' != ''">%(Command) /enforceFlagEnums:%(NSwagEnforceFlagEnums)</Command>
+        <Command Condition="('%(NSwagEnforceFlagEnums)' != '') AND (%(Options.IndexOf(/enforceFlagEnums:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /enforceFlagEnums:%(NSwagEnforceFlagEnums)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagParameterArrayType)' != ''">%(Command) /parameterArrayType:%(NSwagParameterArrayType)</Command>
+        <Command Condition="('%(NSwagParameterArrayType)' != '') AND (%(Options.IndexOf(/parameterArrayType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /parameterArrayType:%(NSwagParameterArrayType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagParameterDictionaryType)' != ''">%(Command) /parameterDictionaryType:%(NSwagParameterDictionaryType)</Command>
+        <Command Condition="('%(NSwagParameterDictionaryType)' != '') AND (%(Options.IndexOf(/parameterDictionaryType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /parameterDictionaryType:%(NSwagParameterDictionaryType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagResponseArrayType)' != ''">%(Command) /responseArrayType:%(NSwagResponseArrayType)</Command>
+        <Command Condition="('%(NSwagResponseArrayType)' != '') AND (%(Options.IndexOf(/responseArrayType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /responseArrayType:%(NSwagResponseArrayType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagResponseDictionaryType)' != ''">%(Command) /responseDictionaryType:%(NSwagResponseDictionaryType)</Command>
+        <Command Condition="('%(NSwagResponseDictionaryType)' != '') AND (%(Options.IndexOf(/responseDictionaryType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /responseDictionaryType:%(NSwagResponseDictionaryType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagWrapResponses)' != ''">%(Command) /wrapResponses:%(NSwagWrapResponses)</Command>
+        <Command Condition="('%(NSwagWrapResponses)' != '') AND (%(Options.IndexOf(/wrapResponses:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /wrapResponses:%(NSwagWrapResponses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagWrapResponseMethods)' != ''">%(Command) /wrapResponseMethods:%(NSwagWrapResponseMethods)</Command>
+        <Command Condition="('%(NSwagWrapResponseMethods)' != '') AND (%(Options.IndexOf(/wrapResponseMethods:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /wrapResponseMethods:%(NSwagWrapResponseMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateResponseClasses)' != ''">%(Command) /generateResponseClasses:%(NSwagGenerateResponseClasses)</Command>
+        <Command Condition="('%(NSwagGenerateResponseClasses)' != '') AND (%(Options.IndexOf(/generateResponseClasses:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateResponseClasses:%(NSwagGenerateResponseClasses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagResponseClass)' != ''">%(Command) /responseClass:%(NSwagResponseClass)</Command>
+        <Command Condition="('%(NSwagResponseClass)' != '') AND (%(Options.IndexOf(/responseClass:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /responseClass:%(NSwagResponseClass)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagNamespace)' != ''">%(Command) /namespace:%(NSwagNamespace)</Command>
+        <Command Condition="('%(NSwagNamespace)' != '') AND (%(Options.IndexOf(/namespace:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /namespace:%(NSwagNamespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagRequiredPropertiesMustBeDefined)' != ''">%(Command) /requiredPropertiesMustBeDefined:%(NSwagRequiredPropertiesMustBeDefined)</Command>
+        <Command Condition="('%(NSwagRequiredPropertiesMustBeDefined)' != '') AND (%(Options.IndexOf(/requiredPropertiesMustBeDefined:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /requiredPropertiesMustBeDefined:%(NSwagRequiredPropertiesMustBeDefined)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDateType)' != ''">%(Command) /dateType:%(NSwagDateType)</Command>
+        <Command Condition="('%(NSwagDateType)' != '') AND (%(Options.IndexOf(/dateType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /dateType:%(NSwagDateType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagJsonConverters)' != ''">%(Command) /jsonConverters:%(NSwagJsonConverters)</Command>
+        <Command Condition="('%(NSwagJsonConverters)' != '') AND (%(Options.IndexOf(/jsonConverters:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /jsonConverters:%(NSwagJsonConverters)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagAnyType)' != ''">%(Command) /anyType:%(NSwagAnyType)</Command>
+        <Command Condition="('%(NSwagAnyType)' != '') AND (%(Options.IndexOf(/anyType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /anyType:%(NSwagAnyType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDateTimeType)' != ''">%(Command) /dateTimeType:%(NSwagDateTimeType)</Command>
+        <Command Condition="('%(NSwagDateTimeType)' != '') AND (%(Options.IndexOf(/dateTimeType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /dateTimeType:%(NSwagDateTimeType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagTimeType)' != ''">%(Command) /timeType:%(NSwagTimeType)</Command>
+        <Command Condition="('%(NSwagTimeType)' != '') AND (%(Options.IndexOf(/timeType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /timeType:%(NSwagTimeType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagTimeSpanType)' != ''">%(Command) /timeSpanType:%(NSwagTimeSpanType)</Command>
+        <Command Condition="('%(NSwagTimeSpanType)' != '') AND (%(Options.IndexOf(/timeSpanType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /timeSpanType:%(NSwagTimeSpanType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagArrayType)' != ''">%(Command) /arrayType:%(NSwagArrayType)</Command>
+        <Command Condition="('%(NSwagArrayType)' != '') AND (%(Options.IndexOf(/arrayType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /arrayType:%(NSwagArrayType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagArrayInstanceType)' != ''">%(Command) /arrayInstanceType:%(NSwagArrayInstanceType)</Command>
+        <Command Condition="('%(NSwagArrayInstanceType)' != '') AND (%(Options.IndexOf(/arrayInstanceType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /arrayInstanceType:%(NSwagArrayInstanceType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDictionaryType)' != ''">%(Command) /dictionaryType:%(NSwagDictionaryType)</Command>
+        <Command Condition="('%(NSwagDictionaryType)' != '') AND (%(Options.IndexOf(/dictionaryType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /dictionaryType:%(NSwagDictionaryType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDictionaryInstanceType)' != ''">%(Command) /dictionaryInstanceType:%(NSwagDictionaryInstanceType)</Command>
+        <Command Condition="('%(NSwagDictionaryInstanceType)' != '') AND (%(Options.IndexOf(/dictionaryInstanceType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /dictionaryInstanceType:%(NSwagDictionaryInstanceType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagArrayBaseType)' != ''">%(Command) /arrayBaseType:%(NSwagArrayBaseType)</Command>
+        <Command Condition="('%(NSwagArrayBaseType)' != '') AND (%(Options.IndexOf(/arrayBaseType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /arrayBaseType:%(NSwagArrayBaseType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagDictionaryBaseType)' != ''">%(Command) /dictionaryBaseType:%(NSwagDictionaryBaseType)</Command>
+        <Command Condition="('%(NSwagDictionaryBaseType)' != '') AND (%(Options.IndexOf(/dictionaryBaseType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /dictionaryBaseType:%(NSwagDictionaryBaseType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagClassStyle)' != ''">%(Command) /classStyle:%(NSwagClassStyle)</Command>
+        <Command Condition="('%(NSwagClassStyle)' != '') AND (%(Options.IndexOf(/classStyle:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /classStyle:%(NSwagClassStyle)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagJsonLibrary)' != ''">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
+        <Command Condition="('%(NSwagJsonLibrary)' != '') AND (%(Options.IndexOf(/jsonLibrary:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateDefaultValues)' != ''">%(Command) /generateDefaultValues:%(NSwagGenerateDefaultValues)</Command>
+        <Command Condition="('%(NSwagGenerateDefaultValues)' != '') AND (%(Options.IndexOf(/generateDefaultValues:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateDefaultValues:%(NSwagGenerateDefaultValues)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateDataAnnotations)' != ''">%(Command) /generateDataAnnotations:%(NSwagGenerateDataAnnotations)</Command>
+        <Command Condition="('%(NSwagGenerateDataAnnotations)' != '') AND (%(Options.IndexOf(/generateDataAnnotations:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateDataAnnotations:%(NSwagGenerateDataAnnotations)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagExcludedTypeNames)' != ''">%(Command) /excludedTypeNames:%(NSwagExcludedTypeNames)</Command>
+        <Command Condition="('%(NSwagExcludedTypeNames)' != '') AND (%(Options.IndexOf(/excludedTypeNames:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /excludedTypeNames:%(NSwagExcludedTypeNames)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagExcludedParameterNames)' != ''">%(Command) /excludedParameterNames:%(NSwagExcludedParameterNames)</Command>
+        <Command Condition="('%(NSwagExcludedParameterNames)' != '') AND (%(Options.IndexOf(/excludedParameterNames:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /excludedParameterNames:%(NSwagExcludedParameterNames)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagHandleReferences)' != ''">%(Command) /handleReferences:%(NSwagHandleReferences)</Command>
+        <Command Condition="('%(NSwagHandleReferences)' != '') AND (%(Options.IndexOf(/handleReferences:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /handleReferences:%(NSwagHandleReferences)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateImmutableArrayProperties)' != ''">%(Command) /generateImmutableArrayProperties:%(NSwagGenerateImmutableArrayProperties)</Command>
+        <Command Condition="('%(NSwagGenerateImmutableArrayProperties)' != '') AND (%(Options.IndexOf(/generateImmutableArrayProperties:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateImmutableArrayProperties:%(NSwagGenerateImmutableArrayProperties)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateImmutableDictionaryProperties)' != ''">%(Command) /generateImmutableDictionaryProperties:%(NSwagGenerateImmutableDictionaryProperties)</Command>
+        <Command Condition="('%(NSwagGenerateImmutableDictionaryProperties)' != '') AND (%(Options.IndexOf(/generateImmutableDictionaryProperties:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateImmutableDictionaryProperties:%(NSwagGenerateImmutableDictionaryProperties)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagJsonSerializerSettingsTransformationMethod)' != ''">%(Command) /jsonSerializerSettingsTransformationMethod:%(NSwagJsonSerializerSettingsTransformationMethod)</Command>
+        <Command Condition="('%(NSwagJsonSerializerSettingsTransformationMethod)' != '') AND (%(Options.IndexOf(/jsonSerializerSettingsTransformationMethod:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /jsonSerializerSettingsTransformationMethod:%(NSwagJsonSerializerSettingsTransformationMethod)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagInlineNamedArrays)' != ''">%(Command) /inlineNamedArrays:%(NSwagInlineNamedArrays)</Command>
+        <Command Condition="('%(NSwagInlineNamedArrays)' != '') AND (%(Options.IndexOf(/inlineNamedArrays:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /inlineNamedArrays:%(NSwagInlineNamedArrays)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagInlineNamedDictionaries)' != ''">%(Command) /inlineNamedDictionaries:%(NSwagInlineNamedDictionaries)</Command>
+        <Command Condition="('%(NSwagInlineNamedDictionaries)' != '') AND (%(Options.IndexOf(/inlineNamedDictionaries:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /inlineNamedDictionaries:%(NSwagInlineNamedDictionaries)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagInlineNamedTuples)' != ''">%(Command) /inlineNamedTuples:%(NSwagInlineNamedTuples)</Command>
+        <Command Condition="('%(NSwagInlineNamedTuples)' != '') AND (%(Options.IndexOf(/inlineNamedTuples:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /inlineNamedTuples:%(NSwagInlineNamedTuples)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagInlineNamedAny)' != ''">%(Command) /inlineNamedAny:%(NSwagInlineNamedAny)</Command>
+        <Command Condition="('%(NSwagInlineNamedAny)' != '') AND (%(Options.IndexOf(/inlineNamedAny:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /inlineNamedAny:%(NSwagInlineNamedAny)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateDtoTypes)' != ''">%(Command) /generateDtoTypes:%(NSwagGenerateDtoTypes)</Command>
+        <Command Condition="('%(NSwagGenerateDtoTypes)' != '') AND (%(Options.IndexOf(/generateDtoTypes:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateDtoTypes:%(NSwagGenerateDtoTypes)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateOptionalPropertiesAsNullable)' != ''">%(Command) /generateOptionalPropertiesAsNullable:%(NSwagGenerateOptionalPropertiesAsNullable)</Command>
+        <Command Condition="('%(NSwagGenerateOptionalPropertiesAsNullable)' != '') AND (%(Options.IndexOf(/generateOptionalPropertiesAsNullable:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateOptionalPropertiesAsNullable:%(NSwagGenerateOptionalPropertiesAsNullable)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagGenerateNullableReferenceTypes)' != ''">%(Command) /generateNullableReferenceTypes:%(NSwagGenerateNullableReferenceTypes)</Command>
+        <Command Condition="('%(NSwagGenerateNullableReferenceTypes)' != '') AND (%(Options.IndexOf(/generateNullableReferenceTypes:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /generateNullableReferenceTypes:%(NSwagGenerateNullableReferenceTypes)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagTemplateDirectory)' != ''">%(Command) /templateDirectory:%(NSwagTemplateDirectory)</Command>
+        <Command Condition="('%(NSwagTemplateDirectory)' != '') AND (%(Options.IndexOf(/templateDirectory:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /templateDirectory:%(NSwagTemplateDirectory)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagTypeNameGeneratorType)' != ''">%(Command) /typeNameGeneratorType:%(NSwagTypeNameGeneratorType)</Command>
+        <Command Condition="('%(NSwagTypeNameGeneratorType)' != '') AND (%(Options.IndexOf(/typeNameGeneratorType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /typeNameGeneratorType:%(NSwagTypeNameGeneratorType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagPropertyNameGeneratorType)' != ''">%(Command) /propertyNameGeneratorType:%(NSwagPropertyNameGeneratorType)</Command>
+        <Command Condition="('%(NSwagPropertyNameGeneratorType)' != '') AND (%(Options.IndexOf(/propertyNameGeneratorType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /propertyNameGeneratorType:%(NSwagPropertyNameGeneratorType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagEnumNameGeneratorType)' != ''">%(Command) /enumNameGeneratorType:%(NSwagEnumNameGeneratorType)</Command>
+        <Command Condition="('%(NSwagEnumNameGeneratorType)' != '') AND (%(Options.IndexOf(/enumNameGeneratorType:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /enumNameGeneratorType:%(NSwagEnumNameGeneratorType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagServiceHost)' != ''">%(Command) /serviceHost:%(NSwagServiceHost)</Command>
+        <Command Condition="('%(NSwagServiceHost)' != '') AND (%(Options.IndexOf(/serviceHost:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /serviceHost:%(NSwagServiceHost)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagServiceSchemes)' != ''">%(Command) /serviceSchemes:%(NSwagServiceSchemes)</Command>
+        <Command Condition="('%(NSwagServiceSchemes)' != '') AND (%(Options.IndexOf(/serviceSchemes:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /serviceSchemes:%(NSwagServiceSchemes)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagOutput)' != ''">%(Command) /output:%(NSwagOutput)</Command>
+        <Command Condition="('%(NSwagOutput)' != '') AND (%(Options.IndexOf(/output:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /output:%(NSwagOutput)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="'%(NSwagNewLineBehavior)' != ''">%(Command) /newLineBehavior:%(NSwagNewLineBehavior)</Command>
+        <Command Condition="('%(NSwagNewLineBehavior)' != '') AND (%(Options.IndexOf(/newLineBehavior:, 'OrdinalIgnoreCase') &gt;= 0')">%(Command) /newLineBehavior:%(NSwagNewLineBehavior)</Command>
       </CurrentOpenApiReference>
 
   </ItemGroup>
