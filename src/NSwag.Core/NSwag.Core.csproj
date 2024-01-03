@@ -5,6 +5,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NJsonSchema" Version="11.0.0-preview008" />
+    <PackageReference Include="NJsonSchema" Version="11.0.0" />
   </ItemGroup>
 </Project>

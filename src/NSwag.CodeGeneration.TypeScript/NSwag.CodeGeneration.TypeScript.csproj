@@ -13,6 +13,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0-preview008" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.0" />
   </ItemGroup>
 </Project>
