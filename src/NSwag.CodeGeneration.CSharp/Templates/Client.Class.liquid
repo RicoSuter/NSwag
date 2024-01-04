@@ -5,7 +5,7 @@
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
 #pragma warning disable 8618 // Set by constructor via BaseUrl property
     private string _baseUrl;
-#pragma restore disable 8618 // Set by constructor via BaseUrl property
+#pragma warning restore 8618 // Set by constructor via BaseUrl property
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
