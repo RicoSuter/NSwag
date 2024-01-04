@@ -249,7 +249,7 @@ partial class Build : NukeBuild
 
             CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net6.0"), target / "Net60");
             CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net7.0"), target / "Net70");
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net7.0"), target / "Net80");
+            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (Configuration + "_net8.0"), target / "Net80");
         }
 
         Serilog.Log.Information("Copy published Console for NSwagStudio");
