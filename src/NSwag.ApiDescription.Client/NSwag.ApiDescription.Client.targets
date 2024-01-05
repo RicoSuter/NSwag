@@ -291,7 +291,7 @@
     <ItemGroup>
       <!-- @(CurrentOpenApiReference) item group will never contain more than one item. -->
       <CurrentOpenApiReference>
-        <Command>$(_NSwagCommand) swagger2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
+        <Command>$(_NSwagCommand) openapi2tsclient /className:%(ClassName) /namespace:%(Namespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
