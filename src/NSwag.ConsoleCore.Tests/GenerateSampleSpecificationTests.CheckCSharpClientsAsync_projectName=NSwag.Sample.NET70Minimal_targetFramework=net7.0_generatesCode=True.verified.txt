@@ -24,7 +24,7 @@ namespace MyNamespace
     {
     #pragma warning disable 8618 // Set by constructor via BaseUrl property
         private string _baseUrl;
-    #pragma restore disable 8618 // Set by constructor via BaseUrl property
+    #pragma warning restore 8618 // Set by constructor via BaseUrl property
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
@@ -498,7 +498,7 @@ namespace MyNamespace
     {
     #pragma warning disable 8618 // Set by constructor via BaseUrl property
         private string _baseUrl;
-    #pragma restore disable 8618 // Set by constructor via BaseUrl property
+    #pragma warning restore 8618 // Set by constructor via BaseUrl property
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
