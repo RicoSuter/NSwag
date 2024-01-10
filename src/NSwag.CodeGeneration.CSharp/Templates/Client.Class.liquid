@@ -17,30 +17,51 @@
     private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
 {% endif -%}
 
+{% assign constructorParameters = "" -%}
 {% if HasConfigurationClass -%}
-    public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
-    {
-{%     if InjectHttpClient -%}
-        _httpClient = httpClient;
-{%     endif -%}
-{% elsif UseBaseUrl and HasBaseUrl == false %}
-    public {{ Class }}(string baseUrl{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %})
-    {
-        BaseUrl = baseUrl;
-{%     if InjectHttpClient -%}
-        _httpClient = httpClient;
-{%     endif -%}
-{% elsif InjectHttpClient %}
-    public {{ Class }}({{ HttpClientType }} httpClient)
-    {
-        _httpClient = httpClient;
-{% else -%}
-    public {{ Class }}()
-    {
-{%     if UseBaseUrl and GenerateBaseUrlProperty -%}
-        BaseUrl = "{{ BaseUrl }}";
-{%     endif -%}
+{%     assign constructorParameters = ConfigurationClass | append: " configuration" -%}
 {% endif -%}
+{% if UseBaseUrl and HasBaseUrl == false and HasConfigurationClass == false -%}
+{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
+{%     assign constructorParameters = constructorParameters | append: "string baseUrl" -%}
+{% endif -%}
+{% if InjectHttpClient -%}
+{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
+{%     assign constructorParameters = constructorParameters | append: HttpClientType | append: " httpClient" -%}
+{% endif -%}
+    public {{ Class }}({{ constructorParameters }}){% if HasConfigurationClass and HasBaseClass -%}{{ " : base(configuration)"}}{% endif %}
+    {
+{%     if UseBaseUrl -%}
+{%         if HasBaseUrl -%}
+{%             if GenerateBaseUrlProperty -%}
+        BaseUrl = "{{ BaseUrl }}";
+{%             else -%}
+{%                 if BaseUrl != "" -%}
+{%                     assign baseUrlLength = BaseUrl | size -%}
+{%                     assign lastUrlCharIndex = baseUrlLength | minus: 1 -%}
+{%                     assign lastUrlChar = BaseUrl | slice: lastUrlCharIndex, 1 -%}
+{%                     if lastUrlChar == "/" -%}
+        _baseUrl = "{{ BaseUrl }}";
+{%                     else -%}
+        _baseUrl = "{{ BaseUrl }}/";
+{%                     endif -%}
+{%                 endif -%}
+{%             endif -%}
+{%         else -%}
+{%             if GenerateBaseUrlProperty -%}
+        BaseUrl = baseUrl;
+{%             else -%}
+{%                 if HasConfigurationClass == false -%}
+        _baseUrl = (string.IsNullOrEmpty(baseUrl) || baseUrl.EndsWith("/"))
+            ? baseUrl
+            : baseUrl + "/";
+{%                 endif -%}
+{%             endif -%}
+{%         endif -%}
+{%     endif -%}
+{%     if InjectHttpClient -%}
+        _httpClient = httpClient;
+{%     endif -%}
     {% template Client.Class.Constructor %}
     }
 
