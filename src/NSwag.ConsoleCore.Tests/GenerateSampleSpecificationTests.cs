@@ -8,13 +8,15 @@ using Xunit;
 namespace NSwag.ConsoleCore.Tests
 {
     [UsesVerify]
-    public class GenerateSampleSpecificationTests
+    public partial class GenerateSampleSpecificationTests
     {
         [Theory]
         [InlineData("NSwag.Sample.NET60", "net6.0", false)]
         [InlineData("NSwag.Sample.NET60Minimal", "net6.0", false)]
         [InlineData("NSwag.Sample.NET70", "net7.0", false)]
         [InlineData("NSwag.Sample.NET70Minimal", "net7.0", true)]
+        [InlineData("NSwag.Sample.NET80", "net8.0", false)]
+        [InlineData("NSwag.Sample.NET80Minimal", "net8.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange
@@ -64,8 +66,8 @@ namespace NSwag.ConsoleCore.Tests
                 Assert.True(false, output + error);
             }
 
-            var json = File.ReadAllText(openApiJsonPath);
-            json = Regex.Replace(json, "\"NSwag v.*\"", "\"NSwag\"");
+            var json = await File.ReadAllTextAsync(openApiJsonPath);
+            json = RemoveVersionIdentifiersFromApi(json);
             await Verifier.Verify(json).UseParameters(projectName, targetFramework, generatesCode);
 
             if (generatesCode)
@@ -78,23 +80,43 @@ namespace NSwag.ConsoleCore.Tests
 
         private static async Task CheckCSharpControllersAsync(string projectName, string targetFramework, bool generatesCode, string generatedControllersCsPath)
         {
-            var code = File.ReadAllText(generatedControllersCsPath);
-            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            var code = await File.ReadAllTextAsync(generatedControllersCsPath);
+            code = RemoveVersionIdentifiersFromGeneratedCode(code);
             await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpControllersAsync)).UseParameters(projectName, targetFramework, generatesCode);
         }
 
         private static async Task CheckCSharpClientsAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsCsPath)
         {
-            var code = File.ReadAllText(generatedClientsCsPath);
-            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            var code = await File.ReadAllTextAsync(generatedClientsCsPath);
+            code = RemoveVersionIdentifiersFromGeneratedCode(code);
             await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpClientsAsync)).UseParameters(projectName, targetFramework, generatesCode);
         }
 
         private static async Task CheckTypeScriptAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsTsPath)
         {
-            var code = File.ReadAllText(generatedClientsTsPath);
-            code = Regex.Replace(code, "NSwag v.*\\)", "NSwag");
+            var code = await File.ReadAllTextAsync(generatedClientsTsPath);
+            code = RemoveVersionIdentifiersFromGeneratedCode(code);
             await Verifier.Verify(code).UseMethodName(nameof(CheckTypeScriptAsync)).UseParameters(projectName, targetFramework, generatesCode);
         }
+
+        private static string RemoveVersionIdentifiersFromApi(string input)
+        {
+            var cleaned = GeneratedApiCleanupRegex().Replace(input, "\"x-generator\": \"NSwag\"");
+            return cleaned;
+        }
+
+        private static string RemoveVersionIdentifiersFromGeneratedCode(string input)
+        {
+            var cleaned = GeneratedCodeCleanupRegex().Replace(input, "");
+            return cleaned;
+        }
+
+        [GeneratedRegex("""
+                        "x-generator": "NSwag v[\d\.]+ \(NJsonSchema v[\d\.]+ \(Newtonsoft.Json v[\d\.]+\)\)"
+                        """)]
+        private static partial Regex GeneratedApiCleanupRegex();
+
+        [GeneratedRegex(@"[v\d\.]+ \(NJsonSchema v[\d\.]+ \(Newtonsoft.Json v[\d\.]+\)\)")]
+        private static partial Regex GeneratedCodeCleanupRegex();
     }
 }
