@@ -32,6 +32,7 @@ namespace NSwag.CodeGeneration
             var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
                 .Replace("-", "_")
                 .Replace(".", "_")
+                .Replace(":", "_")
                 .Replace("$", string.Empty)
                 .Replace("@", string.Empty)
                 .Replace("[", string.Empty)
