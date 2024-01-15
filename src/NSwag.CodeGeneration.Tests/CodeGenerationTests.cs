@@ -38,6 +38,34 @@ namespace NSwag.CodeGeneration.Tests
         }
 
         [Fact]
+        public void When_generating_CSharp_code_with_custom_PropertyNameGenerator_then_output_contains_expected_property_names()
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            settings.CSharpGeneratorSettings.Namespace = "MyNamespace";
+            settings.CSharpGeneratorSettings.PropertyNameGenerator = new CustomPropertyNameGenerator();
+
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // System.IO.File.WriteAllText("/Users/jreilly/code/github.com/NSwag/src/NSwag.CodeGeneration.Tests/test.cs", code);
+
+            // Assert
+            Assert.Contains("public string XX_Street { get; set; }", code);
+            Assert.Contains("public string XX_City { get; set; }", code);
+            Assert.Contains("public string XX_FirstName { get; set; }", code);
+            Assert.Contains("public System.DateTimeOffset? XX_Birthday { get; set; }", code);
+            Assert.Contains("public Address XX_Address { get; set; }", code);
+        }
+
+        class CustomPropertyNameGenerator : NJsonSchema.CodeGeneration.IPropertyNameGenerator {
+            public virtual string Generate(JsonSchemaProperty property) => $"XX_{property.Name}";
+        }
+
+        [Fact]
         public void When_generating_CSharp_code_with_SystemTextJson_then_output_contains_expected_code()
         {
             // Arrange
@@ -174,6 +202,35 @@ public static Person FromJson(string data)
             Assert.Contains("export interface Person", code);
             Assert.Contains("export interface Address", code);
         }
+
+        [Theory(DisplayName = "Ensure expected property name generation on TypeScript clients when custom PropertyNameGenerator")]
+        [InlineData(TypeScriptTypeStyle.Class)]
+        [InlineData(TypeScriptTypeStyle.Interface)]
+        public void When_generating_TypeScript_code_with_custom_PropertyNameGenerator_then_output_contains_expected_property_names(TypeScriptTypeStyle typeStyle)
+        {
+            // Arrange
+            var document = CreateDocument();
+
+            // Act
+            var settings = new TypeScriptClientGeneratorSettings
+            {
+                TypeScriptGeneratorSettings =
+                {
+                    TypeStyle = typeStyle,
+                    PropertyNameGenerator = new CustomPropertyNameGenerator(),
+                }
+            };
+
+            var generator = new TypeScriptClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("XX_Street?: string | undefined;", code);
+            Assert.Contains("XX_City?: string | undefined;", code);
+            Assert.Contains("XX_FirstName: string;", code);
+            Assert.Contains("XX_Birthday?: Date | undefined;", code);
+            Assert.Contains("XX_Address?: Address | undefined;", code);
+        }        
 
         [Fact]
         public async Task When_using_json_schema_with_references_in_service_then_references_are_correctly_resolved()
