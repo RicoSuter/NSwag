@@ -51,8 +51,6 @@ namespace NSwag.CodeGeneration.Tests
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
-            // System.IO.File.WriteAllText("/Users/jreilly/code/github.com/NSwag/src/NSwag.CodeGeneration.Tests/test.cs", code);
-
             // Assert
             Assert.Contains("public string XX_Street { get; set; }", code);
             Assert.Contains("public string XX_City { get; set; }", code);
