@@ -148,7 +148,7 @@ partial class Build : NukeBuild
 
             DotNetRestore(x => x
                 .SetProjectFile(Solution)
-                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetVerbosity(DotNetVerbosity.minimal)
             );
         });
 
