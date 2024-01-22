@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Generation;
@@ -12,6 +13,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public class FooController : Controller
         {
             public object GetPerson(bool @override = false)
+            {
+                return null;
+            }
+        }
+
+        public class BarController : Controller
+        {
+            public IEnumerable<object> GetPeople(IEnumerable<object> names)
             {
                 return null;
             }
@@ -127,6 +136,77 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("var client_ = new CustomNamespace.CustomHttpClient();", code);
+        }
+
+        [Fact]
+        public async Task When_LargeJsonArrayResponseMethods_is_set_then_IAsyncEnumerator_response_is_generated()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<BarController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                LargeJsonArrayResponseMethods = ["BarClient.GetPeople"],
+                GenerateClientInterfaces = true,
+            });
+            generator.Settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("System.Threading.Tasks.Task<System.Collections.Generic.IAsyncEnumerator<object>> GetPeopleAsync(System.Collections.Generic.IEnumerable<object> names, System.Threading.CancellationToken cancellationToken);", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IAsyncEnumerator<object>> GetPeopleAsync(System.Collections.Generic.IEnumerable<object> names, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("throw new ApiException(\"Response content was null which was not expected.\", status_, null, headers_, null);", code);
+            Assert.Contains("var result_ = ConvertToIAsyncEnumerator<object>(response_, cancellationToken);", code);
+        }
+
+        [Fact]
+        public async Task When_LargeJsonArrayResponseMethods_and_WrapResponse_is_set_then_disposable_wrapped_IAsyncEnumerator_response_is_generated()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<BarController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                LargeJsonArrayResponseMethods = ["BarClient.GetPeople"],
+                WrapResponses = true,
+                GenerateClientInterfaces = true,
+            });
+            generator.Settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("System.Threading.Tasks.Task<SwaggerResponseDisposable<System.Collections.Generic.IAsyncEnumerator<object>>> GetPeopleAsync(System.Collections.Generic.IEnumerable<object> names, System.Threading.CancellationToken cancellationToken);", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<SwaggerResponseDisposable<System.Collections.Generic.IAsyncEnumerator<object>>> GetPeopleAsync(System.Collections.Generic.IEnumerable<object> names, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("return new SwaggerResponseDisposable<System.Collections.Generic.IAsyncEnumerator<object>>(status_, headers_, result_);", code);
+            Assert.Contains("public partial class SwaggerResponseDisposable<TResult> : SwaggerResponse<TResult>, System.IAsyncDisposable", code);
+        }
+
+        [Fact]
+        public async Task When_LargeJsonArrayRequestMethods_is_set_then_IAsyncEnumerable_parameter_is_generated()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await swaggerGenerator.GenerateForControllerAsync<BarController>();
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                LargeJsonArrayRequestMethods = ["BarClient.GetPeople"],
+            });
+            generator.Settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert //
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<object>> GetPeopleAsync(System.Collections.Generic.IAsyncEnumerable<object> names, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("var content_ = new StreamHttpContent<System.Collections.Generic.IAsyncEnumerable<object>>(names, _settings.Value, cancellationToken);", code);
+            Assert.Contains("public class StreamHttpContent<T> : System.Net.Http.HttpContent", code);
         }
 
         [Fact]

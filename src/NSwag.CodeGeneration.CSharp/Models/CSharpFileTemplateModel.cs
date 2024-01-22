@@ -116,6 +116,17 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to generate the response class (only applied when WrapResponses == true, default: true).</summary>
         public bool GenerateResponseClasses => _settings.GenerateResponseClasses;
 
+        /// <summary>Gets or sets a value indicating whether to generate the disposable response class (only applied when WrapResponses == true and using large json array responses).</summary>
+        public bool GenerateDisposableResponseClasses =>
+            GenerateResponseClasses &&
+            _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson &&
+            (_settings as CSharpClientGeneratorSettings)?.LargeJsonArrayResponseMethods?.Length > 0;
+
+        /// <summary>Gets a value indicating whether to generate StreamHttpContent.</summary>
+        public bool GenerateStreamHttpContent =>
+            _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson &&
+            (_settings as CSharpClientGeneratorSettings)?.LargeJsonArrayRequestMethods?.Length > 0;
+
         /// <summary>Gets the response class names.</summary>
         public IEnumerable<string> ResponseClassNames
         {

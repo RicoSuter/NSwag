@@ -21,6 +21,18 @@ return result_;
 {%         else -%}
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, responseData_, headers_, result_, null);
 {%         endif -%}
+{%     elsif operation.GenerateResultAsIAsyncEnumerator and response.IsSuccess -%}
+if (response_.Content == null)
+{
+    throw new {{ ExceptionClass }}("Response content was null which was not expected.", status_, null, headers_, null);
+}
+var result_ = ConvertToIAsyncEnumerator<{{ operation.InnerIAsyncEnumeratorType }}>(response_, cancellationToken);
+disposeResponse_ = false;
+{%         if operation.WrapResponse -%}
+return new {{ ResponseClass }}Disposable<{{ operation.UnwrappedResultType }}>(status_, headers_, result_);
+{%         else -%}
+return result_;
+{%         endif -%}
 {%     else -%}
 var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(response_, headers_, cancellationToken).ConfigureAwait(false);
 {%         if response.IsNullable == false -%}
