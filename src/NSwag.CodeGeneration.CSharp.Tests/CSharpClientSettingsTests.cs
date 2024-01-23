@@ -197,6 +197,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 LargeJsonArrayRequestMethods = ["BarClient.GetPeople"],
+                GenerateClientInterfaces = true,
             });
             generator.Settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
 
@@ -204,6 +205,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert //
+            Assert.Contains("System.Threading.Tasks.Task<System.Collections.Generic.ICollection<object>> GetPeopleAsync(System.Collections.Generic.IAsyncEnumerable<object> names, System.Threading.CancellationToken cancellationToken);", code);
             Assert.Contains("public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<object>> GetPeopleAsync(System.Collections.Generic.IAsyncEnumerable<object> names, System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("var content_ = new StreamHttpContent<System.Collections.Generic.IAsyncEnumerable<object>>(names, _settings.Value, cancellationToken);", code);
             Assert.Contains("public class StreamHttpContent<T> : System.Net.Http.HttpContent", code);
