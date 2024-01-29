@@ -45,6 +45,7 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
             set
             {
                 _baseUrl = value;
@@ -519,6 +520,7 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
             set
             {
                 _baseUrl = value;
