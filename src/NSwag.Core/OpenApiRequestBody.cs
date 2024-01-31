@@ -112,5 +112,18 @@ namespace NSwag
         object IJsonReference.PossibleRoot => ParentOperation?.Parent?.Parent;
 
         #endregion
+
+        public override OpenApiRequestBody Reference
+        {
+            get
+            {
+                return base.Reference;
+            }
+            set
+            {
+                base.Reference = value;
+                (Parent as OpenApiOperation)?.UpdateBodyParameter();
+            }
+        }
     }
 }
