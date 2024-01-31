@@ -213,7 +213,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesFormUrlEncoded =>
             _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true ||
-            _operation.RequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
+            _operation.RequestBody?.ActualRequestBody.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.FormData);

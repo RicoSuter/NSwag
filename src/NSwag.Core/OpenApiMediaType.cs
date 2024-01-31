@@ -29,7 +29,7 @@ namespace NSwag
             set
             {
                 _schema = value;
-                Parent?.Parent?.UpdateBodyParameter();
+                (Parent?.Parent as OpenApiOperation)?.UpdateBodyParameter();
             }
         }
 
@@ -41,7 +41,7 @@ namespace NSwag
             set
             {
                 _example = value;
-                Parent?.Parent?.UpdateBodyParameter();
+                (Parent?.Parent as OpenApiOperation)?.UpdateBodyParameter();
             }
         }
 
