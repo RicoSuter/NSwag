@@ -69,7 +69,7 @@ namespace NSwag.CodeGeneration
         /// <summary>Generates the name of the controller based on the provided settings.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <returns>The controller name.</returns>
-        public string GenerateControllerName(string controllerName)
+        public virtual string GenerateControllerName(string controllerName)
         {
             return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
