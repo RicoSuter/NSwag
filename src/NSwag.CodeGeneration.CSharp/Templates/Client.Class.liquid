@@ -3,9 +3,7 @@
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
-#pragma warning disable 8618 // Set by constructor via BaseUrl property
-    private string _baseUrl;
-#pragma warning restore 8618 // Set by constructor via BaseUrl property
+    private string _baseUrl = "{{ BaseUrl }}";
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
@@ -17,52 +15,28 @@
     private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
 {% endif -%}
 
-{% assign constructorParameters = "" -%}
 {% if HasConfigurationClass -%}
-{%     assign constructorParameters = ConfigurationClass | append: " configuration" -%}
-{% endif -%}
-{% if UseBaseUrl and HasBaseUrl == false and HasConfigurationClass == false -%}
-{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
-{%     assign constructorParameters = constructorParameters | append: "string baseUrl" -%}
-{% endif -%}
-{% if InjectHttpClient -%}
-{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
-{%     assign constructorParameters = constructorParameters | append: HttpClientType | append: " httpClient" -%}
-{% endif -%}
-    public {{ Class }}({{ constructorParameters }}){% if HasConfigurationClass and HasBaseClass -%}{{ " : base(configuration)"}}{% endif %}
+    public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
     {
-{%     if UseBaseUrl -%}
-{%         if HasBaseUrl -%}
-{%             if GenerateBaseUrlProperty -%}
-        BaseUrl = "{{ BaseUrl }}";
-{%             else -%}
-{%                 if BaseUrl != "" -%}
-{%                     assign baseUrlLength = BaseUrl | size -%}
-{%                     assign lastUrlCharIndex = baseUrlLength | minus: 1 -%}
-{%                     assign lastUrlChar = BaseUrl | slice: lastUrlCharIndex, 1 -%}
-{%                     if lastUrlChar == "/" -%}
-        _baseUrl = "{{ BaseUrl }}";
-{%                     else -%}
-        _baseUrl = "{{ BaseUrl }}/";
-{%                     endif -%}
-{%                 endif -%}
-{%             endif -%}
-{%         else -%}
-{%             if GenerateBaseUrlProperty -%}
-        BaseUrl = baseUrl;
-{%             else -%}
-{%                 if HasConfigurationClass == false -%}
-        _baseUrl = (string.IsNullOrEmpty(baseUrl) || baseUrl.EndsWith("/"))
-            ? baseUrl
-            : baseUrl + "/";
-{%                 endif -%}
-{%             endif -%}
-{%         endif -%}
-{%     endif -%}
 {%     if InjectHttpClient -%}
         _httpClient = httpClient;
 {%     endif -%}
-    {% template Client.Class.Constructor %}
+{% elsif UseBaseUrl and HasBaseUrl == false %}
+    public {{ Class }}(string baseUrl{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %})
+    {
+        BaseUrl = baseUrl;
+{%     if InjectHttpClient -%}
+        _httpClient = httpClient;
+{%     endif -%}
+{% elsif InjectHttpClient %}
+    public {{ Class }}({{ HttpClientType }} httpClient)
+    {
+        _httpClient = httpClient;
+{% else -%}
+    public {{ Class }}()
+    {
+{% endif -%}
+        {% template Client.Class.Constructor %}
     }
 
     private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
@@ -84,12 +58,7 @@
     public string BaseUrl
     {
         get { return _baseUrl; }
-        set
-        {
-            _baseUrl = value;
-            if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
-                _baseUrl += '/';
-        }
+        set { _baseUrl = value; }
     }
 
 {% endif -%}
@@ -162,6 +131,32 @@
             throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
 {%     endif -%}
+        var urlBuilder_ = new System.Text.StringBuilder();
+        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
+{%     for parameter in operation.PathParameters -%}
+{%         if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null)
+            {% template Client.Class.PathParameter %}
+        else
+            urlBuilder_.Replace("/{{ "{" }}{{ parameter.Name }}}", string.Empty);
+{%         else -%}
+        {% template Client.Class.PathParameter %}
+{%         endif -%}
+{%     endfor -%}
+{%     for parameter in operation.QueryParameters -%}
+{%         if parameter.IsOptional -%}
+        if ({{ parameter.VariableName }} != null)
+        {
+            {% template Client.Class.QueryParameter %}
+        }
+{%         else -%}
+        {% template Client.Class.QueryParameter %}
+{%         endif -%}
+{%     endfor -%}
+{%     if operation.HasQueryParameters -%}
+        urlBuilder_.Length--;
+{%     endif -%}
+
 {%     if InjectHttpClient -%}
         var client_ = _httpClient;
 {%     elsif UseHttpClientCreationMethod -%}
@@ -286,67 +281,6 @@
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-                var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
-                // Operation Path: "{{ operation.Path }}"
-{%     if operation.Path contains "{" -%}
-{%        assign pathParts = operation.Path | split: "{" -%}
-{%        for pathPart in pathParts -%}
-{%            if pathPart contains "}" -%}
-{%                assign pathParameterParts = pathPart | split: "}" -%}
-{%                assign pathParameterFound = true -%}
-{%                for parameter in operation.PathParameters -%}
-{%                    if parameter.Name == pathParameterParts[0] -%}
-{%                        if parameter.IsOptional -%}
-{%                            assign pathParameterFound = false -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.PathParameter %}
-        }
-        else
-            if (urlBuilder_.Length > 0) urlBuilder_.Length--;
-{%                        else -%}
-                {% template Client.Class.PathParameter %}
-{%                        endif -%}
-{%                    endif -%}
-{%                endfor -%}
-{%                comment -%} >>> just in case {% endcomment -%}
-{%                unless pathParameterFound -%}
-                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
-{%                endunless -%}
-{%                comment -%} <<< just in case {% endcomment -%}
-{%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
-{%                if nonParameterPartLengh == 1 -%}
-                urlBuilder_.Append('{{ pathParameterParts[1] }}');
-{%                elsif nonParameterPartLengh > 0 -%}
-                urlBuilder_.Append("{{ pathParameterParts[1] }}");
-{%                endif -%}
-{%            else -%}
-{%                 unless pathPart == "" -%}
-                urlBuilder_.Append("{{ pathPart }}");
-{%                 endunless -%}
-{%            endif -%}
-{%        endfor -%}
-{%    else -%}
-{%        unless operation.Path == "" -%}
-                urlBuilder_.Append("{{ operation.Path }}");
-{%        endunless -%}
-{%    endif -%}
-{%     if operation.HasQueryParameters -%}
-        urlBuilder_.Append('?');
-{%         for parameter in operation.QueryParameters -%}
-{%             if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
-{%             else -%}
-        {% template Client.Class.QueryParameter %}
-{%             endif -%}
-{%         endfor -%}
-        urlBuilder_.Length--;
-{%     endif -%}
-
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
                 await PrepareRequestAsync(client_, request_, urlBuilder_, cancellationToken).ConfigureAwait(false);
 {% else -%}
@@ -367,9 +301,7 @@
                 var disposeResponse_ = true;
                 try
                 {
-                    var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                    foreach (var item_ in response_.Headers)
-                        headers_[item_.Key] = item_.Value;
+                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
                     if (response_.Content != null && response_.Content.Headers != null)
                     {
                         foreach (var item_ in response_.Content.Headers)
