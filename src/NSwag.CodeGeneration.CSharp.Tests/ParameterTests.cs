@@ -42,6 +42,41 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public void When_parameters_names_have_differences_only_in_case_of_the_first_letter_then_they_are_renamed()
+        {
+            // Arrange
+            var document = new OpenApiDocument();
+            document.Paths["foo"] = new OpenApiPathItem
+            {
+                {
+                    OpenApiOperationMethod.Get, new OpenApiOperation
+                    {
+                        Parameters =
+                        {
+                            new OpenApiParameter
+                            {
+                                Kind = OpenApiParameterKind.Query,
+                                Name = "foo"
+                            },
+                            new OpenApiParameter
+                            {
+                                Kind = OpenApiParameterKind.Header,
+                                Name = "Foo"
+                            },
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
+        }
+
+        [Fact]
         public void When_parent_parameters_have_same_kind_then_they_are_included()
         {
             // Arrange
@@ -340,7 +375,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains(@"toQuery.Value.ToString(""s""", codeWithDefaults);
 
             // Assert custom values defaults
-            Assert.Contains($@"from.ToString(""{dateFormat }""", code);
+            Assert.Contains($@"from.ToString(""{dateFormat}""", code);
             Assert.Contains($@"to.ToString(""{dateTimeFormat}""", code);
             Assert.Contains($@"fromQuery.Value.ToString(""{dateFormat}""", code);
             Assert.Contains($@"toQuery.Value.ToString(""{dateTimeFormat}""", code);
