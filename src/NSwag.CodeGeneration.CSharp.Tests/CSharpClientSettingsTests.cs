@@ -66,6 +66,30 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task WhenUsingBaseUrl_ButNoProperty_ThenPropertyIsNotUsedAndFieldIsGenerated()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                UseBaseUrl = true,
+                GenerateBaseUrlProperty = false
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("BaseUrl", code);
+            Assert.Contains("string _baseUrl", code);
+        }
+
+        [Fact]
         public async Task When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
         {
             // Arrange

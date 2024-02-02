@@ -2,10 +2,11 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-{% if UseBaseUrl and GenerateBaseUrlProperty -%}
-#pragma warning disable 8618 // Set by constructor via BaseUrl property
+{% if UseBaseUrl or GenerateBaseUrlProperty -%}
+    #pragma warning disable 8618
     private string _baseUrl;
-#pragma warning restore 8618 // Set by constructor via BaseUrl property
+    #pragma warning restore 8618
+
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
@@ -287,7 +288,7 @@
 {%     endif -%}
 
                 var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
+                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
@@ -299,12 +300,12 @@
 {%                    if parameter.Name == pathParameterParts[0] -%}
 {%                        if parameter.IsOptional -%}
 {%                            assign pathParameterFound = false -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.PathParameter %}
-        }
-        else
-            if (urlBuilder_.Length > 0) urlBuilder_.Length--;
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.PathParameter %}
+                }
+                else
+                    if (urlBuilder_.Length > 0) urlBuilder_.Length--;
 {%                        else -%}
                 {% template Client.Class.PathParameter %}
 {%                        endif -%}
@@ -333,18 +334,18 @@
 {%        endunless -%}
 {%    endif -%}
 {%     if operation.HasQueryParameters -%}
-        urlBuilder_.Append('?');
+                urlBuilder_.Append('?');
 {%         for parameter in operation.QueryParameters -%}
 {%             if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.QueryParameter %}
+                }
 {%             else -%}
-        {% template Client.Class.QueryParameter %}
+                {% template Client.Class.QueryParameter %}
 {%             endif -%}
 {%         endfor -%}
-        urlBuilder_.Length--;
+                urlBuilder_.Length--;
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
