@@ -17,8 +17,7 @@ DOTNET_INSTALL_URL="https://dot.net/v1/dotnet-install.sh"
 DOTNET_CHANNEL="STS"
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
-export DOTNET_MULTILEVEL_LOOKUP=0
+export DOTNET_NOLOGO=1
 
 ###########################################################################
 # EXECUTION
@@ -54,6 +53,7 @@ else
         "$DOTNET_INSTALL_FILE" --install-dir "$DOTNET_DIRECTORY" --version "$DOTNET_VERSION" --no-path
     fi
     export DOTNET_EXE="$DOTNET_DIRECTORY/dotnet"
+    export PATH="$DOTNET_DIRECTORY:$PATH"
 fi
 
 echo "Microsoft (R) .NET SDK version $("$DOTNET_EXE" --version)"
