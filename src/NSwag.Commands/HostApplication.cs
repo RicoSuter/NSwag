@@ -112,8 +112,9 @@ namespace NSwag.Commands
                         // exclude all implementations of IHostedService
                         // except Microsoft.AspNetCore.Hosting.GenericWebHostService because that one will build/configure
                         // the WebApplication/Middleware pipeline in the case of the GenericWebHostBuilder.
-                        if (typeof(IHostedService).IsAssignableFrom(services[i].ServiceType)
-                            && services[i].ImplementationType is not { FullName: "Microsoft.AspNetCore.Hosting.GenericWebHostService" })
+                        var registration = services[i];
+                        if (registration.ServiceType == typeof(IHostedService)
+                            && registration.ImplementationType is not { FullName: "Microsoft.AspNetCore.Hosting.GenericWebHostService" })
                         {
                             services.RemoveAt(i);
                         }
