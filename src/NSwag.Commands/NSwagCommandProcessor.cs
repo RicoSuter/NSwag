@@ -40,9 +40,12 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public async Task<int> ProcessAsync(string[] args)
         {
-            _host.WriteMessage("toolchain v" + OpenApiDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
-            _host.WriteMessage("Visit http://NSwag.org for more information.\n");
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOLOGO"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOLOGO"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                _host.WriteMessage($"toolchain v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion}){Environment.NewLine}");
+                _host.WriteMessage($"Visit http://NSwag.org for more information.{Environment.NewLine}");
+            }
 
             WriteBinDirectory();
 
@@ -62,7 +65,7 @@ namespace NSwag.Commands
                 await processor.ProcessAsync(args).ConfigureAwait(false);
                 stopwatch.Stop();
 
-                _host.WriteMessage("\nDuration: " + stopwatch.Elapsed + "\n");
+                _host.WriteMessage($"{Environment.NewLine}Duration: {stopwatch.Elapsed}{Environment.NewLine}");
             }
             catch (Exception exception)
             {

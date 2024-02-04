@@ -378,7 +378,14 @@ namespace NSwag.Generation.AspNetCore
                 await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
                 new OpenApiDocument();
 
-            document.Generator = $"NSwag v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
+            var version = "";
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                version = $" v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
+            }
+
+            document.Generator = $"NSwag{version}";
             document.SchemaType = Settings.SchemaSettings.SchemaType;
 
             if (document.Info == null)
