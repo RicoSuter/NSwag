@@ -2,7 +2,7 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-{% if UseBaseUrl or GenerateBaseUrlProperty -%}
+{% if UseBaseUrl -%}
     #pragma warning disable 8618
     private string _baseUrl;
     #pragma warning restore 8618

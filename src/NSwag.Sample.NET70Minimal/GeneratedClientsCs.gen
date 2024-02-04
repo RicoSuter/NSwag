@@ -23,9 +23,10 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "")]
     public partial class Client 
     {
-    #pragma warning disable 8618 // Set by constructor via BaseUrl property
+        #pragma warning disable 8618
         private string _baseUrl;
-    #pragma warning restore 8618 // Set by constructor via BaseUrl property
+        #pragma warning restore 8618
+
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
@@ -45,6 +46,7 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
             set
             {
                 _baseUrl = value;
@@ -81,7 +83,7 @@ namespace MyNamespace
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: ""
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -162,7 +164,7 @@ namespace MyNamespace
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sum/{a}/{b}"
                     urlBuilder_.Append("sum/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
@@ -244,7 +246,7 @@ namespace MyNamespace
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "abs({a})"
                     urlBuilder_.Append("abs(");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(a, System.Globalization.CultureInfo.InvariantCulture)));
@@ -325,7 +327,7 @@ namespace MyNamespace
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "id:{id}"
                     urlBuilder_.Append("id:");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
@@ -497,9 +499,10 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "")]
     public partial class ExampleClient 
     {
-    #pragma warning disable 8618 // Set by constructor via BaseUrl property
+        #pragma warning disable 8618
         private string _baseUrl;
-    #pragma warning restore 8618 // Set by constructor via BaseUrl property
+        #pragma warning restore 8618
+
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
 
@@ -519,6 +522,7 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
             set
             {
                 _baseUrl = value;
@@ -555,7 +559,7 @@ namespace MyNamespace
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "examples"
                     urlBuilder_.Append("examples");
 
