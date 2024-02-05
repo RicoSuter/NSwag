@@ -115,6 +115,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Build", "00 Build", "{6F
 		azure-pipelines.yml = ..\azure-pipelines.yml
 		Directory.Build.props = ..\Directory.Build.props
 		global.json = ..\global.json
+		NSwag.NoInstaller.slnf = NSwag.NoInstaller.slnf
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{AC3D8125-AE21-49FC-A217-D96C7B585FF9}"

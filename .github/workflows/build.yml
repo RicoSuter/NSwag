@@ -68,3 +68,27 @@ jobs:
         with:
           name: NuGet Packages
           path: artifacts/*.nupkg
+  ubuntu-latest:
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Run: Compile, Test, Pack, Publish'
+        run: ./build.cmd Compile Test Pack Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+  macos-latest:
+    name: macos-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Run: Compile, Test, Pack, Publish'
+        run: ./build.cmd Compile Test Pack Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

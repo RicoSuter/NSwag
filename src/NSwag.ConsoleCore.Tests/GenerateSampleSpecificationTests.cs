@@ -20,9 +20,9 @@ namespace NSwag.ConsoleCore.Tests
         {
             // Arrange
 #if DEBUG
-            const string configuration = "Debug";
+            const string configuration = "debug";
 #else
-            const string configuration = "Release";
+            const string configuration = "release";
 #endif
             var executablePath = Path.GetFullPath($"../../../../artifacts/bin/NSwag.ConsoleCore/{configuration}_{targetFramework}/dotnet-nswag.dll");
             var nswagJsonPath = Path.GetFullPath($"../../../../src/{projectName}/nswag.json");

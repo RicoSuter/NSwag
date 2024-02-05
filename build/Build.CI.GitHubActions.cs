@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.CI.GitHubActions.Configuration;
@@ -7,28 +8,28 @@ using Nuke.Common.Utilities;
 [CustomGitHubActions(
     "pr",
     GitHubActionsImage.WindowsLatest,
-    // GitHubActionsImage.UbuntuLatest,
-    // GitHubActionsImage.MacOsLatest,
-    OnPullRequestBranches = new[] { "master", "main" },
-    OnPullRequestIncludePaths = new[] { "**/*.*" },
-    OnPullRequestExcludePaths = new[] { "**/*.md" },
-    PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Compile), nameof(Test), nameof(Pack) },
+    GitHubActionsImage.UbuntuLatest,
+    GitHubActionsImage.MacOsLatest,
+    OnPullRequestBranches = ["master", "main"],
+    OnPullRequestIncludePaths = ["**/*.*"],
+    OnPullRequestExcludePaths = ["**/*.md"],
+    PublishArtifacts = true,
+    InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack)],
     CacheKeyFiles = new string[0],
-    JobConcurrencyCancelInProgress = true),
+    JobConcurrencyCancelInProgress = false),
 ]
 [CustomGitHubActions(
     "build",
     GitHubActionsImage.WindowsLatest,
-    // GitHubActionsImage.UbuntuLatest,
-    // GitHubActionsImage.MacOsLatest,
-    OnPushBranches = new[] { "master", "main" },
-    OnPushTags = new[] { "v*.*.*" },
-    OnPushIncludePaths = new[] { "**/*.*" },
-    OnPushExcludePaths = new[] { "**/*.md" },
+    GitHubActionsImage.UbuntuLatest,
+    GitHubActionsImage.MacOsLatest,
+    OnPushBranches = ["master", "main"],
+    OnPushTags = ["v*.*.*"],
+    OnPushIncludePaths = ["**/*.*"],
+    OnPushExcludePaths = ["**/*.md"],
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
-    ImportSecrets = new[] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN" },
+    InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish)],
+    ImportSecrets = ["NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN"],
     CacheKeyFiles = new string[0])
 ]
 public partial class Build
@@ -55,11 +56,15 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         }));
         */
 
-        newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
-        newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
+        var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
+        if (onWindows)
+        {
+            newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
+            newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
+        }
 
         // add artifacts manually as they would otherwise by hard to configure via attributes
-        if (PublishArtifacts)
+        if (PublishArtifacts && onWindows)
         {
             newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.zip", Path = "artifacts/NSwag.zip" });
             newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.Npm.zip", Path = "artifacts/NSwag.Npm.zip" });

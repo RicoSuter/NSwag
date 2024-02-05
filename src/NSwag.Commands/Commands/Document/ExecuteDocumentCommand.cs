@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 
@@ -28,7 +27,8 @@ namespace NSwag.Commands.Document
 
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (!string.IsNullOrEmpty(Input) && !Input.StartsWith("/") && !Input.StartsWith("-"))
+            // input can be nix-like file path starting with /
+            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith("/") || File.Exists(Input) || Input.EndsWith("nswag.json")) && !Input.StartsWith("-"))
             {
                 await ExecuteDocumentAsync(host, Input);
             }
