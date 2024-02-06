@@ -46,7 +46,9 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            #if NET5_0_OR_GREATER
             [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
+            #endif
             set
             {
                 _baseUrl = value;
@@ -522,7 +524,9 @@ namespace MyNamespace
         public string BaseUrl
         {
             get { return _baseUrl; }
+            #if NET5_0_OR_GREATER
             [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_baseUrl))]
+            #endif
             set
             {
                 _baseUrl = value;
