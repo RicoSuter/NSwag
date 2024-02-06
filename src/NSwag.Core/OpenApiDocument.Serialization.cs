@@ -107,6 +107,8 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "authorizationUrl");
                 resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "tokenUrl");
                 resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scopes");
+                
+                resolver.IgnoreProperty(typeof(OpenApiParameter), "schema");
             }
             else
             {
