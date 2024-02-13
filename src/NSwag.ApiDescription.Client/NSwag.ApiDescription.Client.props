@@ -65,7 +65,8 @@
       <NSwagArrayBaseType>$(NSwagArrayBaseType)</NSwagArrayBaseType>
       <NSwagDictionaryBaseType>$(NSwagDictionaryBaseType)</NSwagDictionaryBaseType>
       <NSwagClassStyle>$(NSwagClassStyle)</NSwagClassStyle>
-      <NSwagJsonLibrary>$(NSwagJsonLibrary)</NSwagJsonLibrary>
+	  <NSwagJsonLibrary>$(NSwagJsonLibrary)</NSwagJsonLibrary>
+	  <NSwagJsonPolymorphicSerializationStyle>$(NSwagJsonPolymorphicSerializationStyle)</NSwagJsonPolymorphicSerializationStyle>
       <NSwagGenerateDefaultValues>$(NSwagGenerateDefaultValues)</NSwagGenerateDefaultValues>
       <NSwagGenerateDataAnnotations>$(NSwagGenerateDataAnnotations)</NSwagGenerateDataAnnotations>
       <NSwagExcludedTypeNames>$(NSwagExcludedTypeNames)</NSwagExcludedTypeNames>
@@ -154,6 +155,7 @@
       <NSwagDictionaryBaseType>$(NSwagDictionaryBaseType)</NSwagDictionaryBaseType>
       <NSwagClassStyle>$(NSwagClassStyle)</NSwagClassStyle>
       <NSwagJsonLibrary>$(NSwagJsonLibrary)</NSwagJsonLibrary>
+	  <NSwagJsonPolymorphicSerializationStyle>$(NSwagJsonPolymorphicSerializationStyle)</NSwagJsonPolymorphicSerializationStyle>
       <NSwagGenerateDefaultValues>$(NSwagGenerateDefaultValues)</NSwagGenerateDefaultValues>
       <NSwagGenerateDataAnnotations>$(NSwagGenerateDataAnnotations)</NSwagGenerateDataAnnotations>
       <NSwagExcludedTypeNames>$(NSwagExcludedTypeNames)</NSwagExcludedTypeNames>

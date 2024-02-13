@@ -45,6 +45,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (CSharpJsonLibrary)Enum.Parse(typeof(CSharpJsonLibrary), t))
             .ToArray();
 
+        /// <summary>Gets the list of JSON polymorphic serialization styles. </summary>
+        public CSharpJsonPolymorphicSerializationStyle[] JsonPolymorphicSerializationStyles { get; } = Enum.GetNames(typeof(CSharpJsonPolymorphicSerializationStyle))
+            .Select(t => (CSharpJsonPolymorphicSerializationStyle)Enum.Parse(typeof(CSharpJsonPolymorphicSerializationStyle), t))
+            .ToArray();
+
         /// <summary>Gets new line behaviors. </summary>
         public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
             .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))
