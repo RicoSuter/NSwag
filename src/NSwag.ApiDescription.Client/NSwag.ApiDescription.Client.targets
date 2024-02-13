@@ -205,10 +205,10 @@
         <Command Condition="'%(NSwagClassStyle)' != ''">%(Command) /classStyle:%(NSwagClassStyle)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-	    <Command Condition="'%(NSwagJsonLibrary)' != ''">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
+        <Command Condition="'%(NSwagJsonLibrary)' != ''">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-	    <Command Condition="'%(NSwagJsonPolymorphicSerializationStyle)' != ''">%(Command) /jsonPolymorphicSerializationStyle:%(NSwagJsonPolymorphicSerializationStyle)</Command>
+        <Command Condition="'%(NSwagJsonPolymorphicSerializationStyle)' != ''">%(Command) /jsonPolymorphicSerializationStyle:%(NSwagJsonPolymorphicSerializationStyle)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagGenerateDefaultValues)' != ''">%(Command) /generateDefaultValues:%(NSwagGenerateDefaultValues)</Command>
