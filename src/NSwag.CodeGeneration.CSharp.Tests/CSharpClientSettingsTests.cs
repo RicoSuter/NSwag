@@ -1,6 +1,6 @@
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -248,6 +248,53 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.DoesNotContain("public partial interface IFooClient", code);
             Assert.Contains("public partial class FooClient : IFooClient", code);
+        }
+
+        [Fact]
+        public async Task When_async_method_format_specified_then_methods_use_it()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                AsyncMethodFormat = "{0}Asynchronous"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Equal(4, Regex.Matches(code, @"Task<object> GetPersonAsynchronous\(").Count);
+        }
+
+        [Fact]
+        public async Task When_sync_method_format_specified_then_methods_use_it()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                GenerateSyncMethods = true,
+                SyncMethodFormat = "{0}Synchronous"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Equal(2, Regex.Matches(code, @"object GetPersonSynchronous\(").Count);
         }
     }
 }

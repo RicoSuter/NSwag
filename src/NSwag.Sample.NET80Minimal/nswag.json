@@ -164,7 +164,9 @@
       "serviceHost": null,
       "serviceSchemes": null,
       "output": "GeneratedClientsCs.gen",
-      "newLineBehavior": "Auto"
+      "newLineBehavior": "Auto",
+      "asyncMethodFormat": "{0}Async",
+      "syncMethodFormat": "{0}"
     },
     "openApiToCSharpController": {
       "controllerBaseClass": null,
@@ -225,7 +227,9 @@
       "serviceHost": null,
       "serviceSchemes": null,
       "output": "GeneratedControllersCs.gen",
-      "newLineBehavior": "Auto"
+      "newLineBehavior": "Auto",
+      "asyncMethodFormat": "{0}Async",
+      "syncMethodFormat": "{0}"
     }
   }
 }

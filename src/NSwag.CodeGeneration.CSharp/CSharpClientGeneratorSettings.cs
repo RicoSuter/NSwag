@@ -112,5 +112,11 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>Gets or sets the format for asynchronous methods (default: "{0}Async").</summary>
+        public string AsyncMethodFormat { get; set; } = "{0}Async";
+
+        /// <summary>Gets or sets the format for synchronous methods (default: "{0}").</summary>
+        public string SyncMethodFormat { get; set; } = "{0}";
     }
 }
