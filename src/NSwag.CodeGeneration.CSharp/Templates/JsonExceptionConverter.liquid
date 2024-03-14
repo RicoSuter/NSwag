@@ -161,7 +161,7 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
             var jsonPropertyName = resolver is Newtonsoft.Json.Serialization.DefaultContractResolver ? ((Newtonsoft.Json.Serialization.DefaultContractResolver)resolver).GetResolvedPropertyName(propertyName) : propertyName;
             foreach (var property in jObject.Properties())
             {
-                if (System.String.Equals(p.Name, jsonPropertyName, System.StringComparison.OrdinalIgnoreCase))
+                if (System.String.Equals(property.Name, jsonPropertyName, System.StringComparison.OrdinalIgnoreCase))
                 {
                     var fieldValue = property.Value.ToObject(field.FieldType, serializer);
                     field.SetValue(value, fieldValue);
