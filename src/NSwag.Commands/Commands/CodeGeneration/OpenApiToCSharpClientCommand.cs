@@ -185,7 +185,11 @@ namespace NSwag.Commands.CodeGeneration
         public string TypeAccessModifier
         {
             get => Settings.CSharpGeneratorSettings.TypeAccessModifier;
-            set => Settings.CSharpGeneratorSettings.TypeAccessModifier = value;
+            set
+            { 
+                Settings.CSharpGeneratorSettings.TypeAccessModifier = value;
+                Settings.ClientInterfaceAccessModifier = value;
+            }
         }
 
         [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]

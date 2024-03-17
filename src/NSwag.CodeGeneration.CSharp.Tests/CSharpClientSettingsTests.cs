@@ -174,6 +174,29 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task When_client_base_interface_is_not_specified_then_client_interface_should_have_no_base_interface_and_has_correct_access_modifier()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                ClientInterfaceAccessModifier = "internal"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("internal partial interface IFooClient\n", code);
+        }
+
+        [Fact]
         public async Task When_client_base_interface_is_specified_then_client_interface_extends_it()
         {
             // Arrange
@@ -194,6 +217,30 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("public partial interface IFooClient : IClientBase", code);
+        }
+
+        [Fact]
+        public async Task When_client_base_interface_is_specified_with_access_modifier_then_client_interface_extends_it_and_has_correct_access_modifier()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                ClientBaseInterface = "IClientBase",
+                ClientInterfaceAccessModifier = "internal"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("internal partial interface IFooClient : IClientBase", code);
         }
 
         [Fact]
