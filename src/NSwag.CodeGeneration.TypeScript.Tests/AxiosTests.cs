@@ -179,5 +179,36 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Assert
             Assert.Contains("signal?: AbortSignal", code);
         }
+
+        [Fact]
+        public async Task When_headers()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            });
+
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                AddOptionalHeaders = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("headers?: HeadersInit", code);
+            Assert.Contains("...headers", code);
+        }
     }
 }

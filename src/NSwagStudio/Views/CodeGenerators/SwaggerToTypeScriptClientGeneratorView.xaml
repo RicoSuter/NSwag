@@ -124,6 +124,12 @@
                                           ToolTip="UseAbortSignal"
                                           Margin="0,0,0,12" />
 
+                                <CheckBox IsChecked="{Binding Command.AddOptionalHeaders, Mode=TwoWay}"
+                                          Visibility="{Binding Command.Template, ConverterParameter='Fetch,Aurelia,Axios', Converter={StaticResource EqualityConverter}}"
+                                          Content="Include an optional headers parameter (Aurelia/Axios/Fetch only)"
+                                          ToolTip="AddOptionalHeaders"
+                                          Margin="0,0,0,12" />
+
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                         <Run Text="Operation Generation Mode" FontWeight="Bold" />
                                         <LineBreak />
