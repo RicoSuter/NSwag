@@ -71,8 +71,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 var mvcOptions = services.GetRequiredService<IOptions<MvcOptions>>();
                 var newtonsoftSettings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(services);
                 var systemTextJsonOptions = mvcOptions.Value.OutputFormatters
-                    .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
-                    AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(services) : null;
+                    .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter")
+                    ? AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(services)
+#if NET6_0_OR_GREATER
+                    : services.GetService<IOptions<Microsoft.AspNetCore.Http.Json.JsonOptions>>()?.Value.SerializerOptions;
+#else 
+                    : null;
+#endif
 
                 if (systemTextJsonOptions != null)
                 {

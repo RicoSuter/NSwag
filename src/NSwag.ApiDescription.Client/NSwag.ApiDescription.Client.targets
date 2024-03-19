@@ -19,7 +19,7 @@
         <Command>$(_NSwagCommand) openapi2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="!%(FirstForGenerator) OR !%(NSwagGenerateExceptionClasses)">%(Command) /GenerateExceptionClasses:false</Command>
+        <Command Condition="!%(FirstForGenerator) OR (%(NSwagGenerateExceptionClasses) != '' AND !%(NSwagGenerateExceptionClasses))">%(Command) /GenerateExceptionClasses:false</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
