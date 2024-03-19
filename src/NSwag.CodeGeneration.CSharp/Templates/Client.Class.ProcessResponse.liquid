@@ -57,7 +57,7 @@ throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescri
 {%         if operation.WrapResponse -%}
 return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%         else -%}
-return {{ operation.UnwrappedResultDefaultValue }};
+{%             if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%         endif -%}
 {%     else -%}
 {%         if operation.WrapResponse -%}
