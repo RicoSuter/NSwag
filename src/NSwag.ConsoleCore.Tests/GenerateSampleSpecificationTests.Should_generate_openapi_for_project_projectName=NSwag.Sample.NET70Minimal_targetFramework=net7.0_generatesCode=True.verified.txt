@@ -107,6 +107,7 @@
         "tags": [
           "Calculator"
         ],
+        "description": "Hello world!",
         "operationId": "Identity",
         "parameters": [
           {

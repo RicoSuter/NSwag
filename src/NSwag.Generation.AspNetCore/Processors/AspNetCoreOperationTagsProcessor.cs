@@ -32,9 +32,12 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             if (tagsAttributes != null)
             {
-                foreach (var tag in tagsAttributes.SelectMany(a => a.Tags))
+                var tags = aspNetCoreContext.OperationDescription.Operation.Tags;
+                foreach (var tag in tagsAttributes
+                    .SelectMany(a => a.Tags)
+                    .Where(t => !tags.Contains(t)))
                 {
-                    aspNetCoreContext.OperationDescription.Operation.Tags.Add(tag);
+                    tags.Add(tag);
                 }
             }
 #endif

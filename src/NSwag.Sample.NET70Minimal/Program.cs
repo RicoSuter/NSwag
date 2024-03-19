@@ -35,7 +35,13 @@ app.MapGet("/abs({a})", (Func<int, int>)(a => Math.Abs(a)))
 
 app.MapGet("/id:{id}", (int id) => id)
     .WithName("Identity")
-    .WithTags("Calculator");
+    .WithTags("Calculator")
+    .WithOpenApi(x =>
+    {
+        x.Description = "Hello world!";
+        return x;
+    });
+
 
 // Optional: Use controllers
 app.UseRouting();

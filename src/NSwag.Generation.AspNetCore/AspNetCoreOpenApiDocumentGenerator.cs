@@ -9,8 +9,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -231,23 +233,43 @@ namespace NSwag.Generation.AspNetCore
                                 : OpenApiOperationMethod.Get;
                         }
 
+                        var operation = new OpenApiOperation();
+#if NETCOREAPP3_1_OR_GREATER
+                        var openApiOperationMetadata = apiDescription
+                            .ActionDescriptor?
+                            .EndpointMetadata?
+                            .FirstOrDefault(m => m.GetType().FullName == "Microsoft.OpenApi.Models.OpenApiOperation");
+
+                        if (openApiOperationMetadata is not null)
+                        {
+                            var stringBuilder = new StringBuilder();
+                            var openApiJsonWriterType = openApiOperationMetadata.GetType().Assembly.GetType("Microsoft.OpenApi.Writers.OpenApiJsonWriter");
+                            var openApiJsonWriter = Activator.CreateInstance(openApiJsonWriterType, new StringWriter(stringBuilder));
+
+                            openApiOperationMetadata.GetType().GetMethod("SerializeAsV3")
+                                .Invoke(openApiOperationMetadata, [openApiJsonWriter]);
+
+                            operation = JsonConvert.DeserializeObject<OpenApiOperation>(stringBuilder.ToString());
+                        }
+#endif
+
+                        operation.IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method);
+                        operation.OperationId = GetOperationId(document, apiDescription, method, httpMethod);
+                        operation.Consumes = apiDescription.SupportedRequestFormats
+                            .Select(f => f.MediaType)
+                            .Distinct()
+                            .ToList();
+
+                        operation.Produces = apiDescription.SupportedResponseTypes
+                            .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
+                            .Distinct()
+                            .ToList();
+
                         var operationDescription = new OpenApiOperationDescription
                         {
                             Path = path,
                             Method = httpMethod,
-                            Operation = new OpenApiOperation
-                            {
-                                IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method),
-                                OperationId = GetOperationId(document, apiDescription, method, httpMethod),
-                                Consumes = apiDescription.SupportedRequestFormats
-                                   .Select(f => f.MediaType)
-                                   .Distinct()
-                                   .ToList(),
-                                Produces = apiDescription.SupportedResponseTypes
-                                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
-                                   .Distinct()
-                                   .ToList()
-                            }
+                            Operation = operation
                         };
 
                         operations.Add(new Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
