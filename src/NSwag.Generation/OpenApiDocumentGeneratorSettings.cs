@@ -61,6 +61,7 @@ namespace NSwag.Generation
             new OperationSummaryAndDescriptionProcessor(),
             new OperationTagsProcessor(),
             new OperationExtensionDataProcessor(),
+            new OperationCallbackProcessor()
         };
 
         /// <summary>Gets the document processors.</summary>
