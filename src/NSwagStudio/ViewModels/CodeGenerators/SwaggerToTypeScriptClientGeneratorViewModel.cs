@@ -73,9 +73,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .ToArray();
 
         /// <summary>Gets the list of date time types.</summary>
-        public TypeScriptDateTimeType[] DateTimeTypes { get; } = Enum.GetNames(typeof(TypeScriptDateTimeType))
-            .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
-            .ToArray();
+        public TypeScriptDateTimeType[] DateTimeTypes { get; } =
+            (TypeScriptDateTimeType[])Enum.GetValues(typeof(TypeScriptDateTimeType));
 
         /// <summary>Gets the list of null values.</summary>
         public TypeScriptNullValue[] NullValues { get; } = Enum.GetNames(typeof(TypeScriptNullValue))
