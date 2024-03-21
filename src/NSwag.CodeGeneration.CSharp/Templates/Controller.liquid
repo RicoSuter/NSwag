@@ -89,7 +89,7 @@ public partial class {{ Class }}Controller : {% if HasBaseClass %}{{ BaseClass }
         var result = await _implementation.{{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.HasDefault %} ?? {{parameter.Default}}{% endif %}{% if parameter.IsLast == false or UseCancellationToken %}, {% endif %}{% endfor %}{% if UseCancellationToken %}cancellationToken{% endif %}).ConfigureAwait(false);
 
         var status = (System.Net.HttpStatusCode)result.StatusCode;
-        HttpResponseMessage response = Request.CreateResponse(status{% if operation.UnwrappedResultType != "void" %}, result.Result{% endif %});
+        HttpResponseMessage response = Request.CreateResponse(status{% if operation.UnwrappedResultType != "void" %}, result.Result{% else %}, (object)null{% endif %});
 
         foreach (var header in result.Headers)
             response.Headers.Add(header.Key, header.Value);
