@@ -386,7 +386,7 @@
 
                     var status_ = (int)response_.StatusCode;
 {%     for response in operation.Responses -%}
-                    if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
+                    {% if response.StatusCodeIsInt %}if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %}){% else %}if (StatusInRange(status_, {{ response.CreateRegexFoxCS }})){% endif %}
                     {
                         {% template Client.Class.ProcessResponse %}
                     }
@@ -467,6 +467,11 @@
         public T Object { get; }
 
         public string Text { get; }
+    }
+
+    private bool StatusInRange(int value, Regex match)
+    {
+        return match.IsMatch(value.ToString());
     }
 
     {% template Client.Class.ReadObjectResponse %}
