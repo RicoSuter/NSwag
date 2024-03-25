@@ -22,7 +22,7 @@ The project combines the functionality of Swashbuckle (OpenAPI/Swagger generatio
 
 The project is developed and maintained by [Rico Suter](http://rsuter.com) and other contributors.
 
-**Features:**
+### Features
 
 - [Generate Swagger 2.0 and OpenAPI 3.0 specifications from C# ASP.NET (Core) controllers](https://github.com/RicoSuter/NSwag/wiki/Middlewares)
 - Serve the specs via ASP.NET (Core) middleware, optionally with [Swagger UI](https://github.com/swagger-api/swagger-ui) or [ReDoc](https://github.com/Rebilly/ReDoc)
@@ -30,7 +30,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - Everything can be automated via CLI (distributed via NuGet tool or build target; or NPM)
 - CLI configured via JSON file or NSwagStudio Windows UI
 
-**Ways to use the toolchain:** 
+### Ways to use the toolchain
 
 - Simple to use Windows GUI, [NSwagStudio](https://github.com/RicoSuter/NSwag/wiki/NSwagStudio)
 - By using the [OpenAPI or OpenAPI UI OWIN and ASP.NET Core Middlewares](https://github.com/RicoSuter/NSwag/wiki/Middlewares) (also serves the [Swagger UI](https://github.com/swagger-api/swagger-ui)) (recommended)
@@ -40,14 +40,14 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 - With [ServiceProjectReference](https://github.com/RicoSuter/NSwag/wiki/ServiceProjectReference) tags in your .csproj (preview)
 - In your [Azure V2 Functions](https://github.com/Jusas/NSwag.AzureFunctionsV2) (external project, might not use latest NSwag version)
 
-**Tutorials:**
+### Tutorials
 
 - [Add NSwag to your ASP.NET Core app](https://github.com/RicoSuter/NSwag/wiki/AspNetCore-Middleware)
 - [Integrate the NSwag toolchain into your ASP.NET Web API project](https://blog.rsuter.com/nswag-tutorial-integrate-the-nswag-toolchain-into-your-asp-net-web-api-project/)
 - [Generate an Angular TypeScript client from an existing ASP.NET Web API web assembly](https://blog.rsuter.com/nswag-tutorial-generate-an-angular-2-typescript-client-from-an-existing-asp-net-web-api-web-assembly/)
 - [Video Tutorial: How to integrate NSwag into your ASP.NET Core Web API project (5 mins)](https://www.youtube.com/watch?v=lF9ZZ8p2Ciw)
 
-**OpenAPI/Swagger Generators:**
+### OpenAPI/Swagger Generators
 
 - ASP.NET Web API assembly to OpenAPI (supports .NET Core)
     - [AspNetCoreOpenApiDocumentGenerator](https://github.com/RicoSuter/NSwag/wiki/AspNetCoreOpenApiDocumentGenerator)
@@ -59,7 +59,7 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
     - [TypesToOpenApiCommand](https://github.com/RicoSuter/NSwag/wiki/TypesToOpenApiCommand)
         - Generates an OpenAPI specification containing only types from .NET assemblies
 
-**Code Generators:** 
+### Code Generators
 
 - **CSharp Client**
 	- [CSharpClientGenerator](https://github.com/RicoSuter/NSwag/wiki/CSharpClientGenerator)
@@ -68,10 +68,10 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 		- The generated clients can be used with full .NET, .NET Core, Xamarin and .NET Standard 1.4 in general
 - **CSharp Controllers** (contract first/schema first development)
 	- [CSharpControllerGenerator](https://github.com/RicoSuter/NSwag/wiki/CSharpControllerGenerator)
-	    - Generates Web API Controllers based on a OpenAPI specification (ASP.NET Web API and ASP.NET Core)
+	    - Generates Web API Controllers based on an OpenAPI specification (ASP.NET Web API and ASP.NET Core)
 - **TypeScript Client**
 	- [TypeScriptClientGenerator](https://github.com/RicoSuter/NSwag/wiki/TypeScriptClientGenerator)
-		- Generates TypeScript clients from a OpenAPI specification
+		- Generates TypeScript clients from an OpenAPI specification
 		- Available templates/supported libraries: 
 			- JQuery with Callbacks, `JQueryCallbacks`
 			- JQuery with promises `JQueryPromises`
@@ -81,18 +81,18 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
 			- `Axios` (preview)
 	    
-**Downloads**
+### Downloads
 
 - [Download latest **NSwagStudio MSI installer (NSwagStudio.msi)**](https://github.com/RicoSuter/NSwag/releases) (Windows Desktop application)
 - [Download latest **NSwag command line tools** and NSwagStudio (NSwag.zip)](https://github.com/RicoSuter/NSwag/releases)
 
-**NPM Packages**
+### NPM Packages
 
 - [NSwag](https://www.npmjs.com/package/nswag): Command line tools (.NET and .NET Core) distributed as NPM package
 
-**NuGet Packages**
+### NuGet Packages
 
-Specification:
+#### Specification
 
 - **[NSwag.Core](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Core/versions/latest)**
     - The OpenAPI/Swagger reader and writer classes, see [OpenApiDocument](https://github.com/RicoSuter/NSwag/wiki/OpenApiDocument) (.NET Standard 1.0 / 2.0 and .NET 4.5)
@@ -101,7 +101,7 @@ Specification:
 - **[NSwag.Annotations](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Annotations/versions/latest)** (.NET Standard 1.0 / 2.0 and .NET 4.5)
     - Attributes to decorate Web API controllers to control the OpenAPI generation
 
-OpenAPI generation:
+#### OpenAPI generation
 
 - **[NSwag.Generation](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation/versions/latest/)** (.NET Standard 1.0 / 2.0 and .NET 4.5)
     - Classes to generate OpenAPI specifications
@@ -110,7 +110,7 @@ OpenAPI generation:
 - **[NSwag.Generation.AspNetCore](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.Generation.AspNetCore/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1)
     - (Experimental) Classes to generate OpenAPI specifications from ASP.NET Core MVC controllers using the ApiExplorer
 
-Code generation:
+#### Code generation
 
 - **[NSwag.CodeGeneration](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration/versions/latest)** (.NET Standard 1.3 / 2.0 / .NET 4.5.1)
     - Base classes to generate clients from OpenAPI specifications
@@ -119,7 +119,7 @@ Code generation:
 - **[NSwag.CodeGeneration.TypeScript](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.CodeGeneration.TypeScript/versions/latest)** (.NET Standard 1.3 and .NET 4.5.1)
     - Classes to generate TypeScript clients from OpenAPI specifications, see [TypeScriptClientGenerator](https://github.com/RicoSuter/NSwag/wiki/TypeScriptClientGenerator)
 
-ASP.NET and ASP.NET Core:
+#### ASP.NET and ASP.NET Core
 
 - **[NSwag.AspNetCore](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNetCore/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1+)
 - **[NSwag.AspNet.Owin](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.Owin/versions/latest)** (.NET 4.5+)
@@ -127,7 +127,7 @@ ASP.NET and ASP.NET Core:
 - **[NSwag.AspNet.WebApi](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AspNet.WebApi/versions/latest)** (.NET 4.5+)
     - ASP.NET Web API filter which serializes exceptions ([JsonExceptionFilterAttribute](https://github.com/RicoSuter/NSwag/wiki/JsonExceptionFilterAttribute))
 
-Frontends:
+#### Frontends
 
 - **[NSwag.AssemblyLoader](https://apimundo.com/organizations/nuget-org/nuget-feeds/public/packages/NSwag.AssemblyLoader/versions/latest)** (.NET Standard 1.6 / 2.0 and .NET 4.5.1): 
     - Classes to load assemblies in an isolated AppDomain and generate OpenAPI specs from Web API controllers
@@ -141,7 +141,9 @@ Frontends:
 - **[NSwagStudio](https://chocolatey.org/packages/nswagstudio)** (Chocolatey, Windows): 
     - Package to install the NSwagStudio and command line tools via Chocolatey
 
-CI NuGet Feed: https://www.myget.org/F/nswag/api/v3/index.json
+#### CI NuGet Feed
+
+https://www.myget.org/F/nswag/api/v3/index.json
 
 The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** package on .NET Core/UWP targets (if mscorlib is missing). 
 
@@ -149,7 +151,7 @@ The NuGet packages may require the **Microsoft.NETCore.Portable.Compatibility** 
 
 ### Usage in C&#35;
 
-To register the [middlewares](https://github.com/RicoSuter/NSwag/wiki/AspNetCore-Middleware) to generate a OpenAPI spec and render the UI, register NSwag in `Startup.cs`: 
+To register the [middlewares](https://github.com/RicoSuter/NSwag/wiki/AspNetCore-Middleware) to generate an OpenAPI spec and render the UI, register NSwag in `Startup.cs`: 
 
 ```csharp
 public class Startup
