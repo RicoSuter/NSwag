@@ -97,6 +97,7 @@ namespace NSwag
                 resolver.IgnoreProperty(typeof(OpenApiDocument), "definitions");
                 resolver.IgnoreProperty(typeof(OpenApiDocument), "parameters");
                 resolver.IgnoreProperty(typeof(OpenApiDocument), "responses");
+                resolver.IgnoreProperty(typeof(OpenApiDocument), "requestBodies");
                 resolver.IgnoreProperty(typeof(OpenApiDocument), "securityDefinitions");
 
                 resolver.IgnoreProperty(typeof(OpenApiResponse), "schema");
@@ -210,5 +211,9 @@ namespace NSwag
         /// <summary>Gets or sets the security definitions (Swagger only).</summary>
         [JsonProperty(PropertyName = "securityDefinitions", Order = 16, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, OpenApiSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
+
+        /// <summary>Gets or sets the request bodies which can be used for all operations (Swagger only).</summary>
+        [JsonProperty(PropertyName = "requestBodies", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, OpenApiRequestBody> RequestBodies => Components.RequestBodies;
     }
 }
