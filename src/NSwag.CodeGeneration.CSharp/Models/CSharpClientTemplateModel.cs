@@ -159,6 +159,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// </summary>
         public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods => _settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods;
 
+        /// <summary>Gets the format for asynchronous methods.</summary>
+        public string AsyncMethodFormat => _settings.AsyncMethodFormat;
+
+        /// <summary>Gets the format for synchronous methods.</summary>
+        public string SyncMethodFormat => _settings.SyncMethodFormat;
+
         /// <summary>Gets the JSON serializer parameter code.</summary>
         public string JsonSerializerParameterCode
         {

@@ -89,6 +89,8 @@
       <NSwagServiceSchemes>$(NSwagServiceSchemes)</NSwagServiceSchemes>
       <NSwagOutput>$(NSwagOutput)</NSwagOutput>
       <NSwagNewLineBehavior>$(NSwagNewLineBehavior)</NSwagNewLineBehavior>
+      <NSwagAsyncMethodFormat>$(NSwagAsyncMethodFormat)</NSwagAsyncMethodFormat>
+      <NSwagSyncMethodFormat>$(NSwagSyncMethodFormat)</NSwagSyncMethodFormat>
     </OpenApiReference>
     <OpenApiProjectReference>
       <CodeGenerator>NSwagCSharp</CodeGenerator>
@@ -177,6 +179,8 @@
       <NSwagServiceSchemes>$(NSwagServiceSchemes)</NSwagServiceSchemes>
       <NSwagOutput>$(NSwagOutput)</NSwagOutput>
       <NSwagNewLineBehavior>$(NSwagNewLineBehavior)</NSwagNewLineBehavior>
+      <NSwagAsyncMethodFormat>$(NSwagAsyncMethodFormat)</NSwagAsyncMethodFormat>
+      <NSwagSyncMethodFormat>$(NSwagSyncMethodFormat)</NSwagSyncMethodFormat>
     </OpenApiProjectReference>
   </ItemDefinitionGroup>
 </Project>

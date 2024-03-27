@@ -265,6 +265,22 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.QueryNullValue = value; }
         }
 
+        [Argument(Name = "AsyncMethodFormat", IsRequired = false,
+          Description = "Specifies the format for asynchronous methods (default: '{0}Async').")]
+        public string AsyncMethodFormat
+        {
+            get { return Settings.AsyncMethodFormat; }
+            set { Settings.AsyncMethodFormat = value; }
+        }
+
+        [Argument(Name = "SyncMethodFormat", IsRequired = false,
+          Description = "Specifies the format for synchronous methods (default: '{0}').")]
+        public string SyncMethodFormat
+        {
+            get { return Settings.SyncMethodFormat; }
+            set { Settings.SyncMethodFormat = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var result = await RunAsync();

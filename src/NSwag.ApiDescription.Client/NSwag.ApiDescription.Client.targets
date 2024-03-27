@@ -276,7 +276,13 @@
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagNewLineBehavior)' != ''">%(Command) /newLineBehavior:%(NSwagNewLineBehavior)</Command>
       </CurrentOpenApiReference>
-
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagAsyncMethodFormat)' != ''">%(Command) /asyncMethodFormat:%(NSwagAsyncMethodFormat)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagSyncMethodFormat)' != ''">%(Command) /syncMethodFormat:%(NSwagSyncMethodFormat)</Command>
+      </CurrentOpenApiReference>
+		
   </ItemGroup>
 
     <Message Importance="high" Text="%0AGenerateNSwagCSharp:" />
