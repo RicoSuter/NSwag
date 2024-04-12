@@ -66,6 +66,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the operation ID.</summary>
         public string Id => _operation.OperationId;
 
+        /// <summary>Gets the operation tags.</summary>
+        public List<string> Tags => _operation.Tags;
+
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
 
