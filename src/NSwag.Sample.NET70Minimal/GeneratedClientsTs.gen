@@ -25,7 +25,7 @@ export class Client {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
             }
         };
 
@@ -66,7 +66,7 @@ export class Client {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
             }
         };
 
@@ -188,7 +188,7 @@ export class ExampleClient {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
             }
         };
 

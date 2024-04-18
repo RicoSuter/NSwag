@@ -94,6 +94,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets a value indicating whether to use the AbortSignal (Aurelia/Axios/Fetch template only, default: false).</summary>
         public bool UseAbortSignal { get; set; } = false;
 
+        /// <summary>Gets or sets a value indicating whether to include an optional headers parameter (Aurelia/Axios/Fetch template only, default: false).</summary>
+        public bool AddOptionalHeaders { get; set; } = false;
+
         // TODO: Angular specific => move
 
         /// <summary>Gets or sets the HTTP service class (applies only for the Angular template, default: HttpClient).</summary>

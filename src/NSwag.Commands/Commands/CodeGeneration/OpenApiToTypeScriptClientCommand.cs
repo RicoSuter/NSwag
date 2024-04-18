@@ -6,13 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.TypeScript;
+using System.IO;
+using System.Threading.Tasks;
 
 #pragma warning disable 1591
 
@@ -373,6 +371,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get { return Settings.UseAbortSignal; }
             set { Settings.UseAbortSignal = value; }
+        }
+
+        [Argument(Name = "AddOptionalHeaders", IsRequired = false, Description = "Gets or sets a value indicating whether to include an optional headers parameter (Aurelia/Axios/Fetch template only, default: false).")]
+        public bool AddOptionalHeaders
+        {
+            get { return Settings.AddOptionalHeaders; }
+            set { Settings.AddOptionalHeaders = value; }
         }
 
         [Argument(Name = "InlineNamedDictionaries", Description = "Inline named dictionaries (default: false).", IsRequired = false)]

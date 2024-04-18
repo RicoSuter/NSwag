@@ -70,6 +70,7 @@
       "baseUrlTokenName": "API_BASE_URL",
       "queryNullValue": "",
       "useAbortSignal": false,
+      "addOptionalHeaders": false,
       "inlineNamedDictionaries": false,
       "inlineNamedAny": false,
       "includeHttpContext": false,
