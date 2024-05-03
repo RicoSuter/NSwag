@@ -293,9 +293,9 @@
 
                 var urlBuilder_ = new System.Text.StringBuilder();
 {%              if HasBaseClass == true and GenerateBaseUrlProperty == false -%}
-                    if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+                if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
 {%              else -%}
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
 {%              endif -%}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
