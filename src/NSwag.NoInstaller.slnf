@@ -32,8 +32,6 @@
       "NSwag.Generation\\NSwag.Generation.csproj",
       "NSwag.Sample.NET60Minimal\\NSwag.Sample.NET60Minimal.csproj",
       "NSwag.Sample.NET60\\NSwag.Sample.NET60.csproj",
-      "NSwag.Sample.NET70Minimal\\NSwag.Sample.NET70Minimal.csproj",
-      "NSwag.Sample.NET70\\NSwag.Sample.NET70.csproj",
       "NSwag.Sample.NET80Minimal\\NSwag.Sample.NET80Minimal.csproj",
       "NSwag.Sample.NET80\\NSwag.Sample.NET80.csproj"
     ]
