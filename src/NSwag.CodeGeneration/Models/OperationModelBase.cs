@@ -69,6 +69,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the operation tags.</summary>
         public List<string> Tags => _operation.Tags;
 
+        /// <summary>Gets the operation security.</summary>
+        public IEnumerable<Dictionary<string, IEnumerable<string>>> Security => _operation.Security.Select(s => s.AsEnumerable().ToDictionary(kv => kv.Key, kv => kv.Value));
+
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
 
