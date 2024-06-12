@@ -32,6 +32,7 @@
     <PackageReference Include="NConsole" Version="3.12.6605.26941" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
   </ItemGroup>
 
   <!-- Workaround for https://github.com/NuGet/Home/issues/3891 -->
