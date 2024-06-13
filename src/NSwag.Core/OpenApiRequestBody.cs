@@ -32,13 +32,16 @@ namespace NSwag
                     mediaType.Parent = this;
                 }
 
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             };
             Content = content;
         }
 
         [JsonIgnore]
-        internal OpenApiOperation Parent { get; set; }
+        internal object Parent { get; set; }
+
+        [JsonIgnore]
+        internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
 
         /// <summary>Gets the actual request body, either this or the referenced request body.</summary>
         [JsonIgnore]
@@ -52,7 +55,7 @@ namespace NSwag
             set
             {
                 _name = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -64,7 +67,7 @@ namespace NSwag
             set
             {
                 _description = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -80,7 +83,7 @@ namespace NSwag
             set
             {
                 _isRequired = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -92,7 +95,7 @@ namespace NSwag
             set
             {
                 _position = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -106,7 +109,7 @@ namespace NSwag
         IJsonReference IJsonReference.ActualObject => ActualRequestBody;
 
         [JsonIgnore]
-        object IJsonReference.PossibleRoot => Parent?.Parent?.Parent;
+        object IJsonReference.PossibleRoot => ParentOperation?.Parent?.Parent;
 
         #endregion
     }
