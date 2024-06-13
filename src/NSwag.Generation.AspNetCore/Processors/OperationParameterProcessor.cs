@@ -173,7 +173,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     else
                     {
                         var schema = CreateOrGetFormDataSchema(context);
-                        schema.Properties[extendedApiParameter.ApiParameter.Name] = CreateFormDataProperty(context, extendedApiParameter, schema);
+                        CreateFormDataProperty(context, extendedApiParameter, schema);
                     }
                 }
                 else
@@ -320,7 +320,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             {
                 var schema = CreateOrGetFormDataSchema(context);
                 schema.Type = JsonObjectType.Object;
-                schema.Properties[extendedApiParameter.ApiParameter.Name] = CreateFormDataProperty(context, extendedApiParameter, schema);
+                CreateFormDataProperty(context, extendedApiParameter, schema);
             }
         }
 
@@ -348,10 +348,33 @@ namespace NSwag.Generation.AspNetCore.Processors
             return requestBody.Content[MultipartFormData].Schema;
         }
 
-        private static JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
+        private void CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
         {
-            return context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchemaProperty>(
+            var contextualParameterType = extendedApiParameter.ParameterType
+                .ToContextualType(extendedApiParameter.Attributes);
+
+            var property = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchemaProperty>(
                extendedApiParameter.ApiParameter.Type.ToContextualType(extendedApiParameter.Attributes), context.SchemaResolver);
+            schema.Properties[extendedApiParameter.ApiParameter.Name] = property;
+
+            property.Description = extendedApiParameter.GetDocumentation();
+
+            var exampleValue = extendedApiParameter.PropertyInfo != null ?
+                context.SchemaGenerator.GenerateExample(extendedApiParameter.PropertyInfo.ToContextualAccessor()) : null;
+
+            var hasExampleValue = exampleValue != null;
+            var hasDefaultValue = extendedApiParameter.ParameterInfo?.HasDefaultValue == true;
+
+            if (hasExampleValue || hasDefaultValue)
+            {
+                var defaultValue = hasDefaultValue ? context.SchemaGenerator
+                    .ConvertDefaultValue(contextualParameterType, extendedApiParameter.ParameterInfo.DefaultValue) : null;
+
+                property.Default = defaultValue;
+                property.Example = exampleValue;
+            }
+
+            property.IsRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
         }
 
         private bool IsFileArray(Type type, JsonTypeDescription typeInfo)
