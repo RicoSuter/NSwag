@@ -16,7 +16,7 @@ Also, since you've come to this repo, we'll assume you want to use NSwag as part
 - [OpenAPI Swagger Editor VS Code Extension](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) *(optional)* - This Visual Studio Code (VS Code) extension adds rich support for the OpenAPI Specification (OAS) (formerly known as Swagger Specification) in JSON or YAML format. The features include, for example, SwaggerUI and ReDoc preview, IntelliSense, linting, schema enforcement, code navigation, definition links, snippets, static security analysis, and more!
 - If in later steps you choose to download the 3rd-Party Service's Open API Spec, this plugin makes it easy visualize
 
-**Notes**:  
+**Notes**:
 
 - You may need to specify runtime version `nswag version /runtime:Net50` to run nswag on your local machine, since the sample [nswag config](https://github.com/RicoSuter/NSwag/wiki/NSwag-Configuration-Document) we'll use specifies `runtime` as `Net50`.
 - If you chose to download NSwag as a ZIP Archive, you may see dotnet version errors when trying to execute commands. If you are not able to resolve the issues, you may opt to install via Chocolatey or the MSI from the install instructions page provided above.
@@ -73,7 +73,7 @@ nswag run sample.nswag /runtime:Net50
             "output": null,
             "newLineBehavior": "Auto"
         }
-    },    
+    },
     "codeGenerators": {
         "openApiToCSharpClient": {
             "generateClientClasses": true,
@@ -121,7 +121,7 @@ nswag run sample.nswag /runtime:Net50
             "timeType": "System.TimeSpan",
             "timeSpanType": "System.TimeSpan",
             "arrayType": "System.Collections.ObjectModel.ObservableCollection",
-            "arrayInstanceType": "System.Collections.ObjectModel.ObservableCollection",            
+            "arrayInstanceType": "System.Collections.ObjectModel.ObservableCollection",
             "dictionaryType": "System.Collections.Generic.Dictionary",
             "arrayBaseType": "System.Collections.ObjectModel.ObservableCollection",
             "dictionaryBaseType": "System.Collections.Generic.Dictionary",
@@ -132,6 +132,8 @@ nswag run sample.nswag /runtime:Net50
             "handleReferences": false,
             "generateImmutableArrayProperties": false,
             "generateImmutableDictionaryProperties": false,
+            "asyncMethodFormat": "{0}Async",
+            "syncMethodFormat": "{0}",
             "output": "GENERATEDCODE.cs"
         }
     }
