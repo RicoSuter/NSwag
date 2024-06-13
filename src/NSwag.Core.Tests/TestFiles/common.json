@@ -55,6 +55,19 @@
         "additionalProperties": true
       }
     },
+    "requestBodies": {
+      "TestRequest": {
+        "description": "External request body",
+        "required": true,
+        "content": {
+          "text/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TestObject"
+            }
+          }
+        }
+      }
+    },
     "responses": {
       "TestResponse": {
         "description": "External response",

@@ -8,12 +8,13 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NJsonSchema.References;
 using NSwag.Collections;
 
 namespace NSwag
 {
     /// <summary>The OpenApi request body (OpenAPI only).</summary>
-    public class OpenApiRequestBody
+    public class OpenApiRequestBody : JsonReferenceBase<OpenApiRequestBody>, IJsonReference
     {
         private string _name;
         private bool _isRequired;
@@ -38,6 +39,10 @@ namespace NSwag
 
         [JsonIgnore]
         internal OpenApiOperation Parent { get; set; }
+
+        /// <summary>Gets the actual request body, either this or the referenced request body.</summary>
+        [JsonIgnore]
+        public OpenApiRequestBody ActualRequestBody => Reference ?? this;
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -94,5 +99,15 @@ namespace NSwag
         /// <summary>Gets the actual name of the request body parameter.</summary>
         [JsonIgnore]
         public string ActualName => string.IsNullOrEmpty(Name) ? "body" : Name;
+ 
+        #region Implementation of IJsonReference
+
+        [JsonIgnore]
+        IJsonReference IJsonReference.ActualObject => ActualRequestBody;
+
+        [JsonIgnore]
+        object IJsonReference.PossibleRoot => Parent?.Parent?.Parent;
+
+        #endregion
     }
 }
