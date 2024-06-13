@@ -168,6 +168,10 @@ namespace NSwag
         [JsonIgnore]
         public ICollection<OpenApiSchema> ActualSchemes => Schemes ?? Parent.Parent.Schemes;
 
+        /// <summary>Gets the response body and dereferences it if necessary.</summary>
+        [JsonIgnore]
+        public OpenApiRequestBody ActualRequestBody => RequestBody.ActualRequestBody;
+
         /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
         public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);

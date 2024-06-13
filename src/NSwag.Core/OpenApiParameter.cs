@@ -225,7 +225,7 @@ namespace NSwag
                 var parent = Parent as OpenApiOperation;
                 var consumes = parent?.ActualConsumes?.Any() == true ?
                     parent.ActualConsumes :
-                    parent?.RequestBody?.Content.Keys;
+                    parent?.ActualRequestBody?.Content.Keys;
 
                 return consumes?.Any() == true &&
                        consumes.Any(p => p.Contains("application/xml")) &&
@@ -256,7 +256,7 @@ namespace NSwag
                 }
                 else
                 {
-                    var consumes = parent?.RequestBody?.Content;
+                    var consumes = parent?.ActualRequestBody?.Content;
                     return (consumes?.Any(p => p.Key == "multipart/form-data") == true ||
                             consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true) &&
                            consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true) == false &&
@@ -286,7 +286,7 @@ namespace NSwag
                 }
                 else
                 {
-                    var consumes = parent?.RequestBody?.Content;
+                    var consumes = parent?.ActualRequestBody?.Content;
                     return consumes?.Any() == true &&
                            (consumes.Count() > 1 ||
                             consumes.Any(p => p.Key.Contains("*")));
