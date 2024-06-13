@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NConsole;
@@ -81,7 +82,7 @@ namespace NSwag.Commands
                 return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
             }
 
-            if (DynamicApis.FileExists(input))
+            if (File.Exists(input))
             {
                 return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
             }

@@ -17,15 +17,9 @@ using NSwag.CodeGeneration.CSharp.Models;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "openapi2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger/OpenAPI specification.")]
-    public class OpenApiToCSharpControllerCommand : SwaggerToCSharpControllerCommand
+    public class OpenApiToCSharpControllerCommand : OpenApiToCSharpCommandBase<CSharpControllerGeneratorSettings>
     {
-    }
-
-    [Command(Name = "swagger2cscontroller", Description = "Generates CSharp Web API controller code from a Swagger/OpenAPI specification (obsolete: use openapi2cscontroller instead).")]
-    [Obsolete("Use openapi2cscontroller instead.")]
-    public class SwaggerToCSharpControllerCommand : OpenApiToCSharpCommandBase<CSharpControllerGeneratorSettings>
-    {
-        public SwaggerToCSharpControllerCommand() : base(new CSharpControllerGeneratorSettings())
+        public OpenApiToCSharpControllerCommand() : base(new CSharpControllerGeneratorSettings())
         {
         }
 

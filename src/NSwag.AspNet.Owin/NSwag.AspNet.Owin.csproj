@@ -1,45 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DefineConstants>$(DefineConstants);AspNetOwin</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\index.html" />
-    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-    <EmbeddedResource Include="SwaggerUi3\favicon-16x16.png" />
-    <EmbeddedResource Include="SwaggerUi3\favicon-32x32.png" />
-    <EmbeddedResource Include="SwaggerUi3\index.html" />
-    <EmbeddedResource Include="SwaggerUi3\oauth2-redirect.html" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui-bundle.js" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui-standalone-preset.js" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui.css" />
-    <EmbeddedResource Include="SwaggerUi3\swagger-ui.js" />
+    <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="**\swagger-ui-es-*.js;bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;AspNetOwin;NET45</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;AspNetOwin;NET45</DefineConstants>
-  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\NSwag.AspNetCore\HttpRequestExtension.cs" Link="HttpRequestExtension.cs" />
     <Compile Include="..\NSwag.AspNetCore\OAuth2ClientSettings.cs" Link="OAuth2ClientSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\ReDocSettings.cs" Link="ReDocSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
-    <Compile Include="..\NSwag.AspNetCore\SwaggerUi3Settings.cs" Link="SwaggerUi3Settings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettingsBase.cs" Link="SwaggerUiSettingsBase.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Owin" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Owin.StaticFiles" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Owin" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
     <PackageReference Include="Owin" Version="1.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
-    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
+
 </Project>

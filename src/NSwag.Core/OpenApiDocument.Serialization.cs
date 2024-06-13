@@ -40,7 +40,7 @@ namespace NSwag
                 return OpenApi3ContractResolver.Value;
             }
 
-            throw new ArgumentException("The given schema type is not supported.");
+            throw new ArgumentException("The schema type '" + schemaType + "' is not supported.");
         }
 
         private static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)

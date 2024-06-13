@@ -79,12 +79,12 @@ namespace NSwag.Generation.WebApi
         public async Task<OpenApiDocument> GenerateForControllersAsync(IEnumerable<Type> controllerTypes)
         {
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
+            var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
             var usedControllerTypes = new List<Type>();
             foreach (var controllerType in controllerTypes)
             {
-                var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
                 var isIncluded = GenerateForController(document, controllerType, generator, schemaResolver);
                 if (isIncluded)
                 {
@@ -97,7 +97,7 @@ namespace NSwag.Generation.WebApi
             foreach (var processor in Settings.DocumentProcessors)
             {
                 processor.Process(new DocumentProcessorContext(document, controllerTypes,
-                    usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
+                    usedControllerTypes, schemaResolver, generator.SchemaGenerator, Settings));
             }
 
             return document;
@@ -109,8 +109,15 @@ namespace NSwag.Generation.WebApi
                 await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
                 new OpenApiDocument();
 
-            document.Generator = "NSwag v" + OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")";
-            document.SchemaType = Settings.SchemaType;
+            var version = "";
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                version = $" v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
+            }
+
+            document.Generator = $"NSwag{version}";
+            document.SchemaType = Settings.SchemaSettings.SchemaType;
 
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
@@ -232,10 +239,11 @@ namespace NSwag.Generation.WebApi
             return addedOperations > 0;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, 
+            List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
-                methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations);
+                methodInfo, generator, schemaResolver, Settings, allOperations);
 
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
@@ -343,7 +351,7 @@ namespace NSwag.Generation.WebApi
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
             // .NET Core: RouteAttribute on class level
-            var routeAttributeOnClass = GetRouteAttribute(controllerType);
+            var routeAttributesOnClass = GetAllRouteAttributes(controllerType);
             var routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
             if (routeAttributes.Any())
@@ -358,7 +366,7 @@ namespace NSwag.Generation.WebApi
                     {
                         httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
                     }
-                    else if (routeAttributeOnClass != null)
+                    else if (routeAttributesOnClass != null)
                     {
                         if (attribute.Template.StartsWith("/"))
                         {
@@ -366,7 +374,10 @@ namespace NSwag.Generation.WebApi
                         }
                         else
                         {
-                            httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                            foreach (var routeAttributeOnClass in routeAttributesOnClass)
+                            {
+                                httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                            }
                         }
                     }
                     else
@@ -375,17 +386,23 @@ namespace NSwag.Generation.WebApi
                     }
                 }
             }
-            else if (routePrefixAttribute != null && routeAttributeOnClass != null)
+            else if (routePrefixAttribute != null && routeAttributesOnClass != null)
             {
-                httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
+                foreach (var routeAttributeOnClass in routeAttributesOnClass)
+                {
+                    httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
+                }
             }
             else if (routePrefixAttribute != null)
             {
                 httpPaths.Add(routePrefixAttribute.Prefix);
             }
-            else if (routeAttributeOnClass != null)
+            else if (routeAttributesOnClass != null)
             {
-                httpPaths.Add(routeAttributeOnClass.Template);
+                foreach (var routeAttributeOnClass in routeAttributesOnClass)
+                {
+                    httpPaths.Add(routeAttributeOnClass.Template);
+                }
             }
             else
             {
@@ -438,16 +455,16 @@ namespace NSwag.Generation.WebApi
             yield return path;
         }
 
-        private RouteAttributeFacade GetRouteAttribute(Type type)
+        private IEnumerable<RouteAttributeFacade> GetAllRouteAttributes(Type type)
         {
             do
             {
                 var attributes = type.GetTypeInfo().GetCustomAttributes(false).Cast<Attribute>();
 
-                var attribute = GetRouteAttributes(attributes).SingleOrDefault();
-                if (attribute != null)
+                var routeAttributes = GetRouteAttributes(attributes);
+                if (routeAttributes != null && routeAttributes.Any())
                 {
-                    return attribute;
+                    return routeAttributes;
                 }
 
                 type = type.GetTypeInfo().BaseType;
@@ -594,9 +611,18 @@ namespace NSwag.Generation.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                var httpMethods = acceptVerbsAttribute.HttpMethods is ICollection
-                    ? ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant())
-                    : ((IEnumerable<string>)acceptVerbsAttribute.HttpMethods).Select(v => v.ToLowerInvariant());
+                IEnumerable<string> httpMethods = new List<string>();
+
+                if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "HttpMethods"))
+                {
+                    httpMethods = acceptVerbsAttribute.HttpMethods is ICollection
+                        ? ((ICollection)acceptVerbsAttribute.HttpMethods).OfType<object>().Select(v => v.ToString().ToLowerInvariant())
+                        : ((IEnumerable<string>)acceptVerbsAttribute.HttpMethods).Select(v => v.ToLowerInvariant());
+                }
+                else if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "Verbs"))
+                {
+                    httpMethods = ((IEnumerable<string>)acceptVerbsAttribute.Verbs).Select(v => v.ToLowerInvariant());
+                }
 
                 foreach (var verb in httpMethods)
                 {

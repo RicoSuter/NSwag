@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
-using NSwag.Commands.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -18,17 +17,9 @@ namespace NSwag.Commands
         [JsonIgnore]
         public JsonSchemaToOpenApiCommand JsonSchemaToOpenApiCommand { get; set; }
 
-        /// <summary>Gets or sets the Web API to swagger command.</summary>
-        [JsonIgnore]
-        public WebApiToOpenApiCommand WebApiToOpenApiCommand { get; set; }
-
         /// <summary>Gets or sets the ASP.NET Core to swagger command.</summary>
         [JsonIgnore]
         public AspNetCoreToOpenApiCommand AspNetCoreToOpenApiCommand { get; set; }
-
-        /// <summary>Gets or sets the assembly type to swagger command.</summary>
-        [JsonIgnore]
-        public TypesToOpenApiCommand TypesToOpenApiCommand { get; set; }
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
@@ -36,8 +27,6 @@ namespace NSwag.Commands
         {
             FromDocumentCommand,
             JsonSchemaToOpenApiCommand,
-            WebApiToOpenApiCommand,
-            TypesToOpenApiCommand,
             AspNetCoreToOpenApiCommand
         };
     }

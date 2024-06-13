@@ -25,7 +25,7 @@ else if ({{ parameter.VariableName }} !== undefined)
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%-             elsif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => {
-        for (let attr_ in item_) {
+        for (const attr_ in item_) {
            if (item_.hasOwnProperty(attr_)) {
                 content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (item_ as any)[attr_]) + "&";
            }
@@ -78,6 +78,8 @@ const content_ = {{ operation.ContentParameter.VariableName }};
 const content_ = Object.keys({{ operation.ContentParameter.VariableName }} as any).map((key) => {
     return encodeURIComponent(key) + '=' + encodeURIComponent(({{ operation.ContentParameter.VariableName }} as any)[key]);
 }).join('&')
+{%-         elsif operation.HasPlainTextBodyParameter -%}
+const content_ = {{ operation.ContentParameter.VariableName }};
 {%-         else -%}
 const content_ = JSON.stringify({{ operation.ContentParameter.VariableName }});
 {%-         endif -%}

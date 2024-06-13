@@ -269,7 +269,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
             }
 
-            if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
+            if (schema.Type == JsonObjectType.Array && (schema.Item?.IsBinary ?? false))
             {
                 return "System.Collections.Generic.IEnumerable<FileParameter>";
             }

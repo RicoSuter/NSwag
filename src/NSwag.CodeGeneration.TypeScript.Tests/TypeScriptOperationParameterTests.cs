@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
 
@@ -30,8 +33,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
-            var document = await swaggerGenerator.GenerateForControllerAsync<NullableParameterController>();
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<NullableParameterController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =
@@ -54,8 +61,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_not_included_in_query_string()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
-            var document = await swaggerGenerator.GenerateForControllerAsync<NullableParameterController>();
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<NullableParameterController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =
@@ -78,8 +89,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_nullable_optional_and_ts20_then_it_is_a_union_type_with_undefined()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
-            var document = await swaggerGenerator.GenerateForControllerAsync<NullableOptionalParameterController>();
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<NullableOptionalParameterController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =
@@ -102,8 +117,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_parameter_is_nullable_optional_and_ts20_then_it_is_not_included_in_query_string()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
-            var document = await swaggerGenerator.GenerateForControllerAsync<NullableOptionalParameterController>();
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<NullableOptionalParameterController>();
             var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 TypeScriptGeneratorSettings =

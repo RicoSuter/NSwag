@@ -1,1 +1,0 @@
-dotnet run -c Release --project "../NSwag.Console" -- run

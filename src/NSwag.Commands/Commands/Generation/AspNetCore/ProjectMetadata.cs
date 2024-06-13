@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using NConsole;
 
@@ -83,88 +84,12 @@ namespace NSwag.Commands.Generation.AspNetCore
         {
             Debug.Assert(!string.IsNullOrEmpty(file), "file is null or empty.");
 
-            if (buildExtensionsDir == null)
+            var args = CreateMsBuildArguments(file, framework, configuration, runtime, noBuild, outputPath);
+
+            var metadata = await TryReadingUsingGetProperties(args.ToList(), file, noBuild);
+            if (metadata == null)
             {
-                buildExtensionsDir = Path.Combine(Path.GetDirectoryName(file), "obj");
-            }
-
-            Directory.CreateDirectory(buildExtensionsDir);
-
-            var targetsPath = Path.Combine(
-                buildExtensionsDir,
-                Path.GetFileName(file) + ".NSwag.targets");
-            var type = typeof(ProjectMetadata).GetTypeInfo();
-
-            using (var input = type.Assembly.GetManifestResourceStream($"NSwag.Commands.Commands.Generation.AspNetCore.AspNetCore.targets"))
-            using (var output = File.Open(targetsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                // NB: Copy always in case it changes
-                input.CopyTo(output);
-            }
-
-            IDictionary<string, string> metadata;
-            var metadataFile = Path.GetTempFileName();
-            try
-            {
-                var args = new List<string>
-                {
-                    "msbuild",
-                    "/nologo",
-                    "/verbosity:quiet",
-                    "/p:NSwagOutputMetadataFile=" + metadataFile
-                };
-
-                if (!noBuild)
-                {
-                    args.Add("/t:Build");
-                }
-
-                args.Add("/t:" + GetMetadataTarget);
-
-                if (!string.IsNullOrEmpty(framework))
-                {
-                    args.Add("/p:TargetFramework=" + framework);
-                }
-
-                if (!string.IsNullOrEmpty(configuration))
-                {
-                    args.Add("/p:Configuration=" + configuration);
-                }
-
-                if (!string.IsNullOrEmpty(runtime))
-                {
-                    args.Add("/p:RuntimeIdentifier=" + runtime);
-                }
-
-                if (!string.IsNullOrEmpty(outputPath))
-                {
-                    args.Add("/p:OutputPath=" + outputPath);
-                }
-
-                if (!string.IsNullOrEmpty(file))
-                {
-                    args.Add(file);
-                }
-
-                var exitCode = await Exe.RunAsync("dotnet", args, console).ConfigureAwait(false);
-                if (exitCode != 0)
-                {
-                    throw new InvalidOperationException("Unable to retrieve project metadata. Ensure it's an MSBuild-based .NET Core project."
-                        + "If you're using custom BaseIntermediateOutputPath or MSBuildProjectExtensionsPath values, Use the --msbuildprojectextensionspath option.");
-                }
-
-                if (console != null)
-                {
-                    console.WriteMessage("Done executing command" + Environment.NewLine);
-                    console.WriteMessage("Output:" + Environment.NewLine + File.ReadAllText(metadataFile));
-                }
-
-                metadata = File.ReadLines(metadataFile).Select(l => l.Split(new[] { ':' }, 2))
-                    .ToDictionary(s => s[0], s => s[1].TrimStart());
-            }
-            finally
-            {
-                File.Delete(metadataFile);
+                metadata = await ReadUsingMsBuildTargets(args.ToList(), file, buildExtensionsDir, console);
             }
 
             var platformTarget = metadata[nameof(PlatformTarget)];
@@ -195,6 +120,157 @@ namespace NSwag.Commands.Generation.AspNetCore
             projectMetadata.OutputPath = Path.GetFullPath(projectMetadata.OutputPath);
 
             return projectMetadata;
+        }
+
+        private static async Task<Dictionary<string, string>> ReadUsingMsBuildTargets(
+            List<string> args,
+            string file,
+            string buildExtensionsDir,
+            IConsoleHost console)
+        {
+            if (buildExtensionsDir == null)
+            {
+                // fallback
+                buildExtensionsDir = Path.Combine(Path.GetDirectoryName(file), "obj");
+            }
+
+            Directory.CreateDirectory(buildExtensionsDir);
+
+            var targetsPath = Path.Combine(buildExtensionsDir, Path.GetFileName(file) + ".NSwag.targets");
+            var type = typeof(ProjectMetadata).GetTypeInfo();
+
+            using (var input = type.Assembly.GetManifestResourceStream($"NSwag.Commands.Commands.Generation.AspNetCore.AspNetCore.targets"))
+            using (var output = File.Open(targetsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                // NB: Copy always in case it changes
+                await input.CopyToAsync(output);
+            }
+
+            Dictionary<string, string> metadata;
+            var metadataFile = Path.GetTempFileName();
+
+            args.Add($"/t:{GetMetadataTarget}");
+            args.Add($"/p:NSwagOutputMetadataFile={metadataFile}");
+
+            try
+            {
+                var exitCode = await Exe.RunAsync("dotnet", args, console).ConfigureAwait(false);
+                if (exitCode != 0)
+                {
+                    throw new InvalidOperationException("Unable to retrieve project metadata. Ensure it's an MSBuild-based .NET Core project."
+                                                        + "If you're using custom BaseIntermediateOutputPath or MSBuildProjectExtensionsPath values, Use the --msbuildprojectextensionspath option.");
+                }
+
+                if (console != null)
+                {
+                    console.WriteMessage("Done executing command" + Environment.NewLine);
+                    console.WriteMessage("Output:" + Environment.NewLine + File.ReadAllText(metadataFile));
+                }
+
+                metadata = File.ReadLines(metadataFile).Select(l => l.Split(new[] { ':' }, 2))
+                    .ToDictionary(s => s[0], s => s[1].TrimStart());
+            }
+            finally
+            {
+                File.Delete(metadataFile);
+            }
+
+            return metadata;
+        }
+
+        private static List<string> CreateMsBuildArguments(string file, string framework, string configuration, string runtime, bool noBuild, string outputPath)
+        {
+            var args = new List<string>
+            {
+                "msbuild",
+                "/nologo",
+                "/verbosity:quiet"
+            };
+
+            if (!noBuild)
+            {
+                args.Add("/t:Build");
+            }
+
+            if (!string.IsNullOrEmpty(framework))
+            {
+                args.Add($"/p:TargetFramework={framework}");
+            }
+
+            if (!string.IsNullOrEmpty(configuration))
+            {
+                args.Add($"/p:Configuration={configuration}");
+            }
+
+            if (!string.IsNullOrEmpty(runtime))
+            {
+                args.Add($"/p:RuntimeIdentifier={runtime}");
+            }
+
+            if (!string.IsNullOrEmpty(outputPath))
+            {
+                args.Add($"/p:OutputPath={outputPath}");
+            }
+
+            if (!string.IsNullOrEmpty(file))
+            {
+                args.Add(file);
+            }
+
+            return args;
+        }
+
+        /// <summary>
+        /// NET 8 and later support evaluating properties via CLI. https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8#cli-based-project-evaluation
+        /// </summary>
+        private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
+        {
+            var properties = new[]
+            {
+                "BaseIntermediateOutputPath",
+                "Platform",
+                nameof(AssemblyName),
+                nameof(OutputPath),
+                nameof(PlatformTarget),
+                nameof(ProjectDepsFilePath),
+                nameof(ProjectDir),
+                nameof(ProjectRuntimeConfigFilePath),
+                nameof(TargetFileName),
+                nameof(TargetFrameworkIdentifier)
+            };
+
+            try
+            {
+                var process = Process.Start(new ProcessStartInfo
+                {
+                    WorkingDirectory = Path.GetDirectoryName(file),
+                    FileName = "dotnet",
+                    Arguments = $"{string.Join(" " , args)} --getProperty:{string.Join(";", properties)}",
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                });
+
+                process.WaitForExit(10000);
+
+                if (process.ExitCode == 0)
+                {
+                    var output = await process.StandardOutput.ReadToEndAsync();
+
+                    var document = JsonSerializer.Deserialize<JsonDocument>(output);
+                    var metadata = document.RootElement.GetProperty("Properties")
+                        .EnumerateObject()
+                        .ToDictionary(x => x.Name, x => x.Value.ToString().Trim());
+
+                    return metadata;
+                }
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+
+            return null;
         }
     }
 }

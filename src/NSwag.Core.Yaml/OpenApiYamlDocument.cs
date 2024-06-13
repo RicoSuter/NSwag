@@ -94,7 +94,7 @@ namespace NSwag
         /// <returns>The <see cref="OpenApiDocument" />.</returns>
         public static async Task<OpenApiDocument> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var data = DynamicApis.FileReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
             return await FromYamlAsync(data, filePath, cancellationToken).ConfigureAwait(false);
         }
 
@@ -112,7 +112,7 @@ namespace NSwag
         {
             return document =>
             {
-                var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                var schemaResolver = new OpenApiSchemaResolver(document, new SystemTextJsonSchemaGeneratorSettings());
                 return new JsonAndYamlReferenceResolver(schemaResolver);
             };
         }

@@ -19,17 +19,15 @@ namespace NSwag.Commands.Generation.AspNetCore
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
-            var command = JsonConvert.DeserializeObject<AspNetCoreToSwaggerCommand>(commandContent);
+            var command = JsonConvert.DeserializeObject<AspNetCoreToOpenApiCommand>(commandContent);
             var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
 
             var assemblyName = new AssemblyName(applicationName);
             var assembly = Assembly.Load(assemblyName);
             var serviceProvider = ServiceProviderResolver.GetServiceProvider(assembly);
 
-            var assemblyLoader = new AssemblyLoader.AssemblyLoader();
-            var document = command.GenerateDocumentAsync(assemblyLoader, serviceProvider, previousWorkingDirectory).GetAwaiter().GetResult();
-
-            var json = command.UseDocumentProvider ? document.ToJson() : document.ToJson(command.OutputType);
+            var document = command.GenerateDocumentAsync(serviceProvider, previousWorkingDirectory).GetAwaiter().GetResult();
+            var json = document.ToJson();
 
             var outputPathDirectory = Path.GetDirectoryName(outputFile);
             Directory.CreateDirectory(outputPathDirectory);

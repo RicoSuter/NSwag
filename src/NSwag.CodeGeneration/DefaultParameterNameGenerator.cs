@@ -21,28 +21,35 @@ namespace NSwag.CodeGeneration
         /// <returns>The parameter name.</returns>
         public string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
-            var name = !string.IsNullOrEmpty(parameter.OriginalName) ? 
-                parameter.OriginalName : parameter.Name;
+            var variableName = GetVariableName(parameter);
 
-            if (string.IsNullOrEmpty(name))
-            {
-                return "unnamed";
-            }
-
-            var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
-                .Replace("-", "_")
-                .Replace(".", "_")
-                .Replace("$", string.Empty)
-                .Replace("@", string.Empty)
-                .Replace("[", string.Empty)
-                .Replace("]", string.Empty), true);
-
-            if (allParameters.Count(p => p.Name == name) > 1)
+            if (allParameters.Count(p => GetVariableName(p) == variableName) > 1)
             {
                 return variableName + parameter.Kind;
             }
 
             return variableName;
+
+            static string GetVariableName(OpenApiParameter openApiParameter)
+            {
+                var name = !string.IsNullOrEmpty(openApiParameter.OriginalName) ?
+                    openApiParameter.OriginalName : openApiParameter.Name;
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    return "unnamed";
+                }
+
+                var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
+                    .Replace("-", "_")
+                    .Replace(".", "_")
+                    .Replace("$", string.Empty)
+                    .Replace("@", string.Empty)
+                    .Replace("[", string.Empty)
+                    .Replace("]", string.Empty), true);
+
+                return variableName;
+            }
         }
     }
 }

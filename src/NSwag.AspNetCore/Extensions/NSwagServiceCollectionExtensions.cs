@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;
@@ -41,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return AddSwaggerDocument(serviceCollection, (settings, services) =>
             {
-                settings.SchemaType = SchemaType.OpenApi3;
+                settings.SchemaSettings.SchemaType = SchemaType.OpenApi3;
                 configure?.Invoke(settings, services);
             });
         }
@@ -64,10 +66,35 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             serviceCollection.AddSingleton(services =>
             {
-                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+                var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+
+                var mvcOptions = services.GetRequiredService<IOptions<MvcOptions>>();
+                var hasSystemTextJsonOutputFormatter = mvcOptions.Value.OutputFormatters
+                    .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter");
+
+                var newtonsoftSettings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(services);
+                var systemTextJsonOptions = hasSystemTextJsonOutputFormatter
+                    ? AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(services)
+#if NET6_0_OR_GREATER
+                    : services.GetService<IOptions<AspNetCore.Http.Json.JsonOptions>>()?.Value.SerializerOptions;
+#else 
+                    : null;
+#endif
+
+                if (newtonsoftSettings != null && !hasSystemTextJsonOutputFormatter)
                 {
-                    SchemaType = SchemaType.Swagger2,
-                };
+                    settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
+                } 
+                else if (systemTextJsonOptions != null)
+                {
+                    settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);
+                }
+                else
+                {
+                    settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings(), mvcOptions.Value);
+                }
+
+                settings.SchemaSettings.SchemaType = SchemaType.Swagger2;
 
                 configure?.Invoke(settings, services);
 
@@ -89,8 +116,6 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 serviceCollection.AddSingleton<OpenApiDocumentProvider>();
                 serviceCollection.AddSingleton<IConfigureOptions<MvcOptions>, OpenApiConfigureMvcOptions>();
-
-                // Used by UseDocumentProvider CLI setting
                 serviceCollection.AddSingleton<IOpenApiDocumentGenerator>(s => s.GetRequiredService<OpenApiDocumentProvider>());
 
                 // Used by the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.

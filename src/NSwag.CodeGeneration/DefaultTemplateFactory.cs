@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 using NJsonSchema.CodeGeneration;
 using System.IO;
@@ -27,7 +28,13 @@ namespace NSwag.CodeGeneration
         /// <returns>The toolchain version.</returns>
         protected override string GetToolchainVersion()
         {
-            return OpenApiDocument.ToolchainVersion + " (NJsonSchema v" + base.GetToolchainVersion() + ")";
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                return $"{OpenApiDocument.ToolchainVersion} (NJsonSchema v{base.GetToolchainVersion()})";
+            }
+
+            return "";
         }
 
         /// <summary>Tries to load an embedded Liquid template.</summary>
@@ -38,7 +45,7 @@ namespace NSwag.CodeGeneration
         {
             template = template.TrimEnd('!');
             var assembly = GetLiquidAssembly("NSwag.CodeGeneration." + language);
-            var resourceName = "NSwag.CodeGeneration." + language + ".Templates." + template + ".liquid";
+            var resourceName = $"NSwag.CodeGeneration.{language}.Templates.{template}.liquid";
 
             var resource = assembly.GetManifestResourceStream(resourceName);
             if (resource != null)

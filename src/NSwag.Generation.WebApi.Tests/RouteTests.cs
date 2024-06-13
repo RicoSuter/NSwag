@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.Annotations;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.Annotations;
+using AcceptVerbsMvc = System.Web.Mvc.AcceptVerbsAttribute;
+using HttpVerbsMvc = System.Web.Mvc.HttpVerbs;
+using RouteMvcAttribute = System.Web.Mvc.RouteAttribute;
 
 namespace NSwag.Generation.WebApi.Tests
 {
@@ -86,6 +89,65 @@ namespace NSwag.Generation.WebApi.Tests
             }
         }
 
+        public class ProductsMvcController : ApiController
+        {
+            [SwaggerOperation("GetProducts")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products")]
+            public Task<IHttpActionResult> GetProducts([FromUri] ProductPagedResult payload)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("GetProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products/{userDefinedId}")]
+            public IHttpActionResult GetProduct(string userDefinedId)
+            {
+                return null;
+            }
+
+            [SwaggerOperation("GetProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products/{id:guid}")]
+            public IHttpActionResult GetProductByUniqueId(Guid id)
+            {
+                return null;
+            }
+
+            [SwaggerOperation("DeleteProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Delete), RouteMvc("products/{userDefinedId}")]
+            public Task<IHttpActionResult> Delete(string userDefinedId)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("DeleteProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Delete), RouteMvc("products/{id:guid}")]
+            public Task<IHttpActionResult> DeleteByUniqueId()
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PutProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Put), RouteMvc("products/{userDefinedId}")]
+            public Task<IHttpActionResult> Put(string userDefinedId, [FromBody] Product data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PutProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Put), RouteMvc("products/{id:guid}")]
+            public Task<IHttpActionResult> Put(Guid id, [FromBody] Product data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PostProducts")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Post), RouteMvc("products")]
+            public Task<IHttpActionResult> FetchAll([FromBody] AddProductPayload data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+        }
+
         [TestMethod]
         public async Task When_swagger_spec_is_generated_then_no_route_problem_is_detected()
         {
@@ -99,6 +161,25 @@ namespace NSwag.Generation.WebApi.Tests
             // Act
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllerAsync<ProductsController>();
+            var swaggerSpecification = document.ToJson();
+
+            // Assert
+            Assert.IsNotNull(swaggerSpecification);
+        }
+
+        [TestMethod]
+        public async Task When_swagger_spec_is_generated_for_Mvc_then_no_route_problem_is_detected()
+        {
+            // Arrange
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
+            {
+                DefaultUrlTemplate = "{controller}/{id}",
+                AddMissingPathParameters = false,
+            };
+
+            // Act
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
+            var document = await generator.GenerateForControllerAsync<ProductsMvcController>();
             var swaggerSpecification = document.ToJson();
 
             // Assert

@@ -18,10 +18,10 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     public class SwaggerToTypeScriptClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToTypeScriptClientCommand _command = new SwaggerToTypeScriptClientCommand();
+        private OpenApiToTypeScriptClientCommand _command = new OpenApiToTypeScriptClientCommand();
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToTypeScriptClientCommand Command
+        public OpenApiToTypeScriptClientCommand Command
         {
             get { return _command; }
             set
@@ -32,7 +32,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         }
 
         /// <summary>Gets the supported TypeScript versions.</summary>
-        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m };
+        public decimal[] TypeScriptVersions => new[] { 1.8m, 2.0m, 2.4m, 2.7m, 4.3m };
 
         /// <summary>Gets the supported RxJs versions.</summary>
         public decimal[] RxJsVersions => new[] { 5.0m, 6.0m, 7.0m };
@@ -73,9 +73,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .ToArray();
 
         /// <summary>Gets the list of date time types.</summary>
-        public TypeScriptDateTimeType[] DateTimeTypes { get; } = Enum.GetNames(typeof(TypeScriptDateTimeType))
-            .Select(t => (TypeScriptDateTimeType)Enum.Parse(typeof(TypeScriptDateTimeType), t))
-            .ToArray();
+        public TypeScriptDateTimeType[] DateTimeTypes { get; } =
+            (TypeScriptDateTimeType[])Enum.GetValues(typeof(TypeScriptDateTimeType));
 
         /// <summary>Gets the list of null values.</summary>
         public TypeScriptNullValue[] NullValues { get; } = Enum.GetNames(typeof(TypeScriptNullValue))

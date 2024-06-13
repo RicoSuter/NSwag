@@ -17,10 +17,10 @@ namespace NSwagStudio.ViewModels.CodeGenerators
     public class SwaggerToCSharpClientGeneratorViewModel : ViewModelBase
     {
         private string _clientCode;
-        private SwaggerToCSharpClientCommand _command = new SwaggerToCSharpClientCommand();
+        private OpenApiToCSharpClientCommand _command = new OpenApiToCSharpClientCommand();
 
         /// <summary>Gets the settings.</summary>
-        public SwaggerToCSharpClientCommand Command
+        public OpenApiToCSharpClientCommand Command
         {
             get { return _command; }
             set

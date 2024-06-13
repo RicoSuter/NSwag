@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
 using Xunit;
 
@@ -13,7 +14,10 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
-            settings.SchemaType = SchemaType.OpenApi3;
+            settings.SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+            {
+                SchemaType = SchemaType.OpenApi3
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(LanguagesController));
@@ -27,7 +31,7 @@ namespace NSwag.Generation.AspNetCore.Tests
 
             var parameter = operation.Operation.ActualParameters.Single(p => p.Name == "language");
             Assert.Equal(JsonObjectType.String, parameter.ActualTypeSchema.Type);
-            Assert.False(parameter.IsNullable(settings.SchemaType));
+            Assert.False(parameter.IsNullable(settings.SchemaSettings.SchemaType));
         }
     }
 }

@@ -92,7 +92,7 @@ namespace NSwag.Commands
 
         internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
-#if NETCOREAPP2_1 || NETFRAMEWORK
+#if NETFRAMEWORK
             return null;
 #else
             // We're disabling the default server and the console host lifetime. This will disable:
@@ -106,6 +106,19 @@ namespace NSwag.Commands
                 {
                     services.AddSingleton<IServer, NoopServer>();
                     services.AddSingleton<IHostLifetime, NoopHostLifetime>();
+
+                    for (var i = services.Count - 1; i >= 0; i--)
+                    {
+                        // exclude all implementations of IHostedService
+                        // except Microsoft.AspNetCore.Hosting.GenericWebHostService because that one will build/configure
+                        // the WebApplication/Middleware pipeline in the case of the GenericWebHostBuilder.
+                        var registration = services[i];
+                        if (registration.ServiceType == typeof(IHostedService)
+                            && registration.ImplementationType is not { FullName: "Microsoft.AspNetCore.Hosting.GenericWebHostService" })
+                        {
+                            services.RemoveAt(i);
+                        }
+                    }
                 });
             }
 

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
 
@@ -12,7 +13,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task WhenOperationHasFormDataFile_ThenItIsInRequestBody()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaType = SchemaType.OpenApi3 };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(FileUploadController));
@@ -58,7 +65,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task WhenOperationHasFormDataComplex_ThenItIsInRequestBody()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaType = SchemaType.OpenApi3 };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(FileUploadController));

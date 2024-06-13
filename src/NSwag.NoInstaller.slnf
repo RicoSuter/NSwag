@@ -1,0 +1,41 @@
+﻿{
+  "solution": {
+    "path": "NSwag.sln",
+    "projects": [
+      "..\\build\\_build.csproj",
+      "NSwag.Annotations\\NSwag.Annotations.csproj",
+      "NSwag.AspNet.Owin\\NSwag.AspNet.Owin.csproj",
+      "NSwag.AspNet.WebApi\\NSwag.AspNet.WebApi.csproj",
+      "NSwag.AspNetCore.Launcher.x86\\NSwag.AspNetCore.Launcher.x86.csproj",
+      "NSwag.AspNetCore.Launcher\\NSwag.AspNetCore.Launcher.csproj",
+      "NSwag.AspNetCore\\NSwag.AspNetCore.csproj",
+      "NSwag.CodeGeneration.CSharp.Tests\\NSwag.CodeGeneration.CSharp.Tests.csproj",
+      "NSwag.CodeGeneration.CSharp\\NSwag.CodeGeneration.CSharp.csproj",
+      "NSwag.CodeGeneration.Tests\\NSwag.CodeGeneration.Tests.csproj",
+      "NSwag.CodeGeneration.TypeScript.Tests\\NSwag.CodeGeneration.TypeScript.Tests.csproj",
+      "NSwag.CodeGeneration.TypeScript\\NSwag.CodeGeneration.TypeScript.csproj",
+      "NSwag.CodeGeneration\\NSwag.CodeGeneration.csproj",
+      "NSwag.Commands\\NSwag.Commands.csproj",
+      "NSwag.Console.x86\\NSwag.Console.x86.csproj",
+      "NSwag.ConsoleCore.Tests\\NSwag.ConsoleCore.Tests.csproj",
+      "NSwag.ConsoleCore\\NSwag.ConsoleCore.csproj",
+      "NSwag.Console\\NSwag.Console.csproj",
+      "NSwag.Core.Tests\\NSwag.Core.Tests.csproj",
+      "NSwag.Core.Yaml.Tests\\NSwag.Core.Yaml.Tests.csproj",
+      "NSwag.Core.Yaml\\NSwag.Core.Yaml.csproj",
+      "NSwag.Core\\NSwag.Core.csproj",
+      "NSwag.Generation.AspNetCore.Tests.Web\\NSwag.Generation.AspNetCore.Tests.Web.csproj",
+      "NSwag.Generation.AspNetCore.Tests\\NSwag.Generation.AspNetCore.Tests.csproj",
+      "NSwag.Generation.AspNetCore\\NSwag.Generation.AspNetCore.csproj",
+      "NSwag.Generation.Tests\\NSwag.Generation.Tests.csproj",
+      "NSwag.Generation.WebApi\\NSwag.Generation.WebApi.csproj",
+      "NSwag.Generation\\NSwag.Generation.csproj",
+      "NSwag.Sample.NET60Minimal\\NSwag.Sample.NET60Minimal.csproj",
+      "NSwag.Sample.NET60\\NSwag.Sample.NET60.csproj",
+      "NSwag.Sample.NET70Minimal\\NSwag.Sample.NET70Minimal.csproj",
+      "NSwag.Sample.NET70\\NSwag.Sample.NET70.csproj",
+      "NSwag.Sample.NET80Minimal\\NSwag.Sample.NET80Minimal.csproj",
+      "NSwag.Sample.NET80\\NSwag.Sample.NET80.csproj"
+    ]
+  }
+}
