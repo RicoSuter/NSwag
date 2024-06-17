@@ -170,7 +170,7 @@ namespace NSwag
 
         /// <summary>Gets the response body and dereferences it if necessary.</summary>
         [JsonIgnore]
-        public OpenApiRequestBody ActualRequestBody => RequestBody.ActualRequestBody;
+        public OpenApiRequestBody ActualRequestBody => RequestBody?.ActualRequestBody;
 
         /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
