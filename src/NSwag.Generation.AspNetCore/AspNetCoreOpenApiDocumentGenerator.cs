@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -531,6 +532,12 @@ namespace NSwag.Generation.AspNetCore
                     .OfType<RouteNameMetadata>()
                     .FirstOrDefault()?
                     .RouteName;
+
+                var prefix = apiDescription.ActionDescriptor.EndpointMetadata.OfType<TagsAttribute>().FirstOrDefault()?.Tags.FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(prefix))
+                {
+                    routeName = prefix + "_" + routeName;
+                }
 
                 if (routeName != null)
                 {
