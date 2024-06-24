@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Runtime.CompilerServices;
+
 #if AspNetOwin
 using Microsoft.Owin;
 
@@ -56,6 +58,9 @@ namespace NSwag.AspNetCore
 
         /// <summary>Gets or sets a URI to load a custom JavaScript file into the index.html.</summary>
         public string CustomJavaScriptPath { get; set; }
+
+        /// <summary>Gets the additional Swagger UI plugins settings. Add key-value-paris that represent the plugin object name as key and plugin sript path as value.</summary>
+        public Dictionary<string,string> AdditionalPlugins { get; } = new Dictionary<string, string>();
 
         /// <summary>Gets or sets a flag that indicates to use or not type="module" in a custom script tag (default: false).</summary>
         public bool UseModuleTypeForCustomJavaScript { get; set; }
@@ -99,25 +104,45 @@ namespace NSwag.AspNetCore
         /// Gets an HTML snippet for including custom JavaScript in swagger UI.
         /// </summary>
 #if AspNetOwin
-        protected string GetCustomScriptHtml(IOwinRequest request)
+        protected string GetCustomScriptHtml(string scriptPath, IOwinRequest request)
 #else
-        protected string GetCustomScriptHtml(HttpRequest request)
+        protected string GetCustomScriptHtml(string scriptPath, HttpRequest request)
 #endif
         {
-            if (CustomJavaScriptPath == null)
-            {
-                return string.Empty;
-            }
-
             var scriptType = string.Empty;
             if (UseModuleTypeForCustomJavaScript)
             {
                 scriptType = "type=\"module\"";
             }
 
-            var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(CustomJavaScriptPath, request));
+            var uriString = System.Net.WebUtility.HtmlEncode(TransformToExternalPath(scriptPath, request));
             return $"<script {scriptType} src=\"{uriString}\"></script>";
         }
+
+        /// <summary>
+        /// Gets an HTML snippet for including custom JavaScript in swagger UI.
+        /// </summary>
+#if AspNetOwin
+        protected string GetCustomScripts(string[] scriptPaths, IOwinRequest request)
+#else
+        protected string GetCustomScripts(string[] scriptPaths, HttpRequest request)
+#endif
+        {
+            if ((scriptPaths == null )|| (scriptPaths.Count()==0))
+            {
+                return string.Empty;
+            }
+
+            var builder = new StringBuilder();    
+            foreach (var path in scriptPaths)
+            {
+                var scriptTag = GetCustomScriptHtml(path, request);
+                builder.Append(scriptTag + "\n          ");
+            }
+
+            return builder.ToString();
+        }
+
 
         /// <summary>Generates the additional objects JavaScript code.</summary>
         /// <param name="additionalSettings">The additional settings.</param>
@@ -131,6 +156,22 @@ namespace NSwag.AspNetCore
             }
 
             return code;
+        }
+
+        /// <summary>
+        /// Generates the JavaScript plugins object to inset into the html.
+        /// </summary>
+        /// <param name="pluginsList"></param>
+        /// <returns></returns>
+        protected string GeneratePluginsList(string[] pluginsList)
+        {
+            var builder = new StringBuilder();
+            foreach (var plugin in pluginsList)
+            {
+                builder.Append(",\n   ");
+                builder.Append(plugin);
+            }
+            return builder.ToString();
         }
     }
 }
