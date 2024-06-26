@@ -65,21 +65,17 @@ window.onload = function() {
   });
 
   if ("{ClientId}") {
-    const oAuthConfig = {
+    var clientSecret = "{ClientSecret}";
+    ui.initOAuth({
       clientId: "{ClientId}",
+      clientSecret: clientSecret ? clientSecret : undefined,
       realm: "{Realm}",
       appName: "{AppName}",
       scopeSeparator: "{ScopeSeparator}",
       scopes: {Scopes},
       additionalQueryStringParams: {AdditionalQueryStringParameters},
       usePkceWithAuthorizationCodeGrant: {UsePkceWithAuthorizationCodeGrant}
-    };
-
-    if (!{UsePkceWithAuthorizationCodeGrant}) {
-      oAuthConfig.clientSecret = "{ClientSecret}";
-    }
-    
-    ui.initOAuth(oAuthConfig);
+    });
   }
 
   window.ui = ui;
