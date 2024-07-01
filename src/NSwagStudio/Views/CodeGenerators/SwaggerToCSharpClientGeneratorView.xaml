@@ -262,6 +262,20 @@
                                         <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay}" ToolTip="ResponseDictionaryType" Margin="0,0,0,12" />
                                     </StackPanel>
                                 </GroupBox>
+
+                                <GroupBox Header="Large Json Arrays (Requires System.Text.Json)" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Methods with large json array responses ('ControllerName.MethodName' comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox ToolTip="LargeJsonArrayResponseMethods" 
+                                         Text="{Binding Command.LargeJsonArrayResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Methods with large json array requests ('ControllerName.MethodName' comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox ToolTip="LargeJsonArrayRequestMethods" 
+                                         Text="{Binding Command.LargeJsonArrayRequestMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

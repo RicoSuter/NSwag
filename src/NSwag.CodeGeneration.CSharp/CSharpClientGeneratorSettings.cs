@@ -112,5 +112,11 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary> Gets or sets the list of operation ids, that should use IAsyncEnumerator to handle a large json array response. Requires System.Text.Json.</summary>
+        public string[] LargeJsonArrayResponseMethods { get; set; }
+
+        /// <summary> Gets or sets the list of operation ids, that should use IAsyncEnumerables to handle a large json array request. Requires System.Text.Json.</summary>
+        public string[] LargeJsonArrayRequestMethods {  get; set; }
     }
 }

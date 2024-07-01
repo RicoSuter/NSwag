@@ -265,6 +265,20 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.QueryNullValue = value; }
         }
 
+        [Argument(Name = "LargeJsonArrayResponseMethods", IsRequired = false, Description = "The list of method names, that should use IAsyncEnumerator to handle a large json array response.")]
+        public string[] LargeJsonArrayResponseMethods
+        {
+            get { return Settings.LargeJsonArrayResponseMethods; }
+            set { Settings.LargeJsonArrayResponseMethods = value; }
+        }
+
+        [Argument(Name = "LargeJsonArrayRequestMethods", IsRequired = false, Description = "The list of method names, that should use IAsyncEnumerables to handle a large json array request.")]
+        public string[] LargeJsonArrayRequestMethods
+        {
+            get { return Settings.LargeJsonArrayRequestMethods; }
+            set { Settings.LargeJsonArrayRequestMethods = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var result = await RunAsync();
