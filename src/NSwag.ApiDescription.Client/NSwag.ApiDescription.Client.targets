@@ -5,8 +5,6 @@
     <_NSwagCommand
         Condition="'$(MSBuildRuntimeType)' == 'Core'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net60)/dotnet-nswag.dll"</_NSwagCommand>
     <_NSwagCommand
-        Condition="'$(TargetFramework)' == 'net7.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net70)/dotnet-nswag.dll"</_NSwagCommand>
-    <_NSwagCommand
         Condition="'$(TargetFramework)' == 'net8.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net80)/dotnet-nswag.dll"</_NSwagCommand>
   </PropertyGroup>
 

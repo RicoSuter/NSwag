@@ -268,7 +268,7 @@ partial class Build : NukeBuild
             PublishConsoleProject(consoleX86Project, ["net462"]);
             PublishConsoleProject(consoleProject, ["net462"]);
         }
-        PublishConsoleProject(consoleCoreProject, ["net6.0", "net7.0", "net8.0"]);
+        PublishConsoleProject(consoleCoreProject, ["net6.0", "net8.0"]);
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
@@ -285,7 +285,6 @@ partial class Build : NukeBuild
             }
 
             CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net6.0"), target / "Net60");
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net7.0"), target / "Net70");
             CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net8.0"), target / "Net80");
         }
 

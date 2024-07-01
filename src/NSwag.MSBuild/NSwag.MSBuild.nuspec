@@ -29,7 +29,6 @@
     <file src="..\..\artifacts\publish\NSwag.Console.x86\$configuration$\NSwag.x86.exe.config" target="tools/Win" />
 
     <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net6.0\**" target="tools/Net60" />
-    <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net7.0\**" target="tools/Net70" />
     <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net8.0\**" target="tools/Net80" />
   </files>
 </package>
