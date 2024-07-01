@@ -19,7 +19,8 @@
         <Command>$(_NSwagCommand) openapi2csclient /className:%(ClassName) /namespace:%(Namespace)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
-        <Command Condition="!%(FirstForGenerator) OR (%(NSwagGenerateExceptionClasses) != '' AND !%(NSwagGenerateExceptionClasses))">%(Command) /GenerateExceptionClasses:false</Command>
+        <Command Condition="!%(FirstForGenerator) AND ('%(NSwagGenerateExceptionClasses)' == '')">%(Command) /generateExceptionClasses:false</Command>
+        <Command Condition="'%(NSwagGenerateExceptionClasses)' != ''">%(Command) /generateExceptionClasses:%(NSwagGenerateExceptionClasses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command>%(Command) /input:"%(FullPath)" /output:"%(OutputPath)" %(Options)</Command>
@@ -154,6 +155,7 @@
         <Command Condition="'%(NSwagWrapResponseMethods)' != ''">%(Command) /wrapResponseMethods:%(NSwagWrapResponseMethods)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
+        <Command Condition="!%(FirstForGenerator) AND ('%(NSwagGenerateResponseClasses)' == '')">%(Command) /generateResponseClasses:false</Command>
         <Command Condition="'%(NSwagGenerateResponseClasses)' != ''">%(Command) /generateResponseClasses:%(NSwagGenerateResponseClasses)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
