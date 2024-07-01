@@ -7,7 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System;
+#if !NETFRAMEWORK
 using Microsoft.Extensions.PlatformAbstractions;
+#endif
 
 namespace NSwag.Commands
 {
