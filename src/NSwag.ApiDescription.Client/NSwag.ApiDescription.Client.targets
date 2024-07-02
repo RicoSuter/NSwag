@@ -210,6 +210,9 @@
         <Command Condition="'%(NSwagJsonLibrary)' != ''">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagJsonPolymorphicSerializationStyle)' != ''">%(Command) /jsonPolymorphicSerializationStyle:%(NSwagJsonPolymorphicSerializationStyle)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
         <Command Condition="'%(NSwagGenerateDefaultValues)' != ''">%(Command) /generateDefaultValues:%(NSwagGenerateDefaultValues)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
