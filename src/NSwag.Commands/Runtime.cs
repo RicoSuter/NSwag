@@ -23,9 +23,6 @@ namespace NSwag.Commands
         /// <summary>.NET 6 app.</summary>
         Net60,
 
-        /// <summary>.NET 7 app.</summary>
-        Net70,
-		
         /// <summary>.NET 8 app.</summary>
         Net80,
 
