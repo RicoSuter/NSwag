@@ -185,11 +185,16 @@ namespace NSwag.Commands.CodeGeneration
             set { Settings.ClientClassAccessModifier = value; }
         }
 
+
         [Argument(Name = "TypeAccessModifier", IsRequired = false, Description = "The DTO class/enum access modifier (default: public).")]
         public string TypeAccessModifier
         {
             get { return Settings.CSharpGeneratorSettings.TypeAccessModifier; }
-            set { Settings.CSharpGeneratorSettings.TypeAccessModifier = value; }
+            set
+            { 
+                Settings.CSharpGeneratorSettings.TypeAccessModifier = value;
+                Settings.ClientInterfaceAccessModifier = value;
+            }
         }
 
         [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]
