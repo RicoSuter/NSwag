@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="SwaggerUiOwinSettings.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -179,9 +179,12 @@ namespace NSwag.AspNetCore
                           "/oauth2-redirect.html\""
                         : "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"")
                 .Replace("{CustomStyle}", GetCustomStyleHtml(request))
-                .Replace("{CustomScript}", GetCustomScriptHtml(request))
+                .Replace("{CustomScript}", GetCustomScriptHtml(CustomJavaScriptPath,request))
                 .Replace("{CustomHeadContent}", CustomHeadContent)
-                .Replace("{DocumentTitle}", DocumentTitle);
+                .Replace("{DocumentTitle}", DocumentTitle)
+                .Replace("{AdditionalPlugins}", GeneratePluginsList(AdditionalPlugins.Keys.ToArray()))
+                .Replace("{PluginScripts}", GetCustomScripts(AdditionalPlugins.Values.ToArray(), request));
+
 
             return htmlBuilder.ToString();
         }

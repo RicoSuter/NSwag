@@ -17,6 +17,8 @@
 
     <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
     <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+
+    {PluginScripts}
     <script>
 window.onload = function() {
   var url = window.location.search.match(/url=([^&]+)/);
@@ -60,6 +62,7 @@ window.onload = function() {
     plugins: [
         SwaggerUIBundle.plugins.DownloadUrl,
         disableTryItOutPlugin
+        {AdditionalPlugins}
     ],
     layout: "StandaloneLayout"
   });
