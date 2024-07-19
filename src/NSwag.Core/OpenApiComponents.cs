@@ -38,6 +38,16 @@ namespace NSwag
             };
             Schemas = schemas;
 
+            var requestBodies = new ObservableDictionary<string, OpenApiRequestBody>();
+            requestBodies.CollectionChanged += (sender, args) =>
+            {
+                foreach (var path in RequestBodies.Values)
+                {
+                    path.Parent = document;
+                }
+            };
+            RequestBodies = requestBodies;
+
             var responses = new ObservableDictionary<string, OpenApiResponse>();
             responses.CollectionChanged += (sender, args) =>
             {
@@ -85,6 +95,10 @@ namespace NSwag
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "schemas", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, JsonSchema> Schemas { get; }
+
+        /// <summary>Gets or sets the responses which can be used for all operations.</summary>
+        [JsonProperty(PropertyName = "requestBodies", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, OpenApiRequestBody> RequestBodies { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]

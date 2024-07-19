@@ -243,10 +243,6 @@ namespace NSwag.Commands
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net60/dotnet-nswag.dll") + "\" ";
             }
-            else if (runtime == Runtime.Net70)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net70/dotnet-nswag.dll") + "\" ";
-            }
             else if (runtime == Runtime.Net80)
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net80/dotnet-nswag.dll") + "\" ";

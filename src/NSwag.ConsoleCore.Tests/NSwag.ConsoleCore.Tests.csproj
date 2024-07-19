@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NSwag.ConsoleCore\NSwag.ConsoleCore.csproj" />
-    <ProjectReference Include="..\NSwag.Sample.NET70\NSwag.Sample.NET70.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.NET60\NSwag.Sample.NET60.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.NET80\NSwag.Sample.NET80.csproj" />
   </ItemGroup>
 
 </Project>

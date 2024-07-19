@@ -43,7 +43,7 @@ To specify what .NET Core binaries to execute, either use (default)
 
 or
 
-    nswag version /runtime:Net70
+    nswag version /runtime:Net80
 
 ## Development
 

@@ -66,6 +66,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the operation ID.</summary>
         public string Id => _operation.OperationId;
 
+        /// <summary>Gets the operation tags.</summary>
+        public List<string> Tags => _operation.Tags;
+
         /// <summary>Gets or sets the HTTP path (i.e. the absolute route).</summary>
         public string Path { get; set; }
 
@@ -213,7 +216,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesFormUrlEncoded =>
             _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true ||
-            _operation.RequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
+            _operation.ActualRequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.FormData);
@@ -256,7 +259,7 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 return _operation.ActualConsumes?.FirstOrDefault() ??
-                    _operation.RequestBody?.Content.Keys.FirstOrDefault() ??
+                    _operation.ActualRequestBody?.Content.Keys.FirstOrDefault() ??
                     "application/json";
             }
         }
@@ -347,8 +350,8 @@ namespace NSwag.CodeGeneration.Models
                 .ToList();
 
             var formDataSchema =
-                _operation?.RequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
-                _operation.RequestBody.Content["multipart/form-data"]?.Schema.ActualSchema: null;
+                _operation?.ActualRequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
+                _operation.ActualRequestBody.Content["multipart/form-data"]?.Schema.ActualSchema: null;
 
             if (formDataSchema != null && formDataSchema.ActualProperties.Count > 0)
             {

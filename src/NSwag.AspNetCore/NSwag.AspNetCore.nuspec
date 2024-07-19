@@ -73,8 +73,6 @@
         <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_netstandard2.0\NSwag.AspNetCore.xml" target="lib\netstandard2.0\" />
         <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net6.0\NSwag.AspNetCore.dll" target="lib\net6.0\" />
         <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net6.0\NSwag.AspNetCore.xml" target="lib\net6.0\" />
-        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net7.0\NSwag.AspNetCore.dll" target="lib\net7.0\" />
-        <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net7.0\NSwag.AspNetCore.xml" target="lib\net7.0\" />
         <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net8.0\NSwag.AspNetCore.dll" target="lib\net8.0\" />
         <file src="..\..\artifacts\bin\NSwag.AspNetCore\$configuration$_net8.0\NSwag.AspNetCore.xml" target="lib\net8.0\" />
     </files>

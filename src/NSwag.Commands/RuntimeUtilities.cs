@@ -7,7 +7,9 @@
 //-----------------------------------------------------------------------
 
 using System;
+#if !NETFRAMEWORK
 using Microsoft.Extensions.PlatformAbstractions;
+#endif
 
 namespace NSwag.Commands
 {
@@ -28,11 +30,6 @@ namespace NSwag.Commands
                     if (framework.Version.Major >= 8)
                     {
                         return Runtime.Net80;
-                    }
-					
-                    if (framework.Version.Major >= 7)
-                    {
-                        return Runtime.Net70;
                     }
 
                     if (framework.Version.Major >= 6)
