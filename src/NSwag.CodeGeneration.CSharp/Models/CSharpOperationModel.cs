@@ -113,7 +113,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>
         /// The default value of the result type, i.e. default(T) or default(T)! depending on whether NRT are enabled.
         /// </summary>
-        public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){((_settings as CSharpClientGeneratorSettings)?.CSharpGeneratorSettings.GenerateNullableReferenceTypes == true ? "!" : "")}";
+        public string UnwrappedResultDefaultValue => HasResult 
+            ? $"default({UnwrappedResultType}){((_settings as CSharpClientGeneratorSettings)?.CSharpGeneratorSettings.GenerateNullableReferenceTypes == true ? "!" : "")}"
+            : null;
 
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
