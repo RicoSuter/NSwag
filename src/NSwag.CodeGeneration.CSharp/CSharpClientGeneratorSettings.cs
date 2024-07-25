@@ -15,6 +15,7 @@ namespace NSwag.CodeGeneration.CSharp
         public CSharpClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
+            ModelClassName = "{model}";
 
             GenerateExceptionClasses = true;
             ExceptionClass = "ApiException";
