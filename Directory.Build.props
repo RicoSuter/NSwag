@@ -36,10 +36,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 </Project>

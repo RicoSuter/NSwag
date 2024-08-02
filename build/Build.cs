@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Locator;
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -230,6 +231,7 @@ partial class Build : NukeBuild
                     .EnableNoRestore()
                     .EnableNoBuild()
                     .SetConfiguration(Configuration)
+                    .When(GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
                 );
             }
         });
