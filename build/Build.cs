@@ -14,7 +14,6 @@ using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
 using Nuke.Common.Utilities.Collections;
 
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
@@ -278,14 +277,14 @@ partial class Build : NukeBuild
             if (IsRunningOnWindows)
             {
                 var consoleX86Directory = ArtifactsDirectory / "publish" / consoleX86Project.Name / configuration;
-                CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe", target / "Win");
-                CopyFileToDirectory(consoleX86Directory / "NSwag.x86.exe.config", target / "Win");
+                (consoleX86Directory / "NSwag.x86.exe").CopyToDirectory(target / "Win");
+                (consoleX86Directory / "NSwag.x86.exe.config").CopyToDirectory(target / "Win");
 
-                CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleProject.Name / configuration, target / "Win", DirectoryExistsPolicy.Merge);
+                (ArtifactsDirectory / "publish" / consoleProject.Name / configuration).Copy(target / "Win", ExistsPolicy.DirectoryMerge);
             }
 
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net6.0"), target / "Net60");
-            CopyDirectoryRecursively(ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net8.0"), target / "Net80");
+            (ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net6.0")).Copy(target / "Net60");
+            (ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net8.0")).Copy(target / "Net80");
         }
 
         if (IsRunningOnWindows)
