@@ -36,5 +36,21 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 
             public IFormFile Contents { get; set; }
         }
+
+        [HttpPost("UploadAttachment2")]
+        public Task<IActionResult> UploadAttachment2(
+            [FromForm][Required] CaseAttachmentModel2 model,
+            [Required] IFormFile contents)
+        {
+            return Task.FromResult<IActionResult>(Ok());
+        }
+
+        public class CaseAttachmentModel2
+        {
+            [Required]
+            public string Title { get; init; }
+
+            public int? MessageId { get; set; }
+        }
     }
 }
