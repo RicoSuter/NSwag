@@ -43,16 +43,22 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""required"": [
+                  ""files"",
+                  ""test""
+                ],
                 ""properties"": {
                   ""files"": {
                     ""type"": ""array"",
+                    ""nullable"": false,
                     ""items"": {
                       ""type"": ""string"",
                       ""format"": ""binary""
                     }
                   },
                   ""test"": {
-                    ""type"": ""string""
+                    ""type"": ""string"",
+                    ""nullable"": false
                   }
                 }
               }

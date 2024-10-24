@@ -32,9 +32,9 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 
         public class CaseAttachmentModel
         {
-            public string Description { get; set; }
+            public string? Description { get; set; }
 
-            public IFormFile Contents { get; set; }
+            public IFormFile? Contents { get; set; }
         }
 
         [HttpPost("UploadAttachment2")]
