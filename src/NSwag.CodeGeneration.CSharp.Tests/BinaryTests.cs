@@ -442,7 +442,7 @@ components:
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model? model, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model model, System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
             Assert.Contains("public partial class FileParameter", code);
         }
@@ -504,7 +504,7 @@ components:
             var code = codeGenerator.GenerateFile();
 
             //// Assert
-            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model? model, System.Threading.CancellationToken cancellationToken)", code);
+            Assert.Contains("public virtual async System.Threading.Tasks.Task<CreateAddFileResponse> AddFileAsync(FileParameter file, Model model, System.Threading.CancellationToken cancellationToken)", code);
             Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
             Assert.Contains("public partial class FileParameter", code);
         }

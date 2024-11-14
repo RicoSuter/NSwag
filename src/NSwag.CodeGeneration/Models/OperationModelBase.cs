@@ -366,7 +366,8 @@ namespace NSwag.CodeGeneration.Models
                         OpenApiParameterCollectionFormat.Multi : OpenApiParameterCollectionFormat.Undefined,
                     //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,
                     //Schema = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? p.Value.Item : p.Value,
-                    Position = parameters.Count + 100 + i
+                    Position = parameters.Count + 100 + i,
+                    IsRequired = p.Value.IsRequired
                 })).ToList();
             }
 
