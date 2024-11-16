@@ -16,12 +16,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="8.0.0" />
+    <PackageReference Include="Nuke.Common" Version="8.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="Microsoft.TestPlatform" Version="[17.0.0]" />
-    <PackageDownload Include="NuGet.CommandLine" Version="[6.0.0]" />
+    <PackageDownload Include="Microsoft.TestPlatform" Version="[17.11.1]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[6.11.1]" />
   </ItemGroup>
 
 </Project>
