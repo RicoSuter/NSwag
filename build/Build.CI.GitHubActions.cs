@@ -16,7 +16,7 @@ using Nuke.Common.Utilities;
     PublishArtifacts = true,
     InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack)],
     CacheKeyFiles = [],
-    ConcurrencyCancelInProgress = false),
+    ConcurrencyCancelInProgress = true),
 ]
 [CustomGitHubActions(
     "build",

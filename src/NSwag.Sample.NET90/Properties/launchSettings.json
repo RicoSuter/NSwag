@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "NSwag.Sample.NET60": {
+    "NSwag.Sample.NET90": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

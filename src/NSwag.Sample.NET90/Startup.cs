@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using NJsonSchema.Generation;
 using System.Text.Json.Serialization;
 
-namespace NSwag.Sample.NET60
+namespace NSwag.Sample.NET90
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>14.1.0</VersionPrefix>
+    <VersionPrefix>14.2.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
     <Copyright>Copyright © Rico Suter, 2023</Copyright>
@@ -34,10 +34,6 @@
     <UseArtifactsOutput>true</UseArtifactsOutput>
 
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />

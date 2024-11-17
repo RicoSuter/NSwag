@@ -30,10 +30,10 @@
       "NSwag.Generation.Tests\\NSwag.Generation.Tests.csproj",
       "NSwag.Generation.WebApi\\NSwag.Generation.WebApi.csproj",
       "NSwag.Generation\\NSwag.Generation.csproj",
-      "NSwag.Sample.NET60Minimal\\NSwag.Sample.NET60Minimal.csproj",
-      "NSwag.Sample.NET60\\NSwag.Sample.NET60.csproj",
       "NSwag.Sample.NET80Minimal\\NSwag.Sample.NET80Minimal.csproj",
-      "NSwag.Sample.NET80\\NSwag.Sample.NET80.csproj"
+      "NSwag.Sample.NET80\\NSwag.Sample.NET80.csproj",
+      "NSwag.Sample.NET90Minimal\\NSwag.Sample.NET90Minimal.csproj",
+      "NSwag.Sample.NET90\\NSwag.Sample.NET90.csproj"
     ]
   }
 }

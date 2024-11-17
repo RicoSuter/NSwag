@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NSwag.Sample.NET60.Controllers
+namespace NSwag.Sample.NET80.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
