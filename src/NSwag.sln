@@ -117,15 +117,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Build", "00 Build", "{6F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{AC3D8125-AE21-49FC-A217-D96C7B585FF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET60", "NSwag.Sample.NET60\NSwag.Sample.NET60.csproj", "{DE82965A-6935-43E0-A9A1-F3F35B4487EB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET60Minimal", "NSwag.Sample.NET60Minimal\NSwag.Sample.NET60Minimal.csproj", "{24693FBC-445E-4360-A1E8-B6F136C563FB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.ConsoleCore.Tests", "NSwag.ConsoleCore.Tests\NSwag.ConsoleCore.Tests.csproj", "{CF6112E5-20FD-4B22-A6C0-20AF6B3396F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET80", "NSwag.Sample.NET80\NSwag.Sample.NET80.csproj", "{2A166077-2189-4376-A38B-8E362A319028}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET80Minimal", "NSwag.Sample.NET80Minimal\NSwag.Sample.NET80Minimal.csproj", "{F0569608-BD55-4316-94F0-E85A14D7FE14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET90", "NSwag.Sample.NET90\NSwag.Sample.NET90.csproj", "{DE82965A-6935-43E0-A9A1-F3F35B4487EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSwag.Sample.NET90Minimal", "NSwag.Sample.NET90Minimal\NSwag.Sample.NET90Minimal.csproj", "{24693FBC-445E-4360-A1E8-B6F136C563FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

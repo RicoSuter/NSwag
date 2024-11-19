@@ -269,7 +269,7 @@ partial class Build : NukeBuild
             PublishConsoleProject(consoleX86Project, ["net462"]);
             PublishConsoleProject(consoleProject, ["net462"]);
         }
-        PublishConsoleProject(consoleCoreProject, ["net6.0", "net8.0"]);
+        PublishConsoleProject(consoleCoreProject, ["net8.0", "net9.0"]);
 
         void CopyConsoleBinaries(AbsolutePath target)
         {
@@ -285,8 +285,8 @@ partial class Build : NukeBuild
                 (ArtifactsDirectory / "publish" / consoleProject.Name / configuration).Copy(target / "Win", ExistsPolicy.DirectoryMerge);
             }
 
-            (ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net6.0")).Copy(target / "Net60");
             (ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net8.0")).Copy(target / "Net80");
+            (ArtifactsDirectory / "publish" / consoleCoreProject.Name / (configuration + "_net9.0")).Copy(target / "Net90");
         }
 
         if (IsRunningOnWindows)

@@ -6,13 +6,13 @@ IF NOT "%args:/runtime:winx86=%" == "%args%" (
     GOTO end
 )
 
-IF NOT "%args:/runtime:net60=%" == "%args%" (
-    dotnet "%~dp0/Net60/dotnet-nswag.dll" %*
+IF NOT "%args:/runtime:net80=%" == "%args%" (
+    dotnet "%~dp0/Net80/dotnet-nswag.dll" %*
     GOTO end
 )
 
-IF NOT "%args:/runtime:net80=%" == "%args%" (
-    dotnet "%~dp0/Net80/dotnet-nswag.dll" %*
+IF NOT "%args:/runtime:net90=%" == "%args%" (
+    dotnet "%~dp0/Net90/dotnet-nswag.dll" %*
     GOTO end
 )
 
