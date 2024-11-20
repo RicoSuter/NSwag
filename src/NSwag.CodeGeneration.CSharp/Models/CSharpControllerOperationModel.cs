@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Text;
 using NJsonSchema.CodeGeneration.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Models
@@ -13,7 +14,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp controller operation model.</summary>
     public class CSharpControllerOperationModel : CSharpOperationModel
     {
+        private readonly OpenApiOperation _operation;
         private readonly CSharpControllerGeneratorSettings _settings;
+        private readonly CSharpTypeResolver _resolver;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpControllerOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -24,7 +27,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             CSharpControllerGenerator generator, CSharpTypeResolver resolver)
             : base(operation, settings, generator, resolver)
         {
+            _operation = operation;
             _settings = settings;
+            _resolver = resolver;
         }
 
         /// <summary>Gets or sets the type of the result.</summary>
@@ -32,6 +37,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
+                if (_settings.UseResponseTypeAttributes)
+                    return "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>";
                 if (_settings.UseActionResultType)
                 {
                     switch (SyncResultType)
@@ -45,6 +52,31 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 }
 
                 return base.ResultType;
+            }
+        }
+
+        public bool HasResponseTypeAttributes => _settings.UseResponseTypeAttributes;
+
+        public string ResponseTypeAttributes
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                foreach (var response in _operation.ActualResponses)
+                {
+                    if (response.Value.Schema == null)
+                    {
+                        sb.AppendLine($"[Microsoft.AspNetCore.Mvc.ProducesResponseType({response.Key})]");
+                        continue;
+                    }
+
+                    var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                    var responseType = _resolver.Resolve(response.Value.Schema, isNullable, "Response");
+                    sb.AppendLine(
+                        $"[Microsoft.AspNetCore.Mvc.ProducesResponseType({response.Key}, Type = typeof({responseType}))]");
+                }
+
+                return sb.ToString();
             }
         }
     }
