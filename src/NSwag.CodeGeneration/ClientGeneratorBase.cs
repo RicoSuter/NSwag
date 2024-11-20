@@ -154,7 +154,7 @@ namespace NSwag.CodeGeneration
             {
                 foreach (var p in pair.Value.ActualPathItem)
                 {
-                    var path = pair.Key.TrimStart('/');
+                    var path = pair.Key.TrimStart('/').Split('#')[0];
                     var httpMethod = p.Key;
                     var operation = p.Value;
 
