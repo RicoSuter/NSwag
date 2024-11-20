@@ -208,7 +208,7 @@ namespace NSwag.CodeGeneration.Models
         public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Header);
 
         /// <summary>Gets or sets a value indicating whether the accept header is defined in a parameter.</summary>
-        public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
+        public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => string.Equals(p.Name, "accept", StringComparison.OrdinalIgnoreCase));
 
         /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
         public bool HasFormParameters => Parameters.Any(p => p.Kind == OpenApiParameterKind.FormData);

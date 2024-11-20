@@ -7,7 +7,7 @@ using NSwag.Generation;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {
-    internal class SwaggerUiIndexMiddleware<T> : OwinMiddleware
+    internal sealed class SwaggerUiIndexMiddleware<T> : OwinMiddleware
         where T : OpenApiDocumentGeneratorSettings, new()
     {
         private readonly string _indexPath;
@@ -27,12 +27,10 @@ namespace NSwag.AspNet.Owin.Middlewares
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware<T>).Assembly.GetManifestResourceStream(_resourcePath);
-                using (var reader = new StreamReader(stream))
-                {
-                    context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-                    context.Response.StatusCode = 200;
-                    context.Response.Write(await _settings.TransformHtmlAsync(reader.ReadToEnd(), context.Request, CancellationToken.None));
-                }
+                using var reader = new StreamReader(stream);
+                context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+                context.Response.StatusCode = 200;
+                context.Response.Write(await _settings.TransformHtmlAsync(reader.ReadToEnd(), context.Request, CancellationToken.None));
             }
             else
             {

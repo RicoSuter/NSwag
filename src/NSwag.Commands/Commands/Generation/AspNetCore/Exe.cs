@@ -47,7 +47,9 @@ namespace NSwag.Commands.Generation.AspNetCore
                     }
                     else
                     {
+#pragma warning disable CA2201
                         tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
+#pragma warning restore CA2201
                     }
                 };
 
@@ -81,7 +83,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                 var argument = args[i];
                 if (i != 0)
                 {
-                    builder.Append(" ");
+                    builder.Append(' ');
                 }
 
                 if (argument.IndexOf(' ') == -1)
@@ -91,7 +93,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     continue;
                 }
 
-                builder.Append("\"");
+                builder.Append('"');
 
                 var pendingBackslashs = 0;
                 for (var j = 0; j < argument.Length; j++)
@@ -116,7 +118,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                             {
                                 if (pendingBackslashs == 1)
                                 {
-                                    builder.Append("\\");
+                                    builder.Append('\\');
                                 }
                                 else
                                 {
@@ -136,7 +138,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     builder.Append('\\', pendingBackslashs * 2);
                 }
 
-                builder.Append("\"");
+                builder.Append('"');
             }
 
             return builder.ToString();

@@ -252,7 +252,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("public partial class ComplexTypeResponse", code);
         }
 
-        private OpenApiDocument GetOpenApiDocument()
+        private static OpenApiDocument GetOpenApiDocument()
         {
             JsonSchema complexTypeSchema = new JsonSchema();
             complexTypeSchema.Title = "ComplexType";

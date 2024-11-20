@@ -20,10 +20,10 @@ namespace NSwag
 {
     public partial class OpenApiDocument
     {
-        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
+        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
             new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.Swagger2));
 
-        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
+        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
             new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.OpenApi3));
 
         /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>

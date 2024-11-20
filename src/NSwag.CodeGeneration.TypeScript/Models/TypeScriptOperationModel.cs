@@ -119,12 +119,15 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
         public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
 
+
+        private static readonly string[] stringInArray = ["string"];
+
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                if (_operation.ActualResponses.All(r => HttpUtilities.IsSuccessStatusCode(r.Key)))
                 {
                     return "string";
                 }
@@ -132,7 +135,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 return string.Join(" | ", _operation.ActualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                     .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
-                    .Concat(new[] { "string" }));
+                    .Concat(stringInArray));
             }
         }
 

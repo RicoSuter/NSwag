@@ -85,7 +85,7 @@ namespace NSwag.Core.Tests
             json = document.ToJson();
 
             // Assert
-            Assert.Equal("foo", document.Operations.First().Operation.ActualParameters.First().Name);
+            Assert.Equal("foo", document.Operations.First().Operation.ActualParameters[0].Name);
             Assert.Contains(@"""$ref"": ""#/parameters/Foo""", json);
         }
 
@@ -141,7 +141,7 @@ namespace NSwag.Core.Tests
             json = document.ToJson();
 
             // Assert
-            Assert.Equal("secret", document.Operations.First().Operation.ActualParameters.First().ActualSchema.Format);
+            Assert.Equal("secret", document.Operations.First().Operation.ActualParameters[0].ActualSchema.Format);
         }
 
         [Fact]

@@ -14,7 +14,6 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
-using NJsonSchema;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -70,7 +69,7 @@ namespace NSwag.AspNetCore
         public string CustomHeadContent { get; set; } = "";
 
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
-        public bool ValidateSpecification { get; set; } = false;
+        public bool ValidateSpecification { get; set; }
 
         /// <summary>Gets the additional Swagger UI 3 settings.</summary>
         public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
@@ -134,7 +133,7 @@ namespace NSwag.AspNetCore
         public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUiRoute>>> SwaggerRoutesFactory { get; set; }
 #endif
 
-        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
+        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Count > 0 ? "" : base.ActualSwaggerDocumentPath;
 
 #if AspNetOwin
         internal override async Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
@@ -165,7 +164,7 @@ namespace NSwag.AspNetCore
                 (await SwaggerRoutesFactory(request, cancellationToken)).ToList() :
                 SwaggerRoutes;
 
-            htmlBuilder.Replace("{Urls}", !swaggerRoutes.Any()
+            htmlBuilder.Replace("{Urls}", swaggerRoutes.Count == 0
                 ? "undefined"
                 : JsonConvert.SerializeObject(
 #pragma warning disable 618

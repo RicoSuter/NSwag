@@ -17,7 +17,7 @@ namespace NSwag.Generation.WebApi.Infrastructure
     /// * RoutePrefixAttribute
     /// * IRoutePrefix
     /// </summary>
-    internal class RoutePrefixAttributeFacade
+    internal sealed class RoutePrefixAttributeFacade
     {
         private readonly PropertyInfo _prefix;
 

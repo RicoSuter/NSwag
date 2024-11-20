@@ -8,11 +8,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NSwag.Generation.Processors.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using NSwag.Generation.AspNetCore;
-using NJsonSchema.Infrastructure;
 using Namotion.Reflection;
 
 namespace NSwag.Generation.Processors.Security
@@ -51,7 +49,7 @@ namespace NSwag.Generation.Processors.Security
                 }
 
                 var authorizeAttributes = endpointMetadata.OfType<AuthorizeAttribute>().ToList();
-                if (!authorizeAttributes.Any())
+                if (authorizeAttributes.Count == 0)
                 {
                     return true;
                 }

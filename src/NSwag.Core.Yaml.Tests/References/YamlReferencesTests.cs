@@ -29,7 +29,7 @@ namespace NSwag.Core.Yaml.Tests.References
             Assert.Equal(JsonObjectType.Boolean, document.Definitions["ContractObject"].Properties["bar"].ActualTypeSchema.Type);
         }
 
-        private string GetTestDirectory()
+        private static string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);

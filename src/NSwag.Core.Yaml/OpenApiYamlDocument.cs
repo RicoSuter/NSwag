@@ -72,7 +72,7 @@ namespace NSwag
 
             var json = serializer.Serialize(yamlObject);
 
-            referenceResolverFactory = referenceResolverFactory ?? CreateReferenceResolverFactory();
+            referenceResolverFactory ??= CreateReferenceResolverFactory();
             return await OpenApiDocument.FromJsonAsync(json, documentPath, expectedSchemaType, referenceResolverFactory, cancellationToken).ConfigureAwait(false);
         }
 

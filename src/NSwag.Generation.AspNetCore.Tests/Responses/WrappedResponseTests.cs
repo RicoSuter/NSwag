@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using Xunit;
@@ -8,7 +7,6 @@ using NJsonSchema;
 
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using NJsonSchema.NewtonsoftJson.Generation;
-using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
@@ -30,13 +28,18 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             var document = await GenerateDocumentAsync(settings, typeof(WrappedResponseController));
 
             // Assert
-            OpenApiResponse GetOperationResponse(string actionName) => document.Operations
+            OpenApiResponse GetOperationResponse(string actionName)
+            {
+                return document.Operations
                 .Where(op => op.Operation.OperationId == $"{nameof(WrappedResponseController)
                     .Substring(0, nameof(WrappedResponseController).Length - "Controller".Length)}_{actionName}")
                 .Single().Operation.ActualResponses.Single().Value;
+            }
 
-            JsonObjectType GetOperationResponseSchemaType(string actionName) =>
-                GetOperationResponse(actionName).Schema.Type;
+            JsonObjectType GetOperationResponseSchemaType(string actionName)
+            {
+                return GetOperationResponse(actionName).Schema.Type;
+            }
 
             var intType = NewtonsoftJsonSchemaGenerator.FromType<int>().Type;
 

@@ -8,7 +8,6 @@ using NJsonSchema;
 using NSwag.Generation.WebApi;
 using System.Collections.Generic;
 using Xunit;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -20,11 +19,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             [Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
             {
-                return new Foo[0];
+                return [];
             }
         }
 
-        public class FromUriAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+        public class FromUriAttribute : Attribute;
 
         public enum Bar
         {

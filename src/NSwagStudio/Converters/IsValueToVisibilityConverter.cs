@@ -18,13 +18,19 @@ namespace NSwagStudio.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null && Target == null)
+            {
                 return Visibility.Visible;
+            }
 
             if (value == null || Target == null)
+            {
                 return Visibility.Collapsed;
+            }
 
             if (value.Equals(Target))
+            {
                 return Visibility.Visible;
+            }
 
             return Visibility.Collapsed;
         }

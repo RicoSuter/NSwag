@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NSwag.Commands.Generation.AspNetCore;
@@ -214,12 +213,12 @@ namespace NSwag.Commands
 
                 if (message.Contains("Could not load type"))
                 {
-                    message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
+                    message += "Try running the document in another runtime, e.g. /runtime:NetCore20";
                 }
 
                 if (message.Contains("The system cannot find the file specified"))
                 {
-                    message = message + "Check if .NET Core is installed and 'dotnet' is globally available.";
+                    message += "Check if .NET Core is installed and 'dotnet' is globally available.";
                 }
 
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
@@ -234,7 +233,9 @@ namespace NSwag.Commands
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
 
+#pragma warning disable CA1822
         private string GetArgumentsPrefix()
+#pragma warning restore CA1822
         {
 #if NET462
 
@@ -252,7 +253,9 @@ namespace NSwag.Commands
             return "";
         }
 
+#pragma warning disable CA1822
         private string GetProgramName()
+#pragma warning restore CA1822
         {
 #if NET462
 
@@ -270,7 +273,7 @@ namespace NSwag.Commands
             return "dotnet";
         }
 
-        private string ReadFileIfExists(string filename)
+        private static string ReadFileIfExists(string filename)
         {
             if (filename != null && File.Exists(filename))
             {
@@ -280,7 +283,7 @@ namespace NSwag.Commands
             return null;
         }
 
-        private void DeleteFileIfExists(string filename)
+        private static void DeleteFileIfExists(string filename)
         {
             if (File.Exists(filename))
             {
@@ -288,7 +291,7 @@ namespace NSwag.Commands
             }
         }
 
-        internal class CommandLineException : Exception
+        internal sealed class CommandLineException : Exception
         {
             public CommandLineException(string message, string stackTrace)
                 : base(message)

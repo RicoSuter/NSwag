@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.TypeScript
                 typeof(TypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
             });
 
-            ProtectedMethods = new string[0];
+            ProtectedMethods = [];
         }
 
         /// <summary>Gets the TypeScript generator settings.</summary>
@@ -92,7 +92,7 @@ namespace NSwag.CodeGeneration.TypeScript
         public string ExceptionClass { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to use the AbortSignal (Aurelia/Axios/Fetch template only, default: false).</summary>
-        public bool UseAbortSignal { get; set; } = false;
+        public bool UseAbortSignal { get; set; }
 
         // TODO: Angular specific => move
 
@@ -100,19 +100,19 @@ namespace NSwag.CodeGeneration.TypeScript
         public HttpClass HttpClass { get; set; } = HttpClass.HttpClient;
 
         /// <summary>Gets or sets a value indicating whether to set the withCredentials flag.</summary>
-        public bool WithCredentials { get; set; } = false;
+        public bool WithCredentials { get; set; }
 
         /// <summary>Gets the RxJs version (Angular template only, default: 6.0).</summary>
         public decimal RxJsVersion { get; set; } = 6.0m;
 
         /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
-        public bool UseSingletonProvider { get; set; } = false;
+        public bool UseSingletonProvider { get; set; }
 
         /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
         public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 
         /// <summary>Gets a value indicating whether to include the httpContext parameter (Angular template only, default: false).</summary>
-        public bool IncludeHttpContext { get; set; } = false;
+        public bool IncludeHttpContext { get; set; }
 
         internal ITemplate CreateTemplate(object model)
         {

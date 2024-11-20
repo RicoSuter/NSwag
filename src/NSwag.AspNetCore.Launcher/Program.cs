@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace NSwag.AspNetCore.Launcher
 {
-    internal class Program
+    internal sealed class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
         private const string EntryPointType = "NSwag.Commands.Generation.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
@@ -60,7 +60,7 @@ namespace NSwag.AspNetCore.Launcher
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
         };
 
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             // Usage: NSwag.Console.AspNetCore [settingsFile] [toolsDirectory]
             if (args.Length < 2)
@@ -169,7 +169,7 @@ namespace NSwag.AspNetCore.Launcher
             return true;
         }
 
-        private class AssemblyLoadInfo
+        private sealed class AssemblyLoadInfo
         {
             public AssemblyLoadInfo(Version minimumRequiredVersion)
             {

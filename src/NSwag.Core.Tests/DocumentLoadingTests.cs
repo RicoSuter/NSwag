@@ -78,7 +78,7 @@ namespace NSwag.Core.Tests
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
-        private string _sampleServiceCode =
+        private readonly string _sampleServiceCode =
 @"{
   ""swagger"": ""2.0"",
   ""info"": {
@@ -143,7 +143,7 @@ namespace NSwag.Core.Tests
   }
 }";
 
-        private string _jsonVendorExtensionData =
+        private readonly string _jsonVendorExtensionData =
                     @"{
   ""swagger"": ""2.0"",
   ""info"": {

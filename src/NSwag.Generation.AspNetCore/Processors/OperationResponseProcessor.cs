@@ -48,7 +48,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
                     .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
                                 a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)))
-                .ToArray() ?? new Attribute[0];
+                .ToArray() ?? [];
 
             if (responseTypeAttributes.Length > 0)
             {
@@ -83,7 +83,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
                         var isResponseNullable = nullableXmlAttribute != null ?
-                                                 nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                                                 nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                                                  _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                         response.IsNullableRaw = isResponseNullable;
@@ -119,7 +119,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return "200";
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

@@ -165,7 +165,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var parameterCode = CSharpJsonSerializerGenerator.GenerateJsonSerializerParameterCode(
-                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
+                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? defaultAdditionalExceptionConverter : null);
 
                 if (!parameterCode.Contains("new Newtonsoft.Json.JsonSerializerSettings"))
                 {
@@ -178,13 +178,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        private static readonly string[] defaultAdditionalExceptionConverter = ["JsonExceptionConverter"];
+
         /// <summary>Gets the JSON converters array code.</summary>
         public string JsonConvertersArrayCode
         {
             get
             {
                 return CSharpJsonSerializerGenerator.GenerateJsonConvertersArrayCode(
-                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
+                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? defaultAdditionalExceptionConverter : null);
             }
         }
 

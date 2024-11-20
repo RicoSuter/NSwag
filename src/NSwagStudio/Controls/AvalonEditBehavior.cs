@@ -28,14 +28,18 @@ namespace NSwagStudio.Controls
         {
             base.OnDetaching();
             if (AssociatedObject != null)
+            {
                 AssociatedObject.TextChanged -= AssociatedObjectOnTextChanged;
+            }
         }
 
         private void AssociatedObjectOnTextChanged(object sender, EventArgs eventArgs)
         {
             var textEditor = sender as TextEditor;
             if (textEditor?.Document != null)
+            {
                 Text = textEditor.Document.Text;
+            }
         }
 
         private static void PropertyChangedCallback(

@@ -25,9 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -61,7 +59,7 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
+            static dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
             {
                 try
                 {
@@ -220,7 +218,7 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var path = apiDescription.RelativePath;
-                        if (!path.StartsWith("/", StringComparison.Ordinal))
+                        if (!path.StartsWith("/"))
                         {
                             path = "/" + path;
                         }
@@ -277,7 +275,7 @@ namespace NSwag.Generation.AspNetCore
                     }
 
                     var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, generator, schemaResolver);
-                    if (addedOperations.Any() && apiGroup.Key != null)
+                    if (addedOperations.Count > 0 && apiGroup.Key != null)
                     {
                         usedControllerTypes.Add(apiGroup.Key);
                     }
@@ -290,7 +288,7 @@ namespace NSwag.Generation.AspNetCore
             return usedControllerTypes;
         }
 
-        private bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
+        private static bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
         {
             if (methodInfo?.GetCustomAttribute<ObsoleteAttribute>() != null)
             {

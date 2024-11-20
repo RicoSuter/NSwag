@@ -42,10 +42,12 @@ namespace NSwag.Generation
         /// <returns>The parameter.</returns>
         public OpenApiParameter CreateUntypedPathParameter(string parameterName, string parameterType)
         {
-            var parameter = new OpenApiParameter();
-            parameter.Name = parameterName;
-            parameter.Kind = OpenApiParameterKind.Path;
-            parameter.IsRequired = true;
+            var parameter = new OpenApiParameter
+            {
+                Name = parameterName,
+                Kind = OpenApiParameterKind.Path,
+                IsRequired = true
+            };
 
             if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
             {
@@ -119,8 +121,10 @@ namespace NSwag.Generation
             OpenApiParameter operationParameter;
             if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
-                operationParameter = new OpenApiParameter();
-                operationParameter.Schema = new JsonSchema();
+                operationParameter = new OpenApiParameter
+                {
+                    Schema = new JsonSchema()
+                };
 
                 SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
 
@@ -147,9 +151,11 @@ namespace NSwag.Generation
             }
             else
             {
-                operationParameter = new OpenApiParameter();
-                operationParameter.Schema = SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
-                    contextualParameter, typeDescription.IsNullable, _schemaResolver);
+                operationParameter = new OpenApiParameter
+                {
+                    Schema = SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                        contextualParameter, typeDescription.IsNullable, _schemaResolver)
+                };
 
                 SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
             }

@@ -19,7 +19,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 
@@ -442,7 +441,7 @@ namespace NSwag.Commands
             saveFile = false;
 
             // Swagger to OpenApi rename
-            if (data.Contains("\"typeScriptVersion\":") && !data.ToLowerInvariant().Contains("ExceptionClass".ToLowerInvariant()))
+            if (data.Contains("\"typeScriptVersion\":") && data.IndexOf("ExceptionClass", StringComparison.OrdinalIgnoreCase) == -1)
             {
                 data = data.Replace("\"typeScriptVersion\":", "\"exceptionClass\": \"SwaggerException\", \"typeScriptVersion\":");
                 saveFile = true;
@@ -515,7 +514,7 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            if (data.Contains("\"noBuild\":") && data.IndexOf("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase) == -1)
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;

@@ -228,8 +228,8 @@ namespace NSwagStudio.Controls
 
         public class ContentManager
         {
-            TabControl _tabControl;
-            Decorator _border;
+            private TabControl _tabControl;
+            private Decorator _border;
 
             public ContentManager(TabControl tabControl, Decorator border)
             {

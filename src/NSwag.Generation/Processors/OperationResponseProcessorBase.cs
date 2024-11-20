@@ -195,7 +195,7 @@ namespace NSwag.Generation.Processors
                     var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
 
                     var isResponseNullable = nullableXmlAttribute != null ?
-                        nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                        string.Equals(nullableXmlAttribute.Value, "true", StringComparison.OrdinalIgnoreCase) :
                         statusCodeGroup.Any(r => r.IsNullable) &&
                             _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
@@ -233,7 +233,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private ICollection<JsonExpectedSchema> GenerateExpectedSchemas(
+        private List<JsonExpectedSchema> GenerateExpectedSchemas(
             IGrouping<string, OperationResponseDescription> group, OperationProcessorContext context)
         {
             if (group.Count() > 1)
@@ -297,7 +297,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

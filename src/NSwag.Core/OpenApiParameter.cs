@@ -21,13 +21,13 @@ namespace NSwag
         private string _name;
         private OpenApiParameterKind _kind;
         private OpenApiParameterStyle _style;
-        private bool _isRequired = false;
+        private bool _isRequired;
         private JsonSchema _schema;
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;
         private int? _position;
 
-        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?", RegexOptions.Compiled);
 
         [JsonIgnore]
         internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
@@ -223,13 +223,13 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                var consumes = parent?.ActualConsumes?.Any() == true ?
+                var consumes = parent?.ActualConsumes?.Count > 0 ?
                     parent.ActualConsumes :
                     parent?.ActualRequestBody?.Content.Keys;
 
-                return consumes?.Any() == true &&
+                return consumes?.Count > 0 &&
                        consumes.Any(p => p.Contains("application/xml")) &&
-                       consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
+                       consumes.Any(AppJsonRegex.IsMatch) == false;
             }
         }
 
@@ -245,14 +245,14 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Any() == true)
+                if (parent?.ActualConsumes?.Count > 0)
                 {
                     var consumes = parent.ActualConsumes;
-                    return consumes?.Any() == true &&
+                    return consumes?.Count > 0 &&
                            (Schema?.IsBinary != false ||
                             consumes.Contains("multipart/form-data")) &&
                            consumes?.Any(p => p.Contains("*/*")) == false &&
-                           consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
+                           consumes.Any(AppJsonRegex.IsMatch) == false;
                 }
                 else
                 {
@@ -277,18 +277,18 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Any() == true)
+                if (parent?.ActualConsumes?.Count > 0)
                 {
                     var consumes = parent.ActualConsumes;
-                    return consumes?.Any() == true &&
-                           (consumes.Count() > 1 ||
+                    return consumes?.Count > 0 &&
+                           (consumes.Count > 1 ||
                             consumes.Any(p => p.Contains("*")));
                 }
                 else
                 {
                     var consumes = parent?.ActualRequestBody?.Content;
                     return consumes?.Any() == true &&
-                           (consumes.Count() > 1 ||
+                           (consumes.Count > 1 ||
                             consumes.Any(p => p.Key.Contains("*")));
                 }
             }

@@ -17,7 +17,7 @@ namespace NSwagStudio.Views
 {
     public partial class MainWindow : Window
     {
-        private bool _closeCancelled = false;
+        private bool _closeCancelled;
 
         public MainWindow()
         {

@@ -80,7 +80,7 @@ namespace NSwag.Core.Tests.Serialization
             // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
@@ -101,7 +101,7 @@ namespace NSwag.Core.Tests.Serialization
             // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 

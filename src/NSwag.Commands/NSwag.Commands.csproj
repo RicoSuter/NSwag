@@ -4,7 +4,7 @@
     <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- obsolete usage, missing comments -->
-    <NoWarn>$(NoWarn),618,1591</NoWarn>
+    <NoWarn>$(NoWarn),618,1591;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

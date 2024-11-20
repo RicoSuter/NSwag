@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace NSwag.AspNetCore.Middlewares
 {
-    internal class RedirectToIndexMiddleware
+    internal sealed class RedirectToIndexMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
 

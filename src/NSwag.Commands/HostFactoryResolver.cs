@@ -176,8 +176,8 @@ namespace Microsoft.Extensions.Hosting
 
             private readonly TaskCompletionSource<object> _hostTcs = new TaskCompletionSource<object>();
             private IDisposable _disposable;
-            private Action<object> _configure;
-            private Action<Exception> _entrypointCompleted;
+            private readonly Action<object> _configure;
+            private readonly Action<Exception> _entrypointCompleted;
             private static readonly AsyncLocal<HostingListener> _currentListener = new AsyncLocal<HostingListener>();
 
             public HostingListener(string[] args, MethodInfo entryPoint, TimeSpan waitTimeout, bool stopApplication, Action<object> configure, Action<Exception> entrypointCompleted)

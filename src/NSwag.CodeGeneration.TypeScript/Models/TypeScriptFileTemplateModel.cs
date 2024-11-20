@@ -17,7 +17,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptFileTemplateModel
     {
         private readonly TypeScriptClientGeneratorSettings _settings;
-        private readonly TypeScriptTypeResolver _resolver;
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly OpenApiDocument _document;
@@ -41,7 +40,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _document = document;
             _extensionCode = extensionCode;
             _settings = settings;
-            _resolver = resolver;
 
             _clientCode = clientTypes.OrderByBaseDependency().Concatenate();
             _clientTypes = clientTypes;
@@ -104,9 +102,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ExtensionCodeImport => _extensionCode.ImportCode;
 
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ?
-            _extensionCode.ExtensionClasses[_settings.ConfigurationClass] + "\n\n" + _extensionCode.TopCode :
-            _extensionCode.TopCode;
+        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.TryGetValue(_settings.ConfigurationClass, out var value)
+            ? value + "\n\n" + _extensionCode.TopCode
+            : _extensionCode.TopCode;
 
         /// <summary>Gets or sets the extension code to insert at the end.</summary>
         public string ExtensionCodeBottom { get; }

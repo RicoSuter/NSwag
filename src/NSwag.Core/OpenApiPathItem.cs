@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using NSwag.Collections;
@@ -104,7 +103,7 @@ namespace NSwag
         #endregion
 
         // Needed to convert dictionary keys to lower case
-        internal class OpenApiPathItemConverter : JsonConverter
+        private sealed class OpenApiPathItemConverter : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
@@ -132,13 +131,13 @@ namespace NSwag
                     }
                 }
 
-                if (operations.Parameters != null && operations.Parameters.Any())
+                if (operations.Parameters != null && operations.Parameters.Count > 0)
                 {
                     writer.WritePropertyName("parameters");
                     serializer.Serialize(writer, operations.Parameters);
                 }
 
-                if (operations.Servers != null && operations.Servers.Any())
+                if (operations.Servers != null && operations.Servers.Count > 0)
                 {
                     writer.WritePropertyName("servers");
                     serializer.Serialize(writer, operations.Servers);
@@ -146,7 +145,7 @@ namespace NSwag
 
                 foreach (var pair in operations)
                 {
-                    writer.WritePropertyName(pair.Key.ToString().ToLowerInvariant());
+                    writer.WritePropertyName(pair.Key.ToLowerInvariant());
                     serializer.Serialize(writer, pair.Value);
                 }
 

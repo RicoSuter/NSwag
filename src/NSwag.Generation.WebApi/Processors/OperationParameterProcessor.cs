@@ -258,7 +258,7 @@ namespace NSwag.Generation.WebApi.Processors
         /// </summary>
         /// <param name="operationDescription">Operation to check.</param>
         /// <param name="schemaType">Schema type.</param>
-        private void UpdateNullableRawOperationParameters(OpenApiOperationDescription operationDescription, SchemaType schemaType)
+        private static void UpdateNullableRawOperationParameters(OpenApiOperationDescription operationDescription, SchemaType schemaType)
         {
             if (schemaType == SchemaType.OpenApi3)
             {
@@ -269,7 +269,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
+        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
@@ -277,7 +277,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
+        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
@@ -285,7 +285,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
+        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
@@ -337,7 +337,7 @@ namespace NSwag.Generation.WebApi.Processors
                 return true;
             }
 
-            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
+            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Length > 0)
             {
                 var description = _settings.SchemaSettings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings.SchemaSettings);
                 if (description.Type == JsonObjectType.File ||
@@ -356,7 +356,7 @@ namespace NSwag.Generation.WebApi.Processors
 
             var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameter.ParameterType, _settings.SchemaSettings);
             var isRequired = _settings.AllowNullableBodyParameters == false || contextualParameter.GetAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
-            var isNullable = _settings.AllowNullableBodyParameters && (typeDescription.IsNullable && !isRequired);
+            var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable && !isRequired;
 
             var operation = context.OperationDescription.Operation;
             if (contextualParameter.ParameterType.Name == "XmlDocument" || contextualParameter.ParameterType.Type.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))
@@ -466,8 +466,8 @@ namespace NSwag.Generation.WebApi.Processors
                             InitializeFileParameter(operationParameter, isFileArray);
                         }
                         else if (fromRouteAttribute != null
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + "}")
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + ":"))
+                            || httpPath.IndexOf("{" + propertyName + "}", StringComparison.OrdinalIgnoreCase) != -1
+                            || httpPath.IndexOf("{" + propertyName + ":", StringComparison.OrdinalIgnoreCase) != -1)
                         {
                             operationParameter.Kind = OpenApiParameterKind.Path;
                             operationParameter.IsNullableRaw = false;
@@ -524,7 +524,7 @@ namespace NSwag.Generation.WebApi.Processors
             return operationParameter;
         }
 
-        private void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
+        private static void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
         {
             operationParameter.Type = JsonObjectType.File;
             operationParameter.Kind = OpenApiParameterKind.FormData;

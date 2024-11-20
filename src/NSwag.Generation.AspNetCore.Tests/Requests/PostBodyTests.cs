@@ -29,7 +29,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
             var operation = document.Operations.First(o => o.Operation.OperationId == "PostBody_JsonPostBodyOperation").Operation;
             var parameter = operation.Parameters.Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            Assert.Equal(1, operation.Parameters.Count);
+            Assert.Single(operation.Parameters);
             Assert.True(operation.RequestBody.Content["application/json"].Schema.IsAnyType);
         }
 
@@ -53,7 +53,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Requests
             var operation = document.Operations.First(o => o.Operation.OperationId == "PostBody_FilePostBodyOperation").Operation;
             var parameter = operation.Parameters.Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            Assert.Equal(1, operation.Parameters.Count);
+            Assert.Single(operation.Parameters);
             Assert.Equal(JsonObjectType.String, operation.RequestBody.Content["text/plain"].Schema.Type);
             Assert.Equal("binary", operation.RequestBody.Content["text/plain"].Schema.Format);
         }
