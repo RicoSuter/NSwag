@@ -187,6 +187,9 @@ components:
             ""multipart/form-data"": {
               ""schema"": {
                 ""type"": ""object"",
+                ""required"": [
+                    ""file""
+                ],
                 ""properties"": {
                   ""file"": {
                     ""type"": ""string"",
@@ -222,10 +225,11 @@ components:
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             // Act
-            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings { GenerateOptionalParameters = true });
             var code = codeGenerator.GenerateFile();
 
             // Assert
+            Assert.Contains("UploadFileAsync(FileParameter file, string test = null", code);
             Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
             Assert.Contains("var content_file_ = new System.Net.Http.StreamContent(file.Data);", code);
             Assert.Contains("class FileParameter", code);
