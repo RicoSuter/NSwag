@@ -343,7 +343,7 @@ namespace NSwag.Generation.WebApi
             return operationId + (number > 1 ? number.ToString() : string.Empty);
         }
 
-        private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
+        private List<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
             var controllerName = controllerType.Name.Replace("Controller", string.Empty);

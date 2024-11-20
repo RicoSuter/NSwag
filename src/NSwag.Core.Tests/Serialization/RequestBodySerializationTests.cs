@@ -72,7 +72,7 @@ namespace NSwag.Core.Tests.Serialization
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            parameter.Name = parameter.Name + "123";
+            parameter.Name += "123";
 
             // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
@@ -114,7 +114,7 @@ namespace NSwag.Core.Tests.Serialization
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            parameter.Description = parameter.Description + "123";
+            parameter.Description += "123";
 
             // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
@@ -134,7 +134,7 @@ namespace NSwag.Core.Tests.Serialization
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
-            requestBody.Name = requestBody.Name + "123";
+            requestBody.Name += "123";
 
             // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
@@ -199,7 +199,7 @@ namespace NSwag.Core.Tests.Serialization
             document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
-            requestBody.Description = requestBody.Description + "123";
+            requestBody.Description += "123";
 
             // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters

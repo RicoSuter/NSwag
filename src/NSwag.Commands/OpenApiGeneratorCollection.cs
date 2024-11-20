@@ -7,7 +7,9 @@ using NSwag.Commands.Generation.AspNetCore;
 namespace NSwag.Commands
 {
     /// <summary></summary>
+#pragma warning disable CA1711
     public class OpenApiGeneratorCollection
+#pragma warning restore CA1711
     {
         /// <summary>Gets or sets the input to swagger command.</summary>
         [JsonIgnore]

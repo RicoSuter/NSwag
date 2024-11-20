@@ -281,14 +281,14 @@ namespace NSwag
                 {
                     var consumes = parent.ActualConsumes;
                     return consumes?.Any() == true &&
-                           (consumes.Count() > 1 ||
+                           (consumes.Count > 1 ||
                             consumes.Any(p => p.Contains("*")));
                 }
                 else
                 {
                     var consumes = parent?.ActualRequestBody?.Content;
                     return consumes?.Any() == true &&
-                           (consumes.Count() > 1 ||
+                           (consumes.Count > 1 ||
                             consumes.Any(p => p.Key.Contains("*")));
                 }
             }

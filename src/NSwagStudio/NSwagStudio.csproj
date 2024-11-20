@@ -13,6 +13,7 @@
     <ApplicationIcon>ApplicationIcon.ico</ApplicationIcon>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration))' == 'Debug' ">

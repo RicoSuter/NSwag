@@ -24,7 +24,7 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? new Attribute[0];
+            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? [];
 
             ProcessSummary(context, attributes);
             ProcessDescription(context, attributes);

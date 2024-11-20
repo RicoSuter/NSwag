@@ -61,7 +61,7 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
+            static dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
             {
                 try
                 {

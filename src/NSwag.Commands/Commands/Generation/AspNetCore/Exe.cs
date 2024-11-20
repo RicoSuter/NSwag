@@ -47,7 +47,9 @@ namespace NSwag.Commands.Generation.AspNetCore
                     }
                     else
                     {
+#pragma warning disable CA2201
                         tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
+#pragma warning restore CA2201
                     }
                 };
 

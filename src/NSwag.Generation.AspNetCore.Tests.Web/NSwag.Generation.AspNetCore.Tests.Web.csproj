@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn),618,1591</NoWarn>
+    <NoWarn>$(NoWarn),618,1591;CS8603;CS8618;CS8625;CA1861</NoWarn>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

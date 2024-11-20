@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.TypeScript
                 typeof(TypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
             });
 
-            ProtectedMethods = new string[0];
+            ProtectedMethods = [];
         }
 
         /// <summary>Gets the TypeScript generator settings.</summary>

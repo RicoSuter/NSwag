@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +19,8 @@ using NConsole;
 
 namespace NSwag.Commands.Generation.AspNetCore
 {
-    internal class ProjectMetadata
+    [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members")]
+    internal sealed class ProjectMetadata
     {
         private const string GetMetadataTarget = "__GetNSwagProjectMetadata";
 

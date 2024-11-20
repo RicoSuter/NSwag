@@ -190,7 +190,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         }
                         else
                         {
-                            return new CSharpExceptionDescriptionModel[] { };
+                            return [];
                         }
                     });
             }
@@ -215,7 +215,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>True if the operation has any security schemes</summary>
-        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count() ?? 0) != 0;
+        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count ?? 0) != 0;
 
         /// <summary>Gets the security schemas that apply to this operation</summary>
         public IEnumerable<OpenApiSecurityRequirement> Security => _operation.ActualSecurity;

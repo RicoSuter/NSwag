@@ -38,8 +38,8 @@ namespace NSwag.CodeGeneration.CSharp
             ParameterArrayType = "System.Collections.Generic.IEnumerable";
             ParameterDictionaryType = "System.Collections.Generic.IDictionary";
 
-            AdditionalNamespaceUsages = new string[0];
-            AdditionalContractNamespaceUsages = new string[0];
+            AdditionalNamespaceUsages = [];
+            AdditionalContractNamespaceUsages = [];
         }
 
         /// <summary>Gets the CSharp generator settings.</summary>

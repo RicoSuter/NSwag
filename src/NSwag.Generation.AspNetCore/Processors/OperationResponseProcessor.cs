@@ -48,7 +48,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
                     .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
                                 a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)))
-                .ToArray() ?? new Attribute[0];
+                .ToArray() ?? [];
 
             if (responseTypeAttributes.Length > 0)
             {

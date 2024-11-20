@@ -20,11 +20,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             [Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
             {
-                return new Foo[0];
+                return [];
             }
         }
 
-        public class FromUriAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+        public class FromUriAttribute : Attribute;
 
         public enum Bar
         {

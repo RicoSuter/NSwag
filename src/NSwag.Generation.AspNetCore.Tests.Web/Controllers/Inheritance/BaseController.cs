@@ -8,7 +8,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Inheritance
         [HttpGet("response")]
         public TResponse GetResponse()
         {
-            return default(TResponse);
+            return default;
         }
     }
 }

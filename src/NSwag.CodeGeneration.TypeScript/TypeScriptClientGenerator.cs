@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.TypeScript
 
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
-                (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? new string[] { }).Concat(new[] { Settings.ConfigurationClass }).ToArray(),
+                (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? []).Concat(new[] { Settings.ConfigurationClass }).ToArray(),
                 new[] { Settings.ClientBaseClass });
         }
 

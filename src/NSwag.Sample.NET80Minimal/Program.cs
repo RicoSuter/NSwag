@@ -22,14 +22,14 @@ app.UseDeveloperExceptionPage();
 app.UseOpenApi();
 app.UseSwaggerUi();
 
-app.MapGet("/", (Func<string>)(() => "Hello World!"))
+app.MapGet("/", () => "Hello World!")
     .WithTags("General");
 
-app.MapGet("/sum/{a}/{b}", (Func<int, int, int>)((a, b) => a + b))
+app.MapGet("/sum/{a}/{b}", (int a, int b) => a + b)
     .WithName("CalculateSum")
     .WithTags("Calculator");
 
-app.MapGet("/abs({a})", (Func<int, int>)(a => Math.Abs(a)))
+app.MapGet("/abs({a})", (int a) => Math.Abs(a))
     .WithName("AbsoluteValue")
     .WithTags("Calculator");
 

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+    <NoWarn>$(NoWarn);CA1707;IDE1006</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

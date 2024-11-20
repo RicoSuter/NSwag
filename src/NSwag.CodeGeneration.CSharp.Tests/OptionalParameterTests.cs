@@ -30,9 +30,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        public class FromUriAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+        public class FromUriAttribute : Attribute;
 
+#pragma warning disable CA1711
         public enum MyEnum
+#pragma warning restore CA1711
         {
             One,
             Two,
@@ -42,7 +45,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
         public class MyClass
         {
+#pragma warning disable IDE0051
             private string MyString { get; set; }
+#pragma warning restore IDE0051
             public MyEnum? MyEnum { get; set; }
             public int MyInt { get; set; }
         }
