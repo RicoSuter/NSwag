@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -60,6 +61,39 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether to check for the chunked HTTP status code (206, true when file response and 200/204).</summary>
         public bool CheckChunkedStatusCode => IsFile && (StatusCode == "200" || StatusCode == "204");
+
+        /// <summary>Gets a flag to say if the StatusCode can be interpreted as an integer. (e.g. 5XX cannot be treated as a number)</summary>
+        public bool StatusCodeIsInt => int.TryParse(StatusCode, out _);
+        
+        /// <summary>Creates the CSharp regex when StatusCode is not an integer </summary>
+        public string CreateRegexFoxCS {
+            get
+            {
+                if (Regex.IsMatch(StatusCode, @"^[xX\d]{3}$"))
+                {
+                    var regexBody = StatusCode.ToLower().Replace("x", "\\d");
+                    return $"new System.Text.RegularExpressions.Regex(\"^{regexBody}$\")";
+                }
+
+                // This will make the code non compilable and it is intentional because this StatusCode is not valid
+                return StatusCode;
+            }
+        }
+        
+        /// <summary>Creates the TypeScript regex when StatusCode is not an integer </summary>
+        public string CreateRegexForTS {
+            get
+            {
+                if (Regex.IsMatch(StatusCode, @"^[xX\d]{3}$"))
+                {
+                    var regexBody = StatusCode.ToLower().Replace("x", "\\d");
+                    return $"/^{regexBody}$/";
+                }
+
+                // This will make the code non compilable and it is intentional because this StatusCode is not valid
+                return StatusCode;
+            }
+        }
 
         /// <summary>Gets the type of the response.</summary>
         public string Type =>
