@@ -132,7 +132,7 @@ namespace {{ Namespace }}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ responseClassName }}<TResult> : {{ responseClassName }}
     {
-        public TResult Result { get; private set; }
+        public TResult Result { get; protected set; }
 
         public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
             : base(statusCode, headers)
@@ -140,7 +140,35 @@ namespace {{ Namespace }}
             Result = result;
         }
     }
+{%-     if GenerateDisposableResponseClasses %}
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+    public partial class {{ responseClassName }}Disposable<TResult> : {{ responseClassName }}<TResult>, System.IAsyncDisposable
+        where TResult : class, System.IAsyncDisposable
+    {
+        public {{ responseClassName }}Disposable(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
+            : base(statusCode, headers, result)
+        {
+        }
 
+        public async System.Threading.Tasks.ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore().ConfigureAwait(false);
+    
+            System.GC.SuppressFinalize(this);
+        }
+    
+        protected virtual async System.Threading.Tasks.ValueTask DisposeAsyncCore()
+        {
+            if (Result is not null)
+            {
+                await Result.DisposeAsync().ConfigureAwait(false);
+            }
+    
+            Result = null;
+        }
+    }
+{%-     endif %}
 {%-        endfor %}
 {%-     endif %}
 {%-     if GenerateExceptionClasses %}
@@ -200,7 +228,39 @@ namespace {{ Namespace }}
     {% template JsonExceptionConverter %}
 {%     endif -%}
 {%- endif %}
+{% if GenerateStreamHttpContent -%}
 
+public class StreamHttpContent<T> : System.Net.Http.HttpContent
+    {
+        private readonly T _content;
+        private readonly System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+        private readonly System.Threading.CancellationToken _cancellationToken;
+
+        public StreamHttpContent(T content, System.Text.Json.JsonSerializerOptions jsonSerializerOptions, System.Threading.CancellationToken cancellationToken)
+        {
+            _content = content;
+            _jsonSerializerOptions = jsonSerializerOptions;
+            _cancellationToken = cancellationToken;
+        }
+
+        protected override System.Threading.Tasks.Task SerializeToStreamAsync(System.IO.Stream stream, System.Net.TransportContext context)
+            => SerializeToStreamAsync(stream, context, default);
+
+        protected override async System.Threading.Tasks.Task SerializeToStreamAsync(System.IO.Stream stream, System.Net.TransportContext context, System.Threading.CancellationToken cancellationToken)
+        {
+            using var source_ = System.Threading.CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, cancellationToken);
+            source_.Token.ThrowIfCancellationRequested();
+
+            await System.Text.Json.JsonSerializer.SerializeAsync(stream, _content, _jsonSerializerOptions, source_.Token);
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = -1;
+            return false;
+        }
+    }
+{%- endif %}
 }
 
 {% template File.Footer %}

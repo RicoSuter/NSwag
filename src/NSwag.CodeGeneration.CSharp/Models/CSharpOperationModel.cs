@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -122,12 +123,28 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (_settings != null && WrapResponse && UnwrappedResultType != "FileResponse")
                 {
+                    var disposableSuffix = GenerateResultAsIAsyncEnumerator ? "Disposable" : "";
                     return UnwrappedResultType == "void"
                         ? _settings.ResponseClass.Replace("{controller}", ControllerName)
-                        : _settings.ResponseClass.Replace("{controller}", ControllerName) + "<" + UnwrappedResultType + ">";
+                        : _settings.ResponseClass.Replace("{controller}", ControllerName) + disposableSuffix + "<" + UnwrappedResultType + ">";
                 }
 
                 return UnwrappedResultType;
+            }
+        }
+
+        /// <summary>Gets the type of the unwrapped result type (without Task).</summary>
+        public override string UnwrappedResultType
+        {
+            get
+            {
+                if (GenerateResultAsIAsyncEnumerator)
+                {
+                    var regex = new Regex(Regex.Escape(_settings.ResponseArrayType + "<"));
+                    return regex.Replace(base.UnwrappedResultType, "System.Collections.Generic.IAsyncEnumerator<", count: 1);
+                }
+
+                return base.UnwrappedResultType;
             }
         }
 
@@ -155,6 +172,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
                 var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
                 return _generator.GetTypeName(response.Value.Schema, isNullable, "Exception");
+            }
+        }
+
+        /// <summary>Gets the type of the inner array result type (without IAsyncEnumerator).</summary>
+        public string InnerIAsyncEnumeratorType
+        {
+            get
+            {
+                var removedBeginningType = UnwrappedResultType.Replace("System.Collections.Generic.IAsyncEnumerator<", string.Empty);
+                return removedBeginningType.Substring(0, removedBeginningType.Length - 1);
             }
         }
 
@@ -214,6 +241,28 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>Gets a value indicating whether the request result should be generated as an IAsyncEnumerator instead of the default ArrayType.</summary>
+        public bool GenerateResultAsIAsyncEnumerator =>
+            _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson &&
+            (_settings as CSharpClientGeneratorSettings)?.LargeJsonArrayResponseMethods?.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName) == true &&
+            base.UnwrappedResultType.StartsWith(_settings.ResponseArrayType + "<");
+
+        /// <summary>Gets a value indicating whether the request content parameter is generated as an IAsyncEnumerable instead of the default ArrayType.</summary>
+        public bool ContentParameterIsIAsyncEnumerable =>
+            _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson &&
+            (_settings as CSharpClientGeneratorSettings)?.LargeJsonArrayRequestMethods?.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName) == true &&
+            HasContent && ContentParameter.Type.StartsWith(_settings.ParameterArrayType + "<");
+
+        /// <summary>Gets the content parameter type with the replaced IAsyncEnumerable.</summary>
+        public string ContentParameterIAsyncEnumerableType
+        {
+            get
+            {
+                var regex = new Regex(Regex.Escape(_settings.ParameterArrayType + "<"));
+                return regex.Replace(ContentParameter.Type, "System.Collections.Generic.IAsyncEnumerable<", count: 1);
+            }
+        }
+
         /// <summary>True if the operation has any security schemes</summary>
         public bool RequiresAuthentication => (_operation.ActualSecurity?.Count() ?? 0) != 0;
 
@@ -268,6 +317,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
                 }
             }
+
+            if (parameter.Kind == OpenApiParameterKind.Body)
 
             if (schema.Type == JsonObjectType.Array && (schema.Item?.IsBinary ?? false))
             {

@@ -131,7 +131,7 @@
 {%     if GenerateOptionalParameters == false -%}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {{ operation.MethodAccessModifier }} virtual {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{% if parameter.IsBody and operation.ContentParameterIsIAsyncEnumerable %}{{ operation.ContentParameterIAsyncEnumerableType }}{% else %}{{ parameter.Type }}{% endif %} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
         return {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None);
     }
@@ -140,7 +140,7 @@
 {%     if GenerateSyncMethods -%}
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
+    {{ operation.MethodAccessModifier }} virtual {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{% if parameter.IsBody and operation.ContentParameterIsIAsyncEnumerable %}{{ operation.ContentParameterIAsyncEnumerableType }}{% else %}{{ parameter.Type }}{% endif %} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
         {% if operation.HasResult or operation.WrapResponse %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
@@ -149,7 +149,7 @@
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{% if parameter.IsBody and operation.ContentParameterIsIAsyncEnumerable %}{{ operation.ContentParameterIAsyncEnumerableType }}{% else %}{{ parameter.Type }}{% endif %} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
     {
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
@@ -219,6 +219,9 @@
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.HasPlainTextBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%         elsif operation.ContentParameterIsIAsyncEnumerable -%}
+                var content_ = new StreamHttpContent<{{ operation.ContentParameterIAsyncEnumerableType }}>({{ operation.ContentParameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value, cancellationToken);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
                 var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
@@ -474,6 +477,20 @@
 
         public string Text { get; }
     }
+{% if UseSystemTextJson == true %}
+    
+    private async System.Collections.Generic.IAsyncEnumerator<T> ConvertToIAsyncEnumerator<T>(System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken)
+    {
+        using (response)
+        {
+            using var stream_ = await response.Content.ReadAsStreamAsync(cancellationToken);
+            await foreach (var item in System.Text.Json.JsonSerializer.DeserializeAsyncEnumerable<T>(stream_, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken))
+            {
+                yield return item;
+            }
+        }
+    }
+{% endif %}
 
     {% template Client.Class.ReadObjectResponse %}
 

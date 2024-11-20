@@ -104,7 +104,7 @@ namespace NSwag.CodeGeneration.Models
         public abstract string ResultType { get; }
 
         /// <summary>Gets the type of the unwrapped result type (without Task).</summary>
-        public string UnwrappedResultType
+        public virtual string UnwrappedResultType
         {
             get
             {
