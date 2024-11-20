@@ -53,7 +53,11 @@ namespace NSwag.AspNetCore
         public string ServerUrl { get; set; } = "";
 
         /// <summary>Specifies whether the "Try it out" option is enabled in Swagger UI 3.</summary>
-        public bool EnableTryItOut { get; set; } = true;
+        public bool EnableTryItOut
+        {
+            get => (bool)AdditionalSettings["tryItOutEnabled"];
+            set => AdditionalSettings["tryItOutEnabled"] = value;
+        }
 
         /// <summary>
         /// Gets or sets a title for the Swagger UI page.
@@ -157,8 +161,8 @@ namespace NSwag.AspNetCore
                 }
             }
 
-            var swaggerRoutes = SwaggerRoutesFactory != null ? 
-                (await SwaggerRoutesFactory(request, cancellationToken)).ToList() : 
+            var swaggerRoutes = SwaggerRoutesFactory != null ?
+                (await SwaggerRoutesFactory(request, cancellationToken)).ToList() :
                 SwaggerRoutes;
 
             htmlBuilder.Replace("{Urls}", !swaggerRoutes.Any()
@@ -172,7 +176,6 @@ namespace NSwag.AspNetCore
 
             htmlBuilder.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null")
                 .Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings))
-                .Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower())
                 .Replace("{RedirectUrl}",
                     string.IsNullOrEmpty(ServerUrl)
                         ? "window.location.origin + \"" + TransformToExternalPath(Path, request) +

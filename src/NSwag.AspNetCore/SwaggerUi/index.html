@@ -27,26 +27,10 @@ window.onload = function() {
   }
   var urls = {Urls};
 
-  const disableTryItOutPlugin = function() {
-    return {
-      statePlugins: {
-      spec: {
-        wrapSelectors: {
-          allowTryItOutFor: function() {
-            return function() {
-                return {EnableTryItOut};
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
   // Build a system
   var ui = SwaggerUIBundle({
     url: url,
-    urls: urls,  
+    urls: urls,
     validatorUrl: {ValidatorUrl},
     oauth2RedirectUrl: {RedirectUrl},
 
@@ -58,8 +42,7 @@ window.onload = function() {
       SwaggerUIStandalonePreset
     ],
     plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl,
-        disableTryItOutPlugin
+        SwaggerUIBundle.plugins.DownloadUrl
     ],
     layout: "StandaloneLayout"
   });
