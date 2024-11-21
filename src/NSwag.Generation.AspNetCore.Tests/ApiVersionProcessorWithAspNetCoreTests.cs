@@ -43,7 +43,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             Assert.True(operations.All(o => o.Path.Contains("/v1/")));
 
             // VersionedIgnoredValues tag should not be in json document
-            Assert.Equal(1, document.Tags.Count);
+            Assert.Single(document.Tags);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             Assert.True(operations.All(o => o.Operation.IsDeprecated));
 
             // VersionedIgnoredValues tag should not be in json document
-            Assert.Equal(1, document.Tags.Count);
+            Assert.Single(document.Tags);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             Assert.True(operations.All(o => o.Path.Contains("/v3/")));
 
             // VersionedIgnoredValues tag should not be in json document
-            Assert.Equal(1, document.Tags.Count);
+            Assert.Single(document.Tags);
         }
 
         [Fact]

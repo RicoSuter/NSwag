@@ -31,7 +31,7 @@ namespace NSwag.CodeGeneration.CSharp
             GenerateBaseUrlProperty = true;
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
-            ProtectedMethods = new string[0];
+            ProtectedMethods = [];
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>

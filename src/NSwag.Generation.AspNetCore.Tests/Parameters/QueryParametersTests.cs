@@ -27,15 +27,15 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First().Operation;
 
-            Assert.True(operation.ActualParameters.First().IsRequired);
-            Assert.True(operation.ActualParameters.Last().IsRequired);
+            Assert.True(operation.ActualParameters[0].IsRequired);
+            Assert.True(operation.ActualParameters[operation.ActualParameters.Count - 1].IsRequired);
 
             Assert.Equal(2, operation.ActualParameters.Count);
 
-            Assert.Equal("Bar.", operation.ActualParameters.First().Description);
-            Assert.Equal(JToken.Parse("42"), operation.ActualParameters.First().Example);
+            Assert.Equal("Bar.", operation.ActualParameters[0].Description);
+            Assert.Equal(JToken.Parse("42"), operation.ActualParameters[0].Example);
 
-            Assert.Equal("Baz.", operation.ActualParameters.Last().Description);
+            Assert.Equal("Baz.", operation.ActualParameters[operation.ActualParameters.Count - 1].Description);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var document = await GenerateDocumentAsync(settings, typeof(RenamedQueryParameterController));
 
             // Assert
-            var parameter = document.Operations.First().Operation.ActualParameters.First();
+            var parameter = document.Operations.First().Operation.ActualParameters[0];
 
             Assert.Equal("month", parameter.Name);
             Assert.Equal("months", parameter.OriginalName);

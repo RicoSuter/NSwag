@@ -356,7 +356,7 @@ namespace NSwag.Generation.WebApi.Processors
 
             var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameter.ParameterType, _settings.SchemaSettings);
             var isRequired = _settings.AllowNullableBodyParameters == false || contextualParameter.GetAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
-            var isNullable = _settings.AllowNullableBodyParameters && (typeDescription.IsNullable && !isRequired);
+            var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable && !isRequired;
 
             var operation = context.OperationDescription.Operation;
             if (contextualParameter.ParameterType.Name == "XmlDocument" || contextualParameter.ParameterType.Type.InheritsFromTypeName("XmlDocument", TypeNameStyle.Name))

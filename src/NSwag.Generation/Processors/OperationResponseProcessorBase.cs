@@ -233,7 +233,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private ICollection<JsonExpectedSchema> GenerateExpectedSchemas(
+        private List<JsonExpectedSchema> GenerateExpectedSchemas(
             IGrouping<string, OperationResponseDescription> group, OperationProcessorContext context)
         {
             if (group.Count() > 1)

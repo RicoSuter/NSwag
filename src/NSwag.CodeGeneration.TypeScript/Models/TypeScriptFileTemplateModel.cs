@@ -17,7 +17,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptFileTemplateModel
     {
         private readonly TypeScriptClientGeneratorSettings _settings;
+#pragma warning disable IDE0052
         private readonly TypeScriptTypeResolver _resolver;
+#pragma warning restore IDE0052
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly OpenApiDocument _document;

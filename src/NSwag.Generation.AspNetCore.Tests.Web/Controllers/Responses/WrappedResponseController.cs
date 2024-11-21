@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using NSwag.Annotations;
-
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
 {
     [ApiController]
@@ -13,7 +11,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
     {
 
         [HttpGet( "task" )]
-        public async Task Task()
+        public Task Task()
         {
             throw new NotImplementedException();
         }
@@ -25,13 +23,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
         }
 
         [HttpGet( "taskofint" )]
-        public async Task<int> TaskOfInt()
+        public Task<int> TaskOfInt()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet( "valuetaskofint" )]
-        public async ValueTask<int> ValueTaskOfInt()
+        public ValueTask<int> ValueTaskOfInt()
         {
             throw new NotImplementedException();
         }
@@ -43,13 +41,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
         }
 
         [HttpGet( "taskofactionresultofint" )]
-        public async Task<ActionResult<int>> TaskOfActionResultOfInt()
+        public Task<ActionResult<int>> TaskOfActionResultOfInt()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet( "valuetaskofactionresultofint" )]
-        public async ValueTask<ActionResult<int>> ValueTaskOfActionResultOfInt()
+        public ValueTask<ActionResult<int>> ValueTaskOfActionResultOfInt()
         {
             throw new NotImplementedException();
         }

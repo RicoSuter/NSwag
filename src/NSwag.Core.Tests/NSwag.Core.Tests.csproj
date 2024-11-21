@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <!-- obsolete warning -->
-    <NoWarn>$(NoWarn),618</NoWarn>
+    <NoWarn>$(NoWarn),618;CA1707</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

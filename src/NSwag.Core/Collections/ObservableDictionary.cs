@@ -108,8 +108,7 @@ namespace NSwag.Collections
         /// <param name="add">If true and key already exists then an exception is thrown. </param>
         protected virtual void Insert(TKey key, TValue value, bool add)
         {
-            TValue item;
-            if (_dictionary.TryGetValue(key, out item))
+            if (_dictionary.TryGetValue(key, out TValue item))
             {
                 if (add)
                 {
