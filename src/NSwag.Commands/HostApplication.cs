@@ -181,13 +181,13 @@ namespace NSwag.Commands
 #endif
         }
 
-        private class NoopHostLifetime : IHostLifetime
+        private sealed class NoopHostLifetime : IHostLifetime
         {
             public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
             public Task WaitForStartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
         }
 
-        private class NoopServer : IServer
+        private sealed class NoopServer : IServer
         {
             public IFeatureCollection Features { get; } = new FeatureCollection();
             public void Dispose() { }

@@ -32,7 +32,7 @@ namespace NSwag.Generation.Processors
             return true;
         }
 
-        private void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -58,7 +58,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");

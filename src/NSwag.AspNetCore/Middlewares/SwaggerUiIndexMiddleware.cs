@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace NSwag.AspNetCore.Middlewares
 {
-    internal class SwaggerUiIndexMiddleware
+    internal sealed class SwaggerUiIndexMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
         private readonly string _indexPath;

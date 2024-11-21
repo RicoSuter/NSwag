@@ -18,7 +18,7 @@ using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
-    internal class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentGenerator
+    internal sealed class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentGenerator
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IEnumerable<OpenApiDocumentRegistration> _documents;

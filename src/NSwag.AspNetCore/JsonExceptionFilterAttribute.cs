@@ -82,7 +82,7 @@ namespace NSwag.AspNetCore
             }
         }
 
-        private int GetStatusCode(Exception exception, ActionExecutedContext context)
+        private static int GetStatusCode(Exception exception, ActionExecutedContext context)
         {
             if (context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
@@ -116,7 +116,7 @@ namespace NSwag.AspNetCore
             return 500;
         }
 
-        private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
+        private static JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
             var settingsCopy = new JsonSerializerSettings();
 

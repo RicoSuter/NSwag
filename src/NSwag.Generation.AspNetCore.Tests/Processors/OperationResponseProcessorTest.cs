@@ -148,8 +148,10 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
             return context;
         }
 
-        private class TestModel { }
+        private sealed class TestModel { }
 
+#pragma warning disable CA1822
         private TestModel SomeAction() => null;
+#pragma warning restore CA1822
     }
 }

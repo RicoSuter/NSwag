@@ -11,7 +11,7 @@ using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
 {
-    internal class OperationGenerationModeConverter
+    internal sealed class OperationGenerationModeConverter
     {
         internal static OperationGenerationMode GetOperationGenerationMode(IOperationNameGenerator operationNameGenerator)
         {

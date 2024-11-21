@@ -75,7 +75,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool UseVersionedApiExplorer(OperationProcessorContext context)
+        private static bool UseVersionedApiExplorer(OperationProcessorContext context)
         {
             if (context.HasProperty("ApiDescription"))
             {
@@ -89,14 +89,14 @@ namespace NSwag.Generation.Processors
             return false;
         }
 
-        private void RemoveApiVersionPathParameter(OperationProcessorContext context, string version)
+        private static void RemoveApiVersionPathParameter(OperationProcessorContext context, string version)
         {
             var operationDescription = context.OperationDescription;
             operationDescription.Path = operationDescription.Path.Replace("{version:apiVersion}", version);
             operationDescription.Path = operationDescription.Path.Replace("{version}", version);
         }
 
-        private string[] GetVersions(OperationProcessorContext context, string attributeType)
+        private static string[] GetVersions(OperationProcessorContext context, string attributeType)
         {
             var versionAttributes = context.MethodInfo.GetCustomAttributes()
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes())
