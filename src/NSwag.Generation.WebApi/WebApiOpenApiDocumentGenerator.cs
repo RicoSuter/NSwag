@@ -424,7 +424,7 @@ namespace NSwag.Generation.WebApi
                 .ToList();
         }
 
-        private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
+        private static IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
             var segments = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < segments.Length; i++)
@@ -455,7 +455,7 @@ namespace NSwag.Generation.WebApi
             yield return path;
         }
 
-        private IEnumerable<RouteAttributeFacade> GetAllRouteAttributes(Type type)
+        private static IEnumerable<RouteAttributeFacade> GetAllRouteAttributes(Type type)
         {
             do
             {
@@ -473,7 +473,7 @@ namespace NSwag.Generation.WebApi
             return null;
         }
 
-        private RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
+        private static RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
         {
             do
             {
@@ -491,17 +491,17 @@ namespace NSwag.Generation.WebApi
             return null;
         }
 
-        private IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        private static IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Select(RouteAttributeFacade.TryMake).Where(a => a?.Template != null);
         }
 
-        private IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        private static IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Select(RoutePrefixAttributeFacade.TryMake).Where(a => a != null);
         }
 
-        private string GetActionName(MethodInfo method)
+        private static string GetActionName(MethodInfo method)
         {
             dynamic actionNameAttribute = method.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "ActionNameAttribute");
@@ -520,7 +520,7 @@ namespace NSwag.Generation.WebApi
             return methodName;
         }
 
-        private IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
+        private static IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
         {
             // See http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
 
@@ -569,7 +569,7 @@ namespace NSwag.Generation.WebApi
             }
         }
 
-        private IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
+        private static IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
             {

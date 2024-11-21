@@ -70,7 +70,7 @@ namespace NSwag.Generation.Processors
         /// <param name="context">The context.</param>
         /// <param name="tagName">The tag name.</param>
         /// <param name="description">The description.</param>
-        protected void UpdateDocumentTagDescription(OperationProcessorContext context, string tagName, string description)
+        protected static void UpdateDocumentTagDescription(OperationProcessorContext context, string tagName, string description)
         {
             if (!context.Settings.UseControllerSummaryAsTagDescription || string.IsNullOrEmpty(description))
             {
@@ -82,7 +82,7 @@ namespace NSwag.Generation.Processors
             documentTag.Description = description;
         }
 
-        private void ProcessSwaggerTagAttributes(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        private static void ProcessSwaggerTagAttributes(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             foreach (var tagAttribute in methodInfo.GetCustomAttributes()
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
@@ -100,7 +100,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessSwaggerTagsAttribute(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        private static void ProcessSwaggerTagsAttribute(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             dynamic tagsAttribute = methodInfo
                 .GetCustomAttributes()
@@ -132,7 +132,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessControllerSwaggerTagsAttribute(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
+        private static void ProcessControllerSwaggerTagsAttribute(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
         {
             dynamic tagsAttribute = typeInfo
                 .GetCustomAttributes()
@@ -151,7 +151,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessControllerSwaggerTagAttributes(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
+        private static void ProcessControllerSwaggerTagAttributes(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
         {
             foreach (var tagAttribute in typeInfo.GetCustomAttributes()
                 .GetAssignableToTypeName("OpenApiTagAttribute", TypeNameStyle.Name)

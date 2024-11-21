@@ -230,11 +230,13 @@ namespace NSwag.Commands
 
         private string GetDocumentDirectory()
         {
-            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, System.IO.Directory.GetCurrentDirectory());
+            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, Directory.GetCurrentDirectory());
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
 
+#pragma warning disable CA1822
         private string GetArgumentsPrefix()
+#pragma warning restore CA1822
         {
 #if NET462
 
@@ -252,7 +254,9 @@ namespace NSwag.Commands
             return "";
         }
 
+#pragma warning disable CA1822
         private string GetProgramName()
+#pragma warning restore CA1822
         {
 #if NET462
 
@@ -270,7 +274,7 @@ namespace NSwag.Commands
             return "dotnet";
         }
 
-        private string ReadFileIfExists(string filename)
+        private static string ReadFileIfExists(string filename)
         {
             if (filename != null && File.Exists(filename))
             {
@@ -280,7 +284,7 @@ namespace NSwag.Commands
             return null;
         }
 
-        private void DeleteFileIfExists(string filename)
+        private static void DeleteFileIfExists(string filename)
         {
             if (File.Exists(filename))
             {
@@ -288,7 +292,7 @@ namespace NSwag.Commands
             }
         }
 
-        internal class CommandLineException : Exception
+        private sealed class CommandLineException : Exception
         {
             public CommandLineException(string message, string stackTrace)
                 : base(message)

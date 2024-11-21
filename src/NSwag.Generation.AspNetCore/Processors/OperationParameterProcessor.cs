@@ -24,7 +24,7 @@ using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.AspNetCore.Processors
 {
-    internal class OperationParameterProcessor : IOperationProcessor
+    internal sealed class OperationParameterProcessor : IOperationProcessor
     {
         private const string MultipartFormData = "multipart/form-data";
 
@@ -247,7 +247,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
+        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
@@ -255,7 +255,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
+        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
@@ -263,7 +263,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
+        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
@@ -324,7 +324,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private JsonSchema CreateOrGetFormDataSchema(OperationProcessorContext context)
+        private static JsonSchema CreateOrGetFormDataSchema(OperationProcessorContext context)
         {
             if (context.OperationDescription.Operation.RequestBody == null)
             {
@@ -501,7 +501,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return operationParameter;
         }
 
-        private class ExtendedApiParameterDescription
+        private sealed class ExtendedApiParameterDescription
         {
             private readonly IXmlDocsSettings _xmlDocsSettings;
 

@@ -104,7 +104,7 @@ namespace NSwag
         #endregion
 
         // Needed to convert dictionary keys to lower case
-        internal class OpenApiPathItemConverter : JsonConverter
+        internal sealed class OpenApiPathItemConverter : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {

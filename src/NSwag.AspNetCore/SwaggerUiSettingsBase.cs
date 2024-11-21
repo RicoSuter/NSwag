@@ -122,7 +122,7 @@ namespace NSwag.AspNetCore
         /// <summary>Generates the additional objects JavaScript code.</summary>
         /// <param name="additionalSettings">The additional settings.</param>
         /// <returns>The code.</returns>
-        protected string GenerateAdditionalSettings(IDictionary<string, object> additionalSettings)
+        protected static string GenerateAdditionalSettings(IDictionary<string, object> additionalSettings)
         {
             var code = "";
             foreach (var pair in additionalSettings)

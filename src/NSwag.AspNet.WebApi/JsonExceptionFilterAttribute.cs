@@ -79,7 +79,7 @@ namespace NSwag.AspNet.WebApi
             }
         }
 
-        private int GetStatusCode(Exception exception, HttpActionExecutedContext context)
+        private static int GetStatusCode(Exception exception, HttpActionExecutedContext context)
         {
             if (context.ActionContext.ActionDescriptor is ReflectedHttpActionDescriptor actionDescriptor)
             {
@@ -105,7 +105,7 @@ namespace NSwag.AspNet.WebApi
             return 500;
         }
 
-        private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
+        private static JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
             var settingsCopy = new JsonSerializerSettings();
 

@@ -25,7 +25,7 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
+        protected static Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
         {
             if (!IsJson(input) && !IsYaml(input))
             {
@@ -67,12 +67,12 @@ namespace NSwag.Commands
             }
         }
 
-        protected bool IsJson(string data)
+        protected static bool IsJson(string data)
         {
             return data.StartsWith("{");
         }
 
-        protected bool IsYaml(string data)
+        protected static bool IsYaml(string data)
         {
             return !IsJson(data) && data.Contains("\n");
         }

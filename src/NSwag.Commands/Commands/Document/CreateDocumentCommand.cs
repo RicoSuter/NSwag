@@ -33,7 +33,7 @@ namespace NSwag.Commands.Document
             return null;
         }
 
-        private async Task CreateDocumentAsync(string filePath)
+        private static async Task CreateDocumentAsync(string filePath)
         {
             var document = new NSwagDocument();
             document.Path = filePath;

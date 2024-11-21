@@ -119,7 +119,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return "200";
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

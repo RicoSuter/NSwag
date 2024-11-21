@@ -297,7 +297,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

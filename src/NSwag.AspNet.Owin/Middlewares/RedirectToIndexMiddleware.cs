@@ -12,7 +12,7 @@ using Microsoft.Owin;
 
 namespace NSwag.AspNet.Owin.Middlewares
 {
-    internal class RedirectToIndexMiddleware : OwinMiddleware
+    internal sealed class RedirectToIndexMiddleware : OwinMiddleware
     {
         private readonly string _internalUiRoute;
         private readonly string _internalSwaggerRoute;

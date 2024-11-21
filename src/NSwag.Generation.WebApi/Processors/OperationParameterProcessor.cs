@@ -258,7 +258,7 @@ namespace NSwag.Generation.WebApi.Processors
         /// </summary>
         /// <param name="operationDescription">Operation to check.</param>
         /// <param name="schemaType">Schema type.</param>
-        private void UpdateNullableRawOperationParameters(OpenApiOperationDescription operationDescription, SchemaType schemaType)
+        private static void UpdateNullableRawOperationParameters(OpenApiOperationDescription operationDescription, SchemaType schemaType)
         {
             if (schemaType == SchemaType.OpenApi3)
             {
@@ -269,7 +269,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
+        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
@@ -277,7 +277,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
+        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
@@ -285,7 +285,7 @@ namespace NSwag.Generation.WebApi.Processors
             }
         }
 
-        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
+        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
@@ -524,7 +524,7 @@ namespace NSwag.Generation.WebApi.Processors
             return operationParameter;
         }
 
-        private void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
+        private static void InitializeFileParameter(OpenApiParameter operationParameter, bool isFileArray)
         {
             operationParameter.Type = JsonObjectType.File;
             operationParameter.Kind = OpenApiParameterKind.FormData;

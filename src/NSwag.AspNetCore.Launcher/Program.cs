@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace NSwag.AspNetCore.Launcher
 {
-    internal class Program
+    internal sealed class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
         private const string EntryPointType = "NSwag.Commands.Generation.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
@@ -169,7 +169,7 @@ namespace NSwag.AspNetCore.Launcher
             return true;
         }
 
-        private class AssemblyLoadInfo
+        private sealed class AssemblyLoadInfo
         {
             public AssemblyLoadInfo(Version minimumRequiredVersion)
             {
