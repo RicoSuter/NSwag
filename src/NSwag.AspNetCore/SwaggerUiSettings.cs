@@ -134,7 +134,7 @@ namespace NSwag.AspNetCore
         public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUiRoute>>> SwaggerRoutesFactory { get; set; }
 #endif
 
-        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
+        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Count > 0 ? "" : base.ActualSwaggerDocumentPath;
 
 #if AspNetOwin
         internal override async Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
@@ -165,7 +165,7 @@ namespace NSwag.AspNetCore
                 (await SwaggerRoutesFactory(request, cancellationToken)).ToList() :
                 SwaggerRoutes;
 
-            htmlBuilder.Replace("{Urls}", !swaggerRoutes.Any()
+            htmlBuilder.Replace("{Urls}", swaggerRoutes.Count == 0
                 ? "undefined"
                 : JsonConvert.SerializeObject(
 #pragma warning disable 618

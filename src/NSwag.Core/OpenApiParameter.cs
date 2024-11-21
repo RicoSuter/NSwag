@@ -223,11 +223,11 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                var consumes = parent?.ActualConsumes?.Any() == true ?
+                var consumes = parent?.ActualConsumes?.Count > 0 ?
                     parent.ActualConsumes :
                     parent?.ActualRequestBody?.Content.Keys;
 
-                return consumes?.Any() == true &&
+                return consumes?.Count > 0 &&
                        consumes.Any(p => p.Contains("application/xml")) &&
                        consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
             }
@@ -245,10 +245,10 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Any() == true)
+                if (parent?.ActualConsumes?.Count > 0 == true)
                 {
                     var consumes = parent.ActualConsumes;
-                    return consumes?.Any() == true &&
+                    return consumes?.Count > 0 &&
                            (Schema?.IsBinary != false ||
                             consumes.Contains("multipart/form-data")) &&
                            consumes?.Any(p => p.Contains("*/*")) == false &&
@@ -277,10 +277,10 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Any() == true)
+                if (parent?.ActualConsumes?.Count > 0)
                 {
                     var consumes = parent.ActualConsumes;
-                    return consumes?.Any() == true &&
+                    return consumes?.Count > 0 &&
                            (consumes.Count > 1 ||
                             consumes.Any(p => p.Contains("*")));
                 }

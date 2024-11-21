@@ -45,7 +45,7 @@ namespace NSwag.Generation.Processors
             else
             {
                 var versions = GetVersions(context, "ApiVersionAttribute");
-                if (versions.Any())
+                if (versions.Length > 0)
                 {
                     if (versions.Any(v => IncludedVersions == null || IncludedVersions.Length == 0 || IncludedVersions.Contains(v)))
                     {
@@ -54,7 +54,7 @@ namespace NSwag.Generation.Processors
                         var version = mappedVersions.FirstOrDefault(v => IncludedVersions == null || IncludedVersions.Length == 0 || IncludedVersions.Contains(v));
                         if (version == null && mappedVersions.Length == 0)
                         {
-                            version = IncludedVersions != null && IncludedVersions.Any() ? IncludedVersions[0] : versions[0];
+                            version = IncludedVersions != null && IncludedVersions.Length > 0 ? IncludedVersions[0] : versions[0];
                         }
 
                         if (version != null)

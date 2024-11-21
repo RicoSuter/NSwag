@@ -42,7 +42,7 @@ namespace NSwag.Commands.Document
 
                 var currentDirectory = Directory.GetCurrentDirectory();
                 var files = Directory.GetFiles(currentDirectory, "*.nswag");
-                if (files.Any())
+                if (files.Length > 0)
                 {
                     foreach (var file in files)
                     {
