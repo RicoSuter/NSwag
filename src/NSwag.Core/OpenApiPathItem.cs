@@ -132,13 +132,13 @@ namespace NSwag
                     }
                 }
 
-                if (operations.Parameters != null && operations.Parameters.Any())
+                if (operations.Parameters != null && operations.Parameters.Count > 0)
                 {
                     writer.WritePropertyName("parameters");
                     serializer.Serialize(writer, operations.Parameters);
                 }
 
-                if (operations.Servers != null && operations.Servers.Any())
+                if (operations.Servers != null && operations.Servers.Count > 0)
                 {
                     writer.WritePropertyName("servers");
                     serializer.Serialize(writer, operations.Servers);

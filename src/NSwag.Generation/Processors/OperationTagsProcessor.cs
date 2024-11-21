@@ -32,7 +32,7 @@ namespace NSwag.Generation.Processors
 
             if (context.ControllerType != null)
             {
-                if (!context.OperationDescription.Operation.Tags.Any())
+                if (context.OperationDescription.Operation.Tags.Count == 0)
                 {
                     var typeInfo = context.ControllerType.GetTypeInfo();
 
@@ -40,7 +40,7 @@ namespace NSwag.Generation.Processors
                     ProcessControllerSwaggerTagAttributes(context.OperationDescription, typeInfo);
                 }
 
-                if (!context.OperationDescription.Operation.Tags.Any())
+                if (context.OperationDescription.Operation.Tags.Count == 0)
                 {
                     AddControllerNameTag(context);
                 }

@@ -42,7 +42,7 @@ namespace NSwag.Generation.Processors
                     .Select(t => new OpenApiTag { Name = t })
                     .ToList();
 
-                if (tags.Any())
+                if (tags.Count > 0)
                 {
                     if (document.Tags == null)
                     {
@@ -69,12 +69,9 @@ namespace NSwag.Generation.Processors
                 .Select(a => (dynamic)a)
                 .ToArray();
 
-            if (tagAttributes.Any())
+            foreach (var tagAttribute in tagAttributes)
             {
-                foreach (var tagAttribute in tagAttributes)
-                {
-                    ProcessTagAttribute(document, tagAttribute);
-                }
+                ProcessTagAttribute(document, tagAttribute);
             }
         }
 

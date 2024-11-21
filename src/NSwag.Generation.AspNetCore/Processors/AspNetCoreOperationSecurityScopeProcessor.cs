@@ -51,7 +51,7 @@ namespace NSwag.Generation.Processors.Security
                 }
 
                 var authorizeAttributes = endpointMetadata.OfType<AuthorizeAttribute>().ToList();
-                if (!authorizeAttributes.Any())
+                if (authorizeAttributes.Count == 0)
                 {
                     return true;
                 }

@@ -169,7 +169,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     .Where(r => r.ThrowsException)
                     .SelectMany(r =>
                     {
-                        if (r.ExpectedSchemas?.Any() == true)
+                        if (r.ExpectedSchemas?.Count > 0)
                         {
                             return r.ExpectedSchemas
                                 .Where(s => s.Schema.ActualSchema?.InheritsSchema(_resolver.ExceptionSchema) == true)

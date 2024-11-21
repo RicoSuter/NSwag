@@ -362,7 +362,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 return true;
             }
 
-            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
+            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Length > 0)
             {
                 var description = _settings.SchemaSettings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings.SchemaSettings);
                 if (description.Type == JsonObjectType.File || description.Format == JsonFormatStrings.Binary)

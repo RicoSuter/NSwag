@@ -277,7 +277,7 @@ namespace NSwag.Generation.AspNetCore
                     }
 
                     var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, generator, schemaResolver);
-                    if (addedOperations.Any() && apiGroup.Key != null)
+                    if (addedOperations.Count > 0 && apiGroup.Key != null)
                     {
                         usedControllerTypes.Add(apiGroup.Key);
                     }

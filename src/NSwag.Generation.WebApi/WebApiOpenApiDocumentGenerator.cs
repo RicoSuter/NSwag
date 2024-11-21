@@ -354,7 +354,7 @@ namespace NSwag.Generation.WebApi
             var routeAttributesOnClass = GetAllRouteAttributes(controllerType);
             var routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
-            if (routeAttributes.Any())
+            if (routeAttributes.Count > 0)
             {
                 foreach (var attribute in routeAttributes)
                 {
