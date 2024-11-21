@@ -348,10 +348,18 @@ namespace NSwag.Generation.AspNetCore.Processors
             return requestBody.Content[MultipartFormData].Schema;
         }
 
-        private static JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
+        private JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
         {
-            return context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchemaProperty>(
+            var formDataProperty = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchemaProperty>(
                extendedApiParameter.ApiParameter.Type.ToContextualType(extendedApiParameter.Attributes), context.SchemaResolver);
+
+            var contextualPropertyType = extendedApiParameter.ParameterType.ToContextualType();
+            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualPropertyType, _settings.SchemaSettings);
+            var isRequired = extendedApiParameter.IsRequired(_settings.RequireParametersWithoutDefault);
+            formDataProperty.IsRequired = isRequired;
+            formDataProperty.IsNullableRaw = _settings.AllowNullableBodyParameters && !isRequired && typeDescription.IsNullable;
+
+            return formDataProperty;
         }
 
         private bool IsFileArray(Type type, JsonTypeDescription typeInfo)
@@ -527,7 +535,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 // available in asp.net core >= 2.2
                 if (ApiParameter.HasProperty("IsRequired"))
                 {
-                    isRequired = ApiParameter.TryGetPropertyValue("IsRequired", false);
+                    isRequired = ApiParameter.TryGetPropertyValue("IsRequired", false) || ApiParameter.ModelMetadata?.IsRequired == true;
                 }
                 else
                 {
@@ -538,7 +546,6 @@ namespace NSwag.Generation.AspNetCore.Processors
                     }
                     else if (ApiParameter.ModelMetadata != null &&
                              ApiParameter.ModelMetadata.IsBindingRequired)
-
                     {
                         isRequired = true;
                     }

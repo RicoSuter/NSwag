@@ -43,16 +43,22 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
           ""content"": {
             ""multipart/form-data"": {
               ""schema"": {
+                ""required"": [
+                  ""files"",
+                  ""test""
+                ],
                 ""properties"": {
                   ""files"": {
                     ""type"": ""array"",
+                    ""nullable"": false,
                     ""items"": {
                       ""type"": ""string"",
                       ""format"": ""binary""
                     }
                   },
                   ""test"": {
-                    ""type"": ""string""
+                    ""type"": ""string"",
+                    ""nullable"": false
                   }
                 }
               }
@@ -95,6 +101,57 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
                     ""type"": ""string"",
                     ""format"": ""binary"",
                     ""nullable"": true
+                  }
+                }
+              }
+            }
+          }
+        },".Replace("\r", ""), json.Replace("\r", ""));
+        }
+
+        [Fact]
+        public async Task WhenOperationHasFormDataComplexWithRequiredProperties_ThenItIsInRequestBody()
+        {
+            // Arrange
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
+
+            // Act
+            var document = await GenerateDocumentAsync(settings, typeof(FileUploadController));
+            var json = document.ToJson();
+
+            // Assert
+            var operation = document.Operations.First(o => o.Operation.OperationId == "FileUpload_UploadAttachment2").Operation;
+
+            Assert.NotNull(operation);
+            Assert.Contains(@"""requestBody"": {
+          ""content"": {
+            ""multipart/form-data"": {
+              ""schema"": {
+                ""type"": ""object"",
+                ""required"": [
+                  ""Title"",
+                  ""contents""
+                ],
+                ""properties"": {
+                  ""Title"": {
+                    ""type"": ""string"",
+                    ""nullable"": false
+                  },
+                  ""MessageId"": {
+                    ""type"": ""integer"",
+                    ""format"": ""int32"",
+                    ""nullable"": true
+                  },
+                  ""contents"": {
+                    ""type"": ""string"",
+                    ""format"": ""binary"",
+                    ""nullable"": false
                   }
                 }
               }
