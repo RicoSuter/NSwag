@@ -48,7 +48,6 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <!--
       [IDE0005] Using directive is unnecessary
-      [IDE0011] Add braces to 'if' statement
       [IDE0008] Use explicit type instead of 'var'
       [IDE0017] Object initialization can be simplified
       [IDE0021] Use block body for constructor
@@ -63,7 +62,6 @@
       [IDE0055] Fix formatting
       [IDE0056] Indexing can be simplified
       [IDE0057] Substring can be simplified
-      [IDE0059] Unnecessary assignment of a value
       [IDE0060] Remove unused parameter
       [IDE0061] Use block body for local function
       [IDE0090] 'new' expression can be simplified
@@ -98,7 +96,7 @@
 
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
-    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0011;IDE0017;IDE0021;IDE0022;IDE0025;IDE0027;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0059;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
+    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0025;IDE0027;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
     <NoWarn>$(NoWarn);CA1200;CA1304;CA1305;CA1310;CA1311;CA1507;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1834;CA1845;CA1847;CA1861;CA1862;CA1865;CA1866;CA1870;CA2249;CA2263;SYSLIB0012</NoWarn>
   </PropertyGroup>
 

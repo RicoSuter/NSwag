@@ -273,7 +273,10 @@ namespace NSwag
                               HttpUtilities.IsSuccessStatusCode(r.Key) &&
                               r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
                     // if we have just collections, adding All will not help in discrimination
-                    if (collections.Count() == group.Count()) continue;
+                    if (collections.Count() == group.Count())
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {
@@ -295,7 +298,10 @@ namespace NSwag
                 if (group.Count() > 1)
                 {
                     var methods = group.Select(o => o.Method.ToUpper()).Distinct();
-                    if (methods.Count() == 1) continue;
+                    if (methods.Count() == 1)
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {

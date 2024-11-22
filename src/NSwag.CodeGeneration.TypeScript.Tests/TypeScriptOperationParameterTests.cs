@@ -49,6 +49,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -77,6 +78,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -105,6 +107,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -133,6 +136,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();

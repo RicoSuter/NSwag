@@ -83,6 +83,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -110,6 +111,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -139,6 +141,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -168,6 +171,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -197,6 +201,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings

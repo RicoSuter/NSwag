@@ -73,6 +73,7 @@ namespace NSwag.Core.Tests
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             var j = document.ToJson();
+            Assert.NotNull(j);
 
             // Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);

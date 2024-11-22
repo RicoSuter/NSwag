@@ -139,6 +139,7 @@ namespace NSwag.Core.Tests
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal("secret", document.Operations.First().Operation.ActualParameters[0].ActualSchema.Format);
