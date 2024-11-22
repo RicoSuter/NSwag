@@ -113,7 +113,7 @@ namespace NSwag
             return resolver;
         }
 
-        private ObservableCollection<OpenApiSchema> _schemes = new ObservableCollection<OpenApiSchema>();
+        private ObservableCollection<OpenApiSchema> _schemes = [];
 
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
         [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -149,13 +149,13 @@ namespace NSwag
                 _schemes = new ObservableCollection<OpenApiSchema>(Servers?
                     .Where(s => s.Url.Contains("://"))
                     .Select(s => s.Url.StartsWith("http://") ? OpenApiSchema.Http : OpenApiSchema.Https)
-                    .Distinct() ?? new List<OpenApiSchema>());
+                    .Distinct() ?? []);
 
                 _schemes.CollectionChanged += OnSchemesChanged;
 
                 return _schemes;
             }
-            set { UpdateServers(value, Host, BasePath); }
+            set => UpdateServers(value, Host, BasePath);
         }
 
         private void OnSchemesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -167,30 +167,30 @@ namespace NSwag
         {
             if ((schemes == null || schemes.Count == 0) && (!string.IsNullOrEmpty(host) || !string.IsNullOrEmpty(basePath)))
             {
-                Servers = new List<OpenApiServer>
-                {
+                Servers =
+                [
                     new OpenApiServer
                     {
                         Url = host + basePath
                     }
-                };
+                ];
             }
             else
             {
                 Servers = schemes?.Select(s => new OpenApiServer
                 {
                     Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
-                }).ToList() ?? new List<OpenApiServer>();
+                }).ToList() ?? [];
             }
         }
 
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
         [JsonProperty(PropertyName = "consumes", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Consumes { get; set; } = new List<string>();
+        public ICollection<string> Consumes { get; set; } = [];
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
         [JsonProperty(PropertyName = "produces", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Produces { get; set; } = new List<string>();
+        public ICollection<string> Produces { get; set; } = [];
 
         /// <summary>Gets or sets the types (Swagger only).</summary>
         [JsonProperty(PropertyName = "definitions", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration
         /// <returns>true or false</returns>
         public static bool UsesComplexObjectSchema(this JsonSchema schema)
         {
-            return UsesComplexObjectSchema(schema, new List<JsonSchema>());
+            return UsesComplexObjectSchema(schema, []);
         }
 
         private static bool UsesComplexObjectSchema(this JsonSchema schema, List<JsonSchema> checkedSchemas)

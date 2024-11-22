@@ -23,7 +23,7 @@ namespace NSwag.AspNet.WebApi
     {
         private readonly bool _hideStackTrace;
         private readonly IDictionary<string, Assembly> _searchedNamespaces;
-        private readonly List<Type> _exceptionTypes = new List<Type>();
+        private readonly List<Type> _exceptionTypes = [];
 
         /// <summary>Initializes a new instance of the <see cref="JsonExceptionFilterAttribute"/> class.</summary>
         /// <param name="exceptionTypes">The serialized exception types.</param>

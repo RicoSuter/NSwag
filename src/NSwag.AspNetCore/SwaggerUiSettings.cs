@@ -121,7 +121,7 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
-        public ICollection<SwaggerUiRoute> SwaggerRoutes { get; } = new List<SwaggerUiRoute>();
+        public ICollection<SwaggerUiRoute> SwaggerRoutes { get; } = [];
 
         /// <summary>Gets or sets the Swagger URL routes factory (SwaggerRoutes is ignored when set).</summary>
 #if AspNetOwin

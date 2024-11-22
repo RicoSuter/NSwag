@@ -26,8 +26,7 @@ namespace NSwag.AspNetCore.Middlewares
 
         private int _version;
         private readonly object _documentsCacheLock = new object();
-        private readonly Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>> _documentsCache
-            = new Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>>();
+        private readonly Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>> _documentsCache = [];
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>

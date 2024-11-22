@@ -24,7 +24,7 @@ namespace NSwag.Collections
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         public ObservableDictionary()
         {
-            _dictionary = new Dictionary<TKey, TValue>();
+            _dictionary = [];
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>

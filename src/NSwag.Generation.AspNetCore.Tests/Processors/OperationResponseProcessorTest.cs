@@ -141,7 +141,7 @@ namespace NSwag.Generation.AspNetCore.Processors.Tests
                 generator,
                 schemaResolver,
                 settings,
-                new List<OpenApiOperationDescription>())
+                [])
             {
                 ApiDescription = apiDescription,
             };

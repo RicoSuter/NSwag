@@ -48,7 +48,7 @@ namespace NSwag.Generation.Processors.Security
             {
                 if (context.Document.Security == null)
                 {
-                    context.Document.Security = new Collection<OpenApiSecurityRequirement>();
+                    context.Document.Security = [];
                 }
 
                 context.Document.Security.Add(new OpenApiSecurityRequirement
