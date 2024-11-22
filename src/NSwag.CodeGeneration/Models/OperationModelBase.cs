@@ -111,7 +111,7 @@ namespace NSwag.CodeGeneration.Models
                     return "void";
                 }
 
-                if (response.Value.IsBinary(_operation) == true)
+                if (response.Value.IsBinary(_operation))
                 {
                     return _generator.GetBinaryResponseTypeName();
                 }
@@ -334,7 +334,7 @@ namespace NSwag.CodeGeneration.Models
             }
 
             var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
-            var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+            var isNullable = !parameter.IsRequired || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
             return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
 

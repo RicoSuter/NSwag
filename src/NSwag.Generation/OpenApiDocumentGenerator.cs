@@ -96,7 +96,7 @@ namespace NSwag.Generation
                 _settings.SchemaSettings.DefaultReferenceTypeNullHandling,
                 _settings.SchemaSettings);
 
-            typeDescription.IsNullable = enforceNotNull == false && typeDescription.IsNullable;
+            typeDescription.IsNullable = !enforceNotNull && typeDescription.IsNullable;
 
             var operationParameter = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2
                 ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)

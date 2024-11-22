@@ -30,7 +30,7 @@ namespace NSwag.Commands
             if (!string.IsNullOrEmpty(path))
             {
                 var directory = Path.GetDirectoryName(path);
-                if (!string.IsNullOrEmpty(directory) && Directory.Exists(directory) == false)
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);
                 }
@@ -38,8 +38,12 @@ namespace NSwag.Commands
                 var data = generator();
 
                 data = data?.Replace("\r", "") ?? "";
-                data = newLineBehavior == NewLineBehavior.Auto ? data.Replace("\n", Environment.NewLine) :
-                       newLineBehavior == NewLineBehavior.CRLF ? data.Replace("\n", "\r\n") : data;
+                data = newLineBehavior switch
+                {
+                    NewLineBehavior.Auto => data.Replace("\n", Environment.NewLine),
+                    NewLineBehavior.CRLF => data.Replace("\n", "\r\n"),
+                    _ => data
+                };
 
                 if (!File.Exists(path) || File.ReadAllText(path) != data)
                 {

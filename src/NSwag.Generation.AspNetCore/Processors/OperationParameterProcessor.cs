@@ -175,7 +175,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else
                 {
-                    if (TryAddFileParameter(context, extendedApiParameter) == false)
+                    if (!TryAddFileParameter(context, extendedApiParameter))
                     {
                         operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                         operationParameter.Kind = OpenApiParameterKind.Query;
@@ -533,15 +533,11 @@ namespace NSwag.Generation.AspNetCore.Processors
                     {
                         isRequired = true;
                     }
-                    else if (ApiParameter.ModelMetadata != null &&
-                             ApiParameter.ModelMetadata.IsBindingRequired)
-
+                    else if (ApiParameter.ModelMetadata != null && ApiParameter.ModelMetadata.IsBindingRequired)
                     {
                         isRequired = true;
                     }
-                    else if (ApiParameter.Source == BindingSource.Path &&
-                             ApiParameter.RouteInfo != null &&
-                             ApiParameter.RouteInfo.IsOptional == false)
+                    else if (ApiParameter.Source == BindingSource.Path && ApiParameter.RouteInfo != null && !ApiParameter.RouteInfo.IsOptional)
                     {
                         isRequired = true;
                     }

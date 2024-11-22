@@ -33,7 +33,7 @@ namespace NSwag.Generation.WebApi
         {
             // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
-                .Where(t => t.GetTypeInfo().IsAbstract == false)
+                .Where(t => !t.GetTypeInfo().IsAbstract)
                 .Where(t => t.Name.EndsWith("Controller") ||
                             t.InheritsFromTypeName("ApiController", TypeNameStyle.Name) ||
                             t.InheritsFromTypeName("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
@@ -177,7 +177,7 @@ namespace NSwag.Generation.WebApi
                                                     o.Item2.DeclaringType != currentControllerType &&
                                                     o.Item2.DeclaringType.IsAssignableToTypeName(currentControllerType.FullName, TypeNameStyle.FullName));
 
-                            if (isPathAlreadyDefinedInInheritanceHierarchy == false)
+                            if (!isPathAlreadyDefinedInInheritanceHierarchy)
                             {
                                 var operationDescription = new OpenApiOperationDescription
                                 {
@@ -244,7 +244,7 @@ namespace NSwag.Generation.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(context) == false)
+                if (!operationProcessor.Process(context))
                 {
                     return false;
                 }
@@ -263,7 +263,7 @@ namespace NSwag.Generation.WebApi
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                if (operationProcessor.Process(context) == false)
+                if (!operationProcessor.Process(context))
                 {
                     return false;
                 }
@@ -276,14 +276,14 @@ namespace NSwag.Generation.WebApi
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             return methods.Where(m =>
-                m.IsSpecialName == false && // avoid property methods
+                !m.IsSpecialName && // avoid property methods
                 m.DeclaringType == controllerType && // no inherited methods (handled in GenerateForControllerAsync)
                 m.DeclaringType != typeof(object) &&
-                m.IsStatic == false &&
+                !m.IsStatic &&
                 m.GetCustomAttributes().Select(a => a.GetType()).All(a =>
                     !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) &&
                     !a.IsAssignableToTypeName("NonActionAttribute", TypeNameStyle.Name)) &&
-                m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
+                    !m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller")
                 .Where(m =>

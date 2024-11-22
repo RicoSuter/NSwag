@@ -60,7 +60,7 @@ namespace NSwag.AspNetCore.Launcher
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
         };
 
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             // Usage: NSwag.Console.AspNetCore [settingsFile] [toolsDirectory]
             if (args.Length < 2)

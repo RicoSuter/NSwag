@@ -26,8 +26,7 @@ namespace NSwag
 
         private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
 
-        [JsonIgnore]
-        internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
+        [JsonIgnore] internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -184,7 +183,7 @@ namespace NSwag
             {
                 if (IsNullableRaw == null)
                 {
-                    return IsRequired == false;
+                    return !IsRequired;
                 }
 
                 return IsNullableRaw.Value;
@@ -220,13 +219,12 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                var consumes = parent?.ActualConsumes?.Count > 0 ?
-                    parent.ActualConsumes :
-                    parent?.ActualRequestBody?.Content.Keys;
+                var consumes = parent?.ActualConsumes?.Count > 0
+                    ? parent.ActualConsumes
+                    : parent?.ActualRequestBody?.Content.Keys;
 
-                return consumes?.Count > 0 &&
-                       consumes.Any(p => p.Contains("application/xml")) &&
-                       consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
+                return consumes?.Count > 0 && consumes.Any(p => p.Contains("application/xml")) &&
+                       !consumes.Any(p => AppJsonRegex.IsMatch(p));
             }
         }
 
@@ -242,22 +240,20 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Count > 0 == true)
+                if (parent?.ActualConsumes?.Count > 0)
                 {
                     var consumes = parent.ActualConsumes;
-                    return consumes?.Count > 0 &&
-                           (Schema?.IsBinary != false ||
-                            consumes.Contains("multipart/form-data")) &&
-                           consumes?.Any(p => p.Contains("*/*")) == false &&
-                           consumes.Any(p => AppJsonRegex.IsMatch(p)) == false;
+                    return consumes?.Count > 0
+                           && (Schema?.IsBinary != false || consumes.Contains("multipart/form-data"))
+                           && consumes?.Any(p => p.Contains("*/*")) == false
+                           && !consumes.Any(p => AppJsonRegex.IsMatch(p));
                 }
                 else
                 {
                     var consumes = parent?.ActualRequestBody?.Content;
-                    return (consumes?.Any(p => p.Key == "multipart/form-data") == true ||
-                            consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true) &&
-                           consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true) == false &&
-                           consumes.Any(p => AppJsonRegex.IsMatch(p.Key) && p.Value.Schema?.IsBinary != true) == false;
+                    return (consumes?.Any(p => p.Key == "multipart/form-data") == true || consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true)
+                           && !consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true)
+                           && !consumes.Any(p => AppJsonRegex.IsMatch(p.Key) && p.Value.Schema?.IsBinary != true);
                 }
             }
         }

@@ -103,7 +103,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation) == true));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
