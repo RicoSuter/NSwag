@@ -15,7 +15,7 @@ namespace NSwag.Annotations
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class with the 'application/json' mime type.</summary>
         public OpenApiBodyParameterAttribute()
         {
-            MimeTypes = new[] { "application/json" };
+            MimeTypes = ["application/json"];
         }
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>

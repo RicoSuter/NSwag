@@ -83,10 +83,10 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var args = CreateMsBuildArguments(file, framework, configuration, runtime, noBuild, outputPath);
 
-            var metadata = await TryReadingUsingGetProperties(args.ToList(), file, noBuild);
+            var metadata = await TryReadingUsingGetProperties(args, file, noBuild);
             if (metadata == null)
             {
-                metadata = await ReadUsingMsBuildTargets(args.ToList(), file, buildExtensionsDir, console);
+                metadata = await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
             }
 
             var platformTarget = metadata[nameof(PlatformTarget)];
@@ -164,7 +164,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     console.WriteMessage("Output:" + Environment.NewLine + File.ReadAllText(metadataFile));
                 }
 
-                metadata = File.ReadLines(metadataFile).Select(l => l.Split(new[] { ':' }, 2))
+                metadata = File.ReadLines(metadataFile).Select(l => l.Split([':'], 2))
                     .ToDictionary(s => s[0], s => s[1].TrimStart());
             }
             finally

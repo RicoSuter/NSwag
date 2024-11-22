@@ -129,7 +129,7 @@ namespace NSwag.AspNetCore.Launcher
 
             try
             {
-                method.Invoke(null, new[] { commandContent, outputFile, applicationName });
+                method.Invoke(null, [commandContent, outputFile, applicationName]);
             }
             catch (Exception ex)
             {

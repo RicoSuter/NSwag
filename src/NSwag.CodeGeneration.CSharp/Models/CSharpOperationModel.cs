@@ -16,15 +16,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp operation model.</summary>
     public class CSharpOperationModel : OperationModelBase<CSharpParameterModel, CSharpResponseModel>
     {
-        private static readonly string[] ReservedKeywords =
-        {
+        private static readonly HashSet<string> ReservedKeywords =
+        [
             "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
             "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float",
             "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object",
             "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof",
             "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe",
             "ushort", "using", "virtual", "void", "volatile", "while"
-        };
+        ];
 
         private readonly CSharpGeneratorBaseSettings _settings;
         private readonly OpenApiOperation _operation;
@@ -55,17 +55,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 // TODO: Move to CSharpControllerOperationModel
                 if (generator is CSharpControllerGenerator)
                 {
-                    parameters = parameters
+                    parameters = [.. parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .OrderBy(p => !p.IsRequired)
-                        .ThenBy(p => p.Default == null).ToList();
+                        .ThenBy(p => !p.IsRequired)
+                        .ThenBy(p => p.Default == null)];
                 }
                 else
                 {
-                    parameters = parameters
+                    parameters = [.. parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .OrderBy(p => !p.IsRequired)
-                        .ToList();
+                        .ThenBy(p => !p.IsRequired)];
                 }
             }
 
@@ -181,10 +180,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         }
                         else if (r.InheritsExceptionSchema)
                         {
-                            return new[]
-                            {
+                            return
+                            [
                                 new CSharpExceptionDescriptionModel(r.Type, r.ExceptionDescription, controllerName, settings)
-                            };
+                            ];
                         }
                         else
                         {

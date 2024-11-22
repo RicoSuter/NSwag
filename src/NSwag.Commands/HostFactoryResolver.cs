@@ -85,7 +85,7 @@ namespace Microsoft.Extensions.Hosting
                 return null;
             }
 
-            return args => (T)factory.Invoke(null, new object[] { args });
+            return args => (T)factory.Invoke(null, [args]);
         }
 
         // TReturn Factory(string[] args);
@@ -149,7 +149,7 @@ namespace Microsoft.Extensions.Hosting
         private static object Build(object builder)
         {
             var buildMethod = builder.GetType().GetMethod("Build");
-            return buildMethod?.Invoke(builder, Array.Empty<object>());
+            return buildMethod?.Invoke(builder, []);
         }
 
         private static IServiceProvider GetServiceProvider(object host)
@@ -204,11 +204,11 @@ namespace Microsoft.Extensions.Hosting
                         var parameters = _entryPoint.GetParameters();
                         if (parameters.Length == 0)
                         {
-                            _entryPoint.Invoke(null, Array.Empty<object>());
+                            _entryPoint.Invoke(null, []);
                         }
                         else
                         {
-                            _entryPoint.Invoke(null, new object[] { _args });
+                            _entryPoint.Invoke(null, [_args]);
                         }
 
                         // Try to set an exception if the entry point returns gracefully, this will force

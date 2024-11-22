@@ -24,11 +24,11 @@ namespace NSwag.Commands
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
-        public IEnumerable<IOutputCommand> Items => new IOutputCommand[]
-        {
+        public IEnumerable<IOutputCommand> Items =>
+        [
             FromDocumentCommand,
             JsonSchemaToOpenApiCommand,
             AspNetCoreToOpenApiCommand
-        };
+        ];
     }
 }

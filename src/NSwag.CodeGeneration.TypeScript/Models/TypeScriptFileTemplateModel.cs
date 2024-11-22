@@ -81,7 +81,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                         .Distinct();
                 }
 
-                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                return [_settings.ResponseClass.Replace("{controller}", string.Empty)];
             }
         }
 

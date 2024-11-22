@@ -39,10 +39,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             if (settings.GenerateOptionalParameters)
             {
-                parameters = parameters
-                    .OrderBy(p => p.Position ?? 0)
-                    .OrderBy(p => !p.IsRequired)
-                    .ToList();
+                parameters = [.. parameters.OrderBy(p => p.Position ?? 0).ThenBy(p => !p.IsRequired)];
             }
 
             Parameters = parameters
@@ -131,7 +128,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 return string.Join(" | ", _operation.ActualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                     .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
-                    .Concat(new[] { "string" }));
+                    .Concat(["string"]));
             }
         }
 

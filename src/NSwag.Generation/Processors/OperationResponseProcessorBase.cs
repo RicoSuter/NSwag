@@ -277,7 +277,7 @@ namespace NSwag.Generation.Processors
             }
             else
             {
-                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? [];
                 var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
                 var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.SchemaSettings);

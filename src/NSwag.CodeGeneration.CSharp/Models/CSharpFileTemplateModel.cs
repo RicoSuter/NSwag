@@ -128,7 +128,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         .Distinct();
                 }
 
-                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                return [_settings.ResponseClass.Replace("{controller}", string.Empty)];
             }
         }
 
@@ -150,7 +150,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     }
                     else
                     {
-                        return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                        return [settings.ExceptionClass.Replace("{controller}", string.Empty)];
                     }
                 }
                 return [];

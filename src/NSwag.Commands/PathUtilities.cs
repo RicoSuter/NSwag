@@ -18,7 +18,7 @@ namespace NSwag.Commands
         /// <returns>All expanded file paths.</returns>
         public static IEnumerable<string> ExpandFileWildcards(string path)
         {
-            return ExpandFileWildcards(new[] { path });
+            return ExpandFileWildcards([path]);
         }
 
         /// <summary>Expands the given wildcards (** or *) in the paths.</summary>
