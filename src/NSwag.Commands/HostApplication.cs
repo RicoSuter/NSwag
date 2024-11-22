@@ -164,11 +164,9 @@ namespace NSwag.Commands
                 // in the IServiceProvider
                 var applicationLifetime = services.GetRequiredService<IHostApplicationLifetime>();
 
-                using (var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null)))
-                {
-                    waitForStartTcs.Task.Wait();
-                    return services;
-                }
+                using var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null));
+                waitForStartTcs.Task.Wait();
+                return services;
             }
             catch (InvalidOperationException)
             {

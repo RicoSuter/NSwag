@@ -23,12 +23,10 @@ namespace NSwag.AspNet.Owin.Middlewares
             if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _indexPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
             {
                 var stream = typeof(SwaggerUiIndexMiddleware<T>).Assembly.GetManifestResourceStream(_resourcePath);
-                using (var reader = new StreamReader(stream))
-                {
-                    context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
-                    context.Response.StatusCode = 200;
-                    context.Response.Write(await _settings.TransformHtmlAsync(reader.ReadToEnd(), context.Request, CancellationToken.None));
-                }
+                using var reader = new StreamReader(stream);
+                context.Response.Headers["Content-Type"] = "text/html; charset=utf-8";
+                context.Response.StatusCode = 200;
+                await context.Response.WriteAsync(await _settings.TransformHtmlAsync(reader.ReadToEnd(), context.Request, CancellationToken.None));
             }
             else
             {

@@ -48,10 +48,8 @@ namespace NSwag.CodeGeneration
             var resource = assembly.GetManifestResourceStream(resourceName);
             if (resource != null)
             {
-                using (var reader = new StreamReader(resource))
-                {
-                    return reader.ReadToEnd();
-                }
+                using var reader = new StreamReader(resource);
+                return reader.ReadToEnd();
             }
 
             return base.GetEmbeddedLiquidTemplate(language, template);
