@@ -41,11 +41,7 @@ namespace NSwag.Generation.Processors
 
                 if (tags.Count > 0)
                 {
-                    if (document.Tags == null)
-                    {
-                        document.Tags = new List<OpenApiTag>();
-                    }
-
+                    document.Tags ??= new List<OpenApiTag>();
                     foreach (var tag in tags)
                     {
                         if (document.Tags.All(t => t.Name != tag.Name))

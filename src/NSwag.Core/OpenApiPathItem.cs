@@ -181,11 +181,7 @@ namespace NSwag
                     }
                     else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (operations.ExtensionData == null)
-                        {
-                            operations.ExtensionData = new Dictionary<string, object>();
-                        }
-
+                        operations.ExtensionData ??= new Dictionary<string, object>();
                         operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
                     }
                     else if (propertyName.Contains("$ref"))

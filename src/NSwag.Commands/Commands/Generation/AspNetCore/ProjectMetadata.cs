@@ -83,11 +83,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var args = CreateMsBuildArguments(file, framework, configuration, runtime, noBuild, outputPath);
 
-            var metadata = await TryReadingUsingGetProperties(args, file, noBuild);
-            if (metadata == null)
-            {
-                metadata = await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
-            }
+            var metadata = await TryReadingUsingGetProperties(args, file, noBuild) ?? await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
 
             var platformTarget = metadata[nameof(PlatformTarget)];
             if (platformTarget.Length == 0)
@@ -125,11 +121,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             string buildExtensionsDir,
             IConsoleHost console)
         {
-            if (buildExtensionsDir == null)
-            {
-                // fallback
-                buildExtensionsDir = Path.Combine(Path.GetDirectoryName(file), "obj");
-            }
+            buildExtensionsDir ??= Path.Combine(Path.GetDirectoryName(file), "obj");
 
             Directory.CreateDirectory(buildExtensionsDir);
 

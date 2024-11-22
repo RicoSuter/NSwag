@@ -133,8 +133,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null)
+                if (_settings is CSharpClientGeneratorSettings settings)
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)
                     {

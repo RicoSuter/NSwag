@@ -63,10 +63,7 @@ namespace NSwag.Commands
                 }
             }
 
-            if (serviceProvider == null)
-            {
-                serviceProvider = GetServiceProviderWithHostFactoryResolver(assembly);
-            }
+            serviceProvider ??= GetServiceProviderWithHostFactoryResolver(assembly);
 
             if (serviceProvider == null)
             {

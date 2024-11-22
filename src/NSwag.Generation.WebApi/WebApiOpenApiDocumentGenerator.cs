@@ -118,10 +118,7 @@ namespace NSwag.Generation.WebApi
             document.Consumes = new List<string> { "application/json" };
             document.Produces = new List<string> { "application/json" };
 
-            if (document.Info == null)
-            {
-                document.Info = new OpenApiInfo();
-            }
+            document.Info ??= new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {

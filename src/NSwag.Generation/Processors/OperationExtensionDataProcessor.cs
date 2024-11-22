@@ -23,10 +23,7 @@ namespace NSwag.Generation.Processors
         public bool Process(OperationProcessorContext context)
         {
             var operation = context.OperationDescription.Operation;
-            if (operation.ExtensionData == null)
-            {
-                operation.ExtensionData = new Dictionary<string, object>();
-            }
+            operation.ExtensionData ??= new Dictionary<string, object>();
 
             if (context.MethodInfo != null)
             {
