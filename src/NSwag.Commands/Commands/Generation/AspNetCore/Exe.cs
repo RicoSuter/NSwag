@@ -32,43 +32,41 @@ namespace NSwag.Commands.Generation.AspNetCore
             };
 
             console?.WriteMessage($"Executing {executable} {arguments}{Environment.NewLine}");
-            using (var process = Process.Start(startInfo))
+            using var process = Process.Start(startInfo);
+            var tcs = new TaskCompletionSource<bool>();
+            process.EnableRaisingEvents = true;
+            process.Exited += (_, eventArgs) =>
             {
-                var tcs = new TaskCompletionSource<bool>();
-                process.EnableRaisingEvents = true;
-                process.Exited += (_, eventArgs) =>
+                if (process.ExitCode == 0)
                 {
-                    if (process.ExitCode == 0)
-                    {
-                        tcs.TrySetResult(true);
-                    }
-                    else
-                    {
-#pragma warning disable CA2201
-                        tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
-#pragma warning restore CA2201
-                    }
-                };
-
-                if (console != null)
-                {
-                    process.OutputDataReceived += (_, eventArgs) => console.WriteMessage(eventArgs.Data + Environment.NewLine);
-                    process.ErrorDataReceived += (_, eventArgs) => console.WriteError(eventArgs.Data + Environment.NewLine);
-
-                    process.BeginErrorReadLine();
-                    process.BeginOutputReadLine();
-                }
-
-                var result = await Task.WhenAny(tcs.Task, Task.Delay(timeout ?? TimeSpan.FromSeconds(60 * 5))).ConfigureAwait(false);
-                if (result != tcs.Task)
-                {
-                    throw new InvalidOperationException($"Process {startInfo.FileName} timed out.");
+                    tcs.TrySetResult(true);
                 }
                 else
                 {
-                    console?.WriteMessage($"Done executing command. Exit Code: {process.ExitCode}.{Environment.NewLine}");
-                    return process.ExitCode;
+#pragma warning disable CA2201
+                    tcs.TrySetException(new Exception($"Process failed with non-zero exit code '{process.ExitCode}'."));
+#pragma warning restore CA2201
                 }
+            };
+
+            if (console != null)
+            {
+                process.OutputDataReceived += (_, eventArgs) => console.WriteMessage(eventArgs.Data + Environment.NewLine);
+                process.ErrorDataReceived += (_, eventArgs) => console.WriteError(eventArgs.Data + Environment.NewLine);
+
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+            }
+
+            var result = await Task.WhenAny(tcs.Task, Task.Delay(timeout ?? TimeSpan.FromSeconds(60 * 5))).ConfigureAwait(false);
+            if (result != tcs.Task)
+            {
+                throw new InvalidOperationException($"Process {startInfo.FileName} timed out.");
+            }
+            else
+            {
+                console?.WriteMessage($"Done executing command. Exit Code: {process.ExitCode}.{Environment.NewLine}");
+                return process.ExitCode;
             }
         }
 

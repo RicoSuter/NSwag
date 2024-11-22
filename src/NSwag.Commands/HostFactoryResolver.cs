@@ -188,84 +188,81 @@ namespace Microsoft.Extensions.Hosting
 
             public object CreateHost()
             {
-                using (var subscription = DiagnosticListener.AllListeners.Subscribe(this))
+                using var subscription = DiagnosticListener.AllListeners.Subscribe(this);
+                // Kick off the entry point on a new thread so we don't block the current one
+                // in case we need to timeout the execution
+                var thread = new Thread(() =>
                 {
-
-                    // Kick off the entry point on a new thread so we don't block the current one
-                    // in case we need to timeout the execution
-                    var thread = new Thread(() =>
-                    {
-                        Exception exception = null;
-
-                        try
-                        {
-                            // Set the async local to the instance of the HostingListener so we can filter events that
-                            // aren't scoped to this execution of the entry point.
-                            _currentListener.Value = this;
-
-                            var parameters = _entryPoint.GetParameters();
-                            if (parameters.Length == 0)
-                            {
-                                _entryPoint.Invoke(null, Array.Empty<object>());
-                            }
-                            else
-                            {
-                                _entryPoint.Invoke(null, new object[] { _args });
-                            }
-
-                            // Try to set an exception if the entry point returns gracefully, this will force
-                            // build to throw
-                            _hostTcs.TrySetException(new InvalidOperationException("Unable to build IHost"));
-                        }
-                        catch (TargetInvocationException tie) when (tie.InnerException is StopTheHostException)
-                        {
-                            // The host was stopped by our own logic
-                        }
-                        catch (TargetInvocationException tie)
-                        {
-                            exception = tie.InnerException ?? tie;
-
-                            // Another exception happened, propagate that to the caller
-                            _hostTcs.TrySetException(exception);
-                        }
-                        catch (Exception ex)
-                        {
-                            exception = ex;
-
-                            // Another exception happened, propagate that to the caller
-                            _hostTcs.TrySetException(ex);
-                        }
-                        finally
-                        {
-                            // Signal that the entry point is completed
-                            _entrypointCompleted?.Invoke(exception);
-                        }
-                    })
-                    {
-                        // Make sure this doesn't hang the process
-                        IsBackground = true
-                    };
-
-                    // Start the thread
-                    thread.Start();
+                    Exception exception = null;
 
                     try
                     {
-                        // Wait before throwing an exception
-                        if (!_hostTcs.Task.Wait(_waitTimeout))
+                        // Set the async local to the instance of the HostingListener so we can filter events that
+                        // aren't scoped to this execution of the entry point.
+                        _currentListener.Value = this;
+
+                        var parameters = _entryPoint.GetParameters();
+                        if (parameters.Length == 0)
                         {
-                            throw new InvalidOperationException("Unable to build IHost");
+                            _entryPoint.Invoke(null, Array.Empty<object>());
                         }
+                        else
+                        {
+                            _entryPoint.Invoke(null, new object[] { _args });
+                        }
+
+                        // Try to set an exception if the entry point returns gracefully, this will force
+                        // build to throw
+                        _hostTcs.TrySetException(new InvalidOperationException("Unable to build IHost"));
                     }
-                    catch (AggregateException) when (_hostTcs.Task.IsCompleted)
+                    catch (TargetInvocationException tie) when (tie.InnerException is StopTheHostException)
                     {
-                        // Lets this propagate out of the call to GetAwaiter().GetResult()
+                        // The host was stopped by our own logic
                     }
+                    catch (TargetInvocationException tie)
+                    {
+                        exception = tie.InnerException ?? tie;
 
-                    Debug.Assert(_hostTcs.Task.IsCompleted);
+                        // Another exception happened, propagate that to the caller
+                        _hostTcs.TrySetException(exception);
+                    }
+                    catch (Exception ex)
+                    {
+                        exception = ex;
 
-                    return _hostTcs.Task.GetAwaiter().GetResult();
+                        // Another exception happened, propagate that to the caller
+                        _hostTcs.TrySetException(ex);
+                    }
+                    finally
+                    {
+                        // Signal that the entry point is completed
+                        _entrypointCompleted?.Invoke(exception);
+                    }
+                })
+                {
+                    // Make sure this doesn't hang the process
+                    IsBackground = true
+                };
+
+                // Start the thread
+                thread.Start();
+
+                try
+                {
+                    // Wait before throwing an exception
+                    if (!_hostTcs.Task.Wait(_waitTimeout))
+                    {
+                        throw new InvalidOperationException("Unable to build IHost");
+                    }
                 }
+                catch (AggregateException) when (_hostTcs.Task.IsCompleted)
+                {
+                    // Lets this propagate out of the call to GetAwaiter().GetResult()
+                }
+
+                Debug.Assert(_hostTcs.Task.IsCompleted);
+
+                return _hostTcs.Task.GetAwaiter().GetResult();
             }
 
             public void OnCompleted()
