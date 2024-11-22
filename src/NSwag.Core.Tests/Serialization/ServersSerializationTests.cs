@@ -76,6 +76,7 @@ namespace NSwag.Core.Tests.Serialization
 
             // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal("localhost:12354", document.Host);
@@ -97,6 +98,7 @@ namespace NSwag.Core.Tests.Serialization
 
             // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal("localhost:12354", document.Host);
@@ -120,6 +122,7 @@ namespace NSwag.Core.Tests.Serialization
             document.Host = "localhost:12354";
 
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal(2, document.Servers.Count);
@@ -139,6 +142,7 @@ namespace NSwag.Core.Tests.Serialization
             // Act
             document.Host = string.Empty;
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.True(string.IsNullOrEmpty(document.BaseUrl));

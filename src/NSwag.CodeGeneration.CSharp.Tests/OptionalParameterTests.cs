@@ -138,6 +138,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             operation.Parameters.Remove(lastParameter);
             operation.Parameters.Insert(0, lastParameter);
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {

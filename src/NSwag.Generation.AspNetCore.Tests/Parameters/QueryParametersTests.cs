@@ -23,6 +23,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ComplexQueryParametersController));
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Assert
             var operation = document.Operations.First().Operation;

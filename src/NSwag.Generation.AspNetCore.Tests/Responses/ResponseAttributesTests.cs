@@ -24,6 +24,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ResponsesController));
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Assert
             var operation = document.Operations.First().Operation;

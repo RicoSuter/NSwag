@@ -18,6 +18,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Inheritance
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(ActualController));
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Assert
             Assert.True(document.Operations.Any());

@@ -211,7 +211,8 @@ public static Person FromJson(string data)
             document.Definitions["Foo"] = schema;
 
             // Assert
-            var jsonService = document.ToJson(); // no exception expected
+            var json = document.ToJson(); // no exception expected
+            Assert.NotNull(json);
         }
 
         [Fact]
