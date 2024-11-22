@@ -85,7 +85,6 @@
       [CA1716] rename parameter property so that it no longer conflicts with the reserved language keyword
       [CA1720] Identifier 'xxx' contains type name
       [CA1725] Overriden parameter name mismatch
-      [CA1805] Member is explicitly initialized to its default value
       [CA1834] Use 'StringBuilder.Append(char)' instead of 'StringBuilder.Append(string)' when the input is a constant unit string
       [CA1845] Use span-based 'string.Concat' and 'AsSpan' instead of 'Substring'
       [CA1847] Use 'string.Contains(char)' instead of 'string.Contains(string)' - needs polyfill
@@ -100,7 +99,7 @@
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
     <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0011;IDE0017;IDE0021;IDE0022;IDE0025;IDE0027;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0059;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
-    <NoWarn>$(NoWarn);CA1200;CA1304;CA1305;CA1310;CA1311;CA1507;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1805;CA1834;CA1845;CA1847;CA1861;CA1862;CA1865;CA1866;CA1870;CA2249;CA2263;SYSLIB0012</NoWarn>
+    <NoWarn>$(NoWarn);CA1200;CA1304;CA1305;CA1310;CA1311;CA1507;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1834;CA1845;CA1847;CA1861;CA1862;CA1865;CA1866;CA1870;CA2249;CA2263;SYSLIB0012</NoWarn>
   </PropertyGroup>
 
 </Project>
