@@ -224,11 +224,7 @@ namespace NSwag
 
                     if (parameter.Kind == OpenApiParameterKind.Body)
                     {
-                        if (RequestBody == null)
-                        {
-                            RequestBody = new OpenApiRequestBody();
-                        }
-
+                        RequestBody ??= new OpenApiRequestBody();
                         RequestBody.Name = parameter.Name;
                         RequestBody.Position = parameter.Position;
                         RequestBody.Description = parameter.Description;

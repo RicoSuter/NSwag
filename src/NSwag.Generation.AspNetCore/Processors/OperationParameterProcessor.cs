@@ -338,12 +338,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 requestBody.Content[MultipartFormData] = value;
             }
 
-            if (value.Schema == null)
-            {
-                value.Schema = new JsonSchema();
-            }
-
-            return value.Schema;
+            return value.Schema ??= new JsonSchema();
         }
 
         private static JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)

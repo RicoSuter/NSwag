@@ -87,8 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
+                if (_settings is CSharpClientGeneratorSettings settings && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
                 {
                     return "protected";
                 }
@@ -201,8 +200,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as CSharpControllerGeneratorSettings;
-                if (settings != null)
+                if (_settings is CSharpControllerGeneratorSettings settings)
                 {
                     return settings.GetRouteName(_operation);
                 }

@@ -116,11 +116,7 @@ namespace NSwag.Generation.Processors
 
                     if (ObjectExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
                     {
-                        if (document.Tags == null)
-                        {
-                            document.Tags = new List<OpenApiTag>();
-                        }
-
+                        document.Tags ??= new List<OpenApiTag>();
                         if (document.Tags.All(t => t.Name != tag))
                         {
                             document.Tags.Add(new OpenApiTag { Name = tag });

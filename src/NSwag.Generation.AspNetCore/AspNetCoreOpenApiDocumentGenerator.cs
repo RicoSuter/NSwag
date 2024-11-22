@@ -220,13 +220,9 @@ namespace NSwag.Generation.AspNetCore
                             path = "/" + path;
                         }
 
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant();
-                        if (httpMethod == null)
-                        {
-                            httpMethod = apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
-                                ? OpenApiOperationMethod.Post
-                                : OpenApiOperationMethod.Get;
-                        }
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
+                            ? OpenApiOperationMethod.Post
+                            : OpenApiOperationMethod.Get);
 
                         var operation = new OpenApiOperation();
 #if NETCOREAPP3_1_OR_GREATER
@@ -406,10 +402,7 @@ namespace NSwag.Generation.AspNetCore
             document.Generator = $"NSwag{version}";
             document.SchemaType = Settings.SchemaSettings.SchemaType;
 
-            if (document.Info == null)
-            {
-                document.Info = new OpenApiInfo();
-            }
+            document.Info ??= new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
