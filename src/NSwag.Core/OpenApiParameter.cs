@@ -18,7 +18,7 @@ namespace NSwag
         private string _name;
         private OpenApiParameterKind _kind;
         private OpenApiParameterStyle _style;
-        private bool _isRequired = false;
+        private bool _isRequired;
         private JsonSchema _schema;
         private IDictionary<string, OpenApiExample> _examples;
         private bool _explode;

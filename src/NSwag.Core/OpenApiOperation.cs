@@ -21,8 +21,8 @@ namespace NSwag
     {
         private OpenApiRequestBody _requestBody;
 
-        private bool _disableRequestBodyUpdate = false;
-        private bool _disableBodyParameterUpdate = false;
+        private bool _disableRequestBodyUpdate;
+        private bool _disableBodyParameterUpdate;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()

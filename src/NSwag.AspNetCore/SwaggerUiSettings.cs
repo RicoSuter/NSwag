@@ -66,7 +66,7 @@ namespace NSwag.AspNetCore
         public string CustomHeadContent { get; set; } = "";
 
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
-        public bool ValidateSpecification { get; set; } = false;
+        public bool ValidateSpecification { get; set; }
 
         /// <summary>Gets the additional Swagger UI 3 settings.</summary>
         public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
