@@ -36,13 +36,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             _settings = settings;
             _generator = generator;
 
-            var parameters = GetActualParameters();
+            var parameters = GetActualParameters().OrderBy(p => p.Position).ToList();
 
             if (settings.GenerateOptionalParameters)
             {
                 parameters = parameters
                     .OrderBy(p => p.Position ?? 0)
-                    .OrderBy(p => !p.IsRequired)
+                    .ThenBy(p => !p.IsRequired)
                     .ToList();
             }
 
