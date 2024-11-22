@@ -36,11 +36,10 @@ namespace NSwag.CodeGeneration.TypeScript
                 TypeScriptVersion = 2.7m
             };
 
-            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, new Assembly[]
-            {
+            TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, [
                 typeof(TypeScriptGeneratorSettings).GetTypeInfo().Assembly,
-                typeof(TypeScriptClientGeneratorSettings).GetTypeInfo().Assembly,
-            });
+                typeof(TypeScriptClientGeneratorSettings).GetTypeInfo().Assembly
+            ]);
 
             ProtectedMethods = [];
         }

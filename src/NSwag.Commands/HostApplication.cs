@@ -30,32 +30,32 @@ namespace NSwag.Commands
 
                 if (buildWebHostMethod != null)
                 {
-                    var result = buildWebHostMethod.Invoke(null, new object[] { args });
+                    var result = buildWebHostMethod.Invoke(null, [args]);
                     serviceProvider = ((IWebHost)result).Services;
                 }
                 else
                 {
                     var createWebHostMethod =
-                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", [typeof(string[])]) ??
                         entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", Type.EmptyTypes);
 
                     if (createWebHostMethod != null)
                     {
                         var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
+                            null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
                         serviceProvider = webHostBuilder.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
-                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", [typeof(string[])]) ??
                             entryPointType?.GetRuntimeMethod("CreateHostBuilder", Type.EmptyTypes);
 
                         if (createHostMethod != null)
                         {
                             var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
+                                null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
                             serviceProvider = webHostBuilder.Build().Services;
                         }
                     }
@@ -154,7 +154,7 @@ namespace NSwag.Commands
 #if NET6_0_OR_GREATER
                 var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
                 // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
-                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+                var services = ((IHost)factory([$"--{HostDefaults.ApplicationKey}={assemblyName}"])).Services;
 #else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
 #endif

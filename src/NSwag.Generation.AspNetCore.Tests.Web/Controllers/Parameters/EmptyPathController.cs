@@ -9,7 +9,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new[] { "value1", "value2" };
+            return ["value1", "value2"];
         }
     }
 }

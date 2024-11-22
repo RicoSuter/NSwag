@@ -44,7 +44,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-            var methodParameters = context.MethodInfo?.GetParameters() ?? Array.Empty<ParameterInfo>();
+            var methodParameters = context.MethodInfo?.GetParameters() ?? [];
 
             var position = operationProcessorContext.Parameters.Count(x => x.Value.Kind is not OpenApiParameterKind.Body) + 1;
             foreach (var apiParameter in parameters.Where(p =>
@@ -67,7 +67,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 var extendedApiParameter = new ExtendedApiParameterDescription(_settings.SchemaSettings)
                 {
                     ApiParameter = apiParameter,
-                    Attributes = Enumerable.Empty<Attribute>(),
+                    Attributes = [],
                     ParameterType = apiParameter.Type
                 };
 
@@ -118,7 +118,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                             continue;
                         }
 
-                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat(new[] { new NotNullAttribute() });
+                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat([new NotNullAttribute()]);
                     }
                 }
 
@@ -511,7 +511,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             public Type ParameterType { get; set; }
 
-            public IEnumerable<Attribute> Attributes { get; set; } = Enumerable.Empty<Attribute>();
+            public IEnumerable<Attribute> Attributes { get; set; } = [];
 
             public ExtendedApiParameterDescription(IXmlDocsSettings xmlDocsSettings)
             {

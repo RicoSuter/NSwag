@@ -36,17 +36,17 @@ namespace NSwag.Generation.AspNetCore.Tests.Web
                 .AddSwaggerDocument(document =>
                 {
                     document.DocumentName = "v1";
-                    document.ApiGroupNames = new[] { "1" };
+                    document.ApiGroupNames = ["1"];
                 })
                 .AddSwaggerDocument(document =>
                 {
                     document.DocumentName = "v2";
-                    document.ApiGroupNames = new[] { "2" };
+                    document.ApiGroupNames = ["2"];
                 })
                 .AddSwaggerDocument(document =>
                 {
                     document.DocumentName = "v3";
-                    document.ApiGroupNames = new[] { "3" };
+                    document.ApiGroupNames = ["3"];
                 });
         }
 

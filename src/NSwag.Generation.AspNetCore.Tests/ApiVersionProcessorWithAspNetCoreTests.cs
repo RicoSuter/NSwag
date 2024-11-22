@@ -14,7 +14,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
-            settings.ApiGroupNames = new[] { "1" };
+            settings.ApiGroupNames = ["1"];
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -30,7 +30,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
-            settings.ApiGroupNames = new[] { "1" };
+            settings.ApiGroupNames = ["1"];
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -51,7 +51,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
-            settings.ApiGroupNames = new[] { "2" };
+            settings.ApiGroupNames = ["2"];
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -72,7 +72,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
-            settings.ApiGroupNames = new[] { "3" };
+            settings.ApiGroupNames = ["3"];
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));
@@ -92,7 +92,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         {
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
-            settings.ApiGroupNames = new[] { "3" };
+            settings.ApiGroupNames = ["3"];
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(VersionedValuesController), typeof(VersionedV3ValuesController));

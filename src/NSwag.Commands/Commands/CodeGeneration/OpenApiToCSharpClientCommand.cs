@@ -295,7 +295,7 @@ namespace NSwag.Commands.CodeGeneration
         {
             var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages?.ToArray();
             Settings.AdditionalNamespaceUsages =
-                Settings.AdditionalNamespaceUsages?.Concat(new[] { ContractsNamespace }).ToArray() ?? new[] { ContractsNamespace };
+                Settings.AdditionalNamespaceUsages?.Concat([ContractsNamespace]).ToArray() ?? [ContractsNamespace];
             result[OutputFilePath ?? "Implementation"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Implementation);
             Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
         }

@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.Tests
             // Act
             var settings = new CSharpClientGeneratorSettings();
             settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
-            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+            settings.CSharpGeneratorSettings.JsonConverters = ["CustomConverter1", "CustomConverter2"];
 
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
@@ -140,7 +140,7 @@ public static Person FromJson(string data)
             // Act
             var settings = new CSharpClientGeneratorSettings();
             settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
-            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+            settings.CSharpGeneratorSettings.JsonConverters = ["CustomConverter1", "CustomConverter2"];
             settings.CSharpGeneratorSettings.GenerateJsonMethods = true;
 
             var generator = new CSharpClientGenerator(document, settings);
@@ -237,7 +237,7 @@ public static Person FromJson(string data)
             // Arrange
             var operation = new OpenApiOperation
             {
-                Tags = tags.ToList()
+                Tags = [.. tags]
             };
             var generator = new MultipleClientsFromFirstTagAndOperationNameGenerator();
 

@@ -26,11 +26,10 @@ namespace NSwag.CodeGeneration.CSharp
                 SchemaType = SchemaType.Swagger2
             };
 
-            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, new[]
-            {
+            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(CSharpGeneratorSettings, [
                 typeof(CSharpGeneratorSettings).GetTypeInfo().Assembly,
-                typeof(CSharpGeneratorBaseSettings).GetTypeInfo().Assembly,
-            });
+                typeof(CSharpGeneratorBaseSettings).GetTypeInfo().Assembly
+            ]);
 
             ResponseArrayType = "System.Collections.Generic.ICollection";
             ResponseDictionaryType = "System.Collections.Generic.IDictionary";

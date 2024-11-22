@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             // no underscore, fast path
             if (idxFirst == -1)
             {
-                return ReadOnlySpan<char>.Empty;
+                return [];
             }
 
             int idxLast = operationIdSpan.LastIndexOf(underscoreSeparator);
@@ -88,7 +88,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 // underscore is the first character
                 if (idxFirst == 0)
                 {
-                    return ReadOnlySpan<char>.Empty;
+                    return [];
                 }
 
                 return operationIdSpan.Slice(0, idxFirst);

@@ -56,7 +56,7 @@ namespace NSwag.Generation.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public Task<OpenApiDocument> GenerateForControllerAsync<TController>()
         {
-            return GenerateForControllersAsync(new[] { typeof(TController) });
+            return GenerateForControllersAsync([typeof(TController)]);
         }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
@@ -65,7 +65,7 @@ namespace NSwag.Generation.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public Task<OpenApiDocument> GenerateForControllerAsync(Type controllerType)
         {
-            return GenerateForControllersAsync(new[] { controllerType });
+            return GenerateForControllersAsync([controllerType]);
         }
 
         /// <summary>Generates a Swagger specification for the given controller types.</summary>
@@ -423,7 +423,7 @@ namespace NSwag.Generation.WebApi
 
         private static IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
-            var segments = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var segments = path.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
@@ -432,7 +432,7 @@ namespace NSwag.Generation.WebApi
                     // Only expand if optional parameter is available in action method
                     if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
                     {
-                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat([segment.Replace("?", "")]).Concat(segments.Skip(i + 1))), method))
                         {
                             yield return p;
                         }
