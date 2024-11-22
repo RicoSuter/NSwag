@@ -6,12 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable IDE0005
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;

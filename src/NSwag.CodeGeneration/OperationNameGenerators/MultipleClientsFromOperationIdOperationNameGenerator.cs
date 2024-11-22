@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.Linq;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators

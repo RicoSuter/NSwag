@@ -6,11 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using NConsole;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 

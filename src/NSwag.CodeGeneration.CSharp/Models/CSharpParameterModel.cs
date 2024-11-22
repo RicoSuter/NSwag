@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using NJsonSchema.CodeGeneration;
-using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.CSharp.Models

@@ -13,7 +13,6 @@ using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Collections;
 using NSwag.Generation.Processors.Contexts;
-using System;
 
 namespace NSwag.Generation
 {

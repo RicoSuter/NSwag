@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.CSharp;

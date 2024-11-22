@@ -8,7 +8,6 @@
 
 using NSwag.Generation.Processors;
 using NSwag.Generation.AspNetCore.Processors;
-using System;
 
 namespace NSwag.Generation.AspNetCore
 {

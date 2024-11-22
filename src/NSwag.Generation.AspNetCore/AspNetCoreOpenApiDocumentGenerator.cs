@@ -6,15 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+#pragma warning disable IDE0005
+
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -25,9 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 

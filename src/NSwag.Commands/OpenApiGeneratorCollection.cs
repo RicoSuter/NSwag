@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;

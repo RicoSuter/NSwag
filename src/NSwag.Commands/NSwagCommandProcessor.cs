@@ -6,14 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands

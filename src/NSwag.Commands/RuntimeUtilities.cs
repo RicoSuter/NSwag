@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 #if !NETFRAMEWORK
 using Microsoft.Extensions.PlatformAbstractions;
 #endif

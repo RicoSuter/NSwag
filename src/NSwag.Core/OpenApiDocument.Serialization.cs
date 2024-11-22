@@ -10,11 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 
 namespace NSwag
 {

@@ -6,15 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using NJsonSchema.Converters;
 using NJsonSchema.NewtonsoftJson.Converters;
 using NSwag.Annotations;
 using NSwag.Generation.AspNetCore;

@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
-
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name based on the path segments (operation name = last segment, client name = second to last segment).</summary>
