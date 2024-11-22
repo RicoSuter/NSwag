@@ -17,7 +17,7 @@ namespace NSwag
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        private IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
+        private readonly IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
 
         /// <summary>Gets the actual callback, either this or the referenced example.</summary>
         [JsonIgnore]

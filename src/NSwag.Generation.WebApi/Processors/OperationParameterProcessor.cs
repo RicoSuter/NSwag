@@ -151,7 +151,7 @@ namespace NSwag.Generation.WebApi.Processors
                                         }
                                     }
                                 }
-                                else if (fromBodyAttribute != null || (fromUriAttribute == null && _settings.IsAspNetCore == false))
+                                else if (fromBodyAttribute != null || (fromUriAttribute == null && !_settings.IsAspNetCore))
                                 {
                                     operationParameter = AddBodyParameter(context, bodyParameterName, contextualParameter);
                                 }
@@ -351,7 +351,7 @@ namespace NSwag.Generation.WebApi.Processors
             OpenApiParameter operationParameter;
 
             var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualParameter.ParameterType, _settings.SchemaSettings);
-            var isRequired = _settings.AllowNullableBodyParameters == false || contextualParameter.GetAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
+            var isRequired = !_settings.AllowNullableBodyParameters || contextualParameter.GetAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
             var isNullable = _settings.AllowNullableBodyParameters && typeDescription.IsNullable && !isRequired;
 
             var operation = context.OperationDescription.Operation;
@@ -491,7 +491,7 @@ namespace NSwag.Generation.WebApi.Processors
         {
             var operationParameter = context.DocumentGenerator.CreatePrimitiveParameter(name, contextualParameter);
             operationParameter.Kind = OpenApiParameterKind.Query;
-            operationParameter.IsRequired = operationParameter.IsRequired || contextualParameter.ParameterInfo.HasDefaultValue == false;
+            operationParameter.IsRequired = operationParameter.IsRequired || !contextualParameter.ParameterInfo.HasDefaultValue;
 
             if (contextualParameter.ParameterInfo.HasDefaultValue)
             {

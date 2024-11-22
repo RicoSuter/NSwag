@@ -74,7 +74,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
                     }
 
-                    if (IsVoidResponse(returnType) == false)
+                    if (!IsVoidResponse(returnType))
                     {
                         var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);

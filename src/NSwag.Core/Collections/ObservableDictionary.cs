@@ -131,22 +131,14 @@ namespace NSwag.Collections
         /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            var copy = PropertyChanged;
-            if (copy != null)
-            {
-                copy(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>Called when the collection has changed.</summary>
         protected void OnCollectionChanged()
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -155,11 +147,7 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> changedItem)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -169,11 +157,7 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> newItem, KeyValuePair<TKey, TValue> oldItem)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -182,11 +166,7 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, IList newItems)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, newItems, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItems, 0));
         }
 
         private void OnPropertyChanged()

@@ -442,7 +442,7 @@ namespace NSwag.Generation.AspNetCore
 
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(operationProcessorContext) == false)
+                if (!operationProcessor.Process(operationProcessorContext))
                 {
                     return false;
                 }
@@ -463,7 +463,7 @@ namespace NSwag.Generation.AspNetCore
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                    if (operationProcessor.Process(operationProcessorContext) == false)
+                    if (!operationProcessor.Process(operationProcessorContext))
                     {
                         return false;
                     }

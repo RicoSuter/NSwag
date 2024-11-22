@@ -184,7 +184,7 @@ namespace NSwag.Generation.Processors
                     Description = description ?? string.Empty
                 };
 
-                if (IsVoidResponse(returnType) == false)
+                if (!IsVoidResponse(returnType))
                 {
                     response.ExpectedSchemas = GenerateExpectedSchemas(statusCodeGroup, context);
 

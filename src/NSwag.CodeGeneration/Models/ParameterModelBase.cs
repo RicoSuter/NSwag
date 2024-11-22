@@ -132,7 +132,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsNullable => _parameter.IsNullable(_settings.SchemaType);
 
         /// <summary>Gets a value indicating whether the parameter is optional (i.e. not required).</summary>
-        public bool IsOptional => _parameter.IsRequired == false;
+        public bool IsOptional => !_parameter.IsRequired;
 
         /// <summary>Gets a value indicating whether the parameter has a description or is optional.</summary>
         public bool HasDescriptionOrIsOptional => HasDescription || !IsRequired;
