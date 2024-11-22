@@ -10,11 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Namotion.Reflection;
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NSwag.AspNetCore.Middlewares
 {

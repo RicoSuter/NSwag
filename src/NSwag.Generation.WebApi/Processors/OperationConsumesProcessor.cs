@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Linq;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 

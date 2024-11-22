@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.CSharp.Models;

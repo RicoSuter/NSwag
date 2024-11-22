@@ -6,11 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;

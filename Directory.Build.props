@@ -19,6 +19,7 @@
     <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
 
     <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!-- suppress NuGet audit checks being errors -->

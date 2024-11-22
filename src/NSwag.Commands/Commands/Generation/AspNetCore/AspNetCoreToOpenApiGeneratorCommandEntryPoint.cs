@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 

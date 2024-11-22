@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands

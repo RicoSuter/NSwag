@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.Generation.WebApi;
 

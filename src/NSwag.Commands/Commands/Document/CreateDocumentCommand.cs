@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.IO;
-using System.Threading.Tasks;
 using NConsole;
 using NSwag.Commands.CodeGeneration;
 

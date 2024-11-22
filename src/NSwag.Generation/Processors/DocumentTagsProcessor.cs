@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Namotion.Reflection;
 using NSwag.Generation.Collections;
 using NSwag.Generation.Processors.Contexts;

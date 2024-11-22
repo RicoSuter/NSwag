@@ -6,17 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+#pragma warning disable IDE0005
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
-using NJsonSchema;
-using System.Threading;
-using System.Threading.Tasks;
 
 #if AspNetOwin
 using Microsoft.Owin;

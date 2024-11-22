@@ -9,7 +9,6 @@
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace NSwag
 {

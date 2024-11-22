@@ -6,14 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 

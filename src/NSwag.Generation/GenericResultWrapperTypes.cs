@@ -1,5 +1,4 @@
-﻿using System;
-namespace NSwag.Generation
+﻿namespace NSwag.Generation
 {
     internal static class GenericResultWrapperTypes
     {

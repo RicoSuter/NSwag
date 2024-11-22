@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 {

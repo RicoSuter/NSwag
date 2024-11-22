@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Annotations;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 {

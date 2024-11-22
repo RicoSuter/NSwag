@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the operation id, summary and description</summary>

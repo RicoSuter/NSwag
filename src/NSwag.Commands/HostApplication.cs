@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿#pragma warning disable IDE0005
+
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;

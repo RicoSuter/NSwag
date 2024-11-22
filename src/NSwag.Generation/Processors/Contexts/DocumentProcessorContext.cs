@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using NJsonSchema.Generation;
 
 namespace NSwag.Generation.Processors.Contexts

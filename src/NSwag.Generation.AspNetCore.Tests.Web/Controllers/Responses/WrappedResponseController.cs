@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses
 {

@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 
 #pragma warning disable 1591

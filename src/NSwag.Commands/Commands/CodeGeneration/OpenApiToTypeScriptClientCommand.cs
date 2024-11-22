@@ -6,12 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using NConsole;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.Infrastructure;
 using NSwag.CodeGeneration.TypeScript;
 
 #pragma warning disable 1591

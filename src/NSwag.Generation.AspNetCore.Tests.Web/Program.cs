@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web
 {

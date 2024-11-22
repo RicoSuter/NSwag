@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies that the operation consumes the POST body.</summary>
