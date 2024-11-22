@@ -329,20 +329,21 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
 
             var requestBody = context.OperationDescription.Operation.RequestBody;
-            if (!requestBody.Content.ContainsKey(MultipartFormData))
+            if (!requestBody.Content.TryGetValue(MultipartFormData, out OpenApiMediaType value))
             {
-                requestBody.Content[MultipartFormData] = new OpenApiMediaType
+                value = new OpenApiMediaType
                 {
                     Schema = new JsonSchema()
                 };
+                requestBody.Content[MultipartFormData] = value;
             }
 
-            if (requestBody.Content[MultipartFormData].Schema == null)
+            if (value.Schema == null)
             {
-                requestBody.Content[MultipartFormData].Schema = new JsonSchema();
+                value.Schema = new JsonSchema();
             }
 
-            return requestBody.Content[MultipartFormData].Schema;
+            return value.Schema;
         }
 
         private static JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)

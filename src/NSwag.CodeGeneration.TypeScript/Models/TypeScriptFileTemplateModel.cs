@@ -104,9 +104,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ExtensionCodeImport => _extensionCode.ImportCode;
 
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ?
-            _extensionCode.ExtensionClasses[_settings.ConfigurationClass] + "\n\n" + _extensionCode.TopCode :
-            _extensionCode.TopCode;
+        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.TryGetValue(_settings.ConfigurationClass, out string value)
+            ? value + "\n\n" + _extensionCode.TopCode
+            : _extensionCode.TopCode;
 
         /// <summary>Gets or sets the extension code to insert at the end.</summary>
         public string ExtensionCodeBottom { get; }

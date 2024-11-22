@@ -123,7 +123,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                if (_operation.ActualResponses.All(r => HttpUtilities.IsSuccessStatusCode(r.Key)))
                 {
                     return "string";
                 }
