@@ -216,18 +216,19 @@ namespace NSwag.Generation.WebApi
                 {
                     var path = operation.Path.Replace("//", "/");
 
-                    if (!document.Paths.ContainsKey(path))
+                    if (!document.Paths.TryGetValue(path, out OpenApiPathItem value))
                     {
-                        document.Paths[path] = new OpenApiPathItem();
+                        value = new OpenApiPathItem();
+                        document.Paths[path] = value;
                     }
 
-                    if (document.Paths[path].ContainsKey(operation.Method))
+                    if (value.ContainsKey(operation.Method))
                     {
                         throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
                             "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
                     }
 
-                    document.Paths[path][operation.Method] = operation.Operation;
+                    value[operation.Method] = operation.Operation;
                     addedOperations++;
                 }
             }

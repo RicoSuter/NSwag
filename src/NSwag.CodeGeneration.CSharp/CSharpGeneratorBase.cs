@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="document">The document </param>
         public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, OpenApiDocument document)
         {
-            var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
+            var exceptionSchema = document.Definitions.TryGetValue("Exception", out JsonSchema value) ? value : null;
 
             var resolver = new CSharpTypeResolver(settings, exceptionSchema);
             resolver.RegisterSchemaDefinitions(document.Definitions

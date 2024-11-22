@@ -51,7 +51,7 @@ namespace NSwag.CodeGeneration.CSharp
             var artifacts = base.GenerateAllClientTypes().ToList();
 
             if (Settings.ControllerTarget == CSharpControllerTarget.AspNet &&
-                _document.Operations.Count(operation => operation.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Header)) > 0)
+                _document.Operations.Any(operation => operation.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Header)))
             {
                 var template = Settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Controller.AspNet.FromHeaderAttribute", new object());
                 artifacts.Add(new CodeArtifact("FromHeaderAttribute", CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Utility, template));
