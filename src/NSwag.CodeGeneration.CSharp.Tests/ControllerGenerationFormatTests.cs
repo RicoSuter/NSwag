@@ -374,7 +374,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                                 Type = JsonObjectType.String
                             }
                         },
-                        Tags = new List<string> { "Secondary" }
+                        Tags = ["Secondary"]
                     }
                 }
             };

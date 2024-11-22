@@ -45,7 +45,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         {
             var serializerSettings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> {new StringEnumConverter()}
+                Converters = [new StringEnumConverter()]
             };
 
             // Arrange

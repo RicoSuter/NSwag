@@ -75,7 +75,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; private set; } = [];
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -87,11 +87,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = new Collection<OpenApiSecurityRequirement>();
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = [];
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IList<OpenApiTag> Tags { get; set; } = new Collection<OpenApiTag>();
+        public IList<OpenApiTag> Tags { get; set; } = [];
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]

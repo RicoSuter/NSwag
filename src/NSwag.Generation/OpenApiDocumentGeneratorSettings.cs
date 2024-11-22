@@ -55,20 +55,20 @@ namespace NSwag.Generation
 
         /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
-        public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
-        {
+        public OperationProcessorCollection OperationProcessors { get; } =
+        [
             new OperationSummaryAndDescriptionProcessor(),
             new OperationTagsProcessor(),
-            new OperationExtensionDataProcessor(),
-        };
+            new OperationExtensionDataProcessor()
+        ];
 
         /// <summary>Gets the document processors.</summary>
         [JsonIgnore]
-        public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
-        {
+        public DocumentProcessorCollection DocumentProcessors { get; } =
+        [
             new DocumentTagsProcessor(),
-            new DocumentExtensionDataProcessor(),
-        };
+            new DocumentExtensionDataProcessor()
+        ];
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }

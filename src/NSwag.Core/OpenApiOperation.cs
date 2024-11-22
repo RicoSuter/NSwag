@@ -27,7 +27,7 @@ namespace NSwag
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()
         {
-            Tags = new List<string>();
+            Tags = [];
 
             var parameters = new ObservableCollection<OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
@@ -152,7 +152,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; set; } = [];
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
@@ -184,7 +184,7 @@ namespace NSwag
         {
             if (Consumes == null)
             {
-                Consumes = new List<string> { mimeType };
+                Consumes = [mimeType];
             }
             else if (!Consumes.Contains(mimeType))
             {

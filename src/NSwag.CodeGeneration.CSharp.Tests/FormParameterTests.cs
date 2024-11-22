@@ -97,7 +97,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                     OpenApiOperationMethod.Post,
                     new OpenApiOperation
                     {
-                        Consumes = new System.Collections.Generic.List<string> { "application/x-www-form-urlencoded" },
+                        Consumes = ["application/x-www-form-urlencoded"],
                         Parameters =
                         {
                             new OpenApiParameter

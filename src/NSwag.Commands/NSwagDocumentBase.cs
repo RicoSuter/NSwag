@@ -297,10 +297,10 @@ namespace NSwag.Commands
                 DefaultValueHandling = DefaultValueHandling.Include,
                 NullValueHandling = NullValueHandling.Include,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = new List<JsonConverter>
-                {
+                Converters =
+                [
                     new StringEnumConverter()
-                }
+                ]
             };
         }
 

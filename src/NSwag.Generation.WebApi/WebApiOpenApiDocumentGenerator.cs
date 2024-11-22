@@ -115,8 +115,8 @@ namespace NSwag.Generation.WebApi
             document.Generator = $"NSwag{version}";
             document.SchemaType = Settings.SchemaSettings.SchemaType;
 
-            document.Consumes = new List<string> { "application/json" };
-            document.Produces = new List<string> { "application/json" };
+            document.Consumes = ["application/json"];
+            document.Produces = ["application/json"];
 
             document.Info ??= new OpenApiInfo();
 
@@ -215,7 +215,7 @@ namespace NSwag.Generation.WebApi
 
                     if (!document.Paths.TryGetValue(path, out OpenApiPathItem value))
                     {
-                        value = new OpenApiPathItem();
+                        value = [];
                         document.Paths[path] = value;
                     }
 
@@ -605,7 +605,7 @@ namespace NSwag.Generation.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                IEnumerable<string> httpMethods = new List<string>();
+                IEnumerable<string> httpMethods = [];
 
                 if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "HttpMethods"))
                 {

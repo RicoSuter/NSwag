@@ -330,7 +330,7 @@ namespace NSwag.Generation.AspNetCore
                     var path = operation.Path.Replace("//", "/");
                     if (!document.Paths.TryGetValue(path, out var pathItem))
                     {
-                        document.Paths[path] = pathItem = new OpenApiPathItem();
+                        document.Paths[path] = pathItem = [];
                     }
 
                     if (pathItem.ContainsKey(operation.Method))

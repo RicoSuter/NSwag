@@ -102,7 +102,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
-        public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+        public bool GenerateExceptionClasses => _settings is CSharpClientGeneratorSettings { GenerateExceptionClasses: true };
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;

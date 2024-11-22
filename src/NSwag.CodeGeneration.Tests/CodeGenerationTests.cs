@@ -315,17 +315,19 @@ public static Person FromJson(string data)
             var settings = new NewtonsoftJsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new OpenApiPathItem();
-            document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
+            document.Paths["/Person"] = new OpenApiPathItem
             {
-                Responses =
+                [OpenApiOperationMethod.Get] = new OpenApiOperation
                 {
+                    Responses =
                     {
-                        "200", new OpenApiResponse
                         {
-                            Schema = new JsonSchema
+                            "200", new OpenApiResponse
                             {
-                                Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                Schema = new JsonSchema
+                                {
+                                    Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                }
                             }
                         }
                     }

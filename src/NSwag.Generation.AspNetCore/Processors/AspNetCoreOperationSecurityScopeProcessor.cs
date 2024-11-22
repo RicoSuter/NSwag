@@ -54,7 +54,7 @@ namespace NSwag.Generation.Processors.Security
 
                 if (context.OperationDescription.Operation.Security == null)
                 {
-                    context.OperationDescription.Operation.Security = new List<OpenApiSecurityRequirement>();
+                    context.OperationDescription.Operation.Security = [];
                 }
 
                 var scopes = GetScopes(authorizeAttributes);

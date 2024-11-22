@@ -47,11 +47,11 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; set; } = [];
 
         /// <summary>Gets or sets the parameters.</summary>
         [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<OpenApiParameter> Parameters { get; set; } = new Collection<OpenApiParameter>();
+        public ICollection<OpenApiParameter> Parameters { get; set; } = [];
 
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
