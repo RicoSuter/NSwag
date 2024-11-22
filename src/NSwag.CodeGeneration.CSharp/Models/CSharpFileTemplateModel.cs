@@ -60,14 +60,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool GenerateNullableReferenceTypes => _settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes;
 
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
-        public bool GenerateContracts =>
-            _outputType == ClientGeneratorOutputType.Full ||
-            _outputType == ClientGeneratorOutputType.Contracts;
+        public bool GenerateContracts => _outputType is ClientGeneratorOutputType.Full or ClientGeneratorOutputType.Contracts;
 
         /// <summary>Gets a value indicating whether to generate implementation code.</summary>
-        public bool GenerateImplementation =>
-            _outputType == ClientGeneratorOutputType.Full ||
-            _outputType == ClientGeneratorOutputType.Implementation;
+        public bool GenerateImplementation => _outputType is ClientGeneratorOutputType.Full or ClientGeneratorOutputType.Implementation;
 
         /// <summary>Gets or sets a value indicating whether to generate client types.</summary>
         public bool GenerateClientClasses => _settings.GenerateClientClasses;

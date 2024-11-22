@@ -85,13 +85,10 @@ namespace NSwag.CodeGeneration.Models
         public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString(), false);
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE or HEAD.</summary>
-        public bool IsGetOrDeleteOrHead =>
-            HttpMethod == OpenApiOperationMethod.Get ||
-            HttpMethod == OpenApiOperationMethod.Delete ||
-            HttpMethod == OpenApiOperationMethod.Head;
+        public bool IsGetOrDeleteOrHead => HttpMethod is OpenApiOperationMethod.Get or OpenApiOperationMethod.Delete or OpenApiOperationMethod.Head;
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
-        public bool IsGetOrHead => HttpMethod == OpenApiOperationMethod.Get || HttpMethod == OpenApiOperationMethod.Head;
+        public bool IsGetOrHead => HttpMethod is OpenApiOperationMethod.Get or OpenApiOperationMethod.Head;
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
@@ -196,7 +193,7 @@ namespace NSwag.CodeGeneration.Models
         public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Path);
 
         /// <summary>Gets the query parameters.</summary>
-        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Query || p.Kind == OpenApiParameterKind.ModelBinding);
+        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind is OpenApiParameterKind.Query or OpenApiParameterKind.ModelBinding);
 
         /// <summary>Gets a value indicating whether the operation has query parameters.</summary>
         public bool HasQueryParameters => QueryParameters.Any();

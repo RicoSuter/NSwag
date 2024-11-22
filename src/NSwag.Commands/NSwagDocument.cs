@@ -255,17 +255,16 @@ namespace NSwag.Commands
 #pragma warning restore CA1822
         {
 #if NET462
-
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
+            if (runtime is Runtime.WinX64 or Runtime.Debug)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
             }
-            else if (runtime == Runtime.WinX86)
+
+            if (runtime == Runtime.WinX86)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             }
-            else
 #endif
             return "dotnet";
         }

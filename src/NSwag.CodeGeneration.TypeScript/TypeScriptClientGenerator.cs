@@ -79,8 +79,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The type name.</returns>
         public override string GetBinaryResponseTypeName()
         {
-            return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
-                   Settings.Template != TypeScriptTemplate.JQueryPromises ? "FileResponse" : "any";
+            return Settings.Template is not TypeScriptTemplate.JQueryCallbacks and not TypeScriptTemplate.JQueryPromises
+                ? "FileResponse"
+                : "any";
         }
 
         /// <summary>Generates the file.</summary>
