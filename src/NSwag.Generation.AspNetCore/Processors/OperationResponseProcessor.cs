@@ -33,7 +33,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext operationProcessorContext)
         {
-            if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
+            if (operationProcessorContext is not AspNetCoreOperationProcessorContext context)
             {
                 return false;
             }
