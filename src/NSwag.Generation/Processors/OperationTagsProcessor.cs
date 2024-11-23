@@ -52,7 +52,7 @@ namespace NSwag.Generation.Processors
         protected virtual void AddControllerNameTag(OperationProcessorContext context)
         {
             var controllerName = context.ControllerType.Name;
-            if (controllerName.EndsWith("Controller"))
+            if (controllerName.EndsWith("Controller", StringComparison.Ordinal))
             {
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
             }

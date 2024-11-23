@@ -40,10 +40,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets a value indicating whether the type is a Nullable&lt;&gt;.</summary>
-        public bool IsSystemNullable => Type.EndsWith("?");
+        public bool IsSystemNullable => Type.EndsWith('?');
 
         /// <summary>Gets the type of the parameter when used in a controller interface where we can set default values before calling.</summary>
-        public string TypeInControllerInterface => HasDefault ? Type.EndsWith("?") ? Type.Substring(0, Type.Length - 1) : Type : Type;
+        public string TypeInControllerInterface => HasDefault ? Type.EndsWith('?') ? Type.Substring(0, Type.Length - 1) : Type : Type;
 
         /// <summary>Gets a value indicating whether the parameter name is a valid CSharp identifier.</summary>
         public bool IsValidIdentifier => Name.Equals(VariableName, StringComparison.OrdinalIgnoreCase);

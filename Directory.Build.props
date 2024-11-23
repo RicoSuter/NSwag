@@ -72,32 +72,21 @@
       [IDE0290] Use primary constructor
       [IDE0330] Use 'System.Threading.Lock'
       [CA1200] Avoid using cref tags with a prefix
-      [CA1304] The behavior of 'string.ToUpper()' could vary based on the current user's locale settings
-      [CA1305] The behavior of 'int.ToString()' could vary based on the current user's locale settings
-      [CA1310] The behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings
-      [CA1311] The behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings
-      [CA1507] Use nameof in place of string literal
       [CA1510] Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance
       [CA1514] 'System.ReadOnlySpan<char>.Slice(int, int)' uses a redundant length calculation that can be removed
       [CA1710] Rename to end in either 'Dictionary' or 'Collection'
       [CA1716] rename parameter property so that it no longer conflicts with the reserved language keyword
       [CA1720] Identifier 'xxx' contains type name
       [CA1725] Overriden parameter name mismatch
-      [CA1834] Use 'StringBuilder.Append(char)' instead of 'StringBuilder.Append(string)' when the input is a constant unit string
       [CA1845] Use span-based 'string.Concat' and 'AsSpan' instead of 'Substring'
-      [CA1847] Use 'string.Contains(char)' instead of 'string.Contains(string)' - needs polyfill
       [CA1861] Prefer 'static readonly' fields over constant array arguments
-      [CA1862] Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison
-      [CA1865] Use 'string.StartsWith(char)' instead of 'string.StartsWith(string)'  - needs polyfill
-      [CA1866] Use 'string.StartsWith(char)' instead of 'string.StartsWith(string)'  - needs polyfill
       [CA1870] Use a cached 'SearchValues' instance for improved searching performance
-      [CA2249] Use 'string.Contains' instead of 'string.IndexOf' to improve readability -  needs polyfill
       [CA2263] Prefer the generic overload 'System.Enum.GetValues<TEnum>()'
 
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
     <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0025;IDE0027;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
-    <NoWarn>$(NoWarn);CA1200;CA1304;CA1305;CA1310;CA1311;CA1507;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1834;CA1845;CA1847;CA1861;CA1862;CA1865;CA1866;CA1870;CA2249;CA2263;SYSLIB0012</NoWarn>
+    <NoWarn>$(NoWarn);CA1200;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1845;CA1861;CA1870;CA2263;SYSLIB0012</NoWarn>
   </PropertyGroup>
 
 </Project>

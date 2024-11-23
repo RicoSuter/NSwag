@@ -31,7 +31,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
-            _path = path.StartsWith("/") ? path : '/' + path;
+            _path = path.StartsWith('/') ? path : '/' + path;
             _controllerTypes = controllerTypes;
             _settings = settings;
         }

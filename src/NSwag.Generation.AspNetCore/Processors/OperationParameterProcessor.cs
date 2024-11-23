@@ -87,7 +87,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 {
                     var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
                     var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
-                    parameter = methodParameters.FirstOrDefault(m => m.Name.ToLowerInvariant() == parameterName.ToLowerInvariant());
+                    parameter = methodParameters.FirstOrDefault(m => m.Name.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
                     if (parameter != null)
                     {
                         extendedApiParameter.ParameterInfo = parameter;
@@ -112,8 +112,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                     if (apiParameter.Source == BindingSource.Path)
                     {
                         // ignore unused implicit path parameters
-                        if (!httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + ":") &&
-                            !httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + "}"))
+                        if (!httpPath.Contains("{" + apiParameter.Name + ":", StringComparison.OrdinalIgnoreCase) &&
+                            !httpPath.Contains("{" + apiParameter.Name + "}", StringComparison.OrdinalIgnoreCase))
                         {
                             continue;
                         }

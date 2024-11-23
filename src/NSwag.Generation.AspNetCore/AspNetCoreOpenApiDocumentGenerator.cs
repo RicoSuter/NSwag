@@ -9,6 +9,7 @@
 #pragma warning disable IDE0005
 
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -215,7 +216,7 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var path = apiDescription.RelativePath;
-                        if (!path.StartsWith("/", StringComparison.Ordinal))
+                        if (!path.StartsWith('/'))
                         {
                             path = "/" + path;
                         }
@@ -478,7 +479,7 @@ namespace NSwag.Generation.AspNetCore
             if (!string.IsNullOrWhiteSpace(httpMethod))
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
-                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                var typeName = string.Format(CultureInfo.InvariantCulture, "Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
                 httpAttribute = method?
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
@@ -531,8 +532,8 @@ namespace NSwag.Generation.AspNetCore
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
                     string.Join("", apiDescription.RelativePath
                         .Split('/', '\\', '}', ']', '-', '_')
-                        .Where(t => !t.StartsWith("{"))
-                        .Where(t => !t.StartsWith("["))
+                        .Where(t => !t.StartsWith('{'))
+                        .Where(t => !t.StartsWith('['))
                         .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
@@ -542,12 +543,12 @@ namespace NSwag.Generation.AspNetCore
                 number++;
             }
 
-            return operationId + (number > 1 ? number.ToString() : string.Empty);
+            return operationId + (number > 1 ? number.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
 
         private static string GetActionName(string actionName)
         {
-            if (actionName.EndsWith("Async"))
+            if (actionName.EndsWith("Async", StringComparison.Ordinal))
             {
                 actionName = actionName.Substring(0, actionName.Length - 5);
             }

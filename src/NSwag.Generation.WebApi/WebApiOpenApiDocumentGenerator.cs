@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema;
@@ -34,7 +35,7 @@ namespace NSwag.Generation.WebApi
             // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
                 .Where(t => !t.GetTypeInfo().IsAbstract)
-                .Where(t => t.Name.EndsWith("Controller") ||
+                .Where(t => t.Name.EndsWith("Controller", StringComparison.Ordinal) ||
                             t.InheritsFromTypeName("ApiController", TypeNameStyle.Name) ||
                             t.InheritsFromTypeName("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
                 .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
@@ -281,7 +282,7 @@ namespace NSwag.Generation.WebApi
                 m.GetCustomAttributes().Select(a => a.GetType()).All(a =>
                     !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) &&
                     !a.IsAssignableToTypeName("NonActionAttribute", TypeNameStyle.Name)) &&
-                    !m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") && // .NET Core (Web API & MVC)
+                    !m.DeclaringType.FullName.StartsWith("Microsoft.AspNet", StringComparison.Ordinal) && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller")
                 .Where(m =>
@@ -304,7 +305,7 @@ namespace NSwag.Generation.WebApi
             if (!string.IsNullOrWhiteSpace(httpMethod))
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
-                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                var typeName = string.Format(CultureInfo.InvariantCulture, "Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
                 httpAttribute = method
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
@@ -320,7 +321,7 @@ namespace NSwag.Generation.WebApi
             }
             else
             {
-                if (controllerName.EndsWith("Controller"))
+                if (controllerName.EndsWith("Controller", StringComparison.Ordinal))
                 {
                     controllerName = controllerName.Substring(0, controllerName.Length - 10);
                 }
@@ -334,7 +335,7 @@ namespace NSwag.Generation.WebApi
                 number++;
             }
 
-            return operationId + (number > 1 ? number.ToString() : string.Empty);
+            return operationId + (number > 1 ? number.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
 
         private List<string> GetHttpPaths(Type controllerType, MethodInfo method)
@@ -352,7 +353,7 @@ namespace NSwag.Generation.WebApi
             {
                 foreach (var attribute in routeAttributes)
                 {
-                    if (attribute.Template.StartsWith("~/")) // ignore route prefixes
+                    if (attribute.Template.StartsWith("~/", StringComparison.Ordinal)) // ignore route prefixes
                     {
                         httpPaths.Add(attribute.Template.Substring(1));
                     }
@@ -362,7 +363,7 @@ namespace NSwag.Generation.WebApi
                     }
                     else if (routeAttributesOnClass != null)
                     {
-                        if (attribute.Template.StartsWith("/"))
+                        if (attribute.Template.StartsWith('/'))
                         {
                             httpPaths.Add(attribute.Template);
                         }
@@ -424,10 +425,10 @@ namespace NSwag.Generation.WebApi
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
-                if (segment.EndsWith("?}"))
+                if (segment.EndsWith("?}", StringComparison.Ordinal))
                 {
                     // Only expand if optional parameter is available in action method
-                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
+                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":", StringComparison.Ordinal) || segment.StartsWith("{" + p.Name + "?", StringComparison.Ordinal)))
                     {
                         foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat([segment.Replace("?", "")]).Concat(segments.Skip(i + 1))), method))
                         {
@@ -506,7 +507,7 @@ namespace NSwag.Generation.WebApi
             }
 
             var methodName = method.Name;
-            if (methodName.EndsWith("Async"))
+            if (methodName.EndsWith("Async", StringComparison.Ordinal))
             {
                 methodName = methodName.Substring(0, methodName.Length - 5);
             }

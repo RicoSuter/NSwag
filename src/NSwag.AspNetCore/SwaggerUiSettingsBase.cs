@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 #pragma warning disable IDE0005
+#pragma warning disable CA1305
 
 using NSwag.Generation;
 using Newtonsoft.Json;

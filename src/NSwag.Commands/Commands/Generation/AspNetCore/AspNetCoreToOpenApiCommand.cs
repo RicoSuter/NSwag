@@ -141,7 +141,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             }
 
             if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
-                projectMetadata.TargetFrameworkIdentifier.StartsWith("net"))
+                projectMetadata.TargetFrameworkIdentifier.StartsWith("net", StringComparison.Ordinal))
             {
                 executable = "dotnet";
                 args.Add("exec");

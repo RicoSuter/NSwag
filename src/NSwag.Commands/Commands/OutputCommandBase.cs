@@ -27,7 +27,7 @@ namespace NSwag.Commands
         {
             if (!IsJson(input) && !IsYaml(input))
             {
-                if (input.StartsWith("http://") || input.StartsWith("https://"))
+                if (input.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || input.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
@@ -67,12 +67,12 @@ namespace NSwag.Commands
 
         protected static bool IsJson(string data)
         {
-            return data.StartsWith("{");
+            return data.StartsWith('{');
         }
 
         protected static bool IsYaml(string data)
         {
-            return !IsJson(data) && data.Contains("\n");
+            return !IsJson(data) && data.Contains('\n');
         }
 
         protected Task<bool> TryWriteFileOutputAsync(IConsoleHost host, Func<string> generator)

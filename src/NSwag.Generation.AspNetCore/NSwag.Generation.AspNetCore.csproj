@@ -27,4 +27,9 @@
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
+  </ItemGroup>
+
 </Project>

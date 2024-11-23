@@ -148,7 +148,7 @@ namespace NSwag
 
                 _schemes = new ObservableCollection<OpenApiSchema>(Servers?
                     .Where(s => s.Url.Contains("://"))
-                    .Select(s => s.Url.StartsWith("http://") ? OpenApiSchema.Http : OpenApiSchema.Https)
+                    .Select(s => s.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ? OpenApiSchema.Http : OpenApiSchema.Https)
                     .Distinct() ?? []);
 
                 _schemes.CollectionChanged += OnSchemesChanged;
