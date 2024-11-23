@@ -178,13 +178,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the JSON converters array code.</summary>
         public string JsonConvertersArrayCode
-        {
-            get
-            {
-                return CSharpJsonSerializerGenerator.GenerateJsonConvertersArrayCode(
-                    _settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
-            }
-        }
+            => CSharpJsonSerializerGenerator.GenerateJsonConvertersArrayCode(_settings.CSharpGeneratorSettings, RequiresJsonExceptionConverter ? new[] { "JsonExceptionConverter" } : null);
 
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;

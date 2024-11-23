@@ -119,8 +119,8 @@ namespace NSwag
         [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Host
         {
-            get { return Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0]; }
-            set { UpdateServers(Schemes, value, BasePath); }
+            get => Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0];
+            set => UpdateServers(Schemes, value, BasePath);
         }
 
         /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
@@ -132,7 +132,7 @@ namespace NSwag
                 var segments = Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/').Skip(1).ToArray();
                 return segments != null && segments.Length > 0 ? "/" + string.Join("/", segments) : null;
             }
-            set { UpdateServers(Schemes, Host, value); }
+            set => UpdateServers(Schemes, Host, value);
         }
 
         /// <summary>Gets or sets the schemes.</summary>

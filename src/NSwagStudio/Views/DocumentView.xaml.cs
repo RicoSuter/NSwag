@@ -65,8 +65,8 @@ namespace NSwagStudio.Views
 
         public DocumentModel Document
         {
-            get { return (DocumentModel)GetValue(DocumentProperty); }
-            set { SetValue(DocumentProperty, value); }
+            get => (DocumentModel)GetValue(DocumentProperty);
+            set => SetValue(DocumentProperty, value);
         }
 
         private void OnGenerate(object sender, RoutedEventArgs e)

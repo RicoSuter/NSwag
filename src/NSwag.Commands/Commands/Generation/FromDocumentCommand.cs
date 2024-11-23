@@ -23,7 +23,7 @@ namespace NSwag.Commands.Generation
         [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]
         public string Json
         {
-            get { return _json; }
+            get => _json;
             set
             {
                 _json = value;
@@ -35,7 +35,7 @@ namespace NSwag.Commands.Generation
         [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         public string Url
         {
-            get { return _url; }
+            get => _url;
             set
             {
                 _url = value;

@@ -35,7 +35,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the generator settings. </summary>
         public AspNetCoreToOpenApiCommand Command
         {
-            get { return _command; }
+            get => _command;
             set
             {
                 if (Set(ref _command, value))
@@ -46,8 +46,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the document.</summary>
         public NSwagDocument Document
         {
-            get { return _document; }
-            set { Set(ref _document, value); }
+            get => _document;
+            set => Set(ref _document, value);
         }
 
         public async Task<string> GenerateSwaggerAsync()

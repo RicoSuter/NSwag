@@ -48,7 +48,7 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets or sets the selected document. </summary>
         public DocumentModel SelectedDocument
         {
-            get { return _selectedDocument; }
+            get => _selectedDocument;
             set
             {
                 if (Set(ref _selectedDocument, value))

@@ -52,8 +52,6 @@
       [IDE0017] Object initialization can be simplified
       [IDE0021] Use block body for constructor
       [IDE0022] Use block body for method
-      [IDE0025] Use expression body for property
-      [IDE0027] Use expression body for accessor
       [IDE0029] Null check can be simplified
       [IDE0032] Use auto property
       [IDE0039] Use local function
@@ -85,7 +83,7 @@
 
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
-    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0025;IDE0027;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
+    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
     <NoWarn>$(NoWarn);CA1200;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1845;CA1861;CA1870;CA2263;SYSLIB0012</NoWarn>
   </PropertyGroup>
 
