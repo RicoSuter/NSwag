@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors.Security

@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag;

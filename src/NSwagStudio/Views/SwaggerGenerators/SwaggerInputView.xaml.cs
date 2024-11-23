@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using NSwag.Commands;
+﻿using NSwag.Commands;
 using NSwag.Commands.Generation;
 using NSwagStudio.ViewModels.SwaggerGenerators;
 

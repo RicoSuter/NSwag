@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using NConsole;
+﻿using NConsole;
 using NSwag.Commands;
 
 namespace NSwag

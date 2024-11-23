@@ -1,8 +1,6 @@
 ﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Requests;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Requests

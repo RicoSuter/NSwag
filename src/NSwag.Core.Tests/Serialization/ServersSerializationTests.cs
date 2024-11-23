@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NJsonSchema;
+﻿using NJsonSchema;
 using Xunit;
 
 namespace NSwag.Core.Tests.Serialization

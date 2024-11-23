@@ -1,5 +1,4 @@
-﻿using System;
-using NConsole;
+﻿using NConsole;
 
 namespace NSwag
 {
