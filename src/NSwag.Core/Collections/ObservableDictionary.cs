@@ -196,10 +196,7 @@ namespace NSwag.Collections
         }
 
         /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
-        public ICollection<TKey> Keys
-        {
-            get { return _dictionary.Keys; }
-        }
+        public ICollection<TKey> Keys => _dictionary.Keys;
 
         ICollection IDictionary.Values => _dictionary.Values;
 
@@ -236,10 +233,7 @@ namespace NSwag.Collections
             return _dictionary.TryGetValue(key, out value);
         }
 
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys
-        {
-            get { return Keys; }
-        }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
 
         /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
         public ICollection<TValue> Values => _dictionary.Values;
@@ -326,7 +320,7 @@ namespace NSwag.Collections
         }
 
         /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.IDictionary" /> object has a fixed size.</summary>
-        public bool IsFixedSize { get { return false; } }
+        public bool IsFixedSize => false;
 
         /// <summary>Determines whether [contains] [the specified item].</summary>
         /// <param name="item">The item.</param>
@@ -366,8 +360,8 @@ namespace NSwag.Collections
 
         object IDictionary.this[object key]
         {
-            get { return this[(TKey)key]; }
-            set { this[(TKey)key] = (TValue)value; }
+            get => this[(TKey)key];
+            set => this[(TKey)key] = (TValue)value;
         }
 
         /// <summary>Removes the specified item.</summary>

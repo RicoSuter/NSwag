@@ -99,22 +99,10 @@ namespace NSwag.CodeGeneration.Models
         public bool IsForm => _parameter.Style == OpenApiParameterStyle.Form;
 
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
-        public IEnumerable<PropertyModel> PropertyNames
-        {
-            get
-            {
-                return _properties.Where(p => !p.IsCollection);
-            }
-        }
+        public IEnumerable<PropertyModel> PropertyNames => _properties.Where(p => !p.IsCollection);
 
         /// <summary>Gets the contained collection property names (OpenAPI 3).</summary>
-        public IEnumerable<PropertyModel> CollectionPropertyNames
-        {
-            get
-            {
-                return _properties.Where(p => p.IsCollection);
-            }
-        }
+        public IEnumerable<PropertyModel> CollectionPropertyNames => _properties.Where(p => p.IsCollection);
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);

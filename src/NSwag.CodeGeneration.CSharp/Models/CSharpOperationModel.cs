@@ -128,15 +128,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public override string ResultType
-        {
-            get
-            {
-                return SyncResultType == "void"
+        public override string ResultType => SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
                     : "System.Threading.Tasks.Task<" + SyncResultType + ">";
-            }
-        }
 
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType

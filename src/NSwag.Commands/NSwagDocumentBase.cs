@@ -100,7 +100,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public string Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 _path = value;
@@ -134,7 +134,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public IOutputCommand SelectedSwaggerGenerator
         {
-            get { return _selectedSwaggerGenerator; }
+            get => _selectedSwaggerGenerator;
             set
             {
                 _selectedSwaggerGenerator = value;

@@ -25,8 +25,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the Swagger code. </summary>
         public string SwaggerCode
         {
-            get { return _swaggerCode; }
-            set { Set(ref _swaggerCode, value); }
+            get => _swaggerCode;
+            set => Set(ref _swaggerCode, value);
         }
     }
 }
