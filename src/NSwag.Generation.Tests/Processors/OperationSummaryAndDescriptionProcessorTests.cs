@@ -16,7 +16,7 @@ namespace NSwag.Generation.Tests.Processors
             public void DocumentedMethodWithOpenApiOperationAttribute()
             {
             }
-            
+
             [Description("\r\n\t This method has a description. \r\n\t")]
             public void DocumentedMethodWithDescriptionAttribute()
             {
@@ -32,7 +32,7 @@ namespace NSwag.Generation.Tests.Processors
             {
             }
         }
-        
+
         [Fact]
         public void Process_TrimsWhitespaceFromOpenApiOperationSummary()
         {
@@ -53,7 +53,7 @@ namespace NSwag.Generation.Tests.Processors
             var description = context.OperationDescription.Operation.Description;
             Assert.Equal("This method has a description.", description);
         }
-        
+
         [Fact]
         public void Process_TrimsWhitespaceFromDescription()
         {
@@ -74,7 +74,7 @@ namespace NSwag.Generation.Tests.Processors
             var description = context.OperationDescription.Operation.Description;
             Assert.Null(description);
         }
-        
+
         [Fact]
         public void Process_TrimsWhitespaceFromSummary()
         {
@@ -95,7 +95,7 @@ namespace NSwag.Generation.Tests.Processors
             var description = context.OperationDescription.Operation.Description;
             Assert.Equal("This method has a description.", description);
         }
-        
+
         private OperationProcessorContext GetContext(Type controllerType, MethodInfo methodInfo)
         {
             var document = new OpenApiDocument();
@@ -104,7 +104,7 @@ namespace NSwag.Generation.Tests.Processors
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
             };
-            
+
             return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, settings, null);
         }
     }

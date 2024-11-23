@@ -81,7 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (newtonsoftSettings != null && !hasSystemTextJsonOutputFormatter)
                 {
                     settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
-                } 
+                }
                 else if (systemTextJsonOptions != null)
                 {
                     settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);

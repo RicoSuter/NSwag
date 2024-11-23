@@ -309,7 +309,7 @@ namespace NSwag.Collections
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            return ((IDictionary) _dictionary).GetEnumerator();
+            return ((IDictionary)_dictionary).GetEnumerator();
         }
 
         /// <summary>Removes the specified key.</summary>
@@ -335,7 +335,7 @@ namespace NSwag.Collections
         /// <param name="arrayIndex">Index of the array.</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((IDictionary) _dictionary).CopyTo(array, arrayIndex);
+            ((IDictionary)_dictionary).CopyTo(array, arrayIndex);
         }
 
         /// <summary>Copies to.</summary>
@@ -356,7 +356,7 @@ namespace NSwag.Collections
         public object SyncRoot { get; private set; }
 
         /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
-        public bool IsReadOnly => ((IDictionary) _dictionary).IsReadOnly;
+        public bool IsReadOnly => ((IDictionary)_dictionary).IsReadOnly;
 
         object IDictionary.this[object key]
         {
@@ -396,7 +396,7 @@ namespace NSwag.Collections
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IDictionary) _dictionary).GetEnumerator();
+            return ((IDictionary)_dictionary).GetEnumerator();
         }
 
         #endregion

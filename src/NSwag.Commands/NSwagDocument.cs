@@ -245,7 +245,6 @@ namespace NSwag.Commands
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net90/dotnet-nswag.dll") + "\" ";
             }
-            else
 #endif
             return "";
         }

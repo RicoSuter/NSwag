@@ -29,16 +29,13 @@ app.MapGet("/abs({a})", (int a) => Math.Abs(a))
     .WithName("AbsoluteValue")
     .WithTags("Calculator");
 
-app.MapGet("/id:{id}", (int id) =>id)
+app.MapGet("/id:{id}", (int id) => id)
     .WithName("Identity")
     .WithTags("Calculator");
 
 // Optional: Use controllers
 app.UseRouting();
-app.UseEndpoints(x =>
-{
-    x.MapControllers();
-});
+app.UseEndpoints(x => { x.MapControllers(); });
 
 app.Run();
 
@@ -47,9 +44,9 @@ app.Run();
 [Route("examples")]
 public class ExampleController : ControllerBase
 {
-	[HttpGet]
-	public IActionResult Get()
-	{
-		return Ok("Get Method");
-	}
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok("Get Method");
+    }
 }

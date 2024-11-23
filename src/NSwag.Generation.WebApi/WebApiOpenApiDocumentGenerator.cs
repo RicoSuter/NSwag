@@ -234,7 +234,7 @@ namespace NSwag.Generation.WebApi
             return addedOperations > 0;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, 
+        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription,
             List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,

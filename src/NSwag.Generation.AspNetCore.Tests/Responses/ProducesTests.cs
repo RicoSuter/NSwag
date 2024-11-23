@@ -24,7 +24,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             Assert.Contains("text/html", operation.ActualProduces);
             Assert.Null(operation.Produces);
         }
-        
+
         [Fact]
         public async Task When_operation_produces_is_different_in_several_controllers_then_they_are_added_to_the_operation()
         {

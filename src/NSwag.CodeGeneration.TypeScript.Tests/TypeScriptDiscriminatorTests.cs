@@ -39,7 +39,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class Nested
         {
             public Base Child { get; set; }
-            
+
             public ICollection<Base> ChildCollection { get; set; }
         }
 
@@ -50,19 +50,19 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 return null;
             }
-            
+
             [Route("foo-arr")]
             public string TestLeafArr(ICollection<Base> param)
             {
                 return null;
             }
-            
+
             [Route("bar")]
             public string Test(OneChild param)
             {
                 return null;
             }
-            
+
             [Route("baz")]
             public string TestNested(Nested param)
             {

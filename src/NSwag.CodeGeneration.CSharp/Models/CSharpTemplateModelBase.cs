@@ -38,8 +38,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool UseSystemTextJson => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson;
 
         /// <summary>Gets the JSON serializer settings type.</summary>
-        public string JsonSerializerSettingsType => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson ? 
-            "System.Text.Json.JsonSerializerOptions" :
-            "Newtonsoft.Json.JsonSerializerSettings";
+        public string JsonSerializerSettingsType => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson
+            ? "System.Text.Json.JsonSerializerOptions"
+            : "Newtonsoft.Json.JsonSerializerSettings";
     }
 }
