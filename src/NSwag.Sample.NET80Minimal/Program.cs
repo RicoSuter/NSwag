@@ -44,9 +44,9 @@ app.Run();
 [Route("examples")]
 public class ExampleController : ControllerBase
 {
-	[HttpGet]
-	public IActionResult Get()
-	{
-		return Ok("Get Method");
-	}
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok("Get Method");
+    }
 }

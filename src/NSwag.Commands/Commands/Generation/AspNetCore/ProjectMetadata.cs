@@ -234,7 +234,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                 {
                     WorkingDirectory = Path.GetDirectoryName(file),
                     FileName = "dotnet",
-                    Arguments = $"{string.Join(" " , args)} --getProperty:{string.Join(";", properties)}",
+                    Arguments = $"{string.Join(" ", args)} --getProperty:{string.Join(";", properties)}",
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true

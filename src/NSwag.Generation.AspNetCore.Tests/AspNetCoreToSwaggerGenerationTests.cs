@@ -907,9 +907,9 @@ namespace NSwag.Generation.AspNetCore.Tests
 
         private class ApiResponseType2_1 : ApiResponseType
         {
-#pragma warning disable 108,114
+#pragma warning disable 108, 114
             public bool IsDefaultResponse { get; set; }
-#pragma warning restore 108,114
+#pragma warning restore 108, 114
         }
         #endregion
     }

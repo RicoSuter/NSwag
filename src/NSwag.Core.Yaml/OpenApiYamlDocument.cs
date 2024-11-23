@@ -57,7 +57,7 @@ namespace NSwag
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType, 
+        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
             var deserializer = new DeserializerBuilder().Build();

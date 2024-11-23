@@ -17,7 +17,7 @@ namespace NSwag
     public class OpenApiResponse : JsonReferenceBase<OpenApiResponse>, IJsonReference
     {
         // (RegexOptions) 0x0008 = Compiled
-        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?", (RegexOptions) 0x0008);
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?", (RegexOptions)0x0008);
 
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]

@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m, 
+                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });

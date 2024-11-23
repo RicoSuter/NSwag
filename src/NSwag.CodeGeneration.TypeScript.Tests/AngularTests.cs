@@ -18,7 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class DiscussionController : Controller
         {
             [HttpPost]
-            public void AddMessage([FromBody, Required]Foo message)
+            public void AddMessage([FromBody, Required] Foo message)
             {
             }
 
@@ -66,7 +66,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         {
             [HttpPost]
             [Consumes("application/x-www-form-urlencoded")]
-            public void AddMessage([FromForm]Foo message, [FromForm]string messageId)
+            public void AddMessage([FromForm] Foo message, [FromForm] string messageId)
             {
             }
         }

@@ -153,7 +153,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                 var binaryName = LauncherBinaryName + ".dll";
                 var executorBinary = Path.Combine(toolDirectory, binaryName);
-                   
+
                 if (!File.Exists(executorBinary))
                 {
                     binaryName = LauncherBinaryName + ".exe";

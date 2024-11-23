@@ -25,7 +25,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             var registration = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
             var generator = new AspNetCoreOpenApiDocumentGenerator(registration.Settings);
             await generator.GenerateAsync(serviceProvider);
-         
+
             var settings = generator.Settings;
 
             // Assert

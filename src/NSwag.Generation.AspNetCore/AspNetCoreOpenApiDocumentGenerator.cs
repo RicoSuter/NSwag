@@ -243,7 +243,7 @@ namespace NSwag.Generation.AspNetCore
 
                             operation = JsonConvert.DeserializeObject<OpenApiOperation>(stringBuilder.ToString());
                             operation.Parameters.Clear(); // clear because parameters are added by the generator
-                       }
+                        }
 #endif
 
                         operation.IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method);

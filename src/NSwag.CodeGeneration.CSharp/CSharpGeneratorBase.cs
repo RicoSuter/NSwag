@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>FileResponse by default, FileResult if ControllerTarger parameter is AspNetCore</returns>
         public override string GetBinaryResponseTypeName()
         {
-            if (_settings is CSharpControllerGeneratorSettings controllerSettings 
+            if (_settings is CSharpControllerGeneratorSettings controllerSettings
                 && controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
             {
                 return "FileResult";

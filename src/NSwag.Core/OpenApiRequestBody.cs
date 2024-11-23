@@ -101,7 +101,7 @@ namespace NSwag
         /// <summary>Gets the actual name of the request body parameter.</summary>
         [JsonIgnore]
         public string ActualName => string.IsNullOrEmpty(Name) ? "body" : Name;
- 
+
         #region Implementation of IJsonReference
 
         [JsonIgnore]

@@ -263,7 +263,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         protected async Task<OpenApiDocument> GenerateSwaggerDocumentAsync()
         {
-            return (OpenApiDocument) await SelectedSwaggerGenerator.RunAsync(null, null);
+            return (OpenApiDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static string EscapeJsonString(string value)

@@ -345,7 +345,7 @@ namespace NSwag.CodeGeneration.Models
 
             var formDataSchema =
                 _operation?.ActualRequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
-                _operation.ActualRequestBody.Content["multipart/form-data"]?.Schema.ActualSchema: null;
+                _operation.ActualRequestBody.Content["multipart/form-data"]?.Schema.ActualSchema : null;
 
             if (formDataSchema != null && formDataSchema.ActualProperties.Count > 0)
             {

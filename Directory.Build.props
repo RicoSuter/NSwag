@@ -57,11 +57,9 @@
       [IDE0039] Use local function
       [IDE0045] 'if' statement can be simplified
       [IDE0046] 'if' statement can be simplified
-      [IDE0055] Fix formatting
       [IDE0056] Indexing can be simplified
       [IDE0057] Substring can be simplified
       [IDE0060] Remove unused parameter
-      [IDE0061] Use block body for local function
       [IDE0090] 'new' expression can be simplified
       [IDE0130] Namespace does not match folder structure
       [IDE0160] Convert to block scoped namespace
@@ -77,14 +75,13 @@
       [CA1720] Identifier 'xxx' contains type name
       [CA1725] Overriden parameter name mismatch
       [CA1845] Use span-based 'string.Concat' and 'AsSpan' instead of 'Substring'
-      [CA1861] Prefer 'static readonly' fields over constant array arguments
       [CA1870] Use a cached 'SearchValues' instance for improved searching performance
       [CA2263] Prefer the generic overload 'System.Enum.GetValues<TEnum>()'
 
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
-    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0055;IDE0056;IDE0057;IDE0060;IDE0061;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
-    <NoWarn>$(NoWarn);CA1200;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1845;CA1861;CA1870;CA2263;SYSLIB0012</NoWarn>
+    <NoWarn>$(NoWarn);IDE0005;IDE0008;IDE0017;IDE0021;IDE0022;IDE0029;IDE0032;IDE0039;IDE0045;IDE0046;IDE0056;IDE0057;IDE0060;IDE0090;IDE0130;IDE0160;IDE0200;IDE0270;IDE0290;IDE0330</NoWarn>
+    <NoWarn>$(NoWarn);CA1200;CA1510;CA1514;CA1710;CA1716;CA1720;CA1725;CA1845;CA1870;CA2263;SYSLIB0012</NoWarn>
   </PropertyGroup>
 
 </Project>
