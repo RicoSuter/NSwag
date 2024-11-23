@@ -24,7 +24,7 @@ namespace NSwag.Commands.Document
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             // input can be nix-like file path starting with /
-            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith("/") || File.Exists(Input) || Input.EndsWith("nswag.json")) && !Input.StartsWith("-"))
+            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith('/') || File.Exists(Input) || Input.EndsWith("nswag.json", StringComparison.OrdinalIgnoreCase)) && !Input.StartsWith('-'))
             {
                 await ExecuteDocumentAsync(host, Input);
             }

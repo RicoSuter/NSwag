@@ -73,7 +73,7 @@ namespace NSwag.Collections
         {
             if (items == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException(nameof(items));
             }
 
             if (items.Count > 0)
@@ -171,10 +171,10 @@ namespace NSwag.Collections
 
         private void OnPropertyChanged()
         {
-            OnPropertyChanged("Count");
+            OnPropertyChanged(nameof(Count));
             OnPropertyChanged("Item[]");
-            OnPropertyChanged("Keys");
-            OnPropertyChanged("Values");
+            OnPropertyChanged(nameof(Keys));
+            OnPropertyChanged(nameof(Values));
         }
 
         #region IDictionary<TKey,TValue> interface
@@ -215,7 +215,7 @@ namespace NSwag.Collections
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             var removed = _dictionary.Remove(key);

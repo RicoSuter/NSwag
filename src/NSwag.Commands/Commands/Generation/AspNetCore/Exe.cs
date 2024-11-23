@@ -78,17 +78,17 @@ namespace NSwag.Commands.Generation.AspNetCore
                 var argument = args[i];
                 if (i != 0)
                 {
-                    builder.Append(" ");
+                    builder.Append(' ');
                 }
 
-                if (argument.IndexOf(' ') == -1)
+                if (!argument.Contains(' '))
                 {
                     builder.Append(args[i]);
 
                     continue;
                 }
 
-                builder.Append("\"");
+                builder.Append('"');
 
                 var pendingBackslashs = 0;
                 for (var j = 0; j < argument.Length; j++)
@@ -113,7 +113,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                             {
                                 if (pendingBackslashs == 1)
                                 {
-                                    builder.Append("\\");
+                                    builder.Append('\\');
                                 }
                                 else
                                 {
@@ -133,7 +133,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     builder.Append('\\', pendingBackslashs * 2);
                 }
 
-                builder.Append("\"");
+                builder.Append('"');
             }
 
             return builder.ToString();

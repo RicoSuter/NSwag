@@ -6,6 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+#pragma warning disable CA1507
+
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -308,7 +310,8 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
@@ -372,7 +375,8 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
@@ -436,7 +440,7 @@ namespace NSwag.Commands
             saveFile = false;
 
             // Swagger to OpenApi rename
-            if (data.Contains("\"typeScriptVersion\":") && !data.ToLowerInvariant().Contains("ExceptionClass".ToLowerInvariant()))
+            if (data.Contains("\"typeScriptVersion\":") && !data.Contains("ExceptionClass", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"typeScriptVersion\":", "\"exceptionClass\": \"SwaggerException\", \"typeScriptVersion\":");
                 saveFile = true;
@@ -509,7 +513,7 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            if (data.Contains("\"noBuild\":") && !data.Contains("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;

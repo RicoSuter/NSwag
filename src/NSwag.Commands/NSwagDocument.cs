@@ -138,7 +138,7 @@ namespace NSwag.Commands
         /// <returns>The absolute path.</returns>
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
             }
@@ -151,7 +151,7 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected override string ConvertToRelativePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
             }
@@ -192,17 +192,17 @@ namespace NSwag.Commands
 
             if (process.ExitCode != 0)
             {
-                var errorStart = output.IndexOf("...");
+                var errorStart = output.IndexOf("...", StringComparison.Ordinal);
                 if (errorStart < 0)
                 {
                     errorStart = Regex.Match(output, "\n[^\n\r]*?Exception: .*", RegexOptions.Singleline)?.Index ?? -1;
                 }
 
                 var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
-                var stackTraceStart = error.IndexOf("Server stack trace: ");
+                var stackTraceStart = error.IndexOf("Server stack trace: ", StringComparison.Ordinal);
                 if (stackTraceStart < 0)
                 {
-                    stackTraceStart = error.IndexOf("   at ");
+                    stackTraceStart = error.IndexOf("   at ", StringComparison.Ordinal);
                 }
 
                 var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;

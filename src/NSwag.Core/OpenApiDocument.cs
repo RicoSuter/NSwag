@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -176,14 +175,14 @@ namespace NSwag
             var match = Regex.Match(data, pattern, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                var schemaType = match.Groups["schemaType"].Value.ToLower();
-                var schemaVersion = match.Groups["schemaVersion"].Value.ToLower();
+                var schemaType = match.Groups["schemaType"].Value.ToLowerInvariant();
+                var schemaVersion = match.Groups["schemaVersion"].Value.ToLowerInvariant();
 
-                if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
+                if (schemaType == "swagger" && schemaVersion.StartsWith('2'))
                 {
                     expectedSchemaType = SchemaType.Swagger2;
                 }
-                else if (schemaType == "openapi" && schemaVersion.StartsWith("3"))
+                else if (schemaType == "openapi" && schemaVersion.StartsWith('3'))
                 {
                     expectedSchemaType = SchemaType.OpenApi3;
                 }
@@ -297,7 +296,7 @@ namespace NSwag
             {
                 if (group.Count() > 1)
                 {
-                    var methods = group.Select(o => o.Method.ToUpper()).Distinct();
+                    var methods = group.Select(o => o.Method.ToUpperInvariant()).Distinct();
                     if (methods.Count() == 1)
                     {
                         continue;
@@ -305,7 +304,7 @@ namespace NSwag
 
                     foreach (var o in group)
                     {
-                        o.Operation.OperationId += o.Method.ToUpper();
+                        o.Operation.OperationId += o.Method.ToUpperInvariant();
                     }
                 }
             }

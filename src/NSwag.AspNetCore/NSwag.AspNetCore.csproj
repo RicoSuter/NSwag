@@ -54,6 +54,10 @@
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
+  </ItemGroup>
+
   <Target Name="PopulateNuspec">
     <PropertyGroup>
       <NuspecProperties>

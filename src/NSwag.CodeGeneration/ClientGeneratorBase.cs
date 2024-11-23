@@ -170,7 +170,7 @@ namespace NSwag.CodeGeneration
                         operationName = operationName.Replace(".", "_");
                     }
 
-                    if (operationName.EndsWith("Async"))
+                    if (operationName.EndsWith("Async", StringComparison.Ordinal))
                     {
                         operationName = operationName.Substring(0, operationName.Length - "Async".Length);
                     }

@@ -462,8 +462,8 @@ namespace NSwag.Generation.WebApi.Processors
                             InitializeFileParameter(operationParameter, isFileArray);
                         }
                         else if (fromRouteAttribute != null
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + "}")
-                            || httpPath.ToLowerInvariant().Contains("{" + propertyName.ToLower() + ":"))
+                            || httpPath.Contains("{" + propertyName + "}", StringComparison.OrdinalIgnoreCase)
+                            || httpPath.Contains("{" + propertyName + ":", StringComparison.OrdinalIgnoreCase))
                         {
                             operationParameter.Kind = OpenApiParameterKind.Path;
                             operationParameter.IsNullableRaw = false;

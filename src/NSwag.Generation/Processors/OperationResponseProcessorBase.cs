@@ -191,7 +191,7 @@ namespace NSwag.Generation.Processors
                     var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
 
                     var isResponseNullable = nullableXmlAttribute != null ?
-                        nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                        nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                         statusCodeGroup.Any(r => r.IsNullable) &&
                             _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 

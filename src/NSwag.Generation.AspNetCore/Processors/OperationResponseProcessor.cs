@@ -81,7 +81,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
                         var isResponseNullable = nullableXmlAttribute != null ?
-                                                 nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                                                 nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                                                  _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                         response.IsNullableRaw = isResponseNullable;

@@ -39,7 +39,7 @@ namespace NSwag.AspNetCore.Middlewares
             _nextDelegate = nextDelegate;
 
             _documentName = documentName;
-            _path = path.StartsWith("/") ? path : '/' + path;
+            _path = path.StartsWith('/') ? path : '/' + path;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
@@ -58,7 +58,7 @@ namespace NSwag.AspNetCore.Middlewares
             {
                 var schemaJson = await GetDocumentAsync(context);
                 context.Response.StatusCode = 200;
-                context.Response.Headers["Content-Type"] = _path.IndexOf(".yaml", StringComparison.OrdinalIgnoreCase) >= 0 ?
+                context.Response.Headers["Content-Type"] = _path.Contains(".yaml", StringComparison.OrdinalIgnoreCase) ?
                     "application/yaml; charset=utf-8" :
                     "application/json; charset=utf-8";
 
@@ -99,7 +99,7 @@ namespace NSwag.AspNetCore.Middlewares
             try
             {
                 var openApiDocument = await GenerateDocumentAsync(context);
-                var data = _path.IndexOf(".yaml", StringComparison.OrdinalIgnoreCase) >= 0 ?
+                var data = _path.Contains(".yaml", StringComparison.OrdinalIgnoreCase) ?
                     OpenApiYamlDocument.ToYaml(openApiDocument) :
                     openApiDocument.ToJson();
 
