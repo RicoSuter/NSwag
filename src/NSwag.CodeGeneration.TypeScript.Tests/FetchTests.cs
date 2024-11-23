@@ -237,5 +237,34 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             Assert.DoesNotContain("httpContext?: HttpContext", code);
             Assert.DoesNotContain("context: httpContext", code);
         }
+
+        [Fact]
+        public async Task When_abort_signal_and_generate_client_interfaces()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+            
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+            var json = document.ToJson();
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                UseAbortSignal = true,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.7m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("signal?: AbortSignal): Promise<void>;", code);
+        }
     }
 }
