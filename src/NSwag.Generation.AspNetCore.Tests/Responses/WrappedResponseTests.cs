@@ -1,14 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xunit;
+﻿using Xunit;
 
 using NJsonSchema;
 
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using NJsonSchema.NewtonsoftJson.Generation;
-using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {

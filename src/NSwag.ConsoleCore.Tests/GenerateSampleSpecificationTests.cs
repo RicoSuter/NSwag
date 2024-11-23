@@ -1,8 +1,4 @@
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace NSwag.ConsoleCore.Tests
 {

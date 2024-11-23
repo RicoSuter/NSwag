@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp.Models;

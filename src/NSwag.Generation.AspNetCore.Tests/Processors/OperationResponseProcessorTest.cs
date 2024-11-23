@@ -9,7 +9,6 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
-using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
 

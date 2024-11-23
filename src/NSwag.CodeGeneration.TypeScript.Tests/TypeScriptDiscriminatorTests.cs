@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.Generation.WebApi;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Xunit;
 using NJsonSchema.NewtonsoftJson.Converters;
-using NJsonSchema.Generation;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 

@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
 using NSwag.Commands;
 
 namespace NSwagStudio
