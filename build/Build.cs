@@ -13,6 +13,7 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.Npm;
+using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
