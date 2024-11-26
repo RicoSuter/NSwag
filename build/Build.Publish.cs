@@ -8,7 +8,7 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Chocolatey;
 using Nuke.Common.Tools.DotNet;
-
+using Nuke.Common.Tools.GitHub;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
@@ -29,7 +29,7 @@ public partial class Build
     string SourceToUse => IsTaggedBuild ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
-        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild))
+        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild) && GitRepository.GetGitHubOwner() == "RicoSuter")
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
         .Executes(() =>
