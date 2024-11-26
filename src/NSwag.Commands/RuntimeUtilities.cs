@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-#if !NETFRAMEWORK
-using Microsoft.Extensions.PlatformAbstractions;
-#endif
-
 namespace NSwag.Commands
 {
     /// <summary>Provides runtime utilities.</summary>
@@ -23,10 +19,9 @@ namespace NSwag.Commands
 #if NETFRAMEWORK
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #else
-                var framework = PlatformServices.Default.Application.RuntimeFramework;
-                if (framework.Identifier == ".NETCoreApp")
+                if (!System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.Ordinal))
                 {
-                    if (framework.Version.Major >= 9)
+                    if (Environment.Version.Major >= 9)
                     {
                         return Runtime.Net90;
                     }
