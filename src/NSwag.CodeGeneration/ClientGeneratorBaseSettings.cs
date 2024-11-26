@@ -29,8 +29,8 @@ namespace NSwag.CodeGeneration
             GenerateResponseClasses = true;
             ResponseClass = "SwaggerResponse";
 
-            WrapResponseMethods = new string[0];
-            ExcludedParameterNames = new string[0];
+            WrapResponseMethods = [];
+            ExcludedParameterNames = [];
         }
 
         /// <summary>Gets the code generator settings.</summary>

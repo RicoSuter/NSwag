@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.Generation.WebApi;
 
@@ -34,7 +31,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
-            _path = path.StartsWith("/") ? path : '/' + path;
+            _path = path.StartsWith('/') ? path : '/' + path;
             _controllerTypes = controllerTypes;
             _settings = settings;
         }

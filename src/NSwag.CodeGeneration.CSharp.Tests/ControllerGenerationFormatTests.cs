@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp.Models;
@@ -252,7 +251,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.DoesNotContain("public partial class ComplexTypeResponse", code);
         }
 
-        private OpenApiDocument GetOpenApiDocument()
+        private static OpenApiDocument GetOpenApiDocument()
         {
             JsonSchema complexTypeSchema = new JsonSchema();
             complexTypeSchema.Title = "ComplexType";
@@ -374,7 +373,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                                 Type = JsonObjectType.String
                             }
                         },
-                        Tags = new List<string> { "Secondary" }
+                        Tags = ["Secondary"]
                     }
                 }
             };

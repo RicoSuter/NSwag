@@ -1,7 +1,4 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -63,7 +60,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 WrapResponses = true
             });
             var code = codeGen.GenerateFile();
-            
+
             // Assert
             Assert.Contains("Task<SwaggerResponse<string>>", code);
             Assert.Contains("Task<SwaggerResponse>", code);
@@ -84,7 +81,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 WrapResponses = true,
-                
             });
             var code = codeGen.GenerateFile();
 

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net8.0;net9.0</TargetFrameworks>
     <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
@@ -14,12 +14,8 @@
     <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.4</MicrosoftAspNetCoreStaticFilesPackageVersion>
     <MicrosoftExtensionsApiDescriptionServerPackageVersion>6.0.3</MicrosoftExtensionsApiDescriptionServerPackageVersion>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>1.0.1</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>3.1.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>5.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>6.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>7.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7>
     <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>8.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
-    <NETStandardLibraryPackageVersion>1.6.1</NETStandardLibraryPackageVersion>
+    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9>9.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9>
     <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
     <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
   </PropertyGroup>
@@ -42,20 +38,24 @@
     <PackageReference Include="System.Xml.XPath.XDocument" Version="$(SystemXmlXPathXDocumentPackageVersion)" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6)" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8)" />
   </ItemGroup>
   
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9)" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
   </ItemGroup>
 
   <Target Name="PopulateNuspec">
@@ -72,12 +72,8 @@
         microsoftAspNetCoreStaticFilesPackageVersion=$(MicrosoftAspNetCoreStaticFilesPackageVersion);
         microsoftExtensionsApiDescriptionServerPackageVersion=$(MicrosoftExtensionsApiDescriptionServerPackageVersion);
         microsoftExtensionsFileProvidersEmbeddedPackageVersion=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionCore31=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionCore31);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet5=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet5);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet6=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet6);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet7=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet7);
         microsoftExtensionsFileProvidersEmbeddedPackageVersionNet8=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8);
-        netStandardLibraryPackageVersion=$(NETStandardLibraryPackageVersion);
+        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet9=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9);
         systemIOFileSystemPackageVersion=$(SystemIOFileSystemPackageVersion);
         systemXmlXPathXDocumentPackageVersion=$(SystemXmlXPathXDocumentPackageVersion);
       </NuspecProperties>

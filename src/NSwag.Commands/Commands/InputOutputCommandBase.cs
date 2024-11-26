@@ -6,14 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 
@@ -59,7 +54,7 @@ namespace NSwag.Commands
                     document.Host = ServiceHost;
                 }
 
-                if (ServiceSchemes != null && ServiceSchemes.Any())
+                if (ServiceSchemes != null && ServiceSchemes.Length > 0)
                 {
                     document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true)).ToList();
                 }

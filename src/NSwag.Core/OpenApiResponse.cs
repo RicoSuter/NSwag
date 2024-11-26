@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -19,7 +17,7 @@ namespace NSwag
     public class OpenApiResponse : JsonReferenceBase<OpenApiResponse>, IJsonReference
     {
         // (RegexOptions) 0x0008 = Compiled
-        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?", (RegexOptions) 0x0008);
+        private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?", (RegexOptions)0x0008);
 
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
@@ -39,7 +37,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers.</summary>
         [JsonProperty(PropertyName = "headers", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public OpenApiHeaders Headers { get; } = new OpenApiHeaders();
+        public OpenApiHeaders Headers { get; } = [];
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
         /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>

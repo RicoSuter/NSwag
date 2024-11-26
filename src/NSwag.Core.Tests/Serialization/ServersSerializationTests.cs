@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NJsonSchema;
+﻿using NJsonSchema;
 using Xunit;
 
 namespace NSwag.Core.Tests.Serialization
@@ -76,11 +75,12 @@ namespace NSwag.Core.Tests.Serialization
 
             // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
@@ -97,11 +97,12 @@ namespace NSwag.Core.Tests.Serialization
 
             // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
@@ -120,6 +121,7 @@ namespace NSwag.Core.Tests.Serialization
             document.Host = "localhost:12354";
 
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal(2, document.Servers.Count);
@@ -139,6 +141,7 @@ namespace NSwag.Core.Tests.Serialization
             // Act
             document.Host = string.Empty;
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
             // Assert
             Assert.True(string.IsNullOrEmpty(document.BaseUrl));

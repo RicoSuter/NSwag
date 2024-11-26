@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using NSwag.Collections;
@@ -102,7 +101,7 @@ namespace NSwag
         /// <summary>Gets the actual name of the request body parameter.</summary>
         [JsonIgnore]
         public string ActualName => string.IsNullOrEmpty(Name) ? "body" : Name;
- 
+
         #region Implementation of IJsonReference
 
         [JsonIgnore]

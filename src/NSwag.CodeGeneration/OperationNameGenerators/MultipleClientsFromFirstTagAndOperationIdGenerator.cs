@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
-using System.Linq;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {

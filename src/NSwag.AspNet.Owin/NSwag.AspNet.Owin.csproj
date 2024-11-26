@@ -17,6 +17,7 @@
     <Compile Include="..\NSwag.AspNetCore\SwaggerSettings.cs" Link="SwaggerSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettings.cs" Link="SwaggerUiSettings.cs" />
     <Compile Include="..\NSwag.AspNetCore\SwaggerUiSettingsBase.cs" Link="SwaggerUiSettingsBase.cs" />
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
   </ItemGroup>
 
   <ItemGroup>

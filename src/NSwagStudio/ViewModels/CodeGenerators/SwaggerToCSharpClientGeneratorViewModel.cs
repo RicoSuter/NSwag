@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using NJsonSchema.CodeGeneration.CSharp;
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
@@ -22,7 +20,7 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets the settings.</summary>
         public OpenApiToCSharpClientCommand Command
         {
-            get { return _command; }
+            get => _command;
             set
             {
                 if (Set(ref _command, value))
@@ -53,8 +51,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the client code. </summary>
         public string ClientCode
         {
-            get { return _clientCode; }
-            set { Set(ref _clientCode, value); }
+            get => _clientCode;
+            set => Set(ref _clientCode, value);
         }
     }
 }

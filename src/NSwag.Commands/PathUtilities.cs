@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,7 +18,7 @@ namespace NSwag.Commands
         /// <returns>All expanded file paths.</returns>
         public static IEnumerable<string> ExpandFileWildcards(string path)
         {
-            return ExpandFileWildcards(new[] { path });
+            return ExpandFileWildcards([path]);
         }
 
         /// <summary>Expands the given wildcards (** or *) in the paths.</summary>
@@ -33,14 +29,14 @@ namespace NSwag.Commands
             var allFiles = new List<string>();
             foreach (var path in paths)
             {
-                if (path.Contains("*"))
+                if (path.Contains('*'))
                 {
-                    var starIndex = path.IndexOf("*", StringComparison.Ordinal);
+                    var starIndex = path.IndexOf('*');
 
-                    var rootIndex = path.Substring(0, starIndex).LastIndexOf("\\", StringComparison.Ordinal);
+                    var rootIndex = path.Substring(0, starIndex).LastIndexOf('\\');
                     if (rootIndex == -1)
                     {
-                        rootIndex = path.Substring(0, starIndex).LastIndexOf("/", StringComparison.Ordinal);
+                        rootIndex = path.Substring(0, starIndex).LastIndexOf('/');
                     }
 
                     var rootPath = rootIndex >= 0 ? path.Substring(0, rootIndex + 1) : Directory.GetCurrentDirectory();

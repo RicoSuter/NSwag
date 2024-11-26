@@ -10,20 +10,17 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 
 namespace NSwag
 {
     public partial class OpenApiDocument
     {
-        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
+        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
             new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.Swagger2));
 
-        private static Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
+        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
             new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.OpenApi3));
 
         /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
@@ -116,14 +113,14 @@ namespace NSwag
             return resolver;
         }
 
-        private ObservableCollection<OpenApiSchema> _schemes = new ObservableCollection<OpenApiSchema>();
+        private ObservableCollection<OpenApiSchema> _schemes = [];
 
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
         [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Host
         {
-            get { return Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0]; }
-            set { UpdateServers(Schemes, value, BasePath); }
+            get => Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0];
+            set => UpdateServers(Schemes, value, BasePath);
         }
 
         /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
@@ -135,7 +132,7 @@ namespace NSwag
                 var segments = Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/').Skip(1).ToArray();
                 return segments != null && segments.Length > 0 ? "/" + string.Join("/", segments) : null;
             }
-            set { UpdateServers(Schemes, Host, value); }
+            set => UpdateServers(Schemes, Host, value);
         }
 
         /// <summary>Gets or sets the schemes.</summary>
@@ -151,14 +148,14 @@ namespace NSwag
 
                 _schemes = new ObservableCollection<OpenApiSchema>(Servers?
                     .Where(s => s.Url.Contains("://"))
-                    .Select(s => s.Url.StartsWith("http://") ? OpenApiSchema.Http : OpenApiSchema.Https)
-                    .Distinct() ?? new List<OpenApiSchema>());
+                    .Select(s => s.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ? OpenApiSchema.Http : OpenApiSchema.Https)
+                    .Distinct() ?? []);
 
                 _schemes.CollectionChanged += OnSchemesChanged;
 
                 return _schemes;
             }
-            set { UpdateServers(value, Host, BasePath); }
+            set => UpdateServers(value, Host, BasePath);
         }
 
         private void OnSchemesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -170,30 +167,30 @@ namespace NSwag
         {
             if ((schemes == null || schemes.Count == 0) && (!string.IsNullOrEmpty(host) || !string.IsNullOrEmpty(basePath)))
             {
-                Servers = new List<OpenApiServer>
-                {
+                Servers =
+                [
                     new OpenApiServer
                     {
                         Url = host + basePath
                     }
-                };
+                ];
             }
             else
             {
                 Servers = schemes?.Select(s => new OpenApiServer
                 {
                     Url = s.ToString().ToLowerInvariant() + "://" + host + basePath
-                }).ToList() ?? new List<OpenApiServer>();
+                }).ToList() ?? [];
             }
         }
 
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
         [JsonProperty(PropertyName = "consumes", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Consumes { get; set; } = new List<string>();
+        public ICollection<string> Consumes { get; set; } = [];
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
         [JsonProperty(PropertyName = "produces", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Produces { get; set; } = new List<string>();
+        public ICollection<string> Produces { get; set; } = [];
 
         /// <summary>Gets or sets the types (Swagger only).</summary>
         [JsonProperty(PropertyName = "definitions", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xunit;
-
+﻿using Xunit;
 using NJsonSchema;
-
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using NJsonSchema.NewtonsoftJson.Generation;
-using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
@@ -30,23 +23,27 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             var document = await GenerateDocumentAsync(settings, typeof(WrappedResponseController));
 
             // Assert
-            OpenApiResponse GetOperationResponse(string actionName) => document.Operations
-                .Where(op => op.Operation.OperationId == $"{nameof(WrappedResponseController)
-                    .Substring(0, nameof(WrappedResponseController).Length - "Controller".Length)}_{actionName}")
-                .Single().Operation.ActualResponses.Single().Value;
+            OpenApiResponse GetOperationResponse(string actionName)
+            {
+                return document.Operations
+                    .Single(op => op.Operation.OperationId == $"{nameof(WrappedResponseController)
+                        .Substring(0, nameof(WrappedResponseController).Length - "Controller".Length)}_{actionName}").Operation.ActualResponses.Single().Value;
+            }
 
-            JsonObjectType GetOperationResponseSchemaType(string actionName) =>
-                GetOperationResponse(actionName).Schema.Type;
+            JsonObjectType GetOperationResponseSchemaType(string actionName)
+            {
+                return GetOperationResponse(actionName).Schema.Type;
+            }
 
             var intType = NewtonsoftJsonSchemaGenerator.FromType<int>().Type;
 
             Assert.Null(GetOperationResponse(nameof(WrappedResponseController.Task)).Schema);
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.Int)));
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.TaskOfInt)));
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.ValueTaskOfInt)));
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.ActionResultOfInt)));
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.TaskOfActionResultOfInt)));
-            Assert.Equal(intType, GetOperationResponseSchemaType(nameof( WrappedResponseController.ValueTaskOfActionResultOfInt)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.Int)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.TaskOfInt)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.ValueTaskOfInt)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.ActionResultOfInt)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.TaskOfActionResultOfInt)));
+            Assert.Equal(intType, GetOperationResponseSchemaType(nameof(WrappedResponseController.ValueTaskOfActionResultOfInt)));
         }
     }
 }

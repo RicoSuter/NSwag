@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using NJsonSchema.Generation;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 
@@ -20,7 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class DiscussionController : Controller
         {
             [HttpPost]
-            public void AddMessage([FromBody, Required]Foo message)
+            public void AddMessage([FromBody, Required] Foo message)
             {
             }
 
@@ -68,7 +66,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         {
             [HttpPost]
             [Consumes("application/x-www-form-urlencoded")]
-            public void AddMessage([FromForm]Foo message, [FromForm]string messageId)
+            public void AddMessage([FromForm] Foo message, [FromForm] string messageId)
             {
             }
         }
@@ -83,6 +81,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -110,6 +109,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -139,6 +139,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -168,6 +169,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -197,6 +199,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings

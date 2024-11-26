@@ -4,9 +4,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using NSwag.AspNetCore.Middlewares;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.AspNetCore.Builder

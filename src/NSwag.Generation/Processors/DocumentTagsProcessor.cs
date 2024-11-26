@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Namotion.Reflection;
 using NSwag.Generation.Collections;
 using NSwag.Generation.Processors.Contexts;
@@ -42,13 +39,9 @@ namespace NSwag.Generation.Processors
                     .Select(t => new OpenApiTag { Name = t })
                     .ToList();
 
-                if (tags.Any())
+                if (tags.Count > 0)
                 {
-                    if (document.Tags == null)
-                    {
-                        document.Tags = new List<OpenApiTag>();
-                    }
-
+                    document.Tags ??= [];
                     foreach (var tag in tags)
                     {
                         if (document.Tags.All(t => t.Name != tag.Name))
@@ -69,12 +62,9 @@ namespace NSwag.Generation.Processors
                 .Select(a => (dynamic)a)
                 .ToArray();
 
-            if (tagAttributes.Any())
+            foreach (var tagAttribute in tagAttributes)
             {
-                foreach (var tagAttribute in tagAttributes)
-                {
-                    ProcessTagAttribute(document, tagAttribute);
-                }
+                ProcessTagAttribute(document, tagAttribute);
             }
         }
 

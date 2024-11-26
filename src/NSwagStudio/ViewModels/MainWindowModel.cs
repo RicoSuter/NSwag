@@ -8,8 +8,6 @@
 
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyToolkit.Command;
 using MyToolkit.Storage;
@@ -50,7 +48,7 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets or sets the selected document. </summary>
         public DocumentModel SelectedDocument
         {
-            get { return _selectedDocument; }
+            get => _selectedDocument;
             set
             {
                 if (Set(ref _selectedDocument, value))

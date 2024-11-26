@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace NSwag.Sample.NET80.Controllers
 {
@@ -19,7 +17,9 @@ namespace NSwag.Sample.NET80.Controllers
             public DateTime DayOfBirth { get; set; }
         }
 
+#pragma warning disable CA1711
         public enum TestEnum
+#pragma warning restore CA1711
         {
             Foo,
             Bar
@@ -28,7 +28,7 @@ namespace NSwag.Sample.NET80.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Person>> Get()
         {
-            return new Person[] { };
+            return Array.Empty<Person>();
         }
 
         // GET api/values/5

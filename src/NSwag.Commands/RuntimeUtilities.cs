@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 #if !NETFRAMEWORK
 using Microsoft.Extensions.PlatformAbstractions;
 #endif
@@ -27,17 +26,12 @@ namespace NSwag.Commands
                 var framework = PlatformServices.Default.Application.RuntimeFramework;
                 if (framework.Identifier == ".NETCoreApp")
                 {
-                    if (framework.Version.Major >= 8)
+                    if (framework.Version.Major >= 9)
                     {
-                        return Runtime.Net80;
+                        return Runtime.Net90;
                     }
 
-                    if (framework.Version.Major >= 6)
-                    {
-                        return Runtime.Net60;
-                    }
-
-                    return Runtime.Net60;
+                    return Runtime.Net80;
                 }
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #endif

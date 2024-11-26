@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -24,7 +21,7 @@ using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.AspNetCore.Processors
 {
-    internal class OperationParameterProcessor : IOperationProcessor
+    internal sealed class OperationParameterProcessor : IOperationProcessor
     {
         private const string MultipartFormData = "multipart/form-data";
 
@@ -47,7 +44,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             var httpPath = context.OperationDescription.Path;
             var parameters = context.ApiDescription.ParameterDescriptions;
-            var methodParameters = context.MethodInfo?.GetParameters() ?? Array.Empty<ParameterInfo>();
+            var methodParameters = context.MethodInfo?.GetParameters() ?? [];
 
             var position = operationProcessorContext.Parameters.Count(x => x.Value.Kind is not OpenApiParameterKind.Body) + 1;
             foreach (var apiParameter in parameters.Where(p =>
@@ -70,7 +67,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 var extendedApiParameter = new ExtendedApiParameterDescription(_settings.SchemaSettings)
                 {
                     ApiParameter = apiParameter,
-                    Attributes = Enumerable.Empty<Attribute>(),
+                    Attributes = [],
                     ParameterType = apiParameter.Type
                 };
 
@@ -90,7 +87,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 {
                     var parameterDescriptor = apiParameter.TryGetPropertyValue<ParameterDescriptor>("ParameterDescriptor");
                     var parameterName = parameterDescriptor?.Name ?? apiParameter.Name;
-                    parameter = methodParameters.FirstOrDefault(m => m.Name.ToLowerInvariant() == parameterName.ToLowerInvariant());
+                    parameter = methodParameters.FirstOrDefault(m => m.Name.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
                     if (parameter != null)
                     {
                         extendedApiParameter.ParameterInfo = parameter;
@@ -115,13 +112,13 @@ namespace NSwag.Generation.AspNetCore.Processors
                     if (apiParameter.Source == BindingSource.Path)
                     {
                         // ignore unused implicit path parameters
-                        if (!httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + ":") &&
-                            !httpPath.ToLowerInvariant().Contains("{" + apiParameter.Name.ToLowerInvariant() + "}"))
+                        if (!httpPath.Contains("{" + apiParameter.Name + ":", StringComparison.OrdinalIgnoreCase) &&
+                            !httpPath.Contains("{" + apiParameter.Name + "}", StringComparison.OrdinalIgnoreCase))
                         {
                             continue;
                         }
 
-                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat(new[] { new NotNullAttribute() });
+                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat([new NotNullAttribute()]);
                     }
                 }
 
@@ -178,7 +175,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 }
                 else
                 {
-                    if (TryAddFileParameter(context, extendedApiParameter) == false)
+                    if (!TryAddFileParameter(context, extendedApiParameter))
                     {
                         operationParameter = CreatePrimitiveParameter(context, extendedApiParameter);
                         operationParameter.Kind = OpenApiParameterKind.Query;
@@ -247,7 +244,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
+        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
@@ -255,7 +252,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
+        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
         {
             if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
             {
@@ -263,7 +260,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
+        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
         {
             operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
             {
@@ -324,7 +321,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private JsonSchema CreateOrGetFormDataSchema(OperationProcessorContext context)
+        private static JsonSchema CreateOrGetFormDataSchema(OperationProcessorContext context)
         {
             if (context.OperationDescription.Operation.RequestBody == null)
             {
@@ -332,20 +329,16 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
 
             var requestBody = context.OperationDescription.Operation.RequestBody;
-            if (!requestBody.Content.ContainsKey(MultipartFormData))
+            if (!requestBody.Content.TryGetValue(MultipartFormData, out OpenApiMediaType value))
             {
-                requestBody.Content[MultipartFormData] = new OpenApiMediaType
+                value = new OpenApiMediaType
                 {
                     Schema = new JsonSchema()
                 };
+                requestBody.Content[MultipartFormData] = value;
             }
 
-            if (requestBody.Content[MultipartFormData].Schema == null)
-            {
-                requestBody.Content[MultipartFormData].Schema = new JsonSchema();
-            }
-
-            return requestBody.Content[MultipartFormData].Schema;
+            return value.Schema ??= new JsonSchema();
         }
 
         private JsonSchemaProperty CreateFormDataProperty(OperationProcessorContext context, ExtendedApiParameterDescription extendedApiParameter, JsonSchema schema)
@@ -370,7 +363,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 return true;
             }
 
-            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Any())
+            if (typeInfo.Type == JsonObjectType.Array && type.GenericTypeArguments.Length > 0)
             {
                 var description = _settings.SchemaSettings.ReflectionService.GetDescription(type.GenericTypeArguments[0].ToContextualType(), _settings.SchemaSettings);
                 if (description.Type == JsonObjectType.File || description.Format == JsonFormatStrings.Binary)
@@ -509,7 +502,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return operationParameter;
         }
 
-        private class ExtendedApiParameterDescription
+        private sealed class ExtendedApiParameterDescription
         {
             private readonly IXmlDocsSettings _xmlDocsSettings;
 
@@ -521,7 +514,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             public Type ParameterType { get; set; }
 
-            public IEnumerable<Attribute> Attributes { get; set; } = Enumerable.Empty<Attribute>();
+            public IEnumerable<Attribute> Attributes { get; set; } = [];
 
             public ExtendedApiParameterDescription(IXmlDocsSettings xmlDocsSettings)
             {
@@ -544,14 +537,11 @@ namespace NSwag.Generation.AspNetCore.Processors
                     {
                         isRequired = true;
                     }
-                    else if (ApiParameter.ModelMetadata != null &&
-                             ApiParameter.ModelMetadata.IsBindingRequired)
+                    else if (ApiParameter.ModelMetadata != null && ApiParameter.ModelMetadata.IsBindingRequired)
                     {
                         isRequired = true;
                     }
-                    else if (ApiParameter.Source == BindingSource.Path &&
-                             ApiParameter.RouteInfo != null &&
-                             ApiParameter.RouteInfo.IsOptional == false)
+                    else if (ApiParameter.Source == BindingSource.Path && ApiParameter.RouteInfo != null && !ApiParameter.RouteInfo.IsOptional)
                     {
                         isRequired = true;
                     }

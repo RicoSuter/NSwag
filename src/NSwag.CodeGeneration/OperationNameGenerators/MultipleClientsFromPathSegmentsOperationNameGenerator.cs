@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
-
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name based on the path segments (operation name = last segment, client name = second to last segment).</summary>
@@ -45,8 +43,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var hasNameConflict = document.Paths
                 .SelectMany(pair => pair.Value.ActualPathItem
                     .Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
-                .Where(op => 
-                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) && 
+                .Where(op =>
+                    GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) &&
                     ConvertPathToName(op.Path) == operationName
                 ).ToList()
                 .Count > 1;

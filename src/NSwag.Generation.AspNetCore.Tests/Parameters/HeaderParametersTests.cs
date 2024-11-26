@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using NJsonSchema;
+﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
@@ -29,8 +27,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var operation = document.Operations.First().Operation;
 
             Assert.Equal(2, operation.ActualParameters.Count);
-            Assert.True(operation.ActualParameters.First().IsRequired);
-            Assert.False(operation.ActualParameters.Last().IsRequired);
+            Assert.True(operation.ActualParameters[0].IsRequired);
+            Assert.False(operation.ActualParameters[operation.ActualParameters.Count - 1].IsRequired);
         }
     }
 }

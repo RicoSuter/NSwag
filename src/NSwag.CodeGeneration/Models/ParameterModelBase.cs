@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -102,22 +99,10 @@ namespace NSwag.CodeGeneration.Models
         public bool IsForm => _parameter.Style == OpenApiParameterStyle.Form;
 
         /// <summary>Gets the contained value property names (OpenAPI 3).</summary>
-        public IEnumerable<PropertyModel> PropertyNames
-        {
-            get
-            {
-                return _properties.Where(p => !p.IsCollection);
-            }
-        }
+        public IEnumerable<PropertyModel> PropertyNames => _properties.Where(p => !p.IsCollection);
 
         /// <summary>Gets the contained collection property names (OpenAPI 3).</summary>
-        public IEnumerable<PropertyModel> CollectionPropertyNames
-        {
-            get
-            {
-                return _properties.Where(p => p.IsCollection);
-            }
-        }
+        public IEnumerable<PropertyModel> CollectionPropertyNames => _properties.Where(p => p.IsCollection);
 
         /// <summary>Gets a value indicating whether the parameter has a description.</summary>
         public bool HasDescription => !string.IsNullOrEmpty(Description);
@@ -135,7 +120,7 @@ namespace NSwag.CodeGeneration.Models
         public bool IsNullable => _parameter.IsNullable(_settings.SchemaType);
 
         /// <summary>Gets a value indicating whether the parameter is optional (i.e. not required).</summary>
-        public bool IsOptional => _parameter.IsRequired == false;
+        public bool IsOptional => !_parameter.IsRequired;
 
         /// <summary>Gets a value indicating whether the parameter has a description or is optional.</summary>
         public bool HasDescriptionOrIsOptional => HasDescription || !IsRequired;

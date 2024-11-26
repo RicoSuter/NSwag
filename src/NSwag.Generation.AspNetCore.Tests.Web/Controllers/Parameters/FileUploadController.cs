@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Annotations;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
 {
@@ -11,13 +9,13 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
     public class FileUploadController : Controller
     {
         [HttpPost("UploadFile")]
-        public ActionResult UploadFile([NotNull] IFormFile file, [FromForm, NotNull]string test)
+        public ActionResult UploadFile([NotNull] IFormFile file, [FromForm, NotNull] string test)
         {
             return Ok();
         }
 
         [HttpPost("UploadFiles")]
-        public ActionResult UploadFiles([NotNull, FromForm] IFormFile[] files, [FromForm, NotNull]string test)
+        public ActionResult UploadFiles([NotNull, FromForm] IFormFile[] files, [FromForm, NotNull] string test)
         {
             return Ok();
         }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using NJsonSchema;
 using Xunit;
 
@@ -23,13 +20,14 @@ namespace NSwag.Core.Yaml.Tests.References
             // Act
             var document = await OpenApiYamlDocument.FromFileAsync(path);
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["ContractObject"].Properties["foo"].ActualTypeSchema.Type);
             Assert.Equal(JsonObjectType.Boolean, document.Definitions["ContractObject"].Properties["bar"].ActualTypeSchema.Type);
         }
 
-        private string GetTestDirectory()
+        private static string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);

@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Reflection;
 using NJsonSchema.CodeGeneration;
-using System.IO;
 
 namespace NSwag.CodeGeneration
 {
@@ -50,10 +48,8 @@ namespace NSwag.CodeGeneration
             var resource = assembly.GetManifestResourceStream(resourceName);
             if (resource != null)
             {
-                using (var reader = new StreamReader(resource))
-                {
-                    return reader.ReadToEnd();
-                }
+                using var reader = new StreamReader(resource);
+                return reader.ReadToEnd();
             }
 
             return base.GetEmbeddedLiquidTemplate(language, template);

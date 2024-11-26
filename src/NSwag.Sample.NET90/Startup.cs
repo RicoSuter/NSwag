@@ -1,12 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using NJsonSchema.Generation;
 using System.Text.Json.Serialization;
 
-namespace NSwag.Sample.NET60
+namespace NSwag.Sample.NET90
 {
     public class Startup
     {
