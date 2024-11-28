@@ -292,12 +292,12 @@ namespace NSwag
         private void UpdateBodyParameter(OpenApiParameter parameter)
         {
             parameter.Kind = OpenApiParameterKind.Body;
-            parameter.Name = RequestBody.ActualName;
-            parameter.Position = RequestBody.Position;
-            parameter.Description = RequestBody.Description;
-            parameter.IsRequired = RequestBody.IsRequired;
-            parameter.Example = RequestBody.Content.FirstOrDefault().Value?.Example;
-            parameter.Schema = RequestBody.Content.FirstOrDefault().Value?.Schema;
+            parameter.Name = RequestBody.ActualRequestBody.ActualName;
+            parameter.Position = RequestBody.ActualRequestBody.Position;
+            parameter.Description = RequestBody.ActualRequestBody.Description;
+            parameter.IsRequired = RequestBody.ActualRequestBody.IsRequired;
+            parameter.Example = RequestBody.ActualRequestBody.Content.FirstOrDefault().Value?.Example;
+            parameter.Schema = RequestBody.ActualRequestBody.Content.FirstOrDefault().Value?.Schema;
         }
 
         private void UpdateRequestBody(NotifyCollectionChangedEventArgs args)
