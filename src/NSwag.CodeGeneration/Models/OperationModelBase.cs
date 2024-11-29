@@ -240,7 +240,7 @@ namespace NSwag.CodeGeneration.Models
         public bool HasBinaryBodyParameter => Parameters.Any(p => p.IsBinaryBodyParameter);
 
         /// <summary>Gets a value indicating whether this operation has a text/plain body parameter.</summary>
-        public bool HasPlainTextBodyParameter => Consumes == "text/plain";
+        public bool HasPlainTextBodyParameter => Consumes == "text/plain" || Consumes == "text/html" || Consumes == "text/xml" || Consumes == "text/richtext";
 
         /// <summary>Gets the mime type of the request body.</summary>
         public string Consumes
