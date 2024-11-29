@@ -247,7 +247,7 @@
                 content_.Headers.Remove("Content-Type");
                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 {%                 for parameter in operation.FormParameters %}
-{%                     if parameter.IsNullable -%}
+{%                     if parameter.IsNullable or parameter.IsOptional -%}
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
