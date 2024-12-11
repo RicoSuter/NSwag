@@ -9,7 +9,7 @@ urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('
 {% elsif parameter.IsArray -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDictionary -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('.').Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDeepObject -%}
 {%     for property in parameter.PropertyNames -%}
 if ({{parameter.Name}}.{{property.Name}} != null)
