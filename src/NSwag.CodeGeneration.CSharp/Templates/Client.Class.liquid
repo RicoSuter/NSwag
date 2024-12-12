@@ -286,7 +286,7 @@
                 request_.Content = content_;
 {%             endif -%}
 {%         elsif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
+                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Consumes }}");
 {%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
