@@ -212,6 +212,18 @@
                                 <TextBox ToolTip="ProtectedMethods"
                                          Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}"
                                          Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.ExcludeDeprecated, Mode=TwoWay}" 
+                                    Content="Exclude deprecated endpoints" 
+                                    ToolTip="ExcludeDeprecated"
+                                    Margin="0,0,0,12" />
+
+                                <TextBlock Text="Exclude the following endpoints by their path (via Regex)" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ExcludeByPathRegex, Mode=TwoWay}"
+                                 ToolTip="ExcludeByPathRegex" 
+                                 Margin="0,0,0,12" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>

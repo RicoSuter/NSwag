@@ -85,5 +85,16 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the name of the response class (supports the '{controller}' placeholder).</summary>
         public string ResponseClass { get; set; }
+
+        //-------
+        /// <summary>Gets or sets the value indicating if deprecated endpoints shall be rendered</summary>
+        public bool ExcludeDeprecated { get; set; }
+
+        /// <summary>Gets or sets the regular expression to indicate for which path's client code should be generated (null/empty means all)</summary>
+        public string ExcludeByPathRegex { get; set; }
+
+
+
+
     }
 }
