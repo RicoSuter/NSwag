@@ -9,9 +9,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class FooController : Controller
         {
-#pragma warning disable S1133 // Deprecated code should be removed
             [Obsolete("Testing generation of obsolete endpoints")]
-#pragma warning restore S1133 // Deprecated code should be removed
             public object GetPerson(bool @override = false)
             {
                 return null;
