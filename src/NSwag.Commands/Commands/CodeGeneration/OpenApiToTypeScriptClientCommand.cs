@@ -392,6 +392,20 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.IncludeHttpContext = value;
         }
 
+        [Argument(Name = "ExcludeDeprecated", IsRequired = false, Description = "Specifies if deprecated endpoints should be generated")]
+        public bool ExcludeDeprecated
+        {
+            get { return Settings.ExcludeDeprecated; }
+            set { Settings.ExcludeDeprecated = value; }
+        }
+
+        [Argument(Name = "ExcludeByPathRegex", IsRequired = false, Description = "The regex which defines endpoints should not be genereated (regex is applied to path)")]
+        public string ExcludeByPathRegex
+        {
+            get { return Settings.ExcludeByPathRegex; }
+            set { Settings.ExcludeByPathRegex = value; }
+        }
+
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             var code = await RunAsync();
