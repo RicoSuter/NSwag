@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Net;
 using Namotion.Reflection;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -49,6 +50,13 @@ namespace NSwag.Generation
 
         /// <summary>Gets or sets the default response reference type null handling when no nullability information is available (if NotNullAttribute and CanBeNullAttribute are missing, default: NotNull).</summary>
         public ReferenceTypeNullHandling DefaultResponseReferenceTypeNullHandling { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating that the api method/action response should be considered nullable if this response type is documented, even if it is a void response.
+        /// <para>Allows for things like a 204 No Content to be treated as nullable without decorating with the <see cref="NJsonSchema.Annotations.CanBeNullAttribute"/></para>
+        /// <para>If the action is decorated with the <see cref="NJsonSchema.Annotations.NotNullAttribute"/></para> this setting will be ignored for that action.
+        /// </summary>
+        public HttpStatusCode[] ResponseStatusCodesToTreatAsNullable { get; set; } = [];
 
         /// <summary>Gets or sets a value indicating whether to generate x-originalName properties when parameter name is different in .NET and HTTP (default: true).</summary>
         public bool GenerateOriginalParameterNames { get; set; } = true;
