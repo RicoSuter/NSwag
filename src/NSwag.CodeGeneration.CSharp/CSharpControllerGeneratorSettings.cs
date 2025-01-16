@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.CSharp
         public CSharpControllerGeneratorSettings()
         {
             ClassName = "{controller}";
+            ModelClassName = "{model}";
             CSharpGeneratorSettings.ArrayType = "System.Collections.Generic.List";
             CSharpGeneratorSettings.ArrayInstanceType = "System.Collections.Generic.List";
             ControllerStyle = CSharpControllerStyle.Partial;
