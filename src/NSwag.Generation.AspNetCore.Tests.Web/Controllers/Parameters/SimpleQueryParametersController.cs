@@ -8,7 +8,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
     public class SimpleQueryParametersController : Controller
     {
         [HttpGet]
-        public ActionResult GetList(int? required, int optional = 10, [BindRequired, FromQuery] string requiredString = null)
+        public ActionResult GetList(int requiredBecauseNonNullable, int? optionalBecauseNullable, int? optionalBecauseNullableWithDefaultValue = 10, [BindRequired, FromQuery] string? requiredBecauseBindRequired = null)
         {
             return Ok();
         }
