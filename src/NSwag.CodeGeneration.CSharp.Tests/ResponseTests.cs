@@ -348,7 +348,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var result_ = (string)System.Convert.ChangeType(responseData_, typeof(string));", code);
+            Assert.Contains("var result_ = (string?)System.Convert.ChangeType(responseData_, typeof(string));", code);
             Assert.Contains("await ReadObjectResponseAsync<ValidationProblemDetails>", code);
             Assert.Contains("await ReadObjectResponseAsync<ProblemDetails>", code);
         }
