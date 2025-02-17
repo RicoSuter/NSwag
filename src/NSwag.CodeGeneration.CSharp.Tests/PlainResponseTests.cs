@@ -107,7 +107,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
-            Assert.Contains("(string)System.Convert.ChangeType(responseData_, typeof(string));", code);
+            Assert.Contains("(string?)System.Convert.ChangeType(responseData_, typeof(string));", code);
         }
 
         [Fact]
