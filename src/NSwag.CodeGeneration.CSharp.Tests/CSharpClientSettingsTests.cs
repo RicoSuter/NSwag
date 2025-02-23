@@ -9,6 +9,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     {
         public class FooController : Controller
         {
+            [Obsolete("Testing generation of obsolete endpoints")]
             public object GetPerson(bool @override = false)
             {
                 return null;
@@ -104,6 +105,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("Task<object> GetPersonAsync(bool? @override, ", code);
+            Assert.Contains("Obsolete", code);
         }
 
         [Fact]
@@ -246,6 +248,54 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.DoesNotContain("public partial interface IFooClient", code);
             Assert.Contains("public partial class FooClient : IFooClient", code);
+        }
+
+        [Fact]
+        public async Task When_regex_is_set_to_excluded_endpoints_the_client_will_not_generate_these_endpoint()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            string firstPath = document.Paths.Keys.First();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                ExcludeByPathRegex = firstPath.Replace("/", "\\/").TrimStart('/') // path: "/api/Foo" so corresponding regex is "api\/Foo"
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("GetPerson", code);
+        }
+
+        [Fact]
+        public async Task When_depreacted_endpoints_are_excluded_the_client_will_not_generate_these_endpoint()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                ExcludeDeprecated = true
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("GetPerson", code);
+            Assert.DoesNotContain("Obsolete", code);
         }
     }
 }

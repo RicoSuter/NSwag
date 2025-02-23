@@ -9,6 +9,7 @@
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
+using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration
 {
@@ -162,6 +163,17 @@ namespace NSwag.CodeGeneration
                     var httpMethod = p.Key;
                     var operation = p.Value;
 
+                    if (this.BaseSettings.ExcludeDeprecated && operation.IsDeprecated)
+                    {
+                        continue;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(this.BaseSettings.ExcludeByPathRegex) && Regex.IsMatch(pair.Key, this.BaseSettings.ExcludeByPathRegex))
+                    {
+                        continue;
+                    }
+
+
                     var operationName =
                         BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
@@ -181,7 +193,6 @@ namespace NSwag.CodeGeneration
                     operationModel.Path = path;
                     operationModel.HttpMethod = httpMethod;
                     operationModel.OperationName = operationName;
-
                     result.Add(operationModel);
                 }
             }
