@@ -133,6 +133,13 @@ namespace NSwag.Commands.CodeGeneration
             get => Settings.ClassStyle;
             set => Settings.ClassStyle = value;
         }
+        
+        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Specifies whether to generate native records.")]
+        public bool GenerateNativeRecords
+        {
+            get => Settings.GenerateNativeRecords;
+            set => Settings.GenerateNativeRecords = value;
+        }
 
         [Argument(Name = "JsonLibrary", IsRequired = false, Description = "The CSharp JSON library, 'NewtonsoftJson' or 'SystemTextJson' (default: 'NewtonsoftJson', 'SystemTextJson' is experimental).")]
         public CSharpJsonLibrary JsonLibrary
