@@ -56,7 +56,9 @@ namespace NSwag.Commands
 
                 if (ServiceSchemes != null && ServiceSchemes.Length > 0)
                 {
-                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true)).ToList();
+#pragma warning disable CA2263
+                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema) Enum.Parse(typeof(OpenApiSchema), s, ignoreCase: true)).ToList();
+#pragma warning restore CA2263
                 }
             }
 
