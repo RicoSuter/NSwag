@@ -102,21 +102,28 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                var response = GetSuccessResponse();
-                if (response.Value == null || response.Value.IsEmpty(_operation))
+                TResponseModel response = GetSuccessResponseModel();
+                if (response?.Response == null || response.Response.IsEmpty(_operation))
                 {
                     return "void";
                 }
 
-                if (response.Value.IsBinary(_operation))
+                if (response.Response.IsBinary(_operation))
                 {
                     return _generator.GetBinaryResponseTypeName();
                 }
 
-                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                var schemaHasTypeNameTitle = response.Value.Schema?.HasTypeNameTitle;
+                bool isNullable = response.IsNullable;
+
+                if (!isNullable)
+                {
+                    // If one of the success types is nullable, we set the method return type to nullable as well.
+                    isNullable = Responses.Any(r => r.IsSuccess && r.Type == response.Type + "?" && r.IsNullable);
+                }
+
+                var schemaHasTypeNameTitle = response.Response.Schema?.HasTypeNameTitle;
                 var hint = schemaHasTypeNameTitle != true ? "Response" : null;
-                return _generator.GetTypeName(response.Value.Schema, isNullable, hint);
+                return _generator.GetTypeName(response.Response.Schema, isNullable, hint);
             }
         }
 
@@ -302,6 +309,24 @@ namespace NSwag.CodeGeneration.Models
             }
 
             return new KeyValuePair<string, OpenApiResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+        }
+
+        /// <summary>Gets the success response model, including type information.</summary>
+        /// <returns>The response model.</returns>
+        protected TResponseModel GetSuccessResponseModel()
+        {
+            if (Responses.Any(r => r.StatusCode == "200"))
+            {
+                return Responses.Single(r => r.StatusCode == "200");
+            }
+
+            var response = Responses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.StatusCode));
+            if (response != null)
+            {
+                return response;
+            }
+
+            return DefaultResponse;
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
