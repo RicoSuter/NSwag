@@ -1,5 +1,5 @@
 ﻿{%- if operation.HasFormParameters -%}
-{%-     if operation.ConsumesFormUrlEncoded -%}
+{%-     if operation.ConsumesOnlyFormUrlEncoded -%}
 let content_ = "";
 {%-         for parameter in operation.FormParameters -%}
 {%-             if parameter.IsRequired -%}
