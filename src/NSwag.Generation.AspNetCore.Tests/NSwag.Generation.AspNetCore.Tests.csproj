@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
