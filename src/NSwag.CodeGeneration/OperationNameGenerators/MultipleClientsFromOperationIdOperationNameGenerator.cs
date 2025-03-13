@@ -99,7 +99,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             operationIdSpan = operationIdSpan.Slice(0, idxLast);
             int idxSecondLast = operationIdSpan.LastIndexOf(underscoreSeparator);
 
-            return operationIdSpan.Slice(idxSecondLast + 1, operationIdSpan.Length - idxSecondLast - 1);
+            return operationIdSpan.Slice(idxSecondLast + 1);
         }
 
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)

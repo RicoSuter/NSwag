@@ -165,19 +165,19 @@ namespace NSwag
 
                     if (propertyName == "summary")
                     {
-                        operations.Summary = (string)serializer.Deserialize(reader, typeof(string));
+                        operations.Summary = serializer.Deserialize<string>(reader);
                     }
                     else if (propertyName == "description")
                     {
-                        operations.Description = (string)serializer.Deserialize(reader, typeof(string));
+                        operations.Description = serializer.Deserialize<string>(reader);
                     }
                     else if (propertyName == "parameters")
                     {
-                        operations.Parameters = (Collection<OpenApiParameter>)serializer.Deserialize(reader, typeof(Collection<OpenApiParameter>));
+                        operations.Parameters = serializer.Deserialize<Collection<OpenApiParameter>>(reader);
                     }
                     else if (propertyName == "servers")
                     {
-                        operations.Servers = (Collection<OpenApiServer>)serializer.Deserialize(reader, typeof(Collection<OpenApiServer>));
+                        operations.Servers = serializer.Deserialize<Collection<OpenApiServer>>(reader);
                     }
                     else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
                     {
@@ -191,7 +191,7 @@ namespace NSwag
                     }
                     else
                     {
-                        var value = (OpenApiOperation)serializer.Deserialize(reader, typeof(OpenApiOperation));
+                        var value = serializer.Deserialize<OpenApiOperation>(reader);
                         operations.Add(propertyName, value);
                     }
                 }
