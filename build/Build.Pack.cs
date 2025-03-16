@@ -62,6 +62,7 @@ public partial class Build
                     .SetOutputDirectory(ArtifactsDirectory)
                     .SetDeterministic(IsServerBuild)
                     .SetContinuousIntegrationBuild(IsServerBuild)
+                    .EnableNoRestore()
                 );
             }
 

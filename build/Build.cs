@@ -213,6 +213,7 @@ partial class Build : NukeBuild
                     // 0  Turns off emission of all warning messages
                     // 1  Displays severe warning messages
                     .SetWarningLevel(IsServerBuild ? 0 : 1)
+                    .EnableNoRestore()
                 );
             }
 
@@ -261,6 +262,8 @@ partial class Build : NukeBuild
                     // 0  Turns off emission of all warning messages
                     // 1  Displays severe warning messages
                     .SetWarningLevel(IsServerBuild ? 0 : 1)
+                    .EnableNoRestore()
+                    .EnableNoBuild()
                 );
             }
         }
