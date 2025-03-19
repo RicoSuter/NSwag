@@ -68,10 +68,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
         }
 
-        [Fact]
-        public async Task When_openapi3_reponse_contains_plain_text_then_Convert_is_generated()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task When_openapi3_reponse_contains_plain_text_then_Convert_is_generated(bool generateNullableReferenceTypes)
         {
             // Arrange
+            var expectedQuestionMark = generateNullableReferenceTypes ? "?" : string.Empty;
+
             var json = @"{
   ""openapi"": ""3.0.1"",
   ""paths"": {
@@ -101,13 +105,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Act
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
-                GenerateClientInterfaces = true
+                GenerateClientInterfaces = true,
+                CSharpGeneratorSettings = { GenerateNullableReferenceTypes = generateNullableReferenceTypes }
             });
             var code = codeGenerator.GenerateFile();
 
             // Assert
             Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
-            Assert.Contains("(string)System.Convert.ChangeType(responseData_, typeof(string));", code);
+            Assert.Contains($"(string{expectedQuestionMark})System.Convert.ChangeType(responseData_, typeof(string));", code);
         }
 
         [Fact]
