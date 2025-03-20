@@ -51,11 +51,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)
+        public override string ActualOperationName =>
+            FixIdentifier(ConversionUtilities.ConvertToLowerCamelCase(OperationName, false))
             + (MethodAccessModifier == "protected " ? "Core" : string.Empty);
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
+        public string ActualOperationNameUpper =>
+            FixIdentifier(ConversionUtilities.ConvertToUpperCamelCase(OperationName, false));
 
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType

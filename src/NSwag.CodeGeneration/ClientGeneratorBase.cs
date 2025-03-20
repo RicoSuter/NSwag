@@ -165,7 +165,10 @@ namespace NSwag.CodeGeneration
                     var operationName =
                         BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
-                    operationName = OperationNameGenerators.OperationNameGeneratorHelpers.FixIdentifier(operationName);
+                    if (operationName.Contains("."))
+                    {
+                        operationName = operationName.Replace(".", "_");
+                    }
 
                     if (operationName.EndsWith("Async", StringComparison.Ordinal))
                     {
