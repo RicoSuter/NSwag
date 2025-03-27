@@ -304,7 +304,9 @@
 {%                assign pathParameterParts = pathPart | split: "}" -%}
 {%                assign pathParameterFound = true -%}
 {%                for parameter in operation.PathParameters -%}
-{%                    if parameter.Name == pathParameterParts[0] -%}
+{%                      assign parameterNameLowerCased = parameter.Name | downcase -%}
+{%                      assign partLowerCased = pathParameterParts[0] | downcase -%}
+{%                    if parameterNameLowerCased == partLowerCased -%}
 {%                        if parameter.IsOptional -%}
 {%                            assign pathParameterFound = false -%}
                 if ({{ parameter.VariableName }} != null)
