@@ -125,5 +125,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the produced mime type of this response if available.</summary>
         public string Produces => _response.Content.Keys.FirstOrDefault();
+
+        /// <summary>If status code is Success</summary>
+        public bool IsSuccessStatusCode => HttpUtilities.IsSuccessStatusCode(StatusCode);
     }
 }
