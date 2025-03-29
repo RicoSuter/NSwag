@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
 
@@ -56,20 +54,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the all the namespace usages.</summary>
         public string[] NamespaceUsages => (_outputType == ClientGeneratorOutputType.Contracts ?
             _settings.AdditionalContractNamespaceUsages?.Where(n => n != null).ToArray() :
-            _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? new string[] { };
+            _settings.AdditionalNamespaceUsages?.Where(n => n != null).ToArray()) ?? [];
 
         /// <summary>Gets a value indicating whether the C#8 nullable reference types are enabled for this file.</summary>
         public bool GenerateNullableReferenceTypes => _settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes;
 
         /// <summary>Gets a value indicating whether to generate contract code.</summary>
-        public bool GenerateContracts =>
-            _outputType == ClientGeneratorOutputType.Full ||
-            _outputType == ClientGeneratorOutputType.Contracts;
+        public bool GenerateContracts => _outputType is ClientGeneratorOutputType.Full or ClientGeneratorOutputType.Contracts;
 
         /// <summary>Gets a value indicating whether to generate implementation code.</summary>
-        public bool GenerateImplementation =>
-            _outputType == ClientGeneratorOutputType.Full ||
-            _outputType == ClientGeneratorOutputType.Implementation;
+        public bool GenerateImplementation => _outputType is ClientGeneratorOutputType.Full or ClientGeneratorOutputType.Implementation;
 
         /// <summary>Gets or sets a value indicating whether to generate client types.</summary>
         public bool GenerateClientClasses => _settings.GenerateClientClasses;
@@ -105,10 +99,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation) == true));
+            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
-        public bool GenerateExceptionClasses => (_settings as CSharpClientGeneratorSettings)?.GenerateExceptionClasses == true;
+        public bool GenerateExceptionClasses => _settings is CSharpClientGeneratorSettings { GenerateExceptionClasses: true };
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;
@@ -130,7 +124,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         .Distinct();
                 }
 
-                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                return [_settings.ResponseClass.Replace("{controller}", string.Empty)];
             }
         }
 
@@ -139,8 +133,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null)
+                if (_settings is CSharpClientGeneratorSettings settings)
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)
                     {
@@ -152,10 +145,10 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     }
                     else
                     {
-                        return new[] { settings.ExceptionClass.Replace("{controller}", string.Empty) };
+                        return [settings.ExceptionClass.Replace("{controller}", string.Empty)];
                     }
                 }
-                return new string[] { };
+                return [];
             }
         }
     }

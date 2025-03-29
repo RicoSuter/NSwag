@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -68,7 +67,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains(@"foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString(""elementId"")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }", code);
         }
-        
+
         [Fact]
         public async Task when_content_is_formdata_with_property_array_then_content_should_be_added_in_foreach_in_csharp()
         {

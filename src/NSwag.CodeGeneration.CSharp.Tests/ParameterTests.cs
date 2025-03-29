@@ -1,5 +1,4 @@
-﻿using System;
-using NJsonSchema;
+﻿using NJsonSchema;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -77,7 +76,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_parent_parameters_have_same_kind_then_they_are_included()
+        public async Task When_parent_parameters_have_same_kind_then_they_are_included()
         {
             // Arrange
             var swagger = @"{
@@ -140,7 +139,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -151,7 +150,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
+        public async Task When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
         {
             // Arrange
             var swagger = @"{
@@ -222,7 +221,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -234,7 +233,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void Deep_object_properties_are_correctly_named()
+        public async Task Deep_object_properties_are_correctly_named()
         {
             // Arrange
             var swagger = @"{
@@ -298,7 +297,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -310,7 +309,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void Date_and_DateTimeFormat_Parameters_are_correctly_applied()
+        public async Task Date_and_DateTimeFormat_Parameters_are_correctly_applied()
         {
             // Arrange
             var swagger = @"{
@@ -356,7 +355,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3);
 
             // Act once with defaults and once with custom values
             var generatorDefault = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());

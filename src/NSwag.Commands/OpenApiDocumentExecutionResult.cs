@@ -6,15 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
 namespace NSwag.Commands
 {
     /// <summary>Stores the result of a <see cref="OpenApiDocument"/> execution.</summary>
     public class OpenApiDocumentExecutionResult
     {
-        private readonly IDictionary<Type, string> _generatorOutputs = new Dictionary<Type, string>();
+        private readonly Dictionary<Type, string> _generatorOutputs = [];
 
         /// <summary>Initializes a new instance of the <see cref="NSwagDocumentBase"/> class.</summary>
         /// <param name="output">The command line output.</param>

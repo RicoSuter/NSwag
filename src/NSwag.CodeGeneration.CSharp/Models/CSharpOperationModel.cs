@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -18,15 +16,15 @@ namespace NSwag.CodeGeneration.CSharp.Models
     /// <summary>The CSharp operation model.</summary>
     public class CSharpOperationModel : OperationModelBase<CSharpParameterModel, CSharpResponseModel>
     {
-        private static readonly string[] ReservedKeywords =
-        {
+        private static readonly HashSet<string> ReservedKeywords =
+        [
             "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
             "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float",
             "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object",
             "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof",
             "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe",
             "ushort", "using", "virtual", "void", "volatile", "while"
-        };
+        ];
 
         private readonly CSharpGeneratorBaseSettings _settings;
         private readonly OpenApiOperation _operation;
@@ -57,17 +55,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 // TODO: Move to CSharpControllerOperationModel
                 if (generator is CSharpControllerGenerator)
                 {
-                    parameters = parameters
+                    parameters = [.. parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .OrderBy(p => !p.IsRequired)
-                        .ThenBy(p => p.Default == null).ToList();
+                        .ThenBy(p => !p.IsRequired)
+                        .ThenBy(p => p.Default == null)];
                 }
                 else
                 {
-                    parameters = parameters
+                    parameters = [.. parameters
                         .OrderBy(p => p.Position ?? 0)
-                        .OrderBy(p => !p.IsRequired)
-                        .ToList();
+                        .ThenBy(p => !p.IsRequired)];
                 }
             }
 
@@ -90,8 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                var settings = _settings as CSharpClientGeneratorSettings;
-                if (settings != null && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
+                if (_settings is CSharpClientGeneratorSettings settings && settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToUpperCamelCase(OperationName, false) + "Async") == true)
                 {
                     return "protected";
                 }
@@ -113,7 +109,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>
         /// The default value of the result type, i.e. default(T) or default(T)! depending on whether NRT are enabled.
         /// </summary>
-        public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){((_settings as CSharpClientGeneratorSettings)?.CSharpGeneratorSettings.GenerateNullableReferenceTypes == true ? "!" : "")}";
+        public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){(_settings is CSharpClientGeneratorSettings { CSharpGeneratorSettings.GenerateNullableReferenceTypes: true } ? "!" : "")}";
 
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
@@ -132,15 +128,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets or sets the type of the result.</summary>
-        public override string ResultType
-        {
-            get
-            {
-                return SyncResultType == "void"
+        public override string ResultType => SyncResultType == "void"
                     ? "System.Threading.Tasks.Task"
                     : "System.Threading.Tasks.Task<" + SyncResultType + ">";
-            }
-        }
 
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
@@ -169,7 +159,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     .Where(r => r.ThrowsException)
                     .SelectMany(r =>
                     {
-                        if (r.ExpectedSchemas?.Any() == true)
+                        if (r.ExpectedSchemas?.Count > 0)
                         {
                             return r.ExpectedSchemas
                                 .Where(s => s.Schema.ActualSchema?.InheritsSchema(_resolver.ExceptionSchema) == true)
@@ -183,14 +173,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
                         }
                         else if (r.InheritsExceptionSchema)
                         {
-                            return new[]
-                            {
+                            return
+                            [
                                 new CSharpExceptionDescriptionModel(r.Type, r.ExceptionDescription, controllerName, settings)
-                            };
+                            ];
                         }
                         else
                         {
-                            return new CSharpExceptionDescriptionModel[] { };
+                            return [];
                         }
                     });
             }
@@ -204,8 +194,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var settings = _settings as CSharpControllerGeneratorSettings;
-                if (settings != null)
+                if (_settings is CSharpControllerGeneratorSettings settings)
                 {
                     return settings.GetRouteName(_operation);
                 }
@@ -215,7 +204,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>True if the operation has any security schemes</summary>
-        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count() ?? 0) != 0;
+        public bool RequiresAuthentication => (_operation.ActualSecurity?.Count ?? 0) != 0;
 
         /// <summary>Gets the security schemas that apply to this operation</summary>
         public IEnumerable<OpenApiSecurityRequirement> Security => _operation.ActualSecurity;

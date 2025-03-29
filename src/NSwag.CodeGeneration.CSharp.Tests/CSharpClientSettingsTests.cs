@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -49,7 +47,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
             });
-           
+
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
@@ -97,7 +95,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
             });
-            
+
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
 
@@ -116,7 +114,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
                 SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
             });
-            
+
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
@@ -214,7 +212,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 SuppressClientClassesOutput = true,
                 GenerateClientInterfaces = true,
                 // SuppressClientInterfacesOutput = false, // default
-             });
+            });
 
             // Act
             var code = generator.GenerateFile();
@@ -240,7 +238,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 // SuppressClientClassesOutput = false, // default
                 GenerateClientInterfaces = true,
                 SuppressClientInterfacesOutput = true,
-             });
+            });
 
             // Act
             var code = generator.GenerateFile();

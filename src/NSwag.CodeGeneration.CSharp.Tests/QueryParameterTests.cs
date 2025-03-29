@@ -5,7 +5,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     public class QueryParameterTests
     {
         [Fact]
-        public void When_query_parameter_is_set_to_explode_and_style_is_form_object_parameters_are_expanded()
+        public async Task When_query_parameter_is_set_to_explode_and_style_is_form_object_parameters_are_expanded()
         {
             var spec = @"{
   ""openapi"": ""3.0.0"",
@@ -64,7 +64,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 }
 ";
 
-            var document = OpenApiDocument.FromJsonAsync(spec).Result;
+            var document = await OpenApiDocument.FromJsonAsync(spec);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -80,7 +80,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_query_parameter_is_untyped_free_form_object_parameters_are_expanded()
+        public async Task When_query_parameter_is_untyped_free_form_object_parameters_are_expanded()
         {
             var spec = @"{
   ""openapi"": ""3.0.0"",
@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 }
 ";
 
-            var document = OpenApiDocument.FromJsonAsync(spec).Result;
+            var document = await OpenApiDocument.FromJsonAsync(spec);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -146,7 +146,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_query_parameter_is_typed_free_form_object_parameters_are_expanded()
+        public async Task When_query_parameter_is_typed_free_form_object_parameters_are_expanded()
         {
             var spec = @"{
   ""openapi"": ""3.0.0"",
@@ -198,7 +198,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 }
 ";
 
-            var document = OpenApiDocument.FromJsonAsync(spec).Result;
+            var document = await OpenApiDocument.FromJsonAsync(spec);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -214,7 +214,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_query_parameter_is_mixed_free_form_object_parameters_are_expanded()
+        public async Task When_query_parameter_is_mixed_free_form_object_parameters_are_expanded()
         {
             var spec = @"{
   ""openapi"": ""3.0.0"",
@@ -281,7 +281,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 }
 ";
 
-            var document = OpenApiDocument.FromJsonAsync(spec).Result;
+            var document = await OpenApiDocument.FromJsonAsync(spec);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());

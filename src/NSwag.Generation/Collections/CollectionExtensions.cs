@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NSwag.Generation.Collections
+﻿namespace NSwag.Generation.Collections
 {
     internal static class CollectionExtensions
     {

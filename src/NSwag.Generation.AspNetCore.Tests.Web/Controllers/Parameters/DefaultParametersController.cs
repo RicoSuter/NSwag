@@ -18,7 +18,9 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
             return Ok();
         }
 
+#pragma warning disable CA1711
         public enum MyEnum
+#pragma warning restore CA1711
         {
             Abc,
             Def

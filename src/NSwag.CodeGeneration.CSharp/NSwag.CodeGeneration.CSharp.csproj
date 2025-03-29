@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Templates\*.liquid" />
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.2.0" />
   </ItemGroup>
+
 </Project>

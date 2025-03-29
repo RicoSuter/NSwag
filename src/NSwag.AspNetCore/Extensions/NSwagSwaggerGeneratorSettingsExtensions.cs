@@ -9,7 +9,6 @@
 using NSwag;
 using NSwag.Generation;
 using NSwag.Generation.Processors.Security;
-using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

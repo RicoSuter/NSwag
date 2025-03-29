@@ -5,7 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.Yaml" Version="11.0.2" />
+    <PackageReference Include="NJsonSchema.Yaml" Version="11.2.0" />
   </ItemGroup>
   
   <ItemGroup>

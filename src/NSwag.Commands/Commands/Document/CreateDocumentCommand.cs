@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.IO;
-using System.Threading.Tasks;
 using NConsole;
 using NSwag.Commands.CodeGeneration;
 
@@ -33,7 +31,7 @@ namespace NSwag.Commands.Document
             return null;
         }
 
-        private async Task CreateDocumentAsync(string filePath)
+        private static async Task CreateDocumentAsync(string filePath)
         {
             var document = new NSwagDocument();
             document.Path = filePath;

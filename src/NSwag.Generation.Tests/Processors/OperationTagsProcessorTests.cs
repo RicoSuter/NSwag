@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using NJsonSchema.Generation;
+﻿using System.Reflection;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Annotations;
 using NSwag.Generation.Processors;

@@ -6,15 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+#pragma warning disable IDE0005
+
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -25,9 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -61,7 +57,7 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
+            static dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
             {
                 try
                 {
@@ -220,18 +216,14 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var path = apiDescription.RelativePath;
-                        if (!path.StartsWith("/", StringComparison.Ordinal))
+                        if (!path.StartsWith('/'))
                         {
                             path = "/" + path;
                         }
 
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant();
-                        if (httpMethod == null)
-                        {
-                            httpMethod = apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
-                                ? OpenApiOperationMethod.Post
-                                : OpenApiOperationMethod.Get;
-                        }
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
+                            ? OpenApiOperationMethod.Post
+                            : OpenApiOperationMethod.Get);
 
                         var operation = new OpenApiOperation();
 #if NETCOREAPP3_1_OR_GREATER
@@ -251,7 +243,7 @@ namespace NSwag.Generation.AspNetCore
 
                             operation = JsonConvert.DeserializeObject<OpenApiOperation>(stringBuilder.ToString());
                             operation.Parameters.Clear(); // clear because parameters are added by the generator
-                       }
+                        }
 #endif
 
                         operation.IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method);
@@ -277,7 +269,7 @@ namespace NSwag.Generation.AspNetCore
                     }
 
                     var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, generator, schemaResolver);
-                    if (addedOperations.Any() && apiGroup.Key != null)
+                    if (addedOperations.Count > 0 && apiGroup.Key != null)
                     {
                         usedControllerTypes.Add(apiGroup.Key);
                     }
@@ -290,7 +282,7 @@ namespace NSwag.Generation.AspNetCore
             return usedControllerTypes;
         }
 
-        private bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
+        private static bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
         {
             if (methodInfo?.GetCustomAttribute<ObsoleteAttribute>() != null)
             {
@@ -339,7 +331,7 @@ namespace NSwag.Generation.AspNetCore
                     var path = operation.Path.Replace("//", "/");
                     if (!document.Paths.TryGetValue(path, out var pathItem))
                     {
-                        document.Paths[path] = pathItem = new OpenApiPathItem();
+                        document.Paths[path] = pathItem = [];
                     }
 
                     if (pathItem.ContainsKey(operation.Method))
@@ -411,10 +403,7 @@ namespace NSwag.Generation.AspNetCore
             document.Generator = $"NSwag{version}";
             document.SchemaType = Settings.SchemaSettings.SchemaType;
 
-            if (document.Info == null)
-            {
-                document.Info = new OpenApiInfo();
-            }
+            document.Info ??= new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
@@ -447,7 +436,7 @@ namespace NSwag.Generation.AspNetCore
 
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(operationProcessorContext) == false)
+                if (!operationProcessor.Process(operationProcessorContext))
                 {
                     return false;
                 }
@@ -468,7 +457,7 @@ namespace NSwag.Generation.AspNetCore
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                    if (operationProcessor.Process(operationProcessorContext) == false)
+                    if (!operationProcessor.Process(operationProcessorContext))
                     {
                         return false;
                     }
@@ -490,7 +479,7 @@ namespace NSwag.Generation.AspNetCore
             if (!string.IsNullOrWhiteSpace(httpMethod))
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
-                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                var typeName = string.Format(CultureInfo.InvariantCulture, "Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
                 httpAttribute = method?
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
@@ -543,8 +532,8 @@ namespace NSwag.Generation.AspNetCore
                     httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
                     string.Join("", apiDescription.RelativePath
                         .Split('/', '\\', '}', ']', '-', '_')
-                        .Where(t => !t.StartsWith("{"))
-                        .Where(t => !t.StartsWith("["))
+                        .Where(t => !t.StartsWith('{'))
+                        .Where(t => !t.StartsWith('['))
                         .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
@@ -554,12 +543,12 @@ namespace NSwag.Generation.AspNetCore
                 number++;
             }
 
-            return operationId + (number > 1 ? number.ToString() : string.Empty);
+            return operationId + (number > 1 ? number.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
 
         private static string GetActionName(string actionName)
         {
-            if (actionName.EndsWith("Async"))
+            if (actionName.EndsWith("Async", StringComparison.Ordinal))
             {
                 actionName = actionName.Substring(0, actionName.Length - 5);
             }

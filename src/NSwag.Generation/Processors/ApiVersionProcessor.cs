@@ -7,8 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
@@ -45,7 +43,7 @@ namespace NSwag.Generation.Processors
             else
             {
                 var versions = GetVersions(context, "ApiVersionAttribute");
-                if (versions.Any())
+                if (versions.Length > 0)
                 {
                     if (versions.Any(v => IncludedVersions == null || IncludedVersions.Length == 0 || IncludedVersions.Contains(v)))
                     {
@@ -54,7 +52,7 @@ namespace NSwag.Generation.Processors
                         var version = mappedVersions.FirstOrDefault(v => IncludedVersions == null || IncludedVersions.Length == 0 || IncludedVersions.Contains(v));
                         if (version == null && mappedVersions.Length == 0)
                         {
-                            version = IncludedVersions != null && IncludedVersions.Any() ? IncludedVersions[0] : versions[0];
+                            version = IncludedVersions != null && IncludedVersions.Length > 0 ? IncludedVersions[0] : versions[0];
                         }
 
                         if (version != null)
@@ -75,7 +73,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool UseVersionedApiExplorer(OperationProcessorContext context)
+        private static bool UseVersionedApiExplorer(OperationProcessorContext context)
         {
             if (context.HasProperty("ApiDescription"))
             {
@@ -89,14 +87,14 @@ namespace NSwag.Generation.Processors
             return false;
         }
 
-        private void RemoveApiVersionPathParameter(OperationProcessorContext context, string version)
+        private static void RemoveApiVersionPathParameter(OperationProcessorContext context, string version)
         {
             var operationDescription = context.OperationDescription;
             operationDescription.Path = operationDescription.Path.Replace("{version:apiVersion}", version);
             operationDescription.Path = operationDescription.Path.Replace("{version}", version);
         }
 
-        private string[] GetVersions(OperationProcessorContext context, string attributeType)
+        private static string[] GetVersions(OperationProcessorContext context, string attributeType)
         {
             var versionAttributes = context.MethodInfo.GetCustomAttributes()
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes())

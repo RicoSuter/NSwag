@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.Generation;
@@ -99,7 +95,7 @@ namespace NSwag.CodeGeneration.Tests
             // Act
             var settings = new CSharpClientGeneratorSettings();
             settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
-            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+            settings.CSharpGeneratorSettings.JsonConverters = ["CustomConverter1", "CustomConverter2"];
 
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
@@ -140,7 +136,7 @@ public static Person FromJson(string data)
             // Act
             var settings = new CSharpClientGeneratorSettings();
             settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
-            settings.CSharpGeneratorSettings.JsonConverters = new[] { "CustomConverter1", "CustomConverter2" };
+            settings.CSharpGeneratorSettings.JsonConverters = ["CustomConverter1", "CustomConverter2"];
             settings.CSharpGeneratorSettings.GenerateJsonMethods = true;
 
             var generator = new CSharpClientGenerator(document, settings);
@@ -211,7 +207,8 @@ public static Person FromJson(string data)
             document.Definitions["Foo"] = schema;
 
             // Assert
-            var jsonService = document.ToJson(); // no exception expected
+            var json = document.ToJson(); // no exception expected
+            Assert.NotNull(json);
         }
 
         [Fact]
@@ -237,7 +234,7 @@ public static Person FromJson(string data)
             // Arrange
             var operation = new OpenApiOperation
             {
-                Tags = tags.ToList()
+                Tags = [.. tags]
             };
             var generator = new MultipleClientsFromFirstTagAndOperationNameGenerator();
 
@@ -315,17 +312,19 @@ public static Person FromJson(string data)
             var settings = new NewtonsoftJsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
-            document.Paths["/Person"] = new OpenApiPathItem();
-            document.Paths["/Person"][OpenApiOperationMethod.Get] = new OpenApiOperation
+            document.Paths["/Person"] = new OpenApiPathItem
             {
-                Responses =
+                [OpenApiOperationMethod.Get] = new OpenApiOperation
                 {
+                    Responses =
                     {
-                        "200", new OpenApiResponse
                         {
-                            Schema = new JsonSchema
+                            "200", new OpenApiResponse
                             {
-                                Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                Schema = new JsonSchema
+                                {
+                                    Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                }
                             }
                         }
                     }

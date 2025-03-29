@@ -1,14 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NSwag.Generation.WebApi;
-using System.Collections.Generic;
 using Xunit;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -20,11 +15,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             [Route("foos/")]
             public Foo[] GetFoos([FromUri] Bar[] bars)
             {
-                return new Foo[0];
+                return [];
             }
         }
 
-        public class FromUriAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+        public class FromUriAttribute : Attribute;
 
         public enum Bar
         {
@@ -44,7 +40,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         {
             var serializerSettings = new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> {new StringEnumConverter()}
+                Converters = [new StringEnumConverter()]
             };
 
             // Arrange
@@ -62,6 +58,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var document = await generator.GenerateForControllerAsync<FooController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             var clientSettings = new TypeScriptClientGeneratorSettings
             {

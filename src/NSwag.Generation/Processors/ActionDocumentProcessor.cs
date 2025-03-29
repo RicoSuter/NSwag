@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors

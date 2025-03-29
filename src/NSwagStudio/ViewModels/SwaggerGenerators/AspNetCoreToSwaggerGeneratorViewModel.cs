@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag;
@@ -39,7 +35,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the generator settings. </summary>
         public AspNetCoreToOpenApiCommand Command
         {
-            get { return _command; }
+            get => _command;
             set
             {
                 if (Set(ref _command, value))
@@ -50,8 +46,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the document.</summary>
         public NSwagDocument Document
         {
-            get { return _document; }
-            set { Set(ref _document, value); }
+            get => _document;
+            set => Set(ref _document, value);
         }
 
         public async Task<string> GenerateSwaggerAsync()

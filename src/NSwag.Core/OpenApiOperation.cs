@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -23,13 +21,13 @@ namespace NSwag
     {
         private OpenApiRequestBody _requestBody;
 
-        private bool _disableRequestBodyUpdate = false;
-        private bool _disableBodyParameterUpdate = false;
+        private bool _disableRequestBodyUpdate;
+        private bool _disableBodyParameterUpdate;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()
         {
-            Tags = new List<string>();
+            Tags = [];
 
             var parameters = new ObservableCollection<OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
@@ -154,7 +152,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; set; } = [];
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
@@ -186,7 +184,7 @@ namespace NSwag
         {
             if (Consumes == null)
             {
-                Consumes = new List<string> { mimeType };
+                Consumes = [mimeType];
             }
             else if (!Consumes.Contains(mimeType))
             {
@@ -226,11 +224,7 @@ namespace NSwag
 
                     if (parameter.Kind == OpenApiParameterKind.Body)
                     {
-                        if (RequestBody == null)
-                        {
-                            RequestBody = new OpenApiRequestBody();
-                        }
-
+                        RequestBody ??= new OpenApiRequestBody();
                         RequestBody.Name = parameter.Name;
                         RequestBody.Position = parameter.Position;
                         RequestBody.Description = parameter.Description;

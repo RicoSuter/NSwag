@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace NSwag.CodeGeneration.Models
 {
     /// <summary>The operation model interface.</summary>

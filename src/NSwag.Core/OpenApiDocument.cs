@@ -6,15 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -81,7 +74,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; private set; } = [];
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -93,11 +86,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = new Collection<OpenApiSecurityRequirement>();
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = [];
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IList<OpenApiTag> Tags { get; set; } = new Collection<OpenApiTag>();
+        public IList<OpenApiTag> Tags { get; set; } = [];
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
@@ -182,14 +175,14 @@ namespace NSwag
             var match = Regex.Match(data, pattern, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                var schemaType = match.Groups["schemaType"].Value.ToLower();
-                var schemaVersion = match.Groups["schemaVersion"].Value.ToLower();
+                var schemaType = match.Groups["schemaType"].Value.ToLowerInvariant();
+                var schemaVersion = match.Groups["schemaVersion"].Value.ToLowerInvariant();
 
-                if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
+                if (schemaType == "swagger" && schemaVersion.StartsWith('2'))
                 {
                     expectedSchemaType = SchemaType.Swagger2;
                 }
-                else if (schemaType == "openapi" && schemaVersion.StartsWith("3"))
+                else if (schemaType == "openapi" && schemaVersion.StartsWith('3'))
                 {
                     expectedSchemaType = SchemaType.OpenApi3;
                 }
@@ -279,7 +272,10 @@ namespace NSwag
                               HttpUtilities.IsSuccessStatusCode(r.Key) &&
                               r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
                     // if we have just collections, adding All will not help in discrimination
-                    if (collections.Count() == group.Count()) continue;
+                    if (collections.Count() == group.Count())
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {
@@ -300,12 +296,15 @@ namespace NSwag
             {
                 if (group.Count() > 1)
                 {
-                    var methods = group.Select(o => o.Method.ToUpper()).Distinct();
-                    if (methods.Count() == 1) continue;
+                    var methods = group.Select(o => o.Method.ToUpperInvariant()).Distinct();
+                    if (methods.Count() == 1)
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {
-                        o.Operation.OperationId += o.Method.ToUpper();
+                        o.Operation.OperationId += o.Method.ToUpperInvariant();
                     }
                 }
             }
@@ -329,7 +328,7 @@ namespace NSwag
             }
         }
 
-        private string GetOperationNameFromPath(OpenApiOperationDescription operation)
+        private static string GetOperationNameFromPath(OpenApiOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
             var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));

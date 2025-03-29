@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
@@ -35,7 +32,7 @@ namespace NSwag.AspNet.Owin
             Assembly webApiAssembly,
             Action<SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseOpenApi(new[] { webApiAssembly }, configure);
+            return app.UseOpenApi([webApiAssembly], configure);
         }
 
         /// <summary>Adds the OpenAPI/Swagger generator to the OWIN pipeline.</summary>
@@ -84,7 +81,7 @@ namespace NSwag.AspNet.Owin
             Assembly webApiAssembly,
             Action<SwaggerUiSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseSwaggerUi(new[] { webApiAssembly }, configure);
+            return app.UseSwaggerUi([webApiAssembly], configure);
         }
 
         /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>
@@ -155,7 +152,7 @@ namespace NSwag.AspNet.Owin
             Assembly webApiAssembly,
             Action<ReDocSettings<WebApiOpenApiDocumentGeneratorSettings>> configure = null)
         {
-            return app.UseSwaggerReDoc(new[] { webApiAssembly }, configure);
+            return app.UseSwaggerReDoc([webApiAssembly], configure);
         }
 
         /// <summary>Adds the Swagger generator and Swagger UI to the OWIN pipeline.</summary>

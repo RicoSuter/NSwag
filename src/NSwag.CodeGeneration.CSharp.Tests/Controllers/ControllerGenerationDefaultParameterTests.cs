@@ -82,6 +82,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
             Assert.Contains("BarAsync(int abc, bool booldef, int intdef, double doubledef, decimal decdef, string strdef, int? bar = null);", code);
 
             var trimmedCode = RemoveExternalReferences(code);
+            Assert.NotNull(trimmedCode);
 
             //CompilerParameters parameters = new CompilerParameters { GenerateInMemory = true };
 

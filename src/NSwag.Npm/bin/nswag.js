@@ -3,8 +3,8 @@
 
 var defaultCoreVersion = "Net80";
 var supportedCoreVersions = [
-    { ver: '6.0', dir: "Net60", },
     { ver: '8.0', dir: "Net80", },
+    { ver: '9.0', dir: "Net90", },
 ];
 
 // Initialize
@@ -15,8 +15,8 @@ var args = process.argv.splice(2, process.argv.length - 2).map(function (a) { re
 // Legacy support
 args = args.replace("--x86", "/runtime:WinX86");
 args = args.replace("/runtime:x86", "/runtime:WinX86");
-args = args.replace("--core 6.0", "/runtime:Net60");
 args = args.replace("--core 8.0", "/runtime:Net80");
+args = args.replace("--core 9.0", "/runtime:Net90");
 args = args.replace("--core", "/runtime:" + defaultCoreVersion);
 
 // Search for full .NET installation
