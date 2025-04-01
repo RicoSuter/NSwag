@@ -165,6 +165,124 @@ components:
         }
 
         [Fact]
+        public async Task When_body_is_binary_with_additional_data_then_all_parameters_supplied_in_CSharp_ASPNETCore()
+        {
+            var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Add File'
+      operationId: addFile
+      responses:
+        '200':
+          description: 'something'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileToken'
+      requestBody:
+       content:
+         multipart/form-data:
+           schema:
+             type: object
+             properties:
+              id: 
+                type: string
+              file:
+                type: string
+                format: binary
+components:
+  schemas:
+    FileToken:
+      type: object
+      required:
+        - fileId    
+      properties:  
+        fileId:
+          type: string
+          format: uuid";
+
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            CSharpControllerGeneratorSettings settings = new CSharpControllerGeneratorSettings();
+            settings.ControllerTarget = CSharpControllerTarget.AspNetCore;
+            var codeGenerator = new CSharpControllerGenerator(document, settings);
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            // This would ideally use IFormFile but there is another bug for that (https://github.com/RicoSuter/NSwag/issues/2854)
+            Assert.Contains("AddFile(string id, FileParameter file)", code);
+        }
+
+        [Fact]
+        public async Task When_body_is_binary_with_additional_data_via_component_ref_then_all_parameters_supplied_in_CSharp_ASPNETCore()
+        {
+            var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Add File'
+      operationId: addFile
+      responses:
+        '200':
+          description: 'something'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileToken'
+      requestBody:
+       content:
+         multipart/form-data:
+           schema:
+             $ref: '#/components/schemas/File'
+components:
+  schemas:
+    FileToken:
+      type: object
+      required:
+        - fileId    
+      properties:  
+        fileId:
+          type: string
+          format: uuid
+    File:
+      type: object
+      properties:
+        id: 
+          type: string
+        file:
+          type: string
+          format: binary";
+
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            CSharpControllerGeneratorSettings settings = new CSharpControllerGeneratorSettings();
+            settings.ControllerTarget = CSharpControllerTarget.AspNetCore;
+            var codeGenerator = new CSharpControllerGenerator(document, settings);
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            // This would ideally use IFormFile but there is another bug for that (https://github.com/RicoSuter/NSwag/issues/2854)
+            Assert.Contains("AddFile(string id, FileParameter file)", code);
+        }
+
+        [Fact]
         public async Task WhenSpecContainsFormDataInSingleMultipartFile_ThenFormDataIsUsedInCSharp()
         {
             var json = @"{
