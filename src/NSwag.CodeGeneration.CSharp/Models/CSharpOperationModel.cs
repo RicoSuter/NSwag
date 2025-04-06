@@ -55,16 +55,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 // TODO: Move to CSharpControllerOperationModel
                 if (generator is CSharpControllerGenerator)
                 {
-                    parameters = [.. parameters
-                        .OrderBy(p => p.Position ?? 0)
-                        .ThenBy(p => !p.IsRequired)
-                        .ThenBy(p => p.Default == null)];
+                    parameters =
+                    [
+                        .. parameters
+                            .OrderBy(p => !p.IsRequired)
+                            .ThenBy(p => p.Default == null)
+                            .ThenBy(p => p.Position ?? 0)
+                    ];
                 }
                 else
                 {
-                    parameters = [.. parameters
-                        .OrderBy(p => p.Position ?? 0)
-                        .ThenBy(p => !p.IsRequired)];
+                    parameters =
+                    [
+                        .. parameters
+                            .OrderBy(p => !p.IsRequired)
+                            .ThenBy(p => p.Position ?? 0)
+                    ];
                 }
             }
 
