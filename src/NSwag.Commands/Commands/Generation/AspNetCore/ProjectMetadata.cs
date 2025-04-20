@@ -83,7 +83,11 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var args = CreateMsBuildArguments(file, framework, configuration, runtime, noBuild, outputPath);
 
-            var metadata = await TryReadingUsingGetProperties(args, file, noBuild) ?? await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
+            var metadata = await TryReadingUsingGetProperties(args, file, noBuild);
+            if (metadata == null || string.IsNullOrWhiteSpace(metadata[nameof(ProjectDir)]))
+            {
+                metadata = await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
+            }
 
             var platformTarget = metadata[nameof(PlatformTarget)];
             if (platformTarget.Length == 0)
@@ -225,7 +229,8 @@ namespace NSwag.Commands.Generation.AspNetCore
                 nameof(ProjectDir),
                 nameof(ProjectRuntimeConfigFilePath),
                 nameof(TargetFileName),
-                nameof(TargetFrameworkIdentifier)
+                nameof(TargetFrameworkIdentifier),
+                "MSBuildProjectDirectory",
             };
 
             try
@@ -250,6 +255,12 @@ namespace NSwag.Commands.Generation.AspNetCore
                     var metadata = document.RootElement.GetProperty("Properties")
                         .EnumerateObject()
                         .ToDictionary(x => x.Name, x => x.Value.ToString().Trim());
+
+                    // depending on the project type or MSBuild evaluation process, the ProjectDir property may not be set
+                    if (string.IsNullOrWhiteSpace(metadata[nameof(ProjectDir)]))
+                    {
+                        metadata[nameof(ProjectDir)] = metadata["MSBuildProjectDirectory"];
+                    }
 
                     return metadata;
                 }
