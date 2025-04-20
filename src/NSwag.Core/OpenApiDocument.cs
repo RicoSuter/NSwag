@@ -268,9 +268,9 @@ namespace NSwag
             {
                 if (group.Count() > 1)
                 {
-                    var collections = group.Where(o => o.Operation.ActualResponses.Any(r =>
-                              HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                              r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
+                    var collections = group.Where(o => o.Operation.HasActualResponse(static (code, response) =>
+                              HttpUtilities.IsSuccessStatusCode(code) &&
+                              response.Schema?.ActualSchema.Type == JsonObjectType.Array));
                     // if we have just collections, adding All will not help in discrimination
                     if (collections.Count() == group.Count())
                     {
@@ -279,9 +279,9 @@ namespace NSwag
 
                     foreach (var o in group)
                     {
-                        var isCollection = o.Operation.ActualResponses.Any(r =>
-                            HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                            r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array);
+                        var isCollection = o.Operation.HasActualResponse(static (code, response) =>
+                            HttpUtilities.IsSuccessStatusCode(code) &&
+                            response.Schema?.ActualSchema.Type == JsonObjectType.Array);
 
                         if (isCollection)
                         {

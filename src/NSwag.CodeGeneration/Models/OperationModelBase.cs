@@ -34,7 +34,7 @@ namespace NSwag.CodeGeneration.Models
             _generator = generator;
             _settings = settings;
 
-            var responses = _operation.ActualResponses
+            var responses = _operation.GetActualResponses(static (_, _) => true)
                 .Select(response => CreateResponseModel(operation, response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
@@ -295,21 +295,7 @@ namespace NSwag.CodeGeneration.Models
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile
-        {
-            get
-            {
-                foreach (var r in _operation.ActualResponses)
-                {
-                    if (r.Value.IsBinary(_operation))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
+        public bool IsFile => _operation.HasActualResponse((_, response) => response.IsBinary(_operation));
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
@@ -324,18 +310,19 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response.</returns>
         protected KeyValuePair<string, OpenApiResponse> GetSuccessResponse()
         {
-            if (_operation.ActualResponses.TryGetValue("200", out var response200))
+            var actualResponses = _operation.ActualResponses;
+            if (actualResponses.TryGetValue("200", out var response200))
             {
                 return new KeyValuePair<string, OpenApiResponse>("200", response200);
             }
 
-            var response = _operation.ActualResponses.FirstOrDefault(static r => HttpUtilities.IsSuccessStatusCode(r.Key));
+            var response = actualResponses.FirstOrDefault(static r => HttpUtilities.IsSuccessStatusCode(r.Key));
             if (response.Value != null)
             {
                 return new KeyValuePair<string, OpenApiResponse>(response.Key, response.Value);
             }
 
-            return new KeyValuePair<string, OpenApiResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+            return new KeyValuePair<string, OpenApiResponse>("default", actualResponses.FirstOrDefault(r => r.Key == "default").Value);
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
