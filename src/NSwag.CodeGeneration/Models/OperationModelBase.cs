@@ -376,22 +376,22 @@ namespace NSwag.CodeGeneration.Models
         // as callers filter more
         protected IList<OpenApiParameter> GetActualParameters()
         {
-            List<OpenApiParameter> parameters = [.. _operation.ActualParameters];
+            List<OpenApiParameter> parameters = (List<OpenApiParameter>) _operation.ActualParameters;
 
             if (_settings.ExcludedParameterNames.Length > 0)
             {
-                parameters = [.. _operation.ActualParameters.Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))];
+                parameters = [.. parameters.Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))];
             }
 
-            var formDataSchema = _operation?.ActualRequestBody?.Content?.TryGetValue("multipart/form-data", out var formData) == true
-                ? formData.Schema?.ActualSchema
+            var formDataSchemaProperties = _operation?.ActualRequestBody?.Content?.TryGetValue("multipart/form-data", out var formData) == true
+                ? formData.Schema?.ActualSchema?.ActualProperties
                 : null;
 
-            if (formDataSchema is { ActualProperties.Count: > 0 })
+            if (formDataSchemaProperties?.Count > 0)
             {
                 parameters = parameters
                     .Where(static p => !p.IsBinaryBodyParameter)
-                    .Concat(formDataSchema.ActualProperties.Select((p, i) => new OpenApiParameter
+                    .Concat(formDataSchemaProperties.Select((p, i) => new OpenApiParameter
                     {
                         Name = p.Key,
                         Kind = OpenApiParameterKind.FormData,
