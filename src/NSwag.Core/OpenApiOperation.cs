@@ -218,7 +218,7 @@ namespace NSwag
 
         internal KeyValuePair<string,OpenApiResponse> GetSuccessResponse()
         {
-            KeyValuePair<string, OpenApiResponse> firstOtherSuccessResponse;
+            KeyValuePair<string, OpenApiResponse> firstOtherSuccessResponse = new(null, null);
             OpenApiResponse defaultResponse = null;
             foreach (var pair in _responses)
             {
