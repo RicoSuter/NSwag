@@ -3,14 +3,14 @@ using (var enumerator = {{ parameter.VariableName }}.GetEnumerator())
 {
     if (enumerator.MoveNext())
     {
-        urlBuilder_.Append(System.Uri.EscapeDataString(enumerator.Current.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
-
         do
         {
-            urlBuilder_.Append(',');
             urlBuilder_.Append(System.Uri.EscapeDataString(enumerator.Current.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(',');
         }
         while (enumerator.MoveNext());
+
+        urlBuilder_.Length--;
     }
 }
 {% elsif parameter.IsDateArray -%}
@@ -18,14 +18,14 @@ using (var enumerator = {{ parameter.VariableName }}.GetEnumerator())
 {
     if (enumerator.MoveNext())
     {
-        urlBuilder_.Append(System.Uri.EscapeDataString(enumerator.Current.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
-
         do
         {
-            urlBuilder_.Append(',');
             urlBuilder_.Append(System.Uri.EscapeDataString(enumerator.Current.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(',');
         }
         while (enumerator.MoveNext());
+
+        urlBuilder_.Length--;
     }
 }
 {% elsif parameter.IsDateTime -%}
@@ -37,14 +37,14 @@ using (var enumerator = {{ parameter.VariableName }}.GetEnumerator())
 {
     if (enumerator.MoveNext())
     {
-        urlBuilder_.Append(ConvertToString(enumerator.Current, System.Globalization.CultureInfo.InvariantCulture));
-
         do
         {
-            urlBuilder_.Append(',');
             urlBuilder_.Append(ConvertToString(enumerator.Current, System.Globalization.CultureInfo.InvariantCulture));
+            urlBuilder_.Append(',');
         }
         while (enumerator.MoveNext());
+
+        urlBuilder_.Length--;
     }
 }
 {% else -%}
