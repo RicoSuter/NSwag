@@ -14,7 +14,7 @@ public class ClientGenerationTests
     {
         Environment.SetEnvironmentVariable("NSWAG_NOVERSION", "true");
 
-        var specification = await File.ReadAllTextAsync($@"TestData\{fileName}");
+        var specification = await File.ReadAllTextAsync(Path.Combine("TestData", fileName));
 
         var document = await OpenApiDocument.FromJsonAsync(specification, "", SchemaType.OpenApi3);
         var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
