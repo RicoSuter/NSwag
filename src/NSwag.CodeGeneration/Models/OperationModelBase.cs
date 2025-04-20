@@ -310,19 +310,7 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response.</returns>
         protected KeyValuePair<string, OpenApiResponse> GetSuccessResponse()
         {
-            var actualResponses = _operation.ActualResponses;
-            if (actualResponses.TryGetValue("200", out var response200))
-            {
-                return new KeyValuePair<string, OpenApiResponse>("200", response200);
-            }
-
-            var response = actualResponses.FirstOrDefault(static r => HttpUtilities.IsSuccessStatusCode(r.Key));
-            if (response.Value != null)
-            {
-                return new KeyValuePair<string, OpenApiResponse>(response.Key, response.Value);
-            }
-
-            return new KeyValuePair<string, OpenApiResponse>("default", actualResponses.FirstOrDefault(r => r.Key == "default").Value);
+            return _operation.GetSuccessResponse();
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>

@@ -188,7 +188,7 @@ namespace NSwag
             }
         }
 
-        // helper to avoid extra allocations
+        // helpers to avoid extra allocations
         internal IEnumerable<KeyValuePair<string, OpenApiResponse>> GetActualResponses(Func<string, OpenApiResponse, bool> predicate)
         {
             foreach (var pair in _responses)
@@ -200,14 +200,9 @@ namespace NSwag
             }
         }
 
-        // helper to avoid extra allocations
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool HasActualResponse(Func<string, OpenApiResponse, bool> predicate)
-        {
-            return GetActualResponse(predicate) != null;
-        }
+        internal bool HasActualResponse(Func<string, OpenApiResponse, bool> predicate) => GetActualResponse(predicate) != null;
 
-        // helper to avoid extra allocations
         internal OpenApiResponse GetActualResponse(Func<string, OpenApiResponse, bool> predicate)
         {
             foreach (var pair in _responses)
@@ -219,6 +214,39 @@ namespace NSwag
             }
 
             return null;
+        }
+
+        internal KeyValuePair<string,OpenApiResponse> GetSuccessResponse()
+        {
+            KeyValuePair<string, OpenApiResponse> firstOtherSuccessResponse;
+            OpenApiResponse defaultResponse = null;
+            foreach (var pair in _responses)
+            {
+                var code = pair.Key;
+                var actualResponse = pair.Value.ActualResponse;
+
+                if (code == "200")
+                {
+                    // 200 is the default response
+                    return pair;
+                }
+
+                if (firstOtherSuccessResponse.Key == null && HttpUtilities.IsSuccessStatusCode(code))
+                {
+                    firstOtherSuccessResponse = pair;
+                }
+                else if (code == "default")
+                {
+                    defaultResponse = actualResponse;
+                }
+            }
+
+            if (firstOtherSuccessResponse.Key != null)
+            {
+                return firstOtherSuccessResponse;
+            }
+
+            return new KeyValuePair<string, OpenApiResponse>("default", defaultResponse);
         }
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
