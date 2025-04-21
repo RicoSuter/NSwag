@@ -253,18 +253,43 @@ namespace NSwag
         /// <summary>Generates missing or non-unique operation IDs.</summary>
         public void GenerateOperationIds()
         {
-            // Generate missing IDs
-            var operationsList = Operations.ToList();
+            // start with new work buffers
+            GenerateOperationIds([.. Operations], [], []);
+        }
 
-            foreach (var operation in operationsList.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+        /// <summary>Generates missing or non-unique operation IDs.</summary>
+        private static void GenerateOperationIds(
+            List<OpenApiOperationDescription> operations,
+            HashSet<string> operationIds,
+            HashSet<string> duplicatedOperationIds)
+        {
+            // Generate missing IDs
+            operationIds.Clear();
+            duplicatedOperationIds.Clear();
+            foreach (var operation in operations)
             {
-                operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                if (string.IsNullOrEmpty(operation.Operation.OperationId))
+                {
+                    operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                }
+
+                if (!operationIds.Add(operation.Operation.OperationId))
+                {
+                    duplicatedOperationIds.Add(operation.Operation.OperationId);
+                }
+            }
+
+            // if we don't have any duplicates, we are done
+            if (duplicatedOperationIds.Count == 0)
+            {
+                return;
             }
 
             // Find non-unique operation IDs
+            operations = [.. operations.Where(x => duplicatedOperationIds.Contains(x.Operation.OperationId))];
 
             // 1: Append all to methods returning collections
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
@@ -292,7 +317,7 @@ namespace NSwag
             }
 
             // 2: Append the Method type
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
@@ -310,19 +335,19 @@ namespace NSwag
             }
 
             // 3: Append numbers as last resort
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
-                var operations = group.ToList();
+                var groupOperations = group.ToList();
                 if (group.Count() > 1)
                 {
                     // Add numbers
                     var i = 2;
-                    foreach (var operation in operations.Skip(1))
+                    foreach (var operation in groupOperations.Skip(1))
                     {
                         operation.Operation.OperationId += i++;
                     }
 
-                    GenerateOperationIds();
+                    GenerateOperationIds(operations, operationIds, duplicatedOperationIds);
                     return;
                 }
             }

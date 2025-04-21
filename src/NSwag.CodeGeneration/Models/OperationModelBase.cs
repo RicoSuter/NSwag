@@ -216,7 +216,7 @@ namespace NSwag.CodeGeneration.Models
         public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(static p => p.Name.Equals("accept", StringComparison.OrdinalIgnoreCase));
 
         /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
-        public bool HasFormParameters => Parameters.Any(p => p.Kind == OpenApiParameterKind.FormData);
+        public bool HasFormParameters => Parameters.Any(static p => p.Kind == OpenApiParameterKind.FormData);
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesOnlyFormUrlEncoded =>
