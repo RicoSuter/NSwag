@@ -195,7 +195,7 @@ namespace NSwag
             {
                 if (predicate(pair.Key, pair.Value.ActualResponse))
                 {
-                    yield return pair;
+                    yield return new KeyValuePair<string, OpenApiResponse>(pair.Key, pair.Value.ActualResponse);
                 }
             }
         }
@@ -228,12 +228,12 @@ namespace NSwag
                 if (code == "200")
                 {
                     // 200 is the default response
-                    return pair;
+                    return new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
                 }
 
                 if (firstOtherSuccessResponse.Key == null && HttpUtilities.IsSuccessStatusCode(code))
                 {
-                    firstOtherSuccessResponse = pair;
+                    firstOtherSuccessResponse = new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
                 }
                 else if (code == "default")
                 {
