@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -51,7 +52,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                         continue;
                     }
 
-                    if (GetClientName(documentOperation).SequenceEqual(clientName) && GetOperationName(documentOperation).SequenceEqual(operationName))
+                    if (GetOperationName(documentOperation).SequenceEqual(operationName)
+                        && GetClientName(documentOperation).SequenceEqual(clientName))
                     {
                         hasOperationWithSameName = true;
                         break;
@@ -110,12 +112,14 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             return operationIdSpan.Slice(idxSecondLast + 1);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
-            var idx = operation.OperationId.LastIndexOf('_');
-            return idx != -1 && idx < operation.OperationId.Length - 1
-                ? operation.OperationId.AsSpan(idx + 1)
-                : operation.OperationId.AsSpan();
+            var span = operation.OperationId.AsSpan();
+            var idx = span.LastIndexOf('_');
+            return idx != -1 && idx < span.Length - 1
+                ? span.Slice(idx + 1)
+                : span;
         }
     }
 }
