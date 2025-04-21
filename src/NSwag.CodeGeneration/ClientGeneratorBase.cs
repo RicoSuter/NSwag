@@ -149,6 +149,8 @@ namespace NSwag.CodeGeneration
         protected abstract TOperationModel CreateOperationModel(OpenApiOperation operation,
             ClientGeneratorBaseSettings settings);
 
+        private static readonly char[] pathTrimChars = ['/'];
+
         private List<TOperationModel> GetOperations(OpenApiDocument document)
         {
             document.GenerateOperationIds();
@@ -158,17 +160,13 @@ namespace NSwag.CodeGeneration
             {
                 foreach (var p in pair.Value.ActualPathItem)
                 {
-                    var path = pair.Key.TrimStart('/');
+                    var path = pair.Key.TrimStart(pathTrimChars);
                     var httpMethod = p.Key;
                     var operation = p.Value;
 
-                    var operationName =
-                        BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
+                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
-                    if (operationName.Contains("."))
-                    {
-                        operationName = operationName.Replace(".", "_");
-                    }
+                    operationName = operationName.Replace('.', '_');
 
                     if (operationName.EndsWith("Async", StringComparison.Ordinal))
                     {
@@ -176,8 +174,7 @@ namespace NSwag.CodeGeneration
                     }
 
                     var operationModel = CreateOperationModel(operation, BaseSettings);
-                    operationModel.ControllerName =
-                        BaseSettings.OperationNameGenerator.GetClientName(document, path, httpMethod, operation);
+                    operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, path, httpMethod, operation);
                     operationModel.Path = path;
                     operationModel.HttpMethod = httpMethod;
                     operationModel.OperationName = operationName;

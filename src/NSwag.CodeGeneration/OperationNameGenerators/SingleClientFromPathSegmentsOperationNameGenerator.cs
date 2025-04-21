@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         {
             var name = Regex.Replace(path, @"\{.*?\}", "")
                 .Split('/', '-', '_')
-                .Where(part => !part.Contains("{") && !string.IsNullOrWhiteSpace(part))
+                .Where(part => !part.Contains('{') && !string.IsNullOrWhiteSpace(part))
                 .Aggregate("", (current, part) => current + CapitalizeFirst(part));
 
             if (string.IsNullOrEmpty(name))
