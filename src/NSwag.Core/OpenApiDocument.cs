@@ -356,7 +356,7 @@ namespace NSwag
         private static string GetOperationNameFromPath(OpenApiOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
-            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));
+            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains('{'));
             return string.IsNullOrEmpty(lastPathSegment) ? "Anonymous" : lastPathSegment;
         }
     }
