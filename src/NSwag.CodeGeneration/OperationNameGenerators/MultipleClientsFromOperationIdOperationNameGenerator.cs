@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -39,11 +40,20 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var operationName = GetOperationName(operation);
 
             var hasOperationWithSameName = false;
-            foreach (var o in document.Operations)
+            // keep iteration logic in sync with OpenApiDocument.Operations - this version is faster as being called a lot
+            // Operations property also allocates OpenApiOperationDescription wrapper for each item
+            foreach (var p in document._paths)
             {
-                if (o.Operation != operation)
+                foreach (var pair in p.Value.ActualPathItem)
                 {
-                    if (GetClientName(o.Operation).SequenceEqual(clientName) && GetOperationName(o.Operation).SequenceEqual(operationName))
+                    var documentOperation = pair.Value;
+                    if (documentOperation == operation)
+                    {
+                        continue;
+                    }
+
+                    if (GetOperationName(documentOperation).SequenceEqual(operationName)
+                        && GetClientName(documentOperation).SequenceEqual(clientName))
                     {
                         hasOperationWithSameName = true;
                         break;
@@ -102,12 +112,14 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             return operationIdSpan.Slice(idxSecondLast + 1);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
-            var idx = operation.OperationId.LastIndexOf('_');
-            return idx != -1 && idx < operation.OperationId.Length - 1
-                ? operation.OperationId.AsSpan(idx + 1)
-                : operation.OperationId.AsSpan();
+            var span = operation.OperationId.AsSpan();
+            var idx = span.LastIndexOf('_');
+            return idx != -1 && idx < span.Length - 1
+                ? span.Slice(idx + 1)
+                : span;
         }
     }
 }

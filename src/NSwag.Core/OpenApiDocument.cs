@@ -21,7 +21,7 @@ namespace NSwag
     /// <summary>Describes a JSON web service.</summary>
     public partial class OpenApiDocument : JsonExtensionObject, IDocumentPathProvider
     {
-        private readonly ObservableDictionary<string, OpenApiPathItem> _paths;
+        internal readonly ObservableDictionary<string, OpenApiPathItem> _paths;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocument"/> class.</summary>
         public OpenApiDocument()
