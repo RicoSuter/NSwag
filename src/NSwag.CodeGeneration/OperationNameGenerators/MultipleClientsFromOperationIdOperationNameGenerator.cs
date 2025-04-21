@@ -39,11 +39,19 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var operationName = GetOperationName(operation);
 
             var hasOperationWithSameName = false;
-            foreach (var o in document.Operations)
+            // keep iteration logic in sync with OpenApiDocument.Operations - this version is faster as being called a lot
+            // Operations property also allocates OpenApiOperationDescription wrapper for each item
+            foreach (var p in document._paths)
             {
-                if (o.Operation != operation)
+                foreach (var pair in p.Value.ActualPathItem)
                 {
-                    if (GetClientName(o.Operation).SequenceEqual(clientName) && GetOperationName(o.Operation).SequenceEqual(operationName))
+                    var documentOperation = pair.Value;
+                    if (documentOperation == operation)
+                    {
+                        continue;
+                    }
+
+                    if (GetClientName(documentOperation).SequenceEqual(clientName) && GetOperationName(documentOperation).SequenceEqual(operationName))
                     {
                         hasOperationWithSameName = true;
                         break;
