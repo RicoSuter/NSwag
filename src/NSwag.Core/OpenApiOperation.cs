@@ -8,6 +8,7 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -23,6 +24,8 @@ namespace NSwag
 
         private bool _disableRequestBodyUpdate;
         private bool _disableBodyParameterUpdate;
+
+        private readonly ObservableDictionary<string, OpenApiResponse> _responses;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()
@@ -42,14 +45,14 @@ namespace NSwag
             Parameters = parameters;
 
             var responses = new ObservableDictionary<string, OpenApiResponse>();
+            _responses = responses;
             responses.CollectionChanged += (sender, args) =>
             {
-                foreach (var response in Responses.Values)
+                foreach (var pair in _responses)
                 {
-                    response.Parent = this;
+                    pair.Value.Parent = this;
                 }
             };
-            Responses = responses;
         }
 
         /// <summary>Gets the parent operations list.</summary>
@@ -132,7 +135,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiResponse> Responses { get; }
+        public IDictionary<string, OpenApiResponse> Responses => _responses;
 
         /// <summary>Gets or sets the schemes.</summary>
         [JsonProperty(PropertyName = "schemes", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
@@ -172,7 +175,79 @@ namespace NSwag
 
         /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
-        public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
+        public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses
+        {
+            get
+            {
+                var dictionary = new Dictionary<string, OpenApiResponse>(_responses.Count);
+                foreach (var response in _responses)
+                {
+                    dictionary.Add(response.Key, response.Value.ActualResponse);
+                }
+                return dictionary;
+            }
+        }
+
+        // helpers to avoid extra allocations
+        internal IEnumerable<KeyValuePair<string, OpenApiResponse>> GetActualResponses(Func<string, OpenApiResponse, bool> predicate)
+        {
+            foreach (var pair in _responses)
+            {
+                if (predicate(pair.Key, pair.Value.ActualResponse))
+                {
+                    yield return new KeyValuePair<string, OpenApiResponse>(pair.Key, pair.Value.ActualResponse);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool HasActualResponse(Func<string, OpenApiResponse, bool> predicate) => GetActualResponse(predicate) != null;
+
+        internal OpenApiResponse GetActualResponse(Func<string, OpenApiResponse, bool> predicate)
+        {
+            foreach (var pair in _responses)
+            {
+                if (predicate(pair.Key, pair.Value.ActualResponse))
+                {
+                    return pair.Value.ActualResponse;
+                }
+            }
+
+            return null;
+        }
+
+        internal KeyValuePair<string,OpenApiResponse> GetSuccessResponse()
+        {
+            KeyValuePair<string, OpenApiResponse> firstOtherSuccessResponse = new(null, null);
+            OpenApiResponse defaultResponse = null;
+            foreach (var pair in _responses)
+            {
+                var code = pair.Key;
+                var actualResponse = pair.Value.ActualResponse;
+
+                if (code == "200")
+                {
+                    // 200 is the default response
+                    return new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
+                }
+
+                if (firstOtherSuccessResponse.Key == null && HttpUtilities.IsSuccessStatusCode(code))
+                {
+                    firstOtherSuccessResponse = new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
+                }
+                else if (code == "default")
+                {
+                    defaultResponse = actualResponse;
+                }
+            }
+
+            if (firstOtherSuccessResponse.Key != null)
+            {
+                return firstOtherSuccessResponse;
+            }
+
+            return new KeyValuePair<string, OpenApiResponse>("default", defaultResponse);
+        }
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]

@@ -140,7 +140,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
+            _document.Operations.Any(o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>

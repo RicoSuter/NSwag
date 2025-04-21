@@ -123,12 +123,13 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (_operation.ActualResponses.All(r => HttpUtilities.IsSuccessStatusCode(r.Key)))
+                var actualResponses = _operation.ActualResponses;
+                if (actualResponses.All(static r => HttpUtilities.IsSuccessStatusCode(r.Key)))
                 {
                     return "string";
                 }
 
-                return string.Join(" | ", _operation.ActualResponses
+                return string.Join(" | ", actualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                     .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
                     .Concat(["string"]));

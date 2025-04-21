@@ -143,14 +143,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
+                var response = _operation.GetActualResponse((code, _) => !HttpUtilities.IsSuccessStatusCode(code));
+                if (response == null)
                 {
                     return "System.Exception";
                 }
 
-                var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
-                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.Schema, isNullable, "Exception");
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.Schema, isNullable, "Exception");
             }
         }
 
