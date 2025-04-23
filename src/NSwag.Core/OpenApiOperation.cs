@@ -35,8 +35,14 @@ namespace NSwag
             var parameters = new ObservableCollection<OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
             {
-                foreach (var parameter in Parameters)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var parameter = (OpenApiParameter)args.NewItems[i];
                     parameter.Parent = this;
                 }
 
@@ -45,14 +51,20 @@ namespace NSwag
             Parameters = parameters;
 
             var responses = new ObservableDictionary<string, OpenApiResponse>();
-            _responses = responses;
             responses.CollectionChanged += (sender, args) =>
             {
-                foreach (var pair in _responses)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiResponse>)args.NewItems[i];
                     pair.Value.Parent = this;
                 }
             };
+            _responses = responses;
         }
 
         /// <summary>Gets the parent operations list.</summary>

@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using NSwag.Collections;
@@ -22,9 +23,15 @@ namespace NSwag
         {
             CollectionChanged += (sender, args) =>
             {
-                foreach (var operation in Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    operation.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiOperation>)args.NewItems[i];
+                    pair.Value.Parent = this;
                 }
             };
         }

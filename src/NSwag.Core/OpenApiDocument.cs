@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -33,9 +34,15 @@ namespace NSwag
             var paths = new ObservableDictionary<string, OpenApiPathItem>();
             paths.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in Paths.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    path.ActualPathItem.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiPathItem>)args.NewItems[i];
+                    pair.Value.ActualPathItem.Parent = this;
                 }
             };
 
