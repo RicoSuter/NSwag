@@ -105,7 +105,6 @@
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
 
-
                         <TextBlock Text="JSON Polymorphic Serialization Style ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
                         <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyles, Mode=TwoWay}" 
                                   ToolTip="JsonLibrary"
