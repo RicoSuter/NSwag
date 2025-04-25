@@ -148,11 +148,11 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.JsonLibrary = value;
         }
 
-        [Argument(Name = "JsonPolymorphicSerializationStyle", IsRequired = false, Description = "The CSharp JSON polymorphic serialization style, 'NSwag' or 'SystemTextJson' (default: 'NSwag', 'SystemTextJson' is experimental).")]
+        [Argument(Name = "JsonPolymorphicSerializationStyle", IsRequired = false, Description = "The CSharp JSON polymorphic serialization style, 'NJsonSchema' or 'SystemTextJson' (default: 'NJsonSchema', 'SystemTextJson' is experimental).")]
         public CSharpJsonPolymorphicSerializationStyle JsonPolymorphicSerializationStyle
         {
-            get { return Settings.JsonPolymorphicSerializationStyle; }
-            set { Settings.JsonPolymorphicSerializationStyle = value; }
+            get => Settings.JsonPolymorphicSerializationStyle;
+            set => Settings.JsonPolymorphicSerializationStyle = value;
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
