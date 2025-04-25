@@ -248,8 +248,8 @@ namespace NSwag.Commands.CodeGeneration
         [Argument(Name = "JsonPolymorphicSerializationStyle", IsRequired = false, Description = "The CSharp JSON polymorphic serialization style, 'NSwag' or 'SystemTextJson' (default: 'NSwag', 'SystemTextJson' is experimental).")]
         public CSharpJsonPolymorphicSerializationStyle JsonPolymorphicSerializationStyle
         {
-            get { return Settings.JsonPolymorphicSerializationStyle; }
-            set { Settings.JsonPolymorphicSerializationStyle = value; }
+            get { return Settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle; }
+            set { Settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle = value; }
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
