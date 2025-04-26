@@ -1,4 +1,5 @@
 ﻿using NJsonSchema;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests;
 
@@ -12,8 +13,6 @@ public class ClientGenerationTests
 
     private static async Task VerifyOutput(string name, string fileName)
     {
-        Environment.SetEnvironmentVariable("NSWAG_NOVERSION", "true");
-
         var specification = await File.ReadAllTextAsync(Path.Combine("TestData", fileName));
 
         var document = await OpenApiDocument.FromJsonAsync(specification, "", SchemaType.OpenApi3);
@@ -24,10 +23,10 @@ public class ClientGenerationTests
 
         var code = generator.GenerateFile();
 
-        await Verify(code)
-            .UseFileName(name)
-            .ScrubLinesContaining(StringComparison.OrdinalIgnoreCase, "Generated using the NSwag toolchain")
-            .UseDirectory("Snapshots");
-        ;
+        await VerifyHelper
+            .Verify(code, scrubApiComments: false)
+            .UseFileName(name);
+
+        // TODO CodeCompiler.AssertCompile(code);
     }
 }

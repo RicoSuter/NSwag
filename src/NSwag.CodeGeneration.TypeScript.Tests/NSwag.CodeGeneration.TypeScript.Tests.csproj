@@ -26,4 +26,8 @@
     <Content Include="..\NSwag.CodeGeneration.CSharp.Tests\TestData\*" LinkBase="TestData" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\NSwag.CodeGeneration.Tests\VerifyHelper.cs" Link="VerifyHelper.cs" />
+  </ItemGroup>
+
 </Project>
