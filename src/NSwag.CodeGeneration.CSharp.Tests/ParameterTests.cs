@@ -1,5 +1,5 @@
 ﻿using NJsonSchema;
-using Xunit;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -414,6 +414,48 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains("FooAsync(string bar,", code);
             Assert.Contains("EscapeDataString(\"foo\")", code);
+        }
+
+        [Fact]
+        public async Task When_parameter_is_array_and_should_not_be_exploded()
+        {
+            // Arrange
+            var document = new OpenApiDocument
+            {
+                Paths =
+                {
+                    ["foo"] = new OpenApiPathItem
+                    {
+                        {
+                            OpenApiOperationMethod.Get, new OpenApiOperation
+                            {
+                                Parameters =
+                                {
+                                    new OpenApiParameter
+                                    {
+                                        Kind = OpenApiParameterKind.Query,
+                                        Name = "foo",
+                                        OriginalName = "bar",
+                                        Schema = new JsonSchema
+                                        {
+                                            Type = JsonObjectType.Array
+                                        },
+                                        Explode = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            await VerifyHelper.Verify(code);
+
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Verify.Xunit" Version="28.3.2" />
     <PackageReference Include="xunit" Version="2.9.2" />
@@ -20,6 +21,10 @@
     <ProjectReference Include="..\NSwag.CodeGeneration.CSharp\NSwag.CodeGeneration.CSharp.csproj" />
     <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Generation.WebApi\NSwag.Generation.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NSwag.CodeGeneration.Tests\VerifyHelper.cs" Link="VerifyHelper.cs" />
   </ItemGroup>
 
 </Project>
