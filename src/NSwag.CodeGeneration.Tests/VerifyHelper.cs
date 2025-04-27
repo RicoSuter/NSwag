@@ -29,7 +29,13 @@ public static class VerifyHelper
 
         if (scrubApiComments)
         {
-            settingsTask = settingsTask.ScrubLines(x => x.TrimStart().StartsWith("/// ", StringComparison.Ordinal));
+            settingsTask = settingsTask.ScrubLines(x =>
+            {
+                var trimmed = x.TrimStart();
+                return trimmed.StartsWith("/// ", StringComparison.Ordinal)
+                       || trimmed.StartsWith("/* ", StringComparison.Ordinal)
+                       || trimmed.StartsWith("* ", StringComparison.Ordinal);
+            });
         }
 
         return settingsTask
