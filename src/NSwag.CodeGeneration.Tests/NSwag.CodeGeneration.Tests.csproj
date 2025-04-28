@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="NJsonSchema.NewtonsoftJson" Version="11.2.0" />
+    <PackageReference Include="NJsonSchema.NewtonsoftJson" Version="11.3.0" />
     <PackageReference Include="Verify.Xunit" Version="28.3.2" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
