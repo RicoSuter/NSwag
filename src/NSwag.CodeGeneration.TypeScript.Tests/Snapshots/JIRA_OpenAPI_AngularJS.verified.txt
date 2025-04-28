@@ -41938,7 +41938,7 @@ export class AddNotificationsDetails implements IAddNotificationsDetails {
         if (Array.isArray(this.notificationSchemeEvents)) {
             data["notificationSchemeEvents"] = [];
             for (let item of this.notificationSchemeEvents)
-                data["notificationSchemeEvents"].push(item.toJSON());
+                data["notificationSchemeEvents"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -41987,7 +41987,7 @@ export class AddSecuritySchemeLevelsRequestBean implements IAddSecuritySchemeLev
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
-                data["levels"].push(item.toJSON());
+                data["levels"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -42420,13 +42420,13 @@ export class ApplicationRole implements IApplicationRole {
         if (Array.isArray(this.defaultGroupsDetails)) {
             data["defaultGroupsDetails"] = [];
             for (let item of this.defaultGroupsDetails)
-                data["defaultGroupsDetails"].push(item.toJSON());
+                data["defaultGroupsDetails"].push(item ? item.toJSON() : <any>undefined);
         }
         data["defined"] = this.defined;
         if (Array.isArray(this.groupDetails)) {
             data["groupDetails"] = [];
             for (let item of this.groupDetails)
-                data["groupDetails"].push(item.toJSON());
+                data["groupDetails"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
@@ -42748,7 +42748,7 @@ export class AssociateFieldConfigurationsWithIssueTypesRequest implements IAssoc
         if (Array.isArray(this.mappings)) {
             data["mappings"] = [];
             for (let item of this.mappings)
-                data["mappings"].push(item.toJSON());
+                data["mappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -42802,7 +42802,7 @@ export class AssociateSecuritySchemeWithProjectDetails implements IAssociateSecu
         if (Array.isArray(this.oldToNewSecurityLevelMappings)) {
             data["oldToNewSecurityLevelMappings"] = [];
             for (let item of this.oldToNewSecurityLevelMappings)
-                data["oldToNewSecurityLevelMappings"].push(item.toJSON());
+                data["oldToNewSecurityLevelMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         data["projectId"] = this.projectId;
         data["schemeId"] = this.schemeId;
@@ -43071,7 +43071,7 @@ export class AttachmentArchive implements IAttachmentArchive {
         if (Array.isArray(this.entries)) {
             data["entries"] = [];
             for (let item of this.entries)
-                data["entries"].push(item.toJSON());
+                data["entries"].push(item ? item.toJSON() : <any>undefined);
         }
         data["moreAvailable"] = this.moreAvailable;
         data["totalEntryCount"] = this.totalEntryCount;
@@ -43177,7 +43177,7 @@ export class AttachmentArchiveImpl implements IAttachmentArchiveImpl {
         if (Array.isArray(this.entries)) {
             data["entries"] = [];
             for (let item of this.entries)
-                data["entries"].push(item.toJSON());
+                data["entries"].push(item ? item.toJSON() : <any>undefined);
         }
         data["totalEntryCount"] = this.totalEntryCount;
         return data;
@@ -43303,7 +43303,7 @@ export class AttachmentArchiveMetadataReadable implements IAttachmentArchiveMeta
         if (Array.isArray(this.entries)) {
             data["entries"] = [];
             for (let item of this.entries)
-                data["entries"].push(item.toJSON());
+                data["entries"].push(item ? item.toJSON() : <any>undefined);
         }
         data["id"] = this.id;
         data["mediaType"] = this.mediaType;
@@ -43548,14 +43548,14 @@ export class AuditRecordBean implements IAuditRecordBean {
         if (Array.isArray(this.associatedItems)) {
             data["associatedItems"] = [];
             for (let item of this.associatedItems)
-                data["associatedItems"].push(item.toJSON());
+                data["associatedItems"].push(item ? item.toJSON() : <any>undefined);
         }
         data["authorKey"] = this.authorKey;
         data["category"] = this.category;
         if (Array.isArray(this.changedValues)) {
             data["changedValues"] = [];
             for (let item of this.changedValues)
-                data["changedValues"].push(item.toJSON());
+                data["changedValues"].push(item ? item.toJSON() : <any>undefined);
         }
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
         data["description"] = this.description;
@@ -43640,7 +43640,7 @@ export class AuditRecords implements IAuditRecords {
         if (Array.isArray(this.records)) {
             data["records"] = [];
             for (let item of this.records)
-                data["records"].push(item.toJSON());
+                data["records"].push(item ? item.toJSON() : <any>undefined);
         }
         data["total"] = this.total;
         return data;
@@ -43741,7 +43741,7 @@ export class AutoCompleteSuggestions implements IAutoCompleteSuggestions {
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -43844,7 +43844,7 @@ export class AvailableDashboardGadgetsResponse implements IAvailableDashboardGad
         if (Array.isArray(this.gadgets)) {
             data["gadgets"] = [];
             for (let item of this.gadgets)
-                data["gadgets"].push(item.toJSON());
+                data["gadgets"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -44189,7 +44189,7 @@ export class AvailableWorkflowTriggers implements IAvailableWorkflowTriggers {
         if (Array.isArray(this.availableTypes)) {
             data["availableTypes"] = [];
             for (let item of this.availableTypes)
-                data["availableTypes"].push(item.toJSON());
+                data["availableTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         data["ruleKey"] = this.ruleKey;
         return data;
@@ -44403,12 +44403,12 @@ export class Avatars implements IAvatars {
         if (Array.isArray(this.custom)) {
             data["custom"] = [];
             for (let item of this.custom)
-                data["custom"].push(item.toJSON());
+                data["custom"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.system)) {
             data["system"] = [];
             for (let item of this.system)
-                data["system"].push(item.toJSON());
+                data["system"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -44470,7 +44470,7 @@ export class BoardColumnPayload implements IBoardColumnPayload {
         if (Array.isArray(this.statusIds)) {
             data["statusIds"] = [];
             for (let item of this.statusIds)
-                data["statusIds"].push(item.toJSON());
+                data["statusIds"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -44617,24 +44617,24 @@ export class BoardPayload implements IBoardPayload {
         if (Array.isArray(this.cardLayouts)) {
             data["cardLayouts"] = [];
             for (let item of this.cardLayouts)
-                data["cardLayouts"].push(item.toJSON());
+                data["cardLayouts"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.columns)) {
             data["columns"] = [];
             for (let item of this.columns)
-                data["columns"].push(item.toJSON());
+                data["columns"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.features)) {
             data["features"] = [];
             for (let item of this.features)
-                data["features"].push(item.toJSON());
+                data["features"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         data["pcri"] = this.pcri ? this.pcri.toJSON() : <any>undefined;
         if (Array.isArray(this.quickFilters)) {
             data["quickFilters"] = [];
             for (let item of this.quickFilters)
-                data["quickFilters"].push(item.toJSON());
+                data["quickFilters"].push(item ? item.toJSON() : <any>undefined);
         }
         data["supportsSprint"] = this.supportsSprint;
         data["swimlanes"] = this.swimlanes ? this.swimlanes.toJSON() : <any>undefined;
@@ -44702,7 +44702,7 @@ export class BoardsPayload implements IBoardsPayload {
         if (Array.isArray(this.boards)) {
             data["boards"] = [];
             for (let item of this.boards)
-                data["boards"].push(item.toJSON());
+                data["boards"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -44876,7 +44876,7 @@ export class BulkChangelogResponseBean implements IBulkChangelogResponseBean {
         if (Array.isArray(this.issueChangeLogs)) {
             data["issueChangeLogs"] = [];
             for (let item of this.issueChangeLogs)
-                data["issueChangeLogs"].push(item.toJSON());
+                data["issueChangeLogs"].push(item ? item.toJSON() : <any>undefined);
         }
         data["nextPageToken"] = this.nextPageToken;
         return data;
@@ -44991,7 +44991,7 @@ export class BulkCustomFieldOptionCreateRequest implements IBulkCustomFieldOptio
         if (Array.isArray(this.options)) {
             data["options"] = [];
             for (let item of this.options)
-                data["options"].push(item.toJSON());
+                data["options"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -45039,7 +45039,7 @@ export class BulkCustomFieldOptionUpdateRequest implements IBulkCustomFieldOptio
         if (Array.isArray(this.options)) {
             data["options"] = [];
             for (let item of this.options)
-                data["options"].push(item.toJSON());
+                data["options"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -45164,7 +45164,7 @@ export class BulkEditGetFields implements IBulkEditGetFields {
         if (Array.isArray(this.fields)) {
             data["fields"] = [];
             for (let item of this.fields)
-                data["fields"].push(item.toJSON());
+                data["fields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["startingAfter"] = this.startingAfter;
         return data;
@@ -45608,12 +45608,12 @@ export class BulkIssueResults implements IBulkIssueResults {
         if (Array.isArray(this.issueErrors)) {
             data["issueErrors"] = [];
             for (let item of this.issueErrors)
-                data["issueErrors"].push(item.toJSON());
+                data["issueErrors"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -45661,7 +45661,7 @@ export class BulkOperationErrorResponse implements IBulkOperationErrorResponse {
         if (Array.isArray(this.errors)) {
             data["errors"] = [];
             for (let item of this.errors)
-                data["errors"].push(item.toJSON());
+                data["errors"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -45883,7 +45883,7 @@ export class BulkPermissionGrants implements IBulkPermissionGrants {
         if (Array.isArray(this.projectPermissions)) {
             data["projectPermissions"] = [];
             for (let item of this.projectPermissions)
-                data["projectPermissions"].push(item.toJSON());
+                data["projectPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -45949,7 +45949,7 @@ export class BulkPermissionsRequestBean implements IBulkPermissionsRequestBean {
         if (Array.isArray(this.projectPermissions)) {
             data["projectPermissions"] = [];
             for (let item of this.projectPermissions)
-                data["projectPermissions"].push(item.toJSON());
+                data["projectPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -46158,7 +46158,7 @@ export class BulkTransitionGetAvailableTransitions implements IBulkTransitionGet
         if (Array.isArray(this.availableTransitions)) {
             data["availableTransitions"] = [];
             for (let item of this.availableTransitions)
-                data["availableTransitions"].push(item.toJSON());
+                data["availableTransitions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["endingBefore"] = this.endingBefore;
         data["startingAfter"] = this.startingAfter;
@@ -46534,7 +46534,7 @@ export class ChangedWorklog implements IChangedWorklog {
         if (Array.isArray(this.properties)) {
             data["properties"] = [];
             for (let item of this.properties)
-                data["properties"].push(item.toJSON());
+                data["properties"].push(item ? item.toJSON() : <any>undefined);
         }
         data["updatedTime"] = this.updatedTime;
         data["worklogId"] = this.worklogId;
@@ -46607,7 +46607,7 @@ export class ChangedWorklogs implements IChangedWorklogs {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -46680,7 +46680,7 @@ export class Changelog implements IChangelog {
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -46875,7 +46875,7 @@ export class Comment implements IComment {
         if (Array.isArray(this.properties)) {
             data["properties"] = [];
             for (let item of this.properties)
-                data["properties"].push(item.toJSON());
+                data["properties"].push(item ? item.toJSON() : <any>undefined);
         }
         data["renderedBody"] = this.renderedBody;
         data["self"] = this.self;
@@ -47226,7 +47226,7 @@ export class CompoundClause implements ICompoundClause {
         if (Array.isArray(this.clauses)) {
             data["clauses"] = [];
             for (let item of this.clauses)
-                data["clauses"].push(item.toJSON());
+                data["clauses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["operator"] = this.operator;
         return data;
@@ -47289,12 +47289,12 @@ export class ConditionGroupConfiguration implements IConditionGroupConfiguration
         if (Array.isArray(this.conditionGroups)) {
             data["conditionGroups"] = [];
             for (let item of this.conditionGroups)
-                data["conditionGroups"].push(item.toJSON());
+                data["conditionGroups"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["operation"] = this.operation;
         return data;
@@ -47357,12 +47357,12 @@ export class ConditionGroupPayload implements IConditionGroupPayload {
         if (Array.isArray(this.conditionGroup)) {
             data["conditionGroup"] = [];
             for (let item of this.conditionGroup)
-                data["conditionGroup"].push(item.toJSON());
+                data["conditionGroup"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["operation"] = this.operation;
         return data;
@@ -47425,12 +47425,12 @@ export class ConditionGroupUpdate implements IConditionGroupUpdate {
         if (Array.isArray(this.conditionGroups)) {
             data["conditionGroups"] = [];
             for (let item of this.conditionGroups)
-                data["conditionGroups"].push(item.toJSON());
+                data["conditionGroups"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["operation"] = this.operation;
         return data;
@@ -47710,7 +47710,7 @@ export class ConnectCustomFieldValues implements IConnectCustomFieldValues {
         if (Array.isArray(this.updateValueList)) {
             data["updateValueList"] = [];
             for (let item of this.updateValueList)
-                data["updateValueList"].push(item.toJSON());
+                data["updateValueList"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -47817,7 +47817,7 @@ export class ConnectModules implements IConnectModules {
         if (Array.isArray(this.modules)) {
             data["modules"] = [];
             for (let item of this.modules)
-                data["modules"].push(item.toJSON());
+                data["modules"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -47936,7 +47936,7 @@ export class ContainerForProjectFeatures implements IContainerForProjectFeatures
         if (Array.isArray(this.features)) {
             data["features"] = [];
             for (let item of this.features)
-                data["features"].push(item.toJSON());
+                data["features"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -47984,7 +47984,7 @@ export class ContainerForRegisteredWebhooks implements IContainerForRegisteredWe
         if (Array.isArray(this.webhookRegistrationResult)) {
             data["webhookRegistrationResult"] = [];
             for (let item of this.webhookRegistrationResult)
-                data["webhookRegistrationResult"].push(item.toJSON());
+                data["webhookRegistrationResult"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -48086,7 +48086,7 @@ export class ContainerOfWorkflowSchemeAssociations implements IContainerOfWorkfl
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -48303,7 +48303,7 @@ export class ConvertedJQLQueries implements IConvertedJQLQueries {
         if (Array.isArray(this.queriesWithUnknownUsers)) {
             data["queriesWithUnknownUsers"] = [];
             for (let item of this.queriesWithUnknownUsers)
-                data["queriesWithUnknownUsers"].push(item.toJSON());
+                data["queriesWithUnknownUsers"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.queryStrings)) {
             data["queryStrings"] = [];
@@ -48703,7 +48703,7 @@ export class CreateIssueSecuritySchemeDetails implements ICreateIssueSecuritySch
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
-                data["levels"].push(item.toJSON());
+                data["levels"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         return data;
@@ -48820,7 +48820,7 @@ export class CreateNotificationSchemeDetails implements ICreateNotificationSchem
         if (Array.isArray(this.notificationSchemeEvents)) {
             data["notificationSchemeEvents"] = [];
             for (let item of this.notificationSchemeEvents)
-                data["notificationSchemeEvents"].push(item.toJSON());
+                data["notificationSchemeEvents"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -49077,25 +49077,25 @@ export class CreatePlanRequest implements ICreatePlanRequest {
         if (Array.isArray(this.crossProjectReleases)) {
             data["crossProjectReleases"] = [];
             for (let item of this.crossProjectReleases)
-                data["crossProjectReleases"].push(item.toJSON());
+                data["crossProjectReleases"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.customFields)) {
             data["customFields"] = [];
             for (let item of this.customFields)
-                data["customFields"].push(item.toJSON());
+                data["customFields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["exclusionRules"] = this.exclusionRules ? this.exclusionRules.toJSON() : <any>undefined;
         if (Array.isArray(this.issueSources)) {
             data["issueSources"] = [];
             for (let item of this.issueSources)
-                data["issueSources"].push(item.toJSON());
+                data["issueSources"].push(item ? item.toJSON() : <any>undefined);
         }
         data["leadAccountId"] = this.leadAccountId;
         data["name"] = this.name;
         if (Array.isArray(this.permissions)) {
             data["permissions"] = [];
             for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
+                data["permissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["scheduling"] = this.scheduling ? this.scheduling.toJSON() : <any>undefined;
         return data;
@@ -49619,7 +49619,7 @@ export class CreateUiModificationDetails implements ICreateUiModificationDetails
         if (Array.isArray(this.contexts)) {
             data["contexts"] = [];
             for (let item of this.contexts)
-                data["contexts"].push(item.toJSON());
+                data["contexts"].push(item ? item.toJSON() : <any>undefined);
         }
         data["data"] = this.data;
         data["description"] = this.description;
@@ -49735,7 +49735,7 @@ export class CreateWorkflowCondition implements ICreateWorkflowCondition {
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (this.configuration) {
             data["configuration"] = {};
@@ -49827,12 +49827,12 @@ All the transition statuses must be included in `statuses`. */
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -50182,12 +50182,12 @@ export class CreateWorkflowTransitionRulesDetails implements ICreateWorkflowTran
         if (Array.isArray(this.postFunctions)) {
             data["postFunctions"] = [];
             for (let item of this.postFunctions)
-                data["postFunctions"].push(item.toJSON());
+                data["postFunctions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -50407,12 +50407,12 @@ export class CreatedIssues implements ICreatedIssues {
         if (Array.isArray(this.errors)) {
             data["errors"] = [];
             for (let item of this.errors)
-                data["errors"].push(item.toJSON());
+                data["errors"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -50518,7 +50518,7 @@ export class CustomFieldConfigurations implements ICustomFieldConfigurations {
         if (Array.isArray(this.configurations)) {
             data["configurations"] = [];
             for (let item of this.configurations)
-                data["configurations"].push(item.toJSON());
+                data["configurations"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -52291,7 +52291,7 @@ export class CustomFieldContextDefaultValueUpdate implements ICustomFieldContext
         if (Array.isArray(this.defaultValues)) {
             data["defaultValues"] = [];
             for (let item of this.defaultValues)
-                data["defaultValues"].push(item.toJSON());
+                data["defaultValues"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -52563,7 +52563,7 @@ export class CustomFieldCreatedContextOptionsList implements ICustomFieldCreated
         if (Array.isArray(this.options)) {
             data["options"] = [];
             for (let item of this.options)
-                data["options"].push(item.toJSON());
+                data["options"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -53029,7 +53029,7 @@ export class CustomFieldUpdatedContextOptionsList implements ICustomFieldUpdated
         if (Array.isArray(this.options)) {
             data["options"] = [];
             for (let item of this.options)
-                data["options"].push(item.toJSON());
+                data["options"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -53150,7 +53150,7 @@ export class CustomFieldValueUpdateDetails implements ICustomFieldValueUpdateDet
         if (Array.isArray(this.updates)) {
             data["updates"] = [];
             for (let item of this.updates)
-                data["updates"].push(item.toJSON());
+                data["updates"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -53437,7 +53437,7 @@ export class Dashboard implements IDashboard {
         if (Array.isArray(this.editPermissions)) {
             data["editPermissions"] = [];
             for (let item of this.editPermissions)
-                data["editPermissions"].push(item.toJSON());
+                data["editPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["id"] = this.id;
         data["isFavourite"] = this.isFavourite;
@@ -53450,7 +53450,7 @@ export class Dashboard implements IDashboard {
         if (Array.isArray(this.sharePermissions)) {
             data["sharePermissions"] = [];
             for (let item of this.sharePermissions)
-                data["sharePermissions"].push(item.toJSON());
+                data["sharePermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["systemDashboard"] = this.systemDashboard;
         data["view"] = this.view;
@@ -53543,13 +53543,13 @@ export class DashboardDetails implements IDashboardDetails {
         if (Array.isArray(this.editPermissions)) {
             data["editPermissions"] = [];
             for (let item of this.editPermissions)
-                data["editPermissions"].push(item.toJSON());
+                data["editPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         if (Array.isArray(this.sharePermissions)) {
             data["sharePermissions"] = [];
             for (let item of this.sharePermissions)
-                data["sharePermissions"].push(item.toJSON());
+                data["sharePermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -53721,7 +53721,7 @@ export class DashboardGadgetResponse implements IDashboardGadgetResponse {
         if (Array.isArray(this.gadgets)) {
             data["gadgets"] = [];
             for (let item of this.gadgets)
-                data["gadgets"].push(item.toJSON());
+                data["gadgets"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -53891,7 +53891,7 @@ export class DataClassificationLevelsBean implements IDataClassificationLevelsBe
         if (Array.isArray(this.classifications)) {
             data["classifications"] = [];
             for (let item of this.classifications)
-                data["classifications"].push(item.toJSON());
+                data["classifications"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -54218,7 +54218,7 @@ export class DeleteAndReplaceVersionBean implements IDeleteAndReplaceVersionBean
         if (Array.isArray(this.customFieldReplacementList)) {
             data["customFieldReplacementList"] = [];
             for (let item of this.customFieldReplacementList)
-                data["customFieldReplacementList"].push(item.toJSON());
+                data["customFieldReplacementList"].push(item ? item.toJSON() : <any>undefined);
         }
         data["moveAffectedIssuesTo"] = this.moveAffectedIssuesTo;
         data["moveFixIssuesTo"] = this.moveFixIssuesTo;
@@ -55218,7 +55218,7 @@ export class FailedWebhooks implements IFailedWebhooks {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -55392,12 +55392,12 @@ export class FieldAssociationsRequest implements IFieldAssociationsRequest {
         if (Array.isArray(this.associationContexts)) {
             data["associationContexts"] = [];
             for (let item of this.associationContexts)
-                data["associationContexts"].push(item.toJSON());
+                data["associationContexts"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.fields)) {
             data["fields"] = [];
             for (let item of this.fields)
-                data["fields"].push(item.toJSON());
+                data["fields"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -55479,29 +55479,29 @@ export class FieldCapabilityPayload implements IFieldCapabilityPayload {
         if (Array.isArray(this.customFieldDefinitions)) {
             data["customFieldDefinitions"] = [];
             for (let item of this.customFieldDefinitions)
-                data["customFieldDefinitions"].push(item.toJSON());
+                data["customFieldDefinitions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["fieldLayoutScheme"] = this.fieldLayoutScheme ? this.fieldLayoutScheme.toJSON() : <any>undefined;
         if (Array.isArray(this.fieldLayouts)) {
             data["fieldLayouts"] = [];
             for (let item of this.fieldLayouts)
-                data["fieldLayouts"].push(item.toJSON());
+                data["fieldLayouts"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.issueLayouts)) {
             data["issueLayouts"] = [];
             for (let item of this.issueLayouts)
-                data["issueLayouts"].push(item.toJSON());
+                data["issueLayouts"].push(item ? item.toJSON() : <any>undefined);
         }
         data["issueTypeScreenScheme"] = this.issueTypeScreenScheme ? this.issueTypeScreenScheme.toJSON() : <any>undefined;
         if (Array.isArray(this.screenScheme)) {
             data["screenScheme"] = [];
             for (let item of this.screenScheme)
-                data["screenScheme"].push(item.toJSON());
+                data["screenScheme"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.screens)) {
             data["screens"] = [];
             for (let item of this.screens)
-                data["screens"].push(item.toJSON());
+                data["screens"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -55580,7 +55580,7 @@ export class FieldChangedClause implements IFieldChangedClause {
         if (Array.isArray(this.predicates)) {
             data["predicates"] = [];
             for (let item of this.predicates)
-                data["predicates"].push(item.toJSON());
+                data["predicates"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -55856,7 +55856,7 @@ export class FieldConfigurationItemsDetails implements IFieldConfigurationItemsD
         if (Array.isArray(this.fieldConfigurationItems)) {
             data["fieldConfigurationItems"] = [];
             for (let item of this.fieldConfigurationItems)
-                data["fieldConfigurationItems"].push(item.toJSON());
+                data["fieldConfigurationItems"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -56542,7 +56542,7 @@ export class FieldLayoutPayload implements IFieldLayoutPayload {
         if (Array.isArray(this.configuration)) {
             data["configuration"] = [];
             for (let item of this.configuration)
-                data["configuration"].push(item.toJSON());
+                data["configuration"].push(item ? item.toJSON() : <any>undefined);
         }
         data["description"] = this.description;
         data["name"] = this.name;
@@ -57067,7 +57067,7 @@ export class FieldWasClause implements IFieldWasClause {
         if (Array.isArray(this.predicates)) {
             data["predicates"] = [];
             for (let item of this.predicates)
-                data["predicates"].push(item.toJSON());
+                data["predicates"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -57245,7 +57245,7 @@ export class Filter implements IFilter {
         if (Array.isArray(this.editPermissions)) {
             data["editPermissions"] = [];
             for (let item of this.editPermissions)
-                data["editPermissions"].push(item.toJSON());
+                data["editPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["favourite"] = this.favourite;
         data["favouritedCount"] = this.favouritedCount;
@@ -57258,7 +57258,7 @@ export class Filter implements IFilter {
         if (Array.isArray(this.sharePermissions)) {
             data["sharePermissions"] = [];
             for (let item of this.sharePermissions)
-                data["sharePermissions"].push(item.toJSON());
+                data["sharePermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["sharedUsers"] = this.sharedUsers ? this.sharedUsers.toJSON() : <any>undefined;
         data["subscriptions"] = this.subscriptions ? this.subscriptions.toJSON() : <any>undefined;
@@ -57389,7 +57389,7 @@ export class FilterDetails implements IFilterDetails {
         if (Array.isArray(this.editPermissions)) {
             data["editPermissions"] = [];
             for (let item of this.editPermissions)
-                data["editPermissions"].push(item.toJSON());
+                data["editPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["expand"] = this.expand;
         data["favourite"] = this.favourite;
@@ -57403,12 +57403,12 @@ export class FilterDetails implements IFilterDetails {
         if (Array.isArray(this.sharePermissions)) {
             data["sharePermissions"] = [];
             for (let item of this.sharePermissions)
-                data["sharePermissions"].push(item.toJSON());
+                data["sharePermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.subscriptions)) {
             data["subscriptions"] = [];
             for (let item of this.subscriptions)
-                data["subscriptions"].push(item.toJSON());
+                data["subscriptions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["viewUrl"] = this.viewUrl;
         return data;
@@ -57550,7 +57550,7 @@ export class FilterSubscriptionsList implements IFilterSubscriptionsList {
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["max-results"] = this.maxResults;
         data["size"] = this.size;
@@ -57619,7 +57619,7 @@ export class FoundGroup implements IFoundGroup {
         if (Array.isArray(this.labels)) {
             data["labels"] = [];
             for (let item of this.labels)
-                data["labels"].push(item.toJSON());
+                data["labels"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         return data;
@@ -57678,7 +57678,7 @@ export class FoundGroups implements IFoundGroups {
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         data["header"] = this.header;
         data["total"] = this.total;
@@ -57738,7 +57738,7 @@ export class FoundUsers implements IFoundUsers {
         if (Array.isArray(this.users)) {
             data["users"] = [];
             for (let item of this.users)
-                data["users"].push(item.toJSON());
+                data["users"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -58599,19 +58599,19 @@ export class GetPlanResponse implements IGetPlanResponse {
         if (Array.isArray(this.crossProjectReleases)) {
             data["crossProjectReleases"] = [];
             for (let item of this.crossProjectReleases)
-                data["crossProjectReleases"].push(item.toJSON());
+                data["crossProjectReleases"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.customFields)) {
             data["customFields"] = [];
             for (let item of this.customFields)
-                data["customFields"].push(item.toJSON());
+                data["customFields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["exclusionRules"] = this.exclusionRules ? this.exclusionRules.toJSON() : <any>undefined;
         data["id"] = this.id;
         if (Array.isArray(this.issueSources)) {
             data["issueSources"] = [];
             for (let item of this.issueSources)
-                data["issueSources"].push(item.toJSON());
+                data["issueSources"].push(item ? item.toJSON() : <any>undefined);
         }
         data["lastSaved"] = this.lastSaved;
         data["leadAccountId"] = this.leadAccountId;
@@ -58619,7 +58619,7 @@ export class GetPlanResponse implements IGetPlanResponse {
         if (Array.isArray(this.permissions)) {
             data["permissions"] = [];
             for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
+                data["permissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["scheduling"] = this.scheduling ? this.scheduling.toJSON() : <any>undefined;
         data["status"] = this.status;
@@ -58700,7 +58700,7 @@ export class GetPlanResponseForPage implements IGetPlanResponseForPage {
         if (Array.isArray(this.issueSources)) {
             data["issueSources"] = [];
             for (let item of this.issueSources)
-                data["issueSources"].push(item.toJSON());
+                data["issueSources"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         data["scenarioId"] = this.scenarioId;
@@ -59188,7 +59188,7 @@ export class Hierarchy implements IHierarchy {
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
-                data["levels"].push(item.toJSON());
+                data["levels"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -60066,7 +60066,7 @@ export class IssueBean implements IIssueBean {
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (this.versionedRepresentations) {
             data["versionedRepresentations"] = {};
@@ -60237,7 +60237,7 @@ export class IssueBulkEditField implements IIssueBulkEditField {
         if (Array.isArray(this.fieldOptions)) {
             data["fieldOptions"] = [];
             for (let item of this.fieldOptions)
-                data["fieldOptions"].push(item.toJSON());
+                data["fieldOptions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["id"] = this.id;
         data["isRequired"] = this.isRequired;
@@ -60519,7 +60519,7 @@ export class IssueBulkTransitionForWorkflow implements IIssueBulkTransitionForWo
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -60584,7 +60584,7 @@ If `true`, dispatches a bulk notification email to users about the updates. */
         if (Array.isArray(this.bulkTransitionInputs)) {
             data["bulkTransitionInputs"] = [];
             for (let item of this.bulkTransitionInputs)
-                data["bulkTransitionInputs"].push(item.toJSON());
+                data["bulkTransitionInputs"].push(item ? item.toJSON() : <any>undefined);
         }
         data["sendBulkNotification"] = this.sendBulkNotification;
         return data;
@@ -60694,7 +60694,7 @@ export class IssueChangeLog implements IIssueChangeLog {
         if (Array.isArray(this.changeHistories)) {
             data["changeHistories"] = [];
             for (let item of this.changeHistories)
-                data["changeHistories"].push(item.toJSON());
+                data["changeHistories"].push(item ? item.toJSON() : <any>undefined);
         }
         data["issueId"] = this.issueId;
         return data;
@@ -60913,7 +60913,7 @@ export class IssueCreateMetadata implements IIssueCreateMetadata {
         if (Array.isArray(this.projects)) {
             data["projects"] = [];
             for (let item of this.projects)
-                data["projects"].push(item.toJSON());
+                data["projects"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -61214,7 +61214,7 @@ export interface IIssueFieldOption {
 /** Details of the projects the option is available in. */
 export class IssueFieldOptionConfiguration implements IIssueFieldOptionConfiguration {
     /** DEPRECATED */
-    attributes?: attributes[];
+    attributes?: Attributes2[];
     /** Defines the projects that the option is available in. If the scope is not defined, then the option is available in all projects. */
     scope?: IssueFieldOptionScopeBean;
 
@@ -61260,7 +61260,7 @@ export class IssueFieldOptionConfiguration implements IIssueFieldOptionConfigura
 /** Details of the projects the option is available in. */
 export interface IIssueFieldOptionConfiguration {
     /** DEPRECATED */
-    attributes?: attributes[];
+    attributes?: Attributes2[];
     /** Defines the projects that the option is available in. If the scope is not defined, then the option is available in all projects. */
     scope?: IssueFieldOptionScopeBean;
 }
@@ -61388,7 +61388,7 @@ export class IssueFieldOptionScopeBean implements IIssueFieldOptionScopeBean {
         if (Array.isArray(this.projects2)) {
             data["projects2"] = [];
             for (let item of this.projects2)
-                data["projects2"].push(item.toJSON());
+                data["projects2"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -61612,7 +61612,7 @@ export class IssueLayoutPayload implements IIssueLayoutPayload {
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["pcri"] = this.pcri ? this.pcri.toJSON() : <any>undefined;
         return data;
@@ -61908,7 +61908,7 @@ export class IssueLinkTypes implements IIssueLinkTypes {
         if (Array.isArray(this.issueLinkTypes)) {
             data["issueLinkTypes"] = [];
             for (let item of this.issueLinkTypes)
-                data["issueLinkTypes"].push(item.toJSON());
+                data["issueLinkTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -62009,7 +62009,7 @@ export class IssueMatches implements IIssueMatches {
         if (Array.isArray(this.matches)) {
             data["matches"] = [];
             for (let item of this.matches)
-                data["matches"].push(item.toJSON());
+                data["matches"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -62122,7 +62122,7 @@ export class IssuePickerSuggestions implements IIssuePickerSuggestions {
         if (Array.isArray(this.sections)) {
             data["sections"] = [];
             for (let item of this.sections)
-                data["sections"].push(item.toJSON());
+                data["sections"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -62183,7 +62183,7 @@ export class IssuePickerSuggestionsIssueType implements IIssuePickerSuggestionsI
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         data["label"] = this.label;
         data["msg"] = this.msg;
@@ -63086,13 +63086,13 @@ export class IssueTypeProjectCreatePayload implements IIssueTypeProjectCreatePay
         if (Array.isArray(this.issueTypeHierarchy)) {
             data["issueTypeHierarchy"] = [];
             for (let item of this.issueTypeHierarchy)
-                data["issueTypeHierarchy"].push(item.toJSON());
+                data["issueTypeHierarchy"].push(item ? item.toJSON() : <any>undefined);
         }
         data["issueTypeScheme"] = this.issueTypeScheme ? this.issueTypeScheme.toJSON() : <any>undefined;
         if (Array.isArray(this.issueTypes)) {
             data["issueTypes"] = [];
             for (let item of this.issueTypes)
-                data["issueTypes"].push(item.toJSON());
+                data["issueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -63374,7 +63374,7 @@ export class IssueTypeSchemePayload implements IIssueTypeSchemePayload {
         if (Array.isArray(this.issueTypeIds)) {
             data["issueTypeIds"] = [];
             for (let item of this.issueTypeIds)
-                data["issueTypeIds"].push(item.toJSON());
+                data["issueTypeIds"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         data["pcri"] = this.pcri ? this.pcri.toJSON() : <any>undefined;
@@ -63648,7 +63648,7 @@ export class IssueTypeScreenSchemeDetails implements IIssueTypeScreenSchemeDetai
         if (Array.isArray(this.issueTypeMappings)) {
             data["issueTypeMappings"] = [];
             for (let item of this.issueTypeMappings)
-                data["issueTypeMappings"].push(item.toJSON());
+                data["issueTypeMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         return data;
@@ -63842,7 +63842,7 @@ export class IssueTypeScreenSchemeMappingDetails implements IIssueTypeScreenSche
         if (Array.isArray(this.issueTypeMappings)) {
             data["issueTypeMappings"] = [];
             for (let item of this.issueTypeMappings)
-                data["issueTypeMappings"].push(item.toJSON());
+                data["issueTypeMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -64232,7 +64232,7 @@ export class IssueTypeWithStatus implements IIssueTypeWithStatus {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["subtask"] = this.subtask;
         return data;
@@ -64449,7 +64449,7 @@ export class IssueUpdateDetails implements IIssueUpdateDetails {
         if (Array.isArray(this.properties)) {
             data["properties"] = [];
             for (let item of this.properties)
-                data["properties"].push(item.toJSON());
+                data["properties"].push(item ? item.toJSON() : <any>undefined);
         }
         data["transition"] = this.transition ? this.transition.toJSON() : <any>undefined;
         if (this.update) {
@@ -64761,7 +64761,7 @@ export class IssuesUpdateBean implements IIssuesUpdateBean {
         if (Array.isArray(this.issueUpdates)) {
             data["issueUpdates"] = [];
             for (let item of this.issueUpdates)
-                data["issueUpdates"].push(item.toJSON());
+                data["issueUpdates"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -65168,12 +65168,12 @@ export class JQLReferenceData implements IJQLReferenceData {
         if (Array.isArray(this.visibleFieldNames)) {
             data["visibleFieldNames"] = [];
             for (let item of this.visibleFieldNames)
-                data["visibleFieldNames"].push(item.toJSON());
+                data["visibleFieldNames"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.visibleFunctionNames)) {
             data["visibleFunctionNames"] = [];
             for (let item of this.visibleFunctionNames)
-                data["visibleFunctionNames"].push(item.toJSON());
+                data["visibleFunctionNames"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -65783,7 +65783,7 @@ export class JiraExpressionAnalysis implements IJiraExpressionAnalysis {
         if (Array.isArray(this.errors)) {
             data["errors"] = [];
             for (let item of this.errors)
-                data["errors"].push(item.toJSON());
+                data["errors"].push(item ? item.toJSON() : <any>undefined);
         }
         data["expression"] = this.expression;
         data["type"] = this.type;
@@ -65931,7 +65931,7 @@ export class JiraExpressionEvalContextBean implements IJiraExpressionEvalContext
         if (Array.isArray(this.custom)) {
             data["custom"] = [];
             for (let item of this.custom)
-                data["custom"].push(item.toJSON());
+                data["custom"].push(item ? item.toJSON() : <any>undefined);
         }
         data["customerRequest"] = this.customerRequest;
         data["issue"] = this.issue ? this.issue.toJSON() : <any>undefined;
@@ -66073,7 +66073,7 @@ export class JiraExpressionEvaluateContextBean implements IJiraExpressionEvaluat
         if (Array.isArray(this.custom)) {
             data["custom"] = [];
             for (let item of this.custom)
-                data["custom"].push(item.toJSON());
+                data["custom"].push(item ? item.toJSON() : <any>undefined);
         }
         data["customerRequest"] = this.customerRequest;
         data["issue"] = this.issue ? this.issue.toJSON() : <any>undefined;
@@ -66417,7 +66417,7 @@ export class JiraExpressionsAnalysis implements IJiraExpressionsAnalysis {
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -66793,53 +66793,53 @@ For ADF format details, refer to: [Atlassian Document Format](https://developer.
         if (Array.isArray(this.cascadingSelectFields)) {
             data["cascadingSelectFields"] = [];
             for (let item of this.cascadingSelectFields)
-                data["cascadingSelectFields"].push(item.toJSON());
+                data["cascadingSelectFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.clearableNumberFields)) {
             data["clearableNumberFields"] = [];
             for (let item of this.clearableNumberFields)
-                data["clearableNumberFields"].push(item.toJSON());
+                data["clearableNumberFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.colorFields)) {
             data["colorFields"] = [];
             for (let item of this.colorFields)
-                data["colorFields"].push(item.toJSON());
+                data["colorFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.datePickerFields)) {
             data["datePickerFields"] = [];
             for (let item of this.datePickerFields)
-                data["datePickerFields"].push(item.toJSON());
+                data["datePickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.dateTimePickerFields)) {
             data["dateTimePickerFields"] = [];
             for (let item of this.dateTimePickerFields)
-                data["dateTimePickerFields"].push(item.toJSON());
+                data["dateTimePickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["issueType"] = this.issueType ? this.issueType.toJSON() : <any>undefined;
         if (Array.isArray(this.labelsFields)) {
             data["labelsFields"] = [];
             for (let item of this.labelsFields)
-                data["labelsFields"].push(item.toJSON());
+                data["labelsFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.multipleGroupPickerFields)) {
             data["multipleGroupPickerFields"] = [];
             for (let item of this.multipleGroupPickerFields)
-                data["multipleGroupPickerFields"].push(item.toJSON());
+                data["multipleGroupPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.multipleSelectClearableUserPickerFields)) {
             data["multipleSelectClearableUserPickerFields"] = [];
             for (let item of this.multipleSelectClearableUserPickerFields)
-                data["multipleSelectClearableUserPickerFields"].push(item.toJSON());
+                data["multipleSelectClearableUserPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.multipleSelectFields)) {
             data["multipleSelectFields"] = [];
             for (let item of this.multipleSelectFields)
-                data["multipleSelectFields"].push(item.toJSON());
+                data["multipleSelectFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.multipleVersionPickerFields)) {
             data["multipleVersionPickerFields"] = [];
             for (let item of this.multipleVersionPickerFields)
-                data["multipleVersionPickerFields"].push(item.toJSON());
+                data["multipleVersionPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["multiselectComponents"] = this.multiselectComponents ? this.multiselectComponents.toJSON() : <any>undefined;
         data["originalEstimateField"] = this.originalEstimateField ? this.originalEstimateField.toJSON() : <any>undefined;
@@ -66847,39 +66847,39 @@ For ADF format details, refer to: [Atlassian Document Format](https://developer.
         if (Array.isArray(this.richTextFields)) {
             data["richTextFields"] = [];
             for (let item of this.richTextFields)
-                data["richTextFields"].push(item.toJSON());
+                data["richTextFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.singleGroupPickerFields)) {
             data["singleGroupPickerFields"] = [];
             for (let item of this.singleGroupPickerFields)
-                data["singleGroupPickerFields"].push(item.toJSON());
+                data["singleGroupPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.singleLineTextFields)) {
             data["singleLineTextFields"] = [];
             for (let item of this.singleLineTextFields)
-                data["singleLineTextFields"].push(item.toJSON());
+                data["singleLineTextFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.singleSelectClearableUserPickerFields)) {
             data["singleSelectClearableUserPickerFields"] = [];
             for (let item of this.singleSelectClearableUserPickerFields)
-                data["singleSelectClearableUserPickerFields"].push(item.toJSON());
+                data["singleSelectClearableUserPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.singleSelectFields)) {
             data["singleSelectFields"] = [];
             for (let item of this.singleSelectFields)
-                data["singleSelectFields"].push(item.toJSON());
+                data["singleSelectFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.singleVersionPickerFields)) {
             data["singleVersionPickerFields"] = [];
             for (let item of this.singleVersionPickerFields)
-                data["singleVersionPickerFields"].push(item.toJSON());
+                data["singleVersionPickerFields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["status"] = this.status ? this.status.toJSON() : <any>undefined;
         data["timeTrackingField"] = this.timeTrackingField ? this.timeTrackingField.toJSON() : <any>undefined;
         if (Array.isArray(this.urlFields)) {
             data["urlFields"] = [];
             for (let item of this.urlFields)
-                data["urlFields"].push(item.toJSON());
+                data["urlFields"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67070,7 +67070,7 @@ export class JiraLabelsField implements IJiraLabelsField {
         if (Array.isArray(this.labels)) {
             data["labels"] = [];
             for (let item of this.labels)
-                data["labels"].push(item.toJSON());
+                data["labels"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67160,7 +67160,7 @@ export class JiraMultiSelectComponentField implements IJiraMultiSelectComponentF
         if (Array.isArray(this.components)) {
             data["components"] = [];
             for (let item of this.components)
-                data["components"].push(item.toJSON());
+                data["components"].push(item ? item.toJSON() : <any>undefined);
         }
         data["fieldId"] = this.fieldId;
         return data;
@@ -67213,7 +67213,7 @@ export class JiraMultipleGroupPickerField implements IJiraMultipleGroupPickerFie
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67264,7 +67264,7 @@ export class JiraMultipleSelectField implements IJiraMultipleSelectField {
         if (Array.isArray(this.options)) {
             data["options"] = [];
             for (let item of this.options)
-                data["options"].push(item.toJSON());
+                data["options"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67312,7 +67312,7 @@ export class JiraMultipleSelectUserPickerField implements IJiraMultipleSelectUse
         if (Array.isArray(this.users)) {
             data["users"] = [];
             for (let item of this.users)
-                data["users"].push(item.toJSON());
+                data["users"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67366,7 +67366,7 @@ export class JiraMultipleVersionPickerField implements IJiraMultipleVersionPicke
         if (Array.isArray(this.versions)) {
             data["versions"] = [];
             for (let item of this.versions)
-                data["versions"].push(item.toJSON());
+                data["versions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -67858,12 +67858,12 @@ The workflows that use this status. Only available if the `workflowUsages` expan
         if (Array.isArray(this.usages)) {
             data["usages"] = [];
             for (let item of this.usages)
-                data["usages"].push(item.toJSON());
+                data["usages"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflowUsages)) {
             data["workflowUsages"] = [];
             for (let item of this.workflowUsages)
-                data["workflowUsages"].push(item.toJSON());
+                data["workflowUsages"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -68163,19 +68163,19 @@ Use the optional `workflows.usages` expand to get additional information about t
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["taskId"] = this.taskId;
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["updated"] = this.updated;
         if (Array.isArray(this.usages)) {
             data["usages"] = [];
             for (let item of this.usages)
-                data["usages"].push(item.toJSON());
+                data["usages"].push(item ? item.toJSON() : <any>undefined);
         }
         data["version"] = this.version ? this.version.toJSON() : <any>undefined;
         return data;
@@ -68273,7 +68273,7 @@ The `statuses.usages` expand is an optional parameter that can be used when read
         if (Array.isArray(this.usages)) {
             data["usages"] = [];
             for (let item of this.usages)
-                data["usages"].push(item.toJSON());
+                data["usages"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -68500,7 +68500,7 @@ export class JqlFunctionPrecomputationGetByIdResponse implements IJqlFunctionPre
         if (Array.isArray(this.precomputations)) {
             data["precomputations"] = [];
             for (let item of this.precomputations)
-                data["precomputations"].push(item.toJSON());
+                data["precomputations"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -68663,7 +68663,7 @@ export class JqlFunctionPrecomputationUpdateRequestBean implements IJqlFunctionP
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -68812,7 +68812,7 @@ export class JqlQueriesToSanitize implements IJqlQueriesToSanitize {
         if (Array.isArray(this.queries)) {
             data["queries"] = [];
             for (let item of this.queries)
-                data["queries"].push(item.toJSON());
+                data["queries"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -69047,7 +69047,7 @@ export class JqlQueryField implements IJqlQueryField {
         if (Array.isArray(this.property)) {
             data["property"] = [];
             for (let item of this.property)
-                data["property"].push(item.toJSON());
+                data["property"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -69172,7 +69172,7 @@ export class JqlQueryOrderByClause implements IJqlQueryOrderByClause {
         if (Array.isArray(this.fields)) {
             data["fields"] = [];
             for (let item of this.fields)
-                data["fields"].push(item.toJSON());
+                data["fields"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -69738,7 +69738,7 @@ export class License implements ILicense {
         if (Array.isArray(this.applications)) {
             data["applications"] = [];
             for (let item of this.applications)
-                data["applications"].push(item.toJSON());
+                data["applications"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -69891,14 +69891,14 @@ export class LinkGroup implements ILinkGroup {
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         data["header"] = this.header ? this.header.toJSON() : <any>undefined;
         data["id"] = this.id;
         if (Array.isArray(this.links)) {
             data["links"] = [];
             for (let item of this.links)
-                data["links"].push(item.toJSON());
+                data["links"].push(item ? item.toJSON() : <any>undefined);
         }
         data["styleClass"] = this.styleClass;
         data["weight"] = this.weight;
@@ -70080,7 +70080,7 @@ export class ListOperand implements IListOperand {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -70384,7 +70384,7 @@ export class MappingsByIssueTypeOverride implements IMappingsByIssueTypeOverride
         if (Array.isArray(this.statusMappings)) {
             data["statusMappings"] = [];
             for (let item of this.statusMappings)
-                data["statusMappings"].push(item.toJSON());
+                data["statusMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -70445,7 +70445,7 @@ export class MappingsByWorkflow implements IMappingsByWorkflow {
         if (Array.isArray(this.statusMappings)) {
             data["statusMappings"] = [];
             for (let item of this.statusMappings)
-                data["statusMappings"].push(item.toJSON());
+                data["statusMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -70541,7 +70541,7 @@ export class MultiIssueEntityProperties implements IMultiIssueEntityProperties {
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -70739,7 +70739,7 @@ export class MultipleCustomFieldValuesUpdateDetails implements IMultipleCustomFi
         if (Array.isArray(this.updates)) {
             data["updates"] = [];
             for (let item of this.updates)
-                data["updates"].push(item.toJSON());
+                data["updates"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -71159,13 +71159,13 @@ export class NotificationRecipients implements INotificationRecipients {
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         data["reporter"] = this.reporter;
         if (Array.isArray(this.users)) {
             data["users"] = [];
             for (let item of this.users)
-                data["users"].push(item.toJSON());
+                data["users"].push(item ? item.toJSON() : <any>undefined);
         }
         data["voters"] = this.voters;
         data["watchers"] = this.watchers;
@@ -71248,12 +71248,12 @@ export class NotificationRecipientsRestrictions implements INotificationRecipien
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.permissions)) {
             data["permissions"] = [];
             for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
+                data["permissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -71333,7 +71333,7 @@ export class NotificationScheme implements INotificationScheme {
         if (Array.isArray(this.notificationSchemeEvents)) {
             data["notificationSchemeEvents"] = [];
             for (let item of this.notificationSchemeEvents)
-                data["notificationSchemeEvents"].push(item.toJSON());
+                data["notificationSchemeEvents"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.projects)) {
             data["projects"] = [];
@@ -71443,7 +71443,7 @@ export class NotificationSchemeEvent implements INotificationSchemeEvent {
         if (Array.isArray(this.notifications)) {
             data["notifications"] = [];
             for (let item of this.notifications)
-                data["notifications"].push(item.toJSON());
+                data["notifications"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -71509,7 +71509,7 @@ export class NotificationSchemeEventDetails implements INotificationSchemeEventD
         if (Array.isArray(this.notifications)) {
             data["notifications"] = [];
             for (let item of this.notifications)
-                data["notifications"].push(item.toJSON());
+                data["notifications"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -71604,7 +71604,7 @@ export class NotificationSchemeEventPayload implements INotificationSchemeEventP
         if (Array.isArray(this.notifications)) {
             data["notifications"] = [];
             for (let item of this.notifications)
-                data["notifications"].push(item.toJSON());
+                data["notifications"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -71874,7 +71874,7 @@ export class NotificationSchemePayload implements INotificationSchemePayload {
         if (Array.isArray(this.notificationSchemeEvents)) {
             data["notificationSchemeEvents"] = [];
             for (let item of this.notificationSchemeEvents)
-                data["notificationSchemeEvents"].push(item.toJSON());
+                data["notificationSchemeEvents"].push(item ? item.toJSON() : <any>undefined);
         }
         data["onConflict"] = this.onConflict;
         data["pcri"] = this.pcri ? this.pcri.toJSON() : <any>undefined;
@@ -72029,7 +72029,7 @@ export class Operations implements IOperations {
         if (Array.isArray(this.linkGroups)) {
             data["linkGroups"] = [];
             for (let item of this.linkGroups)
-                data["linkGroups"].push(item.toJSON());
+                data["linkGroups"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72229,7 +72229,7 @@ export class PageBean2ComponentJsonBean implements IPageBean2ComponentJsonBean {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72313,7 +72313,7 @@ export class PageBean2JqlFunctionPrecomputationBean implements IPageBean2JqlFunc
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72397,7 +72397,7 @@ export class PageBeanBulkContextualConfiguration implements IPageBeanBulkContext
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72481,7 +72481,7 @@ export class PageBeanChangelog implements IPageBeanChangelog {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72565,7 +72565,7 @@ export class PageBeanComment implements IPageBeanComment {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72649,7 +72649,7 @@ export class PageBeanComponentWithIssueCount implements IPageBeanComponentWithIs
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72733,7 +72733,7 @@ export class PageBeanContext implements IPageBeanContext {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72817,7 +72817,7 @@ export class PageBeanContextForProjectAndIssueType implements IPageBeanContextFo
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72901,7 +72901,7 @@ export class PageBeanContextualConfiguration implements IPageBeanContextualConfi
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -72985,7 +72985,7 @@ export class PageBeanCustomFieldContext implements IPageBeanCustomFieldContext {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73069,7 +73069,7 @@ export class PageBeanCustomFieldContextDefaultValue implements IPageBeanCustomFi
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73153,7 +73153,7 @@ export class PageBeanCustomFieldContextOption implements IPageBeanCustomFieldCon
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73237,7 +73237,7 @@ export class PageBeanCustomFieldContextProjectMapping implements IPageBeanCustom
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73321,7 +73321,7 @@ export class PageBeanDashboard implements IPageBeanDashboard {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73405,7 +73405,7 @@ export class PageBeanField implements IPageBeanField {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73489,7 +73489,7 @@ export class PageBeanFieldConfigurationDetails implements IPageBeanFieldConfigur
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73573,7 +73573,7 @@ export class PageBeanFieldConfigurationIssueTypeItem implements IPageBeanFieldCo
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73657,7 +73657,7 @@ export class PageBeanFieldConfigurationItem implements IPageBeanFieldConfigurati
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73741,7 +73741,7 @@ export class PageBeanFieldConfigurationScheme implements IPageBeanFieldConfigura
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73825,7 +73825,7 @@ export class PageBeanFieldConfigurationSchemeProjects implements IPageBeanFieldC
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73909,7 +73909,7 @@ export class PageBeanFilterDetails implements IPageBeanFilterDetails {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -73993,7 +73993,7 @@ export class PageBeanGroupDetails implements IPageBeanGroupDetails {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74077,7 +74077,7 @@ export class PageBeanIssueFieldOption implements IPageBeanIssueFieldOption {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74161,7 +74161,7 @@ export class PageBeanIssueSecurityLevelMember implements IPageBeanIssueSecurityL
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74245,7 +74245,7 @@ export class PageBeanIssueSecuritySchemeToProjectMapping implements IPageBeanIss
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74329,7 +74329,7 @@ export class PageBeanIssueTypeScheme implements IPageBeanIssueTypeScheme {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74413,7 +74413,7 @@ export class PageBeanIssueTypeSchemeMapping implements IPageBeanIssueTypeSchemeM
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74497,7 +74497,7 @@ export class PageBeanIssueTypeSchemeProjects implements IPageBeanIssueTypeScheme
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74581,7 +74581,7 @@ export class PageBeanIssueTypeScreenScheme implements IPageBeanIssueTypeScreenSc
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74665,7 +74665,7 @@ export class PageBeanIssueTypeScreenSchemeItem implements IPageBeanIssueTypeScre
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74749,7 +74749,7 @@ export class PageBeanIssueTypeScreenSchemesProjects implements IPageBeanIssueTyp
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74833,7 +74833,7 @@ export class PageBeanIssueTypeToContextMapping implements IPageBeanIssueTypeToCo
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -74917,7 +74917,7 @@ export class PageBeanNotificationScheme implements IPageBeanNotificationScheme {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75001,7 +75001,7 @@ export class PageBeanNotificationSchemeAndProjectMappingJsonBean implements IPag
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75085,7 +75085,7 @@ export class PageBeanPriority implements IPageBeanPriority {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75169,7 +75169,7 @@ export class PageBeanPrioritySchemeWithPaginatedPrioritiesAndProjects implements
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75253,7 +75253,7 @@ export class PageBeanPriorityWithSequence implements IPageBeanPriorityWithSequen
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75337,7 +75337,7 @@ export class PageBeanProject implements IPageBeanProject {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75421,7 +75421,7 @@ export class PageBeanProjectDetails implements IPageBeanProjectDetails {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75505,7 +75505,7 @@ export class PageBeanResolutionJsonBean implements IPageBeanResolutionJsonBean {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75589,7 +75589,7 @@ export class PageBeanScreen implements IPageBeanScreen {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75673,7 +75673,7 @@ export class PageBeanScreenScheme implements IPageBeanScreenScheme {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75757,7 +75757,7 @@ export class PageBeanScreenWithTab implements IPageBeanScreenWithTab {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75841,7 +75841,7 @@ export class PageBeanSecurityLevel implements IPageBeanSecurityLevel {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -75925,7 +75925,7 @@ export class PageBeanSecurityLevelMember implements IPageBeanSecurityLevelMember
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76009,7 +76009,7 @@ export class PageBeanSecuritySchemeWithProjects implements IPageBeanSecuritySche
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76177,7 +76177,7 @@ export class PageBeanUiModificationDetails implements IPageBeanUiModificationDet
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76261,7 +76261,7 @@ export class PageBeanUser implements IPageBeanUser {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76345,7 +76345,7 @@ export class PageBeanUserDetails implements IPageBeanUserDetails {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76429,7 +76429,7 @@ export class PageBeanUserKey implements IPageBeanUserKey {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76513,7 +76513,7 @@ export class PageBeanVersion implements IPageBeanVersion {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76597,7 +76597,7 @@ export class PageBeanWebhook implements IPageBeanWebhook {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76681,7 +76681,7 @@ export class PageBeanWorkflow implements IPageBeanWorkflow {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76765,7 +76765,7 @@ export class PageBeanWorkflowScheme implements IPageBeanWorkflowScheme {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76849,7 +76849,7 @@ export class PageBeanWorkflowTransitionRules implements IPageBeanWorkflowTransit
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -76918,7 +76918,7 @@ export class PageOfChangelogs implements IPageOfChangelogs {
         if (Array.isArray(this.histories)) {
             data["histories"] = [];
             for (let item of this.histories)
-                data["histories"].push(item.toJSON());
+                data["histories"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         data["startAt"] = this.startAt;
@@ -76994,7 +76994,7 @@ export class PageOfComments implements IPageOfComments {
         if (Array.isArray(this.comments)) {
             data["comments"] = [];
             for (let item of this.comments)
-                data["comments"].push(item.toJSON());
+                data["comments"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         data["startAt"] = this.startAt;
@@ -77078,13 +77078,13 @@ export class PageOfCreateMetaIssueTypeWithField implements IPageOfCreateMetaIssu
         if (Array.isArray(this.fields)) {
             data["fields"] = [];
             for (let item of this.fields)
-                data["fields"].push(item.toJSON());
+                data["fields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         data["startAt"] = this.startAt;
         data["total"] = this.total;
@@ -77168,12 +77168,12 @@ export class PageOfCreateMetaIssueTypes implements IPageOfCreateMetaIssueTypes {
         if (Array.isArray(this.createMetaIssueType)) {
             data["createMetaIssueType"] = [];
             for (let item of this.createMetaIssueType)
-                data["createMetaIssueType"].push(item.toJSON());
+                data["createMetaIssueType"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.issueTypes)) {
             data["issueTypes"] = [];
             for (let item of this.issueTypes)
-                data["issueTypes"].push(item.toJSON());
+                data["issueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         data["startAt"] = this.startAt;
@@ -77248,7 +77248,7 @@ export class PageOfDashboards implements IPageOfDashboards {
         if (Array.isArray(this.dashboards)) {
             data["dashboards"] = [];
             for (let item of this.dashboards)
-                data["dashboards"].push(item.toJSON());
+                data["dashboards"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         data["next"] = this.next;
@@ -77334,7 +77334,7 @@ export class PageOfStatuses implements IPageOfStatuses {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -77415,7 +77415,7 @@ export class PageOfWorklogs implements IPageOfWorklogs {
         if (Array.isArray(this.worklogs)) {
             data["worklogs"] = [];
             for (let item of this.worklogs)
-                data["worklogs"].push(item.toJSON());
+                data["worklogs"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -77484,7 +77484,7 @@ export class PageWithCursorGetPlanResponseForPage implements IPageWithCursorGetP
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -77548,7 +77548,7 @@ export class PageWithCursorGetTeamResponseForPage implements IPageWithCursorGetT
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -77612,7 +77612,7 @@ export class PagedListUserDetailsApplicationUser implements IPagedListUserDetail
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["max-results"] = this.maxResults;
         data["size"] = this.size;
@@ -77676,7 +77676,7 @@ export class PaginatedResponseComment implements IPaginatedResponseComment {
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         data["startAt"] = this.startAt;
         data["total"] = this.total;
@@ -77732,7 +77732,7 @@ export class PaginatedResponseFieldCreateMetadata implements IPaginatedResponseF
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         data["startAt"] = this.startAt;
         data["total"] = this.total;
@@ -77788,7 +77788,7 @@ export class PaginatedResponseIssueTypeIssueCreateMetadata implements IPaginated
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
-                data["results"].push(item.toJSON());
+                data["results"].push(item ? item.toJSON() : <any>undefined);
         }
         data["startAt"] = this.startAt;
         data["total"] = this.total;
@@ -77842,7 +77842,7 @@ export class ParsedJqlQueries implements IParsedJqlQueries {
         if (Array.isArray(this.queries)) {
             data["queries"] = [];
             for (let item of this.queries)
-                data["queries"].push(item.toJSON());
+                data["queries"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -77975,12 +77975,12 @@ export class PermissionDetails implements IPermissionDetails {
         if (Array.isArray(this.editPermissions)) {
             data["editPermissions"] = [];
             for (let item of this.editPermissions)
-                data["editPermissions"].push(item.toJSON());
+                data["editPermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.sharePermissions)) {
             data["sharePermissions"] = [];
             for (let item of this.sharePermissions)
-                data["sharePermissions"].push(item.toJSON());
+                data["sharePermissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -78146,12 +78146,12 @@ export class PermissionGrantDTO implements IPermissionGrantDTO {
         if (Array.isArray(this.groupCustomFields)) {
             data["groupCustomFields"] = [];
             for (let item of this.groupCustomFields)
-                data["groupCustomFields"].push(item.toJSON());
+                data["groupCustomFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.groups)) {
             data["groups"] = [];
             for (let item of this.groups)
-                data["groups"].push(item.toJSON());
+                data["groups"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.permissionKeys)) {
             data["permissionKeys"] = [];
@@ -78161,7 +78161,7 @@ export class PermissionGrantDTO implements IPermissionGrantDTO {
         if (Array.isArray(this.projectRoles)) {
             data["projectRoles"] = [];
             for (let item of this.projectRoles)
-                data["projectRoles"].push(item.toJSON());
+                data["projectRoles"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.specialGrants)) {
             data["specialGrants"] = [];
@@ -78171,12 +78171,12 @@ export class PermissionGrantDTO implements IPermissionGrantDTO {
         if (Array.isArray(this.userCustomFields)) {
             data["userCustomFields"] = [];
             for (let item of this.userCustomFields)
-                data["userCustomFields"].push(item.toJSON());
+                data["userCustomFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.users)) {
             data["users"] = [];
             for (let item of this.users)
-                data["users"].push(item.toJSON());
+                data["users"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -78234,7 +78234,7 @@ export class PermissionGrants implements IPermissionGrants {
         if (Array.isArray(this.permissions)) {
             data["permissions"] = [];
             for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
+                data["permissions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -78361,7 +78361,7 @@ export class PermissionPayloadDTO implements IPermissionPayloadDTO {
         if (Array.isArray(this.grants)) {
             data["grants"] = [];
             for (let item of this.grants)
-                data["grants"].push(item.toJSON());
+                data["grants"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         data["onConflict"] = this.onConflict;
@@ -78453,7 +78453,7 @@ export class PermissionScheme implements IPermissionScheme {
         if (Array.isArray(this.permissions)) {
             data["permissions"] = [];
             for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
+                data["permissions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["scope"] = this.scope ? this.scope.toJSON() : <any>undefined;
         data["self"] = this.self;
@@ -78517,7 +78517,7 @@ export class PermissionSchemes implements IPermissionSchemes {
         if (Array.isArray(this.permissionSchemes)) {
             data["permissionSchemes"] = [];
             for (let item of this.permissionSchemes)
-                data["permissionSchemes"].push(item.toJSON());
+                data["permissionSchemes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -78666,7 +78666,7 @@ export class PermittedProjects implements IPermittedProjects {
         if (Array.isArray(this.projects)) {
             data["projects"] = [];
             for (let item of this.projects)
-                data["projects"].push(item.toJSON());
+                data["projects"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -79232,7 +79232,7 @@ export class Project implements IProject {
     /** The category the project belongs to. */
     readonly projectCategory?: ProjectCategory;
     /** The [project type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes) of the project. */
-    readonly projectTypeKey?: projectTypeKey;
+    readonly projectTypeKey?: ProjectTypeKey3;
     /** Map of project properties */
     readonly properties?: { [key: string]: any; };
     /** The date when the project is deleted permanently. */
@@ -79341,7 +79341,7 @@ export class Project implements IProject {
         if (Array.isArray(this.components)) {
             data["components"] = [];
             for (let item of this.components)
-                data["components"].push(item.toJSON());
+                data["components"].push(item ? item.toJSON() : <any>undefined);
         }
         data["deleted"] = this.deleted;
         data["deletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
@@ -79357,7 +79357,7 @@ export class Project implements IProject {
         if (Array.isArray(this.issueTypes)) {
             data["issueTypes"] = [];
             for (let item of this.issueTypes)
-                data["issueTypes"].push(item.toJSON());
+                data["issueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         data["key"] = this.key;
         data["landingPageInfo"] = this.landingPageInfo ? this.landingPageInfo.toJSON() : <any>undefined;
@@ -79389,7 +79389,7 @@ export class Project implements IProject {
         if (Array.isArray(this.versions)) {
             data["versions"] = [];
             for (let item of this.versions)
-                data["versions"].push(item.toJSON());
+                data["versions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -79446,7 +79446,7 @@ export interface IProject {
     /** The category the project belongs to. */
     projectCategory?: ProjectCategory;
     /** The [project type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes) of the project. */
-    projectTypeKey?: projectTypeKey;
+    projectTypeKey?: ProjectTypeKey3;
     /** Map of project properties */
     properties?: { [key: string]: any; };
     /** The date when the project is deleted permanently. */
@@ -79556,12 +79556,12 @@ export class ProjectAvatars implements IProjectAvatars {
         if (Array.isArray(this.custom)) {
             data["custom"] = [];
             for (let item of this.custom)
-                data["custom"].push(item.toJSON());
+                data["custom"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.system)) {
             data["system"] = [];
             for (let item of this.system)
-                data["system"].push(item.toJSON());
+                data["system"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -79937,7 +79937,7 @@ export class ProjectDataPolicies implements IProjectDataPolicies {
         if (Array.isArray(this.projectDataPolicies)) {
             data["projectDataPolicies"] = [];
             for (let item of this.projectDataPolicies)
-                data["projectDataPolicies"].push(item.toJSON());
+                data["projectDataPolicies"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -80593,7 +80593,7 @@ export class ProjectIssueCreateMetadata implements IProjectIssueCreateMetadata {
         if (Array.isArray(this.issuetypes)) {
             data["issuetypes"] = [];
             for (let item of this.issuetypes)
-                data["issuetypes"].push(item.toJSON());
+                data["issuetypes"].push(item ? item.toJSON() : <any>undefined);
         }
         data["key"] = this.key;
         data["name"] = this.name;
@@ -80659,7 +80659,7 @@ export class ProjectIssueSecurityLevels implements IProjectIssueSecurityLevels {
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
-                data["levels"].push(item.toJSON());
+                data["levels"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -80710,7 +80710,7 @@ export class ProjectIssueTypeHierarchy implements IProjectIssueTypeHierarchy {
         if (Array.isArray(this.hierarchy)) {
             data["hierarchy"] = [];
             for (let item of this.hierarchy)
-                data["hierarchy"].push(item.toJSON());
+                data["hierarchy"].push(item ? item.toJSON() : <any>undefined);
         }
         data["projectId"] = this.projectId;
         return data;
@@ -80810,7 +80810,7 @@ export class ProjectIssueTypeMappings implements IProjectIssueTypeMappings {
         if (Array.isArray(this.mappings)) {
             data["mappings"] = [];
             for (let item of this.mappings)
-                data["mappings"].push(item.toJSON());
+                data["mappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -80920,7 +80920,7 @@ export class ProjectIssueTypesHierarchyLevel implements IProjectIssueTypesHierar
         if (Array.isArray(this.issueTypes)) {
             data["issueTypes"] = [];
             for (let item of this.issueTypes)
-                data["issueTypes"].push(item.toJSON());
+                data["issueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         data["level"] = this.level;
         data["name"] = this.name;
@@ -81206,7 +81206,7 @@ export class ProjectRole implements IProjectRole {
         if (Array.isArray(this.actors)) {
             data["actors"] = [];
             for (let item of this.actors)
-                data["actors"].push(item.toJSON());
+                data["actors"].push(item ? item.toJSON() : <any>undefined);
         }
         data["admin"] = this.admin;
         data["currentUserRole"] = this.currentUserRole;
@@ -81504,7 +81504,7 @@ export interface IProjectRoleUser {
 
 export class ProjectScopeBean implements IProjectScopeBean {
     /** Defines the behavior of the option in the project.If notSelectable is set, the option cannot be set as the field's value. This is useful for archiving an option that has previously been selected but shouldn't be used anymore.If defaultValue is set, the option is selected by default. */
-    attributes?: Attributes2[];
+    attributes?: Attributes3[];
     /** The ID of the project that the option's behavior applies to. */
     id?: number;
 
@@ -81549,7 +81549,7 @@ export class ProjectScopeBean implements IProjectScopeBean {
 
 export interface IProjectScopeBean {
     /** Defines the behavior of the option in the project.If notSelectable is set, the option cannot be set as the field's value. This is useful for archiving an option that has previously been selected but shouldn't be used anymore.If defaultValue is set, the option is selected by default. */
-    attributes?: Attributes2[];
+    attributes?: Attributes3[];
     /** The ID of the project that the option's behavior applies to. */
     id?: number;
 }
@@ -81698,7 +81698,7 @@ export class ProjectUsagePage implements IProjectUsagePage {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -81840,7 +81840,7 @@ export class PropertyKeys implements IPropertyKeys {
         if (Array.isArray(this.keys)) {
             data["keys"] = [];
             for (let item of this.keys)
-                data["keys"].push(item.toJSON());
+                data["keys"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -81888,7 +81888,7 @@ export class PublishDraftWorkflowScheme implements IPublishDraftWorkflowScheme {
         if (Array.isArray(this.statusMappings)) {
             data["statusMappings"] = [];
             for (let item of this.statusMappings)
-                data["statusMappings"].push(item.toJSON());
+                data["statusMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -83104,7 +83104,7 @@ export class RolePayload implements IRolePayload {
         if (Array.isArray(this.defaultActors)) {
             data["defaultActors"] = [];
             for (let item of this.defaultActors)
-                data["defaultActors"].push(item.toJSON());
+                data["defaultActors"].push(item ? item.toJSON() : <any>undefined);
         }
         data["description"] = this.description;
         data["name"] = this.name;
@@ -83181,7 +83181,7 @@ export class RolesCapabilityPayload implements IRolesCapabilityPayload {
         if (Array.isArray(this.roles)) {
             data["roles"] = [];
             for (let item of this.roles)
-                data["roles"].push(item.toJSON());
+                data["roles"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -83343,7 +83343,7 @@ export class SanitizedJqlQueries implements ISanitizedJqlQueries {
         if (Array.isArray(this.queries)) {
             data["queries"] = [];
             for (let item of this.queries)
-                data["queries"].push(item.toJSON());
+                data["queries"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -83662,7 +83662,7 @@ export class ScreenPayload implements IScreenPayload {
         if (Array.isArray(this.tabs)) {
             data["tabs"] = [];
             for (let item of this.tabs)
-                data["tabs"].push(item.toJSON());
+                data["tabs"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -84352,7 +84352,7 @@ export class SearchAndReconcileResults implements ISearchAndReconcileResults {
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         if (this.names) {
             data["names"] = {};
@@ -84693,7 +84693,7 @@ export class SearchResults implements ISearchResults {
         if (Array.isArray(this.issues)) {
             data["issues"] = [];
             for (let item of this.issues)
-                data["issues"].push(item.toJSON());
+                data["issues"].push(item ? item.toJSON() : <any>undefined);
         }
         data["maxResults"] = this.maxResults;
         if (this.names) {
@@ -84982,7 +84982,7 @@ export class SecurityLevelPayload implements ISecurityLevelPayload {
         if (Array.isArray(this.securityLevelMembers)) {
             data["securityLevelMembers"] = [];
             for (let item of this.securityLevelMembers)
-                data["securityLevelMembers"].push(item.toJSON());
+                data["securityLevelMembers"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -85053,7 +85053,7 @@ export class SecurityScheme implements ISecurityScheme {
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
-                data["levels"].push(item.toJSON());
+                data["levels"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         data["self"] = this.self;
@@ -85174,7 +85174,7 @@ export class SecuritySchemeLevelBean implements ISecuritySchemeLevelBean {
         if (Array.isArray(this.members)) {
             data["members"] = [];
             for (let item of this.members)
-                data["members"].push(item.toJSON());
+                data["members"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         return data;
@@ -85272,7 +85272,7 @@ export class SecuritySchemeMembersRequest implements ISecuritySchemeMembersReque
         if (Array.isArray(this.members)) {
             data["members"] = [];
             for (let item of this.members)
-                data["members"].push(item.toJSON());
+                data["members"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -85331,7 +85331,7 @@ export class SecuritySchemePayload implements ISecuritySchemePayload {
         if (Array.isArray(this.securityLevels)) {
             data["securityLevels"] = [];
             for (let item of this.securityLevels)
-                data["securityLevels"].push(item.toJSON());
+                data["securityLevels"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -85474,7 +85474,7 @@ export class SecuritySchemes implements ISecuritySchemes {
         if (Array.isArray(this.issueSecuritySchemes)) {
             data["issueSecuritySchemes"] = [];
             for (let item of this.issueSecuritySchemes)
-                data["issueSecuritySchemes"].push(item.toJSON());
+                data["issueSecuritySchemes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -85572,7 +85572,7 @@ export class ServerInformation implements IServerInformation {
         if (Array.isArray(this.healthChecks)) {
             data["healthChecks"] = [];
             for (let item of this.healthChecks)
-                data["healthChecks"].push(item.toJSON());
+                data["healthChecks"].push(item ? item.toJSON() : <any>undefined);
         }
         data["scmInfo"] = this.scmInfo;
         data["serverTime"] = this.serverTime ? this.serverTime.toISOString() : <any>undefined;
@@ -85877,7 +85877,7 @@ export class SetDefaultLevelsRequest implements ISetDefaultLevelsRequest {
         if (Array.isArray(this.defaultValues)) {
             data["defaultValues"] = [];
             for (let item of this.defaultValues)
-                data["defaultValues"].push(item.toJSON());
+                data["defaultValues"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -86366,7 +86366,7 @@ export class SimpleListWrapperApplicationRole implements ISimpleListWrapperAppli
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["max-results"] = this.maxResults;
         data["pagingCallback"] = this.pagingCallback ? this.pagingCallback.toJSON() : <any>undefined;
@@ -86426,7 +86426,7 @@ export class SimpleListWrapperGroupName implements ISimpleListWrapperGroupName {
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["max-results"] = this.maxResults;
         data["pagingCallback"] = this.pagingCallback ? this.pagingCallback.toJSON() : <any>undefined;
@@ -86931,7 +86931,7 @@ export class StatusCreateRequest implements IStatusCreateRequest {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -87222,7 +87222,7 @@ export class StatusMappingDTO implements IStatusMappingDTO {
         if (Array.isArray(this.statusMigrations)) {
             data["statusMigrations"] = [];
             for (let item of this.statusMigrations)
-                data["statusMigrations"].push(item.toJSON());
+                data["statusMigrations"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -87542,7 +87542,7 @@ export class StatusProjectIssueTypeUsagePage implements IStatusProjectIssueTypeU
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -87680,7 +87680,7 @@ export class StatusProjectUsagePage implements IStatusProjectUsagePage {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -87847,7 +87847,7 @@ export class StatusUpdateRequest implements IStatusUpdateRequest {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -87943,7 +87943,7 @@ export class StatusWorkflowUsagePage implements IStatusWorkflowUsagePage {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -88498,7 +88498,7 @@ export class SystemAvatars implements ISystemAvatars {
         if (Array.isArray(this.system)) {
             data["system"] = [];
             for (let item of this.system)
-                data["system"].push(item.toJSON());
+                data["system"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -88549,7 +88549,7 @@ export class TabPayload implements ITabPayload {
         if (Array.isArray(this.fields)) {
             data["fields"] = [];
             for (let item of this.fields)
-                data["fields"].push(item.toJSON());
+                data["fields"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         return data;
@@ -89318,7 +89318,7 @@ export class TransitionPayload implements ITransitionPayload {
         if (Array.isArray(this.actions)) {
             data["actions"] = [];
             for (let item of this.actions)
-                data["actions"].push(item.toJSON());
+                data["actions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["conditions"] = this.conditions ? this.conditions.toJSON() : <any>undefined;
         data["customIssueEventId"] = this.customIssueEventId;
@@ -89326,7 +89326,7 @@ export class TransitionPayload implements ITransitionPayload {
         if (Array.isArray(this.from)) {
             data["from"] = [];
             for (let item of this.from)
-                data["from"].push(item.toJSON());
+                data["from"].push(item ? item.toJSON() : <any>undefined);
         }
         data["id"] = this.id;
         data["name"] = this.name;
@@ -89342,13 +89342,13 @@ export class TransitionPayload implements ITransitionPayload {
         if (Array.isArray(this.triggers)) {
             data["triggers"] = [];
             for (let item of this.triggers)
-                data["triggers"].push(item.toJSON());
+                data["triggers"].push(item ? item.toJSON() : <any>undefined);
         }
         data["type"] = this.type;
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -89525,7 +89525,7 @@ export class TransitionUpdateDTO implements ITransitionUpdateDTO {
         if (Array.isArray(this.actions)) {
             data["actions"] = [];
             for (let item of this.actions)
-                data["actions"].push(item.toJSON());
+                data["actions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["conditions"] = this.conditions ? this.conditions.toJSON() : <any>undefined;
         data["customIssueEventId"] = this.customIssueEventId;
@@ -89534,7 +89534,7 @@ export class TransitionUpdateDTO implements ITransitionUpdateDTO {
         if (Array.isArray(this.links)) {
             data["links"] = [];
             for (let item of this.links)
-                data["links"].push(item.toJSON());
+                data["links"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         if (this.properties) {
@@ -89549,13 +89549,13 @@ export class TransitionUpdateDTO implements ITransitionUpdateDTO {
         if (Array.isArray(this.triggers)) {
             data["triggers"] = [];
             for (let item of this.triggers)
-                data["triggers"].push(item.toJSON());
+                data["triggers"].push(item ? item.toJSON() : <any>undefined);
         }
         data["type"] = this.type;
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -89631,7 +89631,7 @@ export class Transitions implements ITransitions {
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -89760,7 +89760,7 @@ export class UiModificationDetails implements IUiModificationDetails {
         if (Array.isArray(this.contexts)) {
             data["contexts"] = [];
             for (let item of this.contexts)
-                data["contexts"].push(item.toJSON());
+                data["contexts"].push(item ? item.toJSON() : <any>undefined);
         }
         data["data"] = this.data;
         data["description"] = this.description;
@@ -91002,7 +91002,7 @@ export class UpdateUiModificationDetails implements IUpdateUiModificationDetails
         if (Array.isArray(this.contexts)) {
             data["contexts"] = [];
             for (let item of this.contexts)
-                data["contexts"].push(item.toJSON());
+                data["contexts"].push(item ? item.toJSON() : <any>undefined);
         }
         data["data"] = this.data;
         data["description"] = this.description;
@@ -91710,7 +91710,7 @@ export class UserList implements IUserList {
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toJSON());
+                data["items"].push(item ? item.toJSON() : <any>undefined);
         }
         data["max-results"] = this.maxResults;
         data["size"] = this.size;
@@ -92023,7 +92023,7 @@ export interface IValidationOptionsForCreate {
 
 /** The level of validation to return from the API. If no values are provided, the default would return `WARNING` and `ERROR` level validation results. */
 export class ValidationOptionsForUpdate implements IValidationOptionsForUpdate {
-    levels?: levels[];
+    levels?: Levels2[];
 
     constructor(data?: IValidationOptionsForUpdate) {
         if (data) {
@@ -92064,7 +92064,7 @@ export class ValidationOptionsForUpdate implements IValidationOptionsForUpdate {
 
 /** The level of validation to return from the API. If no values are provided, the default would return `WARNING` and `ERROR` level validation results. */
 export interface IValidationOptionsForUpdate {
-    levels?: levels[];
+    levels?: Levels2[];
 }
 
 /** An operand that is a user-provided value. */
@@ -92226,7 +92226,7 @@ Optional for create and update. */
         if (Array.isArray(this.approvers)) {
             data["approvers"] = [];
             for (let item of this.approvers)
-                data["approvers"].push(item.toJSON());
+                data["approvers"].push(item ? item.toJSON() : <any>undefined);
         }
         data["archived"] = this.archived;
         data["description"] = this.description;
@@ -92239,7 +92239,7 @@ Optional for create and update. */
         if (Array.isArray(this.operations)) {
             data["operations"] = [];
             for (let item of this.operations)
-                data["operations"].push(item.toJSON());
+                data["operations"].push(item ? item.toJSON() : <any>undefined);
         }
         data["overdue"] = this.overdue;
         data["project"] = this.project;
@@ -92421,7 +92421,7 @@ export class VersionIssueCounts implements IVersionIssueCounts {
         if (Array.isArray(this.customFieldUsage)) {
             data["customFieldUsage"] = [];
             for (let item of this.customFieldUsage)
-                data["customFieldUsage"].push(item.toJSON());
+                data["customFieldUsage"].push(item ? item.toJSON() : <any>undefined);
         }
         data["issueCountWithCustomFieldsShowingVersion"] = this.issueCountWithCustomFieldsShowingVersion;
         data["issuesAffectedCount"] = this.issuesAffectedCount;
@@ -92838,7 +92838,7 @@ export class Votes implements IVotes {
         if (Array.isArray(this.voters)) {
             data["voters"] = [];
             for (let item of this.voters)
-                data["voters"].push(item.toJSON());
+                data["voters"].push(item ? item.toJSON() : <any>undefined);
         }
         data["votes"] = this.votes;
         return data;
@@ -92949,7 +92949,7 @@ export class Watchers implements IWatchers {
         if (Array.isArray(this.watchers)) {
             data["watchers"] = [];
             for (let item of this.watchers)
-                data["watchers"].push(item.toJSON());
+                data["watchers"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93067,7 +93067,7 @@ export interface IWebhook {
 /** A list of webhooks. */
 export class WebhookDetails implements IWebhookDetails {
     /** The Jira events that trigger the webhook. */
-    events!: events[];
+    events!: Events2[];
     /** A list of field IDs. When the issue changelog contains any of the fields, the webhook `jira:issue_updated` is sent. If this parameter is not present, the app is notified about all field updates. */
     fieldIdsFilter?: string[];
     /** A list of issue property keys. A change of those issue properties triggers the `issue_property_set` or `issue_property_deleted` webhooks. If this parameter is not present, the app is notified about all issue property updates. */
@@ -93143,7 +93143,7 @@ export class WebhookDetails implements IWebhookDetails {
 /** A list of webhooks. */
 export interface IWebhookDetails {
     /** The Jira events that trigger the webhook. */
-    events: events[];
+    events: Events2[];
     /** A list of field IDs. When the issue changelog contains any of the fields, the webhook `jira:issue_updated` is sent. If this parameter is not present, the app is notified about all field updates. */
     fieldIdsFilter?: string[];
     /** A list of issue property keys. A change of those issue properties triggers the `issue_property_set` or `issue_property_deleted` webhooks. If this parameter is not present, the app is notified about all issue property updates. */
@@ -93198,7 +93198,7 @@ export class WebhookRegistrationDetails implements IWebhookRegistrationDetails {
         if (Array.isArray(this.webhooks)) {
             data["webhooks"] = [];
             for (let item of this.webhooks)
-                data["webhooks"].push(item.toJSON());
+                data["webhooks"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93385,22 +93385,22 @@ export class Workflow implements IWorkflow {
         if (Array.isArray(this.projects)) {
             data["projects"] = [];
             for (let item of this.projects)
-                data["projects"].push(item.toJSON());
+                data["projects"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.schemes)) {
             data["schemes"] = [];
             for (let item of this.schemes)
-                data["schemes"].push(item.toJSON());
+                data["schemes"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
         return data;
@@ -93543,13 +93543,13 @@ export class WorkflowCapabilities implements IWorkflowCapabilities {
         if (Array.isArray(this.connectRules)) {
             data["connectRules"] = [];
             for (let item of this.connectRules)
-                data["connectRules"].push(item.toJSON());
+                data["connectRules"].push(item ? item.toJSON() : <any>undefined);
         }
         data["editorScope"] = this.editorScope;
         if (Array.isArray(this.forgeRules)) {
             data["forgeRules"] = [];
             for (let item of this.forgeRules)
-                data["forgeRules"].push(item.toJSON());
+                data["forgeRules"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.projectTypes)) {
             data["projectTypes"] = [];
@@ -93559,12 +93559,12 @@ export class WorkflowCapabilities implements IWorkflowCapabilities {
         if (Array.isArray(this.systemRules)) {
             data["systemRules"] = [];
             for (let item of this.systemRules)
-                data["systemRules"].push(item.toJSON());
+                data["systemRules"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.triggerRules)) {
             data["triggerRules"] = [];
             for (let item of this.triggerRules)
-                data["triggerRules"].push(item.toJSON());
+                data["triggerRules"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93630,13 +93630,13 @@ export class WorkflowCapabilityPayload implements IWorkflowCapabilityPayload {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["workflowScheme"] = this.workflowScheme ? this.workflowScheme.toJSON() : <any>undefined;
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93705,7 +93705,7 @@ export class WorkflowCompoundCondition implements IWorkflowCompoundCondition {
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["nodeType"] = this.nodeType;
         data["operator"] = this.operator;
@@ -93832,12 +93832,12 @@ export class WorkflowCreate implements IWorkflowCreate {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93903,12 +93903,12 @@ export class WorkflowCreateRequest implements IWorkflowCreateRequest {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -93966,12 +93966,12 @@ export class WorkflowCreateResponse implements IWorkflowCreateResponse {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -94339,7 +94339,7 @@ Use the optional `workflows.usages` expand to get additional information about t
         if (Array.isArray(this.usage)) {
             data["usage"] = [];
             for (let item of this.usage)
-                data["usage"].push(item.toJSON());
+                data["usage"].push(item ? item.toJSON() : <any>undefined);
         }
         data["version"] = this.version ? this.version.toJSON() : <any>undefined;
         return data;
@@ -94474,12 +94474,12 @@ export class WorkflowPayload implements IWorkflowPayload {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -94632,7 +94632,7 @@ export class WorkflowProjectIssueTypeUsagePage implements IWorkflowProjectIssueT
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -94739,7 +94739,7 @@ export class WorkflowReadRequest implements IWorkflowReadRequest {
         if (Array.isArray(this.projectAndIssueTypes)) {
             data["projectAndIssueTypes"] = [];
             for (let item of this.projectAndIssueTypes)
-                data["projectAndIssueTypes"].push(item.toJSON());
+                data["projectAndIssueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflowIds)) {
             data["workflowIds"] = [];
@@ -94807,12 +94807,12 @@ export class WorkflowReadResponse implements IWorkflowReadResponse {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -95008,12 +95008,12 @@ export class WorkflowRules implements IWorkflowRules {
         if (Array.isArray(this.postFunctions)) {
             data["postFunctions"] = [];
             for (let item of this.postFunctions)
-                data["postFunctions"].push(item.toJSON());
+                data["postFunctions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -95164,7 +95164,7 @@ export class WorkflowRulesSearchDetails implements IWorkflowRulesSearchDetails {
         if (Array.isArray(this.validRules)) {
             data["validRules"] = [];
             for (let item of this.validRules)
-                data["validRules"].push(item.toJSON());
+                data["validRules"].push(item ? item.toJSON() : <any>undefined);
         }
         data["workflowEntityId"] = this.workflowEntityId;
         return data;
@@ -95805,7 +95805,7 @@ The IDs of projects using the workflow scheme. */
         if (Array.isArray(this.workflowsForIssueTypes)) {
             data["workflowsForIssueTypes"] = [];
             for (let item of this.workflowsForIssueTypes)
-                data["workflowsForIssueTypes"].push(item.toJSON());
+                data["workflowsForIssueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -95912,18 +95912,18 @@ export class WorkflowSchemeUpdateRequest implements IWorkflowSchemeUpdateRequest
         if (Array.isArray(this.statusMappingsByIssueTypeOverride)) {
             data["statusMappingsByIssueTypeOverride"] = [];
             for (let item of this.statusMappingsByIssueTypeOverride)
-                data["statusMappingsByIssueTypeOverride"].push(item.toJSON());
+                data["statusMappingsByIssueTypeOverride"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statusMappingsByWorkflows)) {
             data["statusMappingsByWorkflows"] = [];
             for (let item of this.statusMappingsByWorkflows)
-                data["statusMappingsByWorkflows"].push(item.toJSON());
+                data["statusMappingsByWorkflows"].push(item ? item.toJSON() : <any>undefined);
         }
         data["version"] = this.version ? this.version.toJSON() : <any>undefined;
         if (Array.isArray(this.workflowsForIssueTypes)) {
             data["workflowsForIssueTypes"] = [];
             for (let item of this.workflowsForIssueTypes)
-                data["workflowsForIssueTypes"].push(item.toJSON());
+                data["workflowsForIssueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -95997,7 +95997,7 @@ export class WorkflowSchemeUpdateRequiredMappingsRequest implements IWorkflowSch
         if (Array.isArray(this.workflowsForIssueTypes)) {
             data["workflowsForIssueTypes"] = [];
             for (let item of this.workflowsForIssueTypes)
-                data["workflowsForIssueTypes"].push(item.toJSON());
+                data["workflowsForIssueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -96069,22 +96069,22 @@ export class WorkflowSchemeUpdateRequiredMappingsResponse implements IWorkflowSc
         if (Array.isArray(this.statusMappingsByIssueTypes)) {
             data["statusMappingsByIssueTypes"] = [];
             for (let item of this.statusMappingsByIssueTypes)
-                data["statusMappingsByIssueTypes"].push(item.toJSON());
+                data["statusMappingsByIssueTypes"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statusMappingsByWorkflows)) {
             data["statusMappingsByWorkflows"] = [];
             for (let item of this.statusMappingsByWorkflows)
-                data["statusMappingsByWorkflows"].push(item.toJSON());
+                data["statusMappingsByWorkflows"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statusesPerWorkflow)) {
             data["statusesPerWorkflow"] = [];
             for (let item of this.statusesPerWorkflow)
-                data["statusesPerWorkflow"].push(item.toJSON());
+                data["statusesPerWorkflow"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -96225,7 +96225,7 @@ export class WorkflowSchemeUsagePage implements IWorkflowSchemeUsagePage {
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -96349,13 +96349,13 @@ export class WorkflowSearchResponse implements IWorkflowSearchResponse {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["total"] = this.total;
         if (Array.isArray(this.values)) {
             data["values"] = [];
             for (let item of this.values)
-                data["values"].push(item.toJSON());
+                data["values"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -96936,17 +96936,17 @@ export class WorkflowTransitionRules implements IWorkflowTransitionRules {
         if (Array.isArray(this.conditions)) {
             data["conditions"] = [];
             for (let item of this.conditions)
-                data["conditions"].push(item.toJSON());
+                data["conditions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.postFunctions)) {
             data["postFunctions"] = [];
             for (let item of this.postFunctions)
-                data["postFunctions"].push(item.toJSON());
+                data["postFunctions"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         data["workflowId"] = this.workflowId ? this.workflowId.toJSON() : <any>undefined;
         return data;
@@ -97059,7 +97059,7 @@ export class WorkflowTransitionRulesUpdate implements IWorkflowTransitionRulesUp
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97185,7 +97185,7 @@ export class WorkflowTransitionRulesUpdateErrors implements IWorkflowTransitionR
         if (Array.isArray(this.updateResults)) {
             data["updateResults"] = [];
             for (let item of this.updateResults)
-                data["updateResults"].push(item.toJSON());
+                data["updateResults"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97285,7 +97285,7 @@ export class WorkflowTransitions implements IWorkflowTransitions {
         if (Array.isArray(this.actions)) {
             data["actions"] = [];
             for (let item of this.actions)
-                data["actions"].push(item.toJSON());
+                data["actions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["conditions"] = this.conditions ? this.conditions.toJSON() : <any>undefined;
         data["customIssueEventId"] = this.customIssueEventId;
@@ -97294,7 +97294,7 @@ export class WorkflowTransitions implements IWorkflowTransitions {
         if (Array.isArray(this.links)) {
             data["links"] = [];
             for (let item of this.links)
-                data["links"].push(item.toJSON());
+                data["links"].push(item ? item.toJSON() : <any>undefined);
         }
         data["name"] = this.name;
         if (this.properties) {
@@ -97309,13 +97309,13 @@ export class WorkflowTransitions implements IWorkflowTransitions {
         if (Array.isArray(this.triggers)) {
             data["triggers"] = [];
             for (let item of this.triggers)
-                data["triggers"].push(item.toJSON());
+                data["triggers"].push(item ? item.toJSON() : <any>undefined);
         }
         data["type"] = this.type;
         if (Array.isArray(this.validators)) {
             data["validators"] = [];
             for (let item of this.validators)
-                data["validators"].push(item.toJSON());
+                data["validators"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97500,7 +97500,7 @@ export class WorkflowUpdate implements IWorkflowUpdate {
         if (Array.isArray(this.defaultStatusMappings)) {
             data["defaultStatusMappings"] = [];
             for (let item of this.defaultStatusMappings)
-                data["defaultStatusMappings"].push(item.toJSON());
+                data["defaultStatusMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         data["description"] = this.description;
         data["id"] = this.id;
@@ -97509,17 +97509,17 @@ export class WorkflowUpdate implements IWorkflowUpdate {
         if (Array.isArray(this.statusMappings)) {
             data["statusMappings"] = [];
             for (let item of this.statusMappings)
-                data["statusMappings"].push(item.toJSON());
+                data["statusMappings"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.transitions)) {
             data["transitions"] = [];
             for (let item of this.transitions)
-                data["transitions"].push(item.toJSON());
+                data["transitions"].push(item ? item.toJSON() : <any>undefined);
         }
         data["version"] = this.version ? this.version.toJSON() : <any>undefined;
         return data;
@@ -97590,12 +97590,12 @@ export class WorkflowUpdateRequest implements IWorkflowUpdateRequest {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97654,13 +97654,13 @@ export class WorkflowUpdateResponse implements IWorkflowUpdateResponse {
         if (Array.isArray(this.statuses)) {
             data["statuses"] = [];
             for (let item of this.statuses)
-                data["statuses"].push(item.toJSON());
+                data["statuses"].push(item ? item.toJSON() : <any>undefined);
         }
         data["taskId"] = this.taskId;
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97861,7 +97861,7 @@ export class WorkflowValidationErrorList implements IWorkflowValidationErrorList
         if (Array.isArray(this.errors)) {
             data["errors"] = [];
             for (let item of this.errors)
-                data["errors"].push(item.toJSON());
+                data["errors"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97911,7 +97911,7 @@ export class WorkflowsWithTransitionRulesDetails implements IWorkflowsWithTransi
         if (Array.isArray(this.workflows)) {
             data["workflows"] = [];
             for (let item of this.workflows)
-                data["workflows"].push(item.toJSON());
+                data["workflows"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -97979,7 +97979,7 @@ export class WorkingDaysConfig implements IWorkingDaysConfig {
         if (Array.isArray(this.nonWorkingDays)) {
             data["nonWorkingDays"] = [];
             for (let item of this.nonWorkingDays)
-                data["nonWorkingDays"].push(item.toJSON());
+                data["nonWorkingDays"].push(item ? item.toJSON() : <any>undefined);
         }
         data["saturday"] = this.saturday;
         data["sunday"] = this.sunday;
@@ -98092,7 +98092,7 @@ export class Worklog implements IWorklog {
         if (Array.isArray(this.properties)) {
             data["properties"] = [];
             for (let item of this.properties)
-                data["properties"].push(item.toJSON());
+                data["properties"].push(item ? item.toJSON() : <any>undefined);
         }
         data["self"] = this.self;
         data["started"] = this.started ? this.started.toISOString() : <any>undefined;
@@ -98279,14 +98279,14 @@ export interface IWorkspaceDataPolicy {
 }
 
 /** Can contain multiple field values of following types depending on `type` key */
-export class fields implements Ifields {
+export class Fields2 implements IFields2 {
     /** If `true`, will try to retain original non-null issue field values on move. */
     retain?: boolean | undefined;
     value?: any;
 
     protected _discriminator: string;
 
-    constructor(data?: Ifields) {
+    constructor(data?: IFields2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -98296,7 +98296,7 @@ export class fields implements Ifields {
         if (!data) {
             this.retain = true;
         }
-        this._discriminator = "fields";
+        this._discriminator = "Fields2";
     }
 
     init(_data?: any) {
@@ -98306,9 +98306,9 @@ export class fields implements Ifields {
         }
     }
 
-    static fromJS(data: any): fields {
+    static fromJS(data: any): Fields2 {
         data = typeof data === 'object' ? data : {};
-        let result = new fields();
+        let result = new Fields2();
         result.init(data);
         return result;
     }
@@ -98323,7 +98323,7 @@ export class fields implements Ifields {
 }
 
 /** Can contain multiple field values of following types depending on `type` key */
-export interface Ifields {
+export interface IFields2 {
     /** If `true`, will try to retain original non-null issue field values on move. */
     retain?: boolean | undefined;
     value?: any;
@@ -98399,7 +98399,7 @@ export interface ITargetClassification {
 /** Field mapping for mandatory fields in target */
 export class TargetMandatoryFields implements ITargetMandatoryFields {
     /** Contains the value of mandatory fields */
-    fields!: { [key: string]: fields; };
+    fields!: { [key: string]: Fields2; };
 
     constructor(data?: ITargetMandatoryFields) {
         if (data) {
@@ -98419,7 +98419,7 @@ export class TargetMandatoryFields implements ITargetMandatoryFields {
                 this.fields = {} as any;
                 for (let key in _data["fields"]) {
                     if (_data["fields"].hasOwnProperty(key))
-                        (<any>this.fields)![key] = _data["fields"][key] ? fields.fromJS(_data["fields"][key]) : new fields();
+                        (<any>this.fields)![key] = _data["fields"][key] ? Fields2.fromJS(_data["fields"][key]) : new Fields2();
                 }
             }
         }
@@ -98448,7 +98448,7 @@ export class TargetMandatoryFields implements ITargetMandatoryFields {
 /** Field mapping for mandatory fields in target */
 export interface ITargetMandatoryFields {
     /** Contains the value of mandatory fields */
-    fields: { [key: string]: fields; };
+    fields: { [key: string]: Fields2; };
 }
 
 /** Status mapping for statuses in source workflow to respective target status in target workflow. */
@@ -98615,17 +98615,17 @@ The new values will only be applied if the source status is invalid for the targ
         if (Array.isArray(this.targetClassification)) {
             data["targetClassification"] = [];
             for (let item of this.targetClassification)
-                data["targetClassification"].push(item.toJSON());
+                data["targetClassification"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.targetMandatoryFields)) {
             data["targetMandatoryFields"] = [];
             for (let item of this.targetMandatoryFields)
-                data["targetMandatoryFields"].push(item.toJSON());
+                data["targetMandatoryFields"].push(item ? item.toJSON() : <any>undefined);
         }
         if (Array.isArray(this.targetStatus)) {
             data["targetStatus"] = [];
             for (let item of this.targetStatus)
-                data["targetStatus"].push(item.toJSON());
+                data["targetStatus"].push(item ? item.toJSON() : <any>undefined);
         }
         return data;
     }
@@ -99665,7 +99665,7 @@ export enum MultiSelectFieldOptions {
     REMOVE_ALL = "REMOVE_ALL",
 }
 
-export enum attributes {
+export enum Attributes2 {
     NotSelectable = "notSelectable",
     DefaultValue = "defaultValue",
 }
@@ -99834,7 +99834,7 @@ export enum ProjectAssigneeType {
     UNASSIGNED = "UNASSIGNED",
 }
 
-export enum projectTypeKey {
+export enum ProjectTypeKey3 {
     Software = "software",
     Service_desk = "service_desk",
     Business = "business",
@@ -99889,7 +99889,7 @@ export enum ProjectPayloadProjectTypeKey {
     Product_discovery = "product_discovery",
 }
 
-export enum Attributes2 {
+export enum Attributes3 {
     NotSelectable = "notSelectable",
     DefaultValue = "defaultValue",
 }
@@ -100135,7 +100135,7 @@ export enum Levels {
     ERROR = "ERROR",
 }
 
-export enum levels {
+export enum Levels2 {
     WARNING = "WARNING",
     ERROR = "ERROR",
 }
@@ -100163,7 +100163,7 @@ export enum Events {
     Issue_property_deleted = "issue_property_deleted",
 }
 
-export enum events {
+export enum Events2 {
     JiraIssue_created = "jira:issue_created",
     JiraIssue_updated = "jira:issue_updated",
     JiraIssue_deleted = "jira:issue_deleted",
