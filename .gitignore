@@ -1,3 +1,5 @@
+openapi
+
 src/**/bin/**
 src/**/obj/**
 src/packages/**
