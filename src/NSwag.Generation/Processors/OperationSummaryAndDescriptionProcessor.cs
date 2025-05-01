@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema.Generation;
@@ -24,7 +21,7 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? new Attribute[0];
+            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? [];
 
             ProcessSummary(context, attributes);
             ProcessDescription(context, attributes);
@@ -32,7 +29,7 @@ namespace NSwag.Generation.Processors
             return true;
         }
 
-        private void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -58,7 +55,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");

@@ -6,12 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 
 namespace NSwag.Collections
 {
@@ -27,7 +24,7 @@ namespace NSwag.Collections
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
         public ObservableDictionary()
         {
-            _dictionary = new Dictionary<TKey, TValue>();
+            _dictionary = [];
         }
 
         /// <summary>Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class. </summary>
@@ -76,7 +73,7 @@ namespace NSwag.Collections
         {
             if (items == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException(nameof(items));
             }
 
             if (items.Count > 0)
@@ -108,8 +105,7 @@ namespace NSwag.Collections
         /// <param name="add">If true and key already exists then an exception is thrown. </param>
         protected virtual void Insert(TKey key, TValue value, bool add)
         {
-            TValue item;
-            if (_dictionary.TryGetValue(key, out item))
+            if (_dictionary.TryGetValue(key, out TValue item))
             {
                 if (add)
                 {
@@ -135,22 +131,14 @@ namespace NSwag.Collections
         /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            var copy = PropertyChanged;
-            if (copy != null)
-            {
-                copy(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>Called when the collection has changed.</summary>
         protected void OnCollectionChanged()
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -159,11 +147,7 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> changedItem)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem, 0));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -173,11 +157,7 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> newItem, KeyValuePair<TKey, TValue> oldItem)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem, 0));
         }
 
         /// <summary>Called when the collection has changed.</summary>
@@ -186,19 +166,15 @@ namespace NSwag.Collections
         protected void OnCollectionChanged(NotifyCollectionChangedAction action, IList newItems)
         {
             OnPropertyChanged();
-            var copy = CollectionChanged;
-            if (copy != null)
-            {
-                copy(this, new NotifyCollectionChangedEventArgs(action, newItems, 0));
-            }
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItems, 0));
         }
 
         private void OnPropertyChanged()
         {
-            OnPropertyChanged("Count");
+            OnPropertyChanged(nameof(Count));
             OnPropertyChanged("Item[]");
-            OnPropertyChanged("Keys");
-            OnPropertyChanged("Values");
+            OnPropertyChanged(nameof(Keys));
+            OnPropertyChanged(nameof(Values));
         }
 
         #region IDictionary<TKey,TValue> interface
@@ -220,10 +196,7 @@ namespace NSwag.Collections
         }
 
         /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
-        public ICollection<TKey> Keys
-        {
-            get { return _dictionary.Keys; }
-        }
+        public ICollection<TKey> Keys => _dictionary.Keys;
 
         ICollection IDictionary.Values => _dictionary.Values;
 
@@ -239,7 +212,7 @@ namespace NSwag.Collections
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             var removed = _dictionary.Remove(key);
@@ -260,10 +233,7 @@ namespace NSwag.Collections
             return _dictionary.TryGetValue(key, out value);
         }
 
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys
-        {
-            get { return Keys; }
-        }
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
 
         /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
         public ICollection<TValue> Values => _dictionary.Values;
@@ -339,7 +309,7 @@ namespace NSwag.Collections
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            return ((IDictionary) _dictionary).GetEnumerator();
+            return ((IDictionary)_dictionary).GetEnumerator();
         }
 
         /// <summary>Removes the specified key.</summary>
@@ -350,7 +320,7 @@ namespace NSwag.Collections
         }
 
         /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.IDictionary" /> object has a fixed size.</summary>
-        public bool IsFixedSize { get { return false; } }
+        public bool IsFixedSize => false;
 
         /// <summary>Determines whether [contains] [the specified item].</summary>
         /// <param name="item">The item.</param>
@@ -365,7 +335,7 @@ namespace NSwag.Collections
         /// <param name="arrayIndex">Index of the array.</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((IDictionary) _dictionary).CopyTo(array, arrayIndex);
+            ((IDictionary)_dictionary).CopyTo(array, arrayIndex);
         }
 
         /// <summary>Copies to.</summary>
@@ -386,12 +356,12 @@ namespace NSwag.Collections
         public object SyncRoot { get; private set; }
 
         /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
-        public bool IsReadOnly => ((IDictionary) _dictionary).IsReadOnly;
+        public bool IsReadOnly => ((IDictionary)_dictionary).IsReadOnly;
 
         object IDictionary.this[object key]
         {
-            get { return this[(TKey)key]; }
-            set { this[(TKey)key] = (TValue)value; }
+            get => this[(TKey)key];
+            set => this[(TKey)key] = (TValue)value;
         }
 
         /// <summary>Removes the specified item.</summary>
@@ -426,7 +396,7 @@ namespace NSwag.Collections
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IDictionary) _dictionary).GetEnumerator();
+            return ((IDictionary)_dictionary).GetEnumerator();
         }
 
         #endregion

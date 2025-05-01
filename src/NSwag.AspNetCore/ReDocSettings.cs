@@ -6,10 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+#pragma warning disable IDE0005
+
 using NSwag.Generation;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
+
 #if AspNetOwin
 using Microsoft.Owin;
 

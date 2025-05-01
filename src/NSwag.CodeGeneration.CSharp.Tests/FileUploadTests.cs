@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using NJsonSchema;
+﻿using NJsonSchema;
 using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests

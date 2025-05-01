@@ -15,8 +15,8 @@ using Nuke.Common.Utilities;
     OnPullRequestExcludePaths = ["**/*.md"],
     PublishArtifacts = true,
     InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack)],
-    CacheKeyFiles = new string[0],
-    JobConcurrencyCancelInProgress = false),
+    CacheKeyFiles = [],
+    ConcurrencyCancelInProgress = true),
 ]
 [CustomGitHubActions(
     "build",
@@ -30,11 +30,9 @@ using Nuke.Common.Utilities;
     PublishArtifacts = true,
     InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish)],
     ImportSecrets = ["NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN"],
-    CacheKeyFiles = new string[0])
+    CacheKeyFiles = [])
 ]
-public partial class Build
-{
-}
+public partial class Build;
 
 class CustomGitHubActionsAttribute : GitHubActionsAttribute
 {
@@ -48,11 +46,7 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
 
-        // only need to list the ones that are missing from default image
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(new[]
-        {
-            "6.0.423"
-        }));
+        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["8.0", "9.0"]));
 
         var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
         if (onWindows)
@@ -98,7 +92,7 @@ class GitHubActionsSetupDotNetStep : GitHubActionsStep
 
     public override void Write(CustomFileWriter writer)
     {
-        writer.WriteLine("- uses: actions/setup-dotnet@v3");
+        writer.WriteLine("- uses: actions/setup-dotnet@v4");
 
         using (writer.Indent())
         {

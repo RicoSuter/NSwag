@@ -6,11 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -42,7 +39,7 @@ namespace NSwag.Generation.AspNetCore
         {
         }
 
-        /// <summary>The <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.</summary>
+        /// <inheritdoc cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>
         public ApiDescription ApiDescription { get; set; }
     }
 }

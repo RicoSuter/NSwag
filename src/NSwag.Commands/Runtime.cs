@@ -20,14 +20,11 @@ namespace NSwag.Commands
         /// <summary>Full .NET framework, x86.</summary>
         WinX86,
 
-        /// <summary>.NET 6 app.</summary>
-        Net60,
-
-        /// <summary>.NET 7 app.</summary>
-        Net70,
-		
         /// <summary>.NET 8 app.</summary>
         Net80,
+
+        /// <summary>.NET 9 app.</summary>
+        Net90,
 
         /// <summary>Execute in the same process.</summary>
         Debug

@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -52,7 +50,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             {
                 if (_settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
                 {
-                    return (IsNullable == true ? " | null" : "") + (IsRequired == false ? " | undefined" : "");
+                    return (IsNullable ? " | null" : "") + (!IsRequired ? " | undefined" : "");
                 }
                 else
                 {

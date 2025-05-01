@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
@@ -40,10 +39,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             if (settings.GenerateOptionalParameters)
             {
-                parameters = parameters
-                    .OrderBy(p => p.Position ?? 0)
-                    .OrderBy(p => !p.IsRequired)
-                    .ToList();
+                parameters =
+                [
+                    .. parameters
+                        .OrderBy(p => !p.IsRequired)
+                        .ThenBy(p => p.Position ?? 0)
+                ];
             }
 
             Parameters = parameters
@@ -109,12 +110,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
-                                _settings.Template == TypeScriptTemplate.JQueryPromises;
+        public bool IsJQuery => _settings.Template is TypeScriptTemplate.JQueryCallbacks or TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
-        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
-                                        _settings.Template == TypeScriptTemplate.Aurelia;
+        public bool IsFetchOrAurelia => _settings.Template is TypeScriptTemplate.Fetch or TypeScriptTemplate.Aurelia;
 
         /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
         public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
@@ -124,15 +123,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                var actualResponses = _operation.ActualResponses;
+                if (actualResponses.All(static r => HttpUtilities.IsSuccessStatusCode(r.Key)))
                 {
                     return "string";
                 }
 
-                return string.Join(" | ", _operation.ActualResponses
+                return string.Join(" | ", actualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                     .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
-                    .Concat(new[] { "string" }));
+                    .Concat(["string"]));
             }
         }
 

@@ -6,14 +6,15 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
+using NJsonSchema.References;
 using NSwag.Collections;
 
 namespace NSwag
 {
     /// <summary>The OpenApi request body (OpenAPI only).</summary>
-    public class OpenApiRequestBody
+    public class OpenApiRequestBody : JsonReferenceBase<OpenApiRequestBody>, IJsonReference
     {
         private string _name;
         private bool _isRequired;
@@ -26,18 +27,31 @@ namespace NSwag
             var content = new ObservableDictionary<string, OpenApiMediaType>();
             content.CollectionChanged += (sender, args) =>
             {
-                foreach (var mediaType in content.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    mediaType.Parent = this;
+                    return;
                 }
 
-                Parent?.UpdateBodyParameter();
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiMediaType>)args.NewItems[i];
+                    pair.Value.Parent = this;
+                }
+
+                ParentOperation?.UpdateBodyParameter();
             };
             Content = content;
         }
 
         [JsonIgnore]
-        internal OpenApiOperation Parent { get; set; }
+        internal object Parent { get; set; }
+
+        [JsonIgnore]
+        internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
+
+        /// <summary>Gets the actual request body, either this or the referenced request body.</summary>
+        [JsonIgnore]
+        public OpenApiRequestBody ActualRequestBody => Reference ?? this;
 
         /// <summary>Gets or sets the name.</summary>
         [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -47,7 +61,7 @@ namespace NSwag
             set
             {
                 _name = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -59,7 +73,7 @@ namespace NSwag
             set
             {
                 _description = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -75,7 +89,7 @@ namespace NSwag
             set
             {
                 _isRequired = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -87,12 +101,22 @@ namespace NSwag
             set
             {
                 _position = value;
-                Parent?.UpdateBodyParameter();
+                ParentOperation?.UpdateBodyParameter();
             }
         }
 
         /// <summary>Gets the actual name of the request body parameter.</summary>
         [JsonIgnore]
         public string ActualName => string.IsNullOrEmpty(Name) ? "body" : Name;
+
+        #region Implementation of IJsonReference
+
+        [JsonIgnore]
+        IJsonReference IJsonReference.ActualObject => ActualRequestBody;
+
+        [JsonIgnore]
+        object IJsonReference.PossibleRoot => ParentOperation?.Parent?.Parent;
+
+        #endregion
     }
 }

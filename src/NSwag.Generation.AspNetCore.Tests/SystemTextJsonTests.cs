@@ -1,8 +1,5 @@
 #if NETCOREAPP3_1_OR_GREATER
-using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
 using NSwag.AspNetCore;
 using Xunit;
 using NJsonSchema.Generation;
@@ -28,7 +25,7 @@ namespace NSwag.Generation.AspNetCore.Tests
             var registration = serviceProvider.GetRequiredService<OpenApiDocumentRegistration>();
             var generator = new AspNetCoreOpenApiDocumentGenerator(registration.Settings);
             await generator.GenerateAsync(serviceProvider);
-         
+
             var settings = generator.Settings;
 
             // Assert

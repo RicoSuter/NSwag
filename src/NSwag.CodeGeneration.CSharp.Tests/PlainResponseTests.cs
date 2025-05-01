@@ -1,9 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using NSwag.Generation.WebApi;
-using Xunit;
+﻿using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {

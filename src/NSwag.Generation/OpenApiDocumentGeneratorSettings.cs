@@ -13,7 +13,6 @@ using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Collections;
 using NSwag.Generation.Processors.Contexts;
-using System;
 
 namespace NSwag.Generation
 {
@@ -56,20 +55,20 @@ namespace NSwag.Generation
 
         /// <summary>Gets the operation processors.</summary>
         [JsonIgnore]
-        public OperationProcessorCollection OperationProcessors { get; } = new OperationProcessorCollection
-        {
+        public OperationProcessorCollection OperationProcessors { get; } =
+        [
             new OperationSummaryAndDescriptionProcessor(),
             new OperationTagsProcessor(),
-            new OperationExtensionDataProcessor(),
-        };
+            new OperationExtensionDataProcessor()
+        ];
 
         /// <summary>Gets the document processors.</summary>
         [JsonIgnore]
-        public DocumentProcessorCollection DocumentProcessors { get; } = new DocumentProcessorCollection
-        {
+        public DocumentProcessorCollection DocumentProcessors { get; } =
+        [
             new DocumentTagsProcessor(),
-            new DocumentExtensionDataProcessor(),
-        };
+            new DocumentExtensionDataProcessor()
+        ];
 
         /// <summary>Gets or sets the document template representing the initial Swagger specification (JSON data).</summary>
         public string DocumentTemplate { get; set; }
@@ -80,7 +79,7 @@ namespace NSwag.Generation
         public bool UseControllerSummaryAsTagDescription { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the HttpMethodAttribute Name property shall be used as OperationId.</summary>
-        public bool UseHttpAttributeNameAsOperationId { get; set; } = false;
+        public bool UseHttpAttributeNameAsOperationId { get; set; }
 
         /// <summary>Inserts a function based operation processor at the beginning of the pipeline to be used to filter operations.</summary>
         /// <param name="filter">The processor filter.</param>

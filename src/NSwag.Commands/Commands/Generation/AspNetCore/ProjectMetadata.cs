@@ -6,19 +6,16 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading.Tasks;
 using NConsole;
 
 namespace NSwag.Commands.Generation.AspNetCore
 {
-    internal class ProjectMetadata
+    [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members")]
+    internal sealed class ProjectMetadata
     {
         private const string GetMetadataTarget = "__GetNSwagProjectMetadata";
 
@@ -86,10 +83,10 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var args = CreateMsBuildArguments(file, framework, configuration, runtime, noBuild, outputPath);
 
-            var metadata = await TryReadingUsingGetProperties(args.ToList(), file, noBuild);
-            if (metadata == null)
+            var metadata = await TryReadingUsingGetProperties(args, file, noBuild);
+            if (metadata == null || string.IsNullOrWhiteSpace(metadata[nameof(ProjectDir)]))
             {
-                metadata = await ReadUsingMsBuildTargets(args.ToList(), file, buildExtensionsDir, console);
+                metadata = await ReadUsingMsBuildTargets(args, file, buildExtensionsDir, console);
             }
 
             var platformTarget = metadata[nameof(PlatformTarget)];
@@ -128,11 +125,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             string buildExtensionsDir,
             IConsoleHost console)
         {
-            if (buildExtensionsDir == null)
-            {
-                // fallback
-                buildExtensionsDir = Path.Combine(Path.GetDirectoryName(file), "obj");
-            }
+            buildExtensionsDir ??= Path.Combine(Path.GetDirectoryName(file), "obj");
 
             Directory.CreateDirectory(buildExtensionsDir);
 
@@ -167,7 +160,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     console.WriteMessage("Output:" + Environment.NewLine + File.ReadAllText(metadataFile));
                 }
 
-                metadata = File.ReadLines(metadataFile).Select(l => l.Split(new[] { ':' }, 2))
+                metadata = File.ReadLines(metadataFile).Select(l => l.Split([':'], 2))
                     .ToDictionary(s => s[0], s => s[1].TrimStart());
             }
             finally
@@ -236,7 +229,8 @@ namespace NSwag.Commands.Generation.AspNetCore
                 nameof(ProjectDir),
                 nameof(ProjectRuntimeConfigFilePath),
                 nameof(TargetFileName),
-                nameof(TargetFrameworkIdentifier)
+                nameof(TargetFrameworkIdentifier),
+                "MSBuildProjectDirectory",
             };
 
             try
@@ -245,7 +239,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                 {
                     WorkingDirectory = Path.GetDirectoryName(file),
                     FileName = "dotnet",
-                    Arguments = $"{string.Join(" " , args)} --getProperty:{string.Join(";", properties)}",
+                    Arguments = $"{string.Join(" ", args)} --getProperty:{string.Join(";", properties)}",
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
@@ -261,6 +255,12 @@ namespace NSwag.Commands.Generation.AspNetCore
                     var metadata = document.RootElement.GetProperty("Properties")
                         .EnumerateObject()
                         .ToDictionary(x => x.Name, x => x.Value.ToString().Trim());
+
+                    // depending on the project type or MSBuild evaluation process, the ProjectDir property may not be set
+                    if (string.IsNullOrWhiteSpace(metadata[nameof(ProjectDir)]))
+                    {
+                        metadata[nameof(ProjectDir)] = metadata["MSBuildProjectDirectory"];
+                    }
 
                     return metadata;
                 }

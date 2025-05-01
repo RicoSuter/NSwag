@@ -16,12 +16,12 @@ namespace NSwag.Commands
         /// <summary>
         /// Automatic line ending based on the current OS.
         /// </summary>
-        Auto, 
+        Auto,
 
         /// <summary>
         /// CRLF.
         /// </summary>
-        CRLF, 
+        CRLF,
 
         /// <summary>
         /// LF.

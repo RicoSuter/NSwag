@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -21,7 +20,7 @@ namespace NSwag.Generation
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings) 
+        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings)
             : base(settings.SchemaSettings)
         {
         }
@@ -81,7 +80,7 @@ namespace NSwag.Generation
             return base.GenerateWithReferenceAndNullability(contextualType, isNullable, schemaResolver, transformation);
         }
 
-        private bool IsFileResponse(Type returnType)
+        private static bool IsFileResponse(Type returnType)
         {
             return returnType.IsAssignableToTypeName("FileResult", TypeNameStyle.Name) ||
                    returnType.Name == "IActionResult" ||

@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -43,12 +41,13 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m, 
+                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -77,6 +76,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -105,6 +105,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();
@@ -133,6 +134,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             });
 
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var code = clientGenerator.GenerateFile();

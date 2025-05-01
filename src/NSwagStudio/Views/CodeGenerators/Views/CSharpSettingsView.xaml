@@ -104,7 +104,12 @@
                         <ComboBox SelectedItem="{Binding Command.JsonLibrary, Mode=TwoWay}" 
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
-                        
+
+                        <TextBlock Text="JSON Polymorphic Serialization Style ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyles, Mode=TwoWay}" 
+                                  ToolTip="JsonLibrary"
+                                  ItemsSource="{Binding JsonPolymorphicSerializationStyles}" Margin="0,0,0,12" />
+
                         <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12">
                             <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                         </CheckBox>

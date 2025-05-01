@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.CSharp;
@@ -62,7 +60,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>FileResponse by default, FileResult if ControllerTarger parameter is AspNetCore</returns>
         public override string GetBinaryResponseTypeName()
         {
-            if (_settings is CSharpControllerGeneratorSettings controllerSettings 
+            if (_settings is CSharpControllerGeneratorSettings controllerSettings
                 && controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore)
             {
                 return "FileResult";
@@ -76,7 +74,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="document">The document </param>
         public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, OpenApiDocument document)
         {
-            var exceptionSchema = document.Definitions.ContainsKey("Exception") ? document.Definitions["Exception"] : null;
+            var exceptionSchema = document.Definitions.TryGetValue("Exception", out JsonSchema value) ? value : null;
 
             var resolver = new CSharpTypeResolver(settings, exceptionSchema);
             resolver.RegisterSchemaDefinitions(document.Definitions

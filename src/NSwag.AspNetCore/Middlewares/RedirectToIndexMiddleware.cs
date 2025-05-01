@@ -6,13 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace NSwag.AspNetCore.Middlewares
 {
-    internal class RedirectToIndexMiddleware
+    internal sealed class RedirectToIndexMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
 

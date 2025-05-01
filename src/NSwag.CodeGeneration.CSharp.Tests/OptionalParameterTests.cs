@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.WebApi;
 using Xunit;
@@ -30,19 +26,24 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             }
         }
 
-        public class FromUriAttribute : Attribute { }
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Parameter)]
+        public class FromUriAttribute : Attribute;
 
+#pragma warning disable CA1711
         public enum MyEnum
+#pragma warning restore CA1711
         {
             One,
             Two,
             Three,
             Four
-
         }
+
         public class MyClass
         {
+#pragma warning disable IDE0051
             private string MyString { get; set; }
+#pragma warning restore IDE0051
             public MyEnum? MyEnum { get; set; }
             public int MyInt { get; set; }
         }
@@ -133,6 +134,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             operation.Parameters.Remove(lastParameter);
             operation.Parameters.Insert(0, lastParameter);
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
@@ -142,6 +144,67 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+        }
+
+        [Fact]
+        public async Task When_optional_parameter_comes_before_required()
+        {
+            // Arrange
+            const string specification = """
+                                         {
+                                           "openapi": "3.0.0",
+                                           "paths": {
+                                             "/": {
+                                               "get": {
+                                                 "operationId": "Get",
+                                                 "parameters": [
+                                                   {
+                                                     "name": "firstname",
+                                                     "in": "query",
+                                                     "schema": {
+                                                       "type": "string",
+                                                       "nullable": true
+                                                     },
+                                                     "x-position": 1
+                                                   },
+                                                   {
+                                                     "name": "lastname",
+                                                     "in": "query",
+                                                     "required": true,
+                                                     "schema": {
+                                                       "type": "string"
+                                                     },
+                                                     "x-position": 2
+                                                   }
+                                                 ],
+                                                 "responses": {
+                                                   "200": {
+                                                     "description": "",
+                                                     "content": {
+                                                       "application/json": {
+                                                         "schema": {
+                                                           "type": "string"
+                                                         }
+                                                       }
+                                                     }
+                                                   }
+                                                 }
+                                               }
+                                             }
+                                           }
+                                         }
+                                         """;
+
+            // Act
+            var document = await OpenApiDocument.FromJsonAsync(specification, "", SchemaType.OpenApi3);
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateOptionalParameters = true
+            });
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("GetAsync(string lastname, string firstname = null,", code);
         }
     }
 }

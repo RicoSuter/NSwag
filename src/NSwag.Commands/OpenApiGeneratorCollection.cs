@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
@@ -7,7 +6,9 @@ using NSwag.Commands.Generation.AspNetCore;
 namespace NSwag.Commands
 {
     /// <summary></summary>
+#pragma warning disable CA1711
     public class OpenApiGeneratorCollection
+#pragma warning restore CA1711
     {
         /// <summary>Gets or sets the input to swagger command.</summary>
         [JsonIgnore]
@@ -23,11 +24,11 @@ namespace NSwag.Commands
 
         /// <summary>Gets the items.</summary>
         [JsonIgnore]
-        public IEnumerable<IOutputCommand> Items => new IOutputCommand[]
-        {
+        public IEnumerable<IOutputCommand> Items =>
+        [
             FromDocumentCommand,
             JsonSchemaToOpenApiCommand,
             AspNetCoreToOpenApiCommand
-        };
+        ];
     }
 }

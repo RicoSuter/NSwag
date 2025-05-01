@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -26,7 +23,7 @@ namespace NSwag.AspNet.WebApi
     {
         private readonly bool _hideStackTrace;
         private readonly IDictionary<string, Assembly> _searchedNamespaces;
-        private readonly List<Type> _exceptionTypes = new List<Type>();
+        private readonly List<Type> _exceptionTypes = [];
 
         /// <summary>Initializes a new instance of the <see cref="JsonExceptionFilterAttribute"/> class.</summary>
         /// <param name="exceptionTypes">The serialized exception types.</param>
@@ -79,7 +76,7 @@ namespace NSwag.AspNet.WebApi
             }
         }
 
-        private int GetStatusCode(Exception exception, HttpActionExecutedContext context)
+        private static int GetStatusCode(Exception exception, HttpActionExecutedContext context)
         {
             if (context.ActionContext.ActionDescriptor is ReflectedHttpActionDescriptor actionDescriptor)
             {
@@ -105,7 +102,7 @@ namespace NSwag.AspNet.WebApi
             return 500;
         }
 
-        private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
+        private static JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
             var settingsCopy = new JsonSerializerSettings();
 

@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
@@ -48,8 +45,8 @@ namespace NSwag.CodeGeneration.TypeScript
 
             _extensionCode = new TypeScriptExtensionCode(
                 Settings.TypeScriptGeneratorSettings.ExtensionCode,
-                (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? new string[] { }).Concat(new[] { Settings.ConfigurationClass }).ToArray(),
-                new[] { Settings.ClientBaseClass });
+                [.. (Settings.TypeScriptGeneratorSettings.ExtendedClasses ?? []), Settings.ConfigurationClass],
+                [Settings.ClientBaseClass]);
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -82,8 +79,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The type name.</returns>
         public override string GetBinaryResponseTypeName()
         {
-            return Settings.Template != TypeScriptTemplate.JQueryCallbacks &&
-                   Settings.Template != TypeScriptTemplate.JQueryPromises ? "FileResponse" : "any";
+            return Settings.Template is not TypeScriptTemplate.JQueryCallbacks and not TypeScriptTemplate.JQueryPromises
+                ? "FileResponse"
+                : "any";
         }
 
         /// <summary>Generates the file.</summary>

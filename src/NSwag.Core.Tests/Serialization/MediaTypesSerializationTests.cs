@@ -159,13 +159,13 @@ namespace NSwag.Core.Tests.Serialization
                         new OpenApiPathItem
                         {
                             {
-                                OpenApiOperationMethod.Get, 
+                                OpenApiOperationMethod.Get,
                                 new OpenApiOperation
                                 {
                                     Responses =
                                     {
                                         {
-                                            "200", 
+                                            "200",
                                             new OpenApiResponse
                                             {
                                                 Examples = 123,

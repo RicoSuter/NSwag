@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace NSwag.Core.Tests.Serialization
 {
@@ -22,6 +20,15 @@ namespace NSwag.Core.Tests.Serialization
 
             Assert.NotNull(document);
             Assert.Equal("External path", document.Paths.First().Value.ActualPathItem.Values.First().Description);
+        }
+
+        [Fact]
+        public async Task When_file_contains_requestBody_reference_to_another_file_it_is_loaded()
+        {
+            var document = await OpenApiDocument.FromFileAsync("TestFiles/requestBody-reference.json");
+
+            Assert.NotNull(document);
+            Assert.Equal("External request body", document.Paths.First().Value.Values.First().RequestBody.ActualRequestBody.Description);
         }
 
         [Fact]

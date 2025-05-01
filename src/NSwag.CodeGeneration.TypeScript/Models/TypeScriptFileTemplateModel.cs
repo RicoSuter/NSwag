@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 
@@ -17,7 +15,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptFileTemplateModel
     {
         private readonly TypeScriptClientGeneratorSettings _settings;
+#pragma warning disable IDE0052
         private readonly TypeScriptTypeResolver _resolver;
+#pragma warning restore IDE0052
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly OpenApiDocument _document;
@@ -81,7 +81,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                         .Distinct();
                 }
 
-                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                return [_settings.ResponseClass.Replace("{controller}", string.Empty)];
             }
         }
 
@@ -104,9 +104,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ExtensionCodeImport => _extensionCode.ImportCode;
 
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ?
-            _extensionCode.ExtensionClasses[_settings.ConfigurationClass] + "\n\n" + _extensionCode.TopCode :
-            _extensionCode.TopCode;
+        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.TryGetValue(_settings.ConfigurationClass, out string value)
+            ? value + "\n\n" + _extensionCode.TopCode
+            : _extensionCode.TopCode;
 
         /// <summary>Gets or sets the extension code to insert at the end.</summary>
         public string ExtensionCodeBottom { get; }
@@ -130,7 +130,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileParameterInterface =>
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
             (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
-             _document.Operations.Any(o => o.Operation?.RequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true ||
+             _document.Operations.Any(o => o.Operation?.ActualRequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true ||
                                                                                        c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary ||
                                                                                                                                  p.Value.Item?.IsBinary == true ||
                                                                                                                                  p.Value.Items.Any(i => i.IsBinary)
@@ -140,7 +140,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
+            _document.Operations.Any(o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>

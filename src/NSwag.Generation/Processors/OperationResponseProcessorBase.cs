@@ -6,11 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Namotion.Reflection;
 using NJsonSchema;
@@ -188,14 +184,14 @@ namespace NSwag.Generation.Processors
                     Description = description ?? string.Empty
                 };
 
-                if (IsVoidResponse(returnType) == false)
+                if (!IsVoidResponse(returnType))
                 {
                     response.ExpectedSchemas = GenerateExpectedSchemas(statusCodeGroup, context);
 
                     var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
 
                     var isResponseNullable = nullableXmlAttribute != null ?
-                        nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                        nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                         statusCodeGroup.Any(r => r.IsNullable) &&
                             _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
@@ -233,7 +229,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private ICollection<JsonExpectedSchema> GenerateExpectedSchemas(
+        private List<JsonExpectedSchema> GenerateExpectedSchemas(
             IGrouping<string, OperationResponseDescription> group, OperationProcessorContext context)
         {
             if (group.Count() > 1)
@@ -281,7 +277,7 @@ namespace NSwag.Generation.Processors
             }
             else
             {
-                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? [];
                 var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
                 var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.SchemaSettings);
@@ -297,7 +293,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

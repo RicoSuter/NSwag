@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 using System.Windows.Interactivity;
 using ICSharpCode.AvalonEdit;
@@ -13,8 +12,8 @@ namespace NSwagStudio.Controls
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         protected override void OnAttached()

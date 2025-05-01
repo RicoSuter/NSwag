@@ -1,6 +1,5 @@
-﻿using System;
-using NJsonSchema;
-using Xunit;
+﻿using NJsonSchema;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -77,7 +76,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_parent_parameters_have_same_kind_then_they_are_included()
+        public async Task When_parent_parameters_have_same_kind_then_they_are_included()
         {
             // Arrange
             var swagger = @"{
@@ -140,7 +139,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     ""definitions"" : { }
 }
 ";
-            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -151,7 +150,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
+        public async Task When_swagger_contains_optional_parameters_then_they_are_rendered_in_CSharp()
         {
             // Arrange
             var swagger = @"{
@@ -222,7 +221,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -234,7 +233,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void Deep_object_properties_are_correctly_named()
+        public async Task Deep_object_properties_are_correctly_named()
         {
             // Arrange
             var swagger = @"{
@@ -298,7 +297,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3);
 
             // Act
             var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -310,7 +309,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void Date_and_DateTimeFormat_Parameters_are_correctly_applied()
+        public async Task Date_and_DateTimeFormat_Parameters_are_correctly_applied()
         {
             // Arrange
             var swagger = @"{
@@ -356,7 +355,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
    }
 }";
 
-            var document = OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3).Result;
+            var document = await OpenApiDocument.FromJsonAsync(swagger, "", SchemaType.OpenApi3);
 
             // Act once with defaults and once with custom values
             var generatorDefault = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
@@ -415,6 +414,48 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             Assert.Contains("FooAsync(string bar,", code);
             Assert.Contains("EscapeDataString(\"foo\")", code);
+        }
+
+        [Fact]
+        public async Task When_parameter_is_array_and_should_not_be_exploded()
+        {
+            // Arrange
+            var document = new OpenApiDocument
+            {
+                Paths =
+                {
+                    ["foo"] = new OpenApiPathItem
+                    {
+                        {
+                            OpenApiOperationMethod.Get, new OpenApiOperation
+                            {
+                                Parameters =
+                                {
+                                    new OpenApiParameter
+                                    {
+                                        Kind = OpenApiParameterKind.Query,
+                                        Name = "foo",
+                                        OriginalName = "bar",
+                                        Schema = new JsonSchema
+                                        {
+                                            Type = JsonObjectType.Array
+                                        },
+                                        Explode = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            await VerifyHelper.Verify(code);
+
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

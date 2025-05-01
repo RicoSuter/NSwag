@@ -6,17 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+#pragma warning disable IDE0005
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using NSwag.Generation;
-using NJsonSchema;
-using System.Threading;
-using System.Threading.Tasks;
 
 #if AspNetOwin
 using Microsoft.Owin;
@@ -53,7 +49,11 @@ namespace NSwag.AspNetCore
         public string ServerUrl { get; set; } = "";
 
         /// <summary>Specifies whether the "Try it out" option is enabled in Swagger UI 3.</summary>
-        public bool EnableTryItOut { get; set; } = true;
+        public bool EnableTryItOut
+        {
+            get => (bool)AdditionalSettings["tryItOutEnabled"];
+            set => AdditionalSettings["tryItOutEnabled"] = value;
+        }
 
         /// <summary>
         /// Gets or sets a title for the Swagger UI page.
@@ -66,7 +66,7 @@ namespace NSwag.AspNetCore
         public string CustomHeadContent { get; set; } = "";
 
         /// <summary>Gets or sets a value indicating whether the Swagger specification should be validated.</summary>
-        public bool ValidateSpecification { get; set; } = false;
+        public bool ValidateSpecification { get; set; }
 
         /// <summary>Gets the additional Swagger UI 3 settings.</summary>
         public IDictionary<string, object> AdditionalSettings { get; } = new Dictionary<string, object>();
@@ -121,7 +121,7 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets or sets the Swagger URL routes (must start with '/', hides SwaggerRoute).</summary>
-        public ICollection<SwaggerUiRoute> SwaggerRoutes { get; } = new List<SwaggerUiRoute>();
+        public ICollection<SwaggerUiRoute> SwaggerRoutes { get; } = [];
 
         /// <summary>Gets or sets the Swagger URL routes factory (SwaggerRoutes is ignored when set).</summary>
 #if AspNetOwin
@@ -130,7 +130,7 @@ namespace NSwag.AspNetCore
         public Func<HttpRequest, CancellationToken, Task<IEnumerable<SwaggerUiRoute>>> SwaggerRoutesFactory { get; set; }
 #endif
 
-        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Any() ? "" : base.ActualSwaggerDocumentPath;
+        internal override string ActualSwaggerDocumentPath => SwaggerRoutes.Count > 0 ? "" : base.ActualSwaggerDocumentPath;
 
 #if AspNetOwin
         internal override async Task<string> TransformHtmlAsync(string html, IOwinRequest request, CancellationToken cancellationToken)
@@ -157,11 +157,11 @@ namespace NSwag.AspNetCore
                 }
             }
 
-            var swaggerRoutes = SwaggerRoutesFactory != null ? 
-                (await SwaggerRoutesFactory(request, cancellationToken)).ToList() : 
+            var swaggerRoutes = SwaggerRoutesFactory != null ?
+                (await SwaggerRoutesFactory(request, cancellationToken)).ToList() :
                 SwaggerRoutes;
 
-            htmlBuilder.Replace("{Urls}", !swaggerRoutes.Any()
+            htmlBuilder.Replace("{Urls}", swaggerRoutes.Count == 0
                 ? "undefined"
                 : JsonConvert.SerializeObject(
 #pragma warning disable 618
@@ -172,7 +172,6 @@ namespace NSwag.AspNetCore
 
             htmlBuilder.Replace("{ValidatorUrl}", ValidateSpecification ? "undefined" : "null")
                 .Replace("{AdditionalSettings}", GenerateAdditionalSettings(AdditionalSettings))
-                .Replace("{EnableTryItOut}", EnableTryItOut.ToString().ToLower())
                 .Replace("{RedirectUrl}",
                     string.IsNullOrEmpty(ServerUrl)
                         ? "window.location.origin + \"" + TransformToExternalPath(Path, request) +

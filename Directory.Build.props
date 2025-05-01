@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>14.0.8</VersionPrefix>
+    <VersionPrefix>14.4.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
     <Copyright>Copyright © Rico Suter, 2023</Copyright>
@@ -19,8 +19,11 @@
     <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
 
     <LangVersion>latest</LangVersion>
-    <!-- TODO -->
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- suppress NuGet audit checks being errors -->
+    <WarningsNotAsErrors>NU1901,NU1902,NU1903,NU1904</WarningsNotAsErrors>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -36,10 +39,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
+
+  <PropertyGroup Label="Analyzer settings">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!--
+      [CA1200] Avoid using cref tags with a prefix
+      [CA1510] Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance
+      [CA1716] rename parameter property so that it no longer conflicts with the reserved language keyword
+      [CA1720] Identifier 'xxx' contains type name
+      [CA1725] Overriden parameter name mismatch
+      [CA1845] Use span-based 'string.Concat' and 'AsSpan' instead of 'Substring'
+      [SYSLIB0012] 'Assembly.CodeBase' is obsolete
+    -->
+    <NoWarn>$(NoWarn);CA1200;CA1510;CA1716;CA1720;CA1725;CA1845;SYSLIB0012</NoWarn>
+  </PropertyGroup>
+
 </Project>

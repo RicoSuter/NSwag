@@ -1,21 +1,14 @@
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace NSwag.ConsoleCore.Tests
 {
-    [UsesVerify]
     public class GenerateSampleSpecificationTests
     {
         [Theory]
-        [InlineData("NSwag.Sample.NET60", "net6.0", false)]
-        [InlineData("NSwag.Sample.NET60Minimal", "net6.0", false)]
-        [InlineData("NSwag.Sample.NET70", "net7.0", false)]
-        [InlineData("NSwag.Sample.NET70Minimal", "net7.0", true)]
         [InlineData("NSwag.Sample.NET80", "net8.0", false)]
         [InlineData("NSwag.Sample.NET80Minimal", "net8.0", true)]
+        [InlineData("NSwag.Sample.NET90", "net9.0", false)]
+        [InlineData("NSwag.Sample.NET90Minimal", "net9.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange

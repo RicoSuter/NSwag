@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using NJsonSchema;
-using System.Linq;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
@@ -61,7 +60,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         {
             return path
                 .Split('/')
-                .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
+                .Where(p => !p.Contains('{') && !string.IsNullOrWhiteSpace(p))
                 .Reverse()
                 .FirstOrDefault() ?? "Index";
         }

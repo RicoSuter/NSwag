@@ -6,15 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -28,7 +22,7 @@ namespace NSwag
     /// <summary>Describes a JSON web service.</summary>
     public partial class OpenApiDocument : JsonExtensionObject, IDocumentPathProvider
     {
-        private readonly ObservableDictionary<string, OpenApiPathItem> _paths;
+        internal readonly ObservableDictionary<string, OpenApiPathItem> _paths;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocument"/> class.</summary>
         public OpenApiDocument()
@@ -40,9 +34,15 @@ namespace NSwag
             var paths = new ObservableDictionary<string, OpenApiPathItem>();
             paths.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in Paths.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    path.ActualPathItem.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiPathItem>)args.NewItems[i];
+                    pair.Value.ActualPathItem.Parent = this;
                 }
             };
 
@@ -81,7 +81,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<OpenApiServer> Servers { get; private set; } = new Collection<OpenApiServer>();
+        public ICollection<OpenApiServer> Servers { get; private set; } = [];
 
         /// <summary>Gets or sets the operations.</summary>
         [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -93,11 +93,11 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = new Collection<OpenApiSecurityRequirement>();
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = [];
 
         /// <summary>Gets or sets the description.</summary>
         [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IList<OpenApiTag> Tags { get; set; } = new Collection<OpenApiTag>();
+        public IList<OpenApiTag> Tags { get; set; } = [];
 
         /// <summary>Gets the base URL of the web service.</summary>
         [JsonIgnore]
@@ -182,14 +182,14 @@ namespace NSwag
             var match = Regex.Match(data, pattern, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                var schemaType = match.Groups["schemaType"].Value.ToLower();
-                var schemaVersion = match.Groups["schemaVersion"].Value.ToLower();
+                var schemaType = match.Groups["schemaType"].Value.ToLowerInvariant();
+                var schemaVersion = match.Groups["schemaVersion"].Value.ToLowerInvariant();
 
-                if (schemaType == "swagger" && schemaVersion.StartsWith("2"))
+                if (schemaType == "swagger" && schemaVersion.StartsWith('2'))
                 {
                     expectedSchemaType = SchemaType.Swagger2;
                 }
-                else if (schemaType == "openapi" && schemaVersion.StartsWith("3"))
+                else if (schemaType == "openapi" && schemaVersion.StartsWith('3'))
                 {
                     expectedSchemaType = SchemaType.OpenApi3;
                 }
@@ -260,32 +260,60 @@ namespace NSwag
         /// <summary>Generates missing or non-unique operation IDs.</summary>
         public void GenerateOperationIds()
         {
-            // Generate missing IDs
-            var operationsList = Operations.ToList();
+            // start with new work buffers
+            GenerateOperationIds([.. Operations], [], []);
+        }
 
-            foreach (var operation in operationsList.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+        /// <summary>Generates missing or non-unique operation IDs.</summary>
+        private static void GenerateOperationIds(
+            List<OpenApiOperationDescription> operations,
+            HashSet<string> operationIds,
+            HashSet<string> duplicatedOperationIds)
+        {
+            // Generate missing IDs
+            operationIds.Clear();
+            duplicatedOperationIds.Clear();
+            foreach (var operation in operations)
             {
-                operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                if (string.IsNullOrEmpty(operation.Operation.OperationId))
+                {
+                    operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                }
+
+                if (!operationIds.Add(operation.Operation.OperationId))
+                {
+                    duplicatedOperationIds.Add(operation.Operation.OperationId);
+                }
+            }
+
+            // if we don't have any duplicates, we are done
+            if (duplicatedOperationIds.Count == 0)
+            {
+                return;
             }
 
             // Find non-unique operation IDs
+            operations = [.. operations.Where(x => duplicatedOperationIds.Contains(x.Operation.OperationId))];
 
             // 1: Append all to methods returning collections
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
-                    var collections = group.Where(o => o.Operation.ActualResponses.Any(r =>
-                              HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                              r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
+                    var collections = group.Where(o => o.Operation.HasActualResponse(static (code, response) =>
+                              HttpUtilities.IsSuccessStatusCode(code) &&
+                              response.Schema?.ActualSchema.Type == JsonObjectType.Array));
                     // if we have just collections, adding All will not help in discrimination
-                    if (collections.Count() == group.Count()) continue;
+                    if (collections.Count() == group.Count())
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {
-                        var isCollection = o.Operation.ActualResponses.Any(r =>
-                            HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                            r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array);
+                        var isCollection = o.Operation.HasActualResponse(static (code, response) =>
+                            HttpUtilities.IsSuccessStatusCode(code) &&
+                            response.Schema?.ActualSchema.Type == JsonObjectType.Array);
 
                         if (isCollection)
                         {
@@ -296,43 +324,46 @@ namespace NSwag
             }
 
             // 2: Append the Method type
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
-                    var methods = group.Select(o => o.Method.ToUpper()).Distinct();
-                    if (methods.Count() == 1) continue;
+                    var methods = group.Select(o => o.Method.ToUpperInvariant()).Distinct();
+                    if (methods.Count() == 1)
+                    {
+                        continue;
+                    }
 
                     foreach (var o in group)
                     {
-                        o.Operation.OperationId += o.Method.ToUpper();
+                        o.Operation.OperationId += o.Method.ToUpperInvariant();
                     }
                 }
             }
 
             // 3: Append numbers as last resort
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
-                var operations = group.ToList();
+                var groupOperations = group.ToList();
                 if (group.Count() > 1)
                 {
                     // Add numbers
                     var i = 2;
-                    foreach (var operation in operations.Skip(1))
+                    foreach (var operation in groupOperations.Skip(1))
                     {
                         operation.Operation.OperationId += i++;
                     }
 
-                    GenerateOperationIds();
+                    GenerateOperationIds(operations, operationIds, duplicatedOperationIds);
                     return;
                 }
             }
         }
 
-        private string GetOperationNameFromPath(OpenApiOperationDescription operation)
+        private static string GetOperationNameFromPath(OpenApiOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
-            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));
+            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains('{'));
             return string.IsNullOrEmpty(lastPathSegment) ? "Anonymous" : lastPathSegment;
         }
     }

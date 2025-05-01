@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 
 #pragma warning disable 1591
@@ -28,7 +24,7 @@ namespace NSwag.Commands.Document
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
             // input can be nix-like file path starting with /
-            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith("/") || File.Exists(Input) || Input.EndsWith("nswag.json")) && !Input.StartsWith("-"))
+            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith('/') || File.Exists(Input) || Input.EndsWith("nswag.json", StringComparison.OrdinalIgnoreCase)) && !Input.StartsWith('-'))
             {
                 await ExecuteDocumentAsync(host, Input);
             }
@@ -42,7 +38,7 @@ namespace NSwag.Commands.Document
 
                 var currentDirectory = Directory.GetCurrentDirectory();
                 var files = Directory.GetFiles(currentDirectory, "*.nswag");
-                if (files.Any())
+                if (files.Length > 0)
                 {
                     foreach (var file in files)
                     {
