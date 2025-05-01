@@ -160,8 +160,6 @@ namespace NSwag.AspNetCore
         /// <summary>
         /// Generates the JavaScript plugins object to inset into the html.
         /// </summary>
-        /// <param name="pluginsList"></param>
-        /// <returns></returns>
         protected string GeneratePluginsList(string[] pluginsList)
         {
             var builder = new StringBuilder();
