@@ -142,7 +142,6 @@ namespace NSwag.AspNetCore
             return builder.ToString();
         }
 
-
         /// <summary>Generates the additional objects JavaScript code.</summary>
         /// <param name="additionalSettings">The additional settings.</param>
         /// <returns>The code.</returns>
