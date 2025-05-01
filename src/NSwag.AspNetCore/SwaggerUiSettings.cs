@@ -185,7 +185,6 @@ namespace NSwag.AspNetCore
                 .Replace("{AdditionalPlugins}", GeneratePluginsList(AdditionalPlugins.Keys.ToArray()))
                 .Replace("{PluginScripts}", GetCustomScripts(AdditionalPlugins.Values.ToArray(), request));
 
-
             return htmlBuilder.ToString();
         }
     }
