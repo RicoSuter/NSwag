@@ -127,7 +127,7 @@ namespace NSwag.AspNetCore
         protected string GetCustomScripts(string[] scriptPaths, HttpRequest request)
 #endif
         {
-            if ((scriptPaths == null )|| (scriptPaths.Count()==0))
+            if ((scriptPaths == null ) || (scriptPaths.Count() == 0))
             {
                 return string.Empty;
             }
