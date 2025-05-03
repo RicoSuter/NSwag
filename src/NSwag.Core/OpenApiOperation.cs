@@ -163,7 +163,7 @@ namespace NSwag
 
         /// <summary>Gets or sets a security description.</summary>
         [JsonProperty(PropertyName = "security", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<OpenApiSecurityRequirement> Security { get; set; }
+        public ICollection<OpenApiSecurityRequirement> Security { get; set; } = new Collection<OpenApiSecurityRequirement>();
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
