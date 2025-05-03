@@ -150,6 +150,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the null value used for query parameters which are null.</summary>
         public string QueryNullValue => _settings.QueryNullValue;
 
+        /// <summary>Accept not typed 2xx messages that return empty data.</summary>
+        public bool AllowUntyped2xxResponse => _settings.AllowUntyped2xxResponse;
+
         /// <summary>
         /// Gets or sets a value indicating whether to create PrepareRequest and ProcessResponse as async methods, or as partial synchronous methods.
         /// If value is set to true, PrepareRequestAsync and ProcessResponseAsync methods must be implemented as part of the client base class (if it has one) or as part of the partial client class.

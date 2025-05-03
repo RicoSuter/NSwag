@@ -112,5 +112,8 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>Accept not typed 2xx messages that return empty data.</summary>
+        public bool AllowUntyped2xxResponse { get; set; }
     }
 }
