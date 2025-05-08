@@ -123,7 +123,7 @@ namespace NSwag.AspNetCore
         protected string GetCustomScripts(string[] scriptPaths, HttpRequest request)
 #endif
         {
-            if ((scriptPaths == null ) || (scriptPaths.Count() == 0))
+            if ((scriptPaths == null ) || (scriptPaths.Length == 0))
             {
                 return string.Empty;
             }
@@ -155,7 +155,7 @@ namespace NSwag.AspNetCore
         /// <summary>
         /// Generates the JavaScript plugins object to inset into the HTML.
         /// </summary>
-        protected string GeneratePluginsList(string[] pluginsList)
+        protected static string GeneratePluginsList(string[] pluginsList)
         {
             var builder = new StringBuilder();
             foreach (var plugin in pluginsList)
