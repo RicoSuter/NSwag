@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿#pragma warning disable IDE0005
+
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -32,32 +30,32 @@ namespace NSwag.Commands
 
                 if (buildWebHostMethod != null)
                 {
-                    var result = buildWebHostMethod.Invoke(null, new object[] { args });
+                    var result = buildWebHostMethod.Invoke(null, [args]);
                     serviceProvider = ((IWebHost)result).Services;
                 }
                 else
                 {
                     var createWebHostMethod =
-                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", [typeof(string[])]) ??
                         entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", Type.EmptyTypes);
 
                     if (createWebHostMethod != null)
                     {
                         var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
+                            null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
                         serviceProvider = webHostBuilder.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
-                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", [typeof(string[])]) ??
                             entryPointType?.GetRuntimeMethod("CreateHostBuilder", Type.EmptyTypes);
 
                         if (createHostMethod != null)
                         {
                             var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
+                                null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
                             serviceProvider = webHostBuilder.Build().Services;
                         }
                     }
@@ -65,10 +63,7 @@ namespace NSwag.Commands
                 }
             }
 
-            if (serviceProvider == null)
-            {
-                serviceProvider = GetServiceProviderWithHostFactoryResolver(assembly);
-            }
+            serviceProvider ??= GetServiceProviderWithHostFactoryResolver(assembly);
 
             if (serviceProvider == null)
             {
@@ -156,7 +151,7 @@ namespace NSwag.Commands
 #if NET6_0_OR_GREATER
                 var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
                 // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
-                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+                var services = ((IHost)factory([$"--{HostDefaults.ApplicationKey}={assemblyName}"])).Services;
 #else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
 #endif
@@ -166,11 +161,9 @@ namespace NSwag.Commands
                 // in the IServiceProvider
                 var applicationLifetime = services.GetRequiredService<IHostApplicationLifetime>();
 
-                using (var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null)))
-                {
-                    waitForStartTcs.Task.Wait();
-                    return services;
-                }
+                using var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null));
+                waitForStartTcs.Task.Wait();
+                return services;
             }
             catch (InvalidOperationException)
             {
@@ -181,13 +174,13 @@ namespace NSwag.Commands
 #endif
         }
 
-        private class NoopHostLifetime : IHostLifetime
+        private sealed class NoopHostLifetime : IHostLifetime
         {
             public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
             public Task WaitForStartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
         }
 
-        private class NoopServer : IServer
+        private sealed class NoopServer : IServer
         {
             public IFeatureCollection Features { get; } = new FeatureCollection();
             public void Dispose() { }

@@ -6,12 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable IDE0005
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
 using Newtonsoft.Json;
@@ -144,7 +141,7 @@ namespace NSwag.Commands.Generation.AspNetCore
             }
 
             if (projectMetadata.TargetFrameworkIdentifier == ".NETCoreApp" ||
-                projectMetadata.TargetFrameworkIdentifier.StartsWith("net"))
+                projectMetadata.TargetFrameworkIdentifier.StartsWith("net", StringComparison.Ordinal))
             {
                 executable = "dotnet";
                 args.Add("exec");
@@ -156,7 +153,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                 var binaryName = LauncherBinaryName + ".dll";
                 var executorBinary = Path.Combine(toolDirectory, binaryName);
-                   
+
                 if (!File.Exists(executorBinary))
                 {
                     binaryName = LauncherBinaryName + ".exe";

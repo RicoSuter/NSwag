@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using NSwag.Commands;
 using NSwag.Commands.CodeGeneration;
 

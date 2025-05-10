@@ -10,7 +10,6 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
 
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
@@ -63,6 +62,7 @@ public partial class Build
                     .SetOutputDirectory(ArtifactsDirectory)
                     .SetDeterministic(IsServerBuild)
                     .SetContinuousIntegrationBuild(IsServerBuild)
+                    .EnableNoRestore()
                 );
             }
 
@@ -115,7 +115,7 @@ public partial class Build
 
             foreach (var artifact in artifacts)
             {
-                CopyFileToDirectory(artifact, ArtifactsDirectory);
+                artifact.CopyToDirectory(ArtifactsDirectory);
             }
 
             // patch npm version
@@ -129,7 +129,7 @@ public partial class Build
             ZipFile.CreateFromDirectory(NSwagStudioBinaries, ArtifactsDirectory / "NSwag.zip");
 
             // NSwagStudio.msi
-            CopyFileToDirectory(ArtifactsDirectory / "bin" / "NSwagStudio.Installer" / Configuration / "NSwagStudio.msi", ArtifactsDirectory);
+            (ArtifactsDirectory / "bin" / "NSwagStudio.Installer" / Configuration / "NSwagStudio.msi").CopyToDirectory(ArtifactsDirectory);
         });
 }
 

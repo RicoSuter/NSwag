@@ -57,11 +57,11 @@ namespace NSwag.Generation
                 parameter.Type = JsonObjectType.String;
                 parameter.Format = JsonFormatStrings.Guid;
             }
-            else if (parameterType == "int" || parameterType == "integer" || parameterType == "short" || parameterType == "long")
+            else if (parameterType is "int" or "integer" or "short" or "long")
             {
                 parameter.Type = JsonObjectType.Integer;
             }
-            else if (parameterType == "number" || parameterType == "decimal" || parameterType == "double")
+            else if (parameterType is "number" or "decimal" or "double")
             {
                 parameter.Type = JsonObjectType.Number;
             }
@@ -96,7 +96,7 @@ namespace NSwag.Generation
                 _settings.SchemaSettings.DefaultReferenceTypeNullHandling,
                 _settings.SchemaSettings);
 
-            typeDescription.IsNullable = enforceNotNull == false && typeDescription.IsNullable;
+            typeDescription.IsNullable = !enforceNotNull && typeDescription.IsNullable;
 
             var operationParameter = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2
                 ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)

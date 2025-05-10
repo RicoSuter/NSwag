@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies that the operation consumes the POST body.</summary>
@@ -17,7 +15,7 @@ namespace NSwag.Annotations
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class with the 'application/json' mime type.</summary>
         public OpenApiBodyParameterAttribute()
         {
-            MimeTypes = new[] { "application/json" };
+            MimeTypes = ["application/json"];
         }
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiBodyParameterAttribute"/> class.</summary>

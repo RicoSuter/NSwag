@@ -1,13 +1,8 @@
-﻿using System;
-namespace NSwag.Generation
+﻿namespace NSwag.Generation
 {
     internal static class GenericResultWrapperTypes
     {
-        internal static bool IsGenericWrapperType(string typeName) =>
-            typeName == "Task`1" ||
-            typeName == "ValueTask`1" ||
-            typeName == "JsonResult`1" ||
-            typeName == "ActionResult`1";
+        private static bool IsGenericWrapperType(string typeName) => typeName is "Task`1" or "ValueTask`1" or "JsonResult`1" or "ActionResult`1";
 
         internal static T RemoveGenericWrapperTypes<T>(T type, Func<T, string> getName, Func<T, T> unwrap)
         {

@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace NSwag
 {
     /// <summary>The operation security requirements.</summary>

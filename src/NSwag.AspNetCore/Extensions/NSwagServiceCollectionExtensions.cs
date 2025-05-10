@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
@@ -84,7 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (newtonsoftSettings != null && !hasSystemTextJsonOutputFormatter)
                 {
                     settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
-                } 
+                }
                 else if (systemTextJsonOptions != null)
                 {
                     settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings { SerializerOptions = systemTextJsonOptions }, mvcOptions.Value);

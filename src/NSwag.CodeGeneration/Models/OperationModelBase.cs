@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -37,7 +34,7 @@ namespace NSwag.CodeGeneration.Models
             _generator = generator;
             _settings = settings;
 
-            var responses = _operation.ActualResponses
+            var responses = _operation.GetActualResponses(static (_, _) => true)
                 .Select(response => CreateResponseModel(operation, response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
@@ -82,19 +79,16 @@ namespace NSwag.CodeGeneration.Models
         public abstract string ActualOperationName { get; }
 
         /// <summary>Gets the HTTP method in uppercase.</summary>
-        public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod.ToString(), false);
+        public string HttpMethodUpper => ConversionUtilities.ConvertToUpperCamelCase(HttpMethod, false);
 
         /// <summary>Gets the HTTP method in lowercase.</summary>
-        public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod.ToString(), false);
+        public string HttpMethodLower => ConversionUtilities.ConvertToLowerCamelCase(HttpMethod, false);
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or DELETE or HEAD.</summary>
-        public bool IsGetOrDeleteOrHead =>
-            HttpMethod == OpenApiOperationMethod.Get ||
-            HttpMethod == OpenApiOperationMethod.Delete ||
-            HttpMethod == OpenApiOperationMethod.Head;
+        public bool IsGetOrDeleteOrHead => HttpMethod is OpenApiOperationMethod.Get or OpenApiOperationMethod.Delete or OpenApiOperationMethod.Head;
 
         /// <summary>Gets a value indicating whether the HTTP method is GET or HEAD.</summary>
-        public bool IsGetOrHead => HttpMethod == OpenApiOperationMethod.Get || HttpMethod == OpenApiOperationMethod.Head;
+        public bool IsGetOrHead => HttpMethod is OpenApiOperationMethod.Get or OpenApiOperationMethod.Head;
 
         // TODO: Remove this (may not work correctly)
         /// <summary>Gets or sets a value indicating whether the operation has a result type (i.e. not void).</summary>
@@ -114,7 +108,7 @@ namespace NSwag.CodeGeneration.Models
                     return "void";
                 }
 
-                if (response.Value.IsBinary(_operation) == true)
+                if (response.Value.IsBinary(_operation))
                 {
                     return _generator.GetBinaryResponseTypeName();
                 }
@@ -186,37 +180,57 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                if (Parameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
+                TParameterModel parameter = null;
+                var parameters = Parameters;
+                for (var i = 0; i < parameters.Count; i++)
                 {
-                    throw new InvalidOperationException("Multiple body parameters found in operation '" + _operation.OperationId + "'.");
+                    var p = parameters[i];
+                    if (p.Kind == OpenApiParameterKind.Body)
+                    {
+                        if (parameter != null)
+                        {
+                            throw new InvalidOperationException($"Multiple body parameters found in operation '{_operation.OperationId}'.");
+                        }
+
+                        parameter = p;
+                    }
                 }
 
-                return Parameters.SingleOrDefault(p => p.Kind == OpenApiParameterKind.Body);
+                return parameter;
             }
         }
 
         /// <summary>Gets the path parameters.</summary>
-        public IEnumerable<TParameterModel> PathParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Path);
+        public IEnumerable<TParameterModel> PathParameters => Parameters.Where(static p => p.Kind == OpenApiParameterKind.Path);
 
         /// <summary>Gets the query parameters.</summary>
-        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Query || p.Kind == OpenApiParameterKind.ModelBinding);
+        public IEnumerable<TParameterModel> QueryParameters => Parameters.Where(static p => p.Kind is OpenApiParameterKind.Query or OpenApiParameterKind.ModelBinding);
 
         /// <summary>Gets a value indicating whether the operation has query parameters.</summary>
         public bool HasQueryParameters => QueryParameters.Any();
 
         /// <summary>Gets the header parameters.</summary>
-        public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.Header);
+        public IEnumerable<TParameterModel> HeaderParameters => Parameters.Where(static p => p.Kind == OpenApiParameterKind.Header);
 
         /// <summary>Gets or sets a value indicating whether the accept header is defined in a parameter.</summary>
-        public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(p => p.Name.ToLowerInvariant() == "accept");
+        public bool HasAcceptHeaderParameterParameter => HeaderParameters.Any(static p => p.Name.Equals("accept", StringComparison.OrdinalIgnoreCase));
 
         /// <summary>Gets a value indicating whether the operation has form parameters.</summary>
-        public bool HasFormParameters => Parameters.Any(p => p.Kind == OpenApiParameterKind.FormData);
+        public bool HasFormParameters => Parameters.Any(static p => p.Kind == OpenApiParameterKind.FormData);
+
+        /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
+        public bool ConsumesOnlyFormUrlEncoded =>
+            ConsumesFormUrlEncoded && !ConsumesJson;
 
         /// <summary>Gets a value indicating whether the operation consumes 'application/x-www-form-urlencoded'.</summary>
         public bool ConsumesFormUrlEncoded =>
-            _operation.ActualConsumes?.Any(c => c == "application/x-www-form-urlencoded") == true ||
-            _operation.ActualRequestBody?.Content.Any(mt => mt.Key == "application/x-www-form-urlencoded") == true;
+            (_operation.ActualConsumes?.Any(static c => c == "application/x-www-form-urlencoded") == true ||
+             _operation.ActualRequestBody?.Content.Any(static mt => mt.Key == "application/x-www-form-urlencoded") == true);
+
+        /// <summary>Gets a value indicating whether the operation consumes 'application/json'.</summary>
+        public bool ConsumesJson =>
+            (_operation.ActualConsumes?.Any(static c => c == "application/json") == true ||
+             _operation.ActualRequestBody?.Content.Any(static mt => mt.Key == "application/json") == true);
 
         /// <summary>Gets the form parameters.</summary>
         public IEnumerable<TParameterModel> FormParameters => Parameters.Where(p => p.Kind == OpenApiParameterKind.FormData);
@@ -259,8 +273,8 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 return _operation.ActualConsumes?.FirstOrDefault() ??
-                    _operation.ActualRequestBody?.Content.Keys.FirstOrDefault() ??
-                    "application/json";
+                       _operation.ActualRequestBody?.Content.Keys.FirstOrDefault() ??
+                       "application/json";
             }
         }
 
@@ -275,19 +289,19 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 return _operation.ActualProduces?.FirstOrDefault() ??
-                    SuccessResponse?.Produces ??
-                    "application/json";
+                       SuccessResponse?.Produces ??
+                       "application/json";
             }
         }
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
-        public bool IsFile => _operation.ActualResponses.Any(r => r.Value.IsBinary(_operation));
+        public bool IsFile => _operation.HasActualResponse((_, response) => response.IsBinary(_operation));
 
         /// <summary>Gets a value indicating whether to wrap the response of this operation.</summary>
         public bool WrapResponse => _settings.WrapResponses && (
-                                    _settings.WrapResponseMethods == null ||
-                                    _settings.WrapResponseMethods.Length == 0 ||
-                                    _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
+            _settings.WrapResponseMethods == null ||
+            _settings.WrapResponseMethods.Length == 0 ||
+            _settings.WrapResponseMethods.Contains(_settings.GenerateControllerName(ControllerName) + "." + ActualOperationName));
 
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _operation.ExtensionData;
@@ -296,18 +310,7 @@ namespace NSwag.CodeGeneration.Models
         /// <returns>The response.</returns>
         protected KeyValuePair<string, OpenApiResponse> GetSuccessResponse()
         {
-            if (_operation.ActualResponses.Any(r => r.Key == "200"))
-            {
-                return new KeyValuePair<string, OpenApiResponse>("200", _operation.ActualResponses.Single(r => r.Key == "200").Value);
-            }
-
-            var response = _operation.ActualResponses.FirstOrDefault(r => HttpUtilities.IsSuccessStatusCode(r.Key));
-            if (response.Value != null)
-            {
-                return new KeyValuePair<string, OpenApiResponse>(response.Key, response.Value);
-            }
-
-            return new KeyValuePair<string, OpenApiResponse>("default", _operation.ActualResponses.FirstOrDefault(r => r.Key == "default").Value);
+            return _operation.GetSuccessResponse();
         }
 
         /// <summary>Gets the name of the parameter variable.</summary>
@@ -331,43 +334,52 @@ namespace NSwag.CodeGeneration.Models
                 return "string";
             }
 
-            if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
+            if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && (schema.Type & JsonObjectType.Array) == 0)
             {
                 schema = new JsonSchema { Type = JsonObjectType.Array, Item = schema };
             }
 
             var typeNameHint = !schema.HasTypeNameTitle ? ConversionUtilities.ConvertToUpperCamelCase(parameter.Name, true) : null;
-            var isNullable = parameter.IsRequired == false || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+            var isNullable = !parameter.IsRequired || parameter.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
             return _resolver.Resolve(schema, isNullable, typeNameHint);
         }
 
         /// <summary>Gets the actual parameters ignoring the excluded ones.</summary>
         /// <returns>The parameters.</returns>
+        // TODO NSwag v 15
+        // this should be IEnumerable<OpenApiParameter> instead of IList<OpenApiParameter> to avoid list allocation
+        // as callers filter more
         protected IList<OpenApiParameter> GetActualParameters()
         {
-            var parameters = _operation.ActualParameters
-                .Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))
-                .ToList();
+            List<OpenApiParameter> parameters = (List<OpenApiParameter>) _operation.ActualParameters;
 
-            var formDataSchema =
-                _operation?.ActualRequestBody?.Content?.ContainsKey("multipart/form-data") == true ?
-                _operation.ActualRequestBody.Content["multipart/form-data"]?.Schema.ActualSchema: null;
-
-            if (formDataSchema != null && formDataSchema.ActualProperties.Count > 0)
+            if (_settings.ExcludedParameterNames.Length > 0)
             {
-                var formDataProperties = formDataSchema.ActualProperties.ToList();
-                return parameters.Where(p => !p.IsBinaryBodyParameter).Concat(formDataProperties.Select((p, i) => new OpenApiParameter
-                {
-                    Name = p.Key,
-                    Kind = OpenApiParameterKind.FormData,
-                    Schema = p.Value,
-                    Description = p.Value.Description,
-                    CollectionFormat = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ?
-                        OpenApiParameterCollectionFormat.Multi : OpenApiParameterCollectionFormat.Undefined,
-                    //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,
-                    //Schema = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? p.Value.Item : p.Value,
-                    Position = parameters.Count + 100 + i
-                })).ToList();
+                parameters = [.. parameters.Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))];
+            }
+
+            var formDataSchemaProperties = _operation?.ActualRequestBody?.Content?.TryGetValue("multipart/form-data", out var formData) == true
+                ? formData.Schema?.ActualSchema?.ActualProperties
+                : null;
+
+            if (formDataSchemaProperties?.Count > 0)
+            {
+                parameters = parameters
+                    .Where(static p => !p.IsBinaryBodyParameter)
+                    .Concat(formDataSchemaProperties.Select((p, i) => new OpenApiParameter
+                    {
+                        Name = p.Key,
+                        Kind = OpenApiParameterKind.FormData,
+                        Schema = p.Value,
+                        Description = p.Value.Description,
+                        CollectionFormat = (p.Value.Type & JsonObjectType.Array) != 0 && p.Value.Item != null
+                            ? OpenApiParameterCollectionFormat.Multi
+                            : OpenApiParameterCollectionFormat.Undefined,
+                        //Explode = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null,
+                        //Schema = p.Value.Type.HasFlag(JsonObjectType.Array) && p.Value.Item != null ? p.Value.Item : p.Value,
+                        Position = parameters.Count + 100 + i
+                    }))
+                    .ToList();
             }
 
             return parameters;

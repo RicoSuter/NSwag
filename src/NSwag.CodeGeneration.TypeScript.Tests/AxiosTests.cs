@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.Generation;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 
@@ -43,6 +41,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -73,6 +72,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -103,6 +103,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -132,6 +133,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
@@ -163,6 +165,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings

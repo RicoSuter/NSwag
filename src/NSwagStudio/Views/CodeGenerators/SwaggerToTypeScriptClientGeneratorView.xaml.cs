@@ -31,7 +31,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override bool IsSelected
         {
-            get { return _document.CodeGenerators.OpenApiToTypeScriptClientCommand != null; }
+            get => _document.CodeGenerators.OpenApiToTypeScriptClientCommand != null;
             set
             {
                 if (value != IsSelected)

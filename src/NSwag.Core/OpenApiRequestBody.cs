@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using NSwag.Collections;
@@ -27,9 +27,15 @@ namespace NSwag
             var content = new ObservableDictionary<string, OpenApiMediaType>();
             content.CollectionChanged += (sender, args) =>
             {
-                foreach (var mediaType in content.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    mediaType.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiMediaType>)args.NewItems[i];
+                    pair.Value.Parent = this;
                 }
 
                 ParentOperation?.UpdateBodyParameter();
@@ -102,7 +108,7 @@ namespace NSwag
         /// <summary>Gets the actual name of the request body parameter.</summary>
         [JsonIgnore]
         public string ActualName => string.IsNullOrEmpty(Name) ? "body" : Name;
- 
+
         #region Implementation of IJsonReference
 
         [JsonIgnore]

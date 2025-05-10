@@ -6,12 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NJsonSchema;
 using NSwag.Generation.Processors;
@@ -37,8 +34,8 @@ namespace NSwag.Generation.WebApi
         {
             // TODO: Move to IControllerClassLoader interface
             return assembly.ExportedTypes
-                .Where(t => t.GetTypeInfo().IsAbstract == false)
-                .Where(t => t.Name.EndsWith("Controller") ||
+                .Where(t => !t.GetTypeInfo().IsAbstract)
+                .Where(t => t.Name.EndsWith("Controller", StringComparison.Ordinal) ||
                             t.InheritsFromTypeName("ApiController", TypeNameStyle.Name) ||
                             t.InheritsFromTypeName("ControllerBase", TypeNameStyle.Name)) // in ASP.NET Core, a Web API controller inherits from Controller
                 .Where(t => t.GetTypeInfo().ImplementedInterfaces.All(i => i.FullName != "System.Web.Mvc.IController")) // no MVC controllers (legacy ASP.NET)
@@ -60,7 +57,7 @@ namespace NSwag.Generation.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public Task<OpenApiDocument> GenerateForControllerAsync<TController>()
         {
-            return GenerateForControllersAsync(new[] { typeof(TController) });
+            return GenerateForControllersAsync([typeof(TController)]);
         }
 
         /// <summary>Generates a Swagger specification for the given controller type.</summary>
@@ -69,7 +66,7 @@ namespace NSwag.Generation.WebApi
         /// <exception cref="InvalidOperationException">The operation has more than one body parameter.</exception>
         public Task<OpenApiDocument> GenerateForControllerAsync(Type controllerType)
         {
-            return GenerateForControllersAsync(new[] { controllerType });
+            return GenerateForControllersAsync([controllerType]);
         }
 
         /// <summary>Generates a Swagger specification for the given controller types.</summary>
@@ -119,13 +116,10 @@ namespace NSwag.Generation.WebApi
             document.Generator = $"NSwag{version}";
             document.SchemaType = Settings.SchemaSettings.SchemaType;
 
-            document.Consumes = new List<string> { "application/json" };
-            document.Produces = new List<string> { "application/json" };
+            document.Consumes = ["application/json"];
+            document.Produces = ["application/json"];
 
-            if (document.Info == null)
-            {
-                document.Info = new OpenApiInfo();
-            }
+            document.Info ??= new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
@@ -181,7 +175,7 @@ namespace NSwag.Generation.WebApi
                                                     o.Item2.DeclaringType != currentControllerType &&
                                                     o.Item2.DeclaringType.IsAssignableToTypeName(currentControllerType.FullName, TypeNameStyle.FullName));
 
-                            if (isPathAlreadyDefinedInInheritanceHierarchy == false)
+                            if (!isPathAlreadyDefinedInInheritanceHierarchy)
                             {
                                 var operationDescription = new OpenApiOperationDescription
                                 {
@@ -220,18 +214,19 @@ namespace NSwag.Generation.WebApi
                 {
                     var path = operation.Path.Replace("//", "/");
 
-                    if (!document.Paths.ContainsKey(path))
+                    if (!document.Paths.TryGetValue(path, out OpenApiPathItem value))
                     {
-                        document.Paths[path] = new OpenApiPathItem();
+                        value = [];
+                        document.Paths[path] = value;
                     }
 
-                    if (document.Paths[path].ContainsKey(operation.Method))
+                    if (value.ContainsKey(operation.Method))
                     {
                         throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
                             "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
                     }
 
-                    document.Paths[path][operation.Method] = operation.Operation;
+                    value[operation.Method] = operation.Operation;
                     addedOperations++;
                 }
             }
@@ -239,7 +234,7 @@ namespace NSwag.Generation.WebApi
             return addedOperations > 0;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, 
+        private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription,
             List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             var context = new OperationProcessorContext(document, operationDescription, controllerType,
@@ -248,7 +243,7 @@ namespace NSwag.Generation.WebApi
             // 1. Run from settings
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(context) == false)
+                if (!operationProcessor.Process(context))
                 {
                     return false;
                 }
@@ -267,7 +262,7 @@ namespace NSwag.Generation.WebApi
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                     (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                if (operationProcessor.Process(context) == false)
+                if (!operationProcessor.Process(context))
                 {
                     return false;
                 }
@@ -280,14 +275,14 @@ namespace NSwag.Generation.WebApi
         {
             var methods = controllerType.GetRuntimeMethods().Where(m => m.IsPublic);
             return methods.Where(m =>
-                m.IsSpecialName == false && // avoid property methods
+                !m.IsSpecialName && // avoid property methods
                 m.DeclaringType == controllerType && // no inherited methods (handled in GenerateForControllerAsync)
                 m.DeclaringType != typeof(object) &&
-                m.IsStatic == false &&
+                !m.IsStatic &&
                 m.GetCustomAttributes().Select(a => a.GetType()).All(a =>
                     !a.IsAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name) &&
                     !a.IsAssignableToTypeName("NonActionAttribute", TypeNameStyle.Name)) &&
-                m.DeclaringType.FullName.StartsWith("Microsoft.AspNet") == false && // .NET Core (Web API & MVC)
+                    !m.DeclaringType.FullName.StartsWith("Microsoft.AspNet", StringComparison.Ordinal) && // .NET Core (Web API & MVC)
                 m.DeclaringType.FullName != "System.Web.Http.ApiController" &&
                 m.DeclaringType.FullName != "System.Web.Mvc.Controller")
                 .Where(m =>
@@ -310,7 +305,7 @@ namespace NSwag.Generation.WebApi
             if (!string.IsNullOrWhiteSpace(httpMethod))
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
-                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                var typeName = string.Format(CultureInfo.InvariantCulture, "Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
                 httpAttribute = method
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
@@ -326,7 +321,7 @@ namespace NSwag.Generation.WebApi
             }
             else
             {
-                if (controllerName.EndsWith("Controller"))
+                if (controllerName.EndsWith("Controller", StringComparison.Ordinal))
                 {
                     controllerName = controllerName.Substring(0, controllerName.Length - 10);
                 }
@@ -340,10 +335,10 @@ namespace NSwag.Generation.WebApi
                 number++;
             }
 
-            return operationId + (number > 1 ? number.ToString() : string.Empty);
+            return operationId + (number > 1 ? number.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
 
-        private IEnumerable<string> GetHttpPaths(Type controllerType, MethodInfo method)
+        private List<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
             var controllerName = controllerType.Name.Replace("Controller", string.Empty);
@@ -354,11 +349,11 @@ namespace NSwag.Generation.WebApi
             var routeAttributesOnClass = GetAllRouteAttributes(controllerType);
             var routePrefixAttribute = GetRoutePrefixAttribute(controllerType);
 
-            if (routeAttributes.Any())
+            if (routeAttributes.Count > 0)
             {
                 foreach (var attribute in routeAttributes)
                 {
-                    if (attribute.Template.StartsWith("~/")) // ignore route prefixes
+                    if (attribute.Template.StartsWith("~/", StringComparison.Ordinal)) // ignore route prefixes
                     {
                         httpPaths.Add(attribute.Template.Substring(1));
                     }
@@ -368,7 +363,7 @@ namespace NSwag.Generation.WebApi
                     }
                     else if (routeAttributesOnClass != null)
                     {
-                        if (attribute.Template.StartsWith("/"))
+                        if (attribute.Template.StartsWith('/'))
                         {
                             httpPaths.Add(attribute.Template);
                         }
@@ -424,18 +419,18 @@ namespace NSwag.Generation.WebApi
                 .ToList();
         }
 
-        private IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
+        private static IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
-            var segments = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var segments = path.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
-                if (segment.EndsWith("?}"))
+                if (segment.EndsWith("?}", StringComparison.Ordinal))
                 {
                     // Only expand if optional parameter is available in action method
-                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":") || segment.StartsWith("{" + p.Name + "?")))
+                    if (method.GetParameters().Any(p => segment.StartsWith("{" + p.Name + ":", StringComparison.Ordinal) || segment.StartsWith("{" + p.Name + "?", StringComparison.Ordinal)))
                     {
-                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat(new[] { segment.Replace("?", "") }).Concat(segments.Skip(i + 1))), method))
+                        foreach (var p in ExpandOptionalHttpPathParameters(string.Join("/", segments.Take(i).Concat([segment.Replace("?", "")]).Concat(segments.Skip(i + 1))), method))
                         {
                             yield return p;
                         }
@@ -455,7 +450,7 @@ namespace NSwag.Generation.WebApi
             yield return path;
         }
 
-        private IEnumerable<RouteAttributeFacade> GetAllRouteAttributes(Type type)
+        private static IEnumerable<RouteAttributeFacade> GetAllRouteAttributes(Type type)
         {
             do
             {
@@ -473,7 +468,7 @@ namespace NSwag.Generation.WebApi
             return null;
         }
 
-        private RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
+        private static RoutePrefixAttributeFacade GetRoutePrefixAttribute(Type type)
         {
             do
             {
@@ -491,17 +486,17 @@ namespace NSwag.Generation.WebApi
             return null;
         }
 
-        private IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
+        private static IEnumerable<RouteAttributeFacade> GetRouteAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Select(RouteAttributeFacade.TryMake).Where(a => a?.Template != null);
         }
 
-        private IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
+        private static IEnumerable<RoutePrefixAttributeFacade> GetRoutePrefixAttributes(IEnumerable<Attribute> attributes)
         {
             return attributes.Select(RoutePrefixAttributeFacade.TryMake).Where(a => a != null);
         }
 
-        private string GetActionName(MethodInfo method)
+        private static string GetActionName(MethodInfo method)
         {
             dynamic actionNameAttribute = method.GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "ActionNameAttribute");
@@ -512,7 +507,7 @@ namespace NSwag.Generation.WebApi
             }
 
             var methodName = method.Name;
-            if (methodName.EndsWith("Async"))
+            if (methodName.EndsWith("Async", StringComparison.Ordinal))
             {
                 methodName = methodName.Substring(0, methodName.Length - 5);
             }
@@ -520,7 +515,7 @@ namespace NSwag.Generation.WebApi
             return methodName;
         }
 
-        private IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
+        private static IEnumerable<string> GetSupportedHttpMethods(MethodInfo method)
         {
             // See http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api
 
@@ -569,7 +564,7 @@ namespace NSwag.Generation.WebApi
             }
         }
 
-        private IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
+        private static IEnumerable<string> GetSupportedHttpMethodsFromAttributes(MethodInfo method)
         {
             if (method.GetCustomAttributes().Any(a => a.GetType().Name == "HttpGetAttribute"))
             {
@@ -611,7 +606,7 @@ namespace NSwag.Generation.WebApi
 
             if (acceptVerbsAttribute != null)
             {
-                IEnumerable<string> httpMethods = new List<string>();
+                IEnumerable<string> httpMethods = [];
 
                 if (ObjectExtensions.HasProperty(acceptVerbsAttribute, "HttpMethods"))
                 {

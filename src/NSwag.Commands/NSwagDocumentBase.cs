@@ -6,20 +6,16 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
+#pragma warning disable CA1507
+
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 
@@ -57,7 +53,7 @@ namespace NSwag.Commands
         public abstract Task<OpenApiDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; } = Runtime.Net60;
+        public Runtime Runtime { get; set; } = Runtime.Net80;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }
@@ -104,7 +100,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public string Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 _path = value;
@@ -138,7 +134,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public IOutputCommand SelectedSwaggerGenerator
         {
-            get { return _selectedSwaggerGenerator; }
+            get => _selectedSwaggerGenerator;
             set
             {
                 _selectedSwaggerGenerator = value;
@@ -267,7 +263,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         protected async Task<OpenApiDocument> GenerateSwaggerDocumentAsync()
         {
-            return (OpenApiDocument) await SelectedSwaggerGenerator.RunAsync(null, null);
+            return (OpenApiDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static string EscapeJsonString(string value)
@@ -303,10 +299,10 @@ namespace NSwag.Commands
                 DefaultValueHandling = DefaultValueHandling.Include,
                 NullValueHandling = NullValueHandling.Include,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = new List<JsonConverter>
-                {
+                Converters =
+                [
                     new StringEnumConverter()
-                }
+                ]
             };
         }
 
@@ -314,7 +310,8 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
@@ -378,7 +375,8 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
@@ -442,7 +440,7 @@ namespace NSwag.Commands
             saveFile = false;
 
             // Swagger to OpenApi rename
-            if (data.Contains("\"typeScriptVersion\":") && !data.ToLowerInvariant().Contains("ExceptionClass".ToLowerInvariant()))
+            if (data.Contains("\"typeScriptVersion\":") && !data.Contains("ExceptionClass", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"typeScriptVersion\":", "\"exceptionClass\": \"SwaggerException\", \"typeScriptVersion\":");
                 saveFile = true;
@@ -515,7 +513,7 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            if (data.Contains("\"noBuild\":") && !data.Contains("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;

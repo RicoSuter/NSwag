@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+using System.Globalization;
 using System.Net;
 
 namespace NSwag.Annotations
@@ -38,7 +38,7 @@ namespace NSwag.Annotations
         /// <param name="responseType">The JSON result type of the MVC or Web API action method.</param>
         public ResponseTypeAttribute(int httpStatusCode, Type responseType)
         {
-            HttpStatusCode = httpStatusCode.ToString();
+            HttpStatusCode = httpStatusCode.ToString(CultureInfo.InvariantCulture);
             ResponseType = responseType;
         }
 
@@ -47,7 +47,7 @@ namespace NSwag.Annotations
         /// <param name="responseType">The JSON result type of the MVC or Web API action method.</param>
         public ResponseTypeAttribute(HttpStatusCode httpStatusCode, Type responseType)
         {
-            HttpStatusCode = ((int)httpStatusCode).ToString();
+            HttpStatusCode = ((int)httpStatusCode).ToString(CultureInfo.InvariantCulture);
             ResponseType = responseType;
         }
 

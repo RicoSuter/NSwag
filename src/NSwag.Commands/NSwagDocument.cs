@@ -6,15 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
+#pragma warning disable IDE0005
+
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NSwag.Commands.Generation.AspNetCore;
 
 namespace NSwag.Commands
@@ -142,7 +138,7 @@ namespace NSwag.Commands
         /// <returns>The absolute path.</returns>
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
             }
@@ -155,7 +151,7 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected override string ConvertToRelativePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
             }
@@ -196,17 +192,17 @@ namespace NSwag.Commands
 
             if (process.ExitCode != 0)
             {
-                var errorStart = output.IndexOf("...");
+                var errorStart = output.IndexOf("...", StringComparison.Ordinal);
                 if (errorStart < 0)
                 {
                     errorStart = Regex.Match(output, "\n[^\n\r]*?Exception: .*", RegexOptions.Singleline)?.Index ?? -1;
                 }
 
                 var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
-                var stackTraceStart = error.IndexOf("Server stack trace: ");
+                var stackTraceStart = error.IndexOf("Server stack trace: ", StringComparison.Ordinal);
                 if (stackTraceStart < 0)
                 {
-                    stackTraceStart = error.IndexOf("   at ");
+                    stackTraceStart = error.IndexOf("   at ", StringComparison.Ordinal);
                 }
 
                 var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;
@@ -214,12 +210,12 @@ namespace NSwag.Commands
 
                 if (message.Contains("Could not load type"))
                 {
-                    message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
+                    message += "Try running the document in another runtime, e.g. /runtime:NetCore20";
                 }
 
                 if (message.Contains("The system cannot find the file specified"))
                 {
-                    message = message + "Check if .NET Core is installed and 'dotnet' is globally available.";
+                    message += "Check if .NET Core is installed and 'dotnet' is globally available.";
                 }
 
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
@@ -230,47 +226,49 @@ namespace NSwag.Commands
 
         private string GetDocumentDirectory()
         {
-            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, System.IO.Directory.GetCurrentDirectory());
+            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, Directory.GetCurrentDirectory());
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
 
+#pragma warning disable CA1822
         private string GetArgumentsPrefix()
+#pragma warning restore CA1822
         {
 #if NET462
 
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.Net60)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net60/dotnet-nswag.dll") + "\" ";
-            }
-            else if (runtime == Runtime.Net80)
+            if (runtime == Runtime.Net80)
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net80/dotnet-nswag.dll") + "\" ";
             }
-            else
+            if (runtime == Runtime.Net90)
+            {
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net90/dotnet-nswag.dll") + "\" ";
+            }
 #endif
             return "";
         }
 
+#pragma warning disable CA1822
         private string GetProgramName()
+#pragma warning restore CA1822
         {
 #if NET462
-
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
+            if (runtime is Runtime.WinX64 or Runtime.Debug)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
             }
-            else if (runtime == Runtime.WinX86)
+
+            if (runtime == Runtime.WinX86)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             }
-            else
 #endif
             return "dotnet";
         }
 
-        private string ReadFileIfExists(string filename)
+        private static string ReadFileIfExists(string filename)
         {
             if (filename != null && File.Exists(filename))
             {
@@ -280,7 +278,7 @@ namespace NSwag.Commands
             return null;
         }
 
-        private void DeleteFileIfExists(string filename)
+        private static void DeleteFileIfExists(string filename)
         {
             if (File.Exists(filename))
             {
@@ -288,7 +286,7 @@ namespace NSwag.Commands
             }
         }
 
-        internal class CommandLineException : Exception
+        private sealed class CommandLineException : Exception
         {
             public CommandLineException(string message, string stackTrace)
                 : base(message)

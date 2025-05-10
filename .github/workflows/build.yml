@@ -43,8 +43,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
-      - uses: actions/checkout@v3
+            8.0
+            9.0
+      - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
         env:
@@ -53,22 +54,22 @@ jobs:
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: 'Publish: NSwag.zip'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: NSwag.zip
           path: artifacts/NSwag.zip
       - name: 'Publish: NSwag.Npm.zip'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: NSwag.Npm.zip
           path: artifacts/NSwag.Npm.zip
       - name: 'Publish: NSwagStudio.msi'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: NSwagStudio.msi
           path: artifacts/NSwagStudio.msi
       - name: 'Publish: NuGet Packages'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: NuGet Packages
           path: artifacts/*.nupkg
@@ -79,8 +80,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
-      - uses: actions/checkout@v3
+            8.0
+            9.0
+      - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
         env:
@@ -95,8 +97,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
-      - uses: actions/checkout@v3
+            8.0
+            9.0
+      - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
         env:

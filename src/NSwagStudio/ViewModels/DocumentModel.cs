@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using MyToolkit.Model;
 using NSwag.Commands;
-using NSwag.Commands.Generation;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 

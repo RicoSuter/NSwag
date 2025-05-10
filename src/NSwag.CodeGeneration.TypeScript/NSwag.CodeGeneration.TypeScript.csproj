@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   
@@ -13,6 +13,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.3.2" />
   </ItemGroup>
 </Project>

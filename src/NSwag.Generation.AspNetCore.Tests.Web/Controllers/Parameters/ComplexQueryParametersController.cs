@@ -8,7 +8,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters
     {
         /// <param name="getListCommand">Foo.</param>
         [HttpGet]
-        public ActionResult GetList([FromQuery]GetListCommand getListCommand)
+        public ActionResult GetList([FromQuery] GetListCommand getListCommand)
         {
             return Ok();
         }
