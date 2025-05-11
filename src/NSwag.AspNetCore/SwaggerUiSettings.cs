@@ -178,7 +178,7 @@ namespace NSwag.AspNetCore
                           "/oauth2-redirect.html\""
                         : "\"" + ServerUrl + TransformToExternalPath(Path, request) + "/oauth2-redirect.html\"")
                 .Replace("{CustomStyle}", GetCustomStyleHtml(request))
-                .Replace("{CustomScript}", GetCustomScriptHtml(CustomJavaScriptPath,request))
+                .Replace("{CustomScript}", GetCustomScriptHtml(CustomJavaScriptPath, request))
                 .Replace("{CustomHeadContent}", CustomHeadContent)
                 .Replace("{DocumentTitle}", DocumentTitle)
                 .Replace("{AdditionalPlugins}", GeneratePluginsList(AdditionalPlugins.Keys.ToArray()))
