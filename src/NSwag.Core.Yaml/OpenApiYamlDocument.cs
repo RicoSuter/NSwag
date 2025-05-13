@@ -57,11 +57,25 @@ namespace NSwag
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType,
+        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath,
+            SchemaType expectedSchemaType,
+            Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory,
+            CancellationToken cancellationToken = default)
+            => await FromYamlAsync(new StringReader(data), documentPath, expectedSchemaType, referenceResolverFactory,
+                cancellationToken);
+
+        /// <summary>Creates a Swagger specification from a YAML string.</summary>
+        /// <param name="data">The JSON or YAML data as a reader.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static async Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
             var deserializer = new DeserializerBuilder().Build();
-            var yamlObject = deserializer.Deserialize(new StringReader(data));
+            var yamlObject = deserializer.Deserialize(data);
             var serializer = new SerializerBuilder()
                 .JsonCompatible()
                 .Build();
