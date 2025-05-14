@@ -46,7 +46,7 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
 
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["8.0", "9.0"]));
+        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["8.0", "9.0.204"]));
 
         var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
         if (onWindows)
