@@ -64,7 +64,37 @@ namespace NSwag
             => await FromYamlAsync(new StringReader(data), documentPath, expectedSchemaType, referenceResolverFactory,
                 cancellationToken);
 
-        /// <summary>Creates a Swagger specification from a YAML string.</summary>
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, null, SchemaType.Swagger2, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, documentPath, SchemaType.Swagger2, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, documentPath, expectedSchemaType, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
         /// <param name="data">The JSON or YAML data as a reader.</param>
         /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
         /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
