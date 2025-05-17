@@ -135,6 +135,9 @@
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />
+                                
+                                <TextBlock Text="Model class name template" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ModelClassName, Mode=TwoWay}" ToolTip="ModelClassName" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Base Class Name (optional, must be imported or implemented in the extension code)"
                                            FontWeight="Bold" Margin="0,0,0,6" />
