@@ -157,6 +157,11 @@
             throw new System.ArgumentNullException("{{ parameter.VariableName }}");
 
 {%         endif -%}
+{%         if parameter.Schema.Pattern -%}
+        if (!System.Text.RegularExpressions.Regex.IsMatch({{ parameter.VariableName }}, "{{ parameter.Schema.Pattern }}"))
+            throw new System.ArgumentException("Parameter '{{ parameter.VariableName }}' does not match the required pattern '{{ parameter.Schema.Pattern }}'.");
+
+{%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
