@@ -57653,7 +57653,7 @@ export interface IIssueFieldOption {
 /** Details of the projects the option is available in. */
 export class IssueFieldOptionConfiguration implements IIssueFieldOptionConfiguration {
     /** DEPRECATED */
-    attributes?: attributes[];
+    attributes?: Attributes2[];
     /** Defines the projects that the option is available in. If the scope is not defined, then the option is available in all projects. */
     scope?: IssueFieldOptionScopeBean;
 
@@ -57699,7 +57699,7 @@ export class IssueFieldOptionConfiguration implements IIssueFieldOptionConfigura
 /** Details of the projects the option is available in. */
 export interface IIssueFieldOptionConfiguration {
     /** DEPRECATED */
-    attributes?: attributes[];
+    attributes?: Attributes2[];
     /** Defines the projects that the option is available in. If the scope is not defined, then the option is available in all projects. */
     scope?: IssueFieldOptionScopeBean;
 }
@@ -75671,7 +75671,7 @@ export class Project implements IProject {
     /** The category the project belongs to. */
     readonly projectCategory?: ProjectCategory;
     /** The [project type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes) of the project. */
-    readonly projectTypeKey?: projectTypeKey;
+    readonly projectTypeKey?: ProjectTypeKey3;
     /** Map of project properties */
     readonly properties?: { [key: string]: any; };
     /** The date when the project is deleted permanently. */
@@ -75885,7 +75885,7 @@ export interface IProject {
     /** The category the project belongs to. */
     projectCategory?: ProjectCategory;
     /** The [project type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes) of the project. */
-    projectTypeKey?: projectTypeKey;
+    projectTypeKey?: ProjectTypeKey3;
     /** Map of project properties */
     properties?: { [key: string]: any; };
     /** The date when the project is deleted permanently. */
@@ -77943,7 +77943,7 @@ export interface IProjectRoleUser {
 
 export class ProjectScopeBean implements IProjectScopeBean {
     /** Defines the behavior of the option in the project.If notSelectable is set, the option cannot be set as the field's value. This is useful for archiving an option that has previously been selected but shouldn't be used anymore.If defaultValue is set, the option is selected by default. */
-    attributes?: Attributes2[];
+    attributes?: Attributes3[];
     /** The ID of the project that the option's behavior applies to. */
     id?: number;
 
@@ -77988,7 +77988,7 @@ export class ProjectScopeBean implements IProjectScopeBean {
 
 export interface IProjectScopeBean {
     /** Defines the behavior of the option in the project.If notSelectable is set, the option cannot be set as the field's value. This is useful for archiving an option that has previously been selected but shouldn't be used anymore.If defaultValue is set, the option is selected by default. */
-    attributes?: Attributes2[];
+    attributes?: Attributes3[];
     /** The ID of the project that the option's behavior applies to. */
     id?: number;
 }
@@ -88462,7 +88462,7 @@ export interface IValidationOptionsForCreate {
 
 /** The level of validation to return from the API. If no values are provided, the default would return `WARNING` and `ERROR` level validation results. */
 export class ValidationOptionsForUpdate implements IValidationOptionsForUpdate {
-    levels?: levels[];
+    levels?: Levels2[];
 
     constructor(data?: IValidationOptionsForUpdate) {
         if (data) {
@@ -88503,7 +88503,7 @@ export class ValidationOptionsForUpdate implements IValidationOptionsForUpdate {
 
 /** The level of validation to return from the API. If no values are provided, the default would return `WARNING` and `ERROR` level validation results. */
 export interface IValidationOptionsForUpdate {
-    levels?: levels[];
+    levels?: Levels2[];
 }
 
 /** An operand that is a user-provided value. */
@@ -89506,7 +89506,7 @@ export interface IWebhook {
 /** A list of webhooks. */
 export class WebhookDetails implements IWebhookDetails {
     /** The Jira events that trigger the webhook. */
-    events!: events[];
+    events!: Events2[];
     /** A list of field IDs. When the issue changelog contains any of the fields, the webhook `jira:issue_updated` is sent. If this parameter is not present, the app is notified about all field updates. */
     fieldIdsFilter?: string[];
     /** A list of issue property keys. A change of those issue properties triggers the `issue_property_set` or `issue_property_deleted` webhooks. If this parameter is not present, the app is notified about all issue property updates. */
@@ -89582,7 +89582,7 @@ export class WebhookDetails implements IWebhookDetails {
 /** A list of webhooks. */
 export interface IWebhookDetails {
     /** The Jira events that trigger the webhook. */
-    events: events[];
+    events: Events2[];
     /** A list of field IDs. When the issue changelog contains any of the fields, the webhook `jira:issue_updated` is sent. If this parameter is not present, the app is notified about all field updates. */
     fieldIdsFilter?: string[];
     /** A list of issue property keys. A change of those issue properties triggers the `issue_property_set` or `issue_property_deleted` webhooks. If this parameter is not present, the app is notified about all issue property updates. */
@@ -94718,14 +94718,14 @@ export interface IWorkspaceDataPolicy {
 }
 
 /** Can contain multiple field values of following types depending on `type` key */
-export class fields implements Ifields {
+export class Fields2 implements IFields2 {
     /** If `true`, will try to retain original non-null issue field values on move. */
     retain?: boolean | undefined;
     value?: any;
 
     protected _discriminator: string;
 
-    constructor(data?: Ifields) {
+    constructor(data?: IFields2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -94735,7 +94735,7 @@ export class fields implements Ifields {
         if (!data) {
             this.retain = true;
         }
-        this._discriminator = "fields";
+        this._discriminator = "Fields2";
     }
 
     init(_data?: any) {
@@ -94745,9 +94745,9 @@ export class fields implements Ifields {
         }
     }
 
-    static fromJS(data: any): fields {
+    static fromJS(data: any): Fields2 {
         data = typeof data === 'object' ? data : {};
-        let result = new fields();
+        let result = new Fields2();
         result.init(data);
         return result;
     }
@@ -94762,7 +94762,7 @@ export class fields implements Ifields {
 }
 
 /** Can contain multiple field values of following types depending on `type` key */
-export interface Ifields {
+export interface IFields2 {
     /** If `true`, will try to retain original non-null issue field values on move. */
     retain?: boolean | undefined;
     value?: any;
@@ -94838,7 +94838,7 @@ export interface ITargetClassification {
 /** Field mapping for mandatory fields in target */
 export class TargetMandatoryFields implements ITargetMandatoryFields {
     /** Contains the value of mandatory fields */
-    fields!: { [key: string]: fields; };
+    fields!: { [key: string]: Fields2; };
 
     constructor(data?: ITargetMandatoryFields) {
         if (data) {
@@ -94858,7 +94858,7 @@ export class TargetMandatoryFields implements ITargetMandatoryFields {
                 this.fields = {} as any;
                 for (let key in _data["fields"]) {
                     if (_data["fields"].hasOwnProperty(key))
-                        (<any>this.fields)![key] = _data["fields"][key] ? fields.fromJS(_data["fields"][key]) : new fields();
+                        (<any>this.fields)![key] = _data["fields"][key] ? Fields2.fromJS(_data["fields"][key]) : new Fields2();
                 }
             }
         }
@@ -94887,7 +94887,7 @@ export class TargetMandatoryFields implements ITargetMandatoryFields {
 /** Field mapping for mandatory fields in target */
 export interface ITargetMandatoryFields {
     /** Contains the value of mandatory fields */
-    fields: { [key: string]: fields; };
+    fields: { [key: string]: Fields2; };
 }
 
 /** Status mapping for statuses in source workflow to respective target status in target workflow. */
@@ -96104,7 +96104,7 @@ export enum MultiSelectFieldOptions {
     REMOVE_ALL = "REMOVE_ALL",
 }
 
-export enum attributes {
+export enum Attributes2 {
     NotSelectable = "notSelectable",
     DefaultValue = "defaultValue",
 }
@@ -96273,7 +96273,7 @@ export enum ProjectAssigneeType {
     UNASSIGNED = "UNASSIGNED",
 }
 
-export enum projectTypeKey {
+export enum ProjectTypeKey3 {
     Software = "software",
     Service_desk = "service_desk",
     Business = "business",
@@ -96328,7 +96328,7 @@ export enum ProjectPayloadProjectTypeKey {
     Product_discovery = "product_discovery",
 }
 
-export enum Attributes2 {
+export enum Attributes3 {
     NotSelectable = "notSelectable",
     DefaultValue = "defaultValue",
 }
@@ -96574,7 +96574,7 @@ export enum Levels {
     ERROR = "ERROR",
 }
 
-export enum levels {
+export enum Levels2 {
     WARNING = "WARNING",
     ERROR = "ERROR",
 }
@@ -96602,7 +96602,7 @@ export enum Events {
     Issue_property_deleted = "issue_property_deleted",
 }
 
-export enum events {
+export enum Events2 {
     JiraIssue_created = "jira:issue_created",
     JiraIssue_updated = "jira:issue_updated",
     JiraIssue_deleted = "jira:issue_deleted",
