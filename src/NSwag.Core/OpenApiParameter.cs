@@ -21,7 +21,7 @@ namespace NSwag
         private bool _isRequired;
         private JsonSchema _schema;
         private IDictionary<string, OpenApiExample> _examples;
-        private bool _explode;
+        private bool? _explode;
         private int? _position;
 
         private static readonly Regex AppJsonRegex = new Regex(@"application\/(\S+?)?\+?json;?(\S+)?");
@@ -70,7 +70,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the explode setting for the parameter (OpenAPI only).</summary>
         [JsonProperty(PropertyName = "explode", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool Explode
+        public bool? Explode
         {
             get => _explode;
             set
