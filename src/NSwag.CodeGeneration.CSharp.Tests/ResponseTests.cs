@@ -180,10 +180,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Contains("class BusinessException", code);
         }
 
-        [Fact]
-        public async Task When_responses_produce_multiple_types()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task When_responses_produce_multiple_types(bool generateNullableReferenceTypes)
         {
             // Arrange
+            var expectedQuestionMark = generateNullableReferenceTypes ? "?" : string.Empty;
+
             string json = @"{
   ""openapi"": ""3.0.1"",
   ""info"": {
@@ -343,12 +347,16 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings = { GenerateNullableReferenceTypes = generateNullableReferenceTypes }
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var result_ = (string)System.Convert.ChangeType(responseData_, typeof(string));", code);
+            Assert.Contains($"var result_ = (string{expectedQuestionMark})System.Convert.ChangeType(responseData_, typeof(string));", code);
             Assert.Contains("await ReadObjectResponseAsync<ValidationProblemDetails>", code);
             Assert.Contains("await ReadObjectResponseAsync<ProblemDetails>", code);
         }
