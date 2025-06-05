@@ -29,6 +29,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.ClassName = value;
         }
 
+        [Argument(Name = "ModelClassName", IsRequired = false, Description = "The template to use for class names of the generated DTOs.")]
+        public string ModelClassName
+        {
+            get { return Settings.ModelClassName; }
+            set { Settings.ModelClassName = value; }
+        }
+        
         [Argument(Name = "ModuleName", IsRequired = false, Description = "The TypeScript module name (default: '', no module).")]
         public string ModuleName
         {

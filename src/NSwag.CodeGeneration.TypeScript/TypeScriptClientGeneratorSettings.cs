@@ -21,6 +21,7 @@ namespace NSwag.CodeGeneration.TypeScript
         public TypeScriptClientGeneratorSettings()
         {
             ClassName = "{controller}Client";
+            ModelClassName = "{model}";
             ExceptionClass = "ApiException";
             Template = TypeScriptTemplate.Fetch;
             PromiseType = PromiseType.Promise;

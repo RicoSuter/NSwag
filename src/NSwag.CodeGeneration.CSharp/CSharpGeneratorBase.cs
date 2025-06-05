@@ -72,14 +72,14 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Creates a new resolver, adds the given schema definitions and registers an exception schema if available.</summary>
         /// <param name="settings">The settings.</param>
         /// <param name="document">The document </param>
-        public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorSettings settings, OpenApiDocument document)
+        public static CSharpTypeResolver CreateResolverWithExceptionSchema(CSharpGeneratorBaseSettings settings, OpenApiDocument document)
         {
             var exceptionSchema = document.Definitions.TryGetValue("Exception", out JsonSchema value) ? value : null;
 
-            var resolver = new CSharpTypeResolver(settings, exceptionSchema);
+            var resolver = new CSharpTypeResolver(settings.CSharpGeneratorSettings, exceptionSchema);
             resolver.RegisterSchemaDefinitions(document.Definitions
                 .Where(p => p.Value != exceptionSchema)
-                .ToDictionary(p => p.Key, p => p.Value));
+                .ToDictionary(p => settings.GenerateModelName(p.Key), p => p.Value));
 
             return resolver;
         }

@@ -22,7 +22,7 @@ namespace NSwag.CodeGeneration.CSharp
         /// <param name="settings">The settings.</param>
         /// <exception cref="ArgumentNullException"><paramref name="document" /> is <see langword="null" />.</exception>
         public CSharpClientGenerator(OpenApiDocument document, CSharpClientGeneratorSettings settings)
-            : this(document, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, document))
+            : this(document, settings, CreateResolverWithExceptionSchema(settings, document))
         {
         }
 
