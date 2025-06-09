@@ -1,7 +1,7 @@
 {% if response.HasType -%}
 {%     if response.IsFile -%}
 {%         if response.IsSuccess -%}
-var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient or DisposeHttpClient == false %}null{% else %}client_{% endif %}, response_);
 disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
 return fileResponse_;
@@ -10,7 +10,7 @@ var objectResponse_ = await ReadObjectResponseAsync<{{ response.Type }}>(respons
 throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescription }}", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
 {%         endif -%}
 {%     elsif response.IsPlainText -%}
-var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 var result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
@@ -67,6 +67,6 @@ return;
 {%         endif -%}
 {%     endif -%}
 {% else -%}{% comment %} implied: `if !response.HasType` so just read it as text {% endcomment %}
-string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 throw new {{ ExceptionClass }}("{{ response.ExceptionDescription }}", status_, responseText_, headers_, null);
 {% endif %}

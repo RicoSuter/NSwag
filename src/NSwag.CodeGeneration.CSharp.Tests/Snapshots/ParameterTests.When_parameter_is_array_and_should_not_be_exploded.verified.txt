@@ -114,7 +114,7 @@ namespace MyNamespace
                         }
                         else
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                         }
                     }
@@ -156,7 +156,7 @@ namespace MyNamespace
 
             if (ReadResponseAsString)
             {
-                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
                     var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
@@ -172,7 +172,7 @@ namespace MyNamespace
             {
                 try
                 {
-                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false))
                     using (var streamReader = new System.IO.StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
