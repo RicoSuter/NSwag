@@ -13,11 +13,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
 
     if (ReadResponseAsString)
     {
-        var responseText = await response.Content.ReadAsStringAsync(
-            #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
-                cancellationToken
-            #endif
-        ).ConfigureAwait(false);
+        var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var typedBody = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<T>(responseText, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings);
@@ -37,11 +33,7 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
     {
         try
         {
-            using (var responseStream = await response.Content.ReadAsStreamAsync(
-                #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
-                    cancellationToken
-                #endif
-            ).ConfigureAwait(false))
+            using (var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false))
 {%- if UseSystemTextJson -%}
             {
                 var typedBody = await System.Text.Json.JsonSerializer.DeserializeAsync<T>(responseStream, {% if UseRequestAndResponseSerializationSettings %}Response{% endif %}JsonSerializerSettings, cancellationToken).ConfigureAwait(false);

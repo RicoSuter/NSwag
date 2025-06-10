@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();", code);
-            Assert.Contains("ReadAsStreamAsync(", code);
+            Assert.Contains("ReadAsStreamAsync(cancellationToken)", code);
         }
 
         [Fact]
