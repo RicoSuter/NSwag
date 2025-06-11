@@ -149,6 +149,7 @@ partial class Build : NukeBuild
             DotNetRestore(x => x
                 .SetProjectFile(SolutionFile)
                 .SetVerbosity(DotNetVerbosity.minimal)
+                .AddProperty("BuildWithNetFrameworkHostedCompiler", "true")
             );
         });
 
