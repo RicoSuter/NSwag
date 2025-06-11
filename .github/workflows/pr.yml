@@ -42,11 +42,6 @@ jobs:
         run: |
           echo "Adding GNU tar to PATH"
           echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            8.0
-            9.0.204
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
@@ -78,7 +73,7 @@ jobs:
         with:
           dotnet-version: |
             8.0
-            9.0.204
+            9.0
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
@@ -86,11 +81,6 @@ jobs:
     name: macos-latest
     runs-on: macos-latest
     steps:
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            8.0
-            9.0.204
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
