@@ -114,7 +114,11 @@ namespace MyNamespace
                         }
                         else
                         {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync(
+                                #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+                                    cancellationToken
+                                #endif
+                            ).ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                         }
                     }
@@ -156,7 +160,11 @@ namespace MyNamespace
 
             if (ReadResponseAsString)
             {
-                var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                var responseText = await response.Content.ReadAsStringAsync(
+                    #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+                        cancellationToken
+                    #endif
+                ).ConfigureAwait(false);
                 try
                 {
                     var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
@@ -172,7 +180,11 @@ namespace MyNamespace
             {
                 try
                 {
-                    using (var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false))
+                    using (var responseStream = await response.Content.ReadAsStreamAsync(
+                        #if NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+                            cancellationToken
+                        #endif
+                    ).ConfigureAwait(false))
                     using (var streamReader = new System.IO.StreamReader(responseStream))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
