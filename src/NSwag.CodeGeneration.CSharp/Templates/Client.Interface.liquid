@@ -1,6 +1,6 @@
 {% template Client.Interface.Annotations %}
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
-public partial interface I{{ Class }}{% if HasClientBaseInterface %} : {{ ClientBaseInterface }}{% endif %}
+{{ ClientClassAccessModifier }} partial interface I{{ Class }}{% if HasClientBaseInterface %} : {{ ClientBaseInterface }}{% endif %}
 {
     {% template Client.Interface.Body %}
 {% for operation in InterfaceOperations -%}
