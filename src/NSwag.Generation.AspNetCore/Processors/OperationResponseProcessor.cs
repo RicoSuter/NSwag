@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Globalization;
+using System.Net;
 using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema;
@@ -74,9 +75,9 @@ namespace NSwag.Generation.AspNetCore.Processors
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
                     }
 
+                    var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                     if (!IsVoidResponse(returnType))
                     {
-                        var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
@@ -84,9 +85,29 @@ namespace NSwag.Generation.AspNetCore.Processors
                                                  nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                                                  _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
+                        if (int.TryParse(httpStatusCode, out int statusCodeResult) &&
+                            _settings.ResponseStatusCodesToTreatAsNullable.Any(code =>
+                                code == (HttpStatusCode)statusCodeResult))
+                        {
+                            // If the response code of this response type is in the settings list, we treat is a nullable.
+                            isResponseNullable = true;
+                        }
+
                         response.IsNullableRaw = isResponseNullable;
                         response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                             contextualReturnType, isResponseNullable, context.SchemaResolver);
+                    }
+                    else
+                    {
+                        if (int.TryParse(httpStatusCode, out int statusCodeResult) &&
+                            _settings.ResponseStatusCodesToTreatAsNullable.Any(code =>
+                                code == (HttpStatusCode)statusCodeResult))
+                        {
+                            // If the response code of this response type is in the settings list, we treat is a nullable.
+                            response.IsNullableRaw = true;
+                            response.Schema = context.SchemaGenerator.Generate(typeof(void));
+                            response.Schema.IsNullableRaw = true;
+                        }
                     }
 
                     context.OperationDescription.Operation.Responses[httpStatusCode] = response;

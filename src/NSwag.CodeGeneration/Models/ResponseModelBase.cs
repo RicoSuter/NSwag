@@ -15,7 +15,6 @@ namespace NSwag.CodeGeneration.Models
     public abstract class ResponseModelBase
     {
         private readonly IOperationModel _operationModel;
-        private readonly OpenApiResponse _response;
         private readonly OpenApiOperation _operation;
         private readonly JsonSchema _exceptionSchema;
         private readonly IClientGenerator _generator;
@@ -37,7 +36,7 @@ namespace NSwag.CodeGeneration.Models
             string statusCode, OpenApiResponse response, bool isPrimarySuccessResponse,
             JsonSchema exceptionSchema, TypeResolverBase resolver, CodeGeneratorSettingsBase settings, IClientGenerator generator)
         {
-            _response = response;
+            Response = response;
             _operation = operation;
             _exceptionSchema = exceptionSchema;
             _generator = generator;
@@ -50,6 +49,9 @@ namespace NSwag.CodeGeneration.Models
             ActualResponseSchema = response.Schema?.ActualSchema;
         }
 
+        /// <summary>The underlying response</summary>
+        internal OpenApiResponse Response { get; }
+
         /// <summary>Gets the HTTP status code.</summary>
         public string StatusCode { get; }
 
@@ -61,14 +63,14 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets the type of the response.</summary>
         public string Type =>
-            _response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() :
+            Response.IsBinary(_operation) ? _generator.GetBinaryResponseTypeName() :
             _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response");
 
         /// <summary>Gets a value indicating whether the response has a type (i.e. not void).</summary>
         public bool HasType => ActualResponseSchema != null;
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
-        public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
+        public ICollection<JsonExpectedSchema> ExpectedSchemas => Response.ExpectedSchemas;
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
         public bool IsDate => ActualResponseSchema != null &&
@@ -77,21 +79,21 @@ namespace NSwag.CodeGeneration.Models
                        _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response") != "string";
 
         /// <summary>Gets a value indicating whether the response requires a text/plain content.</summary>
-        public bool IsPlainText => !_response.Content.ContainsKey("application/json") && _response.Content.ContainsKey("text/plain");
+        public bool IsPlainText => !Response.Content.ContainsKey("application/json") && Response.Content.ContainsKey("text/plain");
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
-        public bool IsFile => IsSuccess && _response.IsBinary(_operation);
+        public bool IsFile => IsSuccess && Response.IsBinary(_operation);
 
         /// <summary>Gets the response's exception description.</summary>
-        public string ExceptionDescription => !string.IsNullOrEmpty(_response.Description) ?
-            ConversionUtilities.ConvertToStringLiteral(_response.Description) :
+        public string ExceptionDescription => !string.IsNullOrEmpty(Response.Description) ?
+            ConversionUtilities.ConvertToStringLiteral(Response.Description) :
             "A server side error occurred.";
 
         /// <summary>Gets the response schema.</summary>
-        public JsonSchema ResolvableResponseSchema => _response.Schema != null ? _resolver.GetResolvableSchema(_response.Schema) : null;
+        public JsonSchema ResolvableResponseSchema => Response.Schema != null ? _resolver.GetResolvableSchema(Response.Schema) : null;
 
         /// <summary>Gets a value indicating whether the response is nullable.</summary>
-        public bool IsNullable => _response.IsNullable(_settings.SchemaType);
+        public bool IsNullable => Response.IsNullable(_settings.SchemaType);
 
         /// <summary>Gets a value indicating whether the response type inherits from exception.</summary>
         public bool InheritsExceptionSchema => ActualResponseSchema?.InheritsSchema(_exceptionSchema) == true;
@@ -110,9 +112,11 @@ namespace NSwag.CodeGeneration.Models
                 }
 
                 var primarySuccessResponse = _operationModel.Responses.FirstOrDefault(r => r.IsPrimarySuccessResponse);
+
+                // We should ignore nullability when evaluating if both responses have the same return type.
                 return HttpUtilities.IsSuccessStatusCode(StatusCode) && (
                     primarySuccessResponse == null ||
-                    primarySuccessResponse.Type == Type
+                    primarySuccessResponse.Type.TrimEnd('?') == Type.TrimEnd('?')
                 );
             }
         }
@@ -121,9 +125,9 @@ namespace NSwag.CodeGeneration.Models
         public bool ThrowsException => !IsSuccess;
 
         /// <summary>Gets the response extension data.</summary>
-        public IDictionary<string, object> ExtensionData => _response.ExtensionData;
+        public IDictionary<string, object> ExtensionData => Response.ExtensionData;
 
         /// <summary>Gets the produced mime type of this response if available.</summary>
-        public string Produces => _response.Content.Keys.FirstOrDefault();
+        public string Produces => Response.Content.Keys.FirstOrDefault();
     }
 }
