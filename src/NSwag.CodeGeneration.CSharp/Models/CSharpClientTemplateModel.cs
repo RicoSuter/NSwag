@@ -120,6 +120,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the client class access modifier.</summary>
         public string ClientClassAccessModifier => _settings.ClientClassAccessModifier;
 
+        /// <summary>Gets or sets the client interface access modifier.</summary>
+        public string ClientInterfaceAccessModifier => _settings.ClientInterfaceAccessModifier;
+
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 
