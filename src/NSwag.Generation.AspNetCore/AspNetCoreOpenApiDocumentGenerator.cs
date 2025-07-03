@@ -157,9 +157,9 @@ namespace NSwag.Generation.AspNetCore
                     var options = serviceProvider.GetService(optionsType);
                     var value = optionsType.GetProperty("Value")?.GetValue(options);
                     var jsonOptions = value?.GetType().GetProperty("JsonSerializerOptions")?.GetValue(value);
-                    if (jsonOptions is JsonSerializerOptions)
+                    if (jsonOptions is JsonSerializerOptions serializerOptions)
                     {
-                        return (JsonSerializerOptions)jsonOptions;
+                        return serializerOptions;
                     }
                 }
                 catch
@@ -336,7 +336,12 @@ namespace NSwag.Generation.AspNetCore
 
                     if (pathItem.ContainsKey(operation.Method))
                     {
-                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times.");
+                        var conflictingApiDescriptions = operations
+                            .Where(t => t.Item1.Path == operation.Path && t.Item1.Method == operation.Method)
+                            .Select(t => t.Item2)
+                            .ToList();
+
+                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times for actions {string.Join(", ", conflictingApiDescriptions.Select(apiDesc => apiDesc.ActionDescriptor.DisplayName))}.");
                     }
 
                     pathItem[operation.Method] = operation.Operation;
