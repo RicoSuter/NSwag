@@ -306,6 +306,69 @@ public static Person FromJson(string data)
             Assert.Equal(expectedClientName, clientName);
         }
 
+        [Fact]
+        public void When_Success_Response_contains_multiple_content_types_prioritizes_wildcard()
+        {
+            // Arrange
+            var document = CreateDocument();
+            var operation = document.Paths["/Person"][OpenApiOperationMethod.Get];
+
+            operation.Responses["200"].Content.Clear();
+
+            operation.Responses["200"].Content.Add("application/xml", new OpenApiMediaType
+            {
+                Schema = new JsonSchema { Type = JsonObjectType.Object }
+            });
+
+            operation.Responses["200"].Content.Add("application/json", new OpenApiMediaType
+            {
+                Schema = new JsonSchema { Type = JsonObjectType.Object }
+            });
+
+            operation.Responses["200"].Content.Add("*/*", new OpenApiMediaType
+            {
+                Schema = new JsonSchema { Type = JsonObjectType.Object }
+            });
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse(\"*/*\"));", code);
+        }
+
+        [Fact]
+        public void When_Success_Response_contains_multiple_content_types_prioritizes_json()
+        {
+            // Arrange
+            var document = CreateDocument();
+            var operation = document.Paths["/Person"][OpenApiOperationMethod.Get];
+
+            operation.Responses["200"].Content.Clear();
+
+            operation.Responses["200"].Content.Add("application/xml", new OpenApiMediaType
+            {
+                Schema = new JsonSchema { Type = JsonObjectType.Object }
+            });
+
+            operation.Responses["200"].Content.Add("application/json", new OpenApiMediaType
+            {
+                Schema = new JsonSchema { Type = JsonObjectType.Object }
+            });
+
+            // Act
+            var settings = new CSharpClientGeneratorSettings();
+            settings.CSharpGeneratorSettings.JsonLibrary = NJsonSchema.CodeGeneration.CSharp.CSharpJsonLibrary.SystemTextJson;
+            var generator = new CSharpClientGenerator(document, settings);
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse(\"application/json\"));", code);
+        }
+
         private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();
