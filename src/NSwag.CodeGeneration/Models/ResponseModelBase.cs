@@ -124,6 +124,9 @@ namespace NSwag.CodeGeneration.Models
         public IDictionary<string, object> ExtensionData => _response.ExtensionData;
 
         /// <summary>Gets the produced mime type of this response if available.</summary>
-        public string Produces => _response.Content.Keys.FirstOrDefault();
+        public string Produces =>
+            _response.Content.Keys.FirstOrDefault(k => k == "*/*") ??
+            _response.Content.Keys.FirstOrDefault(k => k == "application/json") ??
+            _response.Content.Keys.FirstOrDefault();
     }
 }
