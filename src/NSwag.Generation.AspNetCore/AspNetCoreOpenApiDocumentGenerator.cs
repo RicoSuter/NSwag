@@ -353,17 +353,21 @@ namespace NSwag.Generation.AspNetCore
         {
             // TODO: Move to SwaggerGenerator class?
 
-            document.Consumes = allOperations
+            var documentConsumes = allOperations
                 .SelectMany(s => s.Item1.Operation.Consumes)
                 .Where(m => allOperations.All(o => o.Item1.Operation.Consumes.Contains(m)))
                 .Distinct()
-                .ToArray();
+                .ToList();
 
-            document.Produces = allOperations
+            document.Consumes = documentConsumes;
+
+            var documentProduces = allOperations
                 .SelectMany(s => s.Item1.Operation.Produces)
                 .Where(m => allOperations.All(o => o.Item1.Operation.Produces.Contains(m)))
                 .Distinct()
-                .ToArray();
+                .ToList();
+
+            document.Produces = documentProduces;
 
             foreach (var operation in allOperations)
             {
@@ -371,17 +375,17 @@ namespace NSwag.Generation.AspNetCore
 
                 List<string> consumes = null;
                 if (description.Operation.Consumes.Count > 0
-                    && (document.Consumes.Count == 0 || description.Operation.Consumes.Any(c => !document.Consumes.Contains(c))))
+                    && (documentConsumes.Count == 0 || description.Operation.Consumes.Any(c => !documentConsumes.Contains(c))))
                 {
-                    consumes = description.Operation.Consumes.Distinct().ToList();
+                    consumes = [.. description.Operation.Consumes.Distinct()];
                 }
                 description.Operation.Consumes = consumes;
 
                 List<string> produces = null;
                 if (description.Operation.Produces.Count > 0
-                    && (document.Produces.Count == 0 || description.Operation.Produces.Any(c => !document.Produces.Contains(c))))
+                    && (documentProduces.Count == 0 || description.Operation.Produces.Any(c => !documentProduces.Contains(c))))
                 {
-                    produces = description.Operation.Produces.Distinct().ToList();
+                    produces = [.. description.Operation.Produces.Distinct()];
                 }
                 description.Operation.Produces = produces;
             }
@@ -538,7 +542,8 @@ namespace NSwag.Generation.AspNetCore
             }
 
             var number = 1;
-            while (document.Operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
+            var operations = document.GetOperations().ToList();
+            while (operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
             {
                 number++;
             }

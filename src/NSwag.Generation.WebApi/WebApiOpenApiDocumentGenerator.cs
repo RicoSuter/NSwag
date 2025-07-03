@@ -330,7 +330,8 @@ namespace NSwag.Generation.WebApi
             }
 
             var number = 1;
-            while (document.Operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
+            var operations = document.Operations.ToList();
+            while (operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
             {
                 number++;
             }

@@ -219,12 +219,18 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                var consumes = parent?.ActualConsumes?.Count > 0
-                    ? parent.ActualConsumes
-                    : parent?.ActualRequestBody?.Content.Keys;
+                var parentActualConsumesCollection = parent?.ActualConsumesCollection;
+                if (parentActualConsumesCollection?.Count > 0)
+                {
+                    return parentActualConsumesCollection.Count > 0
+                           && parentActualConsumesCollection.Any(p => p.Contains("application/xml"))
+                           && !parentActualConsumesCollection.Any(p => AppJsonRegex.IsMatch(p));
+                }
 
-                return consumes?.Count > 0 && consumes.Any(p => p.Contains("application/xml")) &&
-                       !consumes.Any(p => AppJsonRegex.IsMatch(p));
+                var collection = parent?.ActualRequestBody?._content.KeyCollection;
+                return collection?.Count > 0
+                       && collection.Any(p => p.Contains("application/xml"))
+                       && !collection.Any(p => AppJsonRegex.IsMatch(p));
             }
         }
 
@@ -240,9 +246,9 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Count > 0)
+                if (parent?.ActualConsumesCollection?.Count > 0)
                 {
-                    var consumes = parent.ActualConsumes;
+                    var consumes = parent.ActualConsumesCollection;
                     return consumes?.Count > 0
                            && (Schema?.IsBinary != false || consumes.Contains("multipart/form-data"))
                            && consumes?.Any(p => p.Contains("*/*")) == false
@@ -250,10 +256,10 @@ namespace NSwag
                 }
                 else
                 {
-                    var consumes = parent?.ActualRequestBody?.Content;
-                    return (consumes?.Any(p => p.Key == "multipart/form-data") == true || consumes?.Any(p => p.Value.Schema?.IsBinary != false) == true)
-                           && !consumes.Any(p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true)
-                           && !consumes.Any(p => AppJsonRegex.IsMatch(p.Key) && p.Value.Schema?.IsBinary != true);
+                    var consumes = parent?.ActualRequestBody?._content;
+                    return (consumes?.ContainsKey("multipart/form-data") == true || consumes?.Any(static p => p.Value.Schema?.IsBinary != false) == true)
+                           && !consumes.Any(static p => p.Key.Contains("*/*") && p.Value.Schema?.IsBinary != true)
+                           && !consumes.Any(static p => AppJsonRegex.IsMatch(p.Key) && p.Value.Schema?.IsBinary != true);
                 }
             }
         }
@@ -270,19 +276,17 @@ namespace NSwag
                 }
 
                 var parent = Parent as OpenApiOperation;
-                if (parent?.ActualConsumes?.Count > 0)
+                if (parent?.ActualConsumesCollection?.Count > 0)
                 {
-                    var consumes = parent.ActualConsumes;
+                    var consumes = parent.ActualConsumesCollection;
                     return consumes?.Count > 0 &&
-                           (consumes.Count > 1 ||
-                            consumes.Any(p => p.Contains('*')));
+                           (consumes.Count > 1 || consumes.Any(p => p.Contains('*')));
                 }
                 else
                 {
-                    var consumes = parent?.ActualRequestBody?.Content;
-                    return consumes?.Any() == true &&
-                           (consumes.Count > 1 ||
-                            consumes.Any(p => p.Key.Contains('*')));
+                    var consumes = parent?.ActualRequestBody?._content;
+                    return consumes?.Count > 0 &&
+                           (consumes.Count > 1 || consumes.Any(static p => p.Key.Contains('*')));
                 }
             }
         }
