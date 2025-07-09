@@ -29,6 +29,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 [FromForm] System.Collections.Generic.List<string> list)
             {
             }
+
+            [HttpGet]
+            public Foo GetMessage([FromQuery] string messageId)
+            {
+                return new Foo { Bar = $"Hello World ({messageId})" };
+            }
         }
 
         [Fact]
@@ -179,6 +185,37 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Assert
             Assert.DoesNotContain("signal?: AbortSignal", code);
             Assert.DoesNotContain("signal", code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal_and_generate_client_interfaces_interface_contains_signal_param()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                UseAbortSignal = true,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+        {
+            TypeScriptVersion = 2.7m
+        }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("export interface IUrlEncodedRequestConsumingClient", code);
+            Assert.Contains("getMessage(messageId: string | null, signal?: AbortSignal): Promise<Foo | null>;", code);
         }
 
         [Fact]
