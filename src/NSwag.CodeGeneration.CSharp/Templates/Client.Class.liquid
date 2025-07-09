@@ -391,7 +391,8 @@
 {% endif %}
 
                     var status_ = (int)response_.StatusCode;
-{%     for response in operation.Responses -%}
+{%     assign orderedResponses = operation.Responses | sort: "StatusCode" -%}
+{%     for response in orderedResponses -%}
                     if (status_ == {{ response.StatusCode }}{% if response.CheckChunkedStatusCode %} || status_ == 206{% endif %})
                     {
                         {% template Client.Class.ProcessResponse %}
