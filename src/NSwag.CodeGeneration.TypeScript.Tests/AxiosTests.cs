@@ -28,6 +28,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public void AddMessage([FromForm] Foo message, [FromForm] string messageId)
             {
             }
+
+            [HttpGet]
+            public Foo GetMessage([FromQuery] string messageId)
+            {
+                return new Foo { Bar = $"Hello World ({messageId})" };
+            }
         }
 
         [Fact]
@@ -172,6 +178,39 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 Template = TypeScriptTemplate.Axios,
                 UseAbortSignal = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 2.0m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            Assert.Contains("signal?: AbortSignal", code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal_and_generate_client_interfaces_contains_signal_param_in_both_interface_and_concrete_implementation()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = true,
+                GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
                     TypeScriptVersion = 2.0m
