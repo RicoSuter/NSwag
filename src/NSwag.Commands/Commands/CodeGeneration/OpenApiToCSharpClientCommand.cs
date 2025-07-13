@@ -205,6 +205,15 @@ namespace NSwag.Commands.CodeGeneration
             get => Settings.CSharpGeneratorSettings.GenerateNativeRecords;
             set => Settings.CSharpGeneratorSettings.GenerateNativeRecords = value;
         }
+        
+
+        [Argument(Name = nameof(UseRequiredKeyword), IsRequired = false,
+            Description = "Indicate whether the C# 11 'required' keyword should be used for required properties (default: false).")]
+        public bool UseRequiredKeyword
+        {
+            get => Settings.CSharpGeneratorSettings.UseRequiredKeyword;
+            set => Settings.CSharpGeneratorSettings.UseRequiredKeyword = value;
+        }
 
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
                   Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
@@ -264,6 +273,7 @@ namespace NSwag.Commands.CodeGeneration
             get => Settings.QueryNullValue;
             set => Settings.QueryNullValue = value;
         }
+
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {

@@ -105,6 +105,7 @@
       "typeAccessModifier": "public",
       "propertySetterAccessModifier": "",
       "generateNativeRecords": false,
+      "useRequiredKeyword": false,
       "generateContractsOutput": false,
       "contractsNamespace": null,
       "contractsOutputFilePath": null,
