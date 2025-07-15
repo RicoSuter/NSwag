@@ -5,9 +5,9 @@ namespace NSwag.ConsoleCore.Tests
     public class GenerateSampleSpecificationTests
     {
         [Theory]
-        [InlineData("NSwag.Sample.NET80", "net8.0", false)]
+        [InlineData("NSwag.Sample.NET80", "net8.0", true)]
         [InlineData("NSwag.Sample.NET80Minimal", "net8.0", true)]
-        [InlineData("NSwag.Sample.NET90", "net9.0", false)]
+        [InlineData("NSwag.Sample.NET90", "net9.0", true)]
         [InlineData("NSwag.Sample.NET90Minimal", "net9.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
