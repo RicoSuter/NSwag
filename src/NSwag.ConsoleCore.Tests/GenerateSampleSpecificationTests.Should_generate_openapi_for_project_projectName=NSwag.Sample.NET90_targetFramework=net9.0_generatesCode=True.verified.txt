@@ -1,4 +1,4 @@
-{
+﻿{
   "x-generator": "NSwag",
   "openapi": "3.0.0",
   "info": {
@@ -165,38 +165,6 @@
           "Values"
         ],
         "operationId": "Values_GetToString",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Values/id:{id}": {
-      "get": {
-        "tags": [
-          "Values"
-        ],
-        "operationId": "Values_GetToId",
         "parameters": [
           {
             "name": "id",

@@ -26,6 +26,9 @@ namespace NSwag.Sample.NET80.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         public ActionResult<IEnumerable<Person>> Get()
         {
             return Array.Empty<Person>();

@@ -38,7 +38,9 @@ namespace NSwag.CodeGeneration.Models
                 .Select(response => CreateResponseModel(operation, response.Key, response.Value, exceptionSchema, generator, resolver, settings))
                 .ToList();
 
-            var defaultResponse = responses.SingleOrDefault(r => r.StatusCode == "default");
+            responses.Sort(StatusCodeComparer.Instance);
+
+            var defaultResponse = responses.Find(static x => x.StatusCode == "default");
             if (defaultResponse != null)
             {
                 responses.Remove(defaultResponse);
@@ -385,5 +387,24 @@ namespace NSwag.CodeGeneration.Models
 
             return parameters;
         }
+
+        private sealed class StatusCodeComparer : IComparer<TResponseModel>
+        {
+            public static readonly StatusCodeComparer Instance = new();
+
+            private StatusCodeComparer()
+            {
+            }
+
+            public int Compare(TResponseModel x, TResponseModel y)
+            {
+                if (int.TryParse(x.StatusCode, out var xStatus) && int.TryParse(y.StatusCode, out var yStatus))
+                {
+                    return xStatus.CompareTo(yStatus);
+                }
+
+                return StringComparer.OrdinalIgnoreCase.Compare(x.StatusCode, y.StatusCode);
+            }
+        }
     }
-};
+}
