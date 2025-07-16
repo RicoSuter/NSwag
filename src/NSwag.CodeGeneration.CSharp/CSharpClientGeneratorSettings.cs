@@ -21,7 +21,7 @@ namespace NSwag.CodeGeneration.CSharp
             ClientClassAccessModifier = "public";
             ClientInterfaceAccessModifier = "public";
             UseBaseUrl = true;
-            HttpClientType = "System.Net.Http.HttpClient";
+            HttpClientType = GlobalSystemNamespaceAlias + ".Net.Http.HttpClient";
             WrapDtoExceptions = true;
             DisposeHttpClient = true;
             ParameterDateTimeFormat = "s";

@@ -42,7 +42,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool HasBaseClass => !string.IsNullOrEmpty(BaseClass);
 
         /// <summary>Gets the ASP.NET framework namespace.</summary>
-        public string AspNetNamespace => IsAspNetCore ? "Microsoft.AspNetCore.Mvc" : "System.Web.Http";
+        public string AspNetNamespace => IsAspNetCore ? "Microsoft.AspNetCore.Mvc" : _settings.GlobalSystemNamespaceAlias + ".Web.Http";
 
         /// <summary>Gets or sets a value indicating whether the output should target ASP.NET Core.</summary>
         public bool IsAspNetCore => _settings.ControllerTarget == CSharpControllerTarget.AspNetCore;
@@ -84,7 +84,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public bool GenerateModelValidationAttributes => _settings.GenerateModelValidationAttributes;
 
         /// <summary>Gets the type of the attribute used to specify a parameter as required.</summary>
-        public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : "System.ComponentModel.DataAnnotations.Required";
+        public string RequiredAttributeType => IsAspNetCore ? "Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired" : _settings.GlobalSystemNamespaceAlias + ".ComponentModel.DataAnnotations.Required";
 
         /// <summary>Gets the Title.</summary>
         public string Title => _document.Info.Title;

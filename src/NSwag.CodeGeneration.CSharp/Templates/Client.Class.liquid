@@ -1,5 +1,5 @@
 {% template Client.Class.Annotations %}
-[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+[{{ GlobalSystemNamespaceAlias }}.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
 {% if UseBaseUrl -%}
@@ -12,12 +12,12 @@
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    private static System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
+    private static {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings = new {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
     private {{ JsonSerializerSettingsType }} _instanceRequestSettings;
-    private static System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
+    private static {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings = new {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
     private {{ JsonSerializerSettingsType }} _instanceResponseSettings;
 {% else -%}
-    private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
+    private static {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}> _settings = new {{ GlobalSystemNamespaceAlias }}.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
     private {{ JsonSerializerSettingsType }} _instanceSettings;
 {% endif -%}
 
@@ -78,7 +78,7 @@
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
         settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 {% endif -%}
-{% if UseSystemTextJson == true and JsonConvertersArrayCode contains "System.Text.Json.Serialization.JsonConverter[]" -%}
+{% if UseSystemTextJson == true and JsonConvertersArrayCode contains ".Text.Json.Serialization.JsonConverter[]" -%}
         var converters = {{ JsonConvertersArrayCode }};
         foreach(var converter in converters)
             settings.Converters.Add(converter);
@@ -123,9 +123,9 @@
     partial void Initialize();
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
-    partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
-    partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-    partial void ProcessResponse({{ HttpClientType }} client, System.Net.Http.HttpResponseMessage response);
+    partial void PrepareRequest({{ HttpClientType }} client, {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpRequestMessage request, string url);
+    partial void PrepareRequest({{ HttpClientType }} client, {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpRequestMessage request, {{ GlobalSystemNamespaceAlias }}.Text.StringBuilder urlBuilder);
+    partial void ProcessResponse({{ HttpClientType }} client, {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpResponseMessage response);
 {% endif -%}
 {% for operation in Operations %}
 {%     if GenerateOptionalParameters == false -%}
@@ -133,7 +133,7 @@
     {% template Client.Method.Annotations %}
     {{ operation.MethodAccessModifier }} virtual {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
-        return {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None);
+        return {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}{{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken.None);
     }
 
 {%     endif -%}
@@ -142,32 +142,32 @@
     {% template Client.Method.Annotations %}
     {{ operation.MethodAccessModifier }} virtual {{ operation.SyncResultType }} {{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}{% if parameter.IsLast == false %}, {% endif %}{% endfor %})
     {
-        {% if operation.HasResult or operation.WrapResponse %}return {% endif %}System.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        {% if operation.HasResult or operation.WrapResponse %}return {% endif %}{{ GlobalSystemNamespaceAlias }}.Threading.Tasks.Task.Run(async () => await {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.VariableName }}, {% endfor %}{{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken.None)).GetAwaiter().GetResult();
     }
 
 {%     endif -%}
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     {% template Client.Method.Documentation %}
     {% template Client.Method.Annotations %}
-    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}System.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default(System.Threading.CancellationToken){% endif %})
+    {{ operation.MethodAccessModifier }} virtual async {{ operation.ResultType }} {{ operation.ActualOperationName }}Async({% for parameter in operation.Parameters %}{{ parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}, {% endfor %}{{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken cancellationToken{% if GenerateOptionalParameters %} = default({{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken){% endif %})
     {
 {%     for parameter in operation.PathParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ parameter.VariableName }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     for parameter in operation.QueryParameters -%}
 {%         if parameter.IsNullable == false and parameter.IsRequired -%}
         if ({{ parameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+            throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ parameter.VariableName }}");
 
 {%         endif -%}
 {%     endfor -%}
 {%     if operation.HasContent and operation.ContentParameter.IsRequired -%}
         if ({{ operation.ContentParameter.VariableName }} == null)
-            throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
+            throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
 {%     endif -%}
 {%     if InjectHttpClient -%}
@@ -187,13 +187,13 @@
 {%     if UseHttpRequestMessageCreationMethod -%}
             using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
 {%     else -%}
-            using (var request_ = new System.Net.Http.HttpRequestMessage())
+            using (var request_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpRequestMessage())
 {%     endif -%}
             {
 {%     for parameter in operation.HeaderParameters %}
 {%         if parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ parameter.VariableName }}");
                 {% template Client.Class.HeaderParameter %}
 {%         else -%}
                 if ({{ parameter.VariableName }} != null)
@@ -203,47 +203,47 @@
 {%     if operation.HasContent -%}
 {%         if operation.HasBinaryBodyParameter -%}
 {%             if operation.ContentParameter.HasBinaryBodyWithMultipleMimeTypes -%}
-                var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }}.Data);
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ operation.ContentParameter.VariableName }}.ContentType);
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }}.Data);
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ operation.ContentParameter.VariableName }}.ContentType);
 {%             else -%}
-                var content_ = new System.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StreamContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%             endif -%}
 {%         elsif operation.HasXmlBodyParameter -%}
-                var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.ConsumesOnlyFormUrlEncoded -%}
-                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, JsonSerializerSettings);
-                var dictionary_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<System.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
-                var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                var json_ = {% if UseSystemTextJson %}{{ GlobalSystemNamespaceAlias }}.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, JsonSerializerSettings);
+                var dictionary_ = {% if UseSystemTextJson %}{{ GlobalSystemNamespaceAlias }}.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<{{ GlobalSystemNamespaceAlias }}.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.FormUrlEncodedContent(dictionary_);
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.HasPlainTextBodyParameter -%}
-                var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
-                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
-                var content_ = new System.Net.Http.{% if UseSystemTextJson %}ByteArrayContent{% else %}StringContent{% endif %}(json_);
-                content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+                var json_ = {% if UseSystemTextJson %}{{ GlobalSystemNamespaceAlias }}.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.{% if UseSystemTextJson %}ByteArrayContent{% else %}StringContent{% endif %}(json_);
+                content_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         endif -%}
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
 {%             if operation.ConsumesOnlyFormUrlEncoded -%}
-                var keyValues_ = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
+                var keyValues_ = new {{ GlobalSystemNamespaceAlias }}.Collections.Generic.List<{{ GlobalSystemNamespaceAlias }}.Collections.Generic.KeyValuePair<string, string>>();
 {%                 for parameter in operation.FormParameters -%}
 {%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
-                    keyValues_.Add(new System.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+                    keyValues_.Add(new {{ GlobalSystemNamespaceAlias }}.Collections.Generic.KeyValuePair<string, string>("{{ parameter.Name }}", ConvertToString({{ parameter.VariableName }}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
 {%                 endfor -%}
-                request_.Content = new System.Net.Http.FormUrlEncodedContent(keyValues_);
+                request_.Content = new {{ GlobalSystemNamespaceAlias }}.Net.Http.FormUrlEncodedContent(keyValues_);
 {%             else -%}
-                var boundary_ = System.Guid.NewGuid().ToString();
-                var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                var boundary_ = {{ GlobalSystemNamespaceAlias }}.Guid.NewGuid().ToString();
+                var content_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.MultipartFormDataContent(boundary_);
                 content_.Headers.Remove("Content-Type");
                 content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
 {%                 for parameter in operation.FormParameters %}
@@ -251,7 +251,7 @@
                 if ({{ parameter.VariableName }} != null)
 {%                     else -%}
                 if ({{ parameter.VariableName }} == null)
-                    throw new System.ArgumentNullException("{{ parameter.VariableName }}");
+                    throw new {{ GlobalSystemNamespaceAlias }}.ArgumentNullException("{{ parameter.VariableName }}");
                 else
 {%                     endif -%}
                 {
@@ -259,42 +259,42 @@
 {%                         if parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
                     {
-                        var content_{{ parameter.VariableName }}_ = new System.Net.Http.StreamContent(item_.Data);
+                        var content_{{ parameter.VariableName }}_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StreamContent(item_.Data);
                         if (!string.IsNullOrEmpty(item_.ContentType))
-                            content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(item_.ContentType);
+                            content_{{ parameter.VariableName }}_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse(item_.ContentType);
                         content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", item_.FileName ?? "{{ parameter.Name }}");
                     }
 {%                         else -%}
-                    var content_{{ parameter.VariableName }}_ = new System.Net.Http.StreamContent({{ parameter.VariableName }}.Data);
+                    var content_{{ parameter.VariableName }}_ = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StreamContent({{ parameter.VariableName }}.Data);
                     if (!string.IsNullOrEmpty({{ parameter.VariableName }}.ContentType))
-                        content_{{ parameter.VariableName }}_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
+                        content_{{ parameter.VariableName }}_.Headers.ContentType = {{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeHeaderValue.Parse({{ parameter.VariableName }}.ContentType);
                     content_.Add(content_{{ parameter.VariableName }}_, "{{ parameter.Name }}", {{ parameter.VariableName }}.FileName ?? "{{ parameter.Name }}");
 {%                         endif -%}
 {%                     elsif parameter.IsArray -%}
                     foreach (var item_ in {{ parameter.VariableName }})
                     {
-                        content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
+                        content_.Add(new {{ GlobalSystemNamespaceAlias }}.Net.Http.StringContent(ConvertToString(item_, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
                     }
 {%                     elsif parameter.IsObject -%}
-                    var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
-                    content_.Add(new System.Net.Http.{% if UseSystemTextJson %}ByteArrayContent(json_{% else %}StringContent(json_, System.Text.Encoding.UTF8, "application/json"{% endif %}), "{{ parameter.Name }}");
+                    var json_ = {% if UseSystemTextJson %}{{ GlobalSystemNamespaceAlias }}.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
+                    content_.Add(new {{ GlobalSystemNamespaceAlias }}.Net.Http.{% if UseSystemTextJson %}ByteArrayContent(json_{% else %}StringContent(json_, {{ GlobalSystemNamespaceAlias }}.Text.Encoding.UTF8, "application/json"{% endif %}), "{{ parameter.Name }}");
 {%                     else -%}
-                    content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
+                    content_.Add(new {{ GlobalSystemNamespaceAlias }}.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
                 }
 {%                 endfor -%}
                 request_.Content = content_;
 {%             endif -%}
 {%         elsif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Consumes }}");
+                request_.Content = new {{ GlobalSystemNamespaceAlias }}.Net.Http.StringContent(string.Empty, {{ GlobalSystemNamespaceAlias }}.Text.Encoding.UTF8, "{{ operation.Consumes }}");
 {%         endif -%}
 {%     endif -%}
-                request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
+                request_.Method = new {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
-                request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
+                request_.Headers.Accept.Add({{ GlobalSystemNamespaceAlias }}.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
 {%     endif -%}
 
-                var urlBuilder_ = new System.Text.StringBuilder();
+                var urlBuilder_ = new {{ GlobalSystemNamespaceAlias }}.Text.StringBuilder();
                 {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
@@ -362,7 +362,7 @@
 {% endif -%}
 
                 var url_ = urlBuilder_.ToString();
-                request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                request_.RequestUri = new {{ GlobalSystemNamespaceAlias }}.Uri(url_, {{ GlobalSystemNamespaceAlias }}.UriKind.RelativeOrAbsolute);
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods -%}
                 await PrepareRequestAsync(client_, request_, url_, cancellationToken).ConfigureAwait(false);
@@ -371,11 +371,11 @@
 {% endif -%}
                 {% template Client.Class.BeforeSend %}
 
-                var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                var response_ = await client_.SendAsync(request_, {{ GlobalSystemNamespaceAlias }}.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 var disposeResponse_ = true;
                 try
                 {
-                    var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                    var headers_ = new {{ GlobalSystemNamespaceAlias }}.Collections.Generic.Dictionary<string, {{ GlobalSystemNamespaceAlias }}.Collections.Generic.IEnumerable<string>>();
                     foreach (var item_ in response_.Headers)
                         headers_[item_.Key] = item_.Value;
                     if (response_.Content != null && response_.Content.Headers != null)
@@ -475,8 +475,8 @@
         public string Text { get; }
     }
 
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    private static System.Threading.Tasks.Task<string> ReadAsStringAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    [{{ GlobalSystemNamespaceAlias }}.Runtime.CompilerServices.MethodImpl({{ GlobalSystemNamespaceAlias }}.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static {{ GlobalSystemNamespaceAlias }}.Threading.Tasks.Task<string> ReadAsStringAsync({{ GlobalSystemNamespaceAlias }}.Net.Http.HttpContent content, {{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken cancellationToken)
     {
 #if NET5_0_OR_GREATER
         return content.ReadAsStringAsync(cancellationToken);
@@ -485,8 +485,8 @@
 #endif
     }
 
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    private static System.Threading.Tasks.Task<System.IO.Stream> ReadAsStreamAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    [{{ GlobalSystemNamespaceAlias }}.Runtime.CompilerServices.MethodImpl({{ GlobalSystemNamespaceAlias }}.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static {{ GlobalSystemNamespaceAlias }}.Threading.Tasks.Task<{{ GlobalSystemNamespaceAlias }}.IO.Stream> ReadAsStreamAsync({{ GlobalSystemNamespaceAlias }}.Net.Http.HttpContent content, {{ GlobalSystemNamespaceAlias }}.Threading.CancellationToken cancellationToken)
     {
 #if NET5_0_OR_GREATER
         return content.ReadAsStreamAsync(cancellationToken);

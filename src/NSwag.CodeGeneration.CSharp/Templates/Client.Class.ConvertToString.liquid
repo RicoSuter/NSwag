@@ -1,7 +1,7 @@
 ﻿{%              if GenerateNullableReferenceTypes -%}
-private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+private string ConvertToString(object? value, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo cultureInfo)
 {%              else -%}
-private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+private string ConvertToString(object value, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
     if (value == null)
@@ -9,33 +9,33 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
         return "";
     }
 
-    if (value is System.Enum)
+    if (value is {{ GlobalSystemNamespaceAlias }}.Enum)
     {
-        var name = System.Enum.GetName(value.GetType(), value);
+        var name = {{ GlobalSystemNamespaceAlias }}.Enum.GetName(value.GetType(), value);
         if (name != null)
         {
-            var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+            var field = {{ GlobalSystemNamespaceAlias }}.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
             if (field != null)
             {
-                var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
-                    as System.Runtime.Serialization.EnumMemberAttribute;
+                var attribute = {{ GlobalSystemNamespaceAlias }}.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof({{ GlobalSystemNamespaceAlias }}.Runtime.Serialization.EnumMemberAttribute)) 
+                    as {{ GlobalSystemNamespaceAlias }}.Runtime.Serialization.EnumMemberAttribute;
                 if (attribute != null)
                 {
                     return attribute.Value != null ? attribute.Value : name;
                 }
             }
 
-            var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            var converted = {{ GlobalSystemNamespaceAlias }}.Convert.ToString({{ GlobalSystemNamespaceAlias }}.Convert.ChangeType(value, {{ GlobalSystemNamespaceAlias }}.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
             return converted == null ? string.Empty : converted;
         }
     }
     else if (value is bool) 
     {
-        return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+        return {{ GlobalSystemNamespaceAlias }}.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
     }
     else if (value is byte[])
     {
-        return System.Convert.ToBase64String((byte[]) value);
+        return {{ GlobalSystemNamespaceAlias }}.Convert.ToBase64String((byte[]) value);
     }
     else if (value is string[])
     {
@@ -43,7 +43,7 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
     }
     else if (value.GetType().IsArray)
     {
-        var valueArray = (System.Array)value;
+        var valueArray = ({{ GlobalSystemNamespaceAlias }}.Array)value;
         var valueTextArray = new string[valueArray.Length];
         for (var i = 0; i < valueArray.Length; i++)
         {
@@ -52,6 +52,6 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
         return string.Join(",", valueTextArray);
     }
 
-    var result = System.Convert.ToString(value, cultureInfo);
+    var result = {{ GlobalSystemNamespaceAlias }}.Convert.ToString(value, cultureInfo);
     return result == null ? "" : result;
 }
