@@ -1,8 +1,8 @@
-﻿public class FromHeaderAttribute : System.Web.Http.ParameterBindingAttribute
+﻿public class FromHeaderAttribute : {{ GlobalSystemNamespaceAlias }}.Web.Http.ParameterBindingAttribute
 {
     public string Name { get; set; }
 
-    public override System.Web.Http.Controllers.HttpParameterBinding GetBinding(System.Web.Http.Controllers.HttpParameterDescriptor parameter)
+    public override {{ GlobalSystemNamespaceAlias }}.Web.Http.Controllers.HttpParameterBinding GetBinding({{ GlobalSystemNamespaceAlias }}.Web.Http.Controllers.HttpParameterDescriptor parameter)
     {
         return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
     }

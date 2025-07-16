@@ -1,37 +1,37 @@
 {% if parameter.IsDateTimeArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item_.ToString("{{ ParameterDateTimeFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDateArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(item_.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item_.ToString("{{ ParameterDateFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDateTime -%}
-urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
 {% elsif parameter.IsDate -%}
-urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
 {% elsif parameter.IsExplodedArray -%}
-    foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+    foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString(item_, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsArray -%}
-urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=");
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}") + "=");
 foreach (var item_ in {{ parameter.VariableName }})
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
+    urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString(item_, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append(",");
 }
 urlBuilder_.Length--;
 urlBuilder_.Append("&");
 {% elsif parameter.IsDictionary -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item_.Key)).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString(item_.Value, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDeepObject -%}
 {%     for property in parameter.PropertyNames -%}
 if ({{parameter.Name}}.{{property.Name}} != null)
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+    urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&');
 }
 {%     endfor -%}
 {%     for property in parameter.CollectionPropertyNames -%}
 if ({{parameter.Name}}.{{property.Name}} != null && {{parameter.Name}}.{{property.Name}}.Count > 0)
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]")).Append('=');
+    urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{parameter.Name}}[{{property.Key}}]")).Append('=');
     foreach (var p_ in {{parameter.Name}}.{{property.Name}})
     {
-        urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(p_, System.Globalization.CultureInfo.InvariantCulture))).Append(',');
+        urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString(p_, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append(',');
     }
     urlBuilder_.Length--;
     urlBuilder_.Append('&');
@@ -41,12 +41,12 @@ if ({{parameter.Name}}.{{property.Name}} != null && {{parameter.Name}}.{{propert
 {%     for property in parameter.PropertyNames -%}
 if ({{parameter.Name}}.{{property.Name}} != null)
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString("{{property.Key}}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+    urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{property.Key}}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString({{parameter.Name}}.{{property.Name}}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&');
 }
 {%     endfor -%}
 {% elsif parameter.HasAdditionalProperties == false -%}
-urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
 {% endif -%}
 {% if parameter.HasAdditionalProperties -%}
-foreach (var item_ in {{parameter.Name}}.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{parameter.Name}}.AdditionalProperties) { urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item_.Key)).Append('=').Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString(item_.Value, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% endif -%}

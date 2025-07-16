@@ -41,5 +41,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
         public string JsonSerializerSettingsType => _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.SystemTextJson
             ? $"{_settings.GlobalSystemNamespaceAlias}.Text.Json.JsonSerializerOptions"
             : "Newtonsoft.Json.JsonSerializerSettings";
+
+        /// <summary>Gets the configured alias for the the global System namespace</summary>
+        public string GlobalSystemNamespaceAlias => _settings.GlobalSystemNamespaceAlias;
     }
 }

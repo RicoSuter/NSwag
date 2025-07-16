@@ -192,6 +192,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             }
         }
 
+        /// <summary>Gets the configured alias for the the global System namespace</summary>
+        public string GlobalSystemNamespaceAlias => _settings.GlobalSystemNamespaceAlias;
+
         /// <summary>Gets a value indicating whether a route name is available.</summary>
         public bool HasRouteName => RouteName != null;
 

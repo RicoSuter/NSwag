@@ -65,6 +65,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to generate implementation code.</summary>
         public bool GenerateImplementation => _outputType is ClientGeneratorOutputType.Full or ClientGeneratorOutputType.Implementation;
 
+        /// <summary>Gets the configured alias for the the global System namespace</summary>
+        public string GlobalSystemNamespaceAlias => _settings.GlobalSystemNamespaceAlias;
+
         /// <summary>Gets or sets a value indicating whether to generate client types.</summary>
         public bool GenerateClientClasses => _settings.GenerateClientClasses;
 
