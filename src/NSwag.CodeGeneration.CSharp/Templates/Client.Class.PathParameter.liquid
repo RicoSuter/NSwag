@@ -4,7 +4,7 @@
     foreach (var item in {{ parameter.VariableName }})
     {
         if (isAfterFirst) urlBuilder_.Append(',');
-        urlBuilder_.Append(System.Uri.EscapeDataString(item.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item.ToString("{{ ParameterDateTimeFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
         isAfterFirst = true;
     }
 }
@@ -14,24 +14,24 @@
     foreach (var item in {{ parameter.VariableName }})
     {
         if (isAfterFirst) urlBuilder_.Append(',');
-        urlBuilder_.Append(System.Uri.EscapeDataString(item.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+        urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(item.ToString("{{ ParameterDateFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
         isAfterFirst = true;
     }
 }
 {% elsif parameter.IsDateTime -%}
-urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateTimeFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
 {% elsif parameter.IsDate -%}
-urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateFormat }}", {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
 {% elsif parameter.IsArray -%}
 {
     bool isAfterFirst = false;
     foreach (var item in {{ parameter.VariableName }})
     {
         if (isAfterFirst) urlBuilder_.Append(',');
-        urlBuilder_.Append(ConvertToString(item, System.Globalization.CultureInfo.InvariantCulture));
+        urlBuilder_.Append(ConvertToString(item, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture));
         isAfterFirst = true;
     }
 }
 {% else -%}
-urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)));
+urlBuilder_.Append({{ GlobalSystemNamespaceAlias }}.Uri.EscapeDataString(ConvertToString({{ parameter.VariableName }}, {{ GlobalSystemNamespaceAlias }}.Globalization.CultureInfo.InvariantCulture)));
 {%- endif %}

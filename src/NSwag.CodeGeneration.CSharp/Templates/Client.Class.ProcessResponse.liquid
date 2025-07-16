@@ -1,7 +1,7 @@
 {% if response.HasType -%}
 {%     if response.IsFile -%}
 {%         if response.IsSuccess -%}
-var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await ReadAsStreamAsync(response_.Content, cancellationToken).ConfigureAwait(false);
+var responseStream_ = response_.Content == null ? {{ GlobalSystemNamespaceAlias }}.IO.Stream.Null : await ReadAsStreamAsync(response_.Content, cancellationToken).ConfigureAwait(false);
 var fileResponse_ = new FileResponse(status_, headers_, responseStream_, {% if InjectHttpClient or DisposeHttpClient == false %}null{% else %}client_{% endif %}, response_);
 disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
 return fileResponse_;
@@ -11,7 +11,7 @@ throw new {{ ExceptionClass }}<{{ response.Type }}>("{{ response.ExceptionDescri
 {%         endif -%}
 {%     elsif response.IsPlainText -%}
 var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
-var result_ = ({{ response.Type }})System.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
+var result_ = ({{ response.Type }}){{ GlobalSystemNamespaceAlias }}.Convert.ChangeType(responseData_, typeof({{ response.Type }}));
 {%         if response.IsSuccess -%}
 {%             if operation.WrapResponse -%}
 return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, result_);
