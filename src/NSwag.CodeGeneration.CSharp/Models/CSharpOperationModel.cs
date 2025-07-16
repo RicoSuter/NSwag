@@ -135,8 +135,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets or sets the type of the result.</summary>
         public override string ResultType => SyncResultType == "void"
-                    ? "System.Threading.Tasks.Task"
-                    : "System.Threading.Tasks.Task<" + SyncResultType + ">";
+                    ? _settings.GlobalSystemNamespaceAlias + ".Threading.Tasks.Task"
+                    : _settings.GlobalSystemNamespaceAlias + ".Threading.Tasks.Task<" + SyncResultType + ">";
 
         /// <summary>Gets or sets the type of the exception.</summary>
         public override string ExceptionType
@@ -146,7 +146,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 var response = _operation.GetActualResponse((code, _) => !HttpUtilities.IsSuccessStatusCode(code));
                 if (response == null)
                 {
-                    return "System.Exception";
+                    return _settings.GlobalSystemNamespaceAlias + ".Exception";
                 }
 
                 var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
@@ -248,32 +248,32 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     if (schema.Type == JsonObjectType.Array && schema.Item.IsBinary)
                     {
                         return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
-                            "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
-                            "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                            _settings.GlobalSystemNamespaceAlias + ".Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                            _settings.GlobalSystemNamespaceAlias + ".Collections.Generic.ICollection<" + _settings.GlobalSystemNamespaceAlias + ".Web.HttpPostedFileBase>";
                     }
                     else
                     {
                         return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
                             "Microsoft.AspNetCore.Http.IFormFile" :
-                            "System.Web.HttpPostedFileBase";
+                            _settings.GlobalSystemNamespaceAlias + ".Web.HttpPostedFileBase";
                     }
                 }
                 else
                 {
-                    return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
+                    return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : _settings.GlobalSystemNamespaceAlias + ".IO.Stream";
                 }
             }
 
             if (schema.Type == JsonObjectType.Array && (schema.Item?.IsBinary ?? false))
             {
-                return "System.Collections.Generic.IEnumerable<FileParameter>";
+                return _settings.GlobalSystemNamespaceAlias + ".Collections.Generic.IEnumerable<FileParameter>";
             }
 
             if (schema.IsBinary)
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 {
-                    return "System.Collections.Generic.IEnumerable<FileParameter>";
+                    return _settings.GlobalSystemNamespaceAlias + ".Collections.Generic.IEnumerable<FileParameter>";
                 }
 
                 return "FileParameter";
