@@ -68,7 +68,92 @@ namespace NSwag.CodeGeneration.CSharp
         /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
         public string ParameterDictionaryType { get; set; }
 
-        /// <summary>TODO: Provide a comment.</summary>
-        public string GlobalSystemNamespaceAlias { get; set; }
+        private string globalSystemNamespaceAlias;
+
+        /// <summary>Gets or sets an override name for the global System namespace.</summary>
+        public string GlobalSystemNamespaceAlias {
+            get => globalSystemNamespaceAlias;
+            set
+            {
+                globalSystemNamespaceAlias = value;
+                HandleGlobalSystemNamespaceChange();
+            }
+        }
+
+        /// <summary>
+        /// Called when the <see cref="GlobalSystemNamespaceAlias"/> property is set.
+        /// </summary>
+        protected virtual void HandleGlobalSystemNamespaceChange()
+        {
+            if (ResponseArrayType == "System.Collections.Generic.ICollection")
+            {
+                ResponseArrayType = GlobalSystemNamespaceAlias + ".Collections.Generic.ICollection";
+            }
+
+            if (ResponseDictionaryType == "System.Collections.Generic.IDictionary")
+            {
+                ResponseDictionaryType = GlobalSystemNamespaceAlias + ".Collections.Generic.IDictionary";
+            }
+
+            if (ParameterArrayType == "System.Collections.Generic.IEnumerable")
+            {
+                ParameterArrayType = GlobalSystemNamespaceAlias + ".Collections.Generic.IEnumerable";
+            }
+
+            if (ParameterDictionaryType == "System.Collections.Generic.IDictionary")
+            {
+                ParameterDictionaryType = GlobalSystemNamespaceAlias + ".Collections.Generic.IDictionary";
+            }
+
+            if (CSharpGeneratorSettings.DateType == "System.DateTimeOffset")
+            {
+                CSharpGeneratorSettings.DateType = GlobalSystemNamespaceAlias + ".DateTimeOffset";
+            }
+
+            if (CSharpGeneratorSettings.DateTimeType == "System.DateTimeOffset")
+            {
+                CSharpGeneratorSettings.DateTimeType = GlobalSystemNamespaceAlias + ".DateTimeOffset";
+            }
+
+            if (CSharpGeneratorSettings.TimeType == "System.TimeSpan")
+            {
+                CSharpGeneratorSettings.TimeType = GlobalSystemNamespaceAlias + ".TimeSpan";
+            }
+
+            if (CSharpGeneratorSettings.TimeSpanType == "System.TimeSpan")
+            {
+                CSharpGeneratorSettings.TimeSpanType = GlobalSystemNamespaceAlias + ".TimeSpan";
+            }
+
+            if (CSharpGeneratorSettings.ArrayType == "System.Collections.Generic.ICollection")
+            {
+                CSharpGeneratorSettings.ArrayType = GlobalSystemNamespaceAlias + ".Collections.Generic.ICollection";
+            }
+
+            if (CSharpGeneratorSettings.ArrayInstanceType == "System.Collections.ObjectModel.Collection")
+            {
+                CSharpGeneratorSettings.ArrayInstanceType = GlobalSystemNamespaceAlias + ".Collections.ObjectModel.Collection";
+            }
+
+            if (CSharpGeneratorSettings.ArrayBaseType == "System.Collections.ObjectModel.Collection")
+            {
+                CSharpGeneratorSettings.ArrayBaseType = GlobalSystemNamespaceAlias + ".Collections.ObjectModel.Collection";
+            }
+
+            if (CSharpGeneratorSettings.DictionaryType == "System.Collections.Generic.IDictionary")
+            {
+                CSharpGeneratorSettings.DictionaryType = GlobalSystemNamespaceAlias + ".Collections.Generic.IDictionary";
+            }
+
+            if (CSharpGeneratorSettings.DictionaryInstanceType == "System.Collections.Generic.Dictionary")
+            {
+                CSharpGeneratorSettings.DictionaryInstanceType = GlobalSystemNamespaceAlias + ".Collections.Generic.Dictionary";
+            }
+
+            if (CSharpGeneratorSettings.DictionaryBaseType == "System.Collections.Generic.Dictionary")
+            {
+                CSharpGeneratorSettings.DictionaryBaseType = GlobalSystemNamespaceAlias + ".Collections.Generic.Dictionary";
+            }
+        }
     }
 }

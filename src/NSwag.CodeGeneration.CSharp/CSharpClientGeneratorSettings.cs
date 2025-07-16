@@ -116,5 +116,16 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <inheritdoc />
+        protected override void HandleGlobalSystemNamespaceChange()
+        {
+            if (HttpClientType == "System.Net.Http.HttpClient")
+            {
+                HttpClientType = GlobalSystemNamespaceAlias + ".Net.Http.HttpClient";
+            }
+
+            base.HandleGlobalSystemNamespaceChange();
+        }
     }
 }
