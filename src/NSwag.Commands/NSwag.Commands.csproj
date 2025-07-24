@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NConsole" Version="3.12.6605.26941" />
+    <PackageReference Include="NConsole" />
   </ItemGroup>
 
   <ItemGroup>
