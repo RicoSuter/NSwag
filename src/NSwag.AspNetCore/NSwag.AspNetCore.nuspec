@@ -34,8 +34,6 @@
                 <dependency id="Microsoft.AspNetCore.StaticFiles" version="$microsoftAspNetCoreStaticFilesPackageVersion$" exclude="Build,Analyzers" />
                 <dependency id="Microsoft.Extensions.ApiDescription.Server" version="$microsoftExtensionsApiDescriptionServerPackageVersion$" />
                 <dependency id="Microsoft.Extensions.FileProviders.Embedded" version="$microsoftExtensionsFileProvidersEmbeddedPackageVersion$" exclude="Build,Analyzers" />
-                <dependency id="System.IO.FileSystem" version="$systemIOFileSystemPackageVersion$" exclude="Build,Analyzers" />
-                <dependency id="System.Xml.XPath.XDocument" version="$systemXmlXPathXDocumentPackageVersion$" exclude="Build,Analyzers" />
             </group>
             <group targetFramework="net8.0">
                 <dependency id="NSwag.Annotations" version="$version$" exclude="Build,Analyzers" />
