@@ -47,6 +47,21 @@
         <ComponentGroup Id="AppExe">
             <Component Id="NSwagExeComponent" Directory="INSTALLFOLDER">
                 <File Id="NSwagExe" Source="$(var.SourcePath)\NSwagStudio.exe" KeyPath="yes" />
+
+                <Shortcut
+                        Id="ApplicationStartMenuShortcut"
+                        Icon="ApplicationIcon"
+                        Name="NSwagStudio"
+                        Description="NSwagStudio"
+                        Target="[#NSwagExe]"
+                        WorkingDirectory="RootDirectory" />
+
+                <ProgId Id="NSwagFile" Description="NSwag Configuration file">
+                    <Extension Id="nswag" ContentType="application/json">
+                        <Verb Id="open" Command="Open" TargetFile="NSwagExe" Argument="&quot;%1&quot;" />
+                    </Extension>
+                </ProgId>
+
             </Component>
         </ComponentGroup>
     </Fragment>
@@ -86,21 +101,7 @@
                         Action="set"
                         System="no" />
 
-                <Shortcut
-                        Id="ApplicationStartMenuShortcut"
-                        Icon="ApplicationIcon"
-                        Name="NSwagStudio"
-                        Description="NSwagStudio"
-                        Target="[#NSwagExe]"
-                        WorkingDirectory="RootDirectory" />
-
                 <RemoveFile Id="RemoveShortcut" Name="NSwagStudio" On="uninstall" />
-
-                <ProgId Id="NSwagFile" Description="NSwag Configuration file">
-                  <Extension Id="nswag" ContentType="application/json">
-                    <Verb Id="open" Command="Open" TargetFile="NSwagExe" Argument="&quot;%1&quot;" />
-                  </Extension>
-                </ProgId>
 
             </Component>
 
