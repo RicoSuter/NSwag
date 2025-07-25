@@ -1,91 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="NSwagStudio" Language="1033"
-           Version="!(bind.FileVersion.filF3BD24AA0D122986D3F6250EA6C47D5B)"
-           Manufacturer="Rico Suter"
-           UpgradeCode="571BBE29-70A5-4062-B478-A8BA84A7F90A">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
 
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Package
+            Name="NSwagStudio"
+            Language="1033"
+            Version="!(bind.FileVersion.filnYMAEBxLTF3CcDAg0eYQImHyMxs)"
+            Manufacturer="Rico Suter"
+            UpgradeCode="571BBE29-70A5-4062-B478-A8BA84A7F90A"
+            InstallerVersion="200">
 
-    <MajorUpgrade AllowSameVersionUpgrades="yes"
-                  DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <MediaTemplate EmbedCab="yes" />
+        <MajorUpgrade
+                AllowSameVersionUpgrades="yes"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
-    <Feature Id="ProductFeature" Title="Installer" Level="1">
-      <ComponentGroupRef Id="SourceComponentGroup" />
-      <ComponentRef Id="ApplicationComponent" />
-    </Feature>
+        <MediaTemplate EmbedCab="yes" />
 
-    <UI>
-      <UIRef Id="WixUI_InstallDir" />
-      <UIRef Id="WixUI_ErrorProgressText" />
+        <Feature Id="ProductFeature" Title="Installer" Level="1">
+            <ComponentGroupRef Id="SourceComponentGroup" />
+            <ComponentRef Id="ApplicationComponent" />
+        </Feature>
 
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PrepareDlg" Order="3">1</Publish>
-      <Publish Dialog="PrepareDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">1</Publish>
-      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"
-               Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
-    </UI>
+        <UI>
+            <ui:WixUI Id="WixUI_InstallDir" />
+            <UIRef Id="WixUI_ErrorProgressText" />
 
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch NSwagStudio" />
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PrepareDlg" Order="3" />
+            <Publish Dialog="PrepareDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3" />
+            <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication"
+                     Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed" />
+        </UI>
 
-    <Property Id="WixShellExecTarget" Value="[#filF3BD24AA0D122986D3F6250EA6C47D5B]" />
-    <CustomAction Id="LaunchApplication"
-                  BinaryKey="WixCA"
-                  DllEntry="WixShellExec"
-                  Impersonate="yes" />
-  </Product>
-  <Fragment>
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="Rico Suter" />
-      </Directory>
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="ApplicationProgramsFolder"
-                   Name="Rico Suter"/>
-      </Directory>
-    </Directory>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch NSwagStudio" />
 
-    <DirectoryRef Id="INSTALLFOLDER">
-      <Directory Id="RootDirectory" Name="NSwagStudio" />
-    </DirectoryRef>
+        <Property Id="WixShellExecTarget" Value="[#filnYMAEBxLTF3CcDAg0eYQImHyMxs]" />
+        <CustomAction Id="LaunchApplication" DllEntry="WixShellExec" Impersonate="yes" BinaryRef="Wix4UtilCA_X86" />
 
-    <Icon Id="ApplicationIcon" SourceFile="$(var.SourcePath)\ApplicationIcon.ico" />
+    </Package>
 
-    <InstallExecuteSequence>
-      <RemoveShortcuts>0</RemoveShortcuts>
-    </InstallExecuteSequence>
+    <Fragment>
 
-    <DirectoryRef Id="ApplicationProgramsFolder">
-      <Component Id="ApplicationComponent">
-        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-        <RemoveFolder Id="ManufacturerProgramsFolder" On="uninstall"/>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="RootDirectory" Name="NSwagStudio" />
+        </DirectoryRef>
 
-        <RegistryValue Root="HKCU"
-                       Key="Software\RicoSuter\NSwagStudio"
-                       Name="installed" Type="integer"
-                       Value="1" KeyPath="yes"/>
+        <Icon Id="ApplicationIcon" SourceFile="$(var.SourcePath)\ApplicationIcon.ico" />
 
-        <Environment Id="PATH" Name="PATH" Value="[RootDirectory]" Permanent="no" Part="last" Action="set" System="no" />
+        <InstallExecuteSequence>
+            <RemoveShortcuts Condition="0" />
+        </InstallExecuteSequence>
 
-        <Shortcut Id="ApplicationStartMenuShortcut"
-                  Icon="ApplicationIcon"
-                  Name="NSwagStudio"
-                  Description="NSwagStudio"
-                  Target="[#filF3BD24AA0D122986D3F6250EA6C47D5B]"
-                  WorkingDirectory="RootDirectory"/>
+        <DirectoryRef Id="ApplicationProgramsFolder">
 
-        <RemoveFile Id="RemoveShortcut"
-                    Name="NSwagStudio"
-                    On="uninstall" />
+            <Component Id="ApplicationComponent" Guid="24057D56-63A4-4330-A46C-B15A0EFF551F">
+                <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+                <RemoveFolder Id="ManufacturerProgramsFolder" On="uninstall" />
 
-        <ProgId Id='NSwagFile' Description='NSwag Configuration file'>
-          <Extension Id='nswag' ContentType='application/json'>
-            <Verb Id='open' Command='Open'
-                  TargetFile='filF3BD24AA0D122986D3F6250EA6C47D5B'
-                  Argument='"%1"' />
-          </Extension>
-        </ProgId>
-      </Component>
-    </DirectoryRef>
-  </Fragment>
+                <RegistryValue
+                        Root="HKCU"
+                        Key="Software\RicoSuter\NSwagStudio"
+                        Name="installed"
+                        Type="integer"
+                        Value="1"
+                        KeyPath="yes" />
+
+                <Environment
+                        Id="PATH"
+                        Name="PATH"
+                        Value="[RootDirectory]"
+                        Permanent="no"
+                        Part="last"
+                        Action="set"
+                        System="no" />
+
+                <Shortcut
+                        Id="ApplicationStartMenuShortcut"
+                        Icon="ApplicationIcon"
+                        Name="NSwagStudio"
+                        Description="NSwagStudio"
+                        Target="[#filnYMAEBxLTF3CcDAg0eYQImHyMxs]"
+                        WorkingDirectory="RootDirectory" />
+
+                <RemoveFile Id="RemoveShortcut" Name="NSwagStudio" On="uninstall" />
+
+                <ProgId Id="NSwagFile" Description="NSwag Configuration file">
+                  <Extension Id="nswag" ContentType="application/json">
+                    <Verb Id="open" Command="Open" TargetFile="filnYMAEBxLTF3CcDAg0eYQImHyMxs" Argument="&quot;%1&quot;" />
+                  </Extension>
+                </ProgId>
+
+            </Component>
+
+        </DirectoryRef>
+
+        <StandardDirectory Id="ProgramFilesFolder">
+            <Directory Id="INSTALLFOLDER" Name="Rico Suter" />
+        </StandardDirectory>
+
+        <StandardDirectory Id="ProgramMenuFolder">
+            <Directory Id="ApplicationProgramsFolder" Name="Rico Suter" />
+        </StandardDirectory>
+
+    </Fragment>
 </Wix>
