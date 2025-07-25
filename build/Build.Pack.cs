@@ -7,11 +7,9 @@ using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
 
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 
 using Project = Microsoft.Build.Evaluation.Project;
@@ -60,9 +58,8 @@ public partial class Build
                     .SetVersion(nugetVersion)
                     .SetConfiguration(Configuration)
                     .SetOutputDirectory(ArtifactsDirectory)
-                    .SetDeterministic(IsServerBuild)
-                    .SetContinuousIntegrationBuild(IsServerBuild)
                     .EnableNoRestore()
+                    .EnableNoBuild()
                 );
             }
 
@@ -70,18 +67,11 @@ public partial class Build
 
             (SourceDirectory / "NSwagStudio.Installer" / "bin").CreateOrCleanDirectory();
 
-            MSBuild(x => x
-                .SetTargetPath(GetProject("NSwagStudio.Installer"))
-                .SetTargets("Rebuild")
-                .SetAssemblyVersion(VersionPrefix)
-                .SetFileVersion(VersionPrefix)
-                .SetInformationalVersion(VersionPrefix)
+            DotNetBuild(x => x
+                .SetProjectFile(GetProject("NSwagStudio.Installer"))
                 .SetConfiguration(Configuration)
-                .SetMaxCpuCount(Environment.ProcessorCount)
-                .SetNodeReuse(IsLocalBuild)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .SetProperty("Deterministic", IsServerBuild)
-                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+                .EnableNoRestore()
+                .SetVerbosity(DotNetVerbosity.minimal)
             );
 
             // gather relevant artifacts

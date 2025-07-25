@@ -16,7 +16,7 @@
 
         <Feature Id="ProductFeature" Title="Installer" Level="1">
             <ComponentGroupRef Id="AppFiles" />
-            <ComponentGroupRef Id="AppExe" />
+            <ComponentRef Id="NSwagExeComponent" />
             <ComponentRef Id="ApplicationComponent" />
         </Feature>
 
@@ -44,29 +44,17 @@
             </Files>
         </ComponentGroup>
 
-        <ComponentGroup Id="AppExe">
-            <Component Id="NSwagExeComponent" Directory="INSTALLFOLDER">
-                <File Id="NSwagExe" Source="$(var.SourcePath)\NSwagStudio.exe" KeyPath="yes" />
+        <Component Id="NSwagExeComponent" Directory="INSTALLFOLDER">
 
-                <Shortcut
-                        Id="ApplicationStartMenuShortcut"
-                        Icon="ApplicationIcon"
-                        Name="NSwagStudio"
-                        Description="NSwagStudio"
-                        Target="[#NSwagExe]"
-                        WorkingDirectory="RootDirectory" />
+            <File Id="NSwagExe" Source="$(var.SourcePath)\NSwagStudio.exe" KeyPath="yes" />
 
-                <ProgId Id="NSwagFile" Description="NSwag Configuration file">
-                    <Extension Id="nswag" ContentType="application/json">
-                        <Verb Id="open" Command="Open" TargetFile="NSwagExe" Argument="&quot;%1&quot;" />
-                    </Extension>
-                </ProgId>
+            <ProgId Id="NSwagFile" Description="NSwag Configuration file">
+                <Extension Id="nswag" ContentType="application/json">
+                    <Verb Id="open" Command="Open" TargetFile="NSwagExe" Argument="&quot;%1&quot;" />
+                </Extension>
+            </ProgId>
 
-            </Component>
-        </ComponentGroup>
-    </Fragment>
-
-    <Fragment>
+        </Component>
 
         <DirectoryRef Id="INSTALLFOLDER">
             <Directory Id="RootDirectory" Name="NSwagStudio" />
@@ -83,6 +71,14 @@
             <Component Id="ApplicationComponent" Guid="24057D56-63A4-4330-A46C-B15A0EFF551F">
                 <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
                 <RemoveFolder Id="ManufacturerProgramsFolder" On="uninstall" />
+
+                <Shortcut
+                        Id="ApplicationStartMenuShortcut"
+                        Icon="ApplicationIcon"
+                        Name="NSwagStudio"
+                        Description="NSwagStudio"
+                        Target="[#NSwagExe]"
+                        WorkingDirectory="RootDirectory" />
 
                 <RegistryValue
                         Root="HKCU"
@@ -108,7 +104,9 @@
         </DirectoryRef>
 
         <StandardDirectory Id="ProgramFilesFolder">
-            <Directory Id="INSTALLFOLDER" Name="Rico Suter" />
+            <Directory Id="ManufacturerFolder" Name="Rico Suter">
+                <Directory Id="INSTALLFOLDER" Name="NSwagStudio" />
+            </Directory>
         </StandardDirectory>
 
         <StandardDirectory Id="ProgramMenuFolder">

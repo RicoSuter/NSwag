@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputName>NSwagStudio</OutputName>
+    <SuppressIces>ICE61;ICE69</SuppressIces>
     <OutputPath>..\..\artifacts\bin\NSwagStudio.Installer\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\..\artifacts\obj\NSwagStudio.Installer\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>SourcePath=..\..\NSwagStudio\$(Configuration)</DefineConstants>
