@@ -6,7 +6,7 @@
     <NoWarn>$(NoWarn);HEAT5149;HEAT5151</NoWarn>
     <OutputPath>..\..\artifacts\bin\NSwagStudio.Installer\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\..\artifacts\obj\NSwagStudio.Installer\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>SourcePath=..\..\artifacts\bin\NSwagStudio\$(Configuration)</DefineConstants>
+    <DefineConstants>SourcePath=..\..\NSwagStudio\$(Configuration)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,15 +23,6 @@
   <ItemGroup>
     <PackageReference Include="WixToolset.Util.wixext" />
     <PackageReference Include="WixToolset.UI.wixext" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <HarvestDirectory Include="..\..\artifacts\bin\NSwagStudio\$(Configuration)">
-      <DirectoryRefId>RootDirectory</DirectoryRefId>
-      <SuppressRootDirectory>true</SuppressRootDirectory>
-      <ComponentGroupName>SourceComponentGroup</ComponentGroupName>
-      <PreprocessorVariable>var.SourcePath</PreprocessorVariable>
-    </HarvestDirectory>
   </ItemGroup>
 
 </Project>

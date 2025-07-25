@@ -3,7 +3,7 @@
     <Package
             Name="NSwagStudio"
             Language="1033"
-            Version="!(bind.FileVersion.filnYMAEBxLTF3CcDAg0eYQImHyMxs)"
+            Version="!(bind.FileVersion.NSwagExe)"
             Manufacturer="Rico Suter"
             UpgradeCode="571BBE29-70A5-4062-B478-A8BA84A7F90A"
             InstallerVersion="200">
@@ -15,7 +15,8 @@
         <MediaTemplate EmbedCab="yes" />
 
         <Feature Id="ProductFeature" Title="Installer" Level="1">
-            <ComponentGroupRef Id="SourceComponentGroup" />
+            <ComponentGroupRef Id="AppFiles" />
+            <ComponentGroupRef Id="AppExe" />
             <ComponentRef Id="ApplicationComponent" />
         </Feature>
 
@@ -31,10 +32,24 @@
 
         <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch NSwagStudio" />
 
-        <Property Id="WixShellExecTarget" Value="[#filnYMAEBxLTF3CcDAg0eYQImHyMxs]" />
+        <Property Id="WixShellExecTarget" Value="[#NSwagExe]" />
         <CustomAction Id="LaunchApplication" DllEntry="WixShellExec" Impersonate="yes" BinaryRef="Wix4UtilCA_X86" />
 
     </Package>
+
+    <Fragment>
+        <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+            <Files Include="$(var.SourcePath)\**">
+                <Exclude Files="$(var.SourcePath)\NSwagStudio.exe" />
+            </Files>
+        </ComponentGroup>
+
+        <ComponentGroup Id="AppExe">
+            <Component Id="NSwagExeComponent" Directory="INSTALLFOLDER">
+                <File Id="NSwagExe" Source="$(var.SourcePath)\NSwagStudio.exe" KeyPath="yes" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
 
     <Fragment>
 
@@ -76,14 +91,14 @@
                         Icon="ApplicationIcon"
                         Name="NSwagStudio"
                         Description="NSwagStudio"
-                        Target="[#filnYMAEBxLTF3CcDAg0eYQImHyMxs]"
+                        Target="[#NSwagExe]"
                         WorkingDirectory="RootDirectory" />
 
                 <RemoveFile Id="RemoveShortcut" Name="NSwagStudio" On="uninstall" />
 
                 <ProgId Id="NSwagFile" Description="NSwag Configuration file">
                   <Extension Id="nswag" ContentType="application/json">
-                    <Verb Id="open" Command="Open" TargetFile="filnYMAEBxLTF3CcDAg0eYQImHyMxs" Argument="&quot;%1&quot;" />
+                    <Verb Id="open" Command="Open" TargetFile="NSwagExe" Argument="&quot;%1&quot;" />
                   </Extension>
                 </ProgId>
 
