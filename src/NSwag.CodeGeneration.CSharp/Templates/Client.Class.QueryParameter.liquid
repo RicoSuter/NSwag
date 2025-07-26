@@ -9,13 +9,21 @@ urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('
 {% elsif parameter.IsExplodedArray -%}
     foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsArray -%}
-urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}") + "=");
+bool isAfterFirst = false;
 foreach (var item_ in {{ parameter.VariableName }})
 {
-    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
+    if (!isAfterFirst)
+    {
+        urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=');
+    }
+    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(',');
+    isAfterFirst = true;
 }
-urlBuilder_.Length--;
-urlBuilder_.Append("&");
+if (isAfterFirst)
+{
+    urlBuilder_.Length--;
+    urlBuilder_.Append('&');
+}
 {% elsif parameter.IsDictionary -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDeepObject -%}
