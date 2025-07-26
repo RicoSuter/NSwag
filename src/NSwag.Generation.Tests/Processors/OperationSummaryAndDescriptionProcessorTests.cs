@@ -46,7 +46,7 @@ namespace NSwag.Generation.Tests.Processors
             //// Act
             processor.Process(context);
 
-            //// Assert
+            // Assert
             var summary = context.OperationDescription.Operation.Summary;
             Assert.Equal("This method has a summary.", summary);
 
@@ -67,7 +67,7 @@ namespace NSwag.Generation.Tests.Processors
             //// Act
             processor.Process(context);
 
-            //// Assert
+            // Assert
             var summary = context.OperationDescription.Operation.Summary;
             Assert.Equal("This method has a description.", summary);
 
@@ -88,7 +88,7 @@ namespace NSwag.Generation.Tests.Processors
             //// Act
             processor.Process(context);
 
-            //// Assert
+            // Assert
             var summary = context.OperationDescription.Operation.Summary;
             Assert.Equal("This method has a summary.", summary);
 

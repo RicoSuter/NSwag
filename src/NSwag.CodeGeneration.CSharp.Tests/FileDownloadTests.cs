@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -35,8 +35,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("System.Threading.Tasks.Task<FileResponse> DownloadFileAsync();", code);
-            Assert.Contains("ReadAsStreamAsync(", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -77,9 +77,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             });
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
-            Assert.Contains("public virtual async System.Threading.Tasks.Task<FileResponse> RawAsync(", code);
-            Assert.Contains("var fileResponse_ = new FileResponse(", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

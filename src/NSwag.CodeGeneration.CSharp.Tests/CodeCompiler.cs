@@ -14,6 +14,7 @@ public static class CodeCompiler
             .Select(x => MetadataReference.CreateFromFile(x.Location))
             .Append(MetadataReference.CreateFromFile(typeof(HttpClient).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(Microsoft.AspNetCore.Mvc.FileResult).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(Microsoft.AspNetCore.Http.IFormFile).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(Newtonsoft.Json.JsonSerializer).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.ComponentModel.DataAnnotations.RangeAttribute).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.Collections.ObjectModel.ObservableCollection<>).Assembly.Location))

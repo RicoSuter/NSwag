@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public FooClient(MyConfig configuration) : base(configuration)", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false)", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -83,8 +83,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("BaseUrl", code);
-            Assert.Contains("string _baseUrl", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -103,7 +103,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("Task<object> GetPersonAsync(bool? @override, ", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -125,7 +126,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var client_ = new System.Net.Http.HttpClient();", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -148,7 +150,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var client_ = new CustomNamespace.CustomHttpClient();", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -170,7 +172,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient\n", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -193,7 +196,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("internal partial interface IFooClient\n", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -216,7 +220,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient : IClientBase", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -240,7 +244,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("internal partial interface IFooClient : IClientBase", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -265,8 +269,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient", code);
-            Assert.DoesNotContain("public partial class FooClient : IFooClient", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -291,8 +295,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("public partial interface IFooClient", code);
-            Assert.Contains("public partial class FooClient : IFooClient", code);
+            await VerifyHelper.Verify(code);
         }
     }
 }

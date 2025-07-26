@@ -1,0 +1,88 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    public interface ITestController
+    {
+
+        System.Threading.Tasks.Task<SwaggerResponse<string>> FooAsync();
+
+
+        System.Threading.Tasks.Task<SwaggerResponse> BarAsync();
+
+    }
+
+
+    public partial class TestController : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        private ITestController _implementation;
+
+        public TestController(ITestController implementation)
+        {
+            _implementation = implementation;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Foo")]
+        public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Foo()
+        {
+
+            var result = await _implementation.FooAsync().ConfigureAwait(false);
+
+            var status = result.StatusCode;
+            Microsoft.AspNetCore.Mvc.ObjectResult response = new Microsoft.AspNetCore.Mvc.ObjectResult(result.Result) { StatusCode = status };
+
+            foreach (var header in result.Headers)
+                Request.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
+
+            return response;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Bar")]
+        public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()
+        {
+
+            var result = await _implementation.BarAsync().ConfigureAwait(false);
+
+            var status = result.StatusCode;
+            Microsoft.AspNetCore.Mvc.ObjectResult response = new Microsoft.AspNetCore.Mvc.ObjectResult(result) { StatusCode = status };
+
+            foreach (var header in result.Headers)
+                Request.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
+
+            return response;
+        }
+
+    }
+
+    
+
+
+    public partial class SwaggerResponse
+    {
+        public int StatusCode { get; private set; }
+
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        {
+            StatusCode = statusCode;
+            Headers = headers;
+        }
+    }
+
+    public partial class SwaggerResponse<TResult> : SwaggerResponse
+    {
+        public TResult Result { get; private set; }
+
+        public SwaggerResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
+            : base(statusCode, headers)
+        {
+            Result = result;
+        }
+    }
+
+
+
+}

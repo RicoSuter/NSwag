@@ -1,4 +1,4 @@
-using Xunit;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -70,9 +70,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);", code);
-            Assert.Contains("var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(propertyDto, JsonSerializerSettings)", code);
-            Assert.Contains("content_.Add(new System.Net.Http.StringContent(json_, System.Text.Encoding.UTF8, \"application/json\"), \"propertyDto\");", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

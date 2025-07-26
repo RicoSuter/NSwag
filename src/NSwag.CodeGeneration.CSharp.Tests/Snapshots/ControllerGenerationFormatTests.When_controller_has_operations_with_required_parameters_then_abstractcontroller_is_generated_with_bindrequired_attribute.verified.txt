@@ -1,0 +1,86 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+
+    public abstract class TestControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("Foo")]
+        public abstract System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool? test2);
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("FooRequired")]
+        public abstract System.Threading.Tasks.Task<string> FooRequired([Microsoft.AspNetCore.Mvc.FromQuery] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string test, [Microsoft.AspNetCore.Mvc.FromQuery] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] bool test2);
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Bar")]
+        public abstract System.Threading.Tasks.Task Bar();
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("HeaderParam")]
+        public abstract System.Threading.Tasks.Task HeaderParam([Microsoft.AspNetCore.Mvc.FromHeader] string comesFromHeader);
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("HeaderParamRequired")]
+        public abstract System.Threading.Tasks.Task HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = "comes-from-header")] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string comes_from_header);
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Complex")]
+        public abstract System.Threading.Tasks.Task Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType);
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("ComplexRequired")]
+        public abstract System.Threading.Tasks.Task<ComplexTypeResponse> ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] ComplexType complexType);
+
+    }
+
+    public partial class ComplexType
+    {
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    public partial class ComplexTypeResponse
+    {
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+
+}

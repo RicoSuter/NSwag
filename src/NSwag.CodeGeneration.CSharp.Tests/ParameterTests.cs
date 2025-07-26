@@ -6,7 +6,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
     public class ParameterTests
     {
         [Fact]
-        public void When_parameters_have_same_name_then_they_are_renamed()
+        public async Task When_parameters_have_same_name_then_they_are_renamed()
         {
             // Arrange
             var document = new OpenApiDocument();
@@ -37,11 +37,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
-        public void When_parameters_names_have_differences_only_in_case_of_the_first_letter_then_they_are_renamed()
+        public async Task When_parameters_names_have_differences_only_in_case_of_the_first_letter_then_they_are_renamed()
         {
             // Arrange
             var document = new OpenApiDocument();
@@ -72,7 +73,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("FooAsync(object fooQuery, object fooHeader, System.Threading.CancellationToken cancellationToken)", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -146,7 +148,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId, string secureToken)", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -228,8 +231,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("lastName", code);
-            Assert.Contains("optionalOrderId", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -304,8 +307,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains(@"""options[optionalOrder.id]"")).Append('=')", code);
-            Assert.Contains("options.OptionalOrderId", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -381,7 +384,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public void When_original_name_is_defined_then_csharp_parameter_is_the_same()
+        public async Task When_original_name_is_defined_then_csharp_parameter_is_the_same()
         {
             // Arrange
             var document = new OpenApiDocument();
@@ -412,8 +415,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("FooAsync(string bar,", code);
-            Assert.Contains("EscapeDataString(\"foo\")", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -454,7 +457,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             await VerifyHelper.Verify(code);
-
             CodeCompiler.AssertCompile(code);
         }
     }
