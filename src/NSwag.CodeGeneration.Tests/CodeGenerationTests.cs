@@ -7,7 +7,6 @@ using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.TypeScript;
-using Xunit;
 
 namespace NSwag.CodeGeneration.Tests
 {

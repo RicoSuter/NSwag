@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NSwag.Generation.WebApi;
-using Xunit;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -70,8 +70,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = gen.GenerateFile();
 
             // Assert
-            Assert.NotNull(document.Operations.First().Operation.Parameters.First().Item.Reference);
-            Assert.Contains("getFoos(bars: Bar[], ", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

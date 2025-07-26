@@ -9,12 +9,12 @@ public class CodeCompiler
 
     public static void AssertCompile(string source)
     {
-        var tempFilePath = Path.Combine(Path.GetTempPath(), $"temp_{Guid.NewGuid()}.ts");
-        File.WriteAllText(tempFilePath, source);
-
         var workingDirectory = Path.Combine(
             Directory.GetCurrentDirectory(),
             "../../../../src/NSwag.CodeGeneration.TypeScript.Tests");
+
+        var tempFilePath = Path.Combine(workingDirectory, $"temp_{Guid.NewGuid()}.ts");
+        File.WriteAllText(tempFilePath, source);
 
         try
         {
@@ -45,6 +45,12 @@ public class CodeCompiler
             if (File.Exists(tempFilePath))
             {
                 File.Delete(tempFilePath);
+            }
+
+            var jsFilePAth = tempFilePath!.Replace(".ts", ".js");
+            if (File.Exists(jsFilePAth))
+            {
+                File.Delete(jsFilePAth);
             }
         }
     }
