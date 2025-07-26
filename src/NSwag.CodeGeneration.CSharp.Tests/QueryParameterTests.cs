@@ -209,7 +209,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 "urlBuilder_.Append(System.Uri.EscapeDataString(\"extendedProperties\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
                 code);
             Assert.Contains(
-                "foreach (var item_ in extendedProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
+                "foreach (var item_ in extendedProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(\"extendedProperties\")).Append('.').Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
                 code);
         }
 
