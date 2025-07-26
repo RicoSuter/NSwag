@@ -1,5 +1,4 @@
 ﻿
-/* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
