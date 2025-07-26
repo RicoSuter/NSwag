@@ -1,58 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="WixToolset.Sdk/6.0.1">
+
   <PropertyGroup>
-    <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>50dcc09c-7349-4bac-8833-261a641e0669</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
     <OutputName>NSwagStudio</OutputName>
-    <OutputType>Package</OutputType>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SuppressIces>ICE69</SuppressIces>
+    <SuppressIces>ICE61;ICE69</SuppressIces>
     <OutputPath>..\..\artifacts\bin\NSwagStudio.Installer\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\..\artifacts\obj\NSwagStudio.Installer\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>SourcePath=..\..\NSwagStudio\$(Configuration)</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Generated.wxs" />
-    <Compile Include="Product.wxs" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\NSwagStudio\NSwagStudio.csproj">
       <Name>NSwagStudio</Name>
-      <Project>{dada2d11-14e2-40b1-b31d-b68d6f18378c}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
+
   <ItemGroup>
-    <WixExtension Include="WixUtilExtension">
-      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
-      <Name>WixUtilExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
+    <PackageReference Include="WixToolset.Util.wixext" />
+    <PackageReference Include="WixToolset.UI.wixext" />
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-  <Target Name="Heat" AfterTargets="PreBuildEvent">
-    <PropertyGroup>
-      <DefineConstants>SourcePath=..\..\artifacts\bin\NSwagStudio\$(Configuration)</DefineConstants>
-    </PropertyGroup>
-    <HeatDirectory
-            DirectoryRefId="RootDirectory"
-            VerboseOutput="true"
-            AutogenerateGuids="true"
-            GenerateGuidsNow="true"
-            SuppressRootDirectory="true"
-            OutputFile="Generated.wxs"
-            RunAsSeparateProcess="true"
-            PreprocessorVariable="var.SourcePath"
-            Directory="..\..\artifacts\bin\NSwagStudio\$(Configuration)"
-            ComponentGroupName="SourceComponentGroup"
-            ToolPath="$(WixToolPath)" />
-  </Target>
+
 </Project>
