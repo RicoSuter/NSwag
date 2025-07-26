@@ -1,0 +1,149 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    public interface ITestController
+    {
+
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooAsync(string test, bool? test2);
+
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooRequiredAsync(string test, bool test2);
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> BarAsync();
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> HeaderParamAsync(string comesFromHeader);
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> HeaderParamRequiredAsync(string comes_from_header);
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ComplexAsync(ComplexType complexType);
+
+
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<ComplexTypeResponse>> ComplexRequiredAsync(ComplexType complexType);
+
+    }
+
+
+    public partial class TestController : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        private ITestController _implementation;
+
+        public TestController(ITestController implementation)
+        {
+            _implementation = implementation;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("Foo")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool? test2)
+        {
+
+            return _implementation.FooAsync(test, test2);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("FooRequired")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<string>> FooRequired([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2)
+        {
+
+            return _implementation.FooRequiredAsync(test, test2);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Bar")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Bar()
+        {
+
+            return _implementation.BarAsync();
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("HeaderParam")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> HeaderParam([Microsoft.AspNetCore.Mvc.FromHeader] string comesFromHeader)
+        {
+
+            return _implementation.HeaderParamAsync(comesFromHeader);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("HeaderParamRequired")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> HeaderParamRequired([Microsoft.AspNetCore.Mvc.FromHeader(Name = "comes-from-header")] string comes_from_header)
+        {
+
+            return _implementation.HeaderParamRequiredAsync(comes_from_header);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Complex")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Complex([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)
+        {
+
+            return _implementation.ComplexAsync(complexType);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("ComplexRequired")]
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<ComplexTypeResponse>> ComplexRequired([Microsoft.AspNetCore.Mvc.FromBody] ComplexType complexType)
+        {
+
+            return _implementation.ComplexRequiredAsync(complexType);
+        }
+
+    }
+
+    public partial class ComplexType
+    {
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    public partial class ComplexTypeResponse
+    {
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+
+}

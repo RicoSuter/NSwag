@@ -1,5 +1,4 @@
 ﻿using NSwag.CodeGeneration.Tests;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -67,7 +66,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
             CodeCompiler.AssertCompile(code);
         }
 
@@ -144,7 +142,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code).UseParameters(explode);
-
             CodeCompiler.AssertCompile(code);
         }
 
@@ -223,7 +220,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code).UseParameters(explode);
-
             CodeCompiler.AssertCompile(code);
         }
 
@@ -290,7 +286,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
             CodeCompiler.AssertCompile(code);
         }
 
@@ -357,7 +352,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
             CodeCompiler.AssertCompile(code);
         }
 
@@ -433,7 +427,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
             CodeCompiler.AssertCompile(code);
         }
     }

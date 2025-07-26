@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -71,12 +71,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"page\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(paging.Page, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
-            Assert.Contains(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"limit\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(paging.Limit, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -137,12 +133,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"extendedProperties\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
-            Assert.Contains(
-                "foreach (var item_ in extendedProperties.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
-                code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -205,12 +197,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"extendedProperties\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
-            Assert.Contains(
-                "foreach (var item_ in extendedProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
-                code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -288,15 +276,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"extendedProperties\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
-            Assert.Contains(
-                "urlBuilder_.Append(System.Uri.EscapeDataString(\"default\")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties.Default, System.Globalization.CultureInfo.InvariantCulture))).Append('&');",
-                code);
-            Assert.Contains(
-                "foreach (var item_ in extendedProperties.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
-                code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
     }
 }

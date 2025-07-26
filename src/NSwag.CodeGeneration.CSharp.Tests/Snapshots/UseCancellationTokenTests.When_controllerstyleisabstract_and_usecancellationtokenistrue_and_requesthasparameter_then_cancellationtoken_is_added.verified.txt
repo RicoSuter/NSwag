@@ -1,0 +1,21 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+
+    public abstract class TestControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Foo")]
+        public abstract System.Threading.Tasks.Task<string> Foo([Microsoft.AspNetCore.Mvc.FromQuery] string test, [Microsoft.AspNetCore.Mvc.FromQuery] bool test2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("Bar")]
+        public abstract System.Threading.Tasks.Task Bar(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+    }
+
+    
+
+
+}
