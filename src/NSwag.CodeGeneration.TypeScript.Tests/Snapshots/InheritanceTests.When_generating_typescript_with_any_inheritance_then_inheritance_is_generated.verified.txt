@@ -1,0 +1,62 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+
+
+export class SportsbookEventBody implements ISportsbookEventBody {
+
+    constructor(data?: ISportsbookEventBody) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): SportsbookEventBody {
+        data = typeof data === 'object' ? data : {};
+        let result = new SportsbookEventBody();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+export interface ISportsbookEventBody {
+}
+
+export class SessionStateResent extends SportsbookEventBody implements ISessionStateResent {
+
+    constructor(data?: ISessionStateResent) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): SessionStateResent {
+        data = typeof data === 'object' ? data : {};
+        let result = new SessionStateResent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISessionStateResent extends ISportsbookEventBody {
+}
+

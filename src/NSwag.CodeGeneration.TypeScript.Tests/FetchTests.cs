@@ -1,8 +1,8 @@
-﻿using Xunit;
-using NSwag.Generation.WebApi;
+﻿using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -64,8 +64,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("export class DiscussionClient", code);
-            Assert.Contains("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+
+            // should use AbortController instead of CancelToken
+            // CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -95,8 +97,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("export class DiscussionClient", code);
-            Assert.DoesNotContain("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+
+            // should use AbortController instead of CancelToken
+            // CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -124,9 +128,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("content_", code);
-            Assert.DoesNotContain("FormData", code);
-            Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -155,7 +158,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("signal?: AbortSignal", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -183,8 +187,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("signal?: AbortSignal", code);
-            Assert.DoesNotContain("signal", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -214,8 +218,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("export interface IUrlEncodedRequestConsumingClient", code);
-            Assert.Contains("getMessage(messageId: string | null, signal?: AbortSignal): Promise<Foo | null>;", code);
+            await VerifyHelper.Verify(code);
+            CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -242,8 +246,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("httpContext?: HttpContext", code);
-            Assert.Contains("context: httpContext", code);
+            await VerifyHelper.Verify(code);
+
+            // should use AbortController instead of CancelToken
+            // CodeCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -271,8 +277,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("httpContext?: HttpContext", code);
-            Assert.DoesNotContain("context: httpContext", code);
+            await VerifyHelper.Verify(code);
+
+            // should use AbortController instead of CancelToken
+            // CodeCompiler.AssertCompile(code);
         }
     }
 }
