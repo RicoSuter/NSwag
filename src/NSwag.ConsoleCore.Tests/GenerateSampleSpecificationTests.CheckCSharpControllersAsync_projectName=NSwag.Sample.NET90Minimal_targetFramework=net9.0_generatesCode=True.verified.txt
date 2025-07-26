@@ -87,7 +87,7 @@ namespace MyNamespace
     public interface IExampleController
     {
 
-        System.Threading.Tasks.Task<FileResult> GetAsync();
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.FileResult> GetAsync();
 
     }
 
@@ -103,7 +103,7 @@ namespace MyNamespace
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("examples")]
-        public System.Threading.Tasks.Task<FileResult> Get()
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.FileResult> Get()
         {
 
             return _implementation.GetAsync();

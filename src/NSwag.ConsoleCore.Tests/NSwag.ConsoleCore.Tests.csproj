@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj" />
+    <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj" />
     <ProjectReference Include="..\NSwag.ConsoleCore\NSwag.ConsoleCore.csproj" />
     <ProjectReference Include="..\NSwag.Sample.NET80\NSwag.Sample.NET80.csproj" />
     <ProjectReference Include="..\NSwag.Sample.NET90\NSwag.Sample.NET90.csproj" />

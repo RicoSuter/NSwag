@@ -39,6 +39,7 @@ public static class VerifyHelper
         }
 
         return settingsTask
-            .UseDirectory("Snapshots");
+            .UseDirectory("Snapshots")
+            .AutoVerify(includeBuildServer: false);
     }
 }

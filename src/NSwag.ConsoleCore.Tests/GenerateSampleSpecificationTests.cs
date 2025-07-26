@@ -76,19 +76,34 @@ namespace NSwag.ConsoleCore.Tests
         private static async Task CheckCSharpControllersAsync(string projectName, string targetFramework, bool generatesCode, string generatedControllersCsPath)
         {
             var code = await File.ReadAllTextAsync(generatedControllersCsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpControllersAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckCSharpControllersAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            CodeGeneration.CSharp.Tests.CodeCompiler.AssertCompile(code);
         }
 
         private static async Task CheckCSharpClientsAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsCsPath)
         {
             var code = await File.ReadAllTextAsync(generatedClientsCsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpClientsAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckCSharpClientsAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            CodeGeneration.CSharp.Tests.CodeCompiler.AssertCompile(code);
         }
 
         private static async Task CheckTypeScriptAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsTsPath)
         {
             var code = await File.ReadAllTextAsync(generatedClientsTsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckTypeScriptAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckTypeScriptAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            CodeGeneration.TypeScript.Tests.CodeCompiler.AssertCompile(code);
         }
     }
 }

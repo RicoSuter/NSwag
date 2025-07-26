@@ -129,6 +129,10 @@ partial class Build : NukeBuild
                 .SetProcessWorkingDirectory(SourceDirectory / "NSwag.Npm")
             );
 
+            NpmInstall(x => x
+                .SetProcessWorkingDirectory(GetProject("NSwag.CodeGeneration.TypeScript.Tests").Directory)
+            );
+
             DotNetRestore(x => x
                 .SetProjectFile(SolutionFile)
                 .SetVerbosity(DotNetVerbosity.minimal)
