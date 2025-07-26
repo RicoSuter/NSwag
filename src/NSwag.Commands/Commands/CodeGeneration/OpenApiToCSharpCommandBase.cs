@@ -66,6 +66,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.GenerateJsonMethods = value;
         }
 
+        [Argument(Name = nameof(GlobalSystemNamespaceAlias), IsRequired = false, Description = "Allows specifying an alias for the global::System namespace in the generated code.  This is useful if a type name in your OpenAPI spec conflicts with System. (default: 'System')")]
+        public string GlobalSystemNamespaceAlias
+        {
+            get { return Settings.GlobalSystemNamespaceAlias; }
+            set { Settings.GlobalSystemNamespaceAlias = value; }
+        }
+
         [Argument(Name = "EnforceFlagEnums", IsRequired = false,
             Description = "Specifies whether enums should be always generated as bit flags (default: false).")]
         public bool EnforceFlagEnums

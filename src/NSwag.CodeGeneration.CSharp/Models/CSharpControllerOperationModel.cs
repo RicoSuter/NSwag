@@ -38,9 +38,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
                     {
                         case "void":
                         case "FileResult":
-                            return "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>";
+                            return _settings.GlobalSystemNamespaceAlias + ".Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>";
                         default:
-                            return "System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
+                            return _settings.GlobalSystemNamespaceAlias + ".Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<" + SyncResultType + ">>";
                     }
                 }
 
