@@ -11,16 +11,8 @@ using NJsonSchema;
 namespace NSwag.CodeGeneration
 {
     /// <summary>The default parameter name generator.</summary>
-    public sealed class DefaultParameterNameGenerator : IParameterNameGenerator
+    public class DefaultParameterNameGenerator : IParameterNameGenerator
     {
-        private static readonly char[] _parameterNameCleanupChars = ['-', '.', ':', '$', '@', '[', ']'];
-
-#if NET8_0_OR_GREATER
-        private static readonly System.Buffers.SearchValues<char> ParameterNameCleanupChars = System.Buffers.SearchValues.Create(_parameterNameCleanupChars);
-#else
-        private static readonly char[] ParameterNameCleanupChars = _parameterNameCleanupChars;
-#endif
-
         /// <summary>Generates the parameter name for the given parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
@@ -38,28 +30,23 @@ namespace NSwag.CodeGeneration
 
             static string GetVariableName(OpenApiParameter openApiParameter)
             {
-                var name = !string.IsNullOrEmpty(openApiParameter.OriginalName)
-                    ? openApiParameter.OriginalName
-                    : openApiParameter.Name;
+                var name = !string.IsNullOrEmpty(openApiParameter.OriginalName) ?
+                    openApiParameter.OriginalName : openApiParameter.Name;
 
                 if (string.IsNullOrEmpty(name))
                 {
                     return "unnamed";
                 }
 
-                if (name.AsSpan().IndexOfAny(ParameterNameCleanupChars) != -1)
-                {
-                    name = name
-                        .Replace("-", "_")
-                        .Replace(".", "_")
-                        .Replace(":", "_")
-                        .Replace("$", string.Empty)
-                        .Replace("@", string.Empty)
-                        .Replace("[", string.Empty)
-                        .Replace("]", string.Empty);
-                }
+                var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
+                    .Replace("-", "_")
+                    .Replace(".", "_")
+                    .Replace("$", string.Empty)
+                    .Replace("@", string.Empty)
+                    .Replace("[", string.Empty)
+                    .Replace("]", string.Empty), true);
 
-                return ConversionUtilities.ConvertToLowerCamelCase(name, true);
+                return variableName;
             }
         }
     }

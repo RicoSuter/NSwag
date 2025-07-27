@@ -71,7 +71,6 @@ namespace NSwag.CodeGeneration
         /// <returns>The controller name.</returns>
         public virtual string GenerateControllerName(string controllerName)
         {
-            controllerName = controllerName.Replace('.', '_').Replace('-', '_');
             return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
 
