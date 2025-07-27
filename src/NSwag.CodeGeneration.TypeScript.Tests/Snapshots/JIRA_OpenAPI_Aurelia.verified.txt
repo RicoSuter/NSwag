@@ -37288,7 +37288,7 @@ export class Client {
 }
 
 @inject(String, HttpClient)
-export class AddonPropertiesResource.getAddonPropertiesClient {
+export class AddonPropertiesResource_getAddonPropertiesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37349,7 +37349,7 @@ export class AddonPropertiesResource.getAddonPropertiesClient {
 }
 
 @inject(String, HttpClient)
-export class AddonPropertiesResource.deleteAddonPropertyClient {
+export class AddonPropertiesResource_deleteAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37424,7 +37424,7 @@ export class AddonPropertiesResource.deleteAddonPropertyClient {
 }
 
 @inject(String, HttpClient)
-export class AddonPropertiesResource.getAddonPropertyClient {
+export class AddonPropertiesResource_getAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37503,7 +37503,7 @@ export class AddonPropertiesResource.getAddonPropertyClient {
 }
 
 @inject(String, HttpClient)
-export class AddonPropertiesResource.putAddonPropertyClient {
+export class AddonPropertiesResource_putAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37586,7 +37586,7 @@ export class AddonPropertiesResource.putAddonPropertyClient {
 }
 
 @inject(String, HttpClient)
-export class DynamicModulesResource.removeModulesClient {
+export class DynamicModulesResource_removeModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37646,7 +37646,7 @@ export class DynamicModulesResource.removeModulesClient {
 }
 
 @inject(String, HttpClient)
-export class DynamicModulesResource.getModulesClient {
+export class DynamicModulesResource_getModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37703,7 +37703,7 @@ export class DynamicModulesResource.getModulesClient {
 }
 
 @inject(String, HttpClient)
-export class DynamicModulesResource.registerModulesClient {
+export class DynamicModulesResource_registerModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37767,7 +37767,7 @@ export class DynamicModulesResource.registerModulesClient {
 }
 
 @inject(String, HttpClient)
-export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
+export class AppIssueFieldValueUpdateResource_updateIssueFieldsClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37832,7 +37832,7 @@ export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
 }
 
 @inject(String, HttpClient)
-export class MigrationResource.updateEntityPropertiesValueClient {
+export class MigrationResource_updateEntityPropertiesValueClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37896,7 +37896,7 @@ export class MigrationResource.updateEntityPropertiesValueClient {
 }
 
 @inject(String, HttpClient)
-export class MigrationResource.workflowRuleSearchClient {
+export class MigrationResource_workflowRuleSearchClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37960,7 +37960,7 @@ export class MigrationResource.workflowRuleSearchClient {
 }
 
 @inject(String, HttpClient)
-export class ServiceRegistryResource.servicesClient {
+export class ServiceRegistryResource_servicesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
