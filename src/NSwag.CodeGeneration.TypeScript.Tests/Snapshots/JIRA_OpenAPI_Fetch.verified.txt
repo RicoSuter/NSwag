@@ -37283,7 +37283,7 @@ export class Client {
     }
 }
 
-export class AddonPropertiesResource.getAddonPropertiesClient {
+export class AddonPropertiesResource_getAddonPropertiesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37343,7 +37343,7 @@ export class AddonPropertiesResource.getAddonPropertiesClient {
     }
 }
 
-export class AddonPropertiesResource.deleteAddonPropertyClient {
+export class AddonPropertiesResource_deleteAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37417,7 +37417,7 @@ export class AddonPropertiesResource.deleteAddonPropertyClient {
     }
 }
 
-export class AddonPropertiesResource.getAddonPropertyClient {
+export class AddonPropertiesResource_getAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37495,7 +37495,7 @@ export class AddonPropertiesResource.getAddonPropertyClient {
     }
 }
 
-export class AddonPropertiesResource.putAddonPropertyClient {
+export class AddonPropertiesResource_putAddonPropertyClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37577,7 +37577,7 @@ export class AddonPropertiesResource.putAddonPropertyClient {
     }
 }
 
-export class DynamicModulesResource.removeModulesClient {
+export class DynamicModulesResource_removeModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37636,7 +37636,7 @@ export class DynamicModulesResource.removeModulesClient {
     }
 }
 
-export class DynamicModulesResource.getModulesClient {
+export class DynamicModulesResource_getModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37692,7 +37692,7 @@ export class DynamicModulesResource.getModulesClient {
     }
 }
 
-export class DynamicModulesResource.registerModulesClient {
+export class DynamicModulesResource_registerModulesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37755,7 +37755,7 @@ export class DynamicModulesResource.registerModulesClient {
     }
 }
 
-export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
+export class AppIssueFieldValueUpdateResource_updateIssueFieldsClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37819,7 +37819,7 @@ export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
     }
 }
 
-export class MigrationResource.updateEntityPropertiesValueClient {
+export class MigrationResource_updateEntityPropertiesValueClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37882,7 +37882,7 @@ export class MigrationResource.updateEntityPropertiesValueClient {
     }
 }
 
-export class MigrationResource.workflowRuleSearchClient {
+export class MigrationResource_workflowRuleSearchClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -37945,7 +37945,7 @@ export class MigrationResource.workflowRuleSearchClient {
     }
 }
 
-export class ServiceRegistryResource.servicesClient {
+export class ServiceRegistryResource_servicesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;

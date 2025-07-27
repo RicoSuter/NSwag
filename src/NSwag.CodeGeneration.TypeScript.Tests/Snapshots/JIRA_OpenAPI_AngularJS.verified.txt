@@ -40755,7 +40755,7 @@ export class Client {
     }
 }
 
-export class AddonPropertiesResource.getAddonPropertiesClient {
+export class AddonPropertiesResource_getAddonPropertiesClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -40823,7 +40823,7 @@ export class AddonPropertiesResource.getAddonPropertiesClient {
     }
 }
 
-export class AddonPropertiesResource.deleteAddonPropertyClient {
+export class AddonPropertiesResource_deleteAddonPropertyClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -40905,7 +40905,7 @@ export class AddonPropertiesResource.deleteAddonPropertyClient {
     }
 }
 
-export class AddonPropertiesResource.getAddonPropertyClient {
+export class AddonPropertiesResource_getAddonPropertyClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -40991,7 +40991,7 @@ export class AddonPropertiesResource.getAddonPropertyClient {
     }
 }
 
-export class AddonPropertiesResource.putAddonPropertyClient {
+export class AddonPropertiesResource_putAddonPropertyClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41081,7 +41081,7 @@ export class AddonPropertiesResource.putAddonPropertyClient {
     }
 }
 
-export class DynamicModulesResource.removeModulesClient {
+export class DynamicModulesResource_removeModulesClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41148,7 +41148,7 @@ export class DynamicModulesResource.removeModulesClient {
     }
 }
 
-export class DynamicModulesResource.getModulesClient {
+export class DynamicModulesResource_getModulesClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41212,7 +41212,7 @@ export class DynamicModulesResource.getModulesClient {
     }
 }
 
-export class DynamicModulesResource.registerModulesClient {
+export class DynamicModulesResource_registerModulesClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41283,7 +41283,7 @@ export class DynamicModulesResource.registerModulesClient {
     }
 }
 
-export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
+export class AppIssueFieldValueUpdateResource_updateIssueFieldsClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41355,7 +41355,7 @@ export class AppIssueFieldValueUpdateResource.updateIssueFieldsClient {
     }
 }
 
-export class MigrationResource.updateEntityPropertiesValueClient {
+export class MigrationResource_updateEntityPropertiesValueClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41426,7 +41426,7 @@ export class MigrationResource.updateEntityPropertiesValueClient {
     }
 }
 
-export class MigrationResource.workflowRuleSearchClient {
+export class MigrationResource_workflowRuleSearchClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
@@ -41497,7 +41497,7 @@ export class MigrationResource.workflowRuleSearchClient {
     }
 }
 
-export class ServiceRegistryResource.servicesClient {
+export class ServiceRegistryResource_servicesClient {
     private baseUrl: string | undefined = undefined;
     private http: ng.IHttpService;
     private q: ng.IQService;
