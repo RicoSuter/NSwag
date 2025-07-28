@@ -56,6 +56,10 @@
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
     <NoWarn>$(NoWarn);CA1200;CA1510;CA1716;CA1720;CA1725;CA1845;SYSLIB0012</NoWarn>
+
+    <!-- Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+
   </PropertyGroup>
 
 </Project>

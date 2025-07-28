@@ -3,13 +3,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <NoWarn>$(NoWarn);CA1707;IDE1006</NoWarn>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Verify.Xunit" />
-    <PackageReference Include="xunit" />
+    <PackageReference Include="Verify.XunitV3" />
+    <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
