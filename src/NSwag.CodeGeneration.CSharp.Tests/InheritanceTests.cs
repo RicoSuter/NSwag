@@ -41,7 +41,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-            CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

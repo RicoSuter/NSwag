@@ -48,7 +48,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-            CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         public class FileUploadController : Controller
@@ -79,7 +79,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-            CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-            CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         // TODO: Implement for JQuery, AngularJS and Angular 2

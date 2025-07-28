@@ -79,7 +79,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
 
             // Assert
             await VerifyHelper.Verify(code);
-            CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static string RemoveExternalReferences(string code)

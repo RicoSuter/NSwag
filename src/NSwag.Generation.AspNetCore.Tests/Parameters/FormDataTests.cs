@@ -1,5 +1,6 @@
 ﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 using Xunit;
 
@@ -31,32 +32,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.Equal(JsonObjectType.String, schema.Properties["file"].Type);
             Assert.Equal(JsonObjectType.String, schema.Properties["test"].Type);
 
-            Assert.Contains(@"    ""/api/FileUpload/UploadFiles"": {
-      ""post"": {
-        ""tags"": [
-          ""FileUpload""
-        ],
-        ""operationId"": ""FileUpload_UploadFiles"",
-        ""requestBody"": {
-          ""content"": {
-            ""multipart/form-data"": {
-              ""schema"": {
-                ""properties"": {
-                  ""files"": {
-                    ""type"": ""array"",
-                    ""items"": {
-                      ""type"": ""string"",
-                      ""format"": ""binary""
-                    }
-                  },
-                  ""test"": {
-                    ""type"": ""string""
-                  }
-                }
-              }
-            }
-          }
-        },".Replace("\r", ""), json.Replace("\r", ""));
+            await VerifyHelper.Verify(json);
         }
 
         [Fact]
@@ -79,26 +55,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var operation = document.Operations.First(o => o.Operation.OperationId == "FileUpload_UploadAttachment").Operation;
 
             Assert.NotNull(operation);
-            Assert.Contains(@"""requestBody"": {
-          ""content"": {
-            ""multipart/form-data"": {
-              ""schema"": {
-                ""type"": ""object"",
-                ""properties"": {
-                  ""Description"": {
-                    ""type"": ""string"",
-                    ""nullable"": true
-                  },
-                  ""Contents"": {
-                    ""type"": ""string"",
-                    ""format"": ""binary"",
-                    ""nullable"": true
-                  }
-                }
-              }
-            }
-          }
-        },".Replace("\r", ""), json.Replace("\r", ""));
+            await VerifyHelper.Verify(json);
         }
     }
 }
