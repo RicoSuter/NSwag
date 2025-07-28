@@ -85,3 +85,7 @@ _ReSharper.Caches/
 *.gen
 
 node_modules
+
+# Verify
+*.received.*
+*.received/
