@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using NSwag.CodeGeneration.CSharp.Tests;
+using NSwag.CodeGeneration.TypeScript.Tests;
 
 namespace NSwag.ConsoleCore.Tests
 {
@@ -81,7 +83,7 @@ namespace NSwag.ConsoleCore.Tests
                 .UseParameters(projectName, targetFramework, generatesCode)
                 .AutoVerify(includeBuildServer: false);
 
-            CodeGeneration.CSharp.Tests.CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static async Task CheckCSharpClientsAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsCsPath)
@@ -92,7 +94,7 @@ namespace NSwag.ConsoleCore.Tests
                 .UseParameters(projectName, targetFramework, generatesCode)
                 .AutoVerify(includeBuildServer: false);
 
-            CodeGeneration.CSharp.Tests.CodeCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static async Task CheckTypeScriptAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsTsPath)
@@ -103,7 +105,7 @@ namespace NSwag.ConsoleCore.Tests
                 .UseParameters(projectName, targetFramework, generatesCode)
                 .AutoVerify(includeBuildServer: false);
 
-            CodeGeneration.TypeScript.Tests.CodeCompiler.AssertCompile(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

@@ -3,11 +3,11 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Tests;
 
-public static class CodeCompiler
+public static class CSharpCompiler
 {
     private static readonly List<PortableExecutableReference> MetadataReferences;
 
-    static CodeCompiler()
+    static CSharpCompiler()
     {
         MetadataReferences = AppDomain.CurrentDomain.GetAssemblies()
             .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))

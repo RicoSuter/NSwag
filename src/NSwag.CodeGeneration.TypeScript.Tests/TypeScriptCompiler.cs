@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests;
 
-public class CodeCompiler
+public class TypeScriptCompiler
 {
     private static readonly Lazy<string> NpxPath = new(FindNpxExecutable);
 
