@@ -65,7 +65,11 @@ namespace NSwag.ConsoleCore.Tests
             }
 
             var json = await File.ReadAllTextAsync(openApiJsonPath);
-            await Verifier.Verify(json).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier
+                .Verify(json)
+                .ScrubLinesContaining("x-generator")
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
 
             if (generatesCode)
             {
