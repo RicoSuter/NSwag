@@ -30,6 +30,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly OpenApiOperation _operation;
         private readonly CSharpGeneratorBase _generator;
         private readonly CSharpTypeResolver _resolver;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -107,12 +108,16 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                var name = ConversionUtilities.ConvertToUpperCamelCase(OperationName, firstCharacterMustBeAlpha: false);
-                if (MethodAccessModifier == "protected")
+                if (_actualOperationName == null && OperationName != null)
                 {
-                    name += "Core";
+                    _actualOperationName = ConversionUtilities.ConvertToUpperCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
                 }
-                return name;
+
+                return _actualOperationName;
             }
         }
 

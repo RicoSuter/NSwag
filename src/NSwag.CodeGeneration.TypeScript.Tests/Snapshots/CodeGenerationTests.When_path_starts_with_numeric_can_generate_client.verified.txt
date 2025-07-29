@@ -13,7 +13,7 @@ export class Client {
 
     /**
      */
-    2fa(body: TwoFactorRequest): Promise<TwoFactorResponse> {
+    _2fa(body: TwoFactorRequest): Promise<TwoFactorResponse> {
         let url_ = this.baseUrl + "/manage/2fa";
         url_ = url_.replace(/[?&]$/, "");
 

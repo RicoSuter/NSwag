@@ -18,6 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly TypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptClientGenerator _generator;
         private readonly OpenApiOperation _operation;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -60,12 +61,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                var name = ConversionUtilities.ConvertToLowerCamelCase(OperationName, firstCharacterMustBeAlpha: false);
-                if (MethodAccessModifier == "protected")
+                if (_actualOperationName == null && OperationName != null)
                 {
-                    name += "Core";
+                    _actualOperationName = ConversionUtilities.ConvertToLowerCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
                 }
-                return name;
+
+                return _actualOperationName;
             }
         }
 

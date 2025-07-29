@@ -51,12 +51,12 @@ namespace MyNamespace
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        public virtual System.Threading.Tasks.Task<TwoFactorResponse> 2faAsync(TwoFactorRequest body)
+        public virtual System.Threading.Tasks.Task<TwoFactorResponse> _2faAsync(TwoFactorRequest body)
         {
-            return 2faAsync(body, System.Threading.CancellationToken.None);
+            return _2faAsync(body, System.Threading.CancellationToken.None);
         }
 
-        public virtual async System.Threading.Tasks.Task<TwoFactorResponse> 2faAsync(TwoFactorRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TwoFactorResponse> _2faAsync(TwoFactorRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
