@@ -17,6 +17,7 @@ public static class VerifyHelper
                 StringComparison.OrdinalIgnoreCase,
                 "Generated using the NSwag toolchain",
                 "Generated using the NJsonSchema",
+                "x-generator",
                 "[System.CodeDom.Compiler.GeneratedCode(\"NSwag\",",
                 "[System.CodeDom.Compiler.GeneratedCode(\"NJsonSchema\"",
                 "auto-generated>",

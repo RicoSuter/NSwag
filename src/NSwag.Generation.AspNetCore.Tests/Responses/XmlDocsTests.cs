@@ -2,7 +2,6 @@
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
