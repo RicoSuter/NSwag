@@ -103,8 +103,18 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
+        public override string ActualOperationName
+        {
+            get
+            {
+                var name = ConversionUtilities.ConvertToUpperCamelCase(OperationName, firstCharacterMustBeAlpha: false);
+                if (MethodAccessModifier == "protected")
+                {
+                    name += "Core";
+                }
+                return name;
+            }
+        }
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";
