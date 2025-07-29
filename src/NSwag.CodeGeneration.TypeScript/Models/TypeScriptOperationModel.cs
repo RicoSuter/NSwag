@@ -18,6 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly TypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptClientGenerator _generator;
         private readonly OpenApiOperation _operation;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -56,8 +57,22 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected " ? "Core" : string.Empty);
+        public override string ActualOperationName
+        {
+            get
+            {
+                if (_actualOperationName == null && OperationName != null)
+                {
+                    _actualOperationName = ConversionUtilities.ConvertToLowerCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
+                }
+
+                return _actualOperationName;
+            }
+        }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
