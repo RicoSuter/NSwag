@@ -113,7 +113,7 @@ export class ValuesClient {
     get(id: number): Promise<TestEnum> {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -151,7 +151,7 @@ export class ValuesClient {
     put(id: number, value: string): Promise<void> {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -188,7 +188,7 @@ export class ValuesClient {
     delete(id: number): Promise<void> {
         let url_ = this.baseUrl + "/api/Values/{id}";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -221,7 +221,7 @@ export class ValuesClient {
     getToString(id: number): Promise<string> {
         let url_ = this.baseUrl + "/api/Values/ToString({id})";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -259,7 +259,7 @@ export class ValuesClient {
     getFooBar(id: number): Promise<string> {
         let url_ = this.baseUrl + "/api/Values/{id}/foo";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 

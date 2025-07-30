@@ -29,7 +29,7 @@ export class UrlEncodedRequestConsumingClient {
         if (messageId !== undefined)
             content_ += encodeURIComponent("messageId") + "=" + encodeURIComponent("" + messageId) + "&";
         if (date === null)
-            throw new Error("The parameter 'date' cannot be null.");
+            throw new globalThis.Error("The parameter 'date' cannot be null.");
         else if (date !== undefined)
             content_ += encodeURIComponent("date") + "=" + encodeURIComponent(date ? "" + date.toJSON() : "") + "&";
         if (list !== undefined)
@@ -82,7 +82,7 @@ export class UrlEncodedRequestConsumingClient {
     getMessage(messageId: string | null, httpContext?: HttpContext): Observable<Foo | null> {
         let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming?";
         if (messageId === undefined)
-            throw new Error("The parameter 'messageId' must be defined.");
+            throw new globalThis.Error("The parameter 'messageId' must be defined.");
         else if(messageId !== null)
             url_ += "messageId=" + encodeURIComponent("" + messageId) + "&";
         url_ = url_.replace(/[?&]$/, "");

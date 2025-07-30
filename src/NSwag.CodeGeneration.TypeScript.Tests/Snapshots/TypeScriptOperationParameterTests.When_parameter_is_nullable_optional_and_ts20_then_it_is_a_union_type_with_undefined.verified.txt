@@ -14,7 +14,7 @@ export class NullableOptionalParameterClient {
     test(a: number, b: number | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/foo?";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined and cannot be null.");
+            throw new globalThis.Error("The parameter 'a' must be defined and cannot be null.");
         else
             url_ += "a=" + encodeURIComponent("" + a) + "&";
         if (b !== undefined && b !== null)

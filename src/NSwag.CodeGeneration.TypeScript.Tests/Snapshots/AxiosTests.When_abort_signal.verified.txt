@@ -72,7 +72,7 @@ export class UrlEncodedRequestConsumingClient {
     getMessage(messageId: string | null, signal?: AbortSignal): Promise<Foo | null> {
         let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming?";
         if (messageId === undefined)
-            throw new Error("The parameter 'messageId' must be defined.");
+            throw new globalThis.Error("The parameter 'messageId' must be defined.");
         else if(messageId !== null)
             url_ += "messageId=" + encodeURIComponent("" + messageId) + "&";
         url_ = url_.replace(/[?&]$/, "");
