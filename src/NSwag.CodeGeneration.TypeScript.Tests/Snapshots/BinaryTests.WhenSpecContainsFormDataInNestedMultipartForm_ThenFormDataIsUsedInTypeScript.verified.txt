@@ -14,7 +14,7 @@ export class FileUploadClient {
     uploadAttachment(caseId: string | null, description: string | null | undefined, contents: FileParameter | null | undefined): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/FileUpload/UploadAttachment";
         if (caseId === undefined || caseId === null)
-            throw new Error("The parameter 'caseId' must be defined.");
+            throw new globalThis.Error("The parameter 'caseId' must be defined.");
         url_ = url_.replace("{caseId}", encodeURIComponent("" + caseId));
         url_ = url_.replace(/[?&]$/, "");
 

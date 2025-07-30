@@ -17,11 +17,11 @@ export class FileUploadClient {
 
         const content_ = new FormData();
         if (file === null || file === undefined)
-            throw new Error("The parameter 'file' cannot be null.");
+            throw new globalThis.Error("The parameter 'file' cannot be null.");
         else
             content_.append("file", file.data, file.fileName ? file.fileName : "file");
         if (test === null || test === undefined)
-            throw new Error("The parameter 'test' cannot be null.");
+            throw new globalThis.Error("The parameter 'test' cannot be null.");
         else
             content_.append("test", test.toString());
 

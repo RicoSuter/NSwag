@@ -14,11 +14,11 @@ export class NullableParameterClient {
     test(a: number, b: number | null): Promise<string | null> {
         let url_ = this.baseUrl + "/foo?";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined and cannot be null.");
+            throw new globalThis.Error("The parameter 'a' must be defined and cannot be null.");
         else
             url_ += "a=" + encodeURIComponent("" + a) + "&";
         if (b === undefined)
-            throw new Error("The parameter 'b' must be defined.");
+            throw new globalThis.Error("The parameter 'b' must be defined.");
         else if(b !== null)
             url_ += "b=" + encodeURIComponent("" + b) + "&";
         url_ = url_.replace(/[?&]$/, "");

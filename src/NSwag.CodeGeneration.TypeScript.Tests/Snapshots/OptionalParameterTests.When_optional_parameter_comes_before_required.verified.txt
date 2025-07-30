@@ -14,7 +14,7 @@ export class Client {
     get(lastname: string, firstname?: string | null | undefined): Promise<string> {
         let url_ = this.baseUrl + "/?";
         if (lastname === undefined || lastname === null)
-            throw new Error("The parameter 'lastname' must be defined and cannot be null.");
+            throw new globalThis.Error("The parameter 'lastname' must be defined and cannot be null.");
         else
             url_ += "lastname=" + encodeURIComponent("" + lastname) + "&";
         if (firstname !== undefined && firstname !== null)
