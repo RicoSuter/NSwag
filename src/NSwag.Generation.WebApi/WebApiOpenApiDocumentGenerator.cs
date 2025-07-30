@@ -214,24 +214,34 @@ namespace NSwag.Generation.WebApi
                 {
                     var path = operation.Path.Replace("//", "/");
 
-                    if (!document.Paths.TryGetValue(path, out OpenApiPathItem value))
+                    if (!document.Paths.TryGetValue(path, out var pathItem))
                     {
-                        value = [];
-                        document.Paths[path] = value;
+                        pathItem = [];
+                        document.Paths[path] = pathItem;
                     }
 
-                    if (value.ContainsKey(operation.Method))
+                    if (pathItem.ContainsKey(operation.Method))
                     {
-                        throw new InvalidOperationException("The method '" + operation.Method + "' on path '" + path + "' is registered multiple times " +
+                        var conflictingOperationDisplayNames = operations
+                            .Where(t => t.Item1.Path == operation.Path && t.Item1.Method == operation.Method)
+                            .Select(t => GetDisplayName(controllerType, t.Item2))
+                            .ToList();
+
+                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times for action {string.Join(", ", conflictingOperationDisplayNames)} " +
                             "(check the DefaultUrlTemplate setting [default for Web API: 'api/{controller}/{id}'; for MVC projects: '{controller}/{action}/{id?}']).");
                     }
 
-                    value[operation.Method] = operation.Operation;
+                    pathItem[operation.Method] = operation.Operation;
                     addedOperations++;
                 }
             }
 
             return addedOperations > 0;
+        }
+
+        private static string GetDisplayName(Type controllerType, MethodInfo method)
+        {
+            return $"{controllerType.FullName}.{method.Name} ({controllerType.Assembly.GetName().Name})";
         }
 
         private bool RunOperationProcessors(OpenApiDocument document, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription,
@@ -326,12 +336,12 @@ namespace NSwag.Generation.WebApi
                     controllerName = controllerName.Substring(0, controllerName.Length - 10);
                 }
 
-                operationId = controllerName + "_" + GetActionName(method);
+                operationId = $"{controllerName}_{GetActionName(method)}";
             }
 
             var number = 1;
             var operations = document.Operations.ToList();
-            while (operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
+            while (operations.Exists(o => o.Operation.OperationId == operationId + (number > 1 ? $"_{number}" : string.Empty)))
             {
                 number++;
             }
@@ -360,7 +370,7 @@ namespace NSwag.Generation.WebApi
                     }
                     else if (routePrefixAttribute != null)
                     {
-                        httpPaths.Add(routePrefixAttribute.Prefix + "/" + attribute.Template);
+                        httpPaths.Add($"{routePrefixAttribute.Prefix}/{attribute.Template}");
                     }
                     else if (routeAttributesOnClass != null)
                     {
@@ -372,7 +382,7 @@ namespace NSwag.Generation.WebApi
                         {
                             foreach (var routeAttributeOnClass in routeAttributesOnClass)
                             {
-                                httpPaths.Add(routeAttributeOnClass.Template + "/" + attribute.Template);
+                                httpPaths.Add($"{routeAttributeOnClass.Template}/{attribute.Template}");
                             }
                         }
                     }
@@ -386,7 +396,7 @@ namespace NSwag.Generation.WebApi
             {
                 foreach (var routeAttributeOnClass in routeAttributesOnClass)
                 {
-                    httpPaths.Add(routePrefixAttribute.Prefix + "/" + routeAttributeOnClass.Template);
+                    httpPaths.Add($"{routePrefixAttribute.Prefix}/{routeAttributeOnClass.Template}");
                 }
             }
             else if (routePrefixAttribute != null)
@@ -423,7 +433,7 @@ namespace NSwag.Generation.WebApi
         private static IEnumerable<string> ExpandOptionalHttpPathParameters(string path, MethodInfo method)
         {
             var segments = path.Split(['/'], StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < segments.Length; i++)
+            for (var i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
                 if (segment.EndsWith("?}", StringComparison.Ordinal))
