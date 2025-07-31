@@ -261,6 +261,7 @@ namespace MyNamespace
 
     public partial class FileToken
     {
+
         [Newtonsoft.Json.JsonProperty("fileId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.Guid FileId { get; set; }

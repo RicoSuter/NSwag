@@ -256,6 +256,7 @@ namespace MyNamespace
 
     public partial class DTOWithRequiredFieldsOfSystemTextJsonSchemaGeneratorSettings
     {
+
         [Newtonsoft.Json.JsonProperty("RequiredByAttribute", Required = Newtonsoft.Json.Required.Always)]
         public int RequiredByAttribute { get; set; }
 

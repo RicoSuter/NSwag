@@ -148,6 +148,7 @@ namespace MyNamespace
 
     public partial class ComplexType
     {
+
         [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Prop1 { get; set; }
@@ -174,6 +175,7 @@ namespace MyNamespace
 
     public partial class ComplexTypeResponse
     {
+
         [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Prop1 { get; set; }

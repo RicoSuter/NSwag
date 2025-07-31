@@ -258,6 +258,7 @@ namespace MyNamespace
 
     public partial class Person
     {
+
         [Newtonsoft.Json.JsonProperty("FirstName", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public string FirstName { get; set; }
@@ -287,6 +288,7 @@ namespace MyNamespace
 
     public partial class Address
     {
+
         [Newtonsoft.Json.JsonProperty("Street", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Street { get; set; }
 

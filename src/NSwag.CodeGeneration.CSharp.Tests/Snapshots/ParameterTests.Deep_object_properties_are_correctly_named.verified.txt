@@ -284,6 +284,7 @@ namespace MyNamespace
 
     public partial class Options
     {
+
         [Newtonsoft.Json.JsonProperty("optionalOrder.id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public object OptionalOrderId { get; set; }
 

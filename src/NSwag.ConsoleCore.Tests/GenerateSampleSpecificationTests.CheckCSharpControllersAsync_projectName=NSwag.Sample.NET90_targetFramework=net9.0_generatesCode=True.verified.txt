@@ -116,6 +116,7 @@ namespace MyNamespace
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "")]
     public partial class Person
     {
+
         [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FirstName { get; set; }
 

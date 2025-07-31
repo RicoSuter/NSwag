@@ -248,9 +248,25 @@
       "TestEnum": {
         "type": "string",
         "description": "",
+        "x-enum-names": [
+          "Foo",
+          "Bar"
+        ],
+        "x-enum-varnames": [
+          "Foo",
+          "Bar"
+        ],
         "x-enumNames": [
           "Foo",
           "Bar"
+        ],
+        "x-enum-descriptions": [
+          null,
+          null
+        ],
+        "x-enumDescriptions": [
+          null,
+          null
         ],
         "enum": [
           "Foo",

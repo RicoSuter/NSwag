@@ -171,7 +171,7 @@ class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -207,7 +207,7 @@ class GenericRequestBaseOfRequestBodyBase implements IGenericRequestBaseOfReques
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
         if (!data) {
@@ -230,7 +230,7 @@ class GenericRequestBaseOfRequestBodyBase implements IGenericRequestBaseOfReques
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Request"] = this.request ? this.request.toJSON() : <any>undefined;
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
         return data;
     }
 }
@@ -272,7 +272,7 @@ class RequestBodyBase implements IRequestBodyBase {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -303,7 +303,7 @@ class GenericRequestBaseOfRequestBody implements IGenericRequestBaseOfRequestBod
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
         if (!data) {
@@ -326,7 +326,7 @@ class GenericRequestBaseOfRequestBody implements IGenericRequestBaseOfRequestBod
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Request"] = this.request ? this.request.toJSON() : <any>undefined;
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
         return data;
     }
 }

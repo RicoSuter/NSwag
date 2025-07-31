@@ -46,7 +46,7 @@ export class ValuesClient {
                     result200!.push(Person.fromJS(item));
             }
             else {
-                result200 = <any>null;
+                result200 = null as any;
             }
             return result200;
             });
@@ -60,7 +60,7 @@ export class ValuesClient {
                     result201!.push(Person.fromJS(item));
             }
             else {
-                result201 = <any>null;
+                result201 = null as any;
             }
             return result201;
             });
@@ -136,7 +136,7 @@ export class ValuesClient {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -244,7 +244,7 @@ export class ValuesClient {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -282,7 +282,7 @@ export class ValuesClient {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -320,7 +320,7 @@ export class ValuesClient {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -343,7 +343,7 @@ export class Person implements IPerson {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -353,7 +353,7 @@ export class Person implements IPerson {
             this.firstName = _data["firstName"];
             this.middleName = _data["middleName"];
             this.lastName = _data["lastName"];
-            this.dayOfBirth = _data["dayOfBirth"] ? new Date(_data["dayOfBirth"].toString()) : <any>undefined;
+            this.dayOfBirth = _data["dayOfBirth"] ? new Date(_data["dayOfBirth"].toString()) : undefined as any;
         }
     }
 
@@ -369,7 +369,7 @@ export class Person implements IPerson {
         data["firstName"] = this.firstName;
         data["middleName"] = this.middleName;
         data["lastName"] = this.lastName;
-        data["dayOfBirth"] = this.dayOfBirth ? this.dayOfBirth.toISOString() : <any>undefined;
+        data["dayOfBirth"] = this.dayOfBirth ? this.dayOfBirth.toISOString() : undefined as any;
         return data;
     }
 }
