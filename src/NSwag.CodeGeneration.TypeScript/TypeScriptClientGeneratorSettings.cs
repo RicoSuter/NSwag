@@ -101,6 +101,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets or sets a value indicating whether to set the withCredentials flag.</summary>
         public bool WithCredentials { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to set the mode attribute with 'cors' mode on http client requests.</summary>
+        public bool UseCorsMode { get; set; }
+
         /// <summary>Gets the RxJs version (Angular template only, default: 6.0).</summary>
         public decimal RxJsVersion { get; set; } = 6.0m;
 

@@ -120,5 +120,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to include the httpContext (Angular template only, default: false).</summary>
         public bool IncludeHttpContext => _settings.IncludeHttpContext;
+
+        /// <summary>Gets a value indicating whether to include the credentials attribute on a request. (Fetch/Angular only, default: false)</summary>
+        public bool WithCredentials => _settings.WithCredentials;
+
+        /// <summary>Gets a value indicating whether to include the credentials attribute on a request. (Fetch only, default: false</summary>
+        public bool UseCorsMode => _settings.UseCorsMode;
     }
 }

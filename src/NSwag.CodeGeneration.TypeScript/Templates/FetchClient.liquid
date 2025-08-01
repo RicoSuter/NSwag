@@ -51,8 +51,11 @@
 {%-    if UseAbortSignal -%}
             signal,
 {%-    endif -%}
-{%-       if Framework.Fetch.WithCredentials -%}
-            withCredentials: true,
+{%-       if WithCredentials -%}
+            credentials: 'include',
+{%-        endif -%}
+{%-       if UseCorsMode -%}
+            mode: 'cors',
 {%-        endif -%}
             headers: {
 {%-    for parameter in operation.HeaderParameters -%}
