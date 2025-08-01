@@ -121,10 +121,48 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to include the httpContext (Angular template only, default: false).</summary>
         public bool IncludeHttpContext => _settings.IncludeHttpContext;
 
-        /// <summary>Gets a value indicating whether to include the credentials attribute on a request. (Fetch/Angular only, default: false)</summary>
-        public bool WithCredentials => _settings.WithCredentials;
+        /// <summary>Gets a value indicating credential setting for an http request. (Fetch/Angular only, default: false)</summary>
+        public string RequestCredentialsType
+        {
+            get
+            {
+                switch (_settings.RequestCredentialsType)
+                {
+                    case TypeScript.RequestCredentialsType.NotSet:
+                        return "";
+                    case TypeScript.RequestCredentialsType.Omit:
+                        return "omit";
+                    case TypeScript.RequestCredentialsType.Include:
+                        return "include";
+                    case TypeScript.RequestCredentialsType.SameOrigin:
+                        return "same-origin";
+                    default:
+                        return "";
+                }
+            }
+        }
 
-        /// <summary>Gets a value indicating whether to include the credentials attribute on a request. (Fetch only, default: false</summary>
-        public bool UseCorsMode => _settings.UseCorsMode;
+        /// <summary>Gets a value indicating mode setting for an http request. (Fetch only, default: n</summary>
+        public string RequestModeType
+        {
+            get
+            {
+                switch (_settings.RequestModeType)
+                {
+                    case TypeScript.RequestModeType.NotSet:
+                        return "";
+                    case TypeScript.RequestModeType.SameOrigin:
+                        return "same-origin";
+                    case TypeScript.RequestModeType.Cors:
+                        return "cors";
+                    case TypeScript.RequestModeType.NoCors:
+                        return "no-cors";
+                    case TypeScript.RequestModeType.Navigate:
+                        return "navigate";
+                    default:
+                        return "";
+                }
+            }
+        }
     }
 }

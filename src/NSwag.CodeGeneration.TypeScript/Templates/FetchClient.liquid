@@ -51,12 +51,12 @@
 {%-    if UseAbortSignal -%}
             signal,
 {%-    endif -%}
-{%-       if WithCredentials -%}
-            credentials: 'include',
-{%-        endif -%}
-{%-       if UseCorsMode -%}
-            mode: 'cors',
-{%-        endif -%}
+{%-       if RequestCredentialsType -%}
+            credentials: '{{ RequestCredentialsType }}',
+{%-       endif -%}
+{%-       if RequestModeType -%}
+            mode: '{{ RequestModeType }}',
+{%-       endif -%}
             headers: {
 {%-    for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
