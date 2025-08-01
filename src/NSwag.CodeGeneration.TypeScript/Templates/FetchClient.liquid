@@ -51,6 +51,9 @@
 {%-    if UseAbortSignal -%}
             signal,
 {%-    endif -%}
+{%-       if Framework.Fetch.WithCredentials -%}
+            withCredentials: true,
+{%-        endif -%}
             headers: {
 {%-    for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",

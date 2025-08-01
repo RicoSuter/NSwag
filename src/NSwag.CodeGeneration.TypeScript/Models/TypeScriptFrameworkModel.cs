@@ -62,6 +62,11 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets a value indicating whether to use RxJs 7.</summary>
         public bool UseRxJs7 => _settings.RxJsVersion >= 7.0m;
 
+        /// <summary>Gets a value indicating whether to send withCredentials: true with the http request options.</summary>
+        public bool WithCredentials => _settings.Template == TypeScriptTemplate.Fetch &&
+                                       _settings.HttpClass == TypeScript.HttpClass.HttpClient &&
+                                       _settings.WithCredentials;
+
         /// <summary>Gets Rxjs information.</summary>
         public TypeScriptFrameworkRxJsModel RxJs { get; }
 
