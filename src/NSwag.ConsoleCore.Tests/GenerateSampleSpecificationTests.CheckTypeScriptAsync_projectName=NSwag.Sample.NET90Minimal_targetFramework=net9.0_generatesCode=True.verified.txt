@@ -40,7 +40,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -81,7 +81,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -119,7 +119,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -157,7 +157,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });

@@ -266,6 +266,7 @@ namespace MyNamespace
 
     public partial class Paging
     {
+
         [Newtonsoft.Json.JsonProperty("page", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Page { get; set; }
 

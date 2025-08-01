@@ -111,7 +111,7 @@ export class UrlEncodedRequestConsumingClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = resultData200 ? Foo.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? Foo.fromJS(resultData200) : null as any;
             return Promise.resolve<Foo | null>(result200);
 
         } else if (status !== 200 && status !== 204) {
@@ -129,7 +129,7 @@ export class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }

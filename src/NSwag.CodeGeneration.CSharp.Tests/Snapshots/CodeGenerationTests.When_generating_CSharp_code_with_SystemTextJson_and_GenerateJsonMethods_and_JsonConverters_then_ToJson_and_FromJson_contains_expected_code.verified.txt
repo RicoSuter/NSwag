@@ -299,7 +299,6 @@ namespace MyNamespace
             return System.Text.Json.JsonSerializer.Deserialize<Person>(data, options);
 
         }
-
     }
 
     public enum Sex
@@ -344,7 +343,6 @@ namespace MyNamespace
             return System.Text.Json.JsonSerializer.Deserialize<Address>(data, options);
 
         }
-
     }
 
 

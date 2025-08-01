@@ -77,7 +77,7 @@ export class HttpValidationProblemDetails implements IHttpValidationProblemDetai
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -97,7 +97,7 @@ export class HttpValidationProblemDetails implements IHttpValidationProblemDetai
                 this.errors = {} as any;
                 for (let key in _data["errors"]) {
                     if (_data["errors"].hasOwnProperty(key))
-                        (<any>this.errors)![key] = _data["errors"][key] !== undefined ? _data["errors"][key] : [];
+                        (this.errors as any)![key] = _data["errors"][key] !== undefined ? _data["errors"][key] : [];
                 }
             }
         }
@@ -125,7 +125,7 @@ export class HttpValidationProblemDetails implements IHttpValidationProblemDetai
             data["errors"] = {};
             for (let key in this.errors) {
                 if (this.errors.hasOwnProperty(key))
-                    (<any>data["errors"])[key] = (<any>this.errors)[key];
+                    (data["errors"] as any)[key] = (this.errors as any)[key];
             }
         }
         return data;
@@ -156,7 +156,7 @@ export class TwoFactorRequest implements ITwoFactorRequest {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -220,7 +220,7 @@ export class TwoFactorResponse implements ITwoFactorResponse {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }

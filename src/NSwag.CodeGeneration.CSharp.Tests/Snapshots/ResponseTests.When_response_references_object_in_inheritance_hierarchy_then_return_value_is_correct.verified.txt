@@ -259,6 +259,7 @@ namespace MyNamespace
 
     public partial class BusinessException
     {
+
         [Newtonsoft.Json.JsonProperty("customerId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CustomerId { get; set; }
 

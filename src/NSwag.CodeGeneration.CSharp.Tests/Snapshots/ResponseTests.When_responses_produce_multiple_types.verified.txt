@@ -304,6 +304,7 @@ namespace MyNamespace
 
     public partial class ValidationProblemDetails
     {
+
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 
@@ -335,6 +336,7 @@ namespace MyNamespace
 
     public partial class ProblemDetails
     {
+
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 

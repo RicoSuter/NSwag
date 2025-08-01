@@ -266,6 +266,7 @@ namespace MyNamespace
 
     public partial class ExtendedProperties
     {
+
         [Newtonsoft.Json.JsonProperty("default", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Default { get; set; }
 
