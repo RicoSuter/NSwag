@@ -1,7 +1,8 @@
 ﻿
 // ReSharper disable InconsistentNaming
 
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios, { AxiosError } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 interface IDiscussionClient {
     addMessage(message: Foo | null | undefined,  cancelToken?: CancelToken): Promise<void>;
@@ -106,7 +107,7 @@ interface IFoo {
 }
 
 class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
