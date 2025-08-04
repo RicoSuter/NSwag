@@ -129,7 +129,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 switch (_settings.RequestCredentialsType)
                 {
                     case TypeScript.RequestCredentialsType.NotSet:
-                        return "";
+                        return null;
                     case TypeScript.RequestCredentialsType.Omit:
                         return "omit";
                     case TypeScript.RequestCredentialsType.Include:
@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     case TypeScript.RequestCredentialsType.SameOrigin:
                         return "same-origin";
                     default:
-                        return "";
+                        return null;
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 switch (_settings.RequestModeType)
                 {
                     case TypeScript.RequestModeType.NotSet:
-                        return "";
+                        return null;
                     case TypeScript.RequestModeType.SameOrigin:
                         return "same-origin";
                     case TypeScript.RequestModeType.Cors:
@@ -160,7 +160,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                     case TypeScript.RequestModeType.Navigate:
                         return "navigate";
                     default:
-                        return "";
+                        return null;
                 }
             }
         }

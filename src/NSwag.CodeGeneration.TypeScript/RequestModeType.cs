@@ -17,7 +17,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// Setting will not be included.
         /// </summary>
         NotSet,
-        
+
         /// <summary>
         /// Disallows cross-origin requests. If a same-origin request is sent to a different origin, the result is a network error.
         /// </summary>
@@ -36,7 +36,7 @@ namespace NSwag.CodeGeneration.TypeScript
         /// * The response is opaque, meaning that its headers and body are not available to JavaScript, and its status code is always 0.
         /// </summary>
         NoCors,
-        
+
         /// <summary>
         /// Used only by HTML navigation. A navigate request is created only while navigating between documents.
         /// </summary>
