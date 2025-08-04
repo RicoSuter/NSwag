@@ -1,0 +1,147 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+import http from "k6/http";
+import type { Params, Response } from "k6/http";
+
+export class UrlEncodedRequestConsumingClient {
+  private baseUrl: string;
+  private commonRequestParameters: Params;
+
+  constructor(baseUrl: string,commonRequestParameters?: Params) {
+      this.baseUrl = baseUrl.replace(/\/+$/, "") ?? "";
+      this.commonRequestParameters = commonRequestParameters || {};
+    }
+
+    addMessage(message: Foo | null | undefined, messageId: string | null | undefined, requestParameters?: Params): { response: Response; returnData: void } {
+      const combinedRequestParameters = this._combineRequestParameters(
+        requestParameters || {},
+        this.commonRequestParameters,
+      );
+        let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming";
+        url_ = url_.replace(/[?&]$/, "");
+
+      let content_ = "";
+    if (message !== undefined)
+        content_ += encodeURIComponent("message") + "=" + encodeURIComponent("" + message) + "&";
+    if (messageId !== undefined)
+        content_ += encodeURIComponent("messageId") + "=" + encodeURIComponent("" + messageId) + "&";
+    content_ = content_.replace(/&$/, "");
+
+      const response = http.request(
+        "POST",
+        url_.toString(),
+        content_,
+        {
+          ...combinedRequestParameters,
+          headers: {
+            ...combinedRequestParameters?.headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      let returnData;
+      try {
+        returnData = response.json();
+      } catch {
+        returnData = response.body;
+      }
+      return {
+        response,
+        returnData,
+      };
+    }
+
+  /**
+  *
+  */
+  private _combineRequestParameters(
+    requestParameters?: Params,
+    commonRequestParameters?: Params,
+  ): Params {
+    return {
+      ...commonRequestParameters, // Default to common parameters
+      ...requestParameters, // Override with request-specific parameters
+      headers: {
+        ...(commonRequestParameters?.headers || {}), // Ensure headers are defined
+        ...(requestParameters?.headers || {}),
+      },
+      cookies: {
+        ...(commonRequestParameters?.cookies || {}), // Ensure cookies are defined
+        ...(requestParameters?.cookies || {}),
+      },
+      tags: {
+        ...(commonRequestParameters?.tags || {}), // Ensure tags are defined
+        ...(requestParameters?.tags || {}),
+      },
+    };
+  }
+}
+
+export class Foo implements IFoo {
+    bar?: string | undefined;
+
+    constructor(data?: IFoo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bar = _data["Bar"];
+        }
+    }
+
+    static fromJS(data: any): Foo {
+        data = typeof data === 'object' ? data : {};
+        let result = new Foo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Bar"] = this.bar;
+        return data;
+    }
+}
+
+export interface IFoo {
+    bar?: string | undefined;
+}
+
+export class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
+}

@@ -1,0 +1,410 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+import http from "k6/http";
+import type { Params, Response } from "k6/http";
+
+export interface IDiscussionClient {
+
+  addMessage(message: Foo, requestParameters?: Params): { response: Response; returnData: void };
+
+  genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): { response: Response; returnData: void };
+
+  genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): { response: Response; returnData: void };
+}
+
+export class DiscussionClient implements IDiscussionClient {
+  private baseUrl: string;
+  private commonRequestParameters: Params;
+
+  constructor(baseUrl: string,commonRequestParameters?: Params) {
+      this.baseUrl = baseUrl.replace(/\/+$/, "") ?? "";
+      this.commonRequestParameters = commonRequestParameters || {};
+    }
+
+    addMessage(message: Foo, requestParameters?: Params): { response: Response; returnData: void } {
+      const combinedRequestParameters = this._combineRequestParameters(
+        requestParameters || {},
+        this.commonRequestParameters,
+      );
+        let url_ = this.baseUrl + "/Discussion/AddMessage";
+        url_ = url_.replace(/[?&]$/, "");
+
+      const content_ = JSON.stringify(message);
+
+      const response = http.request(
+        "POST",
+        url_.toString(),
+        content_,
+        {
+          ...combinedRequestParameters,
+          headers: {
+            ...combinedRequestParameters?.headers,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let returnData;
+      try {
+        returnData = response.json();
+      } catch {
+        returnData = response.body;
+      }
+      return {
+        response,
+        returnData,
+      };
+    }
+
+    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): { response: Response; returnData: void } {
+      const combinedRequestParameters = this._combineRequestParameters(
+        requestParameters || {},
+        this.commonRequestParameters,
+      );
+        let url_ = this.baseUrl + "/Discussion/GenericRequestTest1";
+        url_ = url_.replace(/[?&]$/, "");
+
+      const content_ = JSON.stringify(request);
+
+      const response = http.request(
+        "POST",
+        url_.toString(),
+        content_,
+        {
+          ...combinedRequestParameters,
+          headers: {
+            ...combinedRequestParameters?.headers,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let returnData;
+      try {
+        returnData = response.json();
+      } catch {
+        returnData = response.body;
+      }
+      return {
+        response,
+        returnData,
+      };
+    }
+
+    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): { response: Response; returnData: void } {
+      const combinedRequestParameters = this._combineRequestParameters(
+        requestParameters || {},
+        this.commonRequestParameters,
+      );
+        let url_ = this.baseUrl + "/Discussion/GenericRequestTest2";
+        url_ = url_.replace(/[?&]$/, "");
+
+      const content_ = JSON.stringify(request);
+
+      const response = http.request(
+        "POST",
+        url_.toString(),
+        content_,
+        {
+          ...combinedRequestParameters,
+          headers: {
+            ...combinedRequestParameters?.headers,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let returnData;
+      try {
+        returnData = response.json();
+      } catch {
+        returnData = response.body;
+      }
+      return {
+        response,
+        returnData,
+      };
+    }
+
+  /**
+  *
+  */
+  private _combineRequestParameters(
+    requestParameters?: Params,
+    commonRequestParameters?: Params,
+  ): Params {
+    return {
+      ...commonRequestParameters, // Default to common parameters
+      ...requestParameters, // Override with request-specific parameters
+      headers: {
+        ...(commonRequestParameters?.headers || {}), // Ensure headers are defined
+        ...(requestParameters?.headers || {}),
+      },
+      cookies: {
+        ...(commonRequestParameters?.cookies || {}), // Ensure cookies are defined
+        ...(requestParameters?.cookies || {}),
+      },
+      tags: {
+        ...(commonRequestParameters?.tags || {}), // Ensure tags are defined
+        ...(requestParameters?.tags || {}),
+      },
+    };
+  }
+}
+
+export class Foo implements IFoo {
+    bar?: string | undefined;
+
+    constructor(data?: IFoo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bar = _data["Bar"];
+        }
+    }
+
+    static fromJS(data: any): Foo {
+        data = typeof data === 'object' ? data : {};
+        let result = new Foo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Bar"] = this.bar;
+        return data;
+    }
+}
+
+export interface IFoo {
+    bar?: string | undefined;
+}
+
+export class GenericRequestBaseOfRequestBodyBase implements IGenericRequestBaseOfRequestBodyBase {
+    request!: RequestBodyBase;
+
+    constructor(data?: IGenericRequestBaseOfRequestBodyBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        if (!data) {
+            this.request = new RequestBodyBase();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.request = _data["Request"] ? RequestBodyBase.fromJS(_data["Request"]) : new RequestBodyBase();
+        }
+    }
+
+    static fromJS(data: any): GenericRequestBaseOfRequestBodyBase {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequestBaseOfRequestBodyBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
+        return data;
+    }
+}
+
+export interface IGenericRequestBaseOfRequestBodyBase {
+    request: RequestBodyBase;
+}
+
+export class GenericRequest1 extends GenericRequestBaseOfRequestBodyBase implements IGenericRequest1 {
+
+    constructor(data?: IGenericRequest1) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): GenericRequest1 {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequest1();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IGenericRequest1 extends IGenericRequestBaseOfRequestBodyBase {
+}
+
+export class RequestBodyBase implements IRequestBodyBase {
+
+    constructor(data?: IRequestBodyBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): RequestBodyBase {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestBodyBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+export interface IRequestBodyBase {
+}
+
+export class GenericRequestBaseOfRequestBody implements IGenericRequestBaseOfRequestBody {
+    request!: RequestBody;
+
+    constructor(data?: IGenericRequestBaseOfRequestBody) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        if (!data) {
+            this.request = new RequestBody();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.request = _data["Request"] ? RequestBody.fromJS(_data["Request"]) : new RequestBody();
+        }
+    }
+
+    static fromJS(data: any): GenericRequestBaseOfRequestBody {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequestBaseOfRequestBody();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
+        return data;
+    }
+}
+
+export interface IGenericRequestBaseOfRequestBody {
+    request: RequestBody;
+}
+
+export class GenericRequest2 extends GenericRequestBaseOfRequestBody implements IGenericRequest2 {
+
+    constructor(data?: IGenericRequest2) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): GenericRequest2 {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequest2();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IGenericRequest2 extends IGenericRequestBaseOfRequestBody {
+}
+
+export class RequestBody extends RequestBodyBase implements IRequestBody {
+
+    constructor(data?: IRequestBody) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): RequestBody {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestBody();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IRequestBody extends IRequestBodyBase {
+}
+
+export class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
+}
