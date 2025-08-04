@@ -86,7 +86,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Angular,
+                Template = TypeScriptTemplate.K6,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {

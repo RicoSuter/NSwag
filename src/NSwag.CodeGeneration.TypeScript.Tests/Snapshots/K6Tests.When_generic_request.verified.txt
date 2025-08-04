@@ -13,8 +13,8 @@ class DiscussionClient {
       this.commonRequestParameters = commonRequestParameters || {};
     }
 
-    addMessage(message: Foo, requestParameters?: Params): { response: Response; returnData: void } {
-      const combinedRequestParameters = this._combineRequestParameters(
+    addMessage(message: Foo, requestParameters?: Params):  void  {
+      const _mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -28,28 +28,18 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ...combinedRequestParameters,
+          ..._mergedRequestParameters,
           headers: {
-            ...combinedRequestParameters?.headers,
+            ..._mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
-      let returnData;
-      try {
-        returnData = response.json();
-      } catch {
-        returnData = response.body;
-      }
-      return {
-        response,
-        returnData,
-      };
     }
 
-    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): { response: Response; returnData: void } {
-      const combinedRequestParameters = this._combineRequestParameters(
+    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params):  void  {
+      const _mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -63,28 +53,18 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ...combinedRequestParameters,
+          ..._mergedRequestParameters,
           headers: {
-            ...combinedRequestParameters?.headers,
+            ..._mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
-      let returnData;
-      try {
-        returnData = response.json();
-      } catch {
-        returnData = response.body;
-      }
-      return {
-        response,
-        returnData,
-      };
     }
 
-    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): { response: Response; returnData: void } {
-      const combinedRequestParameters = this._combineRequestParameters(
+    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params):  void  {
+      const _mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -98,30 +78,20 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ...combinedRequestParameters,
+          ..._mergedRequestParameters,
           headers: {
-            ...combinedRequestParameters?.headers,
+            ..._mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
-      let returnData;
-      try {
-        returnData = response.json();
-      } catch {
-        returnData = response.body;
-      }
-      return {
-        response,
-        returnData,
-      };
     }
 
   /**
   *
   */
-  private _combineRequestParameters(
+  private _mergeRequestParameters(
     requestParameters?: Params,
     commonRequestParameters?: Params,
   ): Params {
