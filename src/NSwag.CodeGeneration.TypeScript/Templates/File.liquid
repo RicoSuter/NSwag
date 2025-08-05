@@ -42,12 +42,8 @@ import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 import * as ng from 'angular';
 {%-        endif -%}
 {%-        if Framework.IsAxios -%}
-{%-         if SupportsTypeOnlyImports -%}
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-{%-         else -%}
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-{%-         endif -%}
 {%-        endif -%}
 {%-        if Framework.IsKnockout -%}
 
@@ -126,7 +122,7 @@ namespace {{ Namespace }} {
 {%- endif -%}
 {% if RequiresExceptionClass -%}
 {% if ExportTypes %}export {% endif %}class {{ ExceptionClassName }} extends Error {
-    {% if SupportsOverrideKeyword %}override {% endif %}message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

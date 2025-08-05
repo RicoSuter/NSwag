@@ -56,7 +56,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
@@ -87,7 +86,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
@@ -114,11 +112,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Axios,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                Template = TypeScriptTemplate.Axios
             });
             var code = codeGen.GenerateFile();
 
@@ -144,11 +138,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
-                UseAbortSignal = false,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                UseAbortSignal = false
             });
             var code = codeGen.GenerateFile();
 
@@ -177,11 +167,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
-                UseAbortSignal = true,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                UseAbortSignal = true
             });
             var code = codeGen.GenerateFile();
 
@@ -211,11 +197,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 Template = TypeScriptTemplate.Axios,
                 UseAbortSignal = true,
-                GenerateClientInterfaces = true,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                GenerateClientInterfaces = true
             });
             var code = codeGen.GenerateFile();
 

@@ -103,9 +103,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether to use Aurelia HTTP injection.</summary>
         public bool UseAureliaHttpInjection => _settings.Template == TypeScriptTemplate.Aurelia;
 
-        /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
-        public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
-
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 

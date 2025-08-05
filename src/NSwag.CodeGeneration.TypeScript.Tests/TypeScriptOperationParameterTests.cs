@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         }
 
         [Fact]
-        public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
+        public async Task When_parameter_is_nullable_then_it_is_a_union_type_with_undefined()
         {
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
@@ -58,67 +58,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         }
 
         [Fact]
-        public async Task When_parameter_is_nullable_and_ts20_then_it_is_not_included_in_query_string()
-        {
-            // Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
-            {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
-            });
-
-            var document = await generator.GenerateForControllerAsync<NullableParameterController>();
-            var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
-            {
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 2.0m,
-                    NullValue = TypeScriptNullValue.Undefined
-                }
-            });
-
-            var json = document.ToJson();
-            Assert.NotNull(json);
-
-            // Act
-            var code = clientGenerator.GenerateFile();
-
-            // Assert
-            await VerifyHelper.Verify(code);
-            TypeScriptCompiler.AssertCompile(code);
-        }
-
-        [Fact]
-        public async Task When_parameter_is_nullable_optional_and_ts20_then_it_is_a_union_type_with_undefined()
-        {
-            // Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
-            {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
-            });
-
-            var document = await generator.GenerateForControllerAsync<NullableOptionalParameterController>();
-            var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
-            {
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 2.0m,
-                    NullValue = TypeScriptNullValue.Undefined
-                }
-            });
-
-            var json = document.ToJson();
-            Assert.NotNull(json);
-
-            // Act
-            var code = clientGenerator.GenerateFile();
-
-            // Assert
-            await VerifyHelper.Verify(code);
-            TypeScriptCompiler.AssertCompile(code);
-        }
-
-        [Fact]
-        public async Task When_parameter_is_nullable_optional_and_ts20_then_it_is_not_included_in_query_string()
+        public async Task When_parameter_is_nullable_optional_then_it_is_a_union_type_with_undefined()
         {
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings

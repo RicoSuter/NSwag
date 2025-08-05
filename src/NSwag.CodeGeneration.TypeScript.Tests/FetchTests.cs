@@ -57,7 +57,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
@@ -90,7 +89,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
@@ -119,11 +117,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                Template = TypeScriptTemplate.Fetch
             });
             var code = codeGen.GenerateFile();
 
@@ -149,11 +143,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Fetch,
-                UseAbortSignal = true,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                UseAbortSignal = true
             });
             var code = codeGen.GenerateFile();
 
@@ -178,11 +168,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Fetch,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                Template = TypeScriptTemplate.Fetch
             });
             var code = codeGen.GenerateFile();
 
@@ -209,11 +195,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 Template = TypeScriptTemplate.Fetch,
                 UseAbortSignal = true,
-                GenerateClientInterfaces = true,
-                TypeScriptGeneratorSettings =
-        {
-            TypeScriptVersion = 4.3m
-        }
+                GenerateClientInterfaces = true
             });
             var code = codeGen.GenerateFile();
 
@@ -237,11 +219,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Angular,
-                IncludeHttpContext = true,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                IncludeHttpContext = true
             });
             var code = codeGen.GenerateFile();
 
@@ -268,11 +246,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.Angular,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                Template = TypeScriptTemplate.Angular
             });
             var code = codeGen.GenerateFile();
 
