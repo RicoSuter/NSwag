@@ -65,9 +65,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
-            // should use AbortController instead of CancelToken
-            // CodeCompiler.AssertCompile(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -98,9 +96,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-
-            // should use AbortController instead of CancelToken
-            // CodeCompiler.AssertCompile(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]

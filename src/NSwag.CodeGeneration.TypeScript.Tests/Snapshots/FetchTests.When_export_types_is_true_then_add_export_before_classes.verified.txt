@@ -3,7 +3,7 @@
 
 export interface IDiscussionClient {
 
-    addMessage(message: Foo | null | undefined,  cancelToken?: CancelToken): Promise<void>;
+    addMessage(message: Foo | null | undefined): Promise<void>;
 }
 
 export class DiscussionClient implements IDiscussionClient {
