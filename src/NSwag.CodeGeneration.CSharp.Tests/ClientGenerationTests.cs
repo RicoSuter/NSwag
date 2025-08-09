@@ -8,10 +8,22 @@ public class ClientGenerationTests
     [Fact]
     public async Task CanGenerateFromJiraOpenApiSpecification()
     {
-        await VerifyOutput("JIRA_OpenAPI", "jira-open-api.json");
+        await VerifyOutput("JIRA_OpenAPI", "jira-open-api.json", compile: false);
     }
 
-    private static async Task VerifyOutput(string name, string fileName)
+    [Fact]
+    public async Task CanGenerateFromShipBobOpenApiSpecification()
+    {
+        await VerifyOutput("ShipBob_OpenAPI", "shipbob-2025-07.json");
+    }
+
+    [Fact]
+    public async Task CanGenerateFromNhsSpineServicesOpenApiSpecification()
+    {
+        await VerifyOutput("NHS_SpineServices_OpenAPI", "nhs-spineservices.json");
+    }
+
+    private static async Task VerifyOutput(string name, string fileName, bool compile = true)
     {
         var specification = await File.ReadAllTextAsync(Path.Combine("TestData", fileName));
 
@@ -27,6 +39,9 @@ public class ClientGenerationTests
             .Verify(code, scrubApiComments: false)
             .UseFileName(name);
 
-        // TODO CodeCompiler.AssertCompile(code);
+        if (compile)
+        {
+            CSharpCompiler.AssertCompile(code);
+        }
     }
 }
