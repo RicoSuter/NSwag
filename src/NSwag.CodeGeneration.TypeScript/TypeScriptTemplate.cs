@@ -31,5 +31,8 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Uses the Axios service.</summary>
         Axios,
+
+        /// <summary>Uses the K6 http.request client.</summary>
+        K6,
     }
 }
