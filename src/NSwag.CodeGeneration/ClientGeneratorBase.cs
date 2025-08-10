@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
+using System.Runtime;
 
 namespace NSwag.CodeGeneration
 {
@@ -155,14 +157,34 @@ namespace NSwag.CodeGeneration
         {
             document.GenerateOperationIds();
 
+            HashSet<string> operationsToInclude = [..BaseSettings.IncludedOperationIds ?? []];
+            HashSet<string> operationsToExclude = [.. BaseSettings.ExcludedOperationIds ?? []];
+
+            IEnumerable<string> operationsBothIncludedAndExcluded = operationsToInclude.Intersect(operationsToExclude);
+            if (operationsBothIncludedAndExcluded.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Some operations are both in included and excluded operation IDs ({string.Join(", ", operationsBothIncludedAndExcluded)})."
+                    );
+            }
+
             var result = new List<TOperationModel>();
             foreach (var pair in document.Paths)
             {
                 foreach (var p in pair.Value.ActualPathItem)
                 {
+                    var operation = p.Value;
+ 
+                    if ((operationsToInclude.Count is not 0 && !operationsToInclude.Contains(operation.OperationId))
+                        ||
+                        (operationsToExclude.Count is not 0 && operationsToExclude.Contains(operation.OperationId))
+                        )
+                    {
+                        continue;
+                    }
+
                     var path = pair.Key.TrimStart(pathTrimChars);
                     var httpMethod = p.Key;
-                    var operation = p.Value;
 
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
