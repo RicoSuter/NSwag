@@ -335,7 +335,7 @@
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                         return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
-                        return {{ operation.UnwrappedResultDefaultValue }};
+                        {% if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
                         return new {{ ResponseClass }}(status_, headers_);
