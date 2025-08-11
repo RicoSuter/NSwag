@@ -4,14 +4,14 @@
 export class DiscriminatorClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
         this.baseUrl = baseUrl ?? "";
     }
 
-    testLeaf(param: OneChild | SecondChild): Promise<string> {
+    testLeaf(param: OneChild | SecondChild | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/foo";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -31,7 +31,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestLeaf(response: Response): Promise<string> {
+    protected processTestLeaf(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -47,10 +47,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(null as any);
+        return Promise.resolve<string | null>(null as any);
     }
 
-    testLeafArr(param: (OneChild | SecondChild)[]): Promise<string> {
+    testLeafArr(param: (OneChild | SecondChild)[] | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/foo-arr";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -70,7 +70,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestLeafArr(response: Response): Promise<string> {
+    protected processTestLeafArr(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -86,10 +86,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(null as any);
+        return Promise.resolve<string | null>(null as any);
     }
 
-    test(param: OneChild): Promise<string> {
+    test(param: OneChild | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/bar";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -109,7 +109,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTest(response: Response): Promise<string> {
+    protected processTest(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -125,10 +125,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(null as any);
+        return Promise.resolve<string | null>(null as any);
     }
 
-    testNested(param: Nested): Promise<string> {
+    testNested(param: Nested | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/baz";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -148,7 +148,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestNested(response: Response): Promise<string> {
+    protected processTestNested(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -164,12 +164,12 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(null as any);
+        return Promise.resolve<string | null>(null as any);
     }
 }
 
 export abstract class Base implements IBase {
-    type: EBase;
+    type!: EBase;
 
     protected _discriminator: string;
 
@@ -222,28 +222,28 @@ export enum EBase {
 }
 
 export class OneChild extends Base implements IOneChild {
-    a?: string;
+    a?: string | undefined;
 
     constructor(data?: IOneChild) {
         super(data);
         this._discriminator = "OneChild";
     }
 
-    init(_data?: any) {
+    override init(_data?: any) {
         super.init(_data);
         if (_data) {
             this.a = _data["A"];
         }
     }
 
-    static fromJS(data: any): OneChild {
+    static override fromJS(data: any): OneChild {
         data = typeof data === 'object' ? data : {};
         let result = new OneChild();
         result.init(data);
         return result;
     }
 
-    toJSON(data?: any) {
+    override toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["A"] = this.a;
         super.toJSON(data);
@@ -252,32 +252,32 @@ export class OneChild extends Base implements IOneChild {
 }
 
 export interface IOneChild extends IBase {
-    a?: string;
+    a?: string | undefined;
 }
 
 export class SecondChild extends Base implements ISecondChild {
-    b?: string;
+    b?: string | undefined;
 
     constructor(data?: ISecondChild) {
         super(data);
         this._discriminator = "SecondChild";
     }
 
-    init(_data?: any) {
+    override init(_data?: any) {
         super.init(_data);
         if (_data) {
             this.b = _data["B"];
         }
     }
 
-    static fromJS(data: any): SecondChild {
+    static override fromJS(data: any): SecondChild {
         data = typeof data === 'object' ? data : {};
         let result = new SecondChild();
         result.init(data);
         return result;
     }
 
-    toJSON(data?: any) {
+    override toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["B"] = this.b;
         super.toJSON(data);
@@ -286,12 +286,12 @@ export class SecondChild extends Base implements ISecondChild {
 }
 
 export interface ISecondChild extends IBase {
-    b?: string;
+    b?: string | undefined;
 }
 
 export class Nested implements INested {
-    child?: OneChild | SecondChild;
-    childCollection?: (OneChild | SecondChild)[];
+    child?: OneChild | SecondChild | undefined;
+    childCollection?: (OneChild | SecondChild)[] | undefined;
 
     constructor(data?: INested) {
         if (data) {
@@ -308,7 +308,7 @@ export class Nested implements INested {
             if (Array.isArray(_data["ChildCollection"])) {
                 this.childCollection = [] as any;
                 for (let item of _data["ChildCollection"])
-                    this.childCollection.push(OneChild | SecondChild.fromJS(item));
+                    this.childCollection!.push(OneChild | SecondChild.fromJS(item));
             }
         }
     }
@@ -333,12 +333,12 @@ export class Nested implements INested {
 }
 
 export interface INested {
-    child?: OneChild | SecondChild;
-    childCollection?: (OneChild | SecondChild)[];
+    child?: OneChild | SecondChild | undefined;
+    childCollection?: (OneChild | SecondChild)[] | undefined;
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

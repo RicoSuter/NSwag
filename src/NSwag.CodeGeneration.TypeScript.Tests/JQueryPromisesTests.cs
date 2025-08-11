@@ -50,7 +50,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
@@ -81,7 +80,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
@@ -108,11 +106,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
-                Template = TypeScriptTemplate.JQueryPromises,
-                TypeScriptGeneratorSettings =
-                {
-                    TypeScriptVersion = 4.3m
-                }
+                Template = TypeScriptTemplate.JQueryPromises
             });
             var code = codeGen.GenerateFile();
 

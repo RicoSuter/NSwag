@@ -85,7 +85,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 var response = GetSuccessResponse();
                 var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
 
-                var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
+                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
                     UnwrappedResultType;
 
@@ -102,9 +102,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
-
-        /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
-        public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
