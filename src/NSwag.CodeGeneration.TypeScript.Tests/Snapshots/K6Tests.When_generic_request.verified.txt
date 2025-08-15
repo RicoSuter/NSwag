@@ -13,8 +13,8 @@ class DiscussionClient {
       this.commonRequestParameters = commonRequestParameters || {};
     }
 
-    addMessage(message: Foo, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    addMessage(message: Foo, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -28,18 +28,19 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
 
-    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -53,18 +54,19 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
 
-    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -78,16 +80,16 @@ class DiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
-
   /**
   *
   */

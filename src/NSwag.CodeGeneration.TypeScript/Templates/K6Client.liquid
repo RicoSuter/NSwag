@@ -7,7 +7,7 @@ import type { Params, Response } from "k6/http";
 {%    for operation in Operations %}
 
   {% template Client.Method.Documentation %}
-  {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}, requestParameters?: Params): {% if operation.ResultType != "void" %} { response: Response; data: {{ operation.ResultType }} }{% else %} {{ operation.ResultType }} {% endif %};
+  {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if operation.Parameters.size > 0 %}, {% endif %}requestParameters?: Params): {% if operation.ResultType != "void" %}{ response: Response; data: {{ operation.ResultType }} }{% else %}Response{% endif %};
 {%-    endfor %}}
 {%- endif -%}
 
@@ -38,8 +38,8 @@ import type { Params, Response } from "k6/http";
 {%- endif -%}
 {% for operation in Operations %}
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal{% endif %}, requestParameters?: Params): {% if operation.ResultType != "void" %} { response: Response; data: {{ operation.ResultType }} }{% else %} {{ operation.ResultType }} {% endif %} {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}{% if UseAbortSignal %}{% if operation.Parameters.size > 0 %}, {% endif %}signal?: AbortSignal{% endif %}{% if operation.Parameters.size > 0 %}, {% endif %}requestParameters?: Params): {% if operation.ResultType != "void" %}{ response: Response; data: {{ operation.ResultType }} }{% else %}Response {% endif %} {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -55,9 +55,9 @@ import type { Params, Response } from "k6/http";
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
 {%-    if operation.HasContent or operation.ConsumesOnlyFormUrlEncoded -%}
             "Content-Type": "{{ operation.Consumes }}",
 {%-    endif -%}
@@ -69,7 +69,7 @@ import type { Params, Response } from "k6/http";
       );
 {%-   else -%}
       const response = http.request("{{ operation.HttpMethodUpper | upcase }}", url_.toString(), undefined, {
-        ..._mergedRequestParameters,
+        ...mergedRequestParameters,
       });
 {%-   endif -%}
 
@@ -84,16 +84,17 @@ import type { Params, Response } from "k6/http";
         response,
         data,
       };
+{%-   else -%}
+      return response;
 {%-   endif -%}
     }
 {% endfor -%}
-
   /**
-  * Combines the provided request parameters with default parameters for the client.
+  * Merges the provided request parameters with default parameters for the client.
   *
   * @param {Params} requestParameters - The parameters provided specifically for the request
   * @param {Params} commonRequestParameters - Common parameters for all requests
-  * @returns {Params} - The combined parameters
+  * @returns {Params} - The merged parameters
   */
   private _mergeRequestParameters(
     requestParameters?: Params,

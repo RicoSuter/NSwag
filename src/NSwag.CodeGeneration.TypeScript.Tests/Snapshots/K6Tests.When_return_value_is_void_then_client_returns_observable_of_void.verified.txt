@@ -6,11 +6,11 @@ import type { Params, Response } from "k6/http";
 
 export interface IDiscussionClient {
 
-  addMessage(message: Foo, requestParameters?: Params):  void ;
+  addMessage(message: Foo, requestParameters?: Params): Response;
 
-  genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params):  void ;
+  genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): Response;
 
-  genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params):  void ;
+  genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): Response;
 }
 
 export class DiscussionClient implements IDiscussionClient {
@@ -22,8 +22,8 @@ export class DiscussionClient implements IDiscussionClient {
       this.commonRequestParameters = commonRequestParameters || {};
     }
 
-    addMessage(message: Foo, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    addMessage(message: Foo, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -37,18 +37,19 @@ export class DiscussionClient implements IDiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
 
-    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    genericRequestTest1(request: GenericRequest1 | null | undefined, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -62,18 +63,19 @@ export class DiscussionClient implements IDiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
 
-    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params):  void  {
-      const _mergedRequestParameters = this._mergeRequestParameters(
+    genericRequestTest2(request: GenericRequest2 | null | undefined, requestParameters?: Params): Response  {
+      const mergedRequestParameters = this._mergeRequestParameters(
         requestParameters || {},
         this.commonRequestParameters,
       );
@@ -87,16 +89,16 @@ export class DiscussionClient implements IDiscussionClient {
         url_.toString(),
         content_,
         {
-          ..._mergedRequestParameters,
+          ...mergedRequestParameters,
           headers: {
-            ..._mergedRequestParameters?.headers,
+            ...mergedRequestParameters?.headers,
             "Content-Type": "application/json",
           },
         }
       );
 
+      return response;
     }
-
   /**
   *
   */
