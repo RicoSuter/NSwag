@@ -42,6 +42,8 @@ namespace NSwag.CodeGeneration.TypeScript
             ]);
 
             ProtectedMethods = [];
+            RequestCredentialsType = RequestCredentialsType.NotSet;
+            RequestModeType = RequestModeType.NotSet;
         }
 
         /// <summary>Gets the TypeScript generator settings.</summary>
@@ -100,6 +102,12 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets a value indicating whether to set the withCredentials flag.</summary>
         public bool WithCredentials { get; set; }
+
+        /// <summary>Gets or sets a value indicating the credential type for requests.</summary>
+        public RequestCredentialsType RequestCredentialsType { get; set; }
+
+        /// <summary>Gets or sets a value indicating the mode for http requests.</summary>
+        public RequestModeType RequestModeType { get; set; }
 
         /// <summary>Gets the RxJs version (Angular template only, default: 6.0).</summary>
         public decimal RxJsVersion { get; set; } = 6.0m;
