@@ -24,6 +24,8 @@ namespace NSwag.CodeGeneration
             GenerateDtoTypes = true;
 
             OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator();
+            IncludedOperationIds = [];
+            ExcludedOperationIds = [];
             ParameterNameGenerator = new DefaultParameterNameGenerator();
 
             GenerateResponseClasses = true;
@@ -56,6 +58,12 @@ namespace NSwag.CodeGeneration
 
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
+        
+        /// <summary>Gets or sets the only operations that should be included in the generated client.</summary>
+        public string[] IncludedOperationIds { get; set; }
+        
+        /// <summary>Gets or sets the operations that should be excluded from the generated client.</summary>
+        public string[] ExcludedOperationIds { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional parameters.</summary>
         public bool GenerateOptionalParameters { get; set; }

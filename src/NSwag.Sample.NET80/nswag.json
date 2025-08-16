@@ -85,6 +85,8 @@
       "useTransformResultMethod": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
+      "includedOperationIds": [],
+      "excludedOperationIds": [],
       "markOptionalProperties": true,
       "generateCloneMethod": false,
       "typeStyle": "Class",

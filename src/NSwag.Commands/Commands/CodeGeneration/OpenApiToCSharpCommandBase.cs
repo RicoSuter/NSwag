@@ -36,6 +36,20 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value);
         }
 
+        [Argument(Name = "IncludedOperationIds", IsRequired = false, Description = "The operations that should be included or excluded.")]
+        public string[] IncludedOperationIds
+        {
+            get => Settings.IncludedOperationIds;
+            set => Settings.IncludedOperationIds = value;
+        }
+
+        [Argument(Name = "ExcludedOperationIds", IsRequired = false, Description = "The operations that should be included or excluded.")]
+        public string[] ExcludedOperationIds
+        {
+            get => Settings.ExcludedOperationIds;
+            set => Settings.ExcludedOperationIds = value;
+        }
+
         [Argument(Name = "AdditionalNamespaceUsages", IsRequired = false, Description = "The additional namespace usages.")]
         public string[] AdditionalNamespaceUsages
         {
