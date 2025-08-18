@@ -1,8 +1,7 @@
 ﻿
 // ReSharper disable InconsistentNaming
 
-import axios, { AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 interface IDiscussionClient {
     addMessage(message: Foo | null | undefined,  cancelToken?: CancelToken): Promise<void>;
@@ -77,7 +76,7 @@ class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (this as any)[property] = (data as any)[property];
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
     }
@@ -107,7 +106,7 @@ interface IFoo {
 }
 
 class ApiException extends Error {
-    override message: string;
+    message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

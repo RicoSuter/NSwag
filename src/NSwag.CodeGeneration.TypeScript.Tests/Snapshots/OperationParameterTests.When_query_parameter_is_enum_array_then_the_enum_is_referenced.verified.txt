@@ -62,7 +62,7 @@ export class FooClient {
                     result200.push(Foo.fromJS(item));
             }
             else {
-                result200 = null as any;
+                result200 = <any>null;
             }
             return result200;
 
@@ -82,7 +82,7 @@ export class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (this as any)[property] = (data as any)[property];
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
     }

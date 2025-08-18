@@ -1,8 +1,7 @@
 ﻿
 // ReSharper disable InconsistentNaming
 
-import axios, { AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
 export class UrlEncodedRequestConsumingClient {
     protected instance: AxiosInstance;
@@ -112,7 +111,7 @@ export class UrlEncodedRequestConsumingClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = resultData200 ? Foo.fromJS(resultData200) : null as any;
+            result200 = resultData200 ? Foo.fromJS(resultData200) : <any>null;
             return Promise.resolve<Foo | null>(result200);
 
         } else if (status !== 200 && status !== 204) {
@@ -130,7 +129,7 @@ export class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (this as any)[property] = (data as any)[property];
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
     }
@@ -160,7 +159,7 @@ export interface IFoo {
 }
 
 export class ApiException extends Error {
-    override message: string;
+    message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

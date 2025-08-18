@@ -61,7 +61,7 @@ export class FileToken implements IFileToken {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (this as any)[property] = (data as any)[property];
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
     }

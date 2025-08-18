@@ -42,7 +42,7 @@ export class NullableParameterClient {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : null as any;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
     
             return result200;
             });
