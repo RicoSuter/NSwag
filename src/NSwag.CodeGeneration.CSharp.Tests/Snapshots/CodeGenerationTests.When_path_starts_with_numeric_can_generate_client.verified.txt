@@ -281,6 +281,7 @@ namespace MyNamespace
 
     public partial class HttpValidationProblemDetails
     {
+
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 
@@ -312,6 +313,7 @@ namespace MyNamespace
 
     public partial class TwoFactorRequest
     {
+
         [Newtonsoft.Json.JsonProperty("enable", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool? Enable { get; set; }
 
@@ -340,6 +342,7 @@ namespace MyNamespace
 
     public partial class TwoFactorResponse
     {
+
         [Newtonsoft.Json.JsonProperty("sharedKey", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string SharedKey { get; set; }

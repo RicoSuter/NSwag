@@ -3,6 +3,9 @@
     "target": "es2016",
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types"],
-    "strict": true
+    "strict": true,
+    "noImplicitOverride": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }

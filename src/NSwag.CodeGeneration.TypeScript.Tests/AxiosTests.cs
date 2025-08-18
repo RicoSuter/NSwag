@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
@@ -117,7 +117,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 Template = TypeScriptTemplate.Axios,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
@@ -147,7 +147,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 UseAbortSignal = false,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
@@ -180,7 +180,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 UseAbortSignal = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
@@ -214,7 +214,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();

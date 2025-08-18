@@ -80,7 +80,7 @@ export class Foo implements IFoo {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+                    (this as any)[property] = (data as any)[property];
             }
         }
     }
@@ -110,7 +110,7 @@ export interface IFoo {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

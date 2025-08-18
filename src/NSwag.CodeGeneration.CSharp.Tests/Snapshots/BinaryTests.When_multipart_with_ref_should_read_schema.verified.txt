@@ -280,6 +280,7 @@ namespace MyNamespace
 
     public partial class CreateAddFileResponse
     {
+
         [Newtonsoft.Json.JsonProperty("fileId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.Guid FileId { get; set; }
@@ -297,6 +298,7 @@ namespace MyNamespace
 
     public partial class CreateAddFileRequest
     {
+
         [Newtonsoft.Json.JsonProperty("file", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public byte[] File { get; set; }
