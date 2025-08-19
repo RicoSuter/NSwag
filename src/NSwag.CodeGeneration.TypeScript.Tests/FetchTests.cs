@@ -278,5 +278,57 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // should use AbortController instead of CancelToken
             // CodeCompiler.AssertCompile(code);
         }
+
+        [Fact]
+        public async Task When_include_RequestCredentialsType_Include()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                RequestCredentialsType = RequestCredentialsType.Include,
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_include_RequestModeType_Cors()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Fetch,
+                RequestModeType = RequestModeType.Cors,
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
     }
 }
