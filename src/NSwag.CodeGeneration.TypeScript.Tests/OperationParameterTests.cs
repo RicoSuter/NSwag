@@ -64,7 +64,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 Template = TypeScriptTemplate.JQueryCallbacks
             };
-            clientSettings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
 
             var gen = new TypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();

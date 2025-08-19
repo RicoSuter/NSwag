@@ -6,13 +6,13 @@ import * as jQuery from 'jquery';
 export class FooClient {
     baseUrl: string;
     beforeSend: any = undefined;
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string) {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getFoos(bars: Bar[], onSuccess?: (result: Foo[]) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    getFoos(bars: Bar[] | null | undefined, onSuccess?: (result: Foo[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/foos?";
         if (bars !== undefined && bars !== null)
             bars && bars.forEach(item => { url_ += "bars=" + encodeURIComponent("" + item) + "&"; });
@@ -48,7 +48,7 @@ export class FooClient {
         }
     }
 
-    protected processGetFoos(xhr: any): Foo[] {
+    protected processGetFoos(xhr: any): Foo[] | null | null {
         const status = xhr.status;
 
         let _headers: any = {};
@@ -59,7 +59,7 @@ export class FooClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200.push(Foo.fromJS(item));
+                    result200!.push(Foo.fromJS(item));
             }
             else {
                 result200 = null as any;
@@ -75,8 +75,8 @@ export class FooClient {
 }
 
 export class Foo implements IFoo {
-    bar: Bar;
-    bar2: Bar;
+    bar!: Bar;
+    bar2!: Bar;
 
     constructor(data?: IFoo) {
         if (data) {
@@ -120,7 +120,7 @@ export enum Bar {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

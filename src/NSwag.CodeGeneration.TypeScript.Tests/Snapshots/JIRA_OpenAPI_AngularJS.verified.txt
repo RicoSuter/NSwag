@@ -56357,7 +56357,7 @@ export class FieldIdIdentifier extends FieldIdentifierObject implements IFieldId
         this._discriminator = "FieldIdIdentifier";
     }
 
-    init(_data?: any) {
+    override init(_data?: any) {
         super.init(_data);
         if (_data) {
             for (var property in _data) {
@@ -56368,14 +56368,14 @@ export class FieldIdIdentifier extends FieldIdentifierObject implements IFieldId
         }
     }
 
-    static fromJS(data: any): FieldIdIdentifier {
+    static override fromJS(data: any): FieldIdIdentifier {
         data = typeof data === 'object' ? data : {};
         let result = new FieldIdIdentifier();
         result.init(data);
         return result;
     }
 
-    toJSON(data?: any) {
+    override toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         for (var property in this) {
             if (this.hasOwnProperty(property))
@@ -80304,7 +80304,7 @@ export class ProjectIdAssociationContext extends AssociationContextObject implem
         this._discriminator = "ProjectIdAssociationContext";
     }
 
-    init(_data?: any) {
+    override init(_data?: any) {
         super.init(_data);
         if (_data) {
             for (var property in _data) {
@@ -80315,14 +80315,14 @@ export class ProjectIdAssociationContext extends AssociationContextObject implem
         }
     }
 
-    static fromJS(data: any): ProjectIdAssociationContext {
+    static override fromJS(data: any): ProjectIdAssociationContext {
         data = typeof data === 'object' ? data : {};
         let result = new ProjectIdAssociationContext();
         result.init(data);
         return result;
     }
 
-    toJSON(data?: any) {
+    override toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         for (var property in this) {
             if (this.hasOwnProperty(property))
@@ -100239,7 +100239,7 @@ function formatDate(d: Date) {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
