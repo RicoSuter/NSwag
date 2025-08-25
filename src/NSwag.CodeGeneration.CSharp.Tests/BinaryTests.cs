@@ -500,5 +500,51 @@ components:
             await VerifyHelper.Verify(code);
             CSharpCompiler.AssertCompile(code);
         }
+        
+        [Fact]
+        public async Task When_response_body_is_binary_then_IActionResult_is_used_as_return_type_in_CSharp_ASPNETCore()
+        {
+          var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /logo:
+    get:
+      tags:
+        - Files
+      summary: 'Get logo'
+      operationId: getLogo
+      responses:
+        '200':
+          description: 'something'
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary";
+
+          var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+          // Act
+          CSharpControllerGeneratorSettings settings = new CSharpControllerGeneratorSettings
+          {
+            ControllerTarget = CSharpControllerTarget.AspNetCore,
+            ControllerStyle = CSharpControllerStyle.Abstract,
+            UseActionResultType = true,
+                
+          };
+            
+          var codeGenerator = new CSharpControllerGenerator(document, settings);
+          var code = codeGenerator.GenerateFile();
+
+          // Assert
+          await VerifyHelper.Verify(code);
+          CSharpCompiler.AssertCompile(code);
+          Assert.DoesNotContain("ActionResult<Microsoft.AspNetCore.Mvc.FileResult>", code);
+          Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> GetLogo", code);
+        }
     }
 }
