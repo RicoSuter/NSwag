@@ -58,7 +58,7 @@
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 2.7,
+      "typeScriptVersion": 4.3,
       "template": "Fetch",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
