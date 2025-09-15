@@ -21,7 +21,7 @@
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="MyToolkit" Version="2.5.16" />
     <PackageVersion Include="MyToolkit.Extended" Version="2.5.16" />
-    <PackageVersion Include="Namotion.Reflection" Version="3.4.2" />
+    <PackageVersion Include="Namotion.Reflection" Version="3.4.3" />
     <PackageVersion Include="NConsole" Version="3.12.6605.26941" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NJsonSchema" Version="11.4.0" />
