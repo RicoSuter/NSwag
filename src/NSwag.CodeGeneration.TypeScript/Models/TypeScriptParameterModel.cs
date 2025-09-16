@@ -44,20 +44,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets the type postfix (e.g. ' | null | undefined')</summary>
-        public string TypePostfix
-        {
-            get
-            {
-                if (_settings.TypeScriptGeneratorSettings.SupportsStrictNullChecks)
-                {
-                    return (IsNullable ? " | null" : "") + (!IsRequired ? " | undefined" : "");
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-        }
+        public string TypePostfix => (IsNullable ? " | null" : "") + (!IsRequired ? " | undefined" : "");
 
         /// <summary>
         /// Format the datetime to a string based on the chosen datetime type setting

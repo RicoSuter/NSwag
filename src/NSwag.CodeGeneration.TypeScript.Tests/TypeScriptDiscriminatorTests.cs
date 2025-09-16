@@ -85,7 +85,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 TypeScriptGeneratorSettings =
                 {
                     UseLeafType = true,
-                    TypeScriptVersion = 1.4m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });

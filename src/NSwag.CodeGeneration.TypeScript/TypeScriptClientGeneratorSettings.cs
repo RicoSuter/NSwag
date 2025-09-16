@@ -33,7 +33,6 @@ namespace NSwag.CodeGeneration.TypeScript
                 SchemaType = SchemaType.Swagger2,
                 MarkOptionalProperties = true,
                 TypeNameGenerator = new TypeScriptTypeNameGenerator(),
-                TypeScriptVersion = 2.7m
             };
 
             TypeScriptGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(TypeScriptGeneratorSettings, [
