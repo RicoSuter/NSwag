@@ -16,5 +16,10 @@ IF NOT "%args:/runtime:net90=%" == "%args%" (
     GOTO end
 )
 
+IF NOT "%args:/runtime:net100=%" == "%args%" (
+    dotnet "%~dp0/Net100/dotnet-nswag.dll" %*
+    GOTO end
+)
+
 "%~dp0/Win/nswag.exe" %*
 :end

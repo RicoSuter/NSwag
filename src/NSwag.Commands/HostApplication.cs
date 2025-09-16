@@ -31,7 +31,7 @@ namespace NSwag.Commands
                 if (buildWebHostMethod != null)
                 {
                     var result = buildWebHostMethod.Invoke(null, [args]);
-                    serviceProvider = ((IWebHost)result).Services;
+                    serviceProvider = (result as IHost)?.Services;
                 }
                 else
                 {
@@ -41,9 +41,9 @@ namespace NSwag.Commands
 
                     if (createWebHostMethod != null)
                     {
-                        var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
+                        var webHostBuilder = (IHostBuilder)createWebHostMethod.Invoke(
                             null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
-                        serviceProvider = webHostBuilder.Build().Services;
+                        serviceProvider = webHostBuilder?.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
@@ -56,7 +56,7 @@ namespace NSwag.Commands
                         {
                             var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
                                 null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
-                            serviceProvider = webHostBuilder.Build().Services;
+                            serviceProvider = webHostBuilder?.Build().Services;
                         }
                     }
 #endif
@@ -70,7 +70,14 @@ namespace NSwag.Commands
                 var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
                 if (startupType != null)
                 {
+                    #if NETFRAMEWORK
                     serviceProvider = WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                    #else
+                    serviceProvider = new HostBuilder()
+                        .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup(startupType))
+                        .Build()
+                        .Services;
+                    #endif
                 }
             }
 

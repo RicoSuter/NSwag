@@ -21,6 +21,11 @@ namespace NSwag.Commands
 #else
                 if (!System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.Ordinal))
                 {
+                    if (Environment.Version.Major >= 10)
+                    {
+                        return Runtime.Net100;
+                    }
+
                     if (Environment.Version.Major >= 9)
                     {
                         return Runtime.Net90;
