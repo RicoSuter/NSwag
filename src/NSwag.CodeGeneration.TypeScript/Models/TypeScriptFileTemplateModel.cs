@@ -74,7 +74,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 // TODO: Merge with ResponseClassNames of C#
                 if (_settings.OperationNameGenerator.SupportsMultipleClients)
                 {
-                    return _document.Operations
+                    return _document.GetOperations()
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
                         .Where(a => _settings.TypeScriptGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
@@ -127,20 +127,30 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
 
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
-        public bool RequiresFileParameterInterface =>
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
-            (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
-             _document.Operations.Any(o => o.Operation?.ActualRequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true ||
-                                                                                       c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary ||
-                                                                                                                                 p.Value.Item?.IsBinary == true ||
-                                                                                                                                 p.Value.Items.Any(i => i.IsBinary)
-                                                                                                                                 ) == true) == true));
+        public bool RequiresFileParameterInterface
+        {
+            get
+            {
+                if (_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter"))
+                {
+                    return false;
+                }
+
+                var operations = _document.GetOperations().ToList();
+                return operations.Any(o => o.Operation.GetActualParameters().Any(static p => p.ActualTypeSchema.IsBinary)) ||
+                       operations.Any(o => o.Operation?.ActualRequestBody?._content?.Any(static c => c.Value.Schema?.IsBinary == true ||
+                                                                                              c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary ||
+                                                                                                                                        p.Value.Item?.IsBinary == true ||
+                                                                                                                                        p.Value.Items.Any(i => i.IsBinary)
+                                                                                              ) == true) == true);
+            }
+        }
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
+            _document.GetOperations().Any(static o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>
@@ -160,12 +170,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether MomentJS duration format is needed (moment-duration-format package).</summary>
         public bool RequiresMomentJSDuration => Types?.Contains("moment.duration(") == true;
-
-        /// <summary>Gets a value indicating whether the target TypeScript version supports override keyword.</summary>
-        public bool SupportsOverrideKeyword => _settings.TypeScriptGeneratorSettings.SupportsOverrideKeyword;
-
-        /// <summary>Gets a value indicating whether the target TypeScript version supports Type-Only imports</summary>
-        public bool SupportsTypeOnlyImports => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 3.8m;
 
         private string GenerateExtensionCodeAfter()
         {

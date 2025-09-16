@@ -238,21 +238,20 @@ namespace NSwag
 
         /// <summary>Gets the operations.</summary>
         [JsonIgnore]
-        public IEnumerable<OpenApiOperationDescription> Operations
+        public IEnumerable<OpenApiOperationDescription> Operations => GetOperations();
+
+        internal IEnumerable<OpenApiOperationDescription> GetOperations()
         {
-            get
+            foreach (var p in _paths)
             {
-                foreach (var p in _paths)
+                foreach (var o in p.Value.ActualPathItem)
                 {
-                    foreach (var o in p.Value.ActualPathItem)
+                    yield return new OpenApiOperationDescription
                     {
-                        yield return new OpenApiOperationDescription
-                        {
-                            Path = p.Key,
-                            Method = o.Key,
-                            Operation = o.Value
-                        };
-                    }
+                        Path = p.Key,
+                        Method = o.Key,
+                        Operation = o.Value
+                    };
                 }
             }
         }
@@ -261,7 +260,7 @@ namespace NSwag
         public void GenerateOperationIds()
         {
             // start with new work buffers
-            GenerateOperationIds([.. Operations], [], []);
+            GenerateOperationIds([.. GetOperations()], [], []);
         }
 
         /// <summary>Generates missing or non-unique operation IDs.</summary>

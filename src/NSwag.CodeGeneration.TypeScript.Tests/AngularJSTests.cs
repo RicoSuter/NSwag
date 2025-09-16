@@ -1,8 +1,8 @@
-﻿using Xunit;
-using NSwag.Generation.WebApi;
+﻿using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -50,15 +50,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("export class DiscussionClient", code);
-            Assert.Contains("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -81,15 +81,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("export class DiscussionClient", code);
-            Assert.DoesNotContain("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -110,15 +110,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 Template = TypeScriptTemplate.AngularJS,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("content_", code);
-            Assert.DoesNotContain("FormData", code);
-            Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

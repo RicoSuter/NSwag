@@ -131,40 +131,39 @@ namespace NSwag.CodeGeneration.TypeScript
         {
             // TODO: Remove this method => move to appropriate location
 
+            // use single instance to transfer parameters to the DataConversionGenerator
+            var conversionParameters = new DataConversionParameters
+            {
+                Schema = null,
+                Resolver = _resolver,
+                Settings = Settings.TypeScriptGeneratorSettings,
+                NullValue = TypeScriptNullValue.Null,
+                TypeNameHint = string.Empty
+            };
+
             foreach (var operation in operations)
             {
-                foreach (var response in operation.Responses.Where(r => r.HasType))
+                foreach (var response in operation.Responses.Where(static r => r.HasType))
                 {
-                    response.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
-                    {
-                        Variable = "result" + response.StatusCode,
-                        Value = "resultData" + response.StatusCode,
-                        Schema = response.ResolvableResponseSchema,
-                        CheckNewableObject = response.IsNullable,
-                        IsPropertyNullable = response.IsNullable,
-                        TypeNameHint = string.Empty,
-                        Settings = Settings.TypeScriptGeneratorSettings,
-                        Resolver = _resolver,
-                        NullValue = TypeScriptNullValue.Null
-                    });
+                    PopulateConversionParameters(conversionParameters, response);
+                    response.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(conversionParameters);
                 }
 
                 if (operation.HasDefaultResponse && operation.DefaultResponse.HasType)
                 {
-                    operation.DefaultResponse.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(new DataConversionParameters
-                    {
-                        Variable = "result" + operation.DefaultResponse.StatusCode,
-                        Value = "resultData" + operation.DefaultResponse.StatusCode,
-                        Schema = operation.DefaultResponse.ResolvableResponseSchema,
-                        CheckNewableObject = operation.DefaultResponse.IsNullable,
-                        IsPropertyNullable = operation.DefaultResponse.IsNullable,
-                        TypeNameHint = string.Empty,
-                        Settings = Settings.TypeScriptGeneratorSettings,
-                        Resolver = _resolver,
-                        NullValue = TypeScriptNullValue.Null
-                    });
+                    PopulateConversionParameters(conversionParameters, operation.DefaultResponse);
+                    operation.DefaultResponse.DataConversionCode = DataConversionGenerator.RenderConvertToClassCode(conversionParameters);
                 }
             }
+        }
+
+        private static void PopulateConversionParameters(DataConversionParameters conversionParameters, TypeScriptResponseModel response)
+        {
+            conversionParameters.Variable = "result" + response.StatusCode;
+            conversionParameters.Value = "resultData" + response.StatusCode;
+            conversionParameters.Schema = response.ResolvableResponseSchema;
+            conversionParameters.CheckNewableObject = response.IsNullable;
+            conversionParameters.IsPropertyNullable = response.IsNullable;
         }
     }
 }

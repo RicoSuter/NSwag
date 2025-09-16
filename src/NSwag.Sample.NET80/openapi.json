@@ -14,7 +14,23 @@
         ],
         "operationId": "Values_GetAll",
         "responses": {
+          "204": {
+            "description": ""
+          },
           "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
             "description": "",
             "content": {
               "application/json": {

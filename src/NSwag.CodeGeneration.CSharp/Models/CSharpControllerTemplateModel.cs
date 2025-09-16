@@ -94,5 +94,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the API version.</summary>
         public string Version => _document.Info.Version;
+
+        /// <summary>Gets the extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _document.ExtensionData;
     }
 }

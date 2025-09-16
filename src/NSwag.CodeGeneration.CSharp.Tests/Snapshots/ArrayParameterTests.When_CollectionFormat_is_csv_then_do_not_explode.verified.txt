@@ -77,13 +77,21 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (elementId != null)
                     {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("elementId") + "=");
+                        bool isAfterFirst = false;
                         foreach (var item_ in elementId)
                         {
-                            urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(",");
+                            if (!isAfterFirst)
+                            {
+                                urlBuilder_.Append(System.Uri.EscapeDataString("elementId")).Append('=');
+                            }
+                            urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(',');
+                            isAfterFirst = true;
                         }
-                        urlBuilder_.Length--;
-                        urlBuilder_.Append("&");
+                        if (isAfterFirst)
+                        {
+                            urlBuilder_.Length--;
+                            urlBuilder_.Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 

@@ -20,6 +20,7 @@ namespace NSwag
         private bool _isRequired;
         private string _description;
         private int? _position;
+        internal readonly ObservableDictionary<string, OpenApiMediaType> _content;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiRequestBody"/> class.</summary>
         public OpenApiRequestBody()
@@ -40,22 +41,23 @@ namespace NSwag
 
                 ParentOperation?.UpdateBodyParameter();
             };
-            Content = content;
-		}
 
-		/// <summary>Gets or sets the referenced object.</summary>
-		[JsonIgnore]
-		public override OpenApiRequestBody Reference
-		{
-			get => base.Reference;
-			set
-			{
+            _content = content;
+        }
+
+        /// <summary>Gets or sets the referenced object.</summary>
+        [JsonIgnore]
+        public override OpenApiRequestBody Reference
+        {
+            get => base.Reference;
+            set
+            {
                 base.Reference = value;
-				ParentOperation?.UpdateBodyParameter();
-			}
-		}
+                ParentOperation?.UpdateBodyParameter();
+            }
+        }
 
-		[JsonIgnore]
+        [JsonIgnore]
         internal object Parent { get; set; }
 
         [JsonIgnore]
@@ -91,7 +93,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the descriptions of potential response payloads (OpenApi only).</summary>
         [JsonProperty(PropertyName = "content", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiMediaType> Content { get; }
+        public IDictionary<string, OpenApiMediaType> Content => _content;
 
         /// <summary>Gets or sets the example's external value.</summary>
         [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

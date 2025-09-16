@@ -2,8 +2,8 @@
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -41,7 +41,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
@@ -53,7 +52,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("test(a: number, b: number | null)", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -70,7 +70,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
@@ -82,7 +81,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("else if(b !== null)", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -99,7 +99,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
@@ -111,7 +110,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("test(a: number, b: number | null | undefined)", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -128,7 +128,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
@@ -140,7 +139,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("if (b !== undefined && b !== null)", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

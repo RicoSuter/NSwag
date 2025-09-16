@@ -83,3 +83,9 @@ _ReSharper.Caches/
 /artifacts
 *.binlog
 *.gen
+
+node_modules
+
+# Verify
+*.received.*
+*.received/

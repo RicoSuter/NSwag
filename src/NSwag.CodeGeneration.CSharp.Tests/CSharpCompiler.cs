@@ -3,15 +3,20 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace NSwag.CodeGeneration.CSharp.Tests;
 
-public static class CodeCompiler
+public static class CSharpCompiler
 {
     private static readonly List<PortableExecutableReference> MetadataReferences;
 
-    static CodeCompiler()
+    static CSharpCompiler()
     {
         MetadataReferences = AppDomain.CurrentDomain.GetAssemblies()
             .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))
             .Select(x => MetadataReference.CreateFromFile(x.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(HttpClient).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(Microsoft.AspNetCore.Mvc.FileResult).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(Microsoft.AspNetCore.Http.IFormFile).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(Newtonsoft.Json.JsonSerializer).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(System.Net.HttpStatusCode).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.ComponentModel.DataAnnotations.RangeAttribute).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.Collections.ObjectModel.ObservableCollection<>).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.Runtime.Serialization.EnumMemberAttribute).Assembly.Location))

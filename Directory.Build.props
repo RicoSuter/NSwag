@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>14.4.1</VersionPrefix>
+    <VersionPrefix>14.5.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
-    <Copyright>Copyright © Rico Suter, 2023</Copyright>
+    <Copyright>Copyright © Rico Suter, 2025</Copyright>
 
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -56,6 +56,10 @@
       [SYSLIB0012] 'Assembly.CodeBase' is obsolete
     -->
     <NoWarn>$(NoWarn);CA1200;CA1510;CA1716;CA1720;CA1725;CA1845;SYSLIB0012</NoWarn>
+
+    <!-- Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+
   </PropertyGroup>
 
 </Project>

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
+using System.Collections;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -10,6 +11,16 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public class FooController : Controller
         {
             public object GetPerson(bool @override = false)
+            {
+                return null;
+            }
+
+            public object CreatePerson(bool @override = false)
+            {
+                return null;
+            }
+
+            public object DeletePerson(bool @override = false)
             {
                 return null;
             }
@@ -36,7 +47,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public FooClient(MyConfig configuration) : base(configuration)", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -60,7 +71,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false)", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -83,8 +94,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("BaseUrl", code);
-            Assert.Contains("string _baseUrl", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -103,7 +114,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("Task<object> GetPersonAsync(bool? @override, ", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -125,7 +137,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var client_ = new System.Net.Http.HttpClient();", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -148,7 +161,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var client_ = new CustomNamespace.CustomHttpClient();", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -170,7 +183,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient\n", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -193,7 +207,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("internal partial interface IFooClient\n", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -216,7 +231,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient : IClientBase", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -240,7 +255,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("internal partial interface IFooClient : IClientBase", code);
+            await VerifyHelper.Verify(code);
         }
 
         [Fact]
@@ -265,8 +280,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("public partial interface IFooClient", code);
-            Assert.DoesNotContain("public partial class FooClient : IFooClient", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -291,8 +306,112 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("public partial interface IFooClient", code);
-            Assert.Contains("public partial class FooClient : IFooClient", code);
+            await VerifyHelper.Verify(code);
+        }
+
+        public class OperationSelectionTestData : IEnumerable<object[]>
+        {
+            private static readonly string[] OneOperation = ["Foo_GetPerson"];
+            private static readonly string[] TwoOperations = ["Foo_GetPerson", "Foo_CreatePerson"];
+            private static readonly string[] ThreeOperations = ["Foo_GetPerson", "Foo_CreatePerson", "Foo_DeletePerson"];
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { OneOperation };
+                yield return new object[] { TwoOperations };
+                yield return new object[] { ThreeOperations };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        [Theory]
+        [ClassData(typeof(OperationSelectionTestData))]
+        public async Task When_operation_id_is_provided_in_both_included_and_excluded_operation_ids_then_throw_invalid_operation(
+            string[] operationIds
+            )
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                GenerateClientInterfaces = true,
+                IncludedOperationIds = operationIds,
+                ExcludedOperationIds = operationIds
+            });
+
+            // Act && Assert
+            InvalidOperationException exception =
+                Assert.Throws<InvalidOperationException>(() => generator.GenerateFile());
+
+            Assert.Equal(
+                $"Some operations are both in included and excluded operation IDs ({string.Join(", ", operationIds)}).",
+                exception.Message
+                );
+        }
+
+        [Theory]
+        [ClassData(typeof(OperationSelectionTestData))]
+        public async Task When_include_operation_ids_is_provided_then_only_selected_operations_are_included_in_generated_code(
+            string[] includedOperationIds
+            )
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                GenerateClientInterfaces = true,
+                IncludedOperationIds = includedOperationIds
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code)
+                .UseParameters(includedOperationIds.Length);
+            CSharpCompiler.AssertCompile(code);
+        }
+
+        [Theory]
+        [ClassData(typeof(OperationSelectionTestData))]
+        public async Task When_exclude_operation_ids_is_provided_then_selected_operations_should_be_excluded_from_generated_code(
+            string[] excludedOperationIds
+            )
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                GenerateClientInterfaces = true,
+                ExcludedOperationIds = excludedOperationIds
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code)
+                .UseParameters(excludedOperationIds.Length);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

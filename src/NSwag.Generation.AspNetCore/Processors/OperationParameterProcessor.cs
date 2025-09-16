@@ -23,6 +23,8 @@ namespace NSwag.Generation.AspNetCore.Processors
 {
     internal sealed class OperationParameterProcessor : IOperationProcessor
     {
+        private static readonly Regex unusedPathParametersRegex = new("{(.*?)(:(([^/]*)?))?}", RegexOptions.Compiled);
+
         private const string MultipartFormData = "multipart/form-data";
 
         private readonly AspNetCoreOpenApiDocumentGeneratorSettings _settings;
@@ -81,7 +83,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 if (property != null)
                 {
                     extendedApiParameter.PropertyInfo = property;
-                    extendedApiParameter.Attributes = property.GetCustomAttributes();
+                    extendedApiParameter.Attributes = Attribute.GetCustomAttributes(property);
                 }
                 else
                 {
@@ -91,7 +93,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                     if (parameter != null)
                     {
                         extendedApiParameter.ParameterInfo = parameter;
-                        extendedApiParameter.Attributes = parameter.GetCustomAttributes();
+                        extendedApiParameter.Attributes = Attribute.GetCustomAttributes(parameter);
                     }
                     else if (operationProcessorContext.ControllerType != null)
                     {
@@ -100,7 +102,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                         if (property != null)
                         {
                             extendedApiParameter.PropertyInfo = property;
-                            extendedApiParameter.Attributes = property.GetCustomAttributes();
+                            extendedApiParameter.Attributes = Attribute.GetCustomAttributes(property);
                         }
                     }
                 }
@@ -118,7 +120,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                             continue;
                         }
 
-                        extendedApiParameter.Attributes = extendedApiParameter.Attributes.Concat([new NotNullAttribute()]);
+                        extendedApiParameter.Attributes = [.. extendedApiParameter.Attributes, new NotNullAttribute()];
                     }
                 }
 
@@ -207,9 +209,11 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
 
             ApplyOpenApiBodyParameterAttribute(context.OperationDescription, context.MethodInfo);
-            RemoveUnusedPathParameters(context.OperationDescription, httpPath);
-            UpdateConsumedTypes(context.OperationDescription);
-            EnsureSingleBodyParameter(context.OperationDescription);
+
+            var actualParameters = context.OperationDescription.Operation.GetActualParameters().ToList();
+            RemoveUnusedPathParameters(context.OperationDescription, actualParameters, httpPath);
+            UpdateConsumedTypes(context.OperationDescription, actualParameters);
+            EnsureSingleBodyParameter(context.OperationDescription, actualParameters);
 
             return true;
         }
@@ -244,28 +248,28 @@ namespace NSwag.Generation.AspNetCore.Processors
             }
         }
 
-        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription)
+        private static void EnsureSingleBodyParameter(OpenApiOperationDescription operationDescription, List<OpenApiParameter> actualParameters)
         {
-            if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
+            if (actualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
                 throw new InvalidOperationException($"The operation '{operationDescription.Operation.OperationId}' has more than one body parameter.");
             }
         }
 
-        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription)
+        private static void UpdateConsumedTypes(OpenApiOperationDescription operationDescription, List<OpenApiParameter> actualParameters)
         {
-            if (operationDescription.Operation.ActualParameters.Any(p => p.IsBinary || p.ActualSchema.IsBinary))
+            if (actualParameters.Any(static p => p.IsBinary || p.ActualSchema.IsBinary))
             {
                 operationDescription.Operation.TryAddConsumes("multipart/form-data");
             }
         }
 
-        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, string httpPath)
+        private static void RemoveUnusedPathParameters(OpenApiOperationDescription operationDescription, List<OpenApiParameter> actualParameters, string httpPath)
         {
-            operationDescription.Path = "/" + Regex.Replace(httpPath, "{(.*?)(:(([^/]*)?))?}", match =>
+            operationDescription.Path = "/" + unusedPathParametersRegex.Replace(httpPath, match =>
             {
                 var parameterName = match.Groups[1].Value.TrimEnd('?');
-                if (operationDescription.Operation.ActualParameters.Any(p => p.Kind == OpenApiParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
+                if (actualParameters.Any(p => p.Kind == OpenApiParameterKind.Path && string.Equals(p.Name, parameterName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return "{" + parameterName + "}";
                 }
@@ -506,7 +510,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             public Type ParameterType { get; set; }
 
-            public IEnumerable<Attribute> Attributes { get; set; } = [];
+            public Attribute[] Attributes { get; set; } = [];
 
             public ExtendedApiParameterDescription(IXmlDocsSettings xmlDocsSettings)
             {

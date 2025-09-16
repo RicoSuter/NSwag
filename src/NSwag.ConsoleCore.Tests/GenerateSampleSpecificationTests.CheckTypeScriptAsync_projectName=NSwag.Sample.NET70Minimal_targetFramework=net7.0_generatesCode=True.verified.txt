@@ -4,7 +4,6 @@
 // </auto-generated>
 //----------------------
 
-/* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
@@ -56,10 +55,10 @@ export class Client {
     calculateSum(a: number, b: number): Promise<number> {
         let url_ = this.baseUrl + "/sum/{a}/{b}";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined.");
+            throw new globalThis.Error("The parameter 'a' must be defined.");
         url_ = url_.replace("{a}", encodeURIComponent("" + a));
         if (b === undefined || b === null)
-            throw new Error("The parameter 'b' must be defined.");
+            throw new globalThis.Error("The parameter 'b' must be defined.");
         url_ = url_.replace("{b}", encodeURIComponent("" + b));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -97,7 +96,7 @@ export class Client {
     absoluteValue(a: number): Promise<number> {
         let url_ = this.baseUrl + "/abs({a})";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined.");
+            throw new globalThis.Error("The parameter 'a' must be defined.");
         url_ = url_.replace("{a}", encodeURIComponent("" + a));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -135,7 +134,7 @@ export class Client {
     identity(id: number): Promise<number> {
         let url_ = this.baseUrl + "/id:{id}";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 

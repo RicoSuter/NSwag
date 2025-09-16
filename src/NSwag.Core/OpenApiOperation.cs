@@ -25,7 +25,7 @@ namespace NSwag
         private bool _disableRequestBodyUpdate;
         private bool _disableBodyParameterUpdate;
 
-        private readonly ObservableDictionary<string, OpenApiResponse> _responses;
+        internal readonly ObservableDictionary<string, OpenApiResponse> _responses;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()
@@ -121,26 +121,25 @@ namespace NSwag
 
         /// <summary>Gets the actual parameters (a combination of all inherited and local parameters).</summary>
         [JsonIgnore]
-        public IReadOnlyList<OpenApiParameter> ActualParameters
-        {
-            get
-            {
-                var parameters = Parameters.Select(p => p.ActualParameter);
-                IEnumerable<OpenApiParameter> allParameters;
-                if (Parent?.Parameters == null)
-                {
-                    allParameters = parameters;
-                }
-                else
-                {
-                    allParameters = parameters
-                        .Concat(Parent.Parameters.Select(p => p.ActualParameter))
-                        .GroupBy(p => new NameKindPair(p.Name, p.Kind))
-                        .Select(p => p.First());
-                }
+        public IReadOnlyList<OpenApiParameter> ActualParameters => [.. GetActualParameters()];
 
-                return allParameters.ToList();
+        internal IEnumerable<OpenApiParameter> GetActualParameters()
+        {
+            var parameters = Parameters.Select(p => p.ActualParameter);
+            IEnumerable<OpenApiParameter> allParameters;
+            if (Parent?.Parameters == null)
+            {
+                allParameters = parameters;
             }
+            else
+            {
+                allParameters = parameters
+                    .Concat(Parent.Parameters.Select(p => p.ActualParameter))
+                    .GroupBy(p => new NameKindPair(p.Name, p.Kind))
+                    .Select(p => p.First());
+            }
+
+            return allParameters;
         }
 
         private readonly record struct NameKindPair(string Name, OpenApiParameterKind ParameterKind);
@@ -171,11 +170,17 @@ namespace NSwag
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public ICollection<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
+        public ICollection<string> ActualConsumes => ActualConsumesCollection;
+
+        [JsonIgnore]
+        internal List<string> ActualConsumesCollection => Consumes ?? Parent.Parent._consumes;
 
         /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public ICollection<string> ActualProduces => Produces ?? Parent.Parent.Produces;
+        public ICollection<string> ActualProduces => ActualProducesCollection;
+
+        [JsonIgnore]
+        internal List<string> ActualProducesCollection => Produces ?? Parent.Parent._produces;
 
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
@@ -317,8 +322,8 @@ namespace NSwag
                         RequestBody.Description = parameter.Description;
                         RequestBody.IsRequired = parameter.IsRequired;
 
-                        RequestBody.Content.Clear();
-                        RequestBody.Content.Add(parameter.Schema?.IsBinary == true ?
+                        RequestBody._content.Clear();
+                        RequestBody._content.Add(parameter.Schema?.IsBinary == true ?
                             "application/octet-stream" : "application/json", new OpenApiMediaType
                             {
                                 Schema = parameter.Schema,

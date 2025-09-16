@@ -114,6 +114,8 @@ namespace NSwag
         }
 
         private ObservableCollection<OpenApiSchema> _schemes = [];
+        internal List<string> _consumes = [];
+        internal List<string> _produces = [];
 
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
         [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
@@ -186,11 +188,19 @@ namespace NSwag
 
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
         [JsonProperty(PropertyName = "consumes", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Consumes { get; set; } = [];
+        public ICollection<string> Consumes
+        {
+            get => _consumes;
+            set => _consumes = value as List<string> ?? [..value ?? []];
+        }
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
         [JsonProperty(PropertyName = "produces", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ICollection<string> Produces { get; set; } = [];
+        public ICollection<string> Produces
+        {
+            get => _produces;
+            set => _produces = value as List<string> ?? [..value ?? []];
+        }
 
         /// <summary>Gets or sets the types (Swagger only).</summary>
         [JsonProperty(PropertyName = "definitions", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]

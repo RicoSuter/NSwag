@@ -3,7 +3,6 @@ using NJsonSchema.Generation;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {

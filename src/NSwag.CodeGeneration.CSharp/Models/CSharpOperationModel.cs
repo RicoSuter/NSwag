@@ -30,6 +30,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly OpenApiOperation _operation;
         private readonly CSharpGeneratorBase _generator;
         private readonly CSharpTypeResolver _resolver;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -103,8 +104,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
+        public override string ActualOperationName
+        {
+            get
+            {
+                if (_actualOperationName == null && OperationName != null)
+                {
+                    _actualOperationName = ConversionUtilities.ConvertToUpperCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
+                }
+
+                return _actualOperationName;
+            }
+        }
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";
@@ -115,7 +130,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>
         /// The default value of the result type, i.e. default(T) or default(T)! depending on whether NRT are enabled.
         /// </summary>
-        public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){(_settings is CSharpClientGeneratorSettings { CSharpGeneratorSettings.GenerateNullableReferenceTypes: true } ? "!" : "")}";
+        public string UnwrappedResultDefaultValue => HasResult
+            ? $"default({UnwrappedResultType}){(_settings is CSharpClientGeneratorSettings { CSharpGeneratorSettings.GenerateNullableReferenceTypes: true } ? "!" : "")}"
+            : null;
 
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
