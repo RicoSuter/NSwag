@@ -41,7 +41,20 @@ namespace NSwag
 
                 ParentOperation?.UpdateBodyParameter();
             };
+
             _content = content;
+        }
+
+        /// <summary>Gets or sets the referenced object.</summary>
+        [JsonIgnore]
+        public override OpenApiRequestBody Reference
+        {
+            get => base.Reference;
+            set
+            {
+                base.Reference = value;
+                ParentOperation?.UpdateBodyParameter();
+            }
         }
 
         [JsonIgnore]
