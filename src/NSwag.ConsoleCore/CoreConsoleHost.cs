@@ -24,5 +24,7 @@ namespace NSwag
             Console.Write(message);
             return Console.ReadLine();
         }
+        
+        public bool InteractiveMode => true;
     }
 }
