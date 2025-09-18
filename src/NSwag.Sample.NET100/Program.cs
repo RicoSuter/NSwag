@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
-namespace NSwag.Generation.AspNetCore.Tests.Web
+namespace NSwag.Sample.NET100
 {
     public class Program
     {

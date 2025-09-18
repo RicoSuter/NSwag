@@ -9,7 +9,10 @@ namespace NSwag.Generation.AspNetCore.Tests
     {
         public AspNetCoreTestsBase()
         {
-            TestServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            TestServer = new TestServer(new HostBuilder()
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
+                .Build()
+                .Services);
         }
 
         protected TestServer TestServer { get; }
@@ -17,7 +20,7 @@ namespace NSwag.Generation.AspNetCore.Tests
         protected async Task<OpenApiDocument> GenerateDocumentAsync(AspNetCoreOpenApiDocumentGeneratorSettings settings, params Type[] controllerTypes)
         {
             var generator = new AspNetCoreOpenApiDocumentGenerator(settings);
-            var provider = TestServer.Host.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
+            var provider = TestServer.Services.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
 
             var controllerTypeNames = controllerTypes.Select(t => t.FullName);
             var groups = new ApiDescriptionGroupCollection(provider.ApiDescriptionGroups.Items

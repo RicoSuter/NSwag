@@ -5,6 +5,7 @@ var defaultCoreVersion = "Net80";
 var supportedCoreVersions = [
     { ver: '8.0', dir: "Net80", },
     { ver: '9.0', dir: "Net90", },
+    { ver: '10.0', dir: "Net100", },
 ];
 
 const path = require('path');
@@ -21,6 +22,7 @@ args = args.map(arg => arg === '--x86' ? '/runtime:WinX86' : arg);
 args = args.map(arg => arg === '--core' ? '/runtime:' + defaultCoreVersion : arg);
 args = args.map(arg => arg === '--core 8.0' ? '/runtime:Net80' : arg);
 args = args.map(arg => arg === '--core 9.0' ? '/runtime:Net90' : arg);
+args = args.map(arg => arg === '--core 10.0' ? '/runtime:Net100' : arg);
 
 // Remove /runtime:* parameter from args, but remember its value
 let runtimeIndices = [];
