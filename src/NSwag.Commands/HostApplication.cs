@@ -54,9 +54,9 @@ namespace NSwag.Commands
 
                         if (createHostMethod != null)
                         {
-                            var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
+                            var hostBuilder = (IHostBuilder)createHostMethod.Invoke(
                                 null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
-                            serviceProvider = webHostBuilder?.Build().Services;
+                            serviceProvider = hostBuilder?.Build().Services;
                         }
                     }
 #endif
@@ -71,7 +71,11 @@ namespace NSwag.Commands
                 if (startupType != null)
                 {
                     #if NETFRAMEWORK
-                    serviceProvider = WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                    serviceProvider = WebHost
+                        .CreateDefaultBuilder()
+                        .UseStartup(startupType)
+                        .Build()
+                        .Services;
                     #else
                     serviceProvider = new HostBuilder()
                         .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup(startupType))
@@ -87,7 +91,7 @@ namespace NSwag.Commands
             }
 
             throw new InvalidOperationException($"NSwag requires the assembly {assembly.GetName()} to have " +
-                                                $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
+                                                $"either a BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
                                                 $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
                                                 $"for suggestions on ways to refactor your startup type.");
         }
