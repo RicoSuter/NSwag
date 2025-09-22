@@ -359,6 +359,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = new OpenApiDocument();
             var settings = new NewtonsoftJsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
+            var personReference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings));
 
             document.Paths["/Person"] = new OpenApiPathItem
             {
@@ -371,9 +372,34 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                             {
                                 Schema = new JsonSchema
                                 {
-                                    Reference = generator.Generate(typeof(Person), new OpenApiSchemaResolver(document, settings))
+                                    Reference = personReference
                                 }
                             }
+                        }
+                    }
+                }
+            };
+            document.Paths["/CreatePerson"] = new OpenApiPathItem
+            {
+                [OpenApiOperationMethod.Post] = new OpenApiOperation
+                {
+                    RequestBody = new OpenApiRequestBody
+                    {
+                        Content =
+                        {
+                            ["application/json"] = new OpenApiMediaType
+                            {
+                                Schema = new JsonSchema
+                                {
+                                    Reference = personReference
+                                }
+                            }
+                        }
+                    },
+                    Responses =
+                    {
+                        {
+                            "200", new OpenApiResponse()
                         }
                     }
                 }
