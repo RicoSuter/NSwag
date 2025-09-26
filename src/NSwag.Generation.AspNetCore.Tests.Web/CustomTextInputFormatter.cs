@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;
 
 namespace NSwag.Generation.AspNetCore.Tests.Web

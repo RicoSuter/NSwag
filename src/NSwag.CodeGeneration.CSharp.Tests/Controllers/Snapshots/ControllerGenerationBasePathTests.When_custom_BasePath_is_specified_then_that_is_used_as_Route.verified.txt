@@ -1,0 +1,42 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    public interface IController
+    {
+
+
+
+
+
+
+        System.Threading.Tasks.Task RemoveElementAsync(string x_User, System.Collections.Generic.IEnumerable<long> elementId);
+
+    }
+
+    [Microsoft.AspNetCore.Mvc.Route("v1")]
+
+    public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        private IController _implementation;
+
+        public Controller(IController implementation)
+        {
+            _implementation = implementation;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("removeElement")]
+        public System.Threading.Tasks.Task RemoveElement([Microsoft.AspNetCore.Mvc.FromHeader(Name = "X-User")] string x_User, [Microsoft.AspNetCore.Mvc.FromQuery] System.Collections.Generic.IEnumerable<long> elementId)
+        {
+
+            return _implementation.RemoveElementAsync(x_User, elementId);
+        }
+
+    }
+
+    
+
+
+}

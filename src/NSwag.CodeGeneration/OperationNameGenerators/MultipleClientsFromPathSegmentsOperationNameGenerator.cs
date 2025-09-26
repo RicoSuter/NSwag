@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
-
 namespace NSwag.CodeGeneration.OperationNameGenerators
 {
     /// <summary>Generates the client and operation name based on the path segments (operation name = last segment, client name = second to last segment).</summary>
@@ -26,7 +24,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         {
             return path
                 .Split('/')
-                .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
+                .Where(p => !p.Contains('{') && !string.IsNullOrWhiteSpace(p))
                 .Reverse()
                 .Skip(1)
                 .FirstOrDefault() ?? string.Empty;
@@ -43,7 +41,8 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var operationName = ConvertPathToName(path);
 
             var hasNameConflict = document.Paths
-                .SelectMany(pair => pair.Value.Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
+                .SelectMany(pair => pair.Value.ActualPathItem
+                    .Select(p => new { Path = pair.Key.Trim('/'), HttpMethod = p.Key, Operation = p.Value }))
                 .Where(op =>
                     GetClientName(document, op.Path, op.HttpMethod, op.Operation) == GetClientName(document, path, httpMethod, operation) &&
                     ConvertPathToName(op.Path) == operationName
@@ -65,7 +64,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         {
             return path
                 .Split('/')
-                .Where(p => !p.Contains("{") && !string.IsNullOrWhiteSpace(p))
+                .Where(p => !p.Contains('{') && !string.IsNullOrWhiteSpace(p))
                 .Reverse()
                 .FirstOrDefault() ?? "Index";
         }
@@ -80,8 +79,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 return string.Empty;
             }
 
-            var capitalized = name.ToLowerInvariant();
-            return char.ToUpperInvariant(capitalized[0]) + (capitalized.Length > 1 ? capitalized.Substring(1) : "");
+            return char.ToUpperInvariant(name[0]) + (name.Length > 1 ? name.Substring(1) : "");
         }
     }
 }

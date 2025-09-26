@@ -1,9 +1,14 @@
 ﻿{%              if GenerateNullableReferenceTypes -%}
-private string? ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
 {%              else -%}
 private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
 {%              endif -%}
 {
+    if (value == null)
+    {
+        return "";
+    }
+
     if (value is System.Enum)
     {
         var name = System.Enum.GetName(value.GetType(), value);
@@ -20,22 +25,33 @@ private string ConvertToString(object value, System.Globalization.CultureInfo cu
                 }
             }
 
-            return System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+            return converted == null ? string.Empty : converted;
         }
     }
     else if (value is bool) 
     {
-        return System.Convert.ToString(value, cultureInfo)?.ToLowerInvariant();
+        return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
     }
     else if (value is byte[])
     {
         return System.Convert.ToBase64String((byte[]) value);
     }
-    else if (value != null && value.GetType().IsArray)
+    else if (value is string[])
     {
-        var array = System.Linq.Enumerable.OfType<object>((System.Array) value);
-        return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+        return string.Join(",", (string[])value);
+    }
+    else if (value.GetType().IsArray)
+    {
+        var valueArray = (System.Array)value;
+        var valueTextArray = new string[valueArray.Length];
+        for (var i = 0; i < valueArray.Length; i++)
+        {
+            valueTextArray[i] = ConvertToString(valueArray.GetValue(i), cultureInfo);
+        }
+        return string.Join(",", valueTextArray);
     }
 
-    return System.Convert.ToString(value, cultureInfo);
+    var result = System.Convert.ToString(value, cultureInfo);
+    return result == null ? "" : result;
 }

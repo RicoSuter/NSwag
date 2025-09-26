@@ -1,1 +1,0 @@
-"../NSwag.Console/bin/Debug/net461/nswag.exe" run

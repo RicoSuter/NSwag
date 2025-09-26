@@ -6,15 +6,15 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Indicates extension data to be added to the Swagger definition.</summary>
     /// <remarks>Requires the SwaggerExtensionDataOperationProcessor to be used in the Swagger definition generation.</remarks>
     /// <seealso cref="Attribute" />
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true)]
+#pragma warning disable 618
     public sealed class OpenApiExtensionDataAttribute : SwaggerExtensionDataAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerExtensionDataAttribute"/> class.</summary>
         /// <param name="key">The key.</param>

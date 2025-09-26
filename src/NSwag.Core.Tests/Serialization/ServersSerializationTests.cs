@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using NJsonSchema;
+﻿using NJsonSchema;
 using Xunit;
 
 namespace NSwag.Core.Tests.Serialization
@@ -8,15 +6,15 @@ namespace NSwag.Core.Tests.Serialization
     public class ServersSerializationTests
     {
         [Fact]
-        public async Task When_document_is_empty_then_serialized_correctly_in_Swagger()
+        public void When_document_is_empty_then_serialized_correctly_in_Swagger()
         {
-            //// Arrange
+            // Arrange
             var document = new OpenApiDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.Swagger2);
 
-            //// Assert
+            // Assert
             Assert.Equal(
 @"{
   ""swagger"": ""2.0"",
@@ -28,15 +26,15 @@ namespace NSwag.Core.Tests.Serialization
         }
 
         [Fact]
-        public async Task When_schema_is_added_to_definitions_then_it_is_serialized_correctly_in_Swagger()
+        public void When_schema_is_added_to_definitions_then_it_is_serialized_correctly_in_Swagger()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.Swagger2);
 
-            //// Assert
+            // Assert
             Assert.Equal("rsuter.com", document.Host);
             Assert.Equal("/myapi", document.BasePath);
             Assert.Equal(2, document.Schemes.Count);
@@ -47,23 +45,23 @@ namespace NSwag.Core.Tests.Serialization
         }
 
         [Fact]
-        public async Task When_schema_is_added_to_definitions_then_it_is_serialized_correctly_in_OpenApi()
+        public void When_schema_is_added_to_definitions_then_it_is_serialized_correctly_in_OpenApi()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
 
-            //// Assert
+            // Assert
             Assert.Equal(2, document.Servers.Count);
             Assert.Contains(@"""servers""", json);
         }
 
         [Fact]
-        public async Task When_server_is_set_then_it_is_correctly_converted_to_Swagger()
+        public void When_server_is_set_then_it_is_correctly_converted_to_Swagger()
         {
-            //// Arrange
+            // Arrange
             var document = new OpenApiDocument
             {
                 Servers =
@@ -75,20 +73,21 @@ namespace NSwag.Core.Tests.Serialization
                 }
             };
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
-            //// Assert
+            // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
         [Fact]
-        public async Task When_host_basePath_and_schemeas_are_set_then_it_is_correctly_converted_to_OpenApi()
+        public void When_host_basePath_and_schemeas_are_set_then_it_is_correctly_converted_to_OpenApi()
         {
-            //// Arrange
+            // Arrange
             var document = new OpenApiDocument
             {
                 Host = "localhost:12354",
@@ -96,40 +95,42 @@ namespace NSwag.Core.Tests.Serialization
                 Schemes = { OpenApiSchema.Http }
             };
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
-            //// Assert
+            // Assert
             Assert.Equal("localhost:12354", document.Host);
             Assert.Equal("/myapi", document.BasePath);
-            Assert.Equal(1, document.Schemes.Count);
+            Assert.Single(document.Schemes);
             Assert.Equal(OpenApiSchema.Http, document.Schemes.First());
         }
 
         [Fact]
         public void When_scheme_without_host_is_added_then_servers_are_not_cleared()
         {
-            //// Arrange
+            // Arrange
             var document = new OpenApiDocument
             {
                 BasePath = "/myapi",
                 Schemes = { OpenApiSchema.Http }
             };
 
-            //// Act
+            // Act
             document.Schemes.Add(OpenApiSchema.Https);
             document.Host = "localhost:12354";
 
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
-            //// Assert
+            // Assert
             Assert.Equal(2, document.Servers.Count);
         }
 
         [Fact]
         public void When_host_is_removed_then_base_url_is_also_empty()
         {
-            //// Arrange
+            // Arrange
             var document = new OpenApiDocument
             {
                 Host = "localhost:12354",
@@ -137,11 +138,12 @@ namespace NSwag.Core.Tests.Serialization
                 Schemes = { OpenApiSchema.Http }
             };
 
-            //// Act
+            // Act
             document.Host = string.Empty;
             var json = document.ToJson(SchemaType.Swagger2);
+            Assert.NotNull(json);
 
-            //// Assert
+            // Assert
             Assert.True(string.IsNullOrEmpty(document.BaseUrl));
         }
 

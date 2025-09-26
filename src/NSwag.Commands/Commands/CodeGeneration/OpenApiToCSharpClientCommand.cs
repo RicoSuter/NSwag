@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 using NSwag.CodeGeneration;
 using NSwag.CodeGeneration.CSharp;
@@ -19,161 +15,204 @@ using NSwag.CodeGeneration.CSharp;
 namespace NSwag.Commands.CodeGeneration
 {
     [Command(Name = "openapi2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification.")]
-    public class OpenApiToCSharpClientCommand : SwaggerToCSharpClientCommand
+    public class OpenApiToCSharpClientCommand : OpenApiToCSharpCommandBase<CSharpClientGeneratorSettings>
     {
-    }
-
-    [Command(Name = "swagger2csclient", Description = "Generates CSharp client code from a Swagger/OpenAPI specification (obsolete: use openapi2csclient instead).")]
-    [Obsolete("Use openapi2csclient instead.")]
-    public class SwaggerToCSharpClientCommand : OpenApiToCSharpCommandBase<CSharpClientGeneratorSettings>
-    {
-        public SwaggerToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
+        public OpenApiToCSharpClientCommand() : base(new CSharpClientGeneratorSettings())
         {
         }
 
         [Argument(Name = "ClientBaseClass", IsRequired = false, Description = "The client base class (empty for no base class).")]
         public string ClientBaseClass
         {
-            get { return Settings.ClientBaseClass; }
-            set { Settings.ClientBaseClass = value; }
+            get => Settings.ClientBaseClass;
+            set => Settings.ClientBaseClass = value;
         }
 
         [Argument(Name = "ConfigurationClass", IsRequired = false, Description = "The configuration class. The setting ClientBaseClass must be set. (empty for no configuration class).")]
         public string ConfigurationClass
         {
-            get { return Settings.ConfigurationClass; }
-            set { Settings.ConfigurationClass = value; }
+            get => Settings.ConfigurationClass;
+            set => Settings.ConfigurationClass = value;
         }
 
         [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
         public bool GenerateClientClasses
         {
-            get { return Settings.GenerateClientClasses; }
-            set { Settings.GenerateClientClasses = value; }
+            get => Settings.GenerateClientClasses;
+            set => Settings.GenerateClientClasses = value;
+        }
+
+        [Argument(Name = "SuppressClientClassesOutput", IsRequired = false, Description = "Specifies whether generate output for client classes.")]
+        public bool SuppressClientClassesOutput
+        {
+            get => Settings.SuppressClientClassesOutput;
+            set => Settings.SuppressClientClassesOutput = value;
         }
 
         [Argument(Name = "GenerateClientInterfaces", IsRequired = false, Description = "Specifies whether generate interfaces for the client classes.")]
         public bool GenerateClientInterfaces
         {
-            get { return Settings.GenerateClientInterfaces; }
-            set { Settings.GenerateClientInterfaces = value; }
+            get => Settings.GenerateClientInterfaces;
+            set => Settings.GenerateClientInterfaces = value;
+        }
+
+        [Argument(Name = "SuppressClientInterfacesOutput", IsRequired = false, Description = "Specifies whether generate output for interfaces for the client classes.")]
+        public bool SuppressClientInterfacesOutput
+        {
+            get => Settings.SuppressClientInterfacesOutput;
+            set => Settings.SuppressClientInterfacesOutput = value;
         }
 
         [Argument(Name = "ClientBaseInterface", IsRequired = false, Description = "Base interface for client interfaces (empty for no client base interface).")]
         public string ClientBaseInterface
         {
-            get { return Settings.ClientBaseInterface; }
-            set { Settings.ClientBaseInterface = value; }
+            get => Settings.ClientBaseInterface;
+            set => Settings.ClientBaseInterface = value;
         }
 
         [Argument(Name = "InjectHttpClient", IsRequired = false, Description = "Specifies whether an HttpClient instance is injected (default: true).")]
         public bool InjectHttpClient
         {
-            get { return Settings.InjectHttpClient; }
-            set { Settings.InjectHttpClient = value; }
+            get => Settings.InjectHttpClient;
+            set => Settings.InjectHttpClient = value;
         }
 
         [Argument(Name = "DisposeHttpClient", IsRequired = false, Description = "Specifies whether to dispose the HttpClient (injected HttpClient is never disposed).")]
         public bool DisposeHttpClient
         {
-            get { return Settings.DisposeHttpClient; }
-            set { Settings.DisposeHttpClient = value; }
+            get => Settings.DisposeHttpClient;
+            set => Settings.DisposeHttpClient = value;
         }
 
         [Argument(Name = "ProtectedMethods", IsRequired = false, Description = "List of methods with a protected access modifier ('classname.methodname').")]
         public string[] ProtectedMethods
         {
-            get { return Settings.ProtectedMethods; }
-            set { Settings.ProtectedMethods = value; }
+            get => Settings.ProtectedMethods;
+            set => Settings.ProtectedMethods = value;
         }
 
         [Argument(Name = "GenerateExceptionClasses", IsRequired = false, Description = "Specifies whether to generate exception classes (default: true).")]
         public bool GenerateExceptionClasses
         {
-            get { return Settings.GenerateExceptionClasses; }
-            set { Settings.GenerateExceptionClasses = value; }
+            get => Settings.GenerateExceptionClasses;
+            set => Settings.GenerateExceptionClasses = value;
         }
 
         [Argument(Name = "ExceptionClass", IsRequired = false, Description = "The exception class (default 'SwaggerException', may use '{controller}' placeholder).")]
         public string ExceptionClass
         {
-            get { return Settings.ExceptionClass; }
-            set { Settings.ExceptionClass = value; }
+            get => Settings.ExceptionClass;
+            set => Settings.ExceptionClass = value;
         }
 
         [Argument(Name = "WrapDtoExceptions", IsRequired = false, Description = "Specifies whether DTO exceptions are wrapped in a SwaggerException instance (default: true).")]
         public bool WrapDtoExceptions
         {
-            get { return Settings.WrapDtoExceptions; }
-            set { Settings.WrapDtoExceptions = value; }
+            get => Settings.WrapDtoExceptions;
+            set => Settings.WrapDtoExceptions = value;
         }
 
         [Argument(Name = "UseHttpClientCreationMethod", IsRequired = false, Description = "Specifies whether to call CreateHttpClientAsync on the base class to create a new HttpClient.")]
         public bool UseHttpClientCreationMethod
         {
-            get { return Settings.UseHttpClientCreationMethod; }
-            set { Settings.UseHttpClientCreationMethod = value; }
+            get => Settings.UseHttpClientCreationMethod;
+            set => Settings.UseHttpClientCreationMethod = value;
         }
 
         [Argument(Name = "HttpClientType", IsRequired = false, Description = "Specifies the HttpClient type. By default the 'System.Net.Http.HttpClient' is used.")]
         public string HttpClientType
         {
-            get { return Settings.HttpClientType; }
-            set { Settings.HttpClientType = value; }
+            get => Settings.HttpClientType;
+            set => Settings.HttpClientType = value;
         }
 
         [Argument(Name = "UseHttpRequestMessageCreationMethod", IsRequired = false,
                   Description = "Specifies whether to call CreateHttpRequestMessageAsync on the base class to create a new HttpRequestMethod.")]
         public bool UseHttpRequestMessageCreationMethod
         {
-            get { return Settings.UseHttpRequestMessageCreationMethod; }
-            set { Settings.UseHttpRequestMessageCreationMethod = value; }
+            get => Settings.UseHttpRequestMessageCreationMethod;
+            set => Settings.UseHttpRequestMessageCreationMethod = value;
         }
 
         [Argument(Name = "UseBaseUrl", IsRequired = false,
                   Description = "Specifies whether to use and expose the base URL (default: true).")]
         public bool UseBaseUrl
         {
-            get { return Settings.UseBaseUrl; }
-            set { Settings.UseBaseUrl = value; }
+            get => Settings.UseBaseUrl;
+            set => Settings.UseBaseUrl = value;
         }
 
         [Argument(Name = nameof(GenerateBaseUrlProperty), IsRequired = false,
                   Description = "Specifies whether to generate the BaseUrl property, must be defined on the base class otherwise (default: true).")]
         public bool GenerateBaseUrlProperty
         {
-            get { return Settings.GenerateBaseUrlProperty; }
-            set { Settings.GenerateBaseUrlProperty = value; }
+            get => Settings.GenerateBaseUrlProperty;
+            set => Settings.GenerateBaseUrlProperty = value;
         }
 
         [Argument(Name = "GenerateSyncMethods", IsRequired = false,
                   Description = "Specifies whether to generate synchronous methods (not recommended, default: false).")]
         public bool GenerateSyncMethods
         {
-            get { return Settings.GenerateSyncMethods; }
-            set { Settings.GenerateSyncMethods = value; }
+            get => Settings.GenerateSyncMethods;
+            set => Settings.GenerateSyncMethods = value;
+        }
+
+        [Argument(Name = "GeneratePrepareRequestAndProcessResponseAsAsyncMethods", IsRequired = false,
+                  Description = "Specifies whether to generate PrepareRequest and ProcessResponse methods as asynchronous methods (if true, both must be defined in the base class or in the partial class, default: false).")]
+        public bool GeneratePrepareRequestAndProcessResponseAsAsyncMethods
+        {
+            get => Settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods;
+            set => Settings.GeneratePrepareRequestAndProcessResponseAsAsyncMethods = value;
         }
 
         [Argument(Name = nameof(ExposeJsonSerializerSettings), IsRequired = false,
             Description = "Specifies whether to expose the JsonSerializerSettings property (default: false).")]
         public bool ExposeJsonSerializerSettings
         {
-            get { return Settings.ExposeJsonSerializerSettings; }
-            set { Settings.ExposeJsonSerializerSettings = value; }
+            get => Settings.ExposeJsonSerializerSettings;
+            set => Settings.ExposeJsonSerializerSettings = value;
         }
 
         [Argument(Name = "ClientClassAccessModifier", IsRequired = false, Description = "The client class access modifier (default: public).")]
         public string ClientClassAccessModifier
         {
-            get { return Settings.ClientClassAccessModifier; }
-            set { Settings.ClientClassAccessModifier = value; }
+            get => Settings.ClientClassAccessModifier;
+            set => Settings.ClientClassAccessModifier = value;
         }
 
         [Argument(Name = "TypeAccessModifier", IsRequired = false, Description = "The DTO class/enum access modifier (default: public).")]
         public string TypeAccessModifier
         {
-            get { return Settings.CSharpGeneratorSettings.TypeAccessModifier; }
-            set { Settings.CSharpGeneratorSettings.TypeAccessModifier = value; }
+            get => Settings.CSharpGeneratorSettings.TypeAccessModifier;
+            set
+            { 
+                Settings.CSharpGeneratorSettings.TypeAccessModifier = value;
+                Settings.ClientInterfaceAccessModifier = value;
+            }
+        }
+
+        [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]
+        public string PropertySetterAccessModifier
+        {
+            get => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier;
+            set => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier = value;
+        }
+
+        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Generate C# 9.0 record types instead of record-like classes (default: false).")]
+        public bool GenerateNativeRecords
+        {
+            get => Settings.CSharpGeneratorSettings.GenerateNativeRecords;
+            set => Settings.CSharpGeneratorSettings.GenerateNativeRecords = value;
+        }
+        
+
+        [Argument(Name = nameof(UseRequiredKeyword), IsRequired = false,
+            Description = "Indicate whether the C# 11 'required' keyword should be used for required properties (default: false).")]
+        public bool UseRequiredKeyword
+        {
+            get => Settings.CSharpGeneratorSettings.UseRequiredKeyword;
+            set => Settings.CSharpGeneratorSettings.UseRequiredKeyword = value;
         }
 
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
@@ -191,49 +230,50 @@ namespace NSwag.Commands.CodeGeneration
                   Description = "Specifies the format for DateTime type method parameters (default: s).")]
         public string ParameterDateTimeFormat
         {
-            get { return Settings.ParameterDateTimeFormat; }
-            set { Settings.ParameterDateTimeFormat = value; }
+            get => Settings.ParameterDateTimeFormat;
+            set => Settings.ParameterDateTimeFormat = value;
         }
 
         [Argument(Name = "ParameterDateFormat", IsRequired = false,
           Description = "Specifies the format for Date type method parameters (default: yyyy-MM-dd).")]
         public string ParameterDateFormat
         {
-            get { return Settings.ParameterDateFormat; }
-            set { Settings.ParameterDateFormat = value; }
+            get => Settings.ParameterDateFormat;
+            set => Settings.ParameterDateFormat = value;
         }
 
         [Argument(Name = "GenerateUpdateJsonSerializerSettingsMethod", IsRequired = false,
             Description = "Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise, default: true).")]
         public bool GenerateUpdateJsonSerializerSettingsMethod
         {
-            get { return Settings.GenerateUpdateJsonSerializerSettingsMethod; }
-            set { Settings.GenerateUpdateJsonSerializerSettingsMethod = value; }
+            get => Settings.GenerateUpdateJsonSerializerSettingsMethod;
+            set => Settings.GenerateUpdateJsonSerializerSettingsMethod = value;
         }
 
         [Argument(Name = "UseRequestAndResponseSerializationSettings", IsRequired = false,
             Description = "Generate different request and response serialization settings (default: false).")]
         public bool UseRequestAndResponseSerializationSettings
         {
-            get { return Settings.UseRequestAndResponseSerializationSettings; }
-            set { Settings.UseRequestAndResponseSerializationSettings = value; }
+            get => Settings.UseRequestAndResponseSerializationSettings;
+            set => Settings.UseRequestAndResponseSerializationSettings = value;
         }
 
         [Argument(Name = "SerializeTypeInformation", IsRequired = false,
-            Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: true).")]
+            Description = "Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto, default: false).")]
         public bool SerializeTypeInformation
         {
-            get { return Settings.SerializeTypeInformation; }
-            set { Settings.SerializeTypeInformation = value; }
+            get => Settings.SerializeTypeInformation;
+            set => Settings.SerializeTypeInformation = value;
         }
 
         [Argument(Name = nameof(QueryNullValue), IsRequired = false,
             Description = "The null value used for query parameters which are null (default: '').")]
         public string QueryNullValue
         {
-            get { return Settings.QueryNullValue; }
-            set { Settings.QueryNullValue = value; }
+            get => Settings.QueryNullValue;
+            set => Settings.QueryNullValue = value;
         }
+
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
@@ -248,33 +288,28 @@ namespace NSwag.Commands.CodeGeneration
 
         public async Task<Dictionary<string, string>> RunAsync()
         {
-            return await Task.Run(async () =>
-            {
-                var document = await GetInputSwaggerDocument().ConfigureAwait(false);
-                var clientGenerator = new CSharpClientGenerator(document, Settings);
+            var document = await GetInputSwaggerDocument().ConfigureAwait(false);
+            var clientGenerator = new CSharpClientGenerator(document, Settings);
 
-                if (GenerateContractsOutput)
-                {
-                    var result = new Dictionary<string, string>();
-                    GenerateContracts(result, clientGenerator);
-                    GenerateImplementation(result, clientGenerator);
-                    return result;
-                }
-                else
-                {
-                    return new Dictionary<string, string>
-                    {
-                        { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
-                    };
-                }
-            });
+            if (GenerateContractsOutput)
+            {
+                var result = new Dictionary<string, string>();
+                GenerateContracts(result, clientGenerator);
+                GenerateImplementation(result, clientGenerator);
+                return result;
+            }
+
+            return new Dictionary<string, string>
+            {
+                { OutputFilePath ?? "Full", clientGenerator.GenerateFile(ClientGeneratorOutputType.Full) }
+            };
         }
 
         private void GenerateImplementation(Dictionary<string, string> result, CSharpClientGenerator clientGenerator)
         {
             var savedAdditionalNamespaceUsages = Settings.AdditionalNamespaceUsages?.ToArray();
             Settings.AdditionalNamespaceUsages =
-                Settings.AdditionalNamespaceUsages?.Concat(new[] { ContractsNamespace }).ToArray() ?? new[] { ContractsNamespace };
+                Settings.AdditionalNamespaceUsages?.Concat([ContractsNamespace]).ToArray() ?? [ContractsNamespace];
             result[OutputFilePath ?? "Implementation"] = clientGenerator.GenerateFile(ClientGeneratorOutputType.Implementation);
             Settings.AdditionalNamespaceUsages = savedAdditionalNamespaceUsages;
         }

@@ -8,8 +8,6 @@
 
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyToolkit.Command;
 using MyToolkit.Storage;
@@ -37,8 +35,10 @@ namespace NSwagStudio.ViewModels
             OpenDocumentCommand = new AsyncRelayCommand(OpenDocumentAsync);
 
             CloseDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await CloseDocumentAsync(document), document => document != null);
+            CloseAllDocumentsCommand = new AsyncRelayCommand<ObservableCollection<DocumentModel>>(async documents => await CloseAllDocumentsAsync(documents), documents => documents.Any());
             SaveDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveDocumentAsync(document), document => document != null);
             SaveAsDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveAsDocumentAsync(document), document => document != null);
+            SaveAllDocumentsCommand = new AsyncRelayCommand<ObservableCollection<DocumentModel>>(async documents => await SaveAllDocumentAsync(documents), documents => documents.Any());
 
             Documents = new ObservableCollection<DocumentModel>();
         }
@@ -48,14 +48,16 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets or sets the selected document. </summary>
         public DocumentModel SelectedDocument
         {
-            get { return _selectedDocument; }
+            get => _selectedDocument;
             set
             {
                 if (Set(ref _selectedDocument, value))
                 {
                     CloseDocumentCommand.RaiseCanExecuteChanged();
+                    CloseAllDocumentsCommand.RaiseCanExecuteChanged();
                     SaveDocumentCommand.RaiseCanExecuteChanged();
                     SaveAsDocumentCommand.RaiseCanExecuteChanged();
+                    SaveAllDocumentsCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -65,10 +67,14 @@ namespace NSwagStudio.ViewModels
         public AsyncRelayCommand OpenDocumentCommand { get; }
 
         public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; }
+        
+        public AsyncRelayCommand<ObservableCollection<DocumentModel>> CloseAllDocumentsCommand { get; }
 
         public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; }
 
         public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; }
+
+        public AsyncRelayCommand<ObservableCollection<DocumentModel>> SaveAllDocumentsCommand { get; }
 
         public string NSwagVersion => OpenApiDocument.ToolchainVersion;
 
@@ -118,19 +124,26 @@ namespace NSwagStudio.ViewModels
 
         private void CreateDocument()
         {
-            var document = new DocumentModel(NSwagDocument.Create());
-            Documents.Add(document);
-            SelectedDocument = document;
+            var document = NSwagDocument.Create();
+            var documentModel = new DocumentModel(document);
+            Documents.Add(documentModel);
+            SelectedDocument = documentModel;
         }
 
         private async Task OpenDocumentAsync()
         {
             var dlg = new OpenFileDialog();
+            dlg.Multiselect = true;
             dlg.Title = "Open NSwag settings file";
-            dlg.Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json";
+            dlg.Filter = "NSwag file (*.nswag;*nswag.json)|*.nswag;*nswag.json";
             dlg.RestoreDirectory = true;
             if (dlg.ShowDialog() == DialogResult.OK)
-                await OpenDocumentAsync(dlg.FileName);
+            {
+                foreach (var fileName in dlg.FileNames)
+                {
+                    await OpenDocumentAsync(fileName);
+                }
+            }
         }
 
         public async Task OpenDocumentAsync(string filePath)
@@ -147,6 +160,14 @@ namespace NSwagStudio.ViewModels
                     SelectedDocument = document;
                 }
             });
+        }
+
+        private async Task CloseAllDocumentsAsync(ObservableCollection<DocumentModel> documents)
+        {
+            foreach (var document in documents.ToList())
+            {
+                await CloseDocumentAsync(document);
+            }
         }
 
         public async Task<bool> CloseDocumentAsync(DocumentModel document)
@@ -178,7 +199,7 @@ namespace NSwagStudio.ViewModels
                 {
                     FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
                     await document.Document.SaveAsync();
-                    MessageBox.Show("The file has been saved.", "File saved");
+                    MessageBox.Show($"The file {document.Document.Name} has been saved.", "File saved");
                     return true;
                 }
                 else
@@ -189,6 +210,35 @@ namespace NSwagStudio.ViewModels
 
                 return false;
             });
+        }
+
+        private async Task<bool> SaveAllDocumentAsync(ObservableCollection<DocumentModel> documents)
+        {
+            int changeCount = 0;
+            FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
+            foreach (var document in documents)
+            {
+                if (document.Document.IsDirty)
+                {
+                    changeCount++;
+                    if (File.Exists(document.Document.Path))
+                    {
+                        await document.Document.SaveAsync();
+                    }
+                    else
+                    {
+                        if (!await SaveAsDocumentAsync(document))
+                            return false;
+                    }
+                }
+            }
+
+            if (changeCount > 0)
+            {
+                MessageBox.Show($"{changeCount} changed file(s) saved.", "Files saved");
+            }
+
+            return true;
         }
 
         private async Task<bool> SaveAsDocumentAsync(DocumentModel document)

@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
-using Xunit;
 using static NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters.DefaultParametersController;
 
 namespace NSwag.Generation.AspNetCore.Tests.Parameters
@@ -18,8 +15,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                RequireParametersWithoutDefault = true
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -38,8 +38,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
-                RequireParametersWithoutDefault = true
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act
@@ -50,7 +53,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var operation = document.Operations.First(o => o.Path.Contains(nameof(DefaultParametersController.WithDefaultEnum))).Operation;
 
             Assert.Equal((int)MyEnum.Def, operation.Parameters.First().Schema.Default);
-            Assert.True(operation.Parameters.First().Schema.OneOf.Any());
+            Assert.True(operation.Parameters[0].Schema.OneOf.Count > 0);
         }
 
         [Fact]
@@ -59,11 +62,14 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.OpenApi3,
                 RequireParametersWithoutDefault = true,
-                SerializerSettings = new JsonSerializerSettings
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
                 {
-                    Converters = { new StringEnumConverter() }
+                    SchemaType = SchemaType.OpenApi3,
+                    SerializerSettings = new JsonSerializerSettings
+                    {
+                        Converters = { new StringEnumConverter() }
+                    }
                 }
             };
 
@@ -83,8 +89,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Arrange
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
-                SchemaType = SchemaType.Swagger2,
-                RequireParametersWithoutDefault = true
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.Swagger2
+                }
             };
 
             // Act

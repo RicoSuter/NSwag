@@ -6,14 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Namotion.Reflection;
 using NJsonSchema;
+using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
 using NSwag.Generation.Processors.Contexts;
 
@@ -45,7 +42,7 @@ namespace NSwag.Generation.Processors
 
             var successResponseDescription = returnParameter
                 .ToContextualParameter()
-                .GetDescription() ?? string.Empty;
+                .GetDescription(_settings.SchemaSettings) ?? string.Empty;
 
             var responseDescriptions = GetOperationResponseDescriptions(responseTypeAttributes, successResponseDescription);
             ProcessOperationDescriptions(responseDescriptions, returnParameter, operationProcessorContext, successResponseDescription);
@@ -56,14 +53,19 @@ namespace NSwag.Generation.Processors
         /// <returns>The task.</returns>
         protected void UpdateResponseDescription(OperationProcessorContext operationProcessorContext)
         {
+            if (operationProcessorContext.MethodInfo == null)
+            {
+                return;
+            }
+
             var returnParameter = operationProcessorContext.MethodInfo.ReturnParameter.ToContextualParameter();
 
-            var returnParameterXmlDocs = returnParameter.GetDescription() ?? string.Empty;
+            var returnParameterXmlDocs = returnParameter.GetDescription(_settings.SchemaSettings) ?? string.Empty;
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(operationProcessorContext.MethodInfo);
 
             if (!string.IsNullOrEmpty(returnParameterXmlDocs) || operationXmlDocsNodes?.Any() == true)
             {
-                foreach (var response in operationProcessorContext.OperationDescription.Operation.Responses)
+                foreach (var response in operationProcessorContext.OperationDescription.Operation._responses)
                 {
                     if (string.IsNullOrEmpty(response.Value.Description))
                     {
@@ -89,17 +91,25 @@ namespace NSwag.Generation.Processors
         protected XElement GetResponseXmlDocsElement(MethodInfo methodInfo, string responseCode)
         {
             var operationXmlDocsNodes = GetResponseXmlDocsNodes(methodInfo);
-            return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            try
+            {
+                return operationXmlDocsNodes?.SingleOrDefault(n => n.Name == "response" && n.Attributes().Any(a => a.Name == "code" && a.Value == responseCode));
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException($"Multiple response tags with code '{responseCode}' found in XML documentation for method '{methodInfo.Name}'.", ex);
+            }
         }
 
         private IEnumerable<XElement> GetResponseXmlDocsNodes(MethodInfo methodInfo)
         {
-            var operationXmlDocs = methodInfo.GetXmlDocsElement();
+            var operationXmlDocs = methodInfo?.GetXmlDocsElement(_settings.SchemaSettings.GetXmlDocsOptions());
             return operationXmlDocs?.Nodes()?.OfType<XElement>();
         }
 
-        private IEnumerable<OperationResponseDescription> GetOperationResponseDescriptions(IEnumerable<Attribute> responseTypeAttributes, string successResponseDescription)
+        private List<OperationResponseDescription> GetOperationResponseDescriptions(IEnumerable<Attribute> responseTypeAttributes, string successResponseDescription)
         {
+            List<OperationResponseDescription> operationResponseDescriptions = [];
             foreach (var attribute in responseTypeAttributes)
             {
                 dynamic responseTypeAttribute = attribute;
@@ -150,12 +160,14 @@ namespace NSwag.Generation.Processors
                         isNullable = responseTypeAttribute.IsNullable;
                     }
 
-                    yield return new OperationResponseDescription(httpStatusCode, returnType, isNullable, description);
+                    operationResponseDescriptions.Add(new OperationResponseDescription(httpStatusCode, returnType, isNullable, description));
                 }
             }
+
+            return operationResponseDescriptions;
         }
 
-        private void ProcessOperationDescriptions(IEnumerable<OperationResponseDescription> operationDescriptions, ParameterInfo returnParameter, OperationProcessorContext context, string successResponseDescription)
+        private void ProcessOperationDescriptions(List<OperationResponseDescription> operationDescriptions, ParameterInfo returnParameter, OperationProcessorContext context, string successResponseDescription)
         {
             foreach (var statusCodeGroup in operationDescriptions.GroupBy(r => r.StatusCode))
             {
@@ -167,24 +179,21 @@ namespace NSwag.Generation.Processors
 
                 var description = string.Join("\nor\n", statusCodeGroup.Select(r => r.Description));
 
-                var typeDescription = _settings.ReflectionService.GetDescription(
-                    contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings);
-
                 var response = new OpenApiResponse
                 {
                     Description = description ?? string.Empty
                 };
 
-                if (IsVoidResponse(returnType) == false)
+                if (!IsVoidResponse(returnType))
                 {
                     response.ExpectedSchemas = GenerateExpectedSchemas(statusCodeGroup, context);
 
                     var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
 
                     var isResponseNullable = nullableXmlAttribute != null ?
-                        nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
+                        nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
                         statusCodeGroup.Any(r => r.IsNullable) &&
-                            _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+                            _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                     response.IsNullableRaw = isResponseNullable;
                     response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
@@ -195,12 +204,12 @@ namespace NSwag.Generation.Processors
             }
 
             bool loadDefaultSuccessResponseFromReturnType;
-            if (operationDescriptions.Any())
+            if (operationDescriptions.Count > 0)
             {
                 // If there are some attributes declared on the controller \ action, only return a default success response
                 // if a 2xx status code isn't already defined and the SwaggerDefaultResponseAttribute is declared.
-                var operationResponses = context.OperationDescription.Operation.Responses;
-                var hasSuccessResponse = operationResponses.Keys.Any(HttpUtilities.IsSuccessStatusCode);
+                var operationResponses = context.OperationDescription.Operation._responses;
+                var hasSuccessResponse = operationResponses.KeyCollection.Any(HttpUtilities.IsSuccessStatusCode);
 
                 loadDefaultSuccessResponseFromReturnType = !hasSuccessResponse &&
                     context.MethodInfo.GetCustomAttributes()
@@ -220,7 +229,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private ICollection<JsonExpectedSchema> GenerateExpectedSchemas(
+        private List<JsonExpectedSchema> GenerateExpectedSchemas(
             IGrouping<string, OperationResponseDescription> group, OperationProcessorContext context)
         {
             if (group.Count() > 1)
@@ -230,7 +239,7 @@ namespace NSwag.Generation.Processors
                 {
                     var contextualResponseType = response.ResponseType.ToContextualType();
 
-                    var isNullable = _settings.ReflectionService.GetDescription(contextualResponseType, _settings).IsNullable;
+                    var isNullable = _settings.SchemaSettings.ReflectionService.GetDescription(contextualResponseType, _settings.SchemaSettings).IsNullable;
                     var schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                         contextualResponseType, isNullable, context.SchemaResolver);
 
@@ -256,10 +265,8 @@ namespace NSwag.Generation.Processors
                 returnType = typeof(void);
             }
 
-            while (returnType.Name == "Task`1" || returnType.Name == "ActionResult`1")
-            {
-                returnType = returnType.GenericTypeArguments[0];
-            }
+            returnType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
+                returnType, t => t.Name, t => t.GenericTypeArguments[0]);
 
             if (IsVoidResponse(returnType))
             {
@@ -270,10 +277,10 @@ namespace NSwag.Generation.Processors
             }
             else
             {
-                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? Enumerable.Empty<Attribute>();
+                var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? [];
                 var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
-                var typeDescription = _settings.ReflectionService.GetDescription(contextualReturnParameter, _settings);
+                var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.SchemaSettings);
                 var responseSchema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualReturnParameter, typeDescription.IsNullable, context.SchemaResolver);
 
@@ -286,7 +293,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

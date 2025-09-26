@@ -10,7 +10,7 @@
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     baseUrl: string;
     beforeSend: any = undefined;
-    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 {% if HasExtendedConstructor == false -%}
     constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string) {
@@ -18,9 +18,9 @@
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%     endif -%}
 {%     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = baseUrl ?? this.getBaseUrl("{{ BaseUrl }}");
 {%     else -%}
-        this.baseUrl = baseUrl ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl = baseUrl ?? "{{ BaseUrl }}";
 {%     endif -%}
     }
 {%     endif -%}
@@ -28,7 +28,7 @@
 
     {{ ExtensionCode }}
 {% endif -%}
-{% for operation in Operations -%}
+{% for operation in Operations %}
 
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}, {% endfor %}onSuccess?: ({% if operation.HasResultType %}result: {{ operation.ResultType }}{% endif %}) => void, onFail?: (exception: {{ operation.ExceptionType }}, reason: string) => void): JQueryXHR {
@@ -44,21 +44,21 @@
             type: "{{ operation.HttpMethodLower }}",
 {%     if operation.HasBody -%}
             data: content_,
-{%     endif -%}
-{%     if operation.HasFormParameters -%}
+{%    endif -%}
+{%    if operation.HasFormParameters -%}
             mimeType: "multipart/form-data",
             contentType: false,
-{%     else -%}
+{%    else -%}
             dataType: "text",
-{%     endif -%}
+{%    endif -%}
             headers: {
-{%     for parameter in operation.HeaderParameters -%}
+{%    for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
-{%     endfor -%}
-{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+{%    endfor -%}
+{%    if operation.HasContent or operation.ConsumesOnlyFormUrlEncoded -%}
                 "Content-Type": "{{ operation.Consumes }}",
-{%     endif -%}
-{%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+{%    endif -%}
+{%    if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 "Accept": "{{ operation.Produces }}"
 {%     endif -%}
             }
@@ -77,9 +77,9 @@
         try {
 {%     if UseTransformResultMethod -%}
             let result = this.transformResult(_url, xhr, (xhr) => this.process{{ operation.ActualOperationNameUpper }}(xhr));
-{%     else -%}
+{%    else -%}
             let result = this.process{{ operation.ActualOperationNameUpper }}(xhr);
-{%     endif -%}
+{%    endif -%}
             if (onSuccess !== undefined)
                 onSuccess(result);
         } catch (e) {
@@ -88,7 +88,7 @@
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType and SupportsStrictNullChecks %} | null{% endif %} {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType %} | null{% endif %} {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}

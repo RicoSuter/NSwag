@@ -16,7 +16,7 @@ namespace NSwag
         /// <returns>true if success.</returns>
         public static bool IsSuccessStatusCode(string statusCode)
         {
-            return statusCode.Length == 3 && statusCode.StartsWith("2");
+            return statusCode.Length == 3 && statusCode.StartsWith('2');
         }
     }
 }

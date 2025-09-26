@@ -6,14 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using Newtonsoft.Json;
+#pragma warning disable IDE0005
+
 using NSwag.Generation;
 
 #if AspNetOwin
-using NSwag.Generation.WebApi;
-using Microsoft.Owin;
-
 namespace NSwag.AspNet.Owin
 #else
 namespace NSwag.AspNetCore
@@ -29,7 +26,7 @@ namespace NSwag.AspNetCore
     public class SwaggerSettings
 #endif
     {
-        /// <summary>Initializes a new instance of the <see cref="SwaggerSettings"/> class.</summary>
+        /// <summary>Initializes a new instance of the class.</summary>
         public SwaggerSettings()
         {
 #if AspNetOwin
@@ -65,12 +62,14 @@ namespace NSwag.AspNetCore
         public TimeSpan ExceptionCacheTime { get; set; } = TimeSpan.FromSeconds(10);
 #endif
 
+#pragma warning disable 618
         internal virtual string ActualSwaggerDocumentPath => DocumentPath.Substring(MiddlewareBasePath?.Length ?? 0);
+#pragma warning restore 618
 
 #if AspNetOwin
-        internal T CreateGeneratorSettings(JsonSerializerSettings serializerSettings, object mvcOptions)
+        internal T CreateGeneratorSettings(object mvcOptions)
         {
-            GeneratorSettings.ApplySettings(serializerSettings, mvcOptions);
+            GeneratorSettings.ApplySettings(GeneratorSettings.SchemaSettings, mvcOptions);
             return GeneratorSettings;
         }
 #endif

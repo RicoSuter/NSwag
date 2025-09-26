@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
 using NJsonSchema;
 using Xunit;
 
@@ -10,14 +8,14 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_added_then_serialized_correctly_in_Swagger()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.Swagger2);
             document = await OpenApiDocument.FromJsonAsync(json);
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             Assert.Equal("foo", requestBody.Name);
         }
@@ -25,14 +23,14 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_added_then_serialized_correctly_in_OpenApi()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
             Assert.Equal("foo", requestBody.Name);
         }
@@ -40,10 +38,10 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_body_parameter_is_changed_then_request_body_IsRequired_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
@@ -52,7 +50,7 @@ namespace NSwag.Core.Tests.Serialization
 
             parameter.IsRequired = true;
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.True(requestBody.IsRequired);
@@ -62,19 +60,19 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_body_parameter_is_changed_then_request_body_Name_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            parameter.Name = parameter.Name + "123";
+            parameter.Name += "123";
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("foo123", requestBody.Name);
@@ -83,10 +81,10 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_body_parameter_is_changed_then_request_body_Schema_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
@@ -95,7 +93,7 @@ namespace NSwag.Core.Tests.Serialization
 
             parameter.Schema = new JsonSchema { Title = "blub" };
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("blub", requestBody.Content["application/json"].Schema.Title);
@@ -104,19 +102,19 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_body_parameter_is_changed_then_request_body_Description_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
-            parameter.Description = parameter.Description + "123";
+            parameter.Description += "123";
 
-            //// Assert
+            // Assert
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
             Assert.Equal("bar123", requestBody.Description);
@@ -125,18 +123,18 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_changed_then_body_parameter_Name_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
 
-            requestBody.Name = requestBody.Name + "123";
+            requestBody.Name += "123";
 
-            //// Assert
+            // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
@@ -146,10 +144,10 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_changed_then_body_parameter_IsRequired_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
@@ -157,7 +155,7 @@ namespace NSwag.Core.Tests.Serialization
 
             requestBody.IsRequired = true;
 
-            //// Assert
+            // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
@@ -168,10 +166,10 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_changed_then_body_parameter_Content_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
@@ -181,7 +179,7 @@ namespace NSwag.Core.Tests.Serialization
                 Schema = new JsonSchema { Title = "blub" }
             };
 
-            //// Assert
+            // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 
@@ -191,17 +189,17 @@ namespace NSwag.Core.Tests.Serialization
         [Fact]
         public async Task When_request_body_is_changed_then_body_parameter_Description_is_updated()
         {
-            //// Arrange
+            // Arrange
             var document = CreateDocument();
 
-            //// Act
+            // Act
             var json = document.ToJson(SchemaType.OpenApi3);
             document = await OpenApiDocument.FromJsonAsync(json);
 
             var requestBody = document.Paths["/baz"][OpenApiOperationMethod.Get].RequestBody;
-            requestBody.Description = requestBody.Description + "123";
+            requestBody.Description += "123";
 
-            //// Assert
+            // Assert
             var parameter = document.Paths["/baz"][OpenApiOperationMethod.Get].Parameters
                 .Single(p => p.Kind == OpenApiParameterKind.Body);
 

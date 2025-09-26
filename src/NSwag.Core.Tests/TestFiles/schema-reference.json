@@ -1,0 +1,22 @@
+{
+  "openapi": "3.0.2",
+  "paths": {
+    "/test/{testId}/foo": {
+      "get": {
+        "description": "Test path",
+        "responses": {
+          "200": {
+            "description": "Test.",
+            "content": {
+              "text/json": {
+                "schema": {
+                  "$ref": "./common.json#/components/schemas/TestObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

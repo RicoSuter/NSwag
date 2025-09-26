@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
+using System.Runtime.CompilerServices;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -25,7 +25,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         /// <returns>The client name.</returns>
         public virtual string GetClientName(OpenApiDocument document, string path, string httpMethod, OpenApiOperation operation)
         {
-            return GetClientName(operation);
+            return GetClientName(operation).ToString();
         }
 
         /// <summary>Gets the operation name for a given operation.</summary>
@@ -39,38 +39,87 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var clientName = GetClientName(operation);
             var operationName = GetOperationName(operation);
 
-            var hasOperationWithSameName = document.Operations
-                .Where(o => o.Operation != operation)
-                .Any(o => GetClientName(o.Operation) == clientName && GetOperationName(o.Operation) == operationName);
-
-            if (hasOperationWithSameName)
+            var hasOperationWithSameName = false;
+            // keep iteration logic in sync with OpenApiDocument.Operations - this version is faster as being called a lot
+            // Operations property also allocates OpenApiOperationDescription wrapper for each item
+            foreach (var p in document._paths)
             {
-                if (operationName.ToLowerInvariant().StartsWith("get"))
+                foreach (var pair in p.Value.ActualPathItem)
                 {
-                    var isArrayResponse = operation.ActualResponses.ContainsKey("200") &&
-                                          operation.ActualResponses["200"].Schema?.ActualSchema
-                                              .Type.HasFlag(JsonObjectType.Array) == true;
-
-                    if (isArrayResponse)
+                    var documentOperation = pair.Value;
+                    if (documentOperation == operation)
                     {
-                        return "GetAll" + operationName.Substring(3);
+                        continue;
+                    }
+
+                    if (GetOperationName(documentOperation).SequenceEqual(operationName)
+                        && GetClientName(documentOperation).SequenceEqual(clientName))
+                    {
+                        hasOperationWithSameName = true;
+                        break;
                     }
                 }
             }
 
-            return operationName;
+            if (hasOperationWithSameName)
+            {
+                if (operationName.StartsWith("get".AsSpan(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var isArrayResponse = operation.ActualResponses.TryGetValue("200", out var response) &&
+                                          response.Schema?.ActualSchema.Type.HasFlag(JsonObjectType.Array) == true;
+
+                    if (isArrayResponse)
+                    {
+                        return "GetAll" + operationName.Slice(3).ToString();
+                    }
+                }
+            }
+
+            return operationName.ToString();
         }
 
-        private string GetClientName(OpenApiOperation operation)
+        private static ReadOnlySpan<char> GetClientName(OpenApiOperation operation)
         {
-            var segments = operation.OperationId.Split('_').Reverse().ToArray();
-            return segments.Length >= 2 ? segments[1] : string.Empty;
+            ReadOnlySpan<char> operationIdSpan = operation.OperationId.AsSpan();
+            const char underscoreSeparator = '_';
+            int idxFirst = operationIdSpan.IndexOf(underscoreSeparator);
+
+            // no underscore, fast path
+            if (idxFirst == -1)
+            {
+                return [];
+            }
+
+            int idxLast = operationIdSpan.LastIndexOf(underscoreSeparator);
+
+            // only one underscore
+            if (idxFirst == idxLast)
+            {
+                // underscore is the first character
+                if (idxFirst == 0)
+                {
+                    return [];
+                }
+
+                return operationIdSpan.Slice(0, idxFirst);
+            }
+
+            // backwards search for the second underscore
+            // e.g. OperationId_SecondUnderscore_Test => SecondUnderscore
+            operationIdSpan = operationIdSpan.Slice(0, idxLast);
+            int idxSecondLast = operationIdSpan.LastIndexOf(underscoreSeparator);
+
+            return operationIdSpan.Slice(idxSecondLast + 1);
         }
 
-        private string GetOperationName(OpenApiOperation operation)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
-            var segments = operation.OperationId.Split('_').Reverse().ToArray();
-            return segments.FirstOrDefault() ?? "Index";
+            var span = operation.OperationId.AsSpan();
+            var idx = span.LastIndexOf('_');
+            return idx != -1 && idx < span.Length - 1
+                ? span.Slice(idx + 1)
+                : span;
         }
     }
 }

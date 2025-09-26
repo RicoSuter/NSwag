@@ -1,5 +1,4 @@
-using System;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Input;
 using MyToolkit.Command;
 using Newtonsoft.Json;
@@ -26,7 +25,7 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
             {
                 json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
                        url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
-                    await DynamicApis.HttpGetAsync(url) : DynamicApis.FileReadAllText(url);
+                    await DynamicApis.HttpGetAsync(url, CancellationToken.None) : File.ReadAllText(url);
 
                 if (json.StartsWith("{"))
                 {

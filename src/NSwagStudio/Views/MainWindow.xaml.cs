@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -42,8 +40,12 @@ namespace NSwagStudio.Views
                 () => Model.OpenDocumentCommand.TryExecute());
             ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.S, ModifierKeys.Control),
                 () => Model.SaveDocumentCommand.TryExecute(Model.SelectedDocument));
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift),
+                () => Model.SaveAllDocumentsCommand.TryExecute(Model.Documents));
             ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control),
                 () => Model.CloseDocumentCommand.TryExecute(Model.SelectedDocument));
+            ShortcutManager.RegisterShortcut(typeof(MainWindow), new KeyGesture(Key.W, ModifierKeys.Control | ModifierKeys.Shift),
+                () => Model.CloseAllDocumentsCommand.TryExecute(Model.Documents));
         }
 
         private void RegisterFileOpenHandler()

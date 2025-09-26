@@ -7,41 +7,45 @@
 {% if GenerateNullableReferenceTypes -%}
 #nullable enable
 
-{% endif -%}
+{%- endif %}
 {% for usage in NamespaceUsages -%}
 using {{ usage }};
 {% endfor -%}
 
-#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
-#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
-#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
-#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
-#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
+{% template File.Header %}
 
 namespace {{ Namespace }}
 {
     using System = global::System;
-    
+
     {{ Clients | tab }}
 
 {% if GenerateContracts -%}
     {{ Classes | tab }}
 
-{%     if RequiresFileParameterType -%}
+{%-     if RequiresFileParameterType -%}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this (data, null)
+            : this (data, null, null)
         {
         }
 
+{%-          if GenerateNullableReferenceTypes -%}
+        public FileParameter(System.IO.Stream data, string? fileName)
+{%-          else -%}
         public FileParameter(System.IO.Stream data, string fileName)
+{%-          endif -%}
             : this (data, fileName, null)
         {
         }
 
+{%-          if GenerateNullableReferenceTypes -%}
+        public FileParameter(System.IO.Stream data, string? fileName, string? contentType)
+{%-          else -%}
         public FileParameter(System.IO.Stream data, string fileName, string contentType)
+{%-          endif -%}
         {
             Data = data;
             FileName = fileName;
@@ -50,18 +54,29 @@ namespace {{ Namespace }}
 
         public System.IO.Stream Data { get; private set; }
 
+{%-          if GenerateNullableReferenceTypes -%}
+        public string? FileName { get; private set; }
+
+        public string? ContentType { get; private set; }
+{%-          else -%}
         public string FileName { get; private set; }
 
         public string ContentType { get; private set; }
+{%-          endif -%}
     }
 
-{%     endif -%}
-{%     if GenerateFileResponseClass -%}
+{%-     endif %}
+{%-     if GenerateFileResponseClass %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class FileResponse : System.IDisposable
     {
-        private System.IDisposable _client; 
-        private System.IDisposable _response; 
+{%-          if GenerateNullableReferenceTypes -%}
+        private System.IDisposable? _client;
+        private System.IDisposable? _response;
+{%-          else -%}
+        private System.IDisposable _client;
+        private System.IDisposable _response;
+{%-          endif -%}
 
         public int StatusCode { get; private set; }
 
@@ -74,19 +89,22 @@ namespace {{ Namespace }}
             get { return StatusCode == 206; }
         }
 
+{%-          if GenerateNullableReferenceTypes -%}
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable? client, System.IDisposable? response)
+{%-          else -%}
         public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+{%-          endif -%}
         {
-            StatusCode = statusCode; 
-            Headers = headers; 
-            Stream = stream; 
-            _client = client; 
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
             _response = response;
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
-            if (Stream != null)
-                Stream.Dispose();
+            Stream.Dispose();
             if (_response != null)
                 _response.Dispose();
             if (_client != null)
@@ -94,19 +112,19 @@ namespace {{ Namespace }}
         }
     }
 
-{%     endif -%}
-{%     if WrapResponses and GenerateResponseClasses -%}
-{%         for responseClassName in ResponseClassNames -%}
+{%-     endif %}
+{%-     if WrapResponses and GenerateResponseClasses %}
+{%-         for responseClassName in ResponseClassNames %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ responseClassName }}
     {
         public int StatusCode { get; private set; }
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-        
-        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers) 
+
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
         {
-            StatusCode = statusCode; 
+            StatusCode = statusCode;
             Headers = headers;
         }
     }
@@ -115,40 +133,40 @@ namespace {{ Namespace }}
     public partial class {{ responseClassName }}<TResult> : {{ responseClassName }}
     {
         public TResult Result { get; private set; }
-        
-        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result) 
+
+        public {{ responseClassName }}(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result)
             : base(statusCode, headers)
         {
             Result = result;
         }
     }
 
-{%         endfor %}
-{%     endif -%}
-{%     if GenerateExceptionClasses -%}
-{%         for exceptionClassName in ExceptionClassNames -%}
+{%-        endfor %}
+{%-     endif %}
+{%-     if GenerateExceptionClasses %}
+{%-         for exceptionClassName in ExceptionClassNames %}
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
     public partial class {{ exceptionClassName }} : System.Exception
     {
         public int StatusCode { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
+{%-             if GenerateNullableReferenceTypes -%}
         public string? Response { get; private set; }
-{%              else -%}
+{%-              else -%}
         public string Response { get; private set; }
-{%              endif -%}
+{%-              endif -%}
 
         public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
+{%-              if GenerateNullableReferenceTypes -%}
         public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception? innerException)
-{%              else -%}
+{%-              else -%}
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Exception innerException)
-{%              endif -%}
+{%-              endif -%}
             : base(message + "\n\nStatus: " + statusCode + "\nResponse: \n" + ((response == null) ? "(null)" : response.Substring(0, response.Length >= 512 ? 512 : response.Length)), innerException)
         {
             StatusCode = statusCode;
-            Response = response; 
+            Response = response;
             Headers = headers;
         }
 
@@ -163,11 +181,11 @@ namespace {{ Namespace }}
     {
         public TResult Result { get; private set; }
 
-{%              if GenerateNullableReferenceTypes -%}
-        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException) 
-{%              else -%}
+{%-              if GenerateNullableReferenceTypes -%}
+        public {{ exceptionClassName }}(string message, int statusCode, string? response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception? innerException)
+{%-              else -%}
         public {{ exceptionClassName }}(string message, int statusCode, string response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, TResult result, System.Exception innerException)
-{%              endif -%}
+{%-              endif -%}
             : base(message, statusCode, response, headers, innerException)
         {
             Result = result;
@@ -176,17 +194,13 @@ namespace {{ Namespace }}
 
 {%         endfor -%}
 {%     endif -%}
-{% endif -%}
+{%- endif %}
 {% if GenerateImplementation -%}
 {%     if RequiresJsonExceptionConverter -%}
     {% template JsonExceptionConverter %}
 {%     endif -%}
-{% endif -%}
+{%- endif %}
 
 }
 
-#pragma warning restore 1591
-#pragma warning restore 1573
-#pragma warning restore  472
-#pragma warning restore  114
-#pragma warning restore  108
+{% template File.Footer %}

@@ -24,6 +24,11 @@ namespace NSwag.CodeGeneration.TypeScript
                 typeNameHint = "ErrorDto";
             }
 
+            if (typeNameHint == "Date")
+            {
+                typeNameHint = "DateDto";
+            }
+
             return base.Generate(schema, typeNameHint);
         }
     }

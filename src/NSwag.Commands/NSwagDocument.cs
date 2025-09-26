@@ -6,18 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
+#pragma warning disable IDE0005
+
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using NSwag.AssemblyLoader.Utilities;
-using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
-using NSwag.Commands.Generation.WebApi;
 
 namespace NSwag.Commands
 {
@@ -25,7 +19,7 @@ namespace NSwag.Commands
     /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
-#if NET461
+#if NET462
 
         /// <summary>Gets or sets the root binary directory where the command line executables loaded from.</summary>
         public static string RootBinaryDirectory { get; set; } =
@@ -36,8 +30,6 @@ namespace NSwag.Commands
         public NSwagDocument()
         {
             SwaggerGenerators.AspNetCoreToOpenApiCommand = new AspNetCoreToOpenApiCommand();
-            SwaggerGenerators.WebApiToOpenApiCommand = new WebApiToOpenApiCommand();
-            SwaggerGenerators.TypesToOpenApiCommand = new TypesToOpenApiCommand();
         }
 
         /// <summary>Creates a new NSwagDocument.</summary>
@@ -50,28 +42,18 @@ namespace NSwag.Commands
         /// <summary>Loads an existing NSwagDocument.</summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>The document.</returns>
-        public static async Task<NSwagDocument> LoadAsync(string filePath)
+        public static Task<NSwagDocument> LoadAsync(string filePath)
         {
-            return await LoadAsync<NSwagDocument>(filePath, null, false, new Dictionary<Type, Type>
-            {
-                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-                { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
-                { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
-            });
+            return LoadAsync<NSwagDocument>(filePath, null, false);
         }
 
         /// <summary>Loads an existing NSwagDocument with environment variable expansions and variables.</summary>
         /// <param name="filePath">The file path.</param>
         /// <param name="variables">The variables.</param>
         /// <returns>The document.</returns>
-        public static async Task<NSwagDocument> LoadWithTransformationsAsync(string filePath, string variables)
+        public static Task<NSwagDocument> LoadWithTransformationsAsync(string filePath, string variables)
         {
-            return await LoadAsync<NSwagDocument>(filePath, variables, true, new Dictionary<Type, Type>
-            {
-                { typeof(AspNetCoreToSwaggerCommand), typeof(AspNetCoreToSwaggerCommand) },
-                { typeof(WebApiToSwaggerCommand), typeof(WebApiToSwaggerCommand) },
-                { typeof(TypesToSwaggerCommand), typeof(TypesToSwaggerCommand) }
-            });
+            return LoadAsync<NSwagDocument>(filePath, variables, true);
         }
 
         /// <summary>Executes the document.</summary>
@@ -79,12 +61,25 @@ namespace NSwag.Commands
         public override async Task<OpenApiDocumentExecutionResult> ExecuteAsync()
         {
             var document = await GenerateSwaggerDocumentAsync();
-            foreach (var codeGenerator in CodeGenerators.Items.Where(c => !string.IsNullOrEmpty(c.OutputFilePath)))
+            var tasks = new List<Task>();
+            foreach (var codeGenerator in CodeGenerators.Items)
             {
-                codeGenerator.Input = document;
-                await codeGenerator.RunAsync(null, null);
-                codeGenerator.Input = null;
+                if (string.IsNullOrEmpty(codeGenerator.OutputFilePath))
+                {
+                    continue;
+                }
+
+                tasks.Add(Task.Run(async () =>
+                {
+                    await Task.Yield();
+
+                    codeGenerator.Input = document;
+                    await codeGenerator.RunAsync(null, null);
+                    codeGenerator.Input = null;
+                }));
             }
+
+            await Task.WhenAll(tasks);
 
             return new OpenApiDocumentExecutionResult(null, null, true);
         }
@@ -94,103 +89,48 @@ namespace NSwag.Commands
         /// <returns>The result.</returns>
         public async Task<OpenApiDocumentExecutionResult> ExecuteCommandLineAsync(bool redirectOutput)
         {
-            return await Task.Run(async () =>
+            if (Runtime == Runtime.Debug)
             {
-                if (Runtime == Runtime.Debug)
-                {
-                    return await ExecuteAsync();
-                }
+                return await ExecuteAsync();
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var swaggerFilename = baseFilename + "_swagger.json";
-                var filenames = new List<string>();
+            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+            var swaggerFilename = baseFilename + "_swagger.json";
+            var filenames = new List<string>();
 
-                var clone = FromJson<NSwagDocument>(null, ToJson());
-                if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
-                {
-                    clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
-                }
-
-                foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
-                {
-                    if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
-                    {
-                        var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
-                        command.OutputFilePath = codeFilePath;
-                        filenames.Add(codeFilePath);
-                    }
-                }
-
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, clone.ToJson());
-                try
-                {
-                    var command = "run \"" + configFilename + "\"";
-                    var output = await StartCommandLineProcessAsync(command);
-                    return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
-                }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                    DeleteFileIfExists(swaggerFilename);
-                    foreach (var filename in filenames)
-                    {
-                        DeleteFileIfExists(filename);
-                    }
-                }
-            });
-        }
-
-        /// <summary>Gets the available controller types by calling the command line.</summary>
-        /// <returns>The controller names.</returns>
-        public async Task<string[]> GetControllersFromCommandLineAsync()
-        {
-            return await Task.Run(async () =>
+            var clone = FromJson<NSwagDocument>(null, ToJson());
+            if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
             {
-                if (!(SelectedSwaggerGenerator is WebApiToSwaggerCommand))
-                {
-                    return new string[0];
-                }
+                clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, ToJson());
-                try
-                {
-                    var command = "list-controllers /file:\"" + configFilename + "\"";
-                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
-                }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                }
-            });
-        }
-
-        /// <summary>Gets the available controller types by calling the command line.</summary>
-        /// <returns>The controller names.</returns>
-        public async Task<string[]> GetTypesFromCommandLineAsync()
-        {
-            return await Task.Run(async () =>
+            foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
             {
-                if (!(SelectedSwaggerGenerator is TypesToSwaggerCommand))
+                if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
                 {
-                    return new string[0];
+                    var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
+                    command.OutputFilePath = codeFilePath;
+                    filenames.Add(codeFilePath);
                 }
+            }
 
-                var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
-                var configFilename = baseFilename + "_config.json";
-                File.WriteAllText(configFilename, ToJson());
-                try
+            var configFilename = baseFilename + "_config.json";
+            File.WriteAllText(configFilename, clone.ToJson());
+            try
+            {
+                var command = "run \"" + configFilename + "\"";
+                var output = await StartCommandLineProcessAsync(command);
+                return clone.ProcessExecutionResult(output, baseFilename, redirectOutput);
+            }
+            finally
+            {
+                DeleteFileIfExists(configFilename);
+                DeleteFileIfExists(swaggerFilename);
+                foreach (var filename in filenames)
                 {
-                    var command = "list-types /file:\"" + configFilename + "\"";
-                    return GetListFromCommandLineOutput(await StartCommandLineProcessAsync(command));
+                    DeleteFileIfExists(filename);
                 }
-                finally
-                {
-                    DeleteFileIfExists(configFilename);
-                }
-            });
+            }
         }
 
         /// <summary>Converts to absolute path.</summary>
@@ -198,7 +138,7 @@ namespace NSwag.Commands
         /// <returns>The absolute path.</returns>
         protected override string ConvertToAbsolutePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !System.IO.Path.IsPathRooted(pathToConvert) && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeAbsolutePath(pathToConvert, GetDocumentDirectory());
             }
@@ -211,21 +151,12 @@ namespace NSwag.Commands
         /// <returns>The relative path.</returns>
         protected override string ConvertToRelativePath(string pathToConvert)
         {
-            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains("%"))
+            if (!string.IsNullOrEmpty(pathToConvert) && !pathToConvert.Contains("C:\\Program Files\\") && !pathToConvert.Contains('%'))
             {
                 return PathUtilities.MakeRelativePath(pathToConvert, GetDocumentDirectory())?.Replace("\\", "/");
             }
 
             return pathToConvert?.Replace("\\", "/");
-        }
-
-        private string[] GetListFromCommandLineOutput(string output)
-        {
-            return output.Replace("\r\n", "\n")
-                .Split(new string[] { "\n\n" }, StringSplitOptions.None)[1]
-                .Split('\n')
-                .Where(t => !string.IsNullOrEmpty(t))
-                .ToArray();
         }
 
         private OpenApiDocumentExecutionResult ProcessExecutionResult(string output, string baseFilename, bool redirectOutput)
@@ -261,17 +192,17 @@ namespace NSwag.Commands
 
             if (process.ExitCode != 0)
             {
-                var errorStart = output.IndexOf("...");
+                var errorStart = output.IndexOf("...", StringComparison.Ordinal);
                 if (errorStart < 0)
                 {
                     errorStart = Regex.Match(output, "\n[^\n\r]*?Exception: .*", RegexOptions.Singleline)?.Index ?? -1;
                 }
 
                 var error = errorStart > 0 ? output.Substring(errorStart + 4) : output;
-                var stackTraceStart = error.IndexOf("Server stack trace: ");
+                var stackTraceStart = error.IndexOf("Server stack trace: ", StringComparison.Ordinal);
                 if (stackTraceStart < 0)
                 {
-                    stackTraceStart = error.IndexOf("   at ");
+                    stackTraceStart = error.IndexOf("   at ", StringComparison.Ordinal);
                 }
 
                 var message = stackTraceStart > 0 ? error.Substring(0, stackTraceStart) : error;
@@ -279,12 +210,12 @@ namespace NSwag.Commands
 
                 if (message.Contains("Could not load type"))
                 {
-                    message = message + "Try running the document in another runtime, e.g. /runtime:NetCore20";
+                    message += "Try running the document in another runtime, e.g. /runtime:NetCore20";
                 }
 
                 if (message.Contains("The system cannot find the file specified"))
                 {
-                    message = message + "Check if .NET Core is installed and 'dotnet' is globally available.";
+                    message += "Check if .NET Core is installed and 'dotnet' is globally available.";
                 }
 
                 throw new CommandLineException(message, "Runtime: " + Runtime + "\n" + stackTrace);
@@ -295,67 +226,53 @@ namespace NSwag.Commands
 
         private string GetDocumentDirectory()
         {
-            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, System.IO.Directory.GetCurrentDirectory());
+            var absoluteDocumentPath = PathUtilities.MakeAbsolutePath(Path, Directory.GetCurrentDirectory());
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
 
+#pragma warning disable CA1822
         private string GetArgumentsPrefix()
+#pragma warning restore CA1822
         {
-#if NET461
+#if NET462
 
-	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.NetCore10)
+            var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            if (runtime == Runtime.Net80)
             {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore10/dotnet-nswag.dll") + "\" ";
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net80/dotnet-nswag.dll") + "\" ";
             }
-            else if (runtime == Runtime.NetCore11)
+            if (runtime == Runtime.Net90)
             {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore11/dotnet-nswag.dll") + "\" ";
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net90/dotnet-nswag.dll") + "\" ";
             }
-            else if (runtime == Runtime.NetCore20)
+            if (runtime == Runtime.Net100)
             {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore20/dotnet-nswag.dll") + "\" ";
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net100/dotnet-nswag.dll") + "\" ";
             }
-            else if (runtime == Runtime.NetCore21)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore21/dotnet-nswag.dll") + "\" ";
-            }
-            else if (runtime == Runtime.NetCore22)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore22/dotnet-nswag.dll") + "\" ";
-            }
-            else if (runtime == Runtime.NetCore30)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore30/dotnet-nswag.dll") + "\" ";
-            }
-            else if (runtime == Runtime.NetCore31)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "NetCore31/dotnet-nswag.dll") + "\" ";
-            }
-            else
 #endif
             return "";
         }
 
+#pragma warning disable CA1822
         private string GetProgramName()
+#pragma warning restore CA1822
         {
-#if NET461
-
-	        var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.WinX64 || runtime == Runtime.Debug)
+#if NET462
+            var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
+            if (runtime is Runtime.WinX64 or Runtime.Debug)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.exe");
             }
-            else if (runtime == Runtime.WinX86)
+
+            if (runtime == Runtime.WinX86)
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             }
-            else
 #endif
             return "dotnet";
         }
 
-        private string ReadFileIfExists(string filename)
+        private static string ReadFileIfExists(string filename)
         {
             if (filename != null && File.Exists(filename))
             {
@@ -365,7 +282,7 @@ namespace NSwag.Commands
             return null;
         }
 
-        private void DeleteFileIfExists(string filename)
+        private static void DeleteFileIfExists(string filename)
         {
             if (File.Exists(filename))
             {
@@ -373,7 +290,7 @@ namespace NSwag.Commands
             }
         }
 
-        internal class CommandLineException : Exception
+        private sealed class CommandLineException : Exception
         {
             public CommandLineException(string message, string stackTrace)
                 : base(message)

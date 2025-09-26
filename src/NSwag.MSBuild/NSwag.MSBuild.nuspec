@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>NSwag.MSBuild</id>
-    <version>13.6.2</version>
+    <version>1.0.0</version>
     <authors>Rico Suter</authors>
     <owners>Rico Suter</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/RicoSuter/NSwag</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</description>
-    <tags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</tags>
-    <copyright>Copyright © Rico Suter, 2020</copyright>
+    <tags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</tags>
+    <copyright>Copyright © Rico Suter, 2025</copyright>
     <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
     <dependencies />
@@ -20,19 +20,16 @@
   <files>
     <file src="NSwag.MSBuild.props" target="build" />
     <file src="NSwag.MSBuild.props" target="buildCrossTargeting" />
+    <file src="NSwag.MSBuild.props" target="buildTransitive" />
 
-    <file src="..\NSwag.Console\bin\Release\net461\*" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.AspNetCore.Launcher.x86.exe" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.AspNetCore.Launcher.x86.exe.config" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe" target="tools/Win" />
-    <file src="..\NSwag.Console.x86\bin\Release\net461\NSwag.x86.exe.config" target="tools/Win" />
+    <file src="..\..\artifacts\publish\NSwag.Console\$configuration$\*" target="tools/Win" />
+    <file src="..\..\artifacts\publish\NSwag.Console.x86\$configuration$\NSwag.AspNetCore.Launcher.x86.exe" target="tools/Win" />
+    <file src="..\..\artifacts\publish\NSwag.Console.x86\$configuration$\NSwag.AspNetCore.Launcher.x86.exe.config" target="tools/Win" />
+    <file src="..\..\artifacts\publish\NSwag.Console.x86\$configuration$\NSwag.x86.exe" target="tools/Win" />
+    <file src="..\..\artifacts\publish\NSwag.Console.x86\$configuration$\NSwag.x86.exe.config" target="tools/Win" />
 
-    <!--<file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.0\Publish\**" target="tools/NetCore10" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp1.1\Publish\**" target="tools/NetCore11" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.0\Publish\**" target="tools/NetCore20" />-->
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.1\Publish\**" target="tools/NetCore21" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp2.2\Publish\**" target="tools/NetCore22" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.0\Publish\**" target="tools/NetCore30" />
-    <file src="..\NSwag.ConsoleCore\bin\release\netcoreapp3.1\Publish\**" target="tools/NetCore31" />
+    <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net8.0\**" target="tools/Net80" />
+    <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net9.0\**" target="tools/Net90" />
+    <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net10.0\**" target="tools/Net100" />
   </files>
 </package>

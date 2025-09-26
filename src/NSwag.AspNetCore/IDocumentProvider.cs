@@ -6,10 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
 namespace Microsoft.Extensions.ApiDescriptions
 {
     // This service will be looked up by name from the service collection when using

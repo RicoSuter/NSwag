@@ -4,9 +4,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using NSwag.AspNetCore.Middlewares;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.AspNetCore.Builder
@@ -16,28 +13,10 @@ namespace Microsoft.AspNetCore.Builder
     {
         /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
         /// (default route defined in document: /swagger/v1/swagger.json).</summary>
-        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
-        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
+        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure additional settings.</param>
         public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure = null)
-        {
-            return UseOpenApiWithApiExplorerCore(app, configure);
-        }
-
-        /// <summary>Adds the OpenAPI/Swagger generator that uses the ASP.NET Core API Explorer 
-        /// (default route defined in document: /swagger/v1/swagger.json).</summary>
-        /// <remarks>Registers multiple routes/documents if the settings.Path contains a '{documentName}' placeholder.
-        /// The methods <see cref="UseOpenApi"/> and <see cref="UseSwagger"/> are the same, but <see cref="UseSwagger"/> will be deprecated eventually.</remarks>
-        /// <param name="app">The app.</param>
-        /// <param name="configure">Configure additional settings.</param>
-        [Obsolete("Use UseOpenApi() instead.")]
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure = null)
-        {
-            return UseOpenApiWithApiExplorerCore(app, configure);
-        }
-
-        private static IApplicationBuilder UseOpenApiWithApiExplorerCore(IApplicationBuilder app, Action<OpenApiDocumentMiddlewareSettings> configure)
         {
             var settings = configure == null ? app.ApplicationServices.GetService<IOptions<OpenApiDocumentMiddlewareSettings>>()?.Value : null ?? new OpenApiDocumentMiddlewareSettings();
             configure?.Invoke(settings);
@@ -63,21 +42,21 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the Swagger settings.</param>
         /// <returns>The app builder.</returns>
-        public static IApplicationBuilder UseSwaggerUi3(
+        public static IApplicationBuilder UseSwaggerUi(
             this IApplicationBuilder app,
-            Action<SwaggerUi3Settings> configure = null)
+            Action<SwaggerUiSettings> configure = null)
         {
-            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerUi3Settings>>()?.Value : null ?? new SwaggerUi3Settings();
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<SwaggerUiSettings>>()?.Value : null ?? new SwaggerUiSettings();
             configure?.Invoke(settings);
 
             UseSwaggerUiWithDocumentNamePlaceholderExpanding(app, settings, (swaggerRoute, swaggerUiRoute) =>
             {
                 app.UseMiddleware<RedirectToIndexMiddleware>(swaggerUiRoute, swaggerRoute, settings.TransformToExternalPath);
-                app.UseMiddleware<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi3.index.html");
+                app.UseMiddleware<SwaggerUiIndexMiddleware>(swaggerUiRoute + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
                 app.UseFileServer(new FileServerOptions
                 {
                     RequestPath = new PathString(swaggerUiRoute),
-                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi3")
+                    FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi")
                 });
             },
             (documents) =>
@@ -88,7 +67,7 @@ namespace Microsoft.AspNetCore.Builder
                 foreach (var document in documents)
                 {
                     var swaggerRoute = swaggerRouteWithPlaceholder.Replace("{documentName}", document.DocumentName);
-                    settings.SwaggerRoutes.Add(new SwaggerUi3Route(document.DocumentName, swaggerRoute));
+                    settings.SwaggerRoutes.Add(new SwaggerUiRoute(document.DocumentName, swaggerRoute));
                 }
 
                 return true;
@@ -123,41 +102,17 @@ namespace Microsoft.AspNetCore.Builder
             return app;
         }
 
-        /// <summary>Adds the Swagger UI (only) to the pipeline.</summary>
-        /// <param name="app">The app.</param>
-        /// <param name="configure">Configure the Swagger UI settings.</param>
-        /// <returns>The app builder.</returns>
-        [Obsolete("Use " + nameof(UseSwaggerUi3) + " instead.")]
-        public static IApplicationBuilder UseSwaggerUi(
-            this IApplicationBuilder app,
-            Action<SwaggerUiSettings> configure = null)
-        {
-            var settings = new SwaggerUiSettings();
-            settings.DocumentPath = "/swagger/v1/swagger.json";
-            configure?.Invoke(settings);
-
-            app.UseMiddleware<RedirectToIndexMiddleware>(settings.ActualSwaggerUiPath, settings.ActualSwaggerDocumentPath, settings.TransformToExternalPath);
-            app.UseMiddleware<SwaggerUiIndexMiddleware>(settings.ActualSwaggerUiPath + "/index.html", settings, "NSwag.AspNetCore.SwaggerUi.index.html");
-            app.UseFileServer(new FileServerOptions
-            {
-                RequestPath = new PathString(settings.ActualSwaggerUiPath),
-                FileProvider = new EmbeddedFileProvider(typeof(NSwagApplicationBuilderExtensions).GetTypeInfo().Assembly, "NSwag.AspNetCore.SwaggerUi")
-            });
-
-            return app;
-        }
-
-        /// <summary>Adds a redirect to the Apiverse.io user interface to the pipeline (default route: /apiverse).</summary>
+        /// <summary>Adds a redirect to the Apimundo.com user interface to the pipeline (default route: /apimundo).</summary>
         /// <remarks>The settings.GeneratorSettings property does not have any effect.</remarks>
         /// <param name="app">The app.</param>
         /// <param name="configure">Configure the UI settings.</param>
         /// <returns>The app builder.</returns>
-        public static IApplicationBuilder UseApiverse(
+        public static IApplicationBuilder UseApimundo(
             this IApplicationBuilder app,
-            Action<ApiverseUiSettings> configure = null)
+            Action<ApimundoUiSettings> configure = null)
         {
-            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<ApiverseUiSettings>>()?.Value : null ?? new ApiverseUiSettings();
-            settings.Path = "/apiverse";
+            var settings = configure == null ? app.ApplicationServices.GetService<IOptions<ApimundoUiSettings>>()?.Value : null ?? new ApimundoUiSettings();
+            settings.Path = "/apimundo";
             configure?.Invoke(settings);
 
             var path = settings.Path;
@@ -175,10 +130,10 @@ namespace Microsoft.AspNetCore.Builder
     <meta charset=""UTF-8"">
     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
     <meta http-equiv=""X-UA-Compatible"" content=""ie=edge"">
-    <title>NSwag to Apiverse.to</title>
+    <title>NSwag to Apimundo</title>
 </head>
 <body>
-<form id='myForm' method='post' action='" + settings.ApiverseUrl +
+<form id='myForm' method='post' action='" + settings.ApimundoUrl +
     @"/api/endpoints/local?organizationName=" + compareToIds[0] +
     @"&projectName=" + compareToIds[1] +
     @"&serviceId=" + compareToIds[2] +
@@ -195,9 +150,9 @@ Please wait...
         var form = document.getElementById('myForm');
         var data = document.getElementById('myData');
         data.value = btoa(text);
-        var key = 'upload_" + settings.ApiverseUrl + @"';
+        var key = 'upload_" + settings.ApimundoUrl + @"';
         if (window.localStorage.getItem(key) == 'ok' || 
-            confirm(""Do you want to view the specification on '" + settings.ApiverseUrl + @"'?\nThis choice will stored and not asked again."")) {
+            confirm(""Do you want to view the specification on '" + settings.ApimundoUrl + @"'?\nThis choice will stored and not asked again."")) {
             window.localStorage.setItem(key, 'ok');
             form.submit();
         }

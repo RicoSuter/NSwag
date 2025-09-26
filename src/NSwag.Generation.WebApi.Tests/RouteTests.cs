@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSwag.Annotations;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSwag.Annotations;
+using AcceptVerbsMvc = System.Web.Mvc.AcceptVerbsAttribute;
+using HttpVerbsMvc = System.Web.Mvc.HttpVerbs;
+using RouteMvcAttribute = System.Web.Mvc.RouteAttribute;
 
 namespace NSwag.Generation.WebApi.Tests
 {
@@ -31,9 +34,9 @@ namespace NSwag.Generation.WebApi.Tests
         {
             [SwaggerOperation("GetProducts")]
             [HttpGet, Route("products")]
-            public async Task<IHttpActionResult> GetProducts([FromUri] ProductPagedResult payload)
+            public Task<IHttpActionResult> GetProducts([FromUri] ProductPagedResult payload)
             {
-                return null;
+                return Task.FromResult<IHttpActionResult>(null);
             }
 
             [SwaggerOperation("GetProductByUserDefinedId")]
@@ -52,56 +55,134 @@ namespace NSwag.Generation.WebApi.Tests
 
             [SwaggerOperation("DeleteProductByUserDefinedId")]
             [HttpDelete, Route("products/{userDefinedId}")]
-            public async Task<IHttpActionResult> Delete(string userDefinedId)
+            public Task<IHttpActionResult> Delete(string userDefinedId)
             {
-                return null;
+                return Task.FromResult<IHttpActionResult>(null);
             }
 
             [SwaggerOperation("DeleteProductByUniqueId")]
             [HttpDelete, Route("products/{id:guid}")]
-            public async Task<IHttpActionResult> DeleteByUniqueId()
+            public Task<IHttpActionResult> DeleteByUniqueId()
             {
-                return null;
+                return Task.FromResult<IHttpActionResult>(null);
             }
 
             [SwaggerOperation("PutProductByUserDefinedId")]
             [HttpPut, Route("products/{userDefinedId}")]
-            public async Task<IHttpActionResult> Put(string userDefinedId, [FromBody] Product data)
+            public Task<IHttpActionResult> Put(string userDefinedId, [FromBody] Product data)
             {
-                return null;
+                return Task.FromResult<IHttpActionResult>(null);
             }
 
             [SwaggerOperation("PutProductByUniqueId")]
             [HttpPut, Route("products/{id:guid}")]
-            public async Task<IHttpActionResult> Put(Guid id, [FromBody] Product data)
+            public Task<IHttpActionResult> Put(Guid id, [FromBody] Product data)
             {
-                return null;
+                return Task.FromResult<IHttpActionResult>(null);
             }
 
             [SwaggerOperation("PostProducts")]
             [HttpPost, Route("products")]
-            public async Task<IHttpActionResult> FetchAll([FromBody] AddProductPayload data)
+            public Task<IHttpActionResult> FetchAll([FromBody] AddProductPayload data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+        }
+
+        public class ProductsMvcController : ApiController
+        {
+            [SwaggerOperation("GetProducts")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products")]
+            public Task<IHttpActionResult> GetProducts([FromUri] ProductPagedResult payload)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("GetProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products/{userDefinedId}")]
+            public IHttpActionResult GetProduct(string userDefinedId)
             {
                 return null;
+            }
+
+            [SwaggerOperation("GetProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Get), RouteMvc("products/{id:guid}")]
+            public IHttpActionResult GetProductByUniqueId(Guid id)
+            {
+                return null;
+            }
+
+            [SwaggerOperation("DeleteProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Delete), RouteMvc("products/{userDefinedId}")]
+            public Task<IHttpActionResult> Delete(string userDefinedId)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("DeleteProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Delete), RouteMvc("products/{id:guid}")]
+            public Task<IHttpActionResult> DeleteByUniqueId()
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PutProductByUserDefinedId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Put), RouteMvc("products/{userDefinedId}")]
+            public Task<IHttpActionResult> Put(string userDefinedId, [FromBody] Product data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PutProductByUniqueId")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Put), RouteMvc("products/{id:guid}")]
+            public Task<IHttpActionResult> Put(Guid id, [FromBody] Product data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
+            }
+
+            [SwaggerOperation("PostProducts")]
+            [AcceptVerbsMvc(HttpVerbsMvc.Post), RouteMvc("products")]
+            public Task<IHttpActionResult> FetchAll([FromBody] AddProductPayload data)
+            {
+                return Task.FromResult<IHttpActionResult>(null);
             }
         }
 
         [TestMethod]
         public async Task When_swagger_spec_is_generated_then_no_route_problem_is_detected()
         {
-            /// Arrange
+            // Arrange
             var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "{controller}/{id}",
                 AddMissingPathParameters = false,
             };
 
-            /// Act
+            // Act
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllerAsync<ProductsController>();
             var swaggerSpecification = document.ToJson();
 
-            /// Assert
+            // Assert
+            Assert.IsNotNull(swaggerSpecification);
+        }
+
+        [TestMethod]
+        public async Task When_swagger_spec_is_generated_for_Mvc_then_no_route_problem_is_detected()
+        {
+            // Arrange
+            var settings = new WebApiOpenApiDocumentGeneratorSettings
+            {
+                DefaultUrlTemplate = "{controller}/{id}",
+                AddMissingPathParameters = false,
+            };
+
+            // Act
+            var generator = new WebApiOpenApiDocumentGenerator(settings);
+            var document = await generator.GenerateForControllerAsync<ProductsMvcController>();
+            var swaggerSpecification = document.ToJson();
+
+            // Assert
             Assert.IsNotNull(swaggerSpecification);
         }
 
@@ -117,13 +198,13 @@ namespace NSwag.Generation.WebApi.Tests
         [TestMethod]
         public async Task When_path_parameter_has_wildcard_then_it_is_in_path()
         {
-            //// Arrange
+            // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
 
-            //// Act
+            // Act
             var document = await generator.GenerateForControllerAsync<WildcardPathController>();
 
-            //// Assert
+            // Assert
             var operation = document.Operations.First();
             var parameter = operation.Operation.Parameters.First();
 

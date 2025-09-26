@@ -15,17 +15,17 @@ namespace NSwag.AspNetCore
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentRegistration"/> class.</summary>
         /// <param name="documentName">The document name.</param>
-        /// <param name="generator">The document generator.</param>
-        public OpenApiDocumentRegistration(string documentName, AspNetCoreOpenApiDocumentGenerator generator)
+        /// <param name="settings">The document generator settings.</param>
+        public OpenApiDocumentRegistration(string documentName, AspNetCoreOpenApiDocumentGeneratorSettings settings)
         {
             DocumentName = documentName;
-            Generator = generator;
+            Settings = settings;
         }
 
         /// <summary>Gets the document name.</summary>
         public string DocumentName { get; }
 
-        /// <summary>Gets the document generator.</summary>
-        public AspNetCoreOpenApiDocumentGenerator Generator { get; }
+        /// <summary>Gets the document generator settings.</summary>
+        public AspNetCoreOpenApiDocumentGeneratorSettings Settings { get; }
     }
 }

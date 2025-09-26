@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace NSwag.Generation.WebApi.Infrastructure
@@ -17,7 +15,7 @@ namespace NSwag.Generation.WebApi.Infrastructure
     /// * RoutePrefixAttribute
     /// * IRoutePrefix
     /// </summary>
-    internal class RoutePrefixAttributeFacade
+    internal sealed class RoutePrefixAttributeFacade
     {
         private readonly PropertyInfo _prefix;
 

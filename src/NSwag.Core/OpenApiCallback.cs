@@ -9,16 +9,21 @@
 using Newtonsoft.Json;
 using NJsonSchema.References;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace NSwag
 {
     /// <summary>Describes an OpenAPI callback.</summary>
+#pragma warning disable CA1710
     public class OpenApiCallback : JsonReferenceBase<OpenApiCallback>, IJsonReference, IDictionary<string, OpenApiPathItem>
+#pragma warning restore CA1710
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        private IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
+        private readonly IDictionary<string, OpenApiPathItem> _dictionary = new Dictionary<string, OpenApiPathItem>();
+
+        /// <summary>Gets the actual callback, either this or the referenced example.</summary>
+        [JsonIgnore]
+        public OpenApiCallback ActualCallback => Reference ?? this;
 
         #region IDictionary
 
@@ -96,7 +101,7 @@ namespace NSwag
         #region Implementation of IJsonReference
 
         [JsonIgnore]
-        IJsonReference IJsonReference.ActualObject => Reference;
+        IJsonReference IJsonReference.ActualObject => ActualCallback;
 
         [JsonIgnore]
         object IJsonReference.PossibleRoot => null;

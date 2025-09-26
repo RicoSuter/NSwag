@@ -6,11 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 
@@ -27,21 +23,22 @@ namespace NSwag.Commands.Document
 
         public async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)
         {
-            if (!string.IsNullOrEmpty(Input) && !Input.StartsWith("/") && !Input.StartsWith("-"))
+            // input can be nix-like file path starting with /
+            if (!string.IsNullOrEmpty(Input) && (!Input.StartsWith('/') || File.Exists(Input) || Input.EndsWith("nswag.json", StringComparison.OrdinalIgnoreCase)) && !Input.StartsWith('-'))
             {
                 await ExecuteDocumentAsync(host, Input);
             }
             else
             {
-                var hasNSwagJson = DynamicApis.FileExists("nswag.json");
+                var hasNSwagJson = File.Exists("nswag.json");
                 if (hasNSwagJson)
                 {
                     await ExecuteDocumentAsync(host, "nswag.json");
                 }
 
-                var currentDirectory = DynamicApis.DirectoryGetCurrentDirectory();
-                var files = DynamicApis.DirectoryGetFiles(currentDirectory, "*.nswag");
-                if (files.Any())
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var files = Directory.GetFiles(currentDirectory, "*.nswag");
+                if (files.Length > 0)
                 {
                     foreach (var file in files)
                     {
@@ -69,16 +66,6 @@ namespace NSwag.Commands.Document
                                                         "from the current process runtime (" + RuntimeUtilities.CurrentRuntime + "). " +
                                                         "Change the runtime with the '/runtime:" + document.Runtime + "' parameter " +
                                                         "or run the file with the correct command line binary.");
-                }
-
-                if (document.SelectedSwaggerGenerator == document.SwaggerGenerators.WebApiToOpenApiCommand &&
-                    document.SwaggerGenerators.WebApiToOpenApiCommand.IsAspNetCore == false &&
-                    document.Runtime != Runtime.Debug &&
-                    document.Runtime != Runtime.WinX86 &&
-                    document.Runtime != Runtime.WinX64)
-                {
-                    throw new InvalidOperationException("The runtime " + document.Runtime + " in the document must be used " +
-                                                        "with ASP.NET Core. Enable /isAspNetCore:true.");
                 }
             }
 

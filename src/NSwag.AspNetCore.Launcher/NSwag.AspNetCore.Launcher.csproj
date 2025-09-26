@@ -1,22 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.0;net461</TargetFrameworks>
-    <PlatformTarget Condition="'$(TargetFramework)'=='net461'">x64</PlatformTarget>
+    <TargetFrameworks>net8.0;net462</TargetFrameworks>
+    <PlatformTarget Condition="'$(TargetFramework)'=='net462'">x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
-    <Version>13.6.2</Version>
-    <Authors>Rico Suter</Authors>
-    <Company>Rico Suter</Company>
-    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Copyright>Copyright © Rico Suter, 2020</Copyright>
-    <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen  TypeScript WebApi AspNet</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.0'">
-    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+  <ItemGroup Condition="'$(TargetFramework)'=='net8.0'">
+    <PackageReference Include="System.Runtime.Loader" />
   </ItemGroup>
 </Project>

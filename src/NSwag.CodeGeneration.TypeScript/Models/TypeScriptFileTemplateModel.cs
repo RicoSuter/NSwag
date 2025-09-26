@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema.CodeGeneration;
 using NJsonSchema.CodeGeneration.TypeScript;
 
@@ -17,7 +15,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
     public class TypeScriptFileTemplateModel
     {
         private readonly TypeScriptClientGeneratorSettings _settings;
+#pragma warning disable IDE0052
         private readonly TypeScriptTypeResolver _resolver;
+#pragma warning restore IDE0052
         private readonly string _clientCode;
         private readonly IEnumerable<CodeArtifact> _clientTypes;
         private readonly OpenApiDocument _document;
@@ -74,14 +74,14 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 // TODO: Merge with ResponseClassNames of C#
                 if (_settings.OperationNameGenerator.SupportsMultipleClients)
                 {
-                    return _document.Operations
+                    return _document.GetOperations()
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
                         .Where(a => _settings.TypeScriptGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
                         .Distinct();
                 }
 
-                return new[] { _settings.ResponseClass.Replace("{controller}", string.Empty) };
+                return [_settings.ResponseClass.Replace("{controller}", string.Empty)];
             }
         }
 
@@ -90,6 +90,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether to call 'transformOptions' on the base class or extension class.</summary>
         public bool UseTransformOptionsMethod => _settings.UseTransformOptionsMethod;
+
+        /// <summary>Gets a value indicating whether to include the httpContext parameter (Angular template only, default: false).</summary>
+        public bool IncludeHttpContext => _settings.IncludeHttpContext;
 
         /// <summary>Gets the clients code.</summary>
         public string Clients => _settings.GenerateClientClasses ? _clientCode : string.Empty;
@@ -101,9 +104,9 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public string ExtensionCodeImport => _extensionCode.ImportCode;
 
         /// <summary>Gets or sets the extension code to insert at the beginning.</summary>
-        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.ContainsKey(_settings.ConfigurationClass) ?
-            _extensionCode.ExtensionClasses[_settings.ConfigurationClass] + "\n\n" + _extensionCode.TopCode :
-            _extensionCode.TopCode;
+        public string ExtensionCodeTop => _settings.ConfigurationClass != null && _extensionCode.ExtensionClasses.TryGetValue(_settings.ConfigurationClass, out string value)
+            ? value + "\n\n" + _extensionCode.TopCode
+            : _extensionCode.TopCode;
 
         /// <summary>Gets or sets the extension code to insert at the end.</summary>
         public string ExtensionCodeBottom { get; }
@@ -124,16 +127,30 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
 
         /// <summary>Gets a value indicating whether the FileParameter interface should be rendered.</summary>
-        public bool RequiresFileParameterInterface =>
-            !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter") &&
-            (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
-             _document.Operations.Any(o => o.Operation?.RequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true || c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary) == true) == true));
+        public bool RequiresFileParameterInterface
+        {
+            get
+            {
+                if (_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileParameter"))
+                {
+                    return false;
+                }
+
+                var operations = _document.GetOperations().ToList();
+                return operations.Any(o => o.Operation.GetActualParameters().Any(static p => p.ActualTypeSchema.IsBinary)) ||
+                       operations.Any(o => o.Operation?.ActualRequestBody?._content?.Any(static c => c.Value.Schema?.IsBinary == true ||
+                                                                                              c.Value.Schema?.ActualProperties.Any(p => p.Value.IsBinary ||
+                                                                                                                                        p.Value.Item?.IsBinary == true ||
+                                                                                                                                        p.Value.Items.Any(i => i.IsBinary)
+                                                                                              ) == true) == true);
+            }
+        }
 
         /// <summary>Gets a value indicating whether the FileResponse interface should be rendered.</summary>
         public bool RequiresFileResponseInterface =>
             !Framework.IsJQuery &&
             !_settings.TypeScriptGeneratorSettings.ExcludedTypeNames.Contains("FileResponse") &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
+            _document.GetOperations().Any(static o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
 
         /// <summary>Gets a value indicating whether the client functions are required.</summary>
         public bool RequiresClientFunctions =>

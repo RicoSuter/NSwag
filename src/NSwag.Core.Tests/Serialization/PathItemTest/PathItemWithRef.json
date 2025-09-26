@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Path Item With Ref",
+    "description": "Testing external $ref on path items"
+  },
+  "paths": {
+    "/aValidPath": {
+      "$ref": "./refs/PathItem.json#/aValidPath"
+    }
+  }
+}

@@ -39,7 +39,11 @@
                 <TextBox Text="{Binding Command.TypeAccessModifier, Mode=TwoWay}" 
                          ToolTip="TypeAccessModifier" Margin="0,0,0,12" />
 
-                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" 
+                <TextBlock Text="DTO property setter access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.PropertySetterAccessModifier, Mode=TwoWay}"
+                         ToolTip="PropertySetterAccessModifier" Margin="0,0,0,12" />
+
+                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}"
                           ToolTip="GenerateDefaultValues" Margin="0,0,0,12">
                     <TextBlock Text="Generate default values for properties (if default value is specified)" TextWrapping="Wrap" />
                 </CheckBox>
@@ -96,6 +100,16 @@
 
                 <GroupBox Header="Serialization" Margin="0,0,0,12">
                     <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="JSON Library ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonLibrary, Mode=TwoWay}" 
+                                  ToolTip="JsonLibrary"
+                                  ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
+
+                        <TextBlock Text="JSON Polymorphic Serialization Style ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyles, Mode=TwoWay}" 
+                                  ToolTip="JsonLibrary"
+                                  ItemsSource="{Binding JsonPolymorphicSerializationStyles}" Margin="0,0,0,12" />
+
                         <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12">
                             <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                         </CheckBox>

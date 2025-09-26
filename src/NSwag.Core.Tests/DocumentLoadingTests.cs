@@ -1,7 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using NJsonSchema;
 using Xunit;
 
@@ -12,15 +9,15 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_document_contains_readOnly_properties_then_they_are_correctly_loaded()
         {
-            //// Arrange
-            var json = _sampleServiceCode;
+            // Arrange
+            var json = SampleServiceCode;
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             var json2 = document.ToJson();
             var reference = document.Paths["/pets"][OpenApiOperationMethod.Get].ActualResponses["200"].Schema.Item.Reference;
 
-            //// Assert
+            // Assert
             Assert.NotNull(json2);
             Assert.NotNull(reference);
             Assert.Equal(3, reference.Properties.Count);
@@ -32,27 +29,27 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_generating_operation_ids_then_missing_ids_are_generated()
         {
-            //// Arrange
-            var json = _sampleServiceCode;
+            // Arrange
+            var json = SampleServiceCode;
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             document.GenerateOperationIds();
 
-            //// Assert
+            // Assert
             Assert.Equal("pets", document.Operations.First().Operation.OperationId);
         }
 
         [Fact]
         public async Task When_json_has_extension_data_then_it_is_loaded()
         {
-            //// Arrange
-            var json = _jsonVendorExtensionData;
+            // Arrange
+            var json = JsonVendorExtensionData;
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
 
-            //// Assert
+            // Assert
             Assert.NotNull(document.Operations.First().Operation.ActualResponses["202"].ExtensionData);
         }
 
@@ -61,25 +58,25 @@ namespace NSwag.Core.Tests
         {
             // https://github.com/RicoSuter/NSwag/issues/518
 
-            //// Arrange
+            // Arrange
             CultureInfo ci = new CultureInfo("tr-TR");
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
             CultureInfo.DefaultThreadCurrentCulture = ci;
 
-            //// Act
-            var json = _sampleServiceCode;
+            // Act
+            var json = SampleServiceCode;
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             var j = document.ToJson();
+            Assert.NotNull(j);
 
-            //// Assert
+            // Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
-        private string _sampleServiceCode =
-@"{
+        private const string SampleServiceCode = @"{
   ""swagger"": ""2.0"",
   ""info"": {
     ""version"": ""1.0.0"",
@@ -143,8 +140,7 @@ namespace NSwag.Core.Tests
   }
 }";
 
-        private string _jsonVendorExtensionData =
-                    @"{
+        private const string JsonVendorExtensionData = @"{
   ""swagger"": ""2.0"",
   ""info"": {
     ""title"": ""Swagger Test Sample"",

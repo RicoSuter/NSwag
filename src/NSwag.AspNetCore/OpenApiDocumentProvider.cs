@@ -6,18 +6,14 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.DependencyInjection;
 using NSwag.Generation;
+using NSwag.Generation.AspNetCore;
 
 namespace NSwag.AspNetCore
 {
-    internal class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentGenerator
+    internal sealed class OpenApiDocumentProvider : IDocumentProvider, IOpenApiDocumentGenerator
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IEnumerable<OpenApiDocumentRegistration> _documents;
@@ -28,7 +24,7 @@ namespace NSwag.AspNetCore
             _documents = documents ?? throw new ArgumentNullException(nameof(documents));
         }
 
-        public async Task<OpenApiDocument> GenerateAsync(string documentName)
+        public Task<OpenApiDocument> GenerateAsync(string documentName)
         {
             if (documentName == null)
             {
@@ -47,13 +43,14 @@ namespace NSwag.AspNetCore
             }
 
             var document = _documents.SingleOrDefault(g => g.DocumentName == documentName);
-            if (document?.Generator == null)
+            if (document?.Settings == null)
             {
                 throw new InvalidOperationException($"No registered OpenAPI/Swagger document found for the document name '{documentName}'. " +
                     $"Add with the AddSwagger()/AddOpenApi() methods in ConfigureServices().");
             }
 
-            return await document.Generator.GenerateAsync(_serviceProvider);
+            var generator = new AspNetCoreOpenApiDocumentGenerator(document?.Settings);
+            return generator.GenerateAsync(_serviceProvider);
         }
 
         // Called by the <c>dotnet-getdocument</c> tool from the Microsoft.Extensions.ApiDescription.Server package.

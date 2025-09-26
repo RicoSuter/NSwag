@@ -6,13 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the operation id, summary and description</summary>
     [AttributeUsage(AttributeTargets.Method)]
+#pragma warning disable 618
     public class OpenApiOperationAttribute : SwaggerOperationAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="OpenApiOperationAttribute"/> class.</summary>
         /// <param name="operationId">The operation ID.</param>
@@ -46,7 +46,7 @@ namespace NSwag.Annotations
         public string Description { get; private set; }
     }
 
-    /// <summary>Specifies the operation id.</summary>
+    /// <summary>Specifies the operation ID.</summary>
     [AttributeUsage(AttributeTargets.Method)]
     [Obsolete("Use " + nameof(OpenApiOperationAttribute) + " instead.")]
     public class SwaggerOperationAttribute : Attribute

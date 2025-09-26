@@ -32,5 +32,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets the RxJs observable throw method name.</summary>
         public string ObservableThrowMethod => _model.UseRxJs5 ? "Observable.throw" : "_observableThrow";
+
+        /// <summary>Gets the response text property in condition to rxjs version</summary>
+        public string ResponseTextProperty => _model.UseRxJs7 ? "(_responseText: string)" : "_responseText";
     }
 }

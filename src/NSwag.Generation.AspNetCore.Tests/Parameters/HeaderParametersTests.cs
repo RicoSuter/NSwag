@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Parameters
 {
@@ -11,7 +10,14 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
         public async Task When_complex_query_parameters_are_nullable_and_set_to_null_they_are_optional_in_spec()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { RequireParametersWithoutDefault = true };
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
+            {
+                RequireParametersWithoutDefault = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(HeaderParametersController));
@@ -20,8 +26,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var operation = document.Operations.First().Operation;
 
             Assert.Equal(2, operation.ActualParameters.Count);
-            Assert.True(operation.ActualParameters.First().IsRequired);
-            Assert.False(operation.ActualParameters.Last().IsRequired);
+            Assert.True(operation.ActualParameters[0].IsRequired);
+            Assert.False(operation.ActualParameters[operation.ActualParameters.Count - 1].IsRequired);
         }
     }
 }

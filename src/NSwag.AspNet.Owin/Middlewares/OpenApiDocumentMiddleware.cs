@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.ExceptionServices;
 using Microsoft.Owin;
 using NSwag.Generation.WebApi;
 
@@ -22,7 +20,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         private readonly IEnumerable<Type> _controllerTypes;
 
         private string _schemaJson;
-        private Exception _schemaException;
+        private ExceptionDispatchInfo _schemaException;
         private DateTimeOffset _schemaTimestamp;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
@@ -33,7 +31,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
-            _path = path;
+            _path = path.StartsWith('/') ? path : '/' + path;
             _controllerTypes = controllerTypes;
             _settings = settings;
         }
@@ -43,7 +41,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The task.</returns>
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value, _path, StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GetDocumentAsync(context);
 
@@ -64,7 +62,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         {
             if (_schemaException != null && _schemaTimestamp + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
             {
-                throw _schemaException;
+                _schemaException.Throw();
             }
 
             if (_schemaJson == null)
@@ -78,7 +76,7 @@ namespace NSwag.AspNet.Owin.Middlewares
                 catch (Exception exception)
                 {
                     _schemaJson = null;
-                    _schemaException = exception;
+                    _schemaException = ExceptionDispatchInfo.Capture(exception);
                     _schemaTimestamp = DateTimeOffset.UtcNow;
                     throw;
                 }
@@ -92,7 +90,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateDocumentAsync(IOwinContext context)
         {
-            var settings = _settings.CreateGeneratorSettings(null, null);
+            var settings = _settings.CreateGeneratorSettings(null);
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

@@ -1,0 +1,2750 @@
+{
+  "info": {
+    "description": "OpenODS API",
+    "title": "Organisation Data Service (ODS) API",
+    "version": "0.0.1"
+  },
+  "openapi": "3.0.1",
+  "paths": {
+    "/ORD/2-0-0/notifications": {
+      "get": {
+        "description": "Returns a list of Notifications",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"DeletedOrganisations\": [{\"OrgID\": \"ABCD1234\",\"PrimaryRoleId\": \"RO96\",\"reason\": {\"code\": 3,\"description\": \"HUMAN ERROR\"},\"time\": \"2019-06-24 15:24:10\",\"type\": {\"code\": 1,\"description\": \"Machine\"}}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "DeletedOrganisations": {
+                      "items": {
+                        "properties": {
+                          "OrgID": {
+                            "type": "string"
+                          },
+                          "PrimaryRoleId": {
+                            "type": "string"
+                          },
+                          "reason": {
+                            "properties": {
+                              "code": {
+                                "type": "integer"
+                              },
+                              "description": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "time": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "properties": {
+                              "code": {
+                                "type": "integer"
+                              },
+                              "description": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Notifications"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/organisations": {
+      "get": {
+        "description": "Search for a list of Organisations, Multiple filters can be used at once except for RelTypeId which only works with the parameters defined in it's description.",
+        "parameters": [
+          {
+            "description": "The current name of the organisation to search for, e.g. UK PLC",
+            "in": "query",
+            "name": "Name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A Role or multiple roles separated by commas that organisations belong to, e.g. RO198,RO197",
+            "in": "query",
+            "name": "Roles",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Returns organisations that have been updated on or since this date in the format YYYY-MM-DD, e.g. 2021-12-01",
+            "in": "query",
+            "name": "LastChangeDate",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The Relationship Type Id of the organisation to search for. This filter can only be used with the TargetOrgId and LastChangeDate, e.g. RE5",
+            "in": "query",
+            "name": "RelTypeId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The Target Organisation Id of the organisation to search for. This filter cannot be used on it's own and can only be used with the RelTypeId, e.g. RRF12",
+            "in": "query",
+            "name": "TargetOrgId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The Organisation Record class of the organisation to search for, e.g. RC2",
+            "in": "query",
+            "name": "OrgRecordClass",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The Non-Primary Role Id of the organisation to search for, e.g. RO197",
+            "in": "query",
+            "name": "NonPrimaryRoleId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The Primary Role Id of the organisation to search for, e.g. RO198",
+            "in": "query",
+            "name": "PrimaryRoleId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The postcode of the organisation to search for, e.g. CW10 9FG",
+            "in": "query",
+            "name": "PostCode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The current status of the organisation to search for, expects Active or Inactive, e.g. Active",
+            "example": "Active",
+            "in": "query",
+            "name": "Status",
+            "required": false,
+            "schema": {
+              "enum": [
+                "Active",
+                "Inactive"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of records that are returned, default=20, min=1, max=1000, e.g. 100",
+            "in": "query",
+            "name": "Limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Used in conjunction with the Limit filter, offset the returned values by the value given, e.g. 200",
+            "in": "query",
+            "name": "Offset",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Organisations\": [{\"Name\": \"CAPGEMINI UK PLC\", \"OrgId\": \"8K816\", \"Status\": \"Active\", \"OrgRecordClass\": \"RC1\", \"PostCode\": \"GU21 6DB\", \"LastChangeDate\": \"2020-04-05\", \"PrimaryRoleId\": \"RO157\", \"PrimaryRoleDescription\": \"NON-NHS ORGANISATION\", \"OrgLink\": \"https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8K816\"}, {\"Name\": \"CARE UK PLC - CRAGSTON COURT\", \"OrgId\": \"8FH41\", \"Status\": \"Active\", \"OrgRecordClass\": \"RC1\", \"PostCode\": \"NE5 3SR\", \"LastChangeDate\": \"2020-04-04\", \"PrimaryRoleId\": \"RO157\", \"PrimaryRoleDescription\": \"NON-NHS ORGANISATION\", \"OrgLink\": \"https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8FH41\"}, {\"Name\": \"ENIGMA HEALTH UK PLC (ABBEYGATE)\", \"OrgId\": \"8HE70\", \"Status\": \"Active\", \"OrgRecordClass\": \"RC1\", \"PostCode\": \"KT16 8EH\", \"LastChangeDate\": \"2020-04-04\", \"PrimaryRoleId\": \"RO157\", \"PrimaryRoleDescription\": \"NON-NHS ORGANISATION\", \"OrgLink\": \"https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8HE70\"}, {\"Name\": \"ENIGMA HEALTH UK PLC (COVEHAM HOUSE)\", \"OrgId\": \"8HC94\", \"Status\": \"Active\", \"OrgRecordClass\": \"RC1\", \"PostCode\": \"KT11 3EP\", \"LastChangeDate\": \"2020-04-04\", \"PrimaryRoleId\": \"RO157\", \"PrimaryRoleDescription\": \"NON-NHS ORGANISATION\", \"OrgLink\": \"https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8HC94\"}, {\"Name\": \"@UK PLC\", \"OrgId\": \"8HG65\", \"Status\": \"Active\", \"OrgRecordClass\": \"RC1\", \"PostCode\": \"RG7 8NN\", \"LastChangeDate\": \"2020-04-04\", \"PrimaryRoleId\": \"RO157\", \"PrimaryRoleDescription\": \"NON-NHS ORGANISATION\", \"OrgLink\": \"https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8HG65\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisations": {
+                      "items": {
+                        "properties": {
+                          "LastChangeDate": {
+                            "type": "string"
+                          },
+                          "Name": {
+                            "type": "string"
+                          },
+                          "OrgId": {
+                            "type": "string"
+                          },
+                          "OrgLink": {
+                            "type": "string"
+                          },
+                          "OrgRecordClass": {
+                            "type": "string"
+                          },
+                          "PostCode": {
+                            "type": "string"
+                          },
+                          "PrimaryRoleDescription": {
+                            "type": "string"
+                          },
+                          "PrimaryRoleId": {
+                            "type": "string"
+                          },
+                          "Status": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?><Organisations>\n  <Organisation>\n    <Name>CAPGEMINI UK PLC</Name>\n    <OrgId>8K816</OrgId>\n    <Status>Active</Status>\n    <OrgRecordClass>RC1</OrgRecordClass>\n    <PostCode>GU21 6DB</PostCode>\n    <LastChangeDate>2020-04-05</LastChangeDate>\n    <PrimaryRoleId>RO157</PrimaryRoleId>\n    <PrimaryRoleDescription>NON-NHS ORGANISATION</PrimaryRoleDescription>\n    <OrgLink>https://dev.directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8K816?_format=xml</OrgLink>\n  </Organisation>\n  <Organisation>\n    <Name>CARE UK PLC - CRAGSTON COURT</Name>\n    <OrgId>8FH41</OrgId>\n    <Status>Active</Status>\n    <OrgRecordClass>RC1</OrgRecordClass>\n    <PostCode>NE5 3SR</PostCode>\n    <LastChangeDate>2020-04-04</LastChangeDate>\n    <PrimaryRoleId>RO157</PrimaryRoleId>\n    <PrimaryRoleDescription>NON-NHS ORGANISATION</PrimaryRoleDescription>\n    <OrgLink>https://dev.directory.spineservices.nhs.uk/ORD/2-0-0/organisations/8FH41?_format=xml</OrgLink>\n  </Organisation>\n</Organisations>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisations": {
+                      "items": {
+                        "properties": {
+                          "LastChangeDate": {
+                            "type": "string"
+                          },
+                          "Name": {
+                            "type": "string"
+                          },
+                          "OrgId": {
+                            "type": "string"
+                          },
+                          "OrgLink": {
+                            "type": "string"
+                          },
+                          "OrgRecordClass": {
+                            "type": "string"
+                          },
+                          "PostCode": {
+                            "type": "string"
+                          },
+                          "PrimaryRoleDescription": {
+                            "type": "string"
+                          },
+                          "PrimaryRoleId": {
+                            "type": "string"
+                          },
+                          "Status": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Search for a list of Organisations"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/organisations/{ods_code}": {
+      "get": {
+        "description": "Returns a single Organisation",
+        "parameters": [
+          {
+            "description": "ID of the Organisation",
+            "example": "RYVE7",
+            "in": "path",
+            "name": "ods_code",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Organisation\": {\"Name\": \"PLATT BRIDGE CLINIC\", \"Date\": [{\"Type\": \"Operational\", \"Start\": \"1993-04-01\", \"End\": \"2001-03-31\"}], \"OrgId\": {\"root\": \"2.16.840.1.113883.2.1.3.2.4.18.48\", \"assigningAuthorityName\": \"HSCIC\", \"extension\": \"RJY12\"}, \"Status\": \"Inactive\", \"LastChangeDate\": \"2013-05-08\", \"orgRecordClass\": \"RC2\", \"refOnly\": true, \"GeoLoc\": {\"Location\": {\"AddrLn1\": \"VICTORIA STREET\", \"AddrLn2\": \"PLATT BRIDGE\", \"Town\": \"WIGAN\", \"County\": \"LANCASHIRE\", \"PostCode\": \"WN2 5AH\", \"Country\": \"ENGLAND\"}}, \"Roles\": {\"Role\": [{\"id\": \"RO198\", \"uniqueRoleId\": 98719, \"primaryRole\": true, \"Date\": [{\"Type\": \"Operational\", \"Start\": \"1993-04-01\", \"End\": \"2001-03-31\"}], \"Status\": \"Inactive\"}]}}}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisation": {
+                      "properties": {
+                        "Date": {
+                          "items": {
+                            "properties": {
+                              "End": {
+                                "type": "string"
+                              },
+                              "Start": {
+                                "type": "string"
+                              },
+                              "Type": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "GeoLoc": {
+                          "properties": {
+                            "Location": {
+                              "properties": {
+                                "AddrLn1": {
+                                  "type": "string"
+                                },
+                                "AddrLn2": {
+                                  "type": "string"
+                                },
+                                "Country": {
+                                  "type": "string"
+                                },
+                                "County": {
+                                  "type": "string"
+                                },
+                                "PostCode": {
+                                  "type": "string"
+                                },
+                                "Town": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "LastChangeDate": {
+                          "type": "string"
+                        },
+                        "Name": {
+                          "type": "string"
+                        },
+                        "OrgId": {
+                          "properties": {
+                            "assigningAuthorityName": {
+                              "type": "string"
+                            },
+                            "extension": {
+                              "type": "string"
+                            },
+                            "root": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "Roles": {
+                          "properties": {
+                            "Role": {
+                              "items": {
+                                "properties": {
+                                  "Date": {
+                                    "items": {
+                                      "properties": {
+                                        "End": {
+                                          "type": "string"
+                                        },
+                                        "Start": {
+                                          "type": "string"
+                                        },
+                                        "Type": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "Status": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "primaryRole": {
+                                    "type": "boolean"
+                                  },
+                                  "uniqueRoleId": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "Status": {
+                          "type": "string"
+                        },
+                        "orgRecordClass": {
+                          "type": "string"
+                        },
+                        "refOnly": {
+                          "type": "boolean"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?> <Organisation orgRecordClass=\"RC1\">\n    <Name>CAPGEMINI UK PLC</Name>\n    <Date>\n        <Type value=\"Operational\"/>\n        <Start value=\"2019-01-30\"/>\n    </Date>\n    <OrgId root=\"2.16.840.1.113883.2.1.3.2.4.18.48\" assigningAuthorityName=\"HSCIC\" extension=\"8K816\"/>\n    <Status value=\"Active\"/>\n    <LastChangeDate value=\"2020-04-05\"/>\n    <GeoLoc>\n        <Location>\n            <AddrLn1>1 FORGE END</AddrLn1>\n            <Town>WOKING</Town>\n            <PostCode>GU21 6DB</PostCode>\n            <Country>ENGLAND</Country>\n            <UPRN>10001155629</UPRN>\n        </Location>\n    </GeoLoc>\n    <Contacts>\n        <Contact type=\"http\" value=\"HTTPS://WWW.CAPGEMINI.COM/GB-EN/\"/>\n    </Contacts>\n    <Roles>\n        <Role id=\"RO157\" uniqueRoleId=\"342764\" primaryRole=\"true\">\n            <Date>\n                <Type value=\"Operational\"/>\n                <Start value=\"2019-01-30\"/>\n            </Date>\n            <Status value=\"Active\"/>\n        </Role>\n    </Roles>\n    <Rels>\n        <Rel id=\"RE5\" uniqueRelId=\"686409\">\n            <Date>\n                <Type value=\"Operational\"/>\n                <Start value=\"2020-04-01\"/>\n            </Date>\n            <Status value=\"Active\"/>\n            <Target>\n                <OrgId root=\"2.16.840.1.113883.2.1.3.2.4.18.48\" assigningAuthorityName=\"HSCIC\" extension=\"QXU\"/>\n                <PrimaryRoleId id=\"RO261\" uniqueRoleId=\"300809\"/>\n            </Target>\n        </Rel>\n        <Rel id=\"RE5\" uniqueRelId=\"563484\">\n            <Date>\n                <Type value=\"Operational\"/>\n                <Start value=\"2019-01-30\"/>\n                <End value=\"2020-03-31\"/>\n            </Date>\n            <Status value=\"Inactive\"/>\n            <Target>\n                <OrgId root=\"2.16.840.1.113883.2.1.3.2.4.18.48\" assigningAuthorityName=\"HSCIC\" extension=\"Q88\"/>\n                <PrimaryRoleId id=\"RO210\" uniqueRoleId=\"299784\"/>\n            </Target>\n        </Rel>\n    </Rels>\n</Organisation>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisation": {
+                      "properties": {
+                        "Date": {
+                          "items": {
+                            "properties": {
+                              "End": {
+                                "type": "string"
+                              },
+                              "Start": {
+                                "type": "string"
+                              },
+                              "Type": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "GeoLoc": {
+                          "properties": {
+                            "Location": {
+                              "properties": {
+                                "AddrLn1": {
+                                  "type": "string"
+                                },
+                                "AddrLn2": {
+                                  "type": "string"
+                                },
+                                "Country": {
+                                  "type": "string"
+                                },
+                                "County": {
+                                  "type": "string"
+                                },
+                                "PostCode": {
+                                  "type": "string"
+                                },
+                                "Town": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "LastChangeDate": {
+                          "type": "string"
+                        },
+                        "Name": {
+                          "type": "string"
+                        },
+                        "OrgId": {
+                          "properties": {
+                            "assigningAuthorityName": {
+                              "type": "string"
+                            },
+                            "extension": {
+                              "type": "string"
+                            },
+                            "root": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "Roles": {
+                          "properties": {
+                            "Role": {
+                              "items": {
+                                "properties": {
+                                  "Date": {
+                                    "items": {
+                                      "properties": {
+                                        "End": {
+                                          "type": "string"
+                                        },
+                                        "Start": {
+                                          "type": "string"
+                                        },
+                                        "Type": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "Status": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "primaryRole": {
+                                    "type": "boolean"
+                                  },
+                                  "uniqueRoleId": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "Status": {
+                          "type": "string"
+                        },
+                        "orgRecordClass": {
+                          "type": "string"
+                        },
+                        "refOnly": {
+                          "type": "boolean"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Auto generated using Swagger Inspector"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/recordclasses": {
+      "get": {
+        "description": "Returns a list of Record classes.",
+        "parameters": [
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"RecordClasses\": [{\"id\": \"RC1\", \"code\": \"1\", \"displayName\": \"HSCOrg\"}, {\"id\": \"RC2\", \"code\": \"2\", \"displayName\": \"HSCSite\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "RecordClasses": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRecordClass\" oid=\"2.16.840.1.113883.2.1.3.2.4.23\">\n    <RecordClasses>\n        <RecordClass>\n            <id>RC1</id>\n            <code>1</code>\n            <displayName>HSCOrg</displayName>\n        </RecordClass>\n        <RecordClass>\n            <id>RC2</id>\n            <code>2</code>\n            <displayName>HSCSite</displayName>\n        </RecordClass>\n    </RecordClasses>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "RecordClasses": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Record classes."
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/recordclasses/{class_id}": {
+      "get": {
+        "description": "Returns a single record class",
+        "parameters": [
+          {
+            "description": "ID of the class",
+            "example": "RC2",
+            "in": "path",
+            "name": "class_id",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"RecordClasses\": [{\"id\": \"RC2\", \"code\": \"2\", \"displayName\": \"HSCSite\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "RecordClasses": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRecordClass\" oid=\"2.16.840.1.113883.2.1.3.2.4.23\">\n    <RecordClasses>\n        <RecordClass>\n            <id>RC1</id>\n            <code>1</code>\n            <displayName>HSCOrg</displayName>\n        </RecordClass>\n    </RecordClasses>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "RecordClasses": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a single record class"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/rels": {
+      "get": {
+        "description": "Returns a list of Relationships",
+        "parameters": [
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Relationships\": [{\"id\": \"RE10\", \"code\": \"10\", \"displayName\": \"IS COVID NOMINATED PAYEE FOR\"}, {\"id\": \"RE9\", \"code\": \"9\", \"displayName\": \"IS NOMINATED PAYEE FOR\"}, {\"id\": \"RE3\", \"code\": \"3\", \"displayName\": \"IS DIRECTED BY\"}, {\"id\": \"RE2\", \"code\": \"2\", \"displayName\": \"IS A SUB-DIVISION OF\"}, {\"id\": \"RE4\", \"code\": \"4\", \"displayName\": \"IS COMMISSIONED BY\"}, {\"id\": \"RE8\", \"code\": \"8\", \"displayName\": \"IS PARTNER TO\"}, {\"id\": \"RE5\", \"code\": \"5\", \"displayName\": \"IS LOCATED IN THE GEOGRAPHY OF\"}, {\"id\": \"RE6\", \"code\": \"6\", \"displayName\": \"IS OPERATED BY\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Relationships": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRelationship\" oid=\"2.16.840.1.113883.2.1.3.2.4.17.508\">\n    <Relationships>\n        <Relationship>\n            <id>RE3</id>\n            <code>3</code>\n            <displayName>IS DIRECTED BY</displayName>\n        </Relationship>\n        <Relationship>\n            <id>RE2</id>\n            <code>2</code>\n            <displayName>IS A SUB-DIVISION OF</displayName>\n        </Relationship>\n    </Relationships>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Relationships": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Relationships"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/rels/{rel_id}": {
+      "get": {
+        "description": "Returns a single Relationship",
+        "parameters": [
+          {
+            "description": "ID of the Relationship",
+            "example": "RE5",
+            "in": "path",
+            "name": "rel_id",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Relationships\": [{\"id\": \"RE5\", \"code\": \"5\", \"displayName\": \"IS LOCATED IN THE GEOGRAPHY OF\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Relationships": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRelationship\" oid=\"2.16.840.1.113883.2.1.3.2.4.17.508\">\n    <Relationships>\n        <Relationship>\n            <id>RE3</id>\n            <code>3</code>\n            <displayName>IS DIRECTED BY</displayName>\n        </Relationship>\n    </Relationships>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Relationships": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a single Relationship"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/roles": {
+      "get": {
+        "description": "Returns a list of Roles",
+        "parameters": [
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Roles\": [{\"id\": \"RO200\",\"code\": \"200\",\"displayName\": \"WELSH ASSEMBLY\",\"primaryRole\": \"true\"},{\"id\": \"RO105\",\"code\": \"105\",\"displayName\": \"CANCER REGISTRY\",\"primaryRole\":\"true\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Roles": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "primaryRole": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRole\" oid=\"2.16.840.1.113883.2.1.3.2.4.17.507\">\n    <Roles>\n        <Role>\n            <id>RO176</id>\n            <code>176</code>\n            <displayName>INDEPENDENT SECTOR H/C PROVIDER SITE</displayName>\n            <primaryRole>true</primaryRole>\n        </Role>\n        <Role>\n            <id>RO80</id>\n            <code>80</code>\n            <displayName>OUT OF HOURS COST CENTRE</displayName>\n            <primaryRole>false</primaryRole>\n        </Role>\n    </Roles>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Roles": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "primaryRole": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Roles"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/roles/{role_id}": {
+      "get": {
+        "description": "Returns a single Role",
+        "parameters": [
+          {
+            "description": "ID of the Role",
+            "example": "RO197",
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Roles\": [{\"id\": \"RO197\", \"code\": \"197\", \"displayName\": \"NHS TRUST\", \"primaryRole\": \"true\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Roles": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "primaryRole": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<CodeSystem name=\"OrganisationRole\" oid=\"2.16.840.1.113883.2.1.3.2.4.17.507\">\n    <Roles>\n        <Role>\n            <id>RO176</id>\n            <code>176</code>\n            <displayName>INDEPENDENT SECTOR H/C PROVIDER SITE</displayName>\n            <primaryRole>true</primaryRole>\n        </Role>\n    </Roles>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Roles": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "primaryRole": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a single Role"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/ORD/2-0-0/sync": {
+      "get": {
+        "description": "Returns a list of Organisation endpoints",
+        "parameters": [
+          {
+            "description": "Returns organisations that have been updated on or since this date in the format YYYY-MM-DD, e.g. 2021-12-01",
+            "example": "2022-01-01",
+            "in": "query",
+            "name": "LastChangeDate",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The format to return the response in, expects xml or json, e.g. xml",
+            "example": "xml",
+            "in": "query",
+            "name": "_format",
+            "schema": {
+              "enum": [
+                "xml",
+                "json"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"Organisations\": [{\"OrgLink\": \"https://dev.directory.spineservices.nhs.uk/ORD/2-0-0/organisations/71E\"}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisations": {
+                      "items": {
+                        "properties": {
+                          "OrgLink": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?><Organisations><Organisation><OrgLink>https://dev.directory.spineservices.nhs.uk/ORD/2-0-0/organisations/71E?_format=xml</OrgLink></Organisation></Organisations>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "Organisations": {
+                      "items": {
+                        "properties": {
+                          "OrgLink": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of Organisation endpoints"
+          }
+        },
+        "tags": [
+          "ORD"
+        ]
+      }
+    },
+    "/STU3/CodeSystem/ODSAPI-OrganizationRole-1": {
+      "get": {
+        "description": "Returns a list of FHIR Roles",
+        "parameters": [
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\n  \"resourceType\": \"CodeSystem\",\n  \"url\": \"https://localhost:4100/STU3/CodeSystem/ODSAPI-OrganizationRole-1\",\n  \"version\": \"1.9.0\",\n  \"name\": \"ODS API Organization Role\",\n  \"status\": \"active\",\n  \"date\": \"2019-02-21\",\n  \"publisher\": \"NHS Digital\",\n  \"contact\": [\n    {\n      \"name\": \"National Helpdesk Exeter\",\n      \"telecom\": [\n        {\n          \"system\": \"email\",\n          \"value\": \"exeter.helpdesk@nhs.net\",\n          \"use\": \"work\"\n        },\n        {\n          \"system\": \"phone\",\n          \"value\": \"0300 303 4034\",\n          \"use\": \"work\"\n        }\n      ]\n    }\n  ],\n  \"description\": \"A CodeSystem that identifies the role(s) of the organization.\",\n  \"copyright\": \"Copyright \u00a9 2017 Health and Social Care Information Centre. NHS Digital is the trading name of the Health and Social Care Information Centre.\",\n  \"content\": \"complete\",\n  \"concept\": [\n    {\n      \"code\": \"197\",\n      \"display\": \"NHS TRUST\"\n    },\n    {\n      \"code\": \"198\",\n      \"display\": \"NHS TRUST SITE\"\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "concept": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "display": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "contact": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "telecom": {
+                            "items": {
+                              "properties": {
+                                "system": {
+                                  "type": "string"
+                                },
+                                "use": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "copyright": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?> <CodeSystem xmlns:n1=\"http://hl7.org/fhir\">\n    <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRole-1\"/>\n    <version value=\"1.27.0\"/>\n    <name value=\"ODS API Organization Role\"/>\n    <status value=\"active\"/>\n    <date value=\"2021-11-23\"/>\n    <publisher value=\"NHS Digital\"/>\n    <contact>\n        <name value=\"National Helpdesk Exeter\"/>\n        <telecom>\n            <system value=\"email\"/>\n            <value value=\"exeter.helpdesk@nhs.net\"/>\n            <use value=\"work\"/>\n        </telecom>\n        <telecom>\n            <system value=\"phone\"/>\n            <value value=\"0300 303 4034\"/>\n            <use value=\"work\"/>\n        </telecom>\n    </contact>\n    <description value=\"A CodeSystem that identifies the role(s) of the organization.\"/>\n    <copyright value=\"Copyright \u00a9 2017 Health and Social Care Information Centre. NHS Digital is the trading name of the Health and Social Care Information Centre.\"/>\n    <content value=\"complete\"/>\n    <concept>\n        <code value=\"200\"/>\n        <display value=\"WELSH ASSEMBLY\"/>\n    </concept>\n    <concept>\n        <code value=\"105\"/>\n        <display value=\"CANCER REGISTRY\"/>\n    </concept>\n</CodeSystem>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "concept": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "display": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "contact": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "telecom": {
+                            "items": {
+                              "properties": {
+                                "system": {
+                                  "type": "string"
+                                },
+                                "use": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "copyright": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of FHIR Roles"
+          }
+        },
+        "tags": [
+          "FHIR"
+        ]
+      }
+    },
+    "/STU3/Organization": {
+      "get": {
+        "description": "Returns a list of FHIR Organizations",
+        "parameters": [
+          {
+            "description": "The current name of the organisation to search for, e.g. integration",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A Role or multiple roles separated by commas that organisations belong to, e.g. RRF12",
+            "in": "query",
+            "name": "identifier",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A Role or multiple roles separated by commas that organisations belong to, e.g. 101,107",
+            "in": "query",
+            "name": "ods-org-role",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ods-org-primaryRole of the organisation to search for. This filter cannot be used on it's own and can only be used with the ods-org-role, e.g. true",
+            "in": "query",
+            "name": "ods-org-primaryRole",
+            "required": false,
+            "schema": {
+              "enum": [
+                true,
+                false
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The postcode of the organisation to search for, searches for postcode starting with this value. e.g. 'TS23'",
+            "in": "query",
+            "name": "address-postalcode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The postcode of the organisation to search for, searches for postcode containing this value. e.g. '2LA'",
+            "in": "query",
+            "name": "address-postalcode:contains",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The postcode of the organisation to search for, searches for an exact match of this value. e.g. 'TS23 2LA'",
+            "in": "query",
+            "name": "address-postalcode:exact",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The city of the organisation to search for, searches for cities starting with this value. e.g. 'lee'",
+            "in": "query",
+            "name": "address-city",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The city of the organisation to search for, searches for cities containing this value. e.g. 'eed'",
+            "in": "query",
+            "name": "address-city:contains",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The city of the organisation to search for, searches for an exact match of this value. e.g. 'leeds'",
+            "in": "query",
+            "name": "address-city:exact",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The current status of the organisation to search for, expects true or false, e.g. false",
+            "example": true,
+            "in": "query",
+            "name": "active",
+            "required": false,
+            "schema": {
+              "enum": [
+                true,
+                false
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Returns organisations by id, e.g. RRF",
+            "in": "query",
+            "name": "_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Returns organisations that have been since this date in the format gtYYYY-MM-DD, e.g. gt2021-12-01",
+            "in": "query",
+            "name": "_lastUpdated",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The total count, only one value \"count\"",
+            "in": "query",
+            "name": "_summary",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of records that are returned, min=0, max=20, e.g. 10",
+            "in": "query",
+            "name": "_count",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Offset the returned values by the value given, e.g. 2",
+            "in": "query",
+            "name": "_page",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"41e4838a-4d0f-44d0-8951-8f463a934f66\",\n  \"meta\": {\n    \"lastUpdated\": \"2022-05-23T13:57:13+00:00\"\n  },\n  \"type\": \"searchset\",\n  \"total\": \"59\",\n  \"link\": [\n    {\n      \"relation\": \"self\",\n      \"url\": \"https://localhost:4100/STU3/Organization?_count=20&_page=1\"\n    },\n    {\n      \"relation\": \"first\",\n      \"url\": \"https://localhost:4100/STU3/Organization?_count=20&_page=1\"\n    },\n    {\n      \"relation\": \"last\",\n      \"url\": \"https://localhost:4100/STU3/Organization?_count=20&_page=3\"\n    },\n    {\n      \"relation\": \"next\",\n      \"url\": \"https://localhost:4100/STU3/Organization?_count=20&_page=2\"\n    }\n  ],\n  \"entry\": [\n    {\n      \"fullUrl\": \"https://localhost:4100/STU3/Organization/5QCAH\",\n      \"resource\": {\n        \"resourceType\": \"Organization\",\n        \"id\": \"5QCAH\",\n        \"meta\": {\n          \"lastUpdated\": \"2013-05-08T00:00:00+00:00\",\n          \"profile\": \"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"\n        },\n        \"extension\": [\n          {\n            \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\",\n            \"valuePeriod\": {\n              \"extension\": [\n                {\n                  \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\",\n                  \"valueString\": \"Operational\"\n                }\n              ],\n              \"start\": \"2006-10-01\"\n            }\n          },\n          {\n            \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\",\n            \"valuePeriod\": {\n              \"extension\": [\n                {\n                  \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\",\n                  \"valueString\": \"Legal\"\n                }\n              ],\n              \"start\": \"2006-10-01\",\n              \"end\": \"2013-03-31\"\n            }\n          },\n          {\n            \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\",\n            \"extension\": [\n              {\n                \"url\": \"role\",\n                \"valueCoding\": {\n                  \"system\": \"https://localhost:4100/STU3/CodeSystem/ODSAPI-OrganizationRole-1\",\n                  \"code\": \"180\",\n                  \"display\": \"PRIMARY CARE TRUST SITE\"\n                }\n              },\n              {\n                \"url\": \"primaryRole\",\n                \"valueBoolean\": true\n              },\n              {\n                \"url\": \"activePeriod\",\n                \"valuePeriod\": {\n                  \"extension\": [\n                    {\n                      \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\",\n                      \"valueString\": \"Operational\"\n                    }\n                  ],\n                  \"start\": \"2006-10-01\"\n                }\n              },\n              {\n                \"url\": \"activePeriod\",\n                \"valuePeriod\": {\n                  \"extension\": [\n                    {\n                      \"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\",\n                      \"valueString\": \"Legal\"\n                    }\n                  ],\n                  \"start\": \"2006-10-01\",\n                  \"end\": \"2013-03-31\"\n                }\n              },\n              {\n                \"url\": \"status\",\n                \"valueString\": \"Active\"\n              }\n            ]\n          }\n        ],\n        \"identifier\": {\n          \"system\": \"https://fhir.nhs.uk/Id/ods-organization-code\",\n          \"value\": \"5QCAH\"\n        },\n        \"active\": true,\n        \"type\": {\n          \"coding\": {\n            \"system\": \"https://fhir.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRecordClass-1\",\n            \"code\": \"2\",\n            \"display\": \"HSCSite\"\n          }\n        },\n        \"name\": \"EASTNEY HEALTH CENTRE\",\n        \"address\": {\n          \"line\": [\n            \"HIGHLAND ROAD\"\n          ],\n          \"city\": \"SOUTHSEA\",\n          \"district\": \"HAMPSHIRE\",\n          \"postalCode\": \"LS1 1AJ\",\n          \"country\": \"ENGLAND\"\n        }\n      }\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "entry": {
+                      "items": {
+                        "properties": {
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "address": {
+                            "properties": {
+                              "city": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "district": {
+                                "type": "string"
+                              },
+                              "line": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "extension": {
+                            "items": {
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                },
+                                "valuePeriod": {
+                                  "properties": {
+                                    "end": {
+                                      "type": "string"
+                                    },
+                                    "extension": {
+                                      "items": {
+                                        "properties": {
+                                          "url": {
+                                            "type": "string"
+                                          },
+                                          "valueString": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    },
+                                    "start": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "identifier": {
+                            "properties": {
+                              "system": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "properties": {
+                              "lastUpdated": {
+                                "type": "string"
+                              },
+                              "profile": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "resourceType": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "properties": {
+                              "coding": {
+                                "properties": {
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "display": {
+                                    "type": "string"
+                                  },
+                                  "system": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "link": {
+                      "items": {
+                        "properties": {
+                          "relation": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "meta": {
+                      "properties": {
+                        "lastUpdated": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?> <Bundle xmlns=\"http://hl7.org/fhir\">\n    <id value=\"2133a4d5-d3f2-419a-8057-f61aefefb6ef\"/>\n    <meta>\n        <lastUpdated value=\"2022-05-30T14:43:26+00:00\"/>\n    </meta>\n    <type value=\"searchset\"/>\n    <total value=\"531\"/>\n    <link>\n        <relation value=\"self\"/>\n        <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/Organization?_lastUpdated=gt2022-05-01&amp;_format=xml&amp;_count=20&amp;_page=1\"/>\n    </link>\n    <link>\n        <relation value=\"first\"/>\n        <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/Organization?_lastUpdated=gt2022-05-01&amp;_format=xml&amp;_count=20&amp;_page=1\"/>\n    </link>\n    <link>\n        <relation value=\"last\"/>\n        <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/Organization?_lastUpdated=gt2022-05-01&amp;_format=xml&amp;_count=20&amp;_page=27\"/>\n    </link>\n    <link>\n        <relation value=\"next\"/>\n        <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/Organization?_lastUpdated=gt2022-05-01&amp;_format=xml&amp;_count=20&amp;_page=2\"/>\n    </link>\n    <entry>\n        <fullUrl value=\"https://dev.directory.spineservices.nhs.uk/STU3/Organization/14L\"/>\n        <resource>\n            <Organization>\n                <id value=\"14L\"/>\n                <meta>\n                    <lastUpdated value=\"2022-05-04T00:00:00+00:00\"/>\n                    <profile value=\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"/>\n                </meta>\n                <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\">\n                    <valuePeriod>\n                        <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                            <valueString value=\"Operational\"/>\n                        </extension>\n                        <start value=\"2017-01-27\"/>\n                    </valuePeriod>\n                </extension>\n                <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\">\n                    <valuePeriod>\n                        <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                            <valueString value=\"Legal\"/>\n                        </extension>\n                        <start value=\"2017-04-01\"/>\n                    </valuePeriod>\n                </extension>\n                <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\">\n                    <extension url=\"role\">\n                        <valueCoding>\n                            <system value=\"https://dev.directory.spineservices.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRole-1\"/>\n                            <code value=\"98\"/>\n                            <display value=\"CLINICAL COMMISSIONING GROUP\"/>\n                        </valueCoding>\n                    </extension>\n                    <extension url=\"primaryRole\">\n                        <valueBoolean value=\"true\"/>\n                    </extension>\n                    <extension url=\"activePeriod\">\n                        <valuePeriod>\n                            <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                                <valueString value=\"Operational\"/>\n                            </extension>\n                            <start value=\"2017-01-27\"/>\n                        </valuePeriod>\n                    </extension>\n                    <extension url=\"activePeriod\">\n                        <valuePeriod>\n                            <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                                <valueString value=\"Legal\"/>\n                            </extension>\n                            <start value=\"2017-04-01\"/>\n                        </valuePeriod>\n                    </extension>\n                    <extension url=\"status\">\n                        <valueString value=\"Active\"/>\n                    </extension>\n                </extension>\n                <identifier>\n                    <system value=\"https://fhir.nhs.uk/Id/ods-organization-code\"/>\n                    <value value=\"14L\"/>\n                </identifier>\n                <active value=\"true\"/>\n                <type>\n                    <coding>\n                        <system value=\"https://fhir.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRecordClass-1\"/>\n                        <code value=\"1\"/>\n                        <display value=\"HSCOrg\"/>\n                    </coding>\n                </type>\n                <name value=\"NHS MANCHESTER CCG\"/>\n                <address>\n                    <line value=\"PARKWAY 3\"/>\n                    <line value=\"PARKWAY BUSINESS CENTRE\"/>\n                    <line value=\"PRINCESS ROAD\"/>\n                    <city value=\"MANCHESTER\"/>\n                    <district value=\"GREATER MANCHESTER\"/>\n                    <postalCode value=\"M14 7LU\"/>\n                    <country value=\"ENGLAND\"/>\n                </address>\n            </Organization>\n        </resource>\n    </entry>\n</Bundle>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "entry": {
+                      "items": {
+                        "properties": {
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "address": {
+                            "properties": {
+                              "city": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "district": {
+                                "type": "string"
+                              },
+                              "line": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "extension": {
+                            "items": {
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                },
+                                "valuePeriod": {
+                                  "properties": {
+                                    "end": {
+                                      "type": "string"
+                                    },
+                                    "extension": {
+                                      "items": {
+                                        "properties": {
+                                          "url": {
+                                            "type": "string"
+                                          },
+                                          "valueString": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    },
+                                    "start": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "identifier": {
+                            "properties": {
+                              "system": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "properties": {
+                              "lastUpdated": {
+                                "type": "string"
+                              },
+                              "profile": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "resourceType": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "properties": {
+                              "coding": {
+                                "properties": {
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "display": {
+                                    "type": "string"
+                                  },
+                                  "system": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "link": {
+                      "items": {
+                        "properties": {
+                          "relation": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "meta": {
+                      "properties": {
+                        "lastUpdated": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of FHIR Organizations"
+          }
+        },
+        "tags": [
+          "FHIR"
+        ]
+      }
+    },
+    "/STU3/Organization/{ods_code}": {
+      "get": {
+        "description": "Returns FHIR Organization details",
+        "parameters": [
+          {
+            "description": "ID of the Organization",
+            "example": "RJY12",
+            "in": "path",
+            "name": "ods_code",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"resourceType\": \"Organization\", \"id\": \"RJY12\", \"meta\": {\"lastUpdated\": \"2013-05-08T00:00:00+00:00\", \"profile\": \"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"}, \"extension\": [{\"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\", \"valuePeriod\": {\"extension\": [{\"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\", \"valueString\": \"Operational\"}], \"start\": \"1993-04-01\", \"end\": \"2001-03-31\"}}, {\"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\", \"extension\": [{\"url\": \"role\", \"valueCoding\": {\"system\": \"https://directory.spineservices.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRole-1\", \"code\": \"198\", \"display\": \"NHS TRUST SITE\"}}, {\"url\": \"primaryRole\", \"valueBoolean\": true}, {\"url\": \"activePeriod\", \"valuePeriod\": {\"extension\": [{\"url\": \"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\", \"valueString\": \"Operational\"}], \"start\": \"1993-04-01\", \"end\": \"2001-03-31\"}}, {\"url\": \"status\", \"valueString\": \"Inactive\"}]}], \"identifier\": {\"system\": \"https://fhir.nhs.uk/Id/ods-organization-code\", \"value\": \"RJY12\"}, \"active\": false, \"type\": {\"coding\": {\"system\": \"https://fhir.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRecordClass-1\", \"code\": \"2\", \"display\": \"HSCSite\"}}, \"name\": \"PLATT BRIDGE CLINIC\", \"address\": {\"line\": [\"VICTORIA STREET\", \"PLATT BRIDGE\"], \"city\": \"WIGAN\", \"district\": \"LANCASHIRE\", \"postalCode\": \"WN2 5AH\", \"country\": \"ENGLAND\"}}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "address": {
+                      "properties": {
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "district": {
+                          "type": "string"
+                        },
+                        "line": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "postalCode": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "extension": {
+                      "items": {
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "valuePeriod": {
+                            "properties": {
+                              "end": {
+                                "type": "string"
+                              },
+                              "extension": {
+                                "items": {
+                                  "properties": {
+                                    "url": {
+                                      "type": "string"
+                                    },
+                                    "valueString": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "start": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "properties": {
+                        "system": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "meta": {
+                      "properties": {
+                        "lastUpdated": {
+                          "type": "string"
+                        },
+                        "profile": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "properties": {
+                        "coding": {
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "display": {
+                              "type": "string"
+                            },
+                            "system": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?> <Organization xmlns=\"http://hl7.org/fhir\">\n    <id value=\"RJY12\"/>\n    <meta>\n        <lastUpdated value=\"2013-05-08T00:00:00+00:00\"/>\n        <profile value=\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"/>\n    </meta>\n    <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\">\n        <valuePeriod>\n            <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                <valueString value=\"Operational\"/>\n            </extension>\n            <start value=\"1993-04-01\"/>\n            <end value=\"2001-03-31\"/>\n        </valuePeriod>\n    </extension>\n    <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\">\n        <extension url=\"role\">\n            <valueCoding>\n                <system value=\"https://dev.directory.spineservices.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRole-1\"/>\n                <code value=\"198\"/>\n                <display value=\"NHS TRUST SITE\"/>\n            </valueCoding>\n        </extension>\n        <extension url=\"primaryRole\">\n            <valueBoolean value=\"true\"/>\n        </extension>\n        <extension url=\"activePeriod\">\n            <valuePeriod>\n                <extension url=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\">\n                    <valueString value=\"Operational\"/>\n                </extension>\n                <start value=\"1993-04-01\"/>\n                <end value=\"2001-03-31\"/>\n            </valuePeriod>\n        </extension>\n        <extension url=\"status\">\n            <valueString value=\"Inactive\"/>\n        </extension>\n    </extension>\n    <identifier>\n        <system value=\"https://fhir.nhs.uk/Id/ods-organization-code\"/>\n        <value value=\"RJY12\"/>\n    </identifier>\n    <active value=\"false\"/>\n    <type>\n        <coding>\n            <system value=\"https://fhir.nhs.uk/STU3/CodeSystem/ODSAPI-OrganizationRecordClass-1\"/>\n            <code value=\"2\"/>\n            <display value=\"HSCSite\"/>\n        </coding>\n    </type>\n    <name value=\"PLATT BRIDGE CLINIC\"/>\n    <address>\n        <line value=\"VICTORIA STREET\"/>\n        <line value=\"PLATT BRIDGE\"/>\n        <city value=\"WIGAN\"/>\n        <district value=\"LANCASHIRE\"/>\n        <postalCode value=\"WN2 5AH\"/>\n        <country value=\"ENGLAND\"/>\n    </address>\n</Organization>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "address": {
+                      "properties": {
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "district": {
+                          "type": "string"
+                        },
+                        "line": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "postalCode": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "extension": {
+                      "items": {
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "valuePeriod": {
+                            "properties": {
+                              "end": {
+                                "type": "string"
+                              },
+                              "extension": {
+                                "items": {
+                                  "properties": {
+                                    "url": {
+                                      "type": "string"
+                                    },
+                                    "valueString": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "start": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "properties": {
+                        "system": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "meta": {
+                      "properties": {
+                        "lastUpdated": {
+                          "type": "string"
+                        },
+                        "profile": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "properties": {
+                        "coding": {
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "display": {
+                              "type": "string"
+                            },
+                            "system": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns FHIR Organization details"
+          }
+        },
+        "tags": [
+          "FHIR"
+        ]
+      }
+    },
+    "/STU3/metadata": {
+      "get": {
+        "description": "Returns Metadata",
+        "parameters": [
+          {
+            "description": "Sets the format of the response, if not set the response with be in json format.",
+            "in": "query",
+            "name": "_format",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "xml"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "0": {
+                    "value": "{\"resourceType\":\"CapabilityStatement\",\"url\":\"https://directory.spineservices.nhs.uk/STU3/metadata?\",\"version\":\"1.0.0\",\"name\":\"ODSAPI-CapabilityStatement-1\",\"status\":\"active\",\"date\":\"2018-04-12\",\"publisher\":\"NHS Digital\",\"contact\":[{\"name\":\"National Helpdesk Exeter\",\"telecom\":[{\"system\":\"email\",\"value\":\"exeter.helpdesk@nhs.net\",\"use\":\"work\"},{\"system\":\"phone\",\"value\":\"0300 303 4034\",\"use\":\"work\"}]}],\"description\":\"An API for retrieving organisation data from the NHS Digital Organisation Data Service.\",\"copyright\":\"Copyright \u00a9 2017 NHS Digital\",\"kind\":\"instance\",\"instantiates\":[\"https://fhir.nhs.uk/STU3/CapabilityStatement/ODSAPI-CapabilityStatement-1\"],\"fhirVersion\":\"3.0.1\",\"acceptUnknown\":\"no\",\"format\":[\"application/fhir+xml\",\"application/fhir+json\"],\"implementationGuide\":[\"https://developer.nhs.uk/apis/ods/\"],\"profile\":[{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"},{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-ActivePeriod-1\"},{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\"},{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\"},{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-UPRN-1\"},{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\"}],\"rest\":[{\"mode\":\"server\",\"security\":{\"cors\":true},\"resource\":[{\"extension\":[{\"url\":\"http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination\",\"extension\":[{\"url\":\"required\",\"valueString\":\"ods-org-primaryRole\"},{\"url\":\"required\",\"valueString\":\"ods-org-role\"}]}],\"type\":\"Organization\",\"profile\":{\"reference\":\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\"},\"interaction\":[{\"code\":\"read\"},{\"code\":\"search-type\"}],\"versioning\":\"no-version\",\"readHistory\":false,\"updateCreate\":false,\"conditionalCreate\":false,\"conditionalRead\":\"not-supported\",\"conditionalUpdate\":false,\"conditionalDelete\":\"not-supported\",\"searchParam\":[{\"name\":\"_id\",\"type\":\"token\"},{\"name\":\"_lastUpdated\",\"type\":\"date\"},{\"name\":\"_count\",\"type\":\"number\"},{\"name\":\"_summary\",\"type\":\"token\"},{\"name\":\"identifier\",\"type\":\"token\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"active\",\"type\":\"token\"},{\"name\":\"address-city\",\"type\":\"string\"},{\"name\":\"address-postalcode\",\"type\":\"string\"},{\"name\":\"ods-org-role\",\"definition\":\"https://fhir.nhs.uk/STU3/SearchParameter/ODSAPI-OrganizationRole-Role-1\",\"type\":\"token\"},{\"name\":\"ods-org-primaryRole\",\"definition\":\"https://fhir.nhs.uk/STU3/SearchParameter/ODSAPI-OrganizationRole-PrimaryRole-1\",\"type\":\"token\"}]},{\"type\":\"CodeSystem\",\"interaction\":[{\"code\":\"read\"}],\"versioning\":\"no-version\",\"readHistory\":false,\"updateCreate\":false,\"conditionalCreate\":false,\"conditionalRead\":\"not-supported\",\"conditionalUpdate\":false,\"conditionalDelete\":\"not-supported\",\"searchParam\":[{\"name\":\"url\",\"type\":\"string\",\"documentation\":\"The logical URL for the CodeSystem\"}]}]}]}"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "acceptUnknown": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "telecom": {
+                            "items": {
+                              "properties": {
+                                "system": {
+                                  "type": "string"
+                                },
+                                "use": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "copyright": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "fhirVersion": {
+                      "type": "string"
+                    },
+                    "format": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "implementationGuide": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "instantiates": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "profile": {
+                      "items": {
+                        "properties": {
+                          "reference": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "rest": {
+                      "items": {
+                        "properties": {
+                          "mode": {
+                            "type": "string"
+                          },
+                          "resource": {
+                            "items": {
+                              "properties": {
+                                "conditionalCreate": {
+                                  "type": "boolean"
+                                },
+                                "conditionalDelete": {
+                                  "type": "string"
+                                },
+                                "conditionalRead": {
+                                  "type": "string"
+                                },
+                                "conditionalUpdate": {
+                                  "type": "boolean"
+                                },
+                                "extension": {
+                                  "items": {
+                                    "properties": {
+                                      "extension": {
+                                        "items": {
+                                          "properties": {
+                                            "url": {
+                                              "type": "string"
+                                            },
+                                            "valueString": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "type": "array"
+                                      },
+                                      "url": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "interaction": {
+                                  "items": {
+                                    "properties": {
+                                      "code": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "profile": {
+                                  "properties": {
+                                    "reference": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "readHistory": {
+                                  "type": "boolean"
+                                },
+                                "searchParam": {
+                                  "items": {
+                                    "properties": {
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "updateCreate": {
+                                  "type": "boolean"
+                                },
+                                "versioning": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "security": {
+                            "properties": {
+                              "cors": {
+                                "type": "boolean"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "examples": {
+                  "0": {
+                    "value": "<?xml version='1.0' encoding='UTF-8'?> <CapabilityStatement xmlns=\"http://hl7.org/fhir\">\n    <url value=\"https://dev.directory.spineservices.nhs.uk/STU3/metadata?_format=xml\" />\n    <version value=\"1.0.0\" />\n    <name value=\"ODSAPI-CapabilityStatement-1\" />\n    <status value=\"active\" />\n    <date value=\"2018-04-12\" />\n    <publisher value=\"NHS Digital\" />\n    <contact>\n        <name value=\"National Helpdesk Exeter\" />\n        <telecom>\n            <system value=\"email\" />\n            <value value=\"exeter.helpdesk@nhs.net\" />\n            <use value=\"work\" />\n        </telecom>\n        <telecom>\n            <system value=\"phone\" />\n            <value value=\"0300 303 4034\" />\n            <use value=\"work\" />\n        </telecom>\n    </contact>\n    <description value=\"An API for retrieving organisation data from the NHS Digital Organisation Data Service.\" />\n    <copyright value=\"Copyright \u00a9 2017 NHS Digital\" />\n    <kind value=\"instance\" />\n    <instantiates value=\"https://fhir.nhs.uk/STU3/CapabilityStatement/ODSAPI-CapabilityStatement-1\" />\n    <fhirVersion value=\"3.0.1\" />\n    <acceptUnknown value=\"no\" />\n    <format value=\"application/fhir+xml\" />\n    <format value=\"application/fhir+json\" />\n    <implementationGuide value=\"https://developer.nhs.uk/apis/ods/\" />\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\" />\n    </profile>\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-ActivePeriod-1\" />\n    </profile>\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-ActivePeriod-1\" />\n    </profile>\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-OrganizationRole-1\" />\n    </profile>\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-UPRN-1\" />\n    </profile>\n    <profile>\n        <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/Extension-ODSAPI-DateType-1\" />\n    </profile>\n    <rest>\n        <mode value=\"server\" />\n        <security>\n            <cors value=\"true\" />\n        </security>\n        <resource>\n            <extension url=\"http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination\">\n                <extension url=\"required\">\n                    <valueString value=\"ods-org-primaryRole\" />\n                </extension>\n                <extension url=\"required\">\n                    <valueString value=\"ods-org-role\" />\n                </extension>\n            </extension>\n            <type value=\"Organization\" />\n            <profile>\n                <reference value=\"https://fhir.nhs.uk/STU3/StructureDefinition/ODSAPI-Organization-1\" />\n            </profile>\n            <interaction>\n                <code value=\"read\" />\n            </interaction>\n            <interaction>\n                <code value=\"search-type\" />\n            </interaction>\n            <versioning value=\"no-version\" />\n            <readHistory value=\"false\" />\n            <updateCreate value=\"false\" />\n            <conditionalCreate value=\"false\" />\n            <conditionalRead value=\"not-supported\" />\n            <conditionalUpdate value=\"false\" />\n            <conditionalDelete value=\"not-supported\" />\n            <searchParam>\n                <name value=\"_id\" />\n                <type value=\"token\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"_lastUpdated\" />\n                <type value=\"date\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"_count\" />\n                <type value=\"number\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"_summary\" />\n                <type value=\"token\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"identifier\" />\n                <type value=\"token\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"name\" />\n                <type value=\"string\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"active\" />\n                <type value=\"token\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"address-city\" />\n                <type value=\"string\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"address-postalcode\" />\n                <type value=\"string\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"ods-org-role\" />\n                <definition value=\"https://fhir.nhs.uk/STU3/SearchParameter/ODSAPI-OrganizationRole-Role-1\" />\n                <type value=\"token\" />\n            </searchParam>\n            <searchParam>\n                <name value=\"ods-org-primaryRole\" />\n                <definition value=\"https://fhir.nhs.uk/STU3/SearchParameter/ODSAPI-OrganizationRole-PrimaryRole-1\" />\n                <type value=\"token\" />\n            </searchParam>\n        </resource>\n        <resource>\n            <type value=\"CodeSystem\" />\n            <interaction>\n                <code value=\"read\" />\n            </interaction>\n            <versioning value=\"no-version\" />\n            <readHistory value=\"false\" />\n            <updateCreate value=\"false\" />\n            <conditionalCreate value=\"false\" />\n            <conditionalRead value=\"not-supported\" />\n            <conditionalUpdate value=\"false\" />\n            <conditionalDelete value=\"not-supported\" />\n            <searchParam>\n                <name value=\"url\" />\n                <type value=\"string\" />\n                <documentation value=\"The logical URL for the CodeSystem\" />\n            </searchParam>\n        </resource>\n    </rest>\n</CapabilityStatement>"
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "acceptUnknown": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "items": {
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "telecom": {
+                            "items": {
+                              "properties": {
+                                "system": {
+                                  "type": "string"
+                                },
+                                "use": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "copyright": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "fhirVersion": {
+                      "type": "string"
+                    },
+                    "format": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "implementationGuide": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "instantiates": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "profile": {
+                      "items": {
+                        "properties": {
+                          "reference": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "rest": {
+                      "items": {
+                        "properties": {
+                          "mode": {
+                            "type": "string"
+                          },
+                          "resource": {
+                            "items": {
+                              "properties": {
+                                "conditionalCreate": {
+                                  "type": "boolean"
+                                },
+                                "conditionalDelete": {
+                                  "type": "string"
+                                },
+                                "conditionalRead": {
+                                  "type": "string"
+                                },
+                                "conditionalUpdate": {
+                                  "type": "boolean"
+                                },
+                                "extension": {
+                                  "items": {
+                                    "properties": {
+                                      "extension": {
+                                        "items": {
+                                          "properties": {
+                                            "url": {
+                                              "type": "string"
+                                            },
+                                            "valueString": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "type": "array"
+                                      },
+                                      "url": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "interaction": {
+                                  "items": {
+                                    "properties": {
+                                      "code": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "profile": {
+                                  "properties": {
+                                    "reference": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "readHistory": {
+                                  "type": "boolean"
+                                },
+                                "searchParam": {
+                                  "items": {
+                                    "properties": {
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "updateCreate": {
+                                  "type": "boolean"
+                                },
+                                "versioning": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "security": {
+                            "properties": {
+                              "cors": {
+                                "type": "boolean"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns Metadata"
+          }
+        },
+        "tags": [
+          "FHIR"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Access a reduced dataset of health and social care organisations in England and Wales, such as trusts or GP practices, using our Organisation Data Service (ODS) FHIR API. ",
+      "name": "ORD"
+    },
+    {
+      "description": "Access a reduced dataset of health and social care organisations in England and Wales, such as trusts or GP practices, using our Organisation Data Service (ODS) FHIR API. ",
+      "externalDocs": {
+        "url": "http://hl7.org/fhir/stu3/"
+      },
+      "name": "FHIR"
+    }
+  ]
+}

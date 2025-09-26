@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -46,19 +45,17 @@ components:
 
             var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
 
-            //// Act
+            // Act
             var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings());
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
-            Assert.Contains("addFile(body: Blob | undefined): ", code);
-            Assert.Contains("\"Content-Type\": \"image/png\"", code);
-            Assert.Contains("\"Accept\": \"application/xml\"", code);
-            Assert.Contains("const content_ = body;", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
-        public async Task WhenSpecContainsFormData_ThenFormDataIsUsedInTypeScript()
+        public async Task WhenSpecContainsFormDataInSingleMultipartFile_ThenFormDataIsUsedInTypeScript()
         {
             var json = @"{
   ""x-generator"": ""NSwag v13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))"",
@@ -106,6 +103,33 @@ components:
         }
       }
     },
+    
+  },
+  ""components"": {}
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            // Act
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task WhenSpecContainsFormDataInMultipartFileArray_ThenFormDataIsUsedInTypeScript()
+        {
+            var json = @"{
+  ""x-generator"": ""NSwag v13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""My Title"",
+    ""version"": ""1.0.0""
+  },
+  ""paths"": {
     ""/api/FileUpload/UploadFiles"": {
       ""post"": {
         ""tags"": [
@@ -147,6 +171,33 @@ components:
         }
       }
     },
+    
+  },
+  ""components"": {}
+}";
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+
+            // Act
+            var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task WhenSpecContainsFormDataInNestedMultipartForm_ThenFormDataIsUsedInTypeScript()
+        {
+            var json = @"{
+  ""x-generator"": ""NSwag v13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))"",
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""title"": ""My Title"",
+    ""version"": ""1.0.0""
+  },
+  ""paths"": {
     ""/api/FileUpload/UploadAttachment"": {
       ""post"": {
         ""tags"": [
@@ -205,14 +256,13 @@ components:
 
             var document = await OpenApiDocument.FromJsonAsync(json);
 
-            //// Act
+            // Act
             var codeGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings());
             var code = codeGenerator.GenerateFile();
 
-            //// Assert
-            Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("interface FileParameter", code);
-            Assert.Contains("content_.append(\"file\", file.data, file.fileName ? file.fileName : \"file\");", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

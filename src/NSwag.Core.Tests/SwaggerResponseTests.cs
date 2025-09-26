@@ -10,14 +10,14 @@ namespace NSwag.Core.Tests
         [InlineData("text/plain", false)]
         [InlineData("application/json", false)]
         [InlineData("application/vnd.model+json", false)]
-        [InlineData("*/*", false)]
+        [InlineData("*/*", true)]
         [InlineData("application/json;charset=UTF-8", false)]
         public void When_response_contains_produces_detect_if_binary_response(string contentType, bool expectsBinary)
         {
             // Arrange
             var response = new OpenApiResponse();
             var operation = new OpenApiOperation();
-            operation.Produces = new System.Collections.Generic.List<string> { contentType };
+            operation.Produces = [contentType];
             operation.Responses.Add("200", response);
 
             // Act

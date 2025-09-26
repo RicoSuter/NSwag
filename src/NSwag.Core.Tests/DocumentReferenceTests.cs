@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace NSwag.Core.Tests
 {
@@ -9,7 +7,7 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_response_is_referenced_then_it_should_be_resolved()
         {
-            //// Arrange
+            // Arrange
             var json = @"
 {
   ""swagger"": ""2.0"",
@@ -37,11 +35,11 @@ namespace NSwag.Core.Tests
   }
 }";
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
 
-            //// Assert
+            // Assert
             Assert.NotNull(document);
             Assert.NotNull(document.Operations.First().Operation.ActualResponses["500"].Schema);
 
@@ -51,7 +49,7 @@ namespace NSwag.Core.Tests
         [Fact]
         public async Task When_parameter_is_referenced_then_it_should_be_resolved()
         {
-            //// Arrange
+            // Arrange
             var json = @"
 {
   ""swagger"": ""2.0"",
@@ -80,19 +78,19 @@ namespace NSwag.Core.Tests
   }
 }";
 
-            //// Act
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
 
-            //// Assert
-            Assert.Equal("foo", document.Operations.First().Operation.ActualParameters.First().Name);
+            // Assert
+            Assert.Equal("foo", document.Operations.First().Operation.ActualParameters[0].Name);
             Assert.Contains(@"""$ref"": ""#/parameters/Foo""", json);
         }
 
         [Fact]
         public async Task When_parameter_references_schema_then_it_is_resolved()
         {
-            //// Arrange
+            // Arrange
             var json = @"{
   ""openapi"": ""3.0.0"",
   ""servers"": [
@@ -136,12 +134,75 @@ namespace NSwag.Core.Tests
   }
 }";
 
-            //// Act
+            // Act
+            var document = await OpenApiDocument.FromJsonAsync(json);
+            json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Assert
+            Assert.Equal("secret", document.Operations.First().Operation.ActualParameters[0].ActualSchema.Format);
+        }
+
+        [Fact]
+        public async Task When_referencing_example_then_read_and_write_should_work()
+        {
+            // Arrange
+            var json = @"{
+  ""openapi"": ""3.0.1"",
+  ""paths"": {
+    ""/listener"": {
+      ""get"": {
+        ""responses"": {
+          ""200"": {          
+            ""description"": ""A list of pets."",
+            ""content"": {
+              ""application/json"": {
+                ""schema"": {
+                  ""type"": ""array""
+                }
+              }
+            }
+          }
+        },
+        ""requestBody"": {
+          ""content"": {
+            ""application/json"": {
+              ""schema"": {
+                ""type"": ""string""
+              },
+              ""examples"": {
+                ""bar"": {
+                  ""$ref"": ""#/components/examples/foo""
+                }
+              }
+            }
+          },
+          ""description"": ""Notification Resource Models"",
+          ""required"": true
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""schemas"": {},
+    ""examples"": {
+      ""foo"": {
+        ""value"": {
+          ""eventId"": ""6a51c8e5-2629-47ef-b562-288b5569ac56"",
+          ""eventTime"": ""string"",
+          ""eventType"": ""serviceCreationNotification"",
+        }
+      }
+    }
+  }
+}";
+
+            // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             json = document.ToJson();
 
-            //// Assert
-            Assert.Equal("secret", document.Operations.First().Operation.ActualParameters.First().ActualSchema.Format);
+            // Assert
+            Assert.NotNull(json);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using NConsole;
+﻿using NConsole;
 
 namespace NSwag
 {
@@ -25,5 +24,7 @@ namespace NSwag
             Console.Write(message);
             return Console.ReadLine();
         }
+        
+        public bool InteractiveMode => true;
     }
 }

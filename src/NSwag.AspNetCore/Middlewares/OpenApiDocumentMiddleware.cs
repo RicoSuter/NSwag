@@ -9,10 +9,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using Namotion.Reflection;
+using System.Runtime.ExceptionServices;
 
 namespace NSwag.AspNetCore.Middlewares
 {
@@ -28,8 +26,7 @@ namespace NSwag.AspNetCore.Middlewares
 
         private int _version;
         private readonly object _documentsCacheLock = new object();
-        private readonly Dictionary<string, Tuple<string, Exception, DateTimeOffset>> _documentsCache
-            = new Dictionary<string, Tuple<string, Exception, DateTimeOffset>>();
+        private readonly Dictionary<string, Tuple<string, ExceptionDispatchInfo, DateTimeOffset>> _documentsCache = [];
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocumentMiddleware"/> class.</summary>
         /// <param name="nextDelegate">The next delegate.</param>
@@ -42,7 +39,7 @@ namespace NSwag.AspNetCore.Middlewares
             _nextDelegate = nextDelegate;
 
             _documentName = documentName;
-            _path = path;
+            _path = path.StartsWith('/') ? path : '/' + path;
 
             _apiDescriptionGroupCollectionProvider = serviceProvider.GetService<IApiDescriptionGroupCollectionProvider>() ??
                 throw new InvalidOperationException("API Explorer not registered in DI.");
@@ -57,11 +54,14 @@ namespace NSwag.AspNetCore.Middlewares
         /// <returns>The task.</returns>
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value, _path, StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GetDocumentAsync(context);
                 context.Response.StatusCode = 200;
-                context.Response.Headers["Content-Type"] = "application/json; charset=utf-8";
+                context.Response.Headers["Content-Type"] = _path.Contains(".yaml", StringComparison.OrdinalIgnoreCase) ?
+                    "application/yaml; charset=utf-8" :
+                    "application/json; charset=utf-8";
+
                 await context.Response.WriteAsync(schemaJson);
             }
             else
@@ -77,7 +77,7 @@ namespace NSwag.AspNetCore.Middlewares
         {
             var documentKey = _settings.CreateDocumentCacheKey?.Invoke(context.Request) ?? string.Empty;
 
-            Tuple<string, Exception, DateTimeOffset> document;
+            Tuple<string, ExceptionDispatchInfo, DateTimeOffset> document;
             lock (_documentsCacheLock)
             {
                 _documentsCache.TryGetValue(documentKey, out document);
@@ -86,7 +86,7 @@ namespace NSwag.AspNetCore.Middlewares
             if (document?.Item2 != null &&
                 document.Item3 + _settings.ExceptionCacheTime > DateTimeOffset.UtcNow)
             {
-                throw document.Item2;
+                document.Item2.Throw();
             }
 
             var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
@@ -98,23 +98,30 @@ namespace NSwag.AspNetCore.Middlewares
 
             try
             {
-                var json = (await GenerateDocumentAsync(context)).ToJson();
+                var openApiDocument = await GenerateDocumentAsync(context);
+                var data = _path.Contains(".yaml", StringComparison.OrdinalIgnoreCase) ?
+                    OpenApiYamlDocument.ToYaml(openApiDocument) :
+                    openApiDocument.ToJson();
+
+                XmlDocs.ClearCache();
+                CachedType.ClearCache();
+
                 _version = apiDescriptionGroups.Version;
 
                 lock (_documentsCacheLock)
                 {
-                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
-                        json, null, DateTimeOffset.UtcNow);
+                    _documentsCache[documentKey] = new Tuple<string, ExceptionDispatchInfo, DateTimeOffset>(
+                        data, null, DateTimeOffset.UtcNow);
                 }
 
-                return json;
+                return data;
             }
             catch (Exception exception)
             {
                 lock (_documentsCacheLock)
                 {
-                    _documentsCache[documentKey] = new Tuple<string, Exception, DateTimeOffset>(
-                        null, exception, DateTimeOffset.UtcNow);
+                    _documentsCache[documentKey] = new Tuple<string, ExceptionDispatchInfo, DateTimeOffset>(
+                        null, ExceptionDispatchInfo.Capture(exception), DateTimeOffset.UtcNow);
                 }
 
                 throw;

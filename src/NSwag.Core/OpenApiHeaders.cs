@@ -1,19 +1,17 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SwaggerHeaders.cs" company="NSwag">
+// <copyright file="OpenApiHeaders.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
 // <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using NJsonSchema;
 using NSwag.Collections;
 
 namespace NSwag
 {
     /// <summary>A collection of headers.</summary>
-    public class OpenApiHeaders : ObservableDictionary<string, JsonSchema>
+    public sealed class OpenApiHeaders : ObservableDictionary<string, OpenApiHeader>
     {
-
     }
 }

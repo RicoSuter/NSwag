@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using Xunit;
-using NSwag.Generation.WebApi;
+﻿using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Globalization;
+using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -17,124 +16,212 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class DiscussionController : Controller
         {
             [HttpPost]
-            public void AddMessage([FromBody]Foo message)
+            public void AddMessage([FromBody] Foo message)
+            {
+            }
+        }
+
+        public class UrlEncodedRequestConsumingController : Controller
+        {
+            [HttpPost]
+            [Consumes("application/x-www-form-urlencoded")]
+            public void AddMessage([FromForm] Foo message, [FromForm] string messageId)
             {
             }
 
             [HttpGet]
-            public Foo GetMessage([FromBody] int id)
+            public Foo GetMessage([FromQuery] string messageId)
             {
-                throw new NotImplementedException();
-            }
-        }
-        
-        public class UrlEncodedRequestConsumingController: Controller
-        {
-            [HttpPost]
-            [Consumes("application/x-www-form-urlencoded")]
-            public void AddMessage([FromForm]Foo message, [FromForm]string messageId)
-            {
+                return new Foo { Bar = $"Hello World ({messageId})" };
             }
         }
 
         [Fact]
         public async Task When_export_types_is_true_then_add_export_before_classes()
         {
-            //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.Contains("export class DiscussionClient", code);
-            Assert.Contains("export interface IDiscussionClient", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
         public async Task When_export_types_is_false_then_dont_add_export_before_classes()
         {
-            //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.DoesNotContain("export class DiscussionClient", code);
-            Assert.DoesNotContain("export interface IDiscussionClient", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
-                
+
         [Fact]
         public async Task When_consumes_is_url_encoded_then_construct_url_encoded_request()
         {
-            //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.Contains("content_", code);
-            Assert.DoesNotContain("FormData", code);
-            Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
         public async Task Add_cancel_token_to_every_call()
         {
-            //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();
+            Assert.NotNull(json);
 
-            //// Act
+            // Act
             var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
             {
                 Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = false,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.Contains("cancelToken?: CancelToken | undefined", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 4.3m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal_and_generate_client_interfaces_contains_signal_param_in_both_interface_and_concrete_implementation()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = true,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 4.3m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
         
         [Fact]

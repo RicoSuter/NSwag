@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -37,7 +35,7 @@ namespace NSwag.Generation.Processors.Security
         {
             if (context.OperationDescription.Operation.Security == null)
             {
-                context.OperationDescription.Operation.Security = new List<OpenApiSecurityRequirement>();
+                context.OperationDescription.Operation.Security = [];
             }
 
             var scopes = GetScopes(context.OperationDescription, context.MethodInfo);
@@ -59,9 +57,9 @@ namespace NSwag.Generation.Processors.Security
                 methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes());
 
             var authorizeAttributes = allAttributes.Where(a => a.GetType().Name == "AuthorizeAttribute").ToList();
-            if (!authorizeAttributes.Any())
+            if (authorizeAttributes.Count == 0)
             {
-                return Enumerable.Empty<string>();
+                return [];
             }
 
             return authorizeAttributes

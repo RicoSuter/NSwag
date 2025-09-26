@@ -6,12 +6,10 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Diagnostics;
 using System.Reflection;
 using NConsole;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
@@ -31,11 +29,19 @@ namespace NSwag.Commands
         /// <summary>Processes the command line arguments.</summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The result.</returns>
-        public int Process(string[] args)
+        public int Process(string[] args) => ProcessAsync(args).GetAwaiter().GetResult();
+
+        /// <summary>Processes the command line arguments.</summary>
+        /// <param name="args">The arguments.</param>
+        /// <returns>The result.</returns>
+        public async Task<int> ProcessAsync(string[] args)
         {
-            _host.WriteMessage("toolchain v" + OpenApiDocument.ToolchainVersion +
-                " (NJsonSchema v" + JsonSchema.ToolchainVersion + ")\n");
-            _host.WriteMessage("Visit http://NSwag.org for more information.\n");
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOLOGO"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOLOGO"), "1", StringComparison.OrdinalIgnoreCase))
+            {
+                _host.WriteMessage($"toolchain v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion}){Environment.NewLine}");
+                _host.WriteMessage($"Visit http://NSwag.org for more information.{Environment.NewLine}");
+            }
 
             WriteBinDirectory();
 
@@ -48,14 +54,14 @@ namespace NSwag.Commands
             {
                 var processor = new CommandLineProcessor(_host);
 
-                processor.RegisterCommandsFromAssembly(typeof(SwaggerToCSharpControllerCommand).GetTypeInfo().Assembly);
+                processor.RegisterCommandsFromAssembly(typeof(OpenApiToCSharpControllerCommand).GetTypeInfo().Assembly);
 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                processor.Process(args);
+                await processor.ProcessAsync(args).ConfigureAwait(false);
                 stopwatch.Stop();
 
-                _host.WriteMessage("\nDuration: " + stopwatch.Elapsed + "\n");
+                _host.WriteMessage($"{Environment.NewLine}Duration: {stopwatch.Elapsed}{Environment.NewLine}");
             }
             catch (Exception exception)
             {
@@ -71,18 +77,18 @@ namespace NSwag.Commands
         {
             try
             {
-                dynamic entryAssembly;
-                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", new Type[] { });
+                Assembly entryAssembly;
+                var getEntryAssemblyMethod = typeof(Assembly).GetRuntimeMethod("GetEntryAssembly", []);
                 if (getEntryAssemblyMethod != null)
                 {
-                    entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, new object[] { });
+                    entryAssembly = (Assembly)getEntryAssemblyMethod.Invoke(null, []);
                 }
                 else
                 {
                     entryAssembly = typeof(NSwagCommandProcessor).GetTypeInfo().Assembly;
                 }
 
-                var binDirectory = DynamicApis.PathGetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
+                var binDirectory = Path.GetDirectoryName(new Uri(entryAssembly.CodeBase).LocalPath);
                 _host.WriteMessage("NSwag bin directory: " + binDirectory + "\n");
             }
             catch (Exception exception)

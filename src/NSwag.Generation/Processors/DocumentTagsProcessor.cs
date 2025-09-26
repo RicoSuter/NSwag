@@ -6,10 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Namotion.Reflection;
+using NSwag.Generation.Collections;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors
@@ -30,22 +28,20 @@ namespace NSwag.Generation.Processors
 
         private static void ProcessTagsAttribute(OpenApiDocument document, Type controllerType)
         {
-            dynamic tagsAttribute = controllerType.ToCachedType()
-                .TypeAttributes
+            dynamic tagsAttribute = controllerType
+                .ToCachedType()
+                .GetAttributes(true)
                 .FirstAssignableToTypeNameOrDefault("SwaggerTagsAttribute", TypeNameStyle.Name);
+
             if (tagsAttribute != null)
             {
                 var tags = ((string[])tagsAttribute.Tags)
                     .Select(t => new OpenApiTag { Name = t })
                     .ToList();
 
-                if (tags.Any())
+                if (tags.Count > 0)
                 {
-                    if (document.Tags == null)
-                    {
-                        document.Tags = new List<OpenApiTag>();
-                    }
-
+                    document.Tags ??= [];
                     foreach (var tag in tags)
                     {
                         if (document.Tags.All(t => t.Name != tag.Name))
@@ -60,34 +56,21 @@ namespace NSwag.Generation.Processors
         private static void ProcessTagAttributes(OpenApiDocument document, Type controllerType)
         {
             var tagAttributes = controllerType
-                .ToCachedType().TypeAttributes
+                .ToCachedType()
+                .GetAttributes(true)
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
                 .Select(a => (dynamic)a)
                 .ToArray();
 
-            if (tagAttributes.Any())
+            foreach (var tagAttribute in tagAttributes)
             {
-                foreach (var tagAttribute in tagAttributes)
-                {
-                    ProcessTagAttribute(document, tagAttribute);
-                }
+                ProcessTagAttribute(document, tagAttribute);
             }
         }
 
         internal static void ProcessTagAttribute(OpenApiDocument document, dynamic tagAttribute)
         {
-            if (document.Tags == null)
-            {
-                document.Tags = new List<OpenApiTag>();
-            }
-
-            var tag = document.Tags.SingleOrDefault(t => t.Name == tagAttribute.Name);
-            if (tag == null)
-            {
-                tag = new OpenApiTag();
-                document.Tags.Add(tag);
-            }
-
+            var tag = document.Tags.SingleOrNew(t => t.Name == tagAttribute.Name);
             tag.Description = tagAttribute.Description;
             tag.Name = tagAttribute.Name;
 

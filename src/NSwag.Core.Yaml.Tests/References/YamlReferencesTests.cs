@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using NJsonSchema;
 using Xunit;
 
@@ -17,19 +14,20 @@ namespace NSwag.Core.Yaml.Tests.References
         [InlineData("/References/YamlReferencesTest/json_contract_with_yaml_reference.json")]
         public async Task When_yaml_schema_has_references_it_works(string relativePath)
         {
-            //// Arrange
+            // Arrange
             var path = GetTestDirectory() + relativePath;
 
-            //// Act
+            // Act
             var document = await OpenApiYamlDocument.FromFileAsync(path);
             var json = document.ToJson();
+            Assert.NotNull(json);
 
-            //// Assert
+            // Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["ContractObject"].Properties["foo"].ActualTypeSchema.Type);
             Assert.Equal(JsonObjectType.Boolean, document.Definitions["ContractObject"].Properties["bar"].ActualTypeSchema.Type);
         }
 
-        private string GetTestDirectory()
+        private static string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);

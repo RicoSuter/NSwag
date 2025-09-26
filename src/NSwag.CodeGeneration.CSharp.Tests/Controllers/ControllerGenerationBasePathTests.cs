@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -8,31 +7,33 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_custom_BasePath_is_not_specified_then_the_BasePath_from_document_is_used_as_Route()
         {
-            //// Arrange
+            // Arrange
             var document = await OpenApiDocument.FromJsonAsync(_swagger);
 
-            //// Act
+            // Act
             var settings = new CSharpControllerGeneratorSettings();
             var generator = new CSharpControllerGenerator(document, settings);
             var code = generator.GenerateFile();
 
-            //// Assert
-            Assert.Contains("Route(\"virtual_directory/v1\")]", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
         public async Task When_custom_BasePath_is_specified_then_that_is_used_as_Route()
         {
-            //// Arrange
+            // Arrange
             var document = await OpenApiDocument.FromJsonAsync(_swagger);
 
-            //// Act
+            // Act
             var settings = new CSharpControllerGeneratorSettings { BasePath = "v1" };
             var generator = new CSharpControllerGenerator(document, settings);
             var code = generator.GenerateFile();
 
-            //// Assert
-            Assert.Contains("Route(\"v1\")]", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
 

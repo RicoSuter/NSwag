@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 
@@ -25,20 +23,20 @@ namespace NSwag.Commands
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);
 
-        protected async Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
+        protected static Task<OpenApiDocument> ReadSwaggerDocumentAsync(string input)
         {
             if (!IsJson(input) && !IsYaml(input))
             {
-                if (input.StartsWith("http://") || input.StartsWith("https://"))
+                if (input.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || input.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await OpenApiYamlDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return OpenApiYamlDocument.FromUrlAsync(input);
                     }
                     else
                     {
-                        return await OpenApiDocument.FromUrlAsync(input).ConfigureAwait(false);
+                        return OpenApiDocument.FromUrlAsync(input);
                     }
                 }
                 else
@@ -46,11 +44,11 @@ namespace NSwag.Commands
                     if (input.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
                         input.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
                     {
-                        return await OpenApiYamlDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return OpenApiYamlDocument.FromFileAsync(input);
                     }
                     else
                     {
-                        return await OpenApiDocument.FromFileAsync(input).ConfigureAwait(false);
+                        return OpenApiDocument.FromFileAsync(input);
                     }
                 }
             }
@@ -58,23 +56,23 @@ namespace NSwag.Commands
             {
                 if (IsYaml(input))
                 {
-                    return await OpenApiYamlDocument.FromYamlAsync(input).ConfigureAwait(false);
+                    return OpenApiYamlDocument.FromYamlAsync(input);
                 }
                 else
                 {
-                    return await OpenApiDocument.FromJsonAsync(input).ConfigureAwait(false);
+                    return OpenApiDocument.FromJsonAsync(input);
                 }
             }
         }
 
-        protected bool IsJson(string data)
+        protected static bool IsJson(string data)
         {
-            return data.StartsWith("{");
+            return data.StartsWith('{');
         }
 
-        protected bool IsYaml(string data)
+        protected static bool IsYaml(string data)
         {
-            return !IsJson(data) && data.Contains("\n");
+            return !IsJson(data) && data.Contains('\n');
         }
 
         protected Task<bool> TryWriteFileOutputAsync(IConsoleHost host, Func<string> generator)

@@ -1,7 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using MyToolkit.Command;
 using MyToolkit.Utilities;
@@ -27,8 +24,8 @@ namespace NSwagStudio.ViewModels
         /// <summary>Gets or sets the settings. </summary>
         public DocumentModel Document
         {
-            get { return _document; }
-            set { Set(ref _document, value); }
+            get => _document;
+            set => Set(ref _document, value);
         }
 
         /// <summary>Gets the application version with build time. </summary>

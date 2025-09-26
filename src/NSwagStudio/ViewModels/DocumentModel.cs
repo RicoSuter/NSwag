@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using MyToolkit.Model;
 using NSwag.Commands;
-using NSwag.Commands.Generation;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
@@ -28,9 +25,7 @@ namespace NSwagStudio.ViewModels
             {
                 new SwaggerInputView(Document.SwaggerGenerators.FromDocumentCommand),
                 new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToOpenApiCommand, document),
-                new WebApiToSwaggerGeneratorView(Document.SwaggerGenerators.WebApiToOpenApiCommand, document),
                 new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToOpenApiCommand),
-                new AssemblyTypeToSwaggerGeneratorView(Document.SwaggerGenerators.TypesToOpenApiCommand, document),
             };
 
             CodeGenerators = new CodeGeneratorViewBase[]

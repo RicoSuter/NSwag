@@ -6,8 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.References;
@@ -17,6 +17,10 @@ namespace NSwag
     /// <summary>The Swagger response.</summary>
     public class OpenApiResponse : JsonReferenceBase<OpenApiResponse>, IJsonReference
     {
+        private static readonly Regex AppJsonRegex = new(@"application\/(\S+?)?\+?json;?(\S+)?", RegexOptions.Compiled);
+
+        internal readonly Dictionary<string, OpenApiMediaType> _content = [];
+
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
@@ -35,7 +39,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the headers.</summary>
         [JsonProperty(PropertyName = "headers", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public OpenApiHeaders Headers { get; } = new OpenApiHeaders();
+        public OpenApiHeaders Headers { get; } = [];
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
         /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>
@@ -48,7 +52,7 @@ namespace NSwag
 
         /// <summary>Gets or sets the descriptions of potential response payloads (OpenApi only).</summary>
         [JsonProperty(PropertyName = "content", Order = 4, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiMediaType> Content { get; } = new Dictionary<string, OpenApiMediaType>();
+        public IDictionary<string, OpenApiMediaType> Content => _content;
 
         /// <summary>Gets or sets the links that can be followed from the response (OpenApi only).</summary>
         [JsonProperty(PropertyName = "links", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -58,7 +62,7 @@ namespace NSwag
         [JsonProperty(PropertyName = "schema", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public JsonSchema Schema
         {
-            get => Content.FirstOrDefault(c => c.Value.Schema != null).Value?.Schema;
+            get => _content.FirstOrDefault(static c => c.Value.Schema != null).Value?.Schema;
             set => UpdateContent(value, Examples);
         }
 
@@ -66,18 +70,18 @@ namespace NSwag
         [JsonProperty(PropertyName = "examples", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public object Examples
         {
-            get => Content.FirstOrDefault(c => c.Value.Example != null).Value?.Example;
+            get => _content.FirstOrDefault(static c => c.Value.Example != null).Value?.Example;
             set => UpdateContent(Schema, value);
         }
 
         private void UpdateContent(JsonSchema schema, object example)
         {
-            Content.Clear();
+            _content.Clear();
 
             if (schema != null || example != null)
             {
                 var mimeType = schema?.IsBinary == true ? "application/octet-stream" : "application/json";
-                Content[mimeType] = new OpenApiMediaType
+                _content[mimeType] = new OpenApiMediaType
                 {
                     Schema = schema,
                     Example = example
@@ -117,17 +121,30 @@ namespace NSwag
         /// <returns>The result.</returns>
         public bool IsBinary(OpenApiOperation operation)
         {
-            if (operation.ActualResponses.SingleOrDefault(r => r.Value == this).Key != "204")
+            foreach (var r in operation._responses)
             {
-                if (ActualResponse.Content.Any())
+                var key = r.Key;
+                var actualResponse = r.Value.ActualResponse;
+
+                if (actualResponse != this || key == "204")
                 {
+                    continue;
+                }
+
+                if (ActualResponse._content.Count > 0)
+                {
+                    if (ActualResponse._content.All(static c => c.Value.Schema?.ActualSchema.IsBinary == true))
+                    {
+                        return true;
+                    }
+
                     var contentIsBinary =
-                        ActualResponse.Content.All(c => c.Value.Schema?.ActualSchema.IsAnyType != false ||
-                                                        c.Value.Schema?.ActualSchema.IsBinary != false) && // is binary only if there is no JSON schema defined
-                        !ActualResponse.Content.Keys.Any(p => p.Contains("*/*")) && // supports json
-                        !ActualResponse.Content.Keys.Any(p => p.Contains("application/json")) &&
-                        !ActualResponse.Content.Keys.Any(p => p.Contains("text/plain")) &&
-                        !ActualResponse.Content.Keys.Any(p => p.StartsWith("application/") && p.EndsWith("+json"));
+                        ActualResponse._content.All(static c =>
+                        {
+                            var actualSchema = c.Value.Schema?.ActualSchema;
+                            return actualSchema?.IsAnyType != false || actualSchema?.IsBinary != false;
+                        })
+                        && ProducesBinary(ActualResponse._content);
 
                     if (contentIsBinary)
                     {
@@ -135,25 +152,61 @@ namespace NSwag
                     }
                 }
 
-                var actualProduces = (ActualResponse.Parent as OpenApiOperation)?.ActualProduces;
-                if (actualProduces?.Any() == true)
+                var actualProduces = (ActualResponse.Parent as OpenApiOperation)?.ActualProducesCollection;
+                if (actualProduces?.Count > 0)
                 {
+                    if (Schema?.ActualSchema.IsBinary == true)
+                    {
+                        return true;
+                    }
+
+                    // is binary only if there is no JSON schema defined
                     var producesIsBinary =
-                        (Schema?.ActualSchema.IsAnyType != false ||
-                         Schema?.ActualSchema.IsBinary != false) && // is binary only if there is no JSON schema defined
-                        actualProduces?.Any(p => p.Contains("*/*")) != true && // supports json
-                        actualProduces?.Any(p => p.Contains("application/json")) != true &&
-                        actualProduces?.Any(p => p.Contains("text/plain")) != true &&
-                        actualProduces?.Any(p => p.StartsWith("application/") && p.EndsWith("+json")) != true;
+                        (Schema?.ActualSchema.IsAnyType != false || Schema?.ActualSchema.IsBinary != false)
+                        && ProducesBinary(actualProduces);
 
                     if (producesIsBinary)
                     {
                         return true;
                     }
                 }
+
+                break;
             }
 
             return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool CannotProduceBinary(string p)
+        {
+            return p.Contains("application/json") || p.Contains("text/plain") || AppJsonRegex.IsMatch(p);
+        }
+
+        private static bool ProducesBinary(List<string> contentTypeKeys)
+        {
+            for (var i = 0; i < contentTypeKeys.Count; i++)
+            {
+                if (CannotProduceBinary(contentTypeKeys[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool ProducesBinary(Dictionary<string, OpenApiMediaType> contentTypeKeys)
+        {
+            foreach (var pair in contentTypeKeys)
+            {
+                if (CannotProduceBinary(pair.Key))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>Checks whether this is an empty response.</summary>
@@ -161,9 +214,9 @@ namespace NSwag
         /// <returns>The result.</returns>
         public bool IsEmpty(OpenApiOperation operation)
         {
-            return !IsBinary(operation) &&
-                ActualResponse.Content.Count == 0 &&
-                ActualResponse.Schema?.ActualSchema == null;
+            return ActualResponse._content.Count == 0 &&
+                   ActualResponse.Schema?.ActualSchema == null &&
+                   !IsBinary(operation);
         }
 
         #region Implementation of IJsonReference

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using MyToolkit.Mvvm;
+﻿using MyToolkit.Mvvm;
 using NSwag.Commands;
 using NSwag.Commands.Generation.AspNetCore;
 using NSwagStudio.ViewModels.SwaggerGenerators;
@@ -10,7 +7,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 {
     public partial class AspNetCoreToSwaggerGeneratorView : ISwaggerGeneratorView
     {
-        public AspNetCoreToSwaggerGeneratorView(AspNetCoreToSwaggerCommand command, NSwagDocument document)
+        public AspNetCoreToSwaggerGeneratorView(AspNetCoreToOpenApiCommand command, NSwagDocument document)
         {
             InitializeComponent();
             ViewModelHelper.RegisterViewModel(Model, this);
@@ -21,7 +18,7 @@ namespace NSwagStudio.Views.SwaggerGenerators
 
         private AspNetCoreToSwaggerGeneratorViewModel Model => (AspNetCoreToSwaggerGeneratorViewModel)Resources["ViewModel"];
 
-        public string Title => "ASP.NET Core via API Explorer";
+        public string Title => "ASP.NET Core";
 
         public IOutputCommand Command => Model.Command;
 

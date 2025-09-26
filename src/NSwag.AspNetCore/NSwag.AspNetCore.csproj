@@ -1,86 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net451;netstandard1.6;netstandard2.0</TargetFrameworks>
-    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
-    <Version>13.6.2</Version>
+    <TargetFrameworks>net462;netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
-    <Copyright>Copyright © Rico Suter, 2020</Copyright>
-    <PackageLicenseUrl>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
-    <Authors>Rico Suter</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</PackageIconUrl>
-    <Company />
-    <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
-
-    <!-- Execute PopulateNuspec fairly late. -->
-    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);PopulateNuspec</GenerateNuspecDependsOn>
-
-    <MicrosoftAspNetCoreMvcCorePackageVersion>1.0.3</MicrosoftAspNetCoreMvcCorePackageVersion>
-    <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.3</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
-    <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.2</MicrosoftAspNetCoreStaticFilesPackageVersion>
-    <MicrosoftExtensionsApiDescriptionServerPackageVersion>3.0.0</MicrosoftExtensionsApiDescriptionServerPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>1.0.1</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
-    <NETStandardLibraryPackageVersion>1.6.1</NETStandardLibraryPackageVersion>
-    <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
-    <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="ReDoc\index.html" />
-    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-    <EmbeddedResource Include="SwaggerUi3\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <None Include="build\*" Pack="true" PackagePath="build" />
+    <None Include="buildMultiTargeting\*" Pack="true" PackagePath="buildMultiTargeting" />
+    <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="SwaggerUi\**\*" Exclude="**\swagger-ui-es-*.js;bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.0' ">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCorePackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="$(MicrosoftAspNetCoreMvcFormattersJsonPackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(MicrosoftAspNetCoreStaticFilesPackageVersion)" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion)" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' OR '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
   </ItemGroup>
-  <!--<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="3.0.0" />
-  </ItemGroup>-->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.IO.FileSystem" Version="$(SystemIOFileSystemPackageVersion)" />
-    <PackageReference Include="System.Xml.XPath.XDocument" Version="$(SystemXmlXPathXDocumentPackageVersion)" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-    <Compile Remove="Middlewares\WebApiToSwaggerMiddleware.cs" />
-    <Compile Remove="SwaggerExtensions.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
-    <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
+    <ProjectReference Include="..\NSwag.Core.Yaml\NSwag.Core.Yaml.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
-    <ProjectReference Include="..\NSwag.Generation\NSwag.Generation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
+  </ItemGroup>
 
-  <Target Name="PopulateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>
-        id=$(PackageId);
-        authors=$(Authors);
-        configuration=$(Configuration);
-        description=$(PackageDescription);
-        version=$(PackageVersion);
-
-        microsoftAspNetCoreMvcCorePackageVersion=$(MicrosoftAspNetCoreMvcCorePackageVersion);
-        microsoftAspNetCoreMvcFormattersJsonPackageVersion=$(MicrosoftAspNetCoreMvcFormattersJsonPackageVersion);
-        microsoftAspNetCoreStaticFilesPackageVersion=$(MicrosoftAspNetCoreStaticFilesPackageVersion);
-        microsoftExtensionsApiDescriptionServerPackageVersion=$(MicrosoftExtensionsApiDescriptionServerPackageVersion);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersion=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion);
-        netStandardLibraryPackageVersion=$(NETStandardLibraryPackageVersion);
-        systemIOFileSystemPackageVersion=$(SystemIOFileSystemPackageVersion);
-        systemXmlXPathXDocumentPackageVersion=$(SystemXmlXPathXDocumentPackageVersion);
-      </NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>

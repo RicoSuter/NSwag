@@ -1,8 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -26,39 +25,66 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned()
         {
-            //// Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
             {
                 WrapResponses = true
             });
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.Contains("Task<SwaggerResponse<string>>", code);
-            Assert.Contains("Task<SwaggerResponse>", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
         public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned_web_api()
         {
-            //// Arrange
-            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
-            //// Act
+            // Act
             var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
             {
                 WrapResponses = true
             });
             var code = codeGen.GenerateFile();
-            
-            //// Assert
-            Assert.Contains("Task<SwaggerResponse<string>>", code);
-            Assert.Contains("Task<SwaggerResponse>", code);
+
+            // Assert
+            await VerifyHelper.Verify(code);
+        }
+
+        [Fact]
+        public async Task When_success_responses_are_wrapped_then_SwaggerResponse_is_returned_web_api_aspnetcore()
+        {
+            // Arrange
+            var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                IsAspNetCore = true,
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+            var document = await swaggerGen.GenerateForControllerAsync<TestController>();
+
+            // Act
+            var codeGen = new CSharpControllerGenerator(document, new CSharpControllerGeneratorSettings
+            {
+                WrapResponses = true,
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
         }
     }
 }

@@ -6,13 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies the tags for an operation.</summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+#pragma warning disable 618
     public class OpenApiTagAttribute : SwaggerTagAttribute
+#pragma warning restore 618
     {
         /// <summary>Initializes a new instance of the <see cref="SwaggerTagAttribute"/> class.</summary>
         public OpenApiTagAttribute(string name) : base(name)

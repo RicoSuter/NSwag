@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Namotion.Reflection;
 using NSwag.Generation.Processors.Contexts;
 
@@ -26,21 +23,21 @@ namespace NSwag.Generation.Processors
         public bool Process(OperationProcessorContext context)
         {
             var operation = context.OperationDescription.Operation;
-            if (operation.ExtensionData == null)
-            {
-                operation.ExtensionData = new Dictionary<string, object>();
-            }
+            operation.ExtensionData ??= new Dictionary<string, object>();
 
-            foreach (var extensionDataAttribute in
-                    from extensionDataAttribute
-                    in context.MethodInfo.GetCustomAttributes()
-                        .GetAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name)
-                    select (dynamic)extensionDataAttribute)
+            if (context.MethodInfo != null)
             {
-                string key = extensionDataAttribute.Key;
-                string value = extensionDataAttribute.Value;
+                foreach (var extensionDataAttribute in
+                        from extensionDataAttribute
+                        in context.MethodInfo.GetCustomAttributes()
+                            .GetAssignableToTypeName("SwaggerExtensionDataAttribute", TypeNameStyle.Name)
+                        select (dynamic)extensionDataAttribute)
+                {
+                    string key = extensionDataAttribute.Key;
+                    string value = extensionDataAttribute.Value;
 
-                operation.ExtensionData[key] = value;
+                    operation.ExtensionData[key] = value;
+                }
             }
 
             foreach (var parameter in context.Parameters)

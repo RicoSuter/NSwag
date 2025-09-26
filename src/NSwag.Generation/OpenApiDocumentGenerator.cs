@@ -25,9 +25,16 @@ namespace NSwag.Generation
         /// <param name="schemaResolver">The schema resolver.</param>
         public OpenApiDocumentGenerator(OpenApiDocumentGeneratorSettings settings, JsonSchemaResolver schemaResolver)
         {
+            SchemaGenerator = settings.SchemaGeneratorFactory();
+
             _schemaResolver = schemaResolver;
             _settings = settings;
         }
+
+        /// <summary>
+        /// Gets or sets the schema generator.
+        /// </summary>
+        public OpenApiSchemaGenerator SchemaGenerator { get; private set; }
 
         /// <summary>Creates a path parameter for a given type.</summary>
         /// <param name="parameterName">Name of the parameter.</param>
@@ -40,7 +47,7 @@ namespace NSwag.Generation
             parameter.Kind = OpenApiParameterKind.Path;
             parameter.IsRequired = true;
 
-            if (_settings.SchemaType == SchemaType.Swagger2)
+            if (_settings.SchemaSettings.SchemaType == SchemaType.Swagger2)
             {
                 parameter.IsNullableRaw = false;
             }
@@ -50,11 +57,11 @@ namespace NSwag.Generation
                 parameter.Type = JsonObjectType.String;
                 parameter.Format = JsonFormatStrings.Guid;
             }
-            else if (parameterType == "int" || parameterType == "integer" || parameterType == "short" || parameterType == "long")
+            else if (parameterType is "int" or "integer" or "short" or "long")
             {
                 parameter.Type = JsonObjectType.Integer;
             }
-            else if (parameterType == "number" || parameterType == "decimal" || parameterType == "double")
+            else if (parameterType is "number" or "decimal" or "double")
             {
                 parameter.Type = JsonObjectType.Number;
             }
@@ -72,25 +79,31 @@ namespace NSwag.Generation
         /// <returns>The parameter.</returns>
         public OpenApiParameter CreatePrimitiveParameter(string name, ContextualParameterInfo contextualParameter)
         {
-            var documentation = contextualParameter.GetDescription();
-            return CreatePrimitiveParameter(name, documentation, contextualParameter);
+            var documentation = contextualParameter.GetDescription(_settings.SchemaSettings);
+            return CreatePrimitiveParameter(name, documentation, contextualParameter.ParameterType);
         }
 
         /// <summary>Creates a primitive parameter for the given parameter information reflection object.</summary>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="contextualParameter">Type of the parameter.</param>
+        /// <param name="enforceNotNull">Specifies whether the parameter must never be nullable.</param>
         /// <returns>The parameter.</returns>
-        public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter)
+        public OpenApiParameter CreatePrimitiveParameter(string name, string description, ContextualType contextualParameter, bool enforceNotNull = false)
         {
-            var typeDescription = _settings.ReflectionService.GetDescription(contextualParameter, _settings);
+            var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(
+                contextualParameter,
+                _settings.SchemaSettings.DefaultReferenceTypeNullHandling,
+                _settings.SchemaSettings);
 
-            var operationParameter = _settings.SchemaType == SchemaType.Swagger2
+            typeDescription.IsNullable = !enforceNotNull && typeDescription.IsNullable;
+
+            var operationParameter = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2
                 ? CreatePrimitiveSwaggerParameter(contextualParameter, typeDescription)
                 : CreatePrimitiveOpenApiParameter(contextualParameter, typeDescription);
 
             operationParameter.Name = name;
-            operationParameter.IsRequired = contextualParameter.ContextAttributes.FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
+            operationParameter.IsRequired = contextualParameter.GetContextAttributes(true).FirstAssignableToTypeNameOrDefault("RequiredAttribute", TypeNameStyle.Name) != null;
             operationParameter.IsNullableRaw = typeDescription.IsNullable;
 
             if (description != string.Empty)
@@ -104,21 +117,21 @@ namespace NSwag.Generation
         private OpenApiParameter CreatePrimitiveOpenApiParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
         {
             OpenApiParameter operationParameter;
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
                 operationParameter = new OpenApiParameter();
                 operationParameter.Schema = new JsonSchema();
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
 
-                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+                var referencedSchema = SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
                 var hasSchemaAnnotations = JsonConvert.SerializeObject(operationParameter.Schema) != "{}";
                 if (hasSchemaAnnotations || typeDescription.IsNullable)
                 {
                     operationParameter.Schema.IsNullableRaw = true;
 
-                    if (_settings.AllowReferencesWithProperties)
+                    if (_settings.SchemaSettings.AllowReferencesWithProperties)
                     {
                         operationParameter.Schema.Reference = referencedSchema.ActualSchema;
                     }
@@ -135,10 +148,10 @@ namespace NSwag.Generation
             else
             {
                 operationParameter = new OpenApiParameter();
-                operationParameter.Schema = _settings.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
+                operationParameter.Schema = SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualParameter, typeDescription.IsNullable, _schemaResolver);
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter.Schema, typeDescription);
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))
@@ -153,9 +166,9 @@ namespace NSwag.Generation
         private OpenApiParameter CreatePrimitiveSwaggerParameter(ContextualType contextualParameter, JsonTypeDescription typeDescription)
         {
             OpenApiParameter operationParameter;
-            if (typeDescription.RequiresSchemaReference(_settings.TypeMappers))
+            if (typeDescription.RequiresSchemaReference(_settings.SchemaSettings.TypeMappers))
             {
-                var referencedSchema = _settings.SchemaGenerator.Generate(contextualParameter, _schemaResolver);
+                var referencedSchema = SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
                 operationParameter = new OpenApiParameter
                 {
@@ -174,12 +187,12 @@ namespace NSwag.Generation
                     }
                 }
 
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
             else
             {
-                operationParameter = _settings.SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
-                _settings.SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
+                operationParameter = SchemaGenerator.Generate<OpenApiParameter>(contextualParameter, _schemaResolver);
+                SchemaGenerator.ApplyDataAnnotations(operationParameter, typeDescription);
             }
 
             if (typeDescription.Type.HasFlag(JsonObjectType.Array))

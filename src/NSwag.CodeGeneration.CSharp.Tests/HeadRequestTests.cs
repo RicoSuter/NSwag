@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -18,16 +18,21 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         [Fact]
         public async Task When_operation_is_HTTP_head_then_no_content_is_not_used()
         {
-            //// Arrange
-            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await generator.GenerateForControllerAsync<HeadRequestController>();
 
-            //// Act
+            // Act
             var codeGen = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
             var code = codeGen.GenerateFile();
 
-            //// Assert
-            Assert.DoesNotContain("System.Net.Http.StringContent", code);
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

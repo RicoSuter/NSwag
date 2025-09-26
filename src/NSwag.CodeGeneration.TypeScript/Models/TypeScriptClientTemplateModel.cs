@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema.CodeGeneration.TypeScript;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -105,9 +103,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         /// <summary>Gets or sets a value indicating whether to use Aurelia HTTP injection.</summary>
         public bool UseAureliaHttpInjection => _settings.Template == TypeScriptTemplate.Aurelia;
 
-        /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
-        public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
-
         /// <summary>Gets or sets a value indicating whether DTO exceptions are wrapped in a SwaggerException instance.</summary>
         public bool WrapDtoExceptions => _settings.WrapDtoExceptions;
 
@@ -116,5 +111,55 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
+
+        /// <summary>Gets a value indicating whether to use the AbortSignal (Fetch/Aurelia template only, default: false).</summary>
+        public bool UseAbortSignal => _settings.UseAbortSignal;
+
+        /// <summary>Gets a value indicating whether to include the httpContext (Angular template only, default: false).</summary>
+        public bool IncludeHttpContext => _settings.IncludeHttpContext;
+
+        /// <summary>Gets a value indicating credential setting for an http request. (Fetch/Angular only, default: false)</summary>
+        public string RequestCredentialsType
+        {
+            get
+            {
+                switch (_settings.RequestCredentialsType)
+                {
+                    case TypeScript.RequestCredentialsType.NotSet:
+                        return null;
+                    case TypeScript.RequestCredentialsType.Omit:
+                        return "omit";
+                    case TypeScript.RequestCredentialsType.Include:
+                        return "include";
+                    case TypeScript.RequestCredentialsType.SameOrigin:
+                        return "same-origin";
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        /// <summary>Gets a value indicating mode setting for an http request. (Fetch only, default: n</summary>
+        public string RequestModeType
+        {
+            get
+            {
+                switch (_settings.RequestModeType)
+                {
+                    case TypeScript.RequestModeType.NotSet:
+                        return null;
+                    case TypeScript.RequestModeType.SameOrigin:
+                        return "same-origin";
+                    case TypeScript.RequestModeType.Cors:
+                        return "cors";
+                    case TypeScript.RequestModeType.NoCors:
+                        return "no-cors";
+                    case TypeScript.RequestModeType.Navigate:
+                        return "navigate";
+                    default:
+                        return null;
+                }
+            }
+        }
     }
 }
