@@ -1,4 +1,5 @@
 ﻿#pragma warning disable IDE0005
+#pragma warning disable ASPDEPR008
 
 using System.Reflection;
 using Microsoft.AspNetCore;
@@ -31,7 +32,7 @@ namespace NSwag.Commands
                 if (buildWebHostMethod != null)
                 {
                     var result = buildWebHostMethod.Invoke(null, [args]);
-                    serviceProvider = (result as IHost)?.Services;
+                    serviceProvider = (result as IHost)?.Services ?? (result as IWebHost)?.Services;
                 }
                 else
                 {
@@ -41,9 +42,10 @@ namespace NSwag.Commands
 
                     if (createWebHostMethod != null)
                     {
-                        var webHostBuilder = (IHostBuilder)createWebHostMethod.Invoke(
+                        var hostBuilder = createWebHostMethod.Invoke(
                             null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
-                        serviceProvider = webHostBuilder?.Build().Services;
+                        
+                        serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? (hostBuilder as IWebHostBuilder)?.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
@@ -54,9 +56,9 @@ namespace NSwag.Commands
 
                         if (createHostMethod != null)
                         {
-                            var hostBuilder = (IHostBuilder)createHostMethod.Invoke(
+                            var hostBuilder = createHostMethod.Invoke(
                                 null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
-                            serviceProvider = hostBuilder?.Build().Services;
+                            serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? (hostBuilder as IWebHostBuilder)?.Build().Services;
                         }
                     }
 #endif
