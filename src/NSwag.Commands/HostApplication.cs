@@ -32,7 +32,8 @@ namespace NSwag.Commands
                 if (buildWebHostMethod != null)
                 {
                     var result = buildWebHostMethod.Invoke(null, [args]);
-                    serviceProvider = (result as IHost)?.Services ?? (result as IWebHost)?.Services;
+                    serviceProvider = (result as IHost)?.Services ?? 
+                                      (result as IWebHost)?.Services;
                 }
                 else
                 {
@@ -45,7 +46,8 @@ namespace NSwag.Commands
                         var hostBuilder = createWebHostMethod.Invoke(
                             null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
                         
-                        serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? (hostBuilder as IWebHostBuilder)?.Build().Services;
+                        serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                          (hostBuilder as IWebHostBuilder)?.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
@@ -58,7 +60,8 @@ namespace NSwag.Commands
                         {
                             var hostBuilder = createHostMethod.Invoke(
                                 null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
-                            serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? (hostBuilder as IWebHostBuilder)?.Build().Services;
+                            serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                              (hostBuilder as IWebHostBuilder)?.Build().Services;
                         }
                     }
 #endif
