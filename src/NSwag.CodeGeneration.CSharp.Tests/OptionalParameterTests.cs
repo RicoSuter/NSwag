@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -37,8 +37,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Two,
             Three,
             Four
-
         }
+
         public class MyClass
         {
 #pragma warning disable IDE0051
@@ -67,8 +67,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("TestWithEnumAsync(MyEnum myEnum = null)", code);
-            Assert.Contains("TestWithEnumAsync(MyEnum? myEnum = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -90,10 +90,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("TestWithClassAsync(string myString = null, MyEnum myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
-            Assert.Contains("TestWithClassAsync(string myString = null, MyEnum? myEnum = null, int? myInt = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
-
 
         [Fact]
         public async Task When_setting_is_enabled_then_optional_parameters_have_null_optional_value()
@@ -114,8 +113,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
-            Assert.DoesNotContain("TestAsync(string a, string b, string c)", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -143,7 +142,70 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("TestAsync(string a, string b, string c = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_optional_parameter_comes_before_required()
+        {
+            // Arrange
+            const string specification = """
+                                         {
+                                           "openapi": "3.0.0",
+                                           "paths": {
+                                             "/": {
+                                               "get": {
+                                                 "operationId": "Get",
+                                                 "parameters": [
+                                                   {
+                                                     "name": "firstname",
+                                                     "in": "query",
+                                                     "schema": {
+                                                       "type": "string",
+                                                       "nullable": true
+                                                     },
+                                                     "x-position": 1
+                                                   },
+                                                   {
+                                                     "name": "lastname",
+                                                     "in": "query",
+                                                     "required": true,
+                                                     "schema": {
+                                                       "type": "string"
+                                                     },
+                                                     "x-position": 2
+                                                   }
+                                                 ],
+                                                 "responses": {
+                                                   "200": {
+                                                     "description": "",
+                                                     "content": {
+                                                       "application/json": {
+                                                         "schema": {
+                                                           "type": "string"
+                                                         }
+                                                       }
+                                                     }
+                                                   }
+                                                 }
+                                               }
+                                             }
+                                           }
+                                         }
+                                         """;
+
+            // Act
+            var document = await OpenApiDocument.FromJsonAsync(specification, "", SchemaType.OpenApi3);
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateOptionalParameters = true
+            });
+            var code = generator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

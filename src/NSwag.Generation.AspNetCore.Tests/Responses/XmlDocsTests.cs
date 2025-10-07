@@ -1,7 +1,7 @@
 ﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
@@ -18,8 +18,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             var json = document.ToJson();
 
             // Assert
-            Assert.Contains("My response.", json);
-            Assert.Contains("My property.", json);
+            await VerifyHelper.Verify(json);
         }
     }
 }

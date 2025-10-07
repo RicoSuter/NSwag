@@ -1,14 +1,18 @@
 using System.Diagnostics;
+using NSwag.CodeGeneration.CSharp.Tests;
+using NSwag.CodeGeneration.TypeScript.Tests;
 
 namespace NSwag.ConsoleCore.Tests
 {
     public class GenerateSampleSpecificationTests
     {
         [Theory]
-        [InlineData("NSwag.Sample.NET80", "net8.0", false)]
+        [InlineData("NSwag.Sample.NET80", "net8.0", true)]
         [InlineData("NSwag.Sample.NET80Minimal", "net8.0", true)]
-        [InlineData("NSwag.Sample.NET90", "net9.0", false)]
+        [InlineData("NSwag.Sample.NET90", "net9.0", true)]
         [InlineData("NSwag.Sample.NET90Minimal", "net9.0", true)]
+        [InlineData("NSwag.Sample.NET100", "net10.0", true)]
+        [InlineData("NSwag.Sample.NET100Minimal", "net10.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange
@@ -63,7 +67,11 @@ namespace NSwag.ConsoleCore.Tests
             }
 
             var json = await File.ReadAllTextAsync(openApiJsonPath);
-            await Verifier.Verify(json).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier
+                .Verify(json)
+                .ScrubLinesContaining("x-generator")
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
 
             if (generatesCode)
             {
@@ -76,19 +84,34 @@ namespace NSwag.ConsoleCore.Tests
         private static async Task CheckCSharpControllersAsync(string projectName, string targetFramework, bool generatesCode, string generatedControllersCsPath)
         {
             var code = await File.ReadAllTextAsync(generatedControllersCsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpControllersAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckCSharpControllersAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static async Task CheckCSharpClientsAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsCsPath)
         {
             var code = await File.ReadAllTextAsync(generatedClientsCsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckCSharpClientsAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckCSharpClientsAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static async Task CheckTypeScriptAsync(string projectName, string targetFramework, bool generatesCode, string generatedClientsTsPath)
         {
             var code = await File.ReadAllTextAsync(generatedClientsTsPath);
-            await Verifier.Verify(code).UseMethodName(nameof(CheckTypeScriptAsync)).UseParameters(projectName, targetFramework, generatesCode);
+            await Verifier.Verify(code)
+                .UseMethodName(nameof(CheckTypeScriptAsync))
+                .UseParameters(projectName, targetFramework, generatesCode)
+                .AutoVerify(includeBuildServer: false);
+
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

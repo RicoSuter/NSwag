@@ -11,9 +11,9 @@ assignees: ''
 
 A clear and concise description of what the bug is.
 
-**Version used**
+**Version of NSwag toolchain, computer and .NET runtime used**
 
-With which version did you encounter this behavior.
+With which versions did you encounter this behavior.
 
 **To Reproduce**
 

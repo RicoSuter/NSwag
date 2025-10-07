@@ -105,6 +105,8 @@ nswag run sample.nswag /runtime:Net50
             "queryNullValue": "",
             "className": "SampleService",
             "operationGenerationMode": "MultipleClientsFromOperationId",
+            "includedOperationIds": [ "SampleOperationId" ],
+            "excludedOperationIds": [],
             "generateOptionalParameters": false,
             "generateJsonMethods": true,
             "parameterArrayType": "System.Collections.Generic.IEnumerable",

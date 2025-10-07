@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -69,8 +69,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("content_.append(\"propertyDto\", JSON.stringify(propertyDto))", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

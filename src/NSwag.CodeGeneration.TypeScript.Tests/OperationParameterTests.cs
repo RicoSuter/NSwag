@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
 using NSwag.Generation.WebApi;
-using Xunit;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -64,14 +64,13 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             {
                 Template = TypeScriptTemplate.JQueryCallbacks
             };
-            clientSettings.TypeScriptGeneratorSettings.TypeScriptVersion = 1.8m;
 
             var gen = new TypeScriptClientGenerator(document, clientSettings);
             var code = gen.GenerateFile();
 
             // Assert
-            Assert.NotNull(document.Operations.First().Operation.Parameters.First().Item.Reference);
-            Assert.Contains("getFoos(bars: Bar[], ", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

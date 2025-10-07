@@ -13,7 +13,9 @@ using System.Collections;
 namespace NSwag
 {
     /// <summary>Describes an OpenAPI callback.</summary>
+#pragma warning disable CA1710
     public class OpenApiCallback : JsonReferenceBase<OpenApiCallback>, IJsonReference, IDictionary<string, OpenApiPathItem>
+#pragma warning restore CA1710
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

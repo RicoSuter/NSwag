@@ -269,7 +269,7 @@ namespace NSwag.Generation.WebApi.Processors
         {
             if (operationDescription.Operation.ActualParameters.Count(p => p.Kind == OpenApiParameterKind.Body) > 1)
             {
-                throw new InvalidOperationException("The operation '" + operationDescription.Operation.OperationId + "' has more than one body parameter.");
+                throw new InvalidOperationException($"The operation '{operationDescription.Operation.OperationId}' has more than one body parameter.");
             }
         }
 

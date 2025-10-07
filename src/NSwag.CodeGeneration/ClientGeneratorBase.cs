@@ -6,9 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
+using System.Runtime;
 
 namespace NSwag.CodeGeneration
 {
@@ -149,26 +151,44 @@ namespace NSwag.CodeGeneration
         protected abstract TOperationModel CreateOperationModel(OpenApiOperation operation,
             ClientGeneratorBaseSettings settings);
 
+        private static readonly char[] pathTrimChars = ['/'];
+
         private List<TOperationModel> GetOperations(OpenApiDocument document)
         {
             document.GenerateOperationIds();
+
+            HashSet<string> operationsToInclude = [..BaseSettings.IncludedOperationIds ?? []];
+            HashSet<string> operationsToExclude = [.. BaseSettings.ExcludedOperationIds ?? []];
+
+            IEnumerable<string> operationsBothIncludedAndExcluded = operationsToInclude.Intersect(operationsToExclude);
+            if (operationsBothIncludedAndExcluded.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Some operations are both in included and excluded operation IDs ({string.Join(", ", operationsBothIncludedAndExcluded)})."
+                    );
+            }
 
             var result = new List<TOperationModel>();
             foreach (var pair in document.Paths)
             {
                 foreach (var p in pair.Value.ActualPathItem)
                 {
-                    var path = pair.Key.TrimStart('/');
-                    var httpMethod = p.Key;
                     var operation = p.Value;
-
-                    var operationName =
-                        BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
-
-                    if (operationName.Contains("."))
+ 
+                    if ((operationsToInclude.Count is not 0 && !operationsToInclude.Contains(operation.OperationId))
+                        ||
+                        (operationsToExclude.Count is not 0 && operationsToExclude.Contains(operation.OperationId))
+                        )
                     {
-                        operationName = operationName.Replace(".", "_");
+                        continue;
                     }
+
+                    var path = pair.Key.TrimStart(pathTrimChars);
+                    var httpMethod = p.Key;
+
+                    var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
+
+                    operationName = operationName.Replace('.', '_');
 
                     if (operationName.EndsWith("Async", StringComparison.Ordinal))
                     {
@@ -176,8 +196,7 @@ namespace NSwag.CodeGeneration
                     }
 
                     var operationModel = CreateOperationModel(operation, BaseSettings);
-                    operationModel.ControllerName =
-                        BaseSettings.OperationNameGenerator.GetClientName(document, path, httpMethod, operation);
+                    operationModel.ControllerName = BaseSettings.OperationNameGenerator.GetClientName(document, path, httpMethod, operation);
                     operationModel.Path = path;
                     operationModel.HttpMethod = httpMethod;
                     operationModel.OperationName = operationName;

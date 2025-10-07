@@ -3,14 +3,14 @@
 {% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
     {% template Client.Method.Documentation %}
-    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if operation.Parameters.size > 0 %}, {%endif%}{% endfor %}{% if UseAbortSignal %}signal?: AbortSignal{% else %} cancelToken?: CancelToken{% endif %}): Promise<{{ operation.ResultType }}>;
 {%     endfor -%}}
 {%- endif %}
 
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     protected instance: AxiosInstance;
     protected baseUrl: string;
-    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 {%- if HasExtendedConstructor == false %}
     constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, instance?: AxiosInstance) {
@@ -52,7 +52,7 @@
 {%     for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
-{%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+{%     if operation.HasContent or operation.ConsumesOnlyFormUrlEncoded -%}
                 "Content-Type": "{{ operation.Consumes }}",
 {%     endif -%}
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}

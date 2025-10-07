@@ -7,10 +7,10 @@ namespace NSwag.AspNet.Owin.Middlewares
         where T : OpenApiDocumentGeneratorSettings, new()
     {
         private readonly string _indexPath;
-        private readonly SwaggerUiSettings<T> _settings;
+        private readonly SwaggerUiSettingsBase<T> _settings;
         private readonly string _resourcePath;
 
-        public SwaggerUiIndexMiddleware(OwinMiddleware next, string indexPath, SwaggerUiSettings<T> settings, string resourcePath)
+        public SwaggerUiIndexMiddleware(OwinMiddleware next, string indexPath, SwaggerUiSettingsBase<T> settings, string resourcePath)
             : base(next)
         {
             _indexPath = indexPath;

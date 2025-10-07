@@ -1,5 +1,5 @@
 ﻿using NJsonSchema;
-using Xunit;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -63,7 +63,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("var content_ = new System.Net.Http.StreamContent(body);", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

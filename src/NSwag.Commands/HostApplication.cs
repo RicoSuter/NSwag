@@ -1,4 +1,5 @@
 ﻿#pragma warning disable IDE0005
+#pragma warning disable ASPDEPR008
 
 using System.Reflection;
 using Microsoft.AspNetCore;
@@ -31,7 +32,8 @@ namespace NSwag.Commands
                 if (buildWebHostMethod != null)
                 {
                     var result = buildWebHostMethod.Invoke(null, [args]);
-                    serviceProvider = ((IWebHost)result).Services;
+                    serviceProvider = (result as IHost)?.Services ?? 
+                                      (result as IWebHost)?.Services;
                 }
                 else
                 {
@@ -41,9 +43,11 @@ namespace NSwag.Commands
 
                     if (createWebHostMethod != null)
                     {
-                        var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
+                        var hostBuilder = createWebHostMethod.Invoke(
                             null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
-                        serviceProvider = webHostBuilder.Build().Services;
+                        
+                        serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                          (hostBuilder as IWebHostBuilder)?.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
@@ -54,9 +58,10 @@ namespace NSwag.Commands
 
                         if (createHostMethod != null)
                         {
-                            var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
+                            var hostBuilder = createHostMethod.Invoke(
                                 null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
-                            serviceProvider = webHostBuilder.Build().Services;
+                            serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                              (hostBuilder as IWebHostBuilder)?.Build().Services;
                         }
                     }
 #endif
@@ -70,7 +75,18 @@ namespace NSwag.Commands
                 var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
                 if (startupType != null)
                 {
-                    serviceProvider = WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                    #if NETFRAMEWORK
+                    serviceProvider = WebHost
+                        .CreateDefaultBuilder()
+                        .UseStartup(startupType)
+                        .Build()
+                        .Services;
+                    #else
+                    serviceProvider = new HostBuilder()
+                        .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup(startupType))
+                        .Build()
+                        .Services;
+                    #endif
                 }
             }
 
@@ -80,7 +96,7 @@ namespace NSwag.Commands
             }
 
             throw new InvalidOperationException($"NSwag requires the assembly {assembly.GetName()} to have " +
-                                                $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
+                                                $"either a BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
                                                 $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
                                                 $"for suggestions on ways to refactor your startup type.");
         }

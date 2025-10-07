@@ -1,0 +1,146 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+
+    public abstract class ControllerBase : System.Web.Http.ApiController
+    {
+        [System.Web.Http.HttpGet, System.Web.Http.Route("Foo")]
+        public abstract System.Threading.Tasks.Task<string> Foo([System.Web.Http.FromUri] string test, [System.Web.Http.FromUri] bool? test2);
+
+        [System.Web.Http.HttpGet, System.Web.Http.Route("FooRequired")]
+        public abstract System.Threading.Tasks.Task<string> FooRequired([System.Web.Http.FromUri] string test, [System.Web.Http.FromUri] bool test2);
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("Bar")]
+        public abstract System.Threading.Tasks.Task Bar();
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("HeaderParam")]
+        public abstract System.Threading.Tasks.Task HeaderParam([FromHeader] string comesFromHeader);
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("Complex")]
+        public abstract System.Threading.Tasks.Task Complex([System.Web.Http.FromBody] ComplexType complexType);
+
+        [System.Web.Http.HttpPost, System.Web.Http.Route("ComplexRequired")]
+        public abstract System.Threading.Tasks.Task<ComplexTypeResponse> ComplexRequired([System.Web.Http.FromBody] ComplexType complexType);
+
+    }
+
+
+    public abstract class SecondaryControllerBase : System.Web.Http.ApiController
+    {
+        [System.Web.Http.HttpPost, System.Web.Http.Route("HeaderParamRequired")]
+        public abstract System.Threading.Tasks.Task HeaderParamRequired([FromHeader(Name = "comes-from-header")] string comes_from_header);
+
+    }
+
+    public class FromHeaderAttribute : System.Web.Http.ParameterBindingAttribute
+    {
+        public string Name { get; set; }
+
+        public override System.Web.Http.Controllers.HttpParameterBinding GetBinding(System.Web.Http.Controllers.HttpParameterDescriptor parameter)
+        {
+            return new FromHeaderBinding(parameter, Name ?? parameter.ParameterName);
+        }
+    }
+
+    public class FromHeaderBinding : System.Web.Http.Controllers.HttpParameterBinding
+    {
+        private readonly string _name;
+
+        public FromHeaderBinding(System.Web.Http.Controllers.HttpParameterDescriptor parameter, string headerName)
+            : base(parameter)
+        {
+            if (string.IsNullOrEmpty(headerName)) throw new System.ArgumentNullException("headerName");
+            _name = headerName;
+        }
+
+        public override System.Threading.Tasks.Task ExecuteBindingAsync(System.Web.Http.Metadata.ModelMetadataProvider metadataProvider, System.Web.Http.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
+        {
+            System.Collections.Generic.IEnumerable<string> values;
+            var isBound = false;
+            if (actionContext.Request.Headers.TryGetValues(_name, out values))
+            {
+                string tempVal = null;
+                foreach (var value in values)
+                {
+                    if (value != null)
+                    {
+                        tempVal = value;
+                        break;
+                    }
+                }
+                if (tempVal != null)
+                {
+                    var actionValue = System.Convert.ChangeType(tempVal, Descriptor.ParameterType);
+                    actionContext.ActionArguments[Descriptor.ParameterName] = actionValue;
+                    isBound = true;
+                }
+            }
+            if (!isBound && Descriptor.IsOptional)
+            {
+                actionContext.ActionArguments[Descriptor.ParameterName] = Descriptor.DefaultValue;
+            }
+            var taskSource = new System.Threading.Tasks.TaskCompletionSource<object>();
+            taskSource.SetResult(null);
+            return taskSource.Task;
+        }
+    }
+
+    public partial class ComplexType
+    {
+
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    public partial class ComplexTypeResponse
+    {
+
+        [Newtonsoft.Json.JsonProperty("Prop1", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Prop1 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop2", Required = Newtonsoft.Json.Required.Always)]
+        public int Prop2 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop3", Required = Newtonsoft.Json.Required.Always)]
+        public bool Prop3 { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("Prop4", Required = Newtonsoft.Json.Required.Always)]
+        public ComplexType Prop4 { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+
+}

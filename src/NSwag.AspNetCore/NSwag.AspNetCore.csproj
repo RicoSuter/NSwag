@@ -1,51 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <PackageTags>Swagger Documentation AspNetCore NetCore TypeScript CodeGen</PackageTags>
-    <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
-    <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <!-- Execute PopulateNuspec fairly late. -->
-    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);PopulateNuspec</GenerateNuspecDependsOn>
-
-    <MicrosoftAspNetCoreMvcCorePackageVersion>1.0.6</MicrosoftAspNetCoreMvcCorePackageVersion>
-    <MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>1.0.6</MicrosoftAspNetCoreMvcFormattersJsonPackageVersion>
-    <MicrosoftAspNetCoreStaticFilesPackageVersion>1.0.4</MicrosoftAspNetCoreStaticFilesPackageVersion>
-    <MicrosoftExtensionsApiDescriptionServerPackageVersion>6.0.3</MicrosoftExtensionsApiDescriptionServerPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>1.0.1</MicrosoftExtensionsFileProvidersEmbeddedPackageVersion>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>8.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8>
-    <MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9>9.0.0</MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9>
-    <SystemIOFileSystemPackageVersion>4.3.0</SystemIOFileSystemPackageVersion>
-    <SystemXmlXPathXDocumentPackageVersion>4.0.1</SystemXmlXPathXDocumentPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\assets\NuGetIcon.png" Pack="true" PackagePath="" />
+    <None Include="build\*" Pack="true" PackagePath="build" />
+    <None Include="buildMultiTargeting\*" Pack="true" PackagePath="buildMultiTargeting" />
     <EmbeddedResource Include="ReDoc\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
     <EmbeddedResource Include="SwaggerUi\**\*" Exclude="**\swagger-ui-es-*.js;bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' OR '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCorePackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="$(MicrosoftAspNetCoreMvcFormattersJsonPackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(MicrosoftAspNetCoreStaticFilesPackageVersion)" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.IO.FileSystem" Version="$(SystemIOFileSystemPackageVersion)" />
-    <PackageReference Include="System.Xml.XPath.XDocument" Version="$(SystemXmlXPathXDocumentPackageVersion)" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8)" />
-  </ItemGroup>
-  
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9)" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,25 +27,4 @@
     <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
   </ItemGroup>
 
-  <Target Name="PopulateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>
-        id=$(PackageId);
-        authors=$(Authors);
-        configuration=$(Configuration);
-        description=$(PackageDescription);
-        version=$(PackageVersion);
-
-        microsoftAspNetCoreMvcCorePackageVersion=$(MicrosoftAspNetCoreMvcCorePackageVersion);
-        microsoftAspNetCoreMvcFormattersJsonPackageVersion=$(MicrosoftAspNetCoreMvcFormattersJsonPackageVersion);
-        microsoftAspNetCoreStaticFilesPackageVersion=$(MicrosoftAspNetCoreStaticFilesPackageVersion);
-        microsoftExtensionsApiDescriptionServerPackageVersion=$(MicrosoftExtensionsApiDescriptionServerPackageVersion);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersion=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersion);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet8=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet8);
-        microsoftExtensionsFileProvidersEmbeddedPackageVersionNet9=$(MicrosoftExtensionsFileProvidersEmbeddedPackageVersionNet9);
-        systemIOFileSystemPackageVersion=$(SystemIOFileSystemPackageVersion);
-        systemXmlXPathXDocumentPackageVersion=$(SystemXmlXPathXDocumentPackageVersion);
-      </NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>

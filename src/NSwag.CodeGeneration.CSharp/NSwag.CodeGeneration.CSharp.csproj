@@ -1,12 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Templates\*.liquid" />
-    <Compile Include="..\NSwag.Core\Polyfills.cs" Link="Polyfills.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.1.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" />
   </ItemGroup>
 
 </Project>

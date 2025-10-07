@@ -6,6 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace NSwag
     /// <summary>Describes a JSON web service.</summary>
     public partial class OpenApiDocument : JsonExtensionObject, IDocumentPathProvider
     {
-        private readonly ObservableDictionary<string, OpenApiPathItem> _paths;
+        internal readonly ObservableDictionary<string, OpenApiPathItem> _paths;
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiDocument"/> class.</summary>
         public OpenApiDocument()
@@ -33,9 +34,15 @@ namespace NSwag
             var paths = new ObservableDictionary<string, OpenApiPathItem>();
             paths.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in Paths.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    path.ActualPathItem.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiPathItem>)args.NewItems[i];
+                    pair.Value.ActualPathItem.Parent = this;
                 }
             };
 
@@ -231,21 +238,20 @@ namespace NSwag
 
         /// <summary>Gets the operations.</summary>
         [JsonIgnore]
-        public IEnumerable<OpenApiOperationDescription> Operations
+        public IEnumerable<OpenApiOperationDescription> Operations => GetOperations();
+
+        internal IEnumerable<OpenApiOperationDescription> GetOperations()
         {
-            get
+            foreach (var p in _paths)
             {
-                foreach (var p in _paths)
+                foreach (var o in p.Value.ActualPathItem)
                 {
-                    foreach (var o in p.Value.ActualPathItem)
+                    yield return new OpenApiOperationDescription
                     {
-                        yield return new OpenApiOperationDescription
-                        {
-                            Path = p.Key,
-                            Method = o.Key,
-                            Operation = o.Value
-                        };
-                    }
+                        Path = p.Key,
+                        Method = o.Key,
+                        Operation = o.Value
+                    };
                 }
             }
         }
@@ -253,24 +259,49 @@ namespace NSwag
         /// <summary>Generates missing or non-unique operation IDs.</summary>
         public void GenerateOperationIds()
         {
-            // Generate missing IDs
-            var operationsList = Operations.ToList();
+            // start with new work buffers
+            GenerateOperationIds([.. GetOperations()], [], []);
+        }
 
-            foreach (var operation in operationsList.Where(o => string.IsNullOrEmpty(o.Operation.OperationId)))
+        /// <summary>Generates missing or non-unique operation IDs.</summary>
+        private static void GenerateOperationIds(
+            List<OpenApiOperationDescription> operations,
+            HashSet<string> operationIds,
+            HashSet<string> duplicatedOperationIds)
+        {
+            // Generate missing IDs
+            operationIds.Clear();
+            duplicatedOperationIds.Clear();
+            foreach (var operation in operations)
             {
-                operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                if (string.IsNullOrEmpty(operation.Operation.OperationId))
+                {
+                    operation.Operation.OperationId = GetOperationNameFromPath(operation);
+                }
+
+                if (!operationIds.Add(operation.Operation.OperationId))
+                {
+                    duplicatedOperationIds.Add(operation.Operation.OperationId);
+                }
+            }
+
+            // if we don't have any duplicates, we are done
+            if (duplicatedOperationIds.Count == 0)
+            {
+                return;
             }
 
             // Find non-unique operation IDs
+            operations = [.. operations.Where(x => duplicatedOperationIds.Contains(x.Operation.OperationId))];
 
             // 1: Append all to methods returning collections
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
-                    var collections = group.Where(o => o.Operation.ActualResponses.Any(r =>
-                              HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                              r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array));
+                    var collections = group.Where(o => o.Operation.HasActualResponse(static (code, response) =>
+                              HttpUtilities.IsSuccessStatusCode(code) &&
+                              response.Schema?.ActualSchema.Type == JsonObjectType.Array));
                     // if we have just collections, adding All will not help in discrimination
                     if (collections.Count() == group.Count())
                     {
@@ -279,9 +310,9 @@ namespace NSwag
 
                     foreach (var o in group)
                     {
-                        var isCollection = o.Operation.ActualResponses.Any(r =>
-                            HttpUtilities.IsSuccessStatusCode(r.Key) &&
-                            r.Value.Schema?.ActualSchema.Type == JsonObjectType.Array);
+                        var isCollection = o.Operation.HasActualResponse(static (code, response) =>
+                            HttpUtilities.IsSuccessStatusCode(code) &&
+                            response.Schema?.ActualSchema.Type == JsonObjectType.Array);
 
                         if (isCollection)
                         {
@@ -292,7 +323,7 @@ namespace NSwag
             }
 
             // 2: Append the Method type
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
                 if (group.Count() > 1)
                 {
@@ -310,19 +341,19 @@ namespace NSwag
             }
 
             // 3: Append numbers as last resort
-            foreach (var group in operationsList.GroupBy(o => o.Operation.OperationId))
+            foreach (var group in operations.GroupBy(o => o.Operation.OperationId))
             {
-                var operations = group.ToList();
+                var groupOperations = group.ToList();
                 if (group.Count() > 1)
                 {
                     // Add numbers
                     var i = 2;
-                    foreach (var operation in operations.Skip(1))
+                    foreach (var operation in groupOperations.Skip(1))
                     {
                         operation.Operation.OperationId += i++;
                     }
 
-                    GenerateOperationIds();
+                    GenerateOperationIds(operations, operationIds, duplicatedOperationIds);
                     return;
                 }
             }
@@ -331,7 +362,7 @@ namespace NSwag
         private static string GetOperationNameFromPath(OpenApiOperationDescription operation)
         {
             var pathSegments = operation.Path.Trim('/').Split('/');
-            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains("{"));
+            var lastPathSegment = pathSegments.LastOrDefault(s => !s.Contains('{'));
             return string.IsNullOrEmpty(lastPathSegment) ? "Anonymous" : lastPathSegment;
         }
     }

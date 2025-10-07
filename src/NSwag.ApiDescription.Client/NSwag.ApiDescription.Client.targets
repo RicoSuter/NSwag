@@ -122,6 +122,12 @@
         <Command Condition="'%(NSwagOperationGenerationMode)' != ''">%(Command) /operationGenerationMode:%(NSwagOperationGenerationMode)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagIncludedOperationIds)' != ''">%(Command) /includedOperationIds:%(NSwagIncludedOperationIds)</Command>
+      </CurrentOpenApiReference>
+	  <CurrentOpenApiReference>
+		<Command Condition="'%(NSwagExcludedOperationIds)' != ''">%(Command) /excludedOperationIds:%(NSwagExcludedOperationIds)</Command>
+	  </CurrentOpenApiReference>
+	  <CurrentOpenApiReference>
         <Command Condition="'%(NSwagAdditionalNamespaceUsages)' != ''">%(Command) /additionalNamespaceUsages:%(NSwagAdditionalNamespaceUsages)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
@@ -208,6 +214,9 @@
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagJsonLibrary)' != ''">%(Command) /jsonLibrary:%(NSwagJsonLibrary)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagJsonPolymorphicSerializationStyle)' != ''">%(Command) /jsonPolymorphicSerializationStyle:%(NSwagJsonPolymorphicSerializationStyle)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagGenerateDefaultValues)' != ''">%(Command) /generateDefaultValues:%(NSwagGenerateDefaultValues)</Command>

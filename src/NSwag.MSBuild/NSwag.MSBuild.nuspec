@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/RicoSuter/NSwag/master/assets/NuGetIcon.png</iconUrl>
     <description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</description>
     <tags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</tags>
-    <copyright>Copyright © Rico Suter, 2020</copyright>
+    <copyright>Copyright © Rico Suter, 2025</copyright>
     <repository type="git" url="https://github.com/RicoSuter/NSwag.git"/>
     <developmentDependency>true</developmentDependency>
     <dependencies />
@@ -30,5 +30,6 @@
 
     <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net8.0\**" target="tools/Net80" />
     <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net9.0\**" target="tools/Net90" />
+    <file src="..\..\artifacts\publish\NSwag.ConsoleCore\$configuration$_net10.0\**" target="tools/Net100" />
   </files>
 </package>

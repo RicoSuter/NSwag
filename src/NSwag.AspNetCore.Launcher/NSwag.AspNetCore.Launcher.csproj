@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net462</TargetFrameworks>
     <PlatformTarget Condition="'$(TargetFramework)'=='net462'">x64</PlatformTarget>
@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net8.0'">
-    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+    <PackageReference Include="System.Runtime.Loader" />
   </ItemGroup>
 </Project>

@@ -156,3 +156,6 @@ makefile text
 src/NSwag.AspNetCore/SwaggerUi/**/* linguist-vendored
 src/NSwag.AspNet.Owin/SwaggerUi/**/* linguist-vendored
 src/NSwag.Integration.*/**/* linguist-vendored
+
+# Verify
+*.verified.txt text eol=lf working-tree-encoding=UTF-8

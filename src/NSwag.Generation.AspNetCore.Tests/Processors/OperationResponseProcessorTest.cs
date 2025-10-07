@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using System.Reflection;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Processors.Tests
 {

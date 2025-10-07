@@ -1,0 +1,81 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    public interface IController
+    {
+
+
+
+
+        System.Threading.Tasks.Task<FileToken> AddFileAsync(Microsoft.AspNetCore.Http.IFormFile body);
+
+    }
+
+
+    public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        private IController _implementation;
+
+        public Controller(IController implementation)
+        {
+            _implementation = implementation;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("files")]
+        public System.Threading.Tasks.Task<FileToken> AddFile(Microsoft.AspNetCore.Http.IFormFile body)
+        {
+
+            return _implementation.AddFileAsync(body);
+        }
+
+    }
+
+    public partial class FileToken
+    {
+
+        [Newtonsoft.Json.JsonProperty("fileId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid FileId { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    public partial class FileParameter
+    {
+        public FileParameter(System.IO.Stream data)
+            : this (data, null, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
+        {
+            Data = data;
+            FileName = fileName;
+            ContentType = contentType;
+        }
+
+        public System.IO.Stream Data { get; private set; }
+
+        public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
+    }
+
+
+}

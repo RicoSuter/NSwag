@@ -1,5 +1,6 @@
 ﻿using NSwag.CodeGeneration.CSharp;
-using Xunit;
+using NSwag.CodeGeneration.CSharp.Tests;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -39,7 +40,8 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("class SessionStateResent : SportsbookEventBody", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Xunit;
-using NJsonSchema;
+﻿using NJsonSchema;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
 using NJsonSchema.NewtonsoftJson.Generation;
 

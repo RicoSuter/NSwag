@@ -39,7 +39,7 @@ namespace NSwag.Generation.AspNetCore
         {
         }
 
-        /// <summary>The <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.</summary>
+        /// <inheritdoc cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>
         public ApiDescription ApiDescription { get; set; }
     }
 }

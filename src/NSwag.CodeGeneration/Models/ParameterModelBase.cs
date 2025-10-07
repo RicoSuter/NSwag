@@ -90,7 +90,7 @@ namespace NSwag.CodeGeneration.Models
         public OpenApiParameterStyle Style => _parameter.Style;
 
         /// <summary>Gets the the value indicating if the parameter values should be exploded when included in the query string.</summary>
-        public bool Explode => _parameter.Explode;
+        public bool? Explode => _parameter.Explode;
 
         /// <summary>Gets a value indicating whether the parameter is a deep object (OpenAPI 3).</summary>
         public bool IsDeepObject => _parameter.Style == OpenApiParameterStyle.DeepObject;
@@ -149,6 +149,11 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is of type array.</summary>
         public bool IsArray => Schema.Type.HasFlag(JsonObjectType.Array) || _parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi;
 
+        /// <summary>Gets a value indicating whether the parameter is an exploded array.</summary>
+        public bool IsExplodedArray => IsArray && (_settings.SchemaType == SchemaType.Swagger2
+            ? _parameter.CollectionFormat is OpenApiParameterCollectionFormat.Multi
+            : Explode ?? Kind is OpenApiParameterKind.Query or OpenApiParameterKind.Cookie);
+
         /// <summary>Gets a value indicating whether the parameter is a string array.</summary>
         public bool IsStringArray => IsArray && Schema.Item?.ActualSchema.Type.HasFlag(JsonObjectType.String) == true;
 
@@ -182,7 +187,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is of type object array.</summary>
         public bool IsObjectArray => IsArray &&
             (Schema.Item?.ActualSchema.Type == JsonObjectType.Object ||
-             Schema.Item?.ActualSchema.IsAnyType == true);
+                Schema.Item?.ActualSchema.IsAnyType == true);
 
         /// <summary>Gets a value indicating whether the parameter is of type object</summary>
         public bool IsObject => Schema.ActualSchema.Type == JsonObjectType.Object;

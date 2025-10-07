@@ -1,8 +1,8 @@
-﻿using Xunit;
-using NSwag.Generation.WebApi;
+﻿using NSwag.Generation.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -28,6 +28,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             public void AddMessage([FromForm] Foo message, [FromForm] string messageId)
             {
             }
+
+            [HttpGet]
+            public Foo GetMessage([FromQuery] string messageId)
+            {
+                return new Foo { Bar = $"Hello World ({messageId})" };
+            }
         }
 
         [Fact]
@@ -50,15 +56,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = true
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("export class DiscussionClient", code);
-            Assert.Contains("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -81,15 +87,15 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 GenerateClientInterfaces = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m,
+                    TypeScriptVersion = 4.3m,
                     ExportTypes = false
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("export class DiscussionClient", code);
-            Assert.DoesNotContain("export interface IDiscussionClient", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -111,15 +117,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 Template = TypeScriptTemplate.Axios,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("content_", code);
-            Assert.DoesNotContain("FormData", code);
-            Assert.Contains("\"Content-Type\": \"application/x-www-form-urlencoded\"", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -142,13 +147,14 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 UseAbortSignal = false,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("cancelToken?: CancelToken", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -174,13 +180,48 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 UseAbortSignal = true,
                 TypeScriptGeneratorSettings =
                 {
-                    TypeScriptVersion = 2.0m
+                    TypeScriptVersion = 4.3m
                 }
             });
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("signal?: AbortSignal", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_abort_signal_and_generate_client_interfaces_contains_signal_param_in_both_interface_and_concrete_implementation()
+        {
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
+            });
+
+            var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                UseAbortSignal = true,
+                GenerateClientInterfaces = true,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeScriptVersion = 4.3m
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
     }
 }

@@ -212,7 +212,7 @@
 {%         elsif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
-{%         elsif operation.ConsumesFormUrlEncoded -%}
+{%         elsif operation.ConsumesOnlyFormUrlEncoded -%}
                 var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, JsonSerializerSettings);
                 var dictionary_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<System.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
                 var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
@@ -228,7 +228,7 @@
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
-{%             if operation.ConsumesFormUrlEncoded -%}
+{%             if operation.ConsumesOnlyFormUrlEncoded -%}
                 var keyValues_ = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
 {%                 for parameter in operation.FormParameters -%}
 {%                     if parameter.IsNullable -%}
@@ -286,7 +286,7 @@
                 request_.Content = content_;
 {%             endif -%}
 {%         elsif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
+                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Consumes }}");
 {%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
@@ -406,14 +406,14 @@
                     }
 {%         elsif operation.HasSuccessResponse -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
                     }
 {%        elsif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                     return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
-                    return {{ operation.UnwrappedResultDefaultValue }};
+                    {% if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%             endif -%}
 {%         elsif operation.WrapResponse -%}
                     return new {{ ResponseClass }}(status_, headers_);
@@ -431,7 +431,7 @@
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                         return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
-                        return {{ operation.UnwrappedResultDefaultValue }};
+                        {% if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
                         return new {{ ResponseClass }}(status_, headers_);
@@ -442,7 +442,7 @@
                     else
 {%         endif -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                     }
 {%     endif -%}
@@ -474,6 +474,27 @@
 
         public string Text { get; }
     }
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static System.Threading.Tasks.Task<string> ReadAsStringAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    {
+#if NET5_0_OR_GREATER
+        return content.ReadAsStringAsync(cancellationToken);
+#else
+        return content.ReadAsStringAsync();
+#endif
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static System.Threading.Tasks.Task<System.IO.Stream> ReadAsStreamAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    {
+#if NET5_0_OR_GREATER
+        return content.ReadAsStreamAsync(cancellationToken);
+#else
+        return content.ReadAsStreamAsync();
+#endif
+    }
+
 
     {% template Client.Class.ReadObjectResponse %}
 

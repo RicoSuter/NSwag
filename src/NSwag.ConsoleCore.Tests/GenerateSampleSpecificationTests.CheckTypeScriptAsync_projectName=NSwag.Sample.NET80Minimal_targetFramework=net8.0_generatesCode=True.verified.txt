@@ -4,7 +4,6 @@
 // </auto-generated>
 //----------------------
 
-/* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
@@ -41,7 +40,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -56,10 +55,10 @@ export class Client {
     calculateSum(a: number, b: number): Promise<number> {
         let url_ = this.baseUrl + "/sum/{a}/{b}";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined.");
+            throw new globalThis.Error("The parameter 'a' must be defined.");
         url_ = url_.replace("{a}", encodeURIComponent("" + a));
         if (b === undefined || b === null)
-            throw new Error("The parameter 'b' must be defined.");
+            throw new globalThis.Error("The parameter 'b' must be defined.");
         url_ = url_.replace("{b}", encodeURIComponent("" + b));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -82,7 +81,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -97,7 +96,7 @@ export class Client {
     absoluteValue(a: number): Promise<number> {
         let url_ = this.baseUrl + "/abs({a})";
         if (a === undefined || a === null)
-            throw new Error("The parameter 'a' must be defined.");
+            throw new globalThis.Error("The parameter 'a' must be defined.");
         url_ = url_.replace("{a}", encodeURIComponent("" + a));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -120,7 +119,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -135,7 +134,7 @@ export class Client {
     identity(id: number): Promise<number> {
         let url_ = this.baseUrl + "/id:{id}";
         if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
+            throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
@@ -158,7 +157,7 @@ export class Client {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
     
             return result200;
             });
@@ -228,7 +227,7 @@ export interface FileResponse {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };

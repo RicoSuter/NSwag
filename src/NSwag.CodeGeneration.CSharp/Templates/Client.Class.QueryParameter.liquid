@@ -6,8 +6,24 @@ foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
 {% elsif parameter.IsDate -%}
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}{{ parameter.VariableName }}{% if parameter.IsSystemNullable %}.Value{% endif %}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
+{% elsif parameter.IsExplodedArray -%}
+    foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsArray -%}
-foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+bool isAfterFirst = false;
+foreach (var item_ in {{ parameter.VariableName }})
+{
+    if (!isAfterFirst)
+    {
+        urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=');
+    }
+    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(',');
+    isAfterFirst = true;
+}
+if (isAfterFirst)
+{
+    urlBuilder_.Length--;
+    urlBuilder_.Append('&');
+}
 {% elsif parameter.IsDictionary -%}
 foreach (var item_ in {{ parameter.VariableName }}) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% elsif parameter.IsDeepObject -%}

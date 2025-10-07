@@ -1,7 +1,6 @@
 #if NETCOREAPP3_1_OR_GREATER
 using System.Text.Json.Serialization;
 using NSwag.AspNetCore;
-using Xunit;
 using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Tests

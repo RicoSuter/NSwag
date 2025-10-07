@@ -1,0 +1,137 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+import * as ng from 'angular';
+
+export class UrlEncodedRequestConsumingClient {
+    private baseUrl: string | undefined = undefined;
+    private http: ng.IHttpService;
+    private q: ng.IQService;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor($http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
+        this.http = $http;
+        this.q = $q;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    addMessage(message: Foo | null | undefined, messageId: string | null | undefined): ng.IPromise<void> {
+        let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let content_ = "";
+        if (message !== undefined)
+            content_ += encodeURIComponent("message") + "=" + encodeURIComponent("" + message) + "&";
+        if (messageId !== undefined)
+            content_ += encodeURIComponent("messageId") + "=" + encodeURIComponent("" + messageId) + "&";
+        content_ = content_.replace(/&$/, "");
+
+        var options_: ng.IRequestConfig = {
+            url: url_,
+            method: "POST",
+            data: content_,
+            transformResponse: [],
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        };
+
+        return this.http(options_).then((_response) => {
+            return this.processAddMessage(_response);
+        }, (_response) => {
+            if (_response.status)
+                return this.processAddMessage(_response);
+            throw _response;
+        });
+    }
+
+    protected processAddMessage(response: any): ng.IPromise<void> {
+        const status = response.status;
+
+        let _headers: any = {};
+        if (status === 204) {
+            const _responseText = response.data;
+            return this.q.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException(this.q, "An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return this.q.resolve<void>(null as any);
+    }
+}
+
+export class Foo implements IFoo {
+    bar?: string | undefined;
+
+    constructor(data?: IFoo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bar = _data["Bar"];
+        }
+    }
+
+    static fromJS(data: any): Foo {
+        data = typeof data === 'object' ? data : {};
+        let result = new Foo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Bar"] = this.bar;
+        return data;
+    }
+}
+
+export interface IFoo {
+    bar?: string | undefined;
+}
+
+export class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(q: ng.IQService, message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): ng.IPromise<any> {
+    if (result !== null && result !== undefined)
+        return q.reject(result);
+    else
+        return q.reject(new ApiException(message, status, response, headers, null));
+}
+
+function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
+    return new q((resolve) => {
+        let reader = new FileReader();
+        reader.onload = event => resolve((event.target as any).result);
+        reader.readAsText(blob);
+    });
+}

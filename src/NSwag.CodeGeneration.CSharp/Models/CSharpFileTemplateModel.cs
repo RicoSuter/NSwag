@@ -82,24 +82,34 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets the exception model class.</summary>
         public string ExceptionModelClass => JsonExceptionTypes.FirstOrDefault(t => t != "Exception") ?? "Exception";
 
-        private IEnumerable<string> JsonExceptionTypes => _document.Operations
-            .SelectMany(o => o.Operation.ActualResponses.Where(r => r.Value.Schema?.InheritsSchema(_resolver.ExceptionSchema) == true).Select(r => new { o.Operation, Response = r.Value }))
+        private IEnumerable<string> JsonExceptionTypes => _document.GetOperations()
+            .SelectMany(o => o.Operation.GetActualResponses((_, response) => response.Schema?.InheritsSchema(_resolver.ExceptionSchema) == true).Select(r => new { o.Operation, Response = r.Value }))
             .Select(t => _generator.GetTypeName(t.Response.Schema, t.Response.IsNullable(_settings.CSharpGeneratorSettings.SchemaType), "Response"));
 
         /// <summary>Gets a value indicating whether the generated code requires the FileParameter type.</summary>
-        public bool RequiresFileParameterType =>
-            _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileParameter") != true &&
-            (_document.Operations.Any(o => o.Operation.ActualParameters.Any(p => p.ActualTypeSchema.IsBinary)) ||
-             _document.Operations.Any(o => o.Operation?.ActualRequestBody?.Content?.Any(c => c.Value.Schema?.IsBinary == true ||
-                                                                                       c.Value.Schema?.ActualSchema.ActualProperties.Any(p => p.Value.IsBinary ||
-                                                                                                                                 p.Value.Item?.IsBinary == true ||
-                                                                                                                                 p.Value.Items.Any(i => i.IsBinary)
-                                                                                                                                 ) == true) == true));
+        public bool RequiresFileParameterType
+        {
+            get
+            {
+                if (_settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileParameter") == true)
+                {
+                    return false;
+                }
+
+                var operations = _document.GetOperations().ToList();
+                return operations.Any(o => o.Operation.GetActualParameters().Any(p => p.ActualTypeSchema.IsBinary)) ||
+                       operations.Any(o => o.Operation?.ActualRequestBody?._content?.Any(static c => c.Value.Schema?.IsBinary == true ||
+                                                                                             c.Value.Schema?.ActualSchema.ActualProperties.Any(p => p.Value.IsBinary ||
+                                                                                                                                                    p.Value.Item?.IsBinary == true ||
+                                                                                                                                                    p.Value.Items.Any(i => i.IsBinary)
+                                                                                             ) == true) == true);
+            }
+        }
 
         /// <summary>Gets a value indicating whether [generate file response class].</summary>
         public bool GenerateFileResponseClass =>
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("FileResponse") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.IsBinary(o.Operation)));
+            _document.GetOperations().Any(static o => o.Operation.HasActualResponse((_, response) => response.IsBinary(o.Operation)));
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => _settings is CSharpClientGeneratorSettings { GenerateExceptionClasses: true };
@@ -117,7 +127,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (_settings.OperationNameGenerator.SupportsMultipleClients)
                 {
-                    return _document.Operations
+                    return _document.GetOperations()
                         .GroupBy(o => _settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                         .Select(g => _settings.ResponseClass.Replace("{controller}", g.Key))
                         .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)
@@ -137,7 +147,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 {
                     if (settings.OperationNameGenerator.SupportsMultipleClients)
                     {
-                        return _document.Operations
+                        return _document.GetOperations()
                             .GroupBy(o => settings.OperationNameGenerator.GetClientName(_document, o.Path, o.Method, o.Operation))
                             .Select(g => settings.ExceptionClass.Replace("{controller}", g.Key))
                             .Where(a => _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains(a) != true)

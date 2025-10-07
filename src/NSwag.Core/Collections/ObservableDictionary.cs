@@ -198,6 +198,8 @@ namespace NSwag.Collections
         /// <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.</summary>
         public ICollection<TKey> Keys => _dictionary.Keys;
 
+        internal Dictionary<TKey, TValue>.KeyCollection KeyCollection => _dictionary.Keys;
+
         ICollection IDictionary.Values => _dictionary.Values;
 
         ICollection IDictionary.Keys => _dictionary.Keys;
@@ -414,6 +416,22 @@ namespace NSwag.Collections
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        // optimizations
+        internal bool Any(Predicate<KeyValuePair<TKey, TValue>> predicate)
+        {
+            foreach (var pair in _dictionary)
+            {
+                if (predicate(pair))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal KeyValuePair<TKey, TValue> FirstOrDefault() => _dictionary.FirstOrDefault();
     }
 }
 

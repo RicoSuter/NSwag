@@ -43,8 +43,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
-            9.0
+            10.0
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
@@ -80,8 +79,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
+            8.0
             9.0
+            10.0
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
@@ -97,8 +97,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0
-            9.0
+            10.0
       - uses: actions/checkout@v4
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish

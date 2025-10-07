@@ -28,8 +28,9 @@ namespace NSwag.Core.Tests.Serialization
             var document = await OpenApiDocument.FromFileAsync("TestFiles/requestBody-reference.json");
 
             Assert.NotNull(document);
-            Assert.Equal("External request body", document.Paths.First().Value.Values.First().RequestBody.ActualRequestBody.Description);
-        }
+			Assert.Equal("External request body", document.Paths.First().Value.Values.First().RequestBody.ActualRequestBody.Description);
+			Assert.Equal("External request body", document.Paths.First().Value.Values.First().ActualParameters[0].Description);
+		}
 
         [Fact]
         public async Task When_file_contains_response_reference_to_another_file_it_is_loaded()

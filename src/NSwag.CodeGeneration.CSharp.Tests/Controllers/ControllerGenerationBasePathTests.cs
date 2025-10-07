@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -16,7 +16,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("Route(\"virtual_directory/v1\")]", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -31,7 +32,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("Route(\"v1\")]", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
 

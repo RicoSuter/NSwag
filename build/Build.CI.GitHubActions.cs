@@ -46,8 +46,15 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
 
-        // only need to list the ones that are missing from default image
-        newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["6.0", "9.0"]));
+        var onUbuntu = image.ToString().StartsWith("ubuntu", StringComparison.OrdinalIgnoreCase);
+        if (onUbuntu)
+        {
+            newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["8.0", "9.0", "10.0"]));
+        }
+        else
+        {
+            newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["10.0"]));
+        }
 
         var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
         if (onWindows)

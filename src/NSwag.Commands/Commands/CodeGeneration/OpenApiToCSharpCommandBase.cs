@@ -36,6 +36,20 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.OperationNameGenerator = OperationGenerationModeConverter.GetOperationNameGenerator(value);
         }
 
+        [Argument(Name = "IncludedOperationIds", IsRequired = false, Description = "The operations that should be included or excluded.")]
+        public string[] IncludedOperationIds
+        {
+            get => Settings.IncludedOperationIds;
+            set => Settings.IncludedOperationIds = value;
+        }
+
+        [Argument(Name = "ExcludedOperationIds", IsRequired = false, Description = "The operations that should be included or excluded.")]
+        public string[] ExcludedOperationIds
+        {
+            get => Settings.ExcludedOperationIds;
+            set => Settings.ExcludedOperationIds = value;
+        }
+
         [Argument(Name = "AdditionalNamespaceUsages", IsRequired = false, Description = "The additional namespace usages.")]
         public string[] AdditionalNamespaceUsages
         {
@@ -243,6 +257,13 @@ namespace NSwag.Commands.CodeGeneration
         {
             get => Settings.CSharpGeneratorSettings.JsonLibrary;
             set => Settings.CSharpGeneratorSettings.JsonLibrary = value;
+        }
+
+        [Argument(Name = "JsonPolymorphicSerializationStyle", IsRequired = false, Description = "The CSharp JSON polymorphic serialization style, 'NJsonSchema' or 'SystemTextJson' (default: 'NJsonSchema', 'SystemTextJson' is experimental).")]
+        public CSharpJsonPolymorphicSerializationStyle JsonPolymorphicSerializationStyle
+        {
+            get => Settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle;
+            set => Settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle = value;
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]

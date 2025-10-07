@@ -133,12 +133,26 @@ namespace NSwag.Commands.CodeGeneration
             get => Settings.ClassStyle;
             set => Settings.ClassStyle = value;
         }
+        
+        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Specifies whether to generate native records.")]
+        public bool GenerateNativeRecords
+        {
+            get => Settings.GenerateNativeRecords;
+            set => Settings.GenerateNativeRecords = value;
+        }
 
         [Argument(Name = "JsonLibrary", IsRequired = false, Description = "The CSharp JSON library, 'NewtonsoftJson' or 'SystemTextJson' (default: 'NewtonsoftJson', 'SystemTextJson' is experimental).")]
         public CSharpJsonLibrary JsonLibrary
         {
             get => Settings.JsonLibrary;
             set => Settings.JsonLibrary = value;
+        }
+
+        [Argument(Name = "JsonPolymorphicSerializationStyle", IsRequired = false, Description = "The CSharp JSON polymorphic serialization style, 'NJsonSchema' or 'SystemTextJson' (default: 'NJsonSchema', 'SystemTextJson' is experimental).")]
+        public CSharpJsonPolymorphicSerializationStyle JsonPolymorphicSerializationStyle
+        {
+            get => Settings.JsonPolymorphicSerializationStyle;
+            set => Settings.JsonPolymorphicSerializationStyle = value;
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]

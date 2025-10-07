@@ -1,7 +1,7 @@
 ﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Parameters
 {
@@ -63,6 +63,8 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             }
           }
         },".Replace("\r", ""), json.Replace("\r", ""));
+
+            await VerifyHelper.Verify(json);
         }
 
         [Fact]
@@ -85,26 +87,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var operation = document.Operations.First(o => o.Operation.OperationId == "FileUpload_UploadAttachment").Operation;
 
             Assert.NotNull(operation);
-            Assert.Contains(@"""requestBody"": {
-          ""content"": {
-            ""multipart/form-data"": {
-              ""schema"": {
-                ""type"": ""object"",
-                ""properties"": {
-                  ""Description"": {
-                    ""type"": ""string"",
-                    ""nullable"": true
-                  },
-                  ""Contents"": {
-                    ""type"": ""string"",
-                    ""format"": ""binary"",
-                    ""nullable"": true
-                  }
-                }
-              }
-            }
-          }
-        },".Replace("\r", ""), json.Replace("\r", ""));
+            await VerifyHelper.Verify(json);
         }
 
         [Fact]

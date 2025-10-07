@@ -1,0 +1,369 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+export class DiscriminatorClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    testLeaf(param: OneChild | SecondChild | null | undefined): Promise<string | null> {
+        let url_ = this.baseUrl + "/foo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(param);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTestLeaf(_response);
+        });
+    }
+
+    protected processTestLeaf(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+
+    testLeafArr(param: (OneChild | SecondChild)[] | null | undefined): Promise<string | null> {
+        let url_ = this.baseUrl + "/foo-arr";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(param);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTestLeafArr(_response);
+        });
+    }
+
+    protected processTestLeafArr(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+
+    test(param: OneChild | null | undefined): Promise<string | null> {
+        let url_ = this.baseUrl + "/bar";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(param);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTest(_response);
+        });
+    }
+
+    protected processTest(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+
+    testNested(param: Nested | null | undefined): Promise<string | null> {
+        let url_ = this.baseUrl + "/baz";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(param);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTestNested(_response);
+        });
+    }
+
+    protected processTestNested(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+}
+
+export abstract class Base implements IBase {
+    type!: EBase;
+
+    protected _discriminator: string;
+
+    constructor(data?: IBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        this._discriminator = "Base";
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.type = _data["Type"];
+        }
+    }
+
+    static fromJS(data: any): Base {
+        data = typeof data === 'object' ? data : {};
+        if (data["type"] === "OneChild") {
+            let result = new OneChild();
+            result.init(data);
+            return result;
+        }
+        if (data["type"] === "SecondChild") {
+            let result = new SecondChild();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'Base' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this._discriminator;
+        data["Type"] = this.type;
+        return data;
+    }
+}
+
+export interface IBase {
+    type: EBase;
+}
+
+export enum EBase {
+    OneChild = 0,
+    SecondChild = 1,
+}
+
+export class OneChild extends Base implements IOneChild {
+    a?: string | undefined;
+
+    constructor(data?: IOneChild) {
+        super(data);
+        this._discriminator = "OneChild";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.a = _data["A"];
+        }
+    }
+
+    static override fromJS(data: any): OneChild {
+        data = typeof data === 'object' ? data : {};
+        let result = new OneChild();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["A"] = this.a;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IOneChild extends IBase {
+    a?: string | undefined;
+}
+
+export class SecondChild extends Base implements ISecondChild {
+    b?: string | undefined;
+
+    constructor(data?: ISecondChild) {
+        super(data);
+        this._discriminator = "SecondChild";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.b = _data["B"];
+        }
+    }
+
+    static override fromJS(data: any): SecondChild {
+        data = typeof data === 'object' ? data : {};
+        let result = new SecondChild();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["B"] = this.b;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISecondChild extends IBase {
+    b?: string | undefined;
+}
+
+export class Nested implements INested {
+    child?: OneChild | SecondChild | undefined;
+    childCollection?: (OneChild | SecondChild)[] | undefined;
+
+    constructor(data?: INested) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.child = _data["Child"] ? OneChild | SecondChild.fromJS(_data["Child"]) : undefined as any;
+            if (Array.isArray(_data["ChildCollection"])) {
+                this.childCollection = [] as any;
+                for (let item of _data["ChildCollection"])
+                    this.childCollection!.push(OneChild | SecondChild.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Nested {
+        data = typeof data === 'object' ? data : {};
+        let result = new Nested();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Child"] = this.child ? this.child.toJSON() : undefined as any;
+        if (Array.isArray(this.childCollection)) {
+            data["ChildCollection"] = [];
+            for (let item of this.childCollection)
+                data["ChildCollection"].push(item ? item.toJSON() : undefined as any);
+        }
+        return data;
+    }
+}
+
+export interface INested {
+    child?: OneChild | SecondChild | undefined;
+    childCollection?: (OneChild | SecondChild)[] | undefined;
+}
+
+export class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
+}

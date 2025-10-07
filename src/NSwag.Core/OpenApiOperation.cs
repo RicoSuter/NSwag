@@ -8,6 +8,7 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -24,6 +25,8 @@ namespace NSwag
         private bool _disableRequestBodyUpdate;
         private bool _disableBodyParameterUpdate;
 
+        internal readonly ObservableDictionary<string, OpenApiResponse> _responses;
+
         /// <summary>Initializes a new instance of the <see cref="OpenApiPathItem"/> class.</summary>
         public OpenApiOperation()
         {
@@ -32,8 +35,14 @@ namespace NSwag
             var parameters = new ObservableCollection<OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
             {
-                foreach (var parameter in Parameters)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var parameter = (OpenApiParameter)args.NewItems[i];
                     parameter.Parent = this;
                 }
 
@@ -44,12 +53,18 @@ namespace NSwag
             var responses = new ObservableDictionary<string, OpenApiResponse>();
             responses.CollectionChanged += (sender, args) =>
             {
-                foreach (var response in Responses.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    response.Parent = this;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiResponse>)args.NewItems[i];
+                    pair.Value.Parent = this;
                 }
             };
-            Responses = responses;
+            _responses = responses;
         }
 
         /// <summary>Gets the parent operations list.</summary>
@@ -106,33 +121,32 @@ namespace NSwag
 
         /// <summary>Gets the actual parameters (a combination of all inherited and local parameters).</summary>
         [JsonIgnore]
-        public IReadOnlyList<OpenApiParameter> ActualParameters
-        {
-            get
-            {
-                var parameters = Parameters.Select(p => p.ActualParameter);
-                IEnumerable<OpenApiParameter> allParameters;
-                if (Parent?.Parameters == null)
-                {
-                    allParameters = parameters;
-                }
-                else
-                {
-                    allParameters = parameters
-                        .Concat(Parent.Parameters.Select(p => p.ActualParameter))
-                        .GroupBy(p => new NameKindPair(p.Name, p.Kind))
-                        .Select(p => p.First());
-                }
+        public IReadOnlyList<OpenApiParameter> ActualParameters => [.. GetActualParameters()];
 
-                return allParameters.ToList();
+        internal IEnumerable<OpenApiParameter> GetActualParameters()
+        {
+            var parameters = Parameters.Select(p => p.ActualParameter);
+            IEnumerable<OpenApiParameter> allParameters;
+            if (Parent?.Parameters == null)
+            {
+                allParameters = parameters;
             }
+            else
+            {
+                allParameters = parameters
+                    .Concat(Parent.Parameters.Select(p => p.ActualParameter))
+                    .GroupBy(p => new NameKindPair(p.Name, p.Kind))
+                    .Select(p => p.First());
+            }
+
+            return allParameters;
         }
 
         private readonly record struct NameKindPair(string Name, OpenApiParameterKind ParameterKind);
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
         [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IDictionary<string, OpenApiResponse> Responses { get; }
+        public IDictionary<string, OpenApiResponse> Responses => _responses;
 
         /// <summary>Gets or sets the schemes.</summary>
         [JsonProperty(PropertyName = "schemes", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
@@ -156,11 +170,17 @@ namespace NSwag
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public ICollection<string> ActualConsumes => Consumes ?? Parent.Parent.Consumes;
+        public ICollection<string> ActualConsumes => ActualConsumesCollection;
+
+        [JsonIgnore]
+        internal List<string> ActualConsumesCollection => Consumes ?? Parent.Parent._consumes;
 
         /// <summary>Gets the list of MIME types the operation can produce, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
-        public ICollection<string> ActualProduces => Produces ?? Parent.Parent.Produces;
+        public ICollection<string> ActualProduces => ActualProducesCollection;
+
+        [JsonIgnore]
+        internal List<string> ActualProducesCollection => Produces ?? Parent.Parent._produces;
 
         /// <summary>Gets the actual schemes, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
@@ -172,7 +192,79 @@ namespace NSwag
 
         /// <summary>Gets the responses from the operation and from the <see cref="OpenApiDocument"/> and dereferences them if necessary.</summary>
         [JsonIgnore]
-        public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses => Responses.ToDictionary(t => t.Key, t => t.Value.ActualResponse);
+        public IReadOnlyDictionary<string, OpenApiResponse> ActualResponses
+        {
+            get
+            {
+                var dictionary = new Dictionary<string, OpenApiResponse>(_responses.Count);
+                foreach (var response in _responses)
+                {
+                    dictionary.Add(response.Key, response.Value.ActualResponse);
+                }
+                return dictionary;
+            }
+        }
+
+        // helpers to avoid extra allocations
+        internal IEnumerable<KeyValuePair<string, OpenApiResponse>> GetActualResponses(Func<string, OpenApiResponse, bool> predicate)
+        {
+            foreach (var pair in _responses)
+            {
+                if (predicate(pair.Key, pair.Value.ActualResponse))
+                {
+                    yield return new KeyValuePair<string, OpenApiResponse>(pair.Key, pair.Value.ActualResponse);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool HasActualResponse(Func<string, OpenApiResponse, bool> predicate) => GetActualResponse(predicate) != null;
+
+        internal OpenApiResponse GetActualResponse(Func<string, OpenApiResponse, bool> predicate)
+        {
+            foreach (var pair in _responses)
+            {
+                if (predicate(pair.Key, pair.Value.ActualResponse))
+                {
+                    return pair.Value.ActualResponse;
+                }
+            }
+
+            return null;
+        }
+
+        internal KeyValuePair<string,OpenApiResponse> GetSuccessResponse()
+        {
+            KeyValuePair<string, OpenApiResponse> firstOtherSuccessResponse = new(null, null);
+            OpenApiResponse defaultResponse = null;
+            foreach (var pair in _responses)
+            {
+                var code = pair.Key;
+                var actualResponse = pair.Value.ActualResponse;
+
+                if (code == "200")
+                {
+                    // 200 is the default response
+                    return new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
+                }
+
+                if (firstOtherSuccessResponse.Key == null && HttpUtilities.IsSuccessStatusCode(code))
+                {
+                    firstOtherSuccessResponse = new KeyValuePair<string, OpenApiResponse>(code, actualResponse);
+                }
+                else if (code == "default")
+                {
+                    defaultResponse = actualResponse;
+                }
+            }
+
+            if (firstOtherSuccessResponse.Key != null)
+            {
+                return firstOtherSuccessResponse;
+            }
+
+            return new KeyValuePair<string, OpenApiResponse>("default", defaultResponse);
+        }
 
         /// <summary>Gets the actual security description, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
         [JsonIgnore]
@@ -230,8 +322,8 @@ namespace NSwag
                         RequestBody.Description = parameter.Description;
                         RequestBody.IsRequired = parameter.IsRequired;
 
-                        RequestBody.Content.Clear();
-                        RequestBody.Content.Add(parameter.Schema?.IsBinary == true ?
+                        RequestBody._content.Clear();
+                        RequestBody._content.Add(parameter.Schema?.IsBinary == true ?
                             "application/octet-stream" : "application/json", new OpenApiMediaType
                             {
                                 Schema = parameter.Schema,
@@ -292,12 +384,12 @@ namespace NSwag
         private void UpdateBodyParameter(OpenApiParameter parameter)
         {
             parameter.Kind = OpenApiParameterKind.Body;
-            parameter.Name = RequestBody.ActualName;
-            parameter.Position = RequestBody.Position;
-            parameter.Description = RequestBody.Description;
-            parameter.IsRequired = RequestBody.IsRequired;
-            parameter.Example = RequestBody.Content.FirstOrDefault().Value?.Example;
-            parameter.Schema = RequestBody.Content.FirstOrDefault().Value?.Schema;
+            parameter.Name = ActualRequestBody.ActualName;
+            parameter.Position = ActualRequestBody.Position;
+            parameter.Description = ActualRequestBody.Description;
+            parameter.IsRequired = ActualRequestBody.IsRequired;
+            parameter.Example = ActualRequestBody.Content.FirstOrDefault().Value?.Example;
+            parameter.Schema = ActualRequestBody.Content.FirstOrDefault().Value?.Schema;
         }
 
         private void UpdateRequestBody(NotifyCollectionChangedEventArgs args)

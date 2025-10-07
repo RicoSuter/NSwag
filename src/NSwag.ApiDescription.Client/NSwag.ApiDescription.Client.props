@@ -37,6 +37,8 @@
       <NSwagSerializeTypeInformation>$(NSwagSerializeTypeInformation)</NSwagSerializeTypeInformation>
       <NSwagQueryNullValue>$(NSwagQueryNullValue)</NSwagQueryNullValue>
       <NSwagOperationGenerationMode>$(NSwagOperationGenerationMode)</NSwagOperationGenerationMode>
+      <NSwagIncludedOperationIds>$(NSwagIncludedOperationIds)</NSwagIncludedOperationIds>
+	  <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds> 
       <NSwagAdditionalNamespaceUsages>$(NSwagAdditionalNamespaceUsages)</NSwagAdditionalNamespaceUsages>
       <NSwagAdditionalContractNamespaceUsages>$(NSwagAdditionalContractNamespaceUsages)</NSwagAdditionalContractNamespaceUsages>
       <NSwagGenerateOptionalParameters>$(NSwagGenerateOptionalParameters)</NSwagGenerateOptionalParameters>
@@ -66,6 +68,7 @@
       <NSwagDictionaryBaseType>$(NSwagDictionaryBaseType)</NSwagDictionaryBaseType>
       <NSwagClassStyle>$(NSwagClassStyle)</NSwagClassStyle>
       <NSwagJsonLibrary>$(NSwagJsonLibrary)</NSwagJsonLibrary>
+      <NSwagJsonPolymorphicSerializationStyle>$(NSwagJsonPolymorphicSerializationStyle)</NSwagJsonPolymorphicSerializationStyle>
       <NSwagGenerateDefaultValues>$(NSwagGenerateDefaultValues)</NSwagGenerateDefaultValues>
       <NSwagGenerateDataAnnotations>$(NSwagGenerateDataAnnotations)</NSwagGenerateDataAnnotations>
       <NSwagExcludedTypeNames>$(NSwagExcludedTypeNames)</NSwagExcludedTypeNames>
@@ -125,6 +128,8 @@
       <NSwagSerializeTypeInformation>$(NSwagSerializeTypeInformation)</NSwagSerializeTypeInformation>
       <NSwagQueryNullValue>$(NSwagQueryNullValue)</NSwagQueryNullValue>
       <NSwagOperationGenerationMode>$(NSwagOperationGenerationMode)</NSwagOperationGenerationMode>
+      <NSwagIncludedOperationIds>$(NSwagIncludedOperationIds)</NSwagIncludedOperationIds>
+      <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds>
       <NSwagAdditionalNamespaceUsages>$(NSwagAdditionalNamespaceUsages)</NSwagAdditionalNamespaceUsages>
       <NSwagAdditionalContractNamespaceUsages>$(NSwagAdditionalContractNamespaceUsages)</NSwagAdditionalContractNamespaceUsages>
       <NSwagGenerateOptionalParameters>$(NSwagGenerateOptionalParameters)</NSwagGenerateOptionalParameters>
@@ -154,6 +159,7 @@
       <NSwagDictionaryBaseType>$(NSwagDictionaryBaseType)</NSwagDictionaryBaseType>
       <NSwagClassStyle>$(NSwagClassStyle)</NSwagClassStyle>
       <NSwagJsonLibrary>$(NSwagJsonLibrary)</NSwagJsonLibrary>
+      <NSwagJsonPolymorphicSerializationStyle>$(NSwagJsonPolymorphicSerializationStyle)</NSwagJsonPolymorphicSerializationStyle>
       <NSwagGenerateDefaultValues>$(NSwagGenerateDefaultValues)</NSwagGenerateDefaultValues>
       <NSwagGenerateDataAnnotations>$(NSwagGenerateDataAnnotations)</NSwagGenerateDataAnnotations>
       <NSwagExcludedTypeNames>$(NSwagExcludedTypeNames)</NSwagExcludedTypeNames>

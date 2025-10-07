@@ -30,6 +30,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private readonly OpenApiOperation _operation;
         private readonly CSharpGeneratorBase _generator;
         private readonly CSharpTypeResolver _resolver;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="CSharpOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -55,16 +56,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
                 // TODO: Move to CSharpControllerOperationModel
                 if (generator is CSharpControllerGenerator)
                 {
-                    parameters = [.. parameters
-                        .OrderBy(p => p.Position ?? 0)
-                        .ThenBy(p => !p.IsRequired)
-                        .ThenBy(p => p.Default == null)];
+                    parameters =
+                    [
+                        .. parameters
+                            .OrderBy(p => !p.IsRequired)
+                            .ThenBy(p => p.Default == null)
+                            .ThenBy(p => p.Position ?? 0)
+                    ];
                 }
                 else
                 {
-                    parameters = [.. parameters
-                        .OrderBy(p => p.Position ?? 0)
-                        .ThenBy(p => !p.IsRequired)];
+                    parameters =
+                    [
+                        .. parameters
+                            .OrderBy(p => !p.IsRequired)
+                            .ThenBy(p => p.Position ?? 0)
+                    ];
                 }
             }
 
@@ -97,8 +104,22 @@ namespace NSwag.CodeGeneration.CSharp.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected" ? "Core" : string.Empty);
+        public override string ActualOperationName
+        {
+            get
+            {
+                if (_actualOperationName == null && OperationName != null)
+                {
+                    _actualOperationName = ConversionUtilities.ConvertToUpperCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
+                }
+
+                return _actualOperationName;
+            }
+        }
 
         /// <summary>Gets a value indicating whether this operation is rendered as interface method.</summary>
         public bool IsInterfaceMethod => MethodAccessModifier == "public";
@@ -109,7 +130,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>
         /// The default value of the result type, i.e. default(T) or default(T)! depending on whether NRT are enabled.
         /// </summary>
-        public string UnwrappedResultDefaultValue => $"default({UnwrappedResultType}){(_settings is CSharpClientGeneratorSettings { CSharpGeneratorSettings.GenerateNullableReferenceTypes: true } ? "!" : "")}";
+        public string UnwrappedResultDefaultValue => HasResult
+            ? $"default({UnwrappedResultType}){(_settings is CSharpClientGeneratorSettings { CSharpGeneratorSettings.GenerateNullableReferenceTypes: true } ? "!" : "")}"
+            : null;
 
         /// <summary>Gets or sets the synchronous type of the result.</summary>
         public string SyncResultType
@@ -137,14 +160,14 @@ namespace NSwag.CodeGeneration.CSharp.Models
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) != 1)
+                var response = _operation.GetActualResponse((code, _) => !HttpUtilities.IsSuccessStatusCode(code));
+                if (response == null)
                 {
                     return "System.Exception";
                 }
 
-                var response = _operation.ActualResponses.Single(r => !HttpUtilities.IsSuccessStatusCode(r.Key));
-                var isNullable = response.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
-                return _generator.GetTypeName(response.Value.Schema, isNullable, "Exception");
+                var isNullable = response.IsNullable(_settings.CodeGeneratorSettings.SchemaType);
+                return _generator.GetTypeName(response.Schema, isNullable, "Exception");
             }
         }
 

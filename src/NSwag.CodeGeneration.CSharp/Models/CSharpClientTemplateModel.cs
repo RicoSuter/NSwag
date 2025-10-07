@@ -120,6 +120,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the client class access modifier.</summary>
         public string ClientClassAccessModifier => _settings.ClientClassAccessModifier;
 
+        /// <summary>Gets or sets the client interface access modifier.</summary>
+        public string ClientInterfaceAccessModifier => _settings.ClientInterfaceAccessModifier;
+
         /// <summary>Gets the operations.</summary>
         public IEnumerable<CSharpOperationModel> Operations { get; }
 
@@ -195,7 +198,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
         private bool RequiresJsonExceptionConverter =>
             _settings.CSharpGeneratorSettings.JsonLibrary == CSharpJsonLibrary.NewtonsoftJson &&
             _settings.CSharpGeneratorSettings.ExcludedTypeNames?.Contains("JsonExceptionConverter") != true &&
-            _document.Operations.Any(o => o.Operation.ActualResponses.Any(r => r.Value.Schema?.InheritsSchema(_exceptionSchema) == true));
+            _document.GetOperations().Any(o => o.Operation.HasActualResponse((_, response) => response.Schema?.InheritsSchema(_exceptionSchema) == true));
 
         private static readonly string[] jsonExceptionConverterArray = ["JsonExceptionConverter"];
     }

@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.Generation.WebApi;
 using System.Runtime.Serialization;
-using Xunit;
 using NJsonSchema.NewtonsoftJson.Converters;
 using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -85,7 +85,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
                 TypeScriptGeneratorSettings =
                 {
                     UseLeafType = true,
-                    TypeScriptVersion = 1.4m,
                     NullValue = TypeScriptNullValue.Undefined
                 }
             });
@@ -97,11 +96,10 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             var code = clientGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("test(param: OneChild)", code);
-            Assert.Contains("testLeaf(param: OneChild | SecondChild)", code);
-            Assert.Contains("testLeafArr(param: (OneChild | SecondChild)[])", code);
-            Assert.Contains("child?: OneChild | SecondChild;", code);
-            Assert.Contains("childCollection?: (OneChild | SecondChild)[];", code);
+            await VerifyHelper.Verify(code);
+
+            // this seems to be broken syntax
+            // CodeCompiler.AssertCompile(code);
         }
     }
 }
