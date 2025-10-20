@@ -1,6 +1,6 @@
 ﻿
 
-namespace MyNamespace
+namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_content_should_be_added_in_foreach_in_csharp
 {
     using System = global::System;
 
