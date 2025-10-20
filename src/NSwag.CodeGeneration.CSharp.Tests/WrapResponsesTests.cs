@@ -63,6 +63,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public static class Extensions
+    {
+        public static string[] ToArray(this object strings) { return new string[0]; }
+    }
+}
+");
         }
 
         [Fact]
@@ -85,6 +94,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public static class Extensions
+    {
+        public static string[] ToArray(this object strings) { return new string[0]; }
+    }
+}
+");
         }
     }
 }
