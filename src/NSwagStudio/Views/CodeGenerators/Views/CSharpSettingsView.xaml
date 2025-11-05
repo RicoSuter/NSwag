@@ -116,7 +116,7 @@
                                  NotifyOnValidationError=True}" />
                         
                         <TextBlock Text="JSON Polymorphic Serialization Style" FontWeight="Bold" Margin="0,0,0,6" />
-                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyles, Mode=TwoWay}" 
+                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyle, Mode=TwoWay}" 
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonPolymorphicSerializationStyles}" Margin="0,0,0,12" />
 
