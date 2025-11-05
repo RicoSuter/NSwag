@@ -23,12 +23,12 @@
     <PackageVersion Include="MyToolkit.Extended" Version="2.5.16" />
     <PackageVersion Include="Namotion.Reflection" Version="3.4.3" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="NJsonSchema" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration.CSharp" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.NewtonsoftJson" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.Yaml" Version="11.5.1" />
+    <PackageVersion Include="NJsonSchema" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration.CSharp" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.NewtonsoftJson" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.Yaml" Version="11.5.2" />
     <PackageVersion Include="System.Runtime.Loader" Version="4.0.0" />
     <PackageVersion Include="Verify.XunitV3" Version="30.5.0" />
     <PackageVersion Include="xunit.v3" Version="3.0.0" />
@@ -48,7 +48,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-rc.1.25451.107" />
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.0-rc.1.25451.107" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-rc.2.25502.107" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.0-rc.2.25502.107" />
   </ItemGroup>
 </Project>
