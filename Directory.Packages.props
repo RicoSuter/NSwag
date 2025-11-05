@@ -23,12 +23,12 @@
     <PackageVersion Include="MyToolkit.Extended" Version="2.5.16" />
     <PackageVersion Include="Namotion.Reflection" Version="3.4.3" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="NJsonSchema" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration.CSharp" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.NewtonsoftJson" Version="11.5.1" />
-    <PackageVersion Include="NJsonSchema.Yaml" Version="11.5.1" />
+    <PackageVersion Include="NJsonSchema" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration.CSharp" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.NewtonsoftJson" Version="11.5.2" />
+    <PackageVersion Include="NJsonSchema.Yaml" Version="11.5.2" />
     <PackageVersion Include="System.Runtime.Loader" Version="4.0.0" />
     <PackageVersion Include="Verify.XunitV3" Version="30.5.0" />
     <PackageVersion Include="xunit.v3" Version="3.0.0" />

@@ -266,6 +266,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle = value;
         }
 
+        [Argument(Name = "JsonLibraryVersion", IsRequired = false, Description = "The CSharp JSON library version to use (applies only to System.Text.Json, default: 8.0).")]
+        public decimal JsonLibraryVersion
+        {
+            get => Settings.JsonLibraryVersion;
+            set => Settings.JsonLibraryVersion = value;
+        }
+
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
         public bool GenerateDefaultValues
         {
@@ -351,6 +358,35 @@ namespace NSwag.Commands.CodeGeneration
         {
             get => Settings.CSharpGeneratorSettings.InlineNamedAny;
             set => Settings.CSharpGeneratorSettings.InlineNamedAny = value;
+        }
+
+        [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]
+        public string PropertySetterAccessModifier
+        {
+            get => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier;
+            set => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier = value;
+        }
+
+        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Generate C# 9.0 record types instead of record-like classes (default: false).")]
+        public bool GenerateNativeRecords
+        {
+            get => Settings.CSharpGeneratorSettings.GenerateNativeRecords;
+            set => Settings.CSharpGeneratorSettings.GenerateNativeRecords = value;
+        }
+        
+        [Argument(Name = nameof(UseRequiredKeyword), IsRequired = false,
+            Description = "Indicate whether the C# 11 'required' keyword should be used for required properties (default: false).")]
+        public bool UseRequiredKeyword
+        {
+            get => Settings.CSharpGeneratorSettings.UseRequiredKeyword;
+            set => Settings.CSharpGeneratorSettings.UseRequiredKeyword = value;
+        }
+
+        [Argument(Name = "WriteAccessor", IsRequired = false, Description = "Gets the read accessor of properties ('set' | 'init', default: 'set').")]
+        public string WriteAccessor
+        {
+            get => Settings.CSharpGeneratorSettings.WriteAccessor;
+            set => Settings.CSharpGeneratorSettings.WriteAccessor = value;
         }
 
         [Argument(Name = "GenerateDtoTypes", IsRequired = false, Description = "Specifies whether to generate DTO classes.")]
