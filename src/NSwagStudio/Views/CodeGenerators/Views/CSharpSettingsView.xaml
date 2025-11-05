@@ -106,7 +106,7 @@
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
 
-                        <TextBlock Text="JSON Library Version" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="JSON Library Version (used in SystemTextJson only)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Margin="0,0,0,12" ToolTip="JsonLibraryVersion" 
                                  Text="{Binding Command.JsonLibraryVersion,
                                  Mode=TwoWay,
