@@ -269,8 +269,8 @@ namespace NSwag.Commands.CodeGeneration
         [Argument(Name = "JsonLibraryVersion", IsRequired = false, Description = "The CSharp JSON library version to use (applies only to System.Text.Json, default: 8.0).")]
         public decimal JsonLibraryVersion
         {
-            get => Settings.JsonLibraryVersion;
-            set => Settings.JsonLibraryVersion = value;
+            get => Settings.CSharpGeneratorSettings.JsonLibraryVersion;
+            set => Settings.CSharpGeneratorSettings.JsonLibraryVersion = value;
         }
 
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
