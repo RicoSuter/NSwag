@@ -167,8 +167,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-
-                            return new SwaggerResponse<object>(status_, headers_, default(object));
+                            return new SwaggerResponse(status_, headers_);
                         }
                         else
                         {
