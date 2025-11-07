@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
 using NJsonSchema;
@@ -35,7 +33,7 @@ namespace NSwag.Generation.AspNetCore.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext operationProcessorContext)
         {
-            if (!(operationProcessorContext is AspNetCoreOperationProcessorContext context))
+            if (operationProcessorContext is not AspNetCoreOperationProcessorContext context)
             {
                 return false;
             }
@@ -48,7 +46,7 @@ namespace NSwag.Generation.AspNetCore.Processors
                 .Concat(context.MethodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes()
                     .Where(a => a.GetType().IsAssignableToTypeName("SwaggerResponseAttribute", TypeNameStyle.Name) ||
                                 a.GetType().IsAssignableToTypeName("SwaggerDefaultResponseAttribute", TypeNameStyle.Name)))
-                .ToArray() ?? new Attribute[0];
+                .ToArray() ?? [];
 
             if (responseTypeAttributes.Length > 0)
             {
@@ -76,15 +74,15 @@ namespace NSwag.Generation.AspNetCore.Processors
                         httpStatusCode = apiResponse.StatusCode.ToString(CultureInfo.InvariantCulture);
                     }
 
-                    if (IsVoidResponse(returnType) == false)
+                    if (!IsVoidResponse(returnType))
                     {
                         var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
                         var isResponseNullable = nullableXmlAttribute != null ?
-                                                 nullableXmlAttribute.Value.ToLowerInvariant() == "true" :
-                                                 _settings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings).IsNullable;
+                                                 nullableXmlAttribute.Value.Equals("true", StringComparison.OrdinalIgnoreCase) :
+                                                 _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnType, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings).IsNullable;
 
                         response.IsNullableRaw = isResponseNullable;
                         response.Schema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
@@ -102,8 +100,8 @@ namespace NSwag.Generation.AspNetCore.Processors
                     IsNullableRaw = true,
                     Schema = new JsonSchema
                     {
-                        Type = _settings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
-                        Format = _settings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
+                        Type = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? JsonObjectType.File : JsonObjectType.String,
+                        Format = _settings.SchemaSettings.SchemaType == SchemaType.Swagger2 ? null : JsonFormatStrings.Binary,
                     }
                 };
             }
@@ -119,7 +117,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             return "200";
         }
 
-        private bool IsVoidResponse(Type returnType)
+        private static bool IsVoidResponse(Type returnType)
         {
             return returnType == null || returnType.FullName == "System.Void";
         }

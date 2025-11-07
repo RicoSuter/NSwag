@@ -1,0 +1,65 @@
+<Project>
+  <PropertyGroup>
+    <VersionPrefix>14.6.2</VersionPrefix>
+
+    <Authors>Rico Suter</Authors>
+    <Copyright>Copyright © Rico Suter, 2025</Copyright>
+
+    <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>http://NSwag.org</PackageProjectUrl>
+    <PackageTags>OpenAPI Swagger AspNetCore Documentation CodeGen TypeScript WebApi AspNet</PackageTags>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
+    <Company />
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../NSwag.snk</AssemblyOriginatorKeyFile>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/RicoSuter/NSwag.git</RepositoryUrl>
+
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- suppress NuGet audit checks being errors -->
+    <WarningsNotAsErrors>NU1901,NU1902,NU1903,NU1904</WarningsNotAsErrors>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugSymbols>true</DebugSymbols>
+
+    <!-- reduce package size by only including english resources -->
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\NuGetIcon.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Analyzer settings">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!--
+      [CA1200] Avoid using cref tags with a prefix
+      [CA1510] Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing a new exception instance
+      [CA1716] rename parameter property so that it no longer conflicts with the reserved language keyword
+      [CA1720] Identifier 'xxx' contains type name
+      [CA1725] Overriden parameter name mismatch
+      [CA1845] Use span-based 'string.Concat' and 'AsSpan' instead of 'Substring'
+      [SYSLIB0012] 'Assembly.CodeBase' is obsolete
+    -->
+    <NoWarn>$(NoWarn);CA1200;CA1510;CA1716;CA1720;CA1725;CA1845;SYSLIB0012</NoWarn>
+
+    <!-- Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+
+  </PropertyGroup>
+
+</Project>

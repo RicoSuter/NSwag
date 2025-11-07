@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using Microsoft.Extensions.PlatformAbstractions;
-
 namespace NSwag.Commands
 {
     /// <summary>Provides runtime utilities.</summary>
@@ -22,31 +19,19 @@ namespace NSwag.Commands
 #if NETFRAMEWORK
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #else
-                var framework = PlatformServices.Default.Application.RuntimeFramework;
-                if (framework.Identifier == ".NETCoreApp")
+                if (!System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.Ordinal))
                 {
-                    if (framework.Version.Major == 2)
+                    if (Environment.Version.Major >= 10)
                     {
-                        return Runtime.NetCore21;
-                    }
-                    else if (framework.Version.Major >= 7)
-                    {
-                        return Runtime.Net70;
-                    }
-                    else if (framework.Version.Major >= 6)
-                    {
-                        return Runtime.Net60;
-                    }
-                    else if (framework.Version.Major >= 5)
-                    {
-                        return Runtime.Net50;
-                    }
-                    else if (framework.Version.Major >= 3)
-                    {
-                        return Runtime.NetCore31;
+                        return Runtime.Net100;
                     }
 
-                    return Runtime.NetCore21;
+                    if (Environment.Version.Major >= 9)
+                    {
+                        return Runtime.Net90;
+                    }
+
+                    return Runtime.Net80;
                 }
                 return IntPtr.Size == 4 ? Runtime.WinX86 : Runtime.WinX64;
 #endif

@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration.OperationNameGenerators
@@ -42,11 +40,20 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             var operationName = GetOperationName(operation);
 
             var hasOperationWithSameName = false;
-            foreach (var o in document.Operations)
+            // keep iteration logic in sync with OpenApiDocument.Operations - this version is faster as being called a lot
+            // Operations property also allocates OpenApiOperationDescription wrapper for each item
+            foreach (var p in document._paths)
             {
-                if (o.Operation != operation)
+                foreach (var pair in p.Value.ActualPathItem)
                 {
-                    if (GetClientName(o.Operation).SequenceEqual(clientName) && GetOperationName(o.Operation).SequenceEqual(operationName))
+                    var documentOperation = pair.Value;
+                    if (documentOperation == operation)
+                    {
+                        continue;
+                    }
+
+                    if (GetOperationName(documentOperation).SequenceEqual(operationName)
+                        && GetClientName(documentOperation).SequenceEqual(clientName))
                     {
                         hasOperationWithSameName = true;
                         break;
@@ -80,7 +87,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             // no underscore, fast path
             if (idxFirst == -1)
             {
-                return ReadOnlySpan<char>.Empty;
+                return [];
             }
 
             int idxLast = operationIdSpan.LastIndexOf(underscoreSeparator);
@@ -91,7 +98,7 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
                 // underscore is the first character
                 if (idxFirst == 0)
                 {
-                    return ReadOnlySpan<char>.Empty;
+                    return [];
                 }
 
                 return operationIdSpan.Slice(0, idxFirst);
@@ -102,15 +109,17 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
             operationIdSpan = operationIdSpan.Slice(0, idxLast);
             int idxSecondLast = operationIdSpan.LastIndexOf(underscoreSeparator);
 
-            return operationIdSpan.Slice(idxSecondLast + 1, operationIdSpan.Length - idxSecondLast - 1);
+            return operationIdSpan.Slice(idxSecondLast + 1);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
-            var idx = operation.OperationId.LastIndexOf('_');
-            return idx != -1 && idx < operation.OperationId.Length - 1
-                ? operation.OperationId.AsSpan(idx + 1)
-                : operation.OperationId.AsSpan();
+            var span = operation.OperationId.AsSpan();
+            var idx = span.LastIndexOf('_');
+            return idx != -1 && idx < span.Length - 1
+                ? span.Slice(idx + 1)
+                : span;
         }
     }
 }

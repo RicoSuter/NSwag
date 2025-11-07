@@ -2,50 +2,77 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-{% if UseBaseUrl and GenerateBaseUrlProperty -%}
-    private string _baseUrl = "{{ BaseUrl }}";
+{% if UseBaseUrl -%}
+    #pragma warning disable 8618
+    private string _baseUrl;
+    #pragma warning restore 8618
+
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings;
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings;
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true), true);
+    private {{ JsonSerializerSettingsType }} _instanceRequestSettings;
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false), true);
+    private {{ JsonSerializerSettingsType }} _instanceResponseSettings;
 {% else -%}
-    private System.Lazy<{{ JsonSerializerSettingsType }}> _settings;
+    private static System.Lazy<{{ JsonSerializerSettingsType }}> _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings, true);
+    private {{ JsonSerializerSettingsType }} _instanceSettings;
 {% endif -%}
 
+{% assign constructorParameters = "" -%}
 {% if HasConfigurationClass -%}
-    public {{ Class }}({{ ConfigurationClass }} configuration{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %}) : base(configuration)
+{%     assign constructorParameters = ConfigurationClass | append: " configuration" -%}
+{% endif -%}
+{% if UseBaseUrl and HasBaseUrl == false and HasConfigurationClass == false -%}
+{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
+{%     assign constructorParameters = constructorParameters | append: "string baseUrl" -%}
+{% endif -%}
+{% if InjectHttpClient -%}
+{%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
+{%     assign constructorParameters = constructorParameters | append: HttpClientType | append: " httpClient" -%}
+{% endif -%}
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public {{ Class }}({{ constructorParameters }}){% if HasConfigurationClass and HasBaseClass -%}{{ " : base(configuration)"}}{% endif %}
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-{%     if InjectHttpClient -%}
-        _httpClient = httpClient;
-{%     endif -%}
-{% elsif UseBaseUrl and HasBaseUrl == false %}
-    public {{ Class }}(string baseUrl{% if InjectHttpClient %}, {{ HttpClientType }} httpClient{% endif %})
-    {
+{%     if UseBaseUrl -%}
+{%         if HasBaseUrl -%}
+{%             if GenerateBaseUrlProperty -%}
+        BaseUrl = "{{ BaseUrl }}";
+{%             else -%}
+{%                 if BaseUrl != "" -%}
+{%                     assign baseUrlLength = BaseUrl | size -%}
+{%                     assign lastUrlCharIndex = baseUrlLength | minus: 1 -%}
+{%                     assign lastUrlChar = BaseUrl | slice: lastUrlCharIndex, 1 -%}
+{%                     if lastUrlChar == "/" -%}
+        _baseUrl = "{{ BaseUrl }}";
+{%                     else -%}
+        _baseUrl = "{{ BaseUrl }}/";
+{%                     endif -%}
+{%                 endif -%}
+{%             endif -%}
+{%         else -%}
+{%             if GenerateBaseUrlProperty -%}
         BaseUrl = baseUrl;
+{%             else -%}
+{%                 if HasConfigurationClass == false -%}
+        _baseUrl = (string.IsNullOrEmpty(baseUrl) || baseUrl.EndsWith("/"))
+            ? baseUrl
+            : baseUrl + "/";
+{%                 endif -%}
+{%             endif -%}
+{%         endif -%}
+{%     endif -%}
 {%     if InjectHttpClient -%}
         _httpClient = httpClient;
 {%     endif -%}
-{% elsif InjectHttpClient %}
-    public {{ Class }}({{ HttpClientType }} httpClient)
-    {
-        _httpClient = httpClient;
-{% else -%}
-    public {{ Class }}()
-    {
-{% endif -%}
-{% if UseRequestAndResponseSerializationSettings -%}
-        _requestSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(true));
-        _responseSettings = new System.Lazy<{{ JsonSerializerSettingsType }}>(() => CreateSerializerSettings(false));
-{% else -%}
-        _settings = new System.Lazy<{{ JsonSerializerSettingsType }}>(CreateSerializerSettings);
-{% endif -%}
-        {% template Client.Class.Constructor %}
+        Initialize();
+    {% template Client.Class.Constructor %}
     }
 
-    private {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
+    private static {{ JsonSerializerSettingsType }} CreateSerializerSettings({% if UseRequestAndResponseSerializationSettings %}bool isRequest{% endif %})
     {
         var settings = {{ JsonSerializerParameterCode }};
 {% if UseSystemTextJson == false and SerializeTypeInformation -%}
@@ -64,7 +91,12 @@
     public string BaseUrl
     {
         get { return _baseUrl; }
-        set { _baseUrl = value; }
+        set
+        {
+            _baseUrl = value;
+            if (!string.IsNullOrEmpty(_baseUrl) && !_baseUrl.EndsWith("/"))
+                _baseUrl += '/';
+        }
     }
 
 {% endif -%}
@@ -74,20 +106,21 @@
 {%     assign serializerSettingsAccessModifier = "protected" %}
 {% endif -%}
 {% if UseRequestAndResponseSerializationSettings -%}
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} RequestJsonSerializerSettings { get { return _requestSettings.Value; } }
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} ResponseJsonSerializerSettings { get { return _responseSettings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} RequestJsonSerializerSettings { get { return _instanceRequestSettings ?? _requestSettings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} ResponseJsonSerializerSettings { get { return _instanceResponseSettings ?? _responseSettings.Value; } }
 {% else -%}
-    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} JsonSerializerSettings { get { return _settings.Value; } }
+    {{ serializerSettingsAccessModifier }} {{ JsonSerializerSettingsType }} JsonSerializerSettings { get { return _instanceSettings ?? _settings.Value; } }
 {% endif -%}
 
 {% if GenerateUpdateJsonSerializerSettingsMethod -%}
 {%     if UseRequestAndResponseSerializationSettings -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings, bool isRequest);
 {%     else -%}
-    partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
+    static partial void UpdateJsonSerializerSettings({{ JsonSerializerSettingsType }} settings);
 {%     endif -%}
 {% endif -%}
 
+    partial void Initialize();
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods == false -%}
     partial void PrepareRequest({{ HttpClientType }} client, System.Net.Http.HttpRequestMessage request, string url);
@@ -137,32 +170,6 @@
             throw new System.ArgumentNullException("{{ operation.ContentParameter.VariableName }}");
 
 {%     endif -%}
-        var urlBuilder_ = new System.Text.StringBuilder();
-        urlBuilder_.Append({% if UseBaseUrl %}BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/{% else %}"{% endif %}{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}");
-{%     for parameter in operation.PathParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-            {% template Client.Class.PathParameter %}
-        else
-            urlBuilder_.Replace("/{{ "{" }}{{ parameter.Name }}}", string.Empty);
-{%         else -%}
-        {% template Client.Class.PathParameter %}
-{%         endif -%}
-{%     endfor -%}
-{%     for parameter in operation.QueryParameters -%}
-{%         if parameter.IsOptional -%}
-        if ({{ parameter.VariableName }} != null)
-        {
-            {% template Client.Class.QueryParameter %}
-        }
-{%         else -%}
-        {% template Client.Class.QueryParameter %}
-{%         endif -%}
-{%     endfor -%}
-{%     if operation.HasQueryParameters -%}
-        urlBuilder_.Length--;
-{%     endif -%}
-
 {%     if InjectHttpClient -%}
         var client_ = _httpClient;
 {%     elsif UseHttpClientCreationMethod -%}
@@ -205,23 +212,23 @@
 {%         elsif operation.HasXmlBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
-{%         elsif operation.ConsumesFormUrlEncoded -%}
-                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, _settings.Value);
-                var dictionary_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, string>>(json_, _settings.Value);
+{%         elsif operation.ConsumesOnlyFormUrlEncoded -%}
+                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, JsonSerializerSettings);
+                var dictionary_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Deserialize{% else %}Newtonsoft.Json.JsonConvert.DeserializeObject{% endif %}<System.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
                 var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         elsif operation.HasPlainTextBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         else -%}
-                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value);
-                var content_ = new System.Net.Http.StringContent(json_);
+                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
+                var content_ = new System.Net.Http.{% if UseSystemTextJson %}ByteArrayContent{% else %}StringContent{% endif %}(json_);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         endif -%}
                 request_.Content = content_;
 {%     else -%}
 {%         if operation.HasFormParameters -%}
-{%             if operation.ConsumesFormUrlEncoded -%}
+{%             if operation.ConsumesOnlyFormUrlEncoded -%}
                 var keyValues_ = new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>();
 {%                 for parameter in operation.FormParameters -%}
 {%                     if parameter.IsNullable -%}
@@ -269,8 +276,8 @@
                         content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
                     }
 {%                     elsif parameter.IsObject -%}
-                    var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.Serialize{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}_requestSettings{% else %}_settings{% endif %}.Value);
-                    content_.Add(new System.Net.Http.StringContent(json_), "{{ parameter.Name }}");
+                    var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ parameter.VariableName }}, {% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
+                    content_.Add(new System.Net.Http.{% if UseSystemTextJson %}ByteArrayContent(json_{% else %}StringContent(json_, System.Text.Encoding.UTF8, "application/json"{% endif %}), "{{ parameter.Name }}");
 {%                     else -%}
                     content_.Add(new System.Net.Http.StringContent(ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture)), "{{ parameter.Name }}");
 {%                     endif -%}
@@ -279,12 +286,73 @@
                 request_.Content = content_;
 {%             endif -%}
 {%         elsif operation.IsGetOrDeleteOrHead == false -%}
-                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Produces }}");
+                request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "{{ operation.Consumes }}");
 {%         endif -%}
 {%     endif -%}
                 request_.Method = new System.Net.Http.HttpMethod("{{ operation.HttpMethodUpper | upcase }}");
 {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
                 request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("{{ operation.Produces }}"));
+{%     endif -%}
+
+                var urlBuilder_ = new System.Text.StringBuilder();
+                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
+                // Operation Path: "{{ operation.Path }}"
+{%     if operation.Path contains "{" -%}
+{%        assign pathParts = operation.Path | split: "{" -%}
+{%        for pathPart in pathParts -%}
+{%            if pathPart contains "}" -%}
+{%                assign pathParameterParts = pathPart | split: "}" -%}
+{%                assign pathParameterFound = true -%}
+{%                for parameter in operation.PathParameters -%}
+{%                    if parameter.Name == pathParameterParts[0] -%}
+{%                        if parameter.IsOptional -%}
+{%                            assign pathParameterFound = false -%}
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.PathParameter %}
+                }
+                else
+                    if (urlBuilder_.Length > 0) urlBuilder_.Length--;
+{%                        else -%}
+                {% template Client.Class.PathParameter %}
+{%                        endif -%}
+{%                    endif -%}
+{%                endfor -%}
+{%                comment -%} >>> just in case {% endcomment -%}
+{%                unless pathParameterFound -%}
+                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
+{%                endunless -%}
+{%                comment -%} <<< just in case {% endcomment -%}
+{%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
+{%                if nonParameterPartLengh == 1 -%}
+                urlBuilder_.Append('{{ pathParameterParts[1] }}');
+{%                elsif nonParameterPartLengh > 0 -%}
+                urlBuilder_.Append("{{ pathParameterParts[1] }}");
+{%                endif -%}
+{%            else -%}
+{%                 unless pathPart == "" -%}
+                urlBuilder_.Append("{{ pathPart }}");
+{%                 endunless -%}
+{%            endif -%}
+{%        endfor -%}
+{%    else -%}
+{%        unless operation.Path == "" -%}
+                urlBuilder_.Append("{{ operation.Path }}");
+{%        endunless -%}
+{%    endif -%}
+{%     if operation.HasQueryParameters -%}
+                urlBuilder_.Append('?');
+{%         for parameter in operation.QueryParameters -%}
+{%             if parameter.IsOptional -%}
+                if ({{ parameter.VariableName }} != null)
+                {
+                    {% template Client.Class.QueryParameter %}
+                }
+{%             else -%}
+                {% template Client.Class.QueryParameter %}
+{%             endif -%}
+{%         endfor -%}
+                urlBuilder_.Length--;
 {%     endif -%}
 
 {% if GeneratePrepareRequestAndProcessResponseAsAsyncMethods %}
@@ -307,7 +375,9 @@
                 var disposeResponse_ = true;
                 try
                 {
-                    var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                    var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                    foreach (var item_ in response_.Headers)
+                        headers_[item_.Key] = item_.Value;
                     if (response_.Content != null && response_.Content.Headers != null)
                     {
                         foreach (var item_ in response_.Content.Headers)
@@ -354,14 +424,14 @@
                     }
 {%         elsif operation.HasSuccessResponse -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("{{ operation.DefaultResponse.ExceptionDescription }}", status_, responseData_, headers_, null);
                     }
 {%        elsif operation.HasResultType -%}
 {%             if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                     return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%             else -%}
-                    return {{ operation.UnwrappedResultDefaultValue }};
+                    {% if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%             endif -%}
 {%         elsif operation.WrapResponse -%}
                     return new {{ ResponseClass }}(status_, headers_);
@@ -379,7 +449,7 @@
 {%                 if operation.WrapResponse and operation.UnwrappedResultType != "FileResponse" %}
                         return new {{ ResponseClass }}<{{ operation.UnwrappedResultType }}>(status_, headers_, {{ operation.UnwrappedResultDefaultValue }});
 {%                 else -%}
-                        return {{ operation.UnwrappedResultDefaultValue }};
+                        {% if operation.HasResult %}return {{ operation.UnwrappedResultDefaultValue }};{% else %}return;{% endif %}
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
                         return new {{ ResponseClass }}(status_, headers_);
@@ -390,7 +460,7 @@
                     else
 {%         endif -%}
                     {
-                        var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
                         throw new {{ ExceptionClass }}("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
                     }
 {%     endif -%}
@@ -422,6 +492,27 @@
 
         public string Text { get; }
     }
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static System.Threading.Tasks.Task<string> ReadAsStringAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    {
+#if NET5_0_OR_GREATER
+        return content.ReadAsStringAsync(cancellationToken);
+#else
+        return content.ReadAsStringAsync();
+#endif
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    private static System.Threading.Tasks.Task<System.IO.Stream> ReadAsStreamAsync(System.Net.Http.HttpContent content, System.Threading.CancellationToken cancellationToken)
+    {
+#if NET5_0_OR_GREATER
+        return content.ReadAsStreamAsync(cancellationToken);
+#else
+        return content.ReadAsStreamAsync();
+#endif
+    }
+
 
     {% template Client.Class.ReadObjectResponse %}
 

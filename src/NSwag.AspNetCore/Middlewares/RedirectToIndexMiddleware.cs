@@ -6,13 +6,11 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace NSwag.AspNetCore.Middlewares
 {
-    internal class RedirectToIndexMiddleware
+    internal sealed class RedirectToIndexMiddleware
     {
         private readonly RequestDelegate _nextDelegate;
 
@@ -40,7 +38,7 @@ namespace NSwag.AspNetCore.Middlewares
 
                 var suffix = !string.IsNullOrWhiteSpace(_swaggerRoute) ? "?url=" + _transformToExternal(_swaggerRoute, context.Request) : "";
                 var path = _transformToExternal(_swaggerUiRoute, context.Request);
-                context.Response.Headers.Add("Location", (path != "/" ? path : "") + "/index.html" + suffix);
+                context.Response.Headers.Append("Location", (path != "/" ? path : "") + "/index.html" + suffix);
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -51,10 +50,8 @@ components:
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("addFile(body: Blob | undefined): ", code);
-            Assert.Contains("\"Content-Type\": \"image/png\"", code);
-            Assert.Contains("\"Accept\": \"application/xml\"", code);
-            Assert.Contains("const content_ = body;", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -118,11 +115,9 @@ components:
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("interface FileParameter", code);
-            Assert.Contains("content_.append(\"file\", file.data, file.fileName ? file.fileName : \"file\");", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
-
 
         [Fact]
         public async Task WhenSpecContainsFormDataInMultipartFileArray_ThenFormDataIsUsedInTypeScript()
@@ -188,9 +183,8 @@ components:
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("interface FileParameter", code);
-            Assert.Contains("content_.append(\"files\", item_.data, item_.fileName ? item_.fileName : \"files\")", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -267,10 +261,8 @@ components:
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains("const content_ = new FormData();", code);
-            Assert.Contains("interface FileParameter", code);
-            Assert.Contains("content_.append(\"Contents\", contents.data, contents.fileName ? contents.fileName : \"Contents\");", code);
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
         }
-
     }
 }

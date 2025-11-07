@@ -1,38 +1,38 @@
+using System;
 using System.Collections.Generic;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.CI.GitHubActions.Configuration;
 using Nuke.Common.Execution;
 using Nuke.Common.Utilities;
 
-[CustomGitHubActionsAttribute(
+[CustomGitHubActions(
     "pr",
-    GitHubActionsImage.WindowsServer2022,
-    // GitHubActionsImage.UbuntuLatest,
-    // GitHubActionsImage.MacOsLatest,
-    OnPullRequestBranches = new[] { "master", "main" },
-    OnPullRequestIncludePaths = new[] { "**/*.*" },
-    OnPullRequestExcludePaths = new[] { "**/*.md" },
-    PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack) },
-    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" }),
-]
-[CustomGitHubActionsAttribute(
-    "build",
-    GitHubActionsImage.WindowsServer2022,
-    // GitHubActionsImage.UbuntuLatest,
-    // GitHubActionsImage.MacOsLatest,
-    OnPushBranches = new[] { "master", "main" },
-    OnPushTags = new[] { "v*.*.*" },
-    OnPushIncludePaths = new[] { "**/*.*" },
-    OnPushExcludePaths = new[] { "**/*.md" },
+    GitHubActionsImage.WindowsLatest,
+    GitHubActionsImage.UbuntuLatest,
+    GitHubActionsImage.MacOsLatest,
+    OnPullRequestBranches = ["master", "main"],
+    OnPullRequestIncludePaths = ["**/*.*"],
+    OnPullRequestExcludePaths = ["**/*.md"],
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(InstallDependencies), nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish) },
-    ImportSecrets = new[] { "NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN" },
-    CacheKeyFiles = new[] { "global.json", "src/**/*.csproj", "src/**/package.json" })
+    InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack)],
+    CacheKeyFiles = [],
+    ConcurrencyCancelInProgress = true),
 ]
-public partial class Build
-{
-}
+[CustomGitHubActions(
+    "build",
+    GitHubActionsImage.WindowsLatest,
+    GitHubActionsImage.UbuntuLatest,
+    GitHubActionsImage.MacOsLatest,
+    OnPushBranches = ["master", "main"],
+    OnPushTags = ["v*.*.*"],
+    OnPushIncludePaths = ["**/*.*"],
+    OnPushExcludePaths = ["**/*.md"],
+    PublishArtifacts = true,
+    InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish)],
+    ImportSecrets = ["NUGET_API_KEY", "MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN"],
+    CacheKeyFiles = [])
+]
+public partial class Build;
 
 class CustomGitHubActionsAttribute : GitHubActionsAttribute
 {
@@ -45,15 +45,32 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var job = base.GetJobs(image, relevantTargets);
 
         var newSteps = new List<GitHubActionsStep>(job.Steps);
-        foreach (var version in new[] { "7.0.*", "6.0.*", "5.0.*", "3.1.*", "2.1.*" })
+
+        var onUbuntu = image.ToString().StartsWith("ubuntu", StringComparison.OrdinalIgnoreCase);
+        if (onUbuntu)
         {
-            newSteps.Insert(1, new GitHubActionsSetupDotNetStep
-            {
-                Version = version
-            });
+            newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["8.0", "9.0", "10.0"]));
         }
-        
-        newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
+        else
+        {
+            newSteps.Insert(0, new GitHubActionsSetupDotNetStep(["10.0"]));
+        }
+
+        var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
+        if (onWindows)
+        {
+            newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
+            newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
+        }
+
+        // add artifacts manually as they would otherwise by hard to configure via attributes
+        if (PublishArtifacts && onWindows)
+        {
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.zip", Path = "artifacts/NSwag.zip" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.Npm.zip", Path = "artifacts/NSwag.Npm.zip" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwagStudio.msi", Path = "artifacts/NSwagStudio.msi" });
+            newSteps.Add(new GitHubActionsArtifactStep { Name = "NuGet Packages", Path = "artifacts/*.nupkg" });
+        }
 
         job.Steps = newSteps.ToArray();
         return job;
@@ -74,18 +91,49 @@ class GitHubActionsConfigureLongPathsStep : GitHubActionsStep
 
 class GitHubActionsSetupDotNetStep : GitHubActionsStep
 {
-    public string Version { get; init; }
+    public GitHubActionsSetupDotNetStep(string[] versions)
+    {
+        Versions = versions;
+    }
+
+    string[] Versions { get; }
 
     public override void Write(CustomFileWriter writer)
     {
-        writer.WriteLine("- uses: actions/setup-dotnet@v3");
+        writer.WriteLine("- uses: actions/setup-dotnet@v4");
 
         using (writer.Indent())
         {
             writer.WriteLine("with:");
             using (writer.Indent())
             {
-                writer.WriteLine($"dotnet-version: {Version}");
+                writer.WriteLine("dotnet-version: |");
+                using (writer.Indent())
+                {
+                    foreach (var version in Versions)
+                    {
+                        writer.WriteLine(version);
+                    }
+                }
+            }
+        }
+    }
+}
+
+class GitHubActionsUseGnuTarStep : GitHubActionsStep
+{
+    public override void Write(CustomFileWriter writer)
+    {
+        writer.WriteLine("- if: ${{ runner.os == 'Windows' }}");
+        using (writer.Indent())
+        {
+            writer.WriteLine("name: 'Use GNU tar'");
+            writer.WriteLine("shell: cmd");
+            writer.WriteLine("run: |");
+            using (writer.Indent())
+            {
+                writer.WriteLine("echo \"Adding GNU tar to PATH\"");
+                writer.WriteLine("echo C:\\Program Files\\Git\\usr\\bin>>\"%GITHUB_PATH%\"");
             }
         }
     }

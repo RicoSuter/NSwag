@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
@@ -19,6 +18,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         private readonly TypeScriptClientGeneratorSettings _settings;
         private readonly TypeScriptClientGenerator _generator;
         private readonly OpenApiOperation _operation;
+        private string _actualOperationName;
 
         /// <summary>Initializes a new instance of the <see cref="TypeScriptOperationModel" /> class.</summary>
         /// <param name="operation">The operation.</param>
@@ -40,10 +40,12 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
             if (settings.GenerateOptionalParameters)
             {
-                parameters = parameters
-                    .OrderBy(p => p.Position ?? 0)
-                    .OrderBy(p => !p.IsRequired)
-                    .ToList();
+                parameters =
+                [
+                    .. parameters
+                        .OrderBy(p => !p.IsRequired)
+                        .ThenBy(p => p.Position ?? 0)
+                ];
             }
 
             Parameters = parameters
@@ -55,8 +57,22 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
-        public override string ActualOperationName => ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)
-            + (MethodAccessModifier == "protected " ? "Core" : string.Empty);
+        public override string ActualOperationName
+        {
+            get
+            {
+                if (_actualOperationName == null && OperationName != null)
+                {
+                    _actualOperationName = ConversionUtilities.ConvertToLowerCamelCase(OperationName, firstCharacterMustBeAlpha: true);
+                    if (MethodAccessModifier == "protected")
+                    {
+                        _actualOperationName += "Core";
+                    }
+                }
+
+                return _actualOperationName;
+            }
+        }
 
         /// <summary>Gets the actual name of the operation (language specific).</summary>
         public string ActualOperationNameUpper => ConversionUtilities.ConvertToUpperCamelCase(OperationName, false);
@@ -69,7 +85,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 var response = GetSuccessResponse();
                 var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
 
-                var resultType = isNullable && SupportsStrictNullChecks && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
+                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
                     UnwrappedResultType + " | null" :
                     UnwrappedResultType;
 
@@ -86,9 +102,6 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());
-
-        /// <summary>Gets a value indicating whether the target TypeScript version supports strict null checks.</summary>
-        public bool SupportsStrictNullChecks => _settings.TypeScriptGeneratorSettings.TypeScriptVersion >= 2.0m;
 
         /// <summary>Gets a value indicating whether to handle references.</summary>
         public bool HandleReferences => _settings.TypeScriptGeneratorSettings.HandleReferences;
@@ -109,12 +122,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsAngular => _settings.Template == TypeScriptTemplate.Angular;
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks ||
-                                _settings.Template == TypeScriptTemplate.JQueryPromises;
+        public bool IsJQuery => _settings.Template is TypeScriptTemplate.JQueryCallbacks or TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
-        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
-                                        _settings.Template == TypeScriptTemplate.Aurelia;
+        public bool IsFetchOrAurelia => _settings.Template is TypeScriptTemplate.Fetch or TypeScriptTemplate.Aurelia;
 
         /// <summary>Gets a value indicating whether to use HttpClient with the Angular template.</summary>
         public bool UseAngularHttpClient => IsAngular && _settings.HttpClass == HttpClass.HttpClient;
@@ -124,15 +135,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                if (_operation.ActualResponses.Count(r => !HttpUtilities.IsSuccessStatusCode(r.Key)) == 0)
+                var actualResponses = _operation.ActualResponses;
+                if (actualResponses.All(static r => HttpUtilities.IsSuccessStatusCode(r.Key)))
                 {
                     return "string";
                 }
 
-                return string.Join(" | ", _operation.ActualResponses
+                return string.Join(" | ", actualResponses
                     .Where(r => !HttpUtilities.IsSuccessStatusCode(r.Key) && r.Value.Schema != null)
                     .Select(r => _generator.GetTypeName(r.Value.Schema, r.Value.IsNullable(_settings.CodeGeneratorSettings.SchemaType), "Exception"))
-                    .Concat(new[] { "string" }));
+                    .Concat(["string"]));
             }
         }
 
@@ -142,7 +154,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             get
             {
                 var controllerName = _settings.GenerateControllerName(ControllerName);
-                if (_settings.ProtectedMethods?.Contains(controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) == true)
+                if (_settings.ProtectedMethods is { Length: > 0 }
+                    && Array.IndexOf(_settings.ProtectedMethods, controllerName + "." + ConversionUtilities.ConvertToLowerCamelCase(OperationName, false)) != -1)
                 {
                     return "protected ";
                 }

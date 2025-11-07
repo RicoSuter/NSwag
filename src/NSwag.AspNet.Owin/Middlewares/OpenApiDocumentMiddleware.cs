@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
 using Microsoft.Owin;
 using NSwag.Generation.WebApi;
 
@@ -34,7 +31,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         public OpenApiDocumentMiddleware(OwinMiddleware next, string path, IEnumerable<Type> controllerTypes, SwaggerSettings<WebApiOpenApiDocumentGeneratorSettings> settings)
             : base(next)
         {
-            _path = path;
+            _path = path.StartsWith('/') ? path : '/' + path;
             _controllerTypes = controllerTypes;
             _settings = settings;
         }
@@ -44,7 +41,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The task.</returns>
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value.Trim('/'), _path.Trim('/'), StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.HasValue && string.Equals(context.Request.Path.Value, _path, StringComparison.OrdinalIgnoreCase))
             {
                 var schemaJson = await GetDocumentAsync(context);
 
@@ -93,7 +90,7 @@ namespace NSwag.AspNet.Owin.Middlewares
         /// <returns>The Swagger specification.</returns>
         protected virtual async Task<string> GenerateDocumentAsync(IOwinContext context)
         {
-            var settings = _settings.CreateGeneratorSettings(null, null);
+            var settings = _settings.CreateGeneratorSettings(null);
             var generator = new WebApiOpenApiDocumentGenerator(settings);
             var document = await generator.GenerateForControllersAsync(_controllerTypes);
 

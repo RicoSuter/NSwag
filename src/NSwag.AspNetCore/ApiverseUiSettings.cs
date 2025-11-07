@@ -31,9 +31,9 @@ namespace NSwag.AspNetCore
         /// </summary>
         public string ApimundoUrl { get; set; } = "https://apimundo.com";
 
-        internal override string TransformHtml(string html, HttpRequest request)
+        internal override Task<string> TransformHtmlAsync(string html, HttpRequest request, CancellationToken cancellationToken)
         {
-            return html;
+            return Task.FromResult(html);
         }
     }
 }

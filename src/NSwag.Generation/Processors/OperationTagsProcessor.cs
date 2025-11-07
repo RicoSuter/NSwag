@@ -6,10 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
+using NJsonSchema.Generation;
 using NSwag.Generation.Collections;
 using NSwag.Generation.Processors.Contexts;
 
@@ -31,7 +30,7 @@ namespace NSwag.Generation.Processors
 
             if (context.ControllerType != null)
             {
-                if (!context.OperationDescription.Operation.Tags.Any())
+                if (context.OperationDescription.Operation.Tags.Count == 0)
                 {
                     var typeInfo = context.ControllerType.GetTypeInfo();
 
@@ -39,7 +38,7 @@ namespace NSwag.Generation.Processors
                     ProcessControllerSwaggerTagAttributes(context.OperationDescription, typeInfo);
                 }
 
-                if (!context.OperationDescription.Operation.Tags.Any())
+                if (context.OperationDescription.Operation.Tags.Count == 0)
                 {
                     AddControllerNameTag(context);
                 }
@@ -53,12 +52,12 @@ namespace NSwag.Generation.Processors
         protected virtual void AddControllerNameTag(OperationProcessorContext context)
         {
             var controllerName = context.ControllerType.Name;
-            if (controllerName.EndsWith("Controller"))
+            if (controllerName.EndsWith("Controller", StringComparison.Ordinal))
             {
                 controllerName = controllerName.Substring(0, controllerName.Length - 10);
             }
 
-            var summary = context.ControllerType.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+            var summary = context.ControllerType.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
             context.OperationDescription.Operation.Tags.Add(controllerName);
             UpdateDocumentTagDescription(context, controllerName, summary);
         }
@@ -69,7 +68,7 @@ namespace NSwag.Generation.Processors
         /// <param name="context">The context.</param>
         /// <param name="tagName">The tag name.</param>
         /// <param name="description">The description.</param>
-        protected void UpdateDocumentTagDescription(OperationProcessorContext context, string tagName, string description)
+        protected static void UpdateDocumentTagDescription(OperationProcessorContext context, string tagName, string description)
         {
             if (!context.Settings.UseControllerSummaryAsTagDescription || string.IsNullOrEmpty(description))
             {
@@ -81,7 +80,7 @@ namespace NSwag.Generation.Processors
             documentTag.Description = description;
         }
 
-        private void ProcessSwaggerTagAttributes(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        private static void ProcessSwaggerTagAttributes(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             foreach (var tagAttribute in methodInfo.GetCustomAttributes()
                 .GetAssignableToTypeName("SwaggerTagAttribute", TypeNameStyle.Name)
@@ -99,7 +98,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessSwaggerTagsAttribute(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
+        private static void ProcessSwaggerTagsAttribute(OpenApiDocument document, OpenApiOperationDescription operationDescription, MethodInfo methodInfo)
         {
             dynamic tagsAttribute = methodInfo
                 .GetCustomAttributes()
@@ -117,11 +116,7 @@ namespace NSwag.Generation.Processors
 
                     if (ObjectExtensions.HasProperty(tagsAttribute, "AddToDocument") && tagsAttribute.AddToDocument)
                     {
-                        if (document.Tags == null)
-                        {
-                            document.Tags = new List<OpenApiTag>();
-                        }
-
+                        document.Tags ??= [];
                         if (document.Tags.All(t => t.Name != tag))
                         {
                             document.Tags.Add(new OpenApiTag { Name = tag });
@@ -131,7 +126,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessControllerSwaggerTagsAttribute(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
+        private static void ProcessControllerSwaggerTagsAttribute(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
         {
             dynamic tagsAttribute = typeInfo
                 .GetCustomAttributes()
@@ -150,7 +145,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessControllerSwaggerTagAttributes(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
+        private static void ProcessControllerSwaggerTagAttributes(OpenApiOperationDescription operationDescription, TypeInfo typeInfo)
         {
             foreach (var tagAttribute in typeInfo.GetCustomAttributes()
                 .GetAssignableToTypeName("OpenApiTagAttribute", TypeNameStyle.Name)

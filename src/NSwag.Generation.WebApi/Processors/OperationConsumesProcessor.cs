@@ -6,10 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Linq;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -28,14 +25,11 @@ namespace NSwag.Generation.WebApi.Processors
                 .GetCustomAttributes()
                 .SingleOrDefault(a => a.GetType().Name == "ConsumesAttribute");
 
-            if (consumesAttribute == null)
-            {
-                // If the action method does not have a Consumes Attribute we'll try with its containing class
-                consumesAttribute = context.MethodInfo.DeclaringType
-                    .GetTypeInfo()
-                    .GetCustomAttributes()
-                    .SingleOrDefault(a => a.GetType().Name == "ConsumesAttribute");
-            }
+            // If the action method does not have a Consumes Attribute we'll try with its containing class
+            consumesAttribute ??= context.MethodInfo.DeclaringType
+                .GetTypeInfo()
+                .GetCustomAttributes()
+                .SingleOrDefault(a => a.GetType().Name == "ConsumesAttribute");
 
             if (consumesAttribute != null && consumesAttribute.ContentTypes != null)
             {

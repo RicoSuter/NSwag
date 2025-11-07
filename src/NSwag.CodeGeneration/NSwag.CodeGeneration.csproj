@@ -1,18 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
-    <PackageReference Include="NJsonSchema" Version="10.8.0" />
-    <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.8.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\NSwag.Core\NSwag.Core.csproj" />
   </ItemGroup>

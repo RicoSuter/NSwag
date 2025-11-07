@@ -19,6 +19,7 @@ namespace NSwag.CodeGeneration.CSharp
             GenerateExceptionClasses = true;
             ExceptionClass = "ApiException";
             ClientClassAccessModifier = "public";
+            ClientInterfaceAccessModifier = "public";
             UseBaseUrl = true;
             HttpClientType = "System.Net.Http.HttpClient";
             WrapDtoExceptions = true;
@@ -31,7 +32,7 @@ namespace NSwag.CodeGeneration.CSharp
             GenerateBaseUrlProperty = true;
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
-            ProtectedMethods = new string[0];
+            ProtectedMethods = [];
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -69,6 +70,9 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the client class access modifier (default: public).</summary>
         public string ClientClassAccessModifier { get; set; }
+
+        /// <summary>Gets or sets the client interface access modifier (default: public).</summary>
+        public string ClientInterfaceAccessModifier { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to use and expose the base URL (default: true).</summary>
         public bool UseBaseUrl { get; set; }

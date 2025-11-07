@@ -19,16 +19,20 @@ namespace NSwag.CodeGeneration
         protected ClientGeneratorBaseSettings()
         {
             GenerateClientClasses = true;
+            SuppressClientClassesOutput = false;
+            SuppressClientInterfacesOutput = false;
             GenerateDtoTypes = true;
 
             OperationNameGenerator = new MultipleClientsFromOperationIdOperationNameGenerator();
+            IncludedOperationIds = [];
+            ExcludedOperationIds = [];
             ParameterNameGenerator = new DefaultParameterNameGenerator();
 
             GenerateResponseClasses = true;
             ResponseClass = "SwaggerResponse";
 
-            WrapResponseMethods = new string[0];
-            ExcludedParameterNames = new string[0];
+            WrapResponseMethods = [];
+            ExcludedParameterNames = [];
         }
 
         /// <summary>Gets the code generator settings.</summary>
@@ -43,11 +47,23 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets a value indicating whether to generate interfaces for the client classes (default: false).</summary>
         public bool GenerateClientInterfaces { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate the output of interfaces for the client classes (default: false).</summary>
+        public bool SuppressClientInterfacesOutput { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generate client types (default: true).</summary>
         public bool GenerateClientClasses { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether to generate the output of client types (default: false).</summary>
+        public bool SuppressClientClassesOutput { get; set; }
+
         /// <summary>Gets or sets the operation name generator.</summary>
         public IOperationNameGenerator OperationNameGenerator { get; set; }
+        
+        /// <summary>Gets or sets the only operations that should be included in the generated client.</summary>
+        public string[] IncludedOperationIds { get; set; }
+        
+        /// <summary>Gets or sets the operations that should be excluded from the generated client.</summary>
+        public string[] ExcludedOperationIds { get; set; }
 
         /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional parameters.</summary>
         public bool GenerateOptionalParameters { get; set; }
@@ -61,8 +77,9 @@ namespace NSwag.CodeGeneration
         /// <summary>Generates the name of the controller based on the provided settings.</summary>
         /// <param name="controllerName">Name of the controller.</param>
         /// <returns>The controller name.</returns>
-        public string GenerateControllerName(string controllerName)
+        public virtual string GenerateControllerName(string controllerName)
         {
+            controllerName = controllerName.Replace('.', '_').Replace('-', '_');
             return ClassName.Replace("{controller}", ConversionUtilities.ConvertToUpperCamelCase(controllerName, false));
         }
 

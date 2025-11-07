@@ -25,35 +25,71 @@ on:
       - '**/*.*'
       - '!**/*.md'
 
+concurrency:
+  group: ${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  windows-2022:
-    name: windows-2022
-    runs-on: windows-2022
+  windows-latest:
+    name: windows-latest
+    runs-on: windows-latest
     steps:
       - name: 'Allow long file path'
         run: git config --system core.longpaths true
-      - uses: actions/checkout@v1
-      - uses: actions/setup-dotnet@v3
+      - if: ${{ runner.os == 'Windows' }}
+        name: 'Use GNU tar'
+        shell: cmd
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 2.1.*
-      - uses: actions/setup-dotnet@v3
+          dotnet-version: |
+            10.0
+      - uses: actions/checkout@v4
+      - name: 'Run: Compile, Test, Pack'
+        run: ./build.cmd Compile Test Pack
+      - name: 'Publish: NSwag.zip'
+        uses: actions/upload-artifact@v4
         with:
-          dotnet-version: 3.1.*
-      - uses: actions/setup-dotnet@v3
+          name: NSwag.zip
+          path: artifacts/NSwag.zip
+      - name: 'Publish: NSwag.Npm.zip'
+        uses: actions/upload-artifact@v4
         with:
-          dotnet-version: 5.0.*
-      - uses: actions/setup-dotnet@v3
+          name: NSwag.Npm.zip
+          path: artifacts/NSwag.Npm.zip
+      - name: 'Publish: NSwagStudio.msi'
+        uses: actions/upload-artifact@v4
         with:
-          dotnet-version: 6.0.*
-      - uses: actions/setup-dotnet@v3
+          name: NSwagStudio.msi
+          path: artifacts/NSwagStudio.msi
+      - name: 'Publish: NuGet Packages'
+        uses: actions/upload-artifact@v4
         with:
-          dotnet-version: 7.0.*
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
+          name: NuGet Packages
+          path: artifacts/*.nupkg
+  ubuntu-latest:
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-dotnet@v4
         with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('global.json', 'src/**/*.csproj', 'src/**/package.json') }}
-      - name: Run './build.cmd InstallDependencies Compile Test Pack'
-        run: ./build.cmd InstallDependencies Compile Test Pack
+          dotnet-version: |
+            8.0
+            9.0
+            10.0
+      - uses: actions/checkout@v4
+      - name: 'Run: Compile, Test, Pack'
+        run: ./build.cmd Compile Test Pack
+  macos-latest:
+    name: macos-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            10.0
+      - uses: actions/checkout@v4
+      - name: 'Run: Compile, Test, Pack'
+        run: ./build.cmd Compile Test Pack

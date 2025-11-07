@@ -6,11 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using MyToolkit.Command;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag;
@@ -21,25 +16,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
 {
     public class AspNetCoreToSwaggerGeneratorViewModel : ViewModelBase
     {
-        private string[] _allControllerNames = { };
-        private AspNetCoreToSwaggerCommand _command = new AspNetCoreToSwaggerCommand();
+        private AspNetCoreToOpenApiCommand _command = new AspNetCoreToOpenApiCommand();
         private NSwagDocument _document;
-
-        /// <summary>Initializes a new instance of the <see cref="WebApiToSwaggerGeneratorViewModel"/> class.</summary>
-        public AspNetCoreToSwaggerGeneratorViewModel()
-        {
-            BrowseAssemblyCommand = new AsyncRelayCommand(BrowseAssembly);
-        }
-
-        /// <summary>Gets the default enum handlings. </summary>
-        public EnumHandling[] EnumHandlings { get; } = Enum.GetNames(typeof(EnumHandling))
-            .Select(t => (EnumHandling)Enum.Parse(typeof(EnumHandling), t))
-            .ToArray();
-
-        /// <summary>Gets the default property name handlings. </summary>
-        public PropertyNameHandling[] PropertyNameHandlings { get; } = Enum.GetNames(typeof(PropertyNameHandling))
-            .Select(t => (PropertyNameHandling)Enum.Parse(typeof(PropertyNameHandling), t))
-            .ToArray();
 
         /// <summary>Gets the reference type null handlings. </summary>
         public ReferenceTypeNullHandling[] ReferenceTypeNullHandlings { get; } = Enum.GetNames(typeof(ReferenceTypeNullHandling))
@@ -54,13 +32,10 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets the output types. </summary>
         public SchemaType[] OutputTypes { get; } = { SchemaType.Swagger2, SchemaType.OpenApi3 };
 
-        /// <summary>Gets or sets the command to browse for an assembly.</summary>
-        public AsyncRelayCommand BrowseAssemblyCommand { get; set; }
-
         /// <summary>Gets or sets the generator settings. </summary>
-        public AspNetCoreToSwaggerCommand Command
+        public AspNetCoreToOpenApiCommand Command
         {
-            get { return _command; }
+            get => _command;
             set
             {
                 if (Set(ref _command, value))
@@ -71,19 +46,8 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
         /// <summary>Gets or sets the document.</summary>
         public NSwagDocument Document
         {
-            get { return _document; }
-            set { Set(ref _document, value); }
-        }
-
-        /// <summary>Gets or sets the assembly path. </summary>
-        public string[] AssemblyPaths
-        {
-            get { return Command.AssemblyPaths; }
-            set
-            {
-                Command.AssemblyPaths = value;
-                RaisePropertyChanged(() => AssemblyPaths);
-            }
+            get => _document;
+            set => Set(ref _document, value);
         }
 
         public async Task<string> GenerateSwaggerAsync()
@@ -96,19 +60,6 @@ namespace NSwagStudio.ViewModels.SwaggerGenerators
                     return document?.ToJson();
                 });
             });
-        }
-
-        private Task BrowseAssembly()
-        {
-            var dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".dll"; //
-            dlg.Filter = ".NET Assemblies (*.dll;*.exe)|*.dll;*.exe";
-            if (dlg.ShowDialog() == true)
-            {
-                AssemblyPaths = new[] { dlg.FileName };
-            }
-
-            return Task.CompletedTask;
         }
     }
 }

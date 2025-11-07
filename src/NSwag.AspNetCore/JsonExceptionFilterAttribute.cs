@@ -6,15 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using NJsonSchema.Converters;
+using NJsonSchema.NewtonsoftJson.Converters;
 using NSwag.Annotations;
 using NSwag.Generation.AspNetCore;
 
@@ -25,7 +22,7 @@ namespace NSwag.AspNetCore
     {
         private readonly bool _hideStackTrace;
         private readonly IDictionary<string, Assembly> _searchedNamespaces;
-        private readonly List<Type> _exceptionTypes = new List<Type>();
+        private readonly List<Type> _exceptionTypes = [];
 
         /// <summary>Initializes a new instance of the <see cref="JsonExceptionFilterAttribute"/> class.</summary>
         /// <param name="exceptionTypes">The serialized exception types.</param>
@@ -81,7 +78,7 @@ namespace NSwag.AspNetCore
             }
         }
 
-        private int GetStatusCode(Exception exception, ActionExecutedContext context)
+        private static int GetStatusCode(Exception exception, ActionExecutedContext context)
         {
             if (context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
@@ -115,7 +112,7 @@ namespace NSwag.AspNetCore
             return 500;
         }
 
-        private JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
+        private static JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
         {
             var settingsCopy = new JsonSerializerSettings();
 

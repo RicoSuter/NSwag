@@ -6,20 +6,16 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
+#pragma warning disable CA1507
+
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema.Infrastructure;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 
@@ -57,7 +53,7 @@ namespace NSwag.Commands
         public abstract Task<OpenApiDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; } = Runtime.NetCore21;
+        public Runtime Runtime { get; set; } = Runtime.Net80;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }
@@ -104,7 +100,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public string Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 _path = value;
@@ -138,7 +134,7 @@ namespace NSwag.Commands
         [JsonIgnore]
         public IOutputCommand SelectedSwaggerGenerator
         {
-            get { return _selectedSwaggerGenerator; }
+            get => _selectedSwaggerGenerator;
             set
             {
                 _selectedSwaggerGenerator = value;
@@ -163,22 +159,20 @@ namespace NSwag.Commands
         /// <param name="filePath">The file path.</param>
         /// <param name="variables">The variables.</param>
         /// <param name="applyTransformations">Specifies whether to expand environment variables and convert variables.</param>
-        /// <param name="mappings">The mappings.</param>
         /// <returns>The document.</returns>
         protected static async Task<TDocument> LoadAsync<TDocument>(
             string filePath,
             string variables,
-            bool applyTransformations,
-            IDictionary<Type, Type> mappings)
+            bool applyTransformations)
             where TDocument : NSwagDocumentBase, new()
         {
-            var data = DynamicApis.FileReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
             data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
 
             if (requiredLegacyTransformations)
             {
                 // Save now to avoid transformations
-                var document = LoadDocument<TDocument>(filePath, mappings, data);
+                var document = LoadDocument<TDocument>(filePath, data);
                 await document.SaveAsync();
             }
 
@@ -202,15 +196,12 @@ namespace NSwag.Commands
                 }
             }
 
-            return LoadDocument<TDocument>(filePath, mappings, data);
+            return LoadDocument<TDocument>(filePath, data);
         }
 
-        private static TDocument LoadDocument<TDocument>(string filePath, IDictionary<Type, Type> mappings, string data)
+        private static TDocument LoadDocument<TDocument>(string filePath, string data)
             where TDocument : NSwagDocumentBase, new()
         {
-            var settings = GetSerializerSettings();
-            settings.ContractResolver = new BaseTypeMappingContractResolver(mappings);
-
             var document = FromJson<TDocument>(filePath, data);
             return document;
         }
@@ -241,7 +232,7 @@ namespace NSwag.Commands
         /// <returns>The task.</returns>
         public Task SaveAsync()
         {
-            DynamicApis.FileWriteAllText(Path, ToJsonWithRelativePaths());
+            File.WriteAllText(Path, ToJsonWithRelativePaths());
             _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
             return Task.CompletedTask;
         }
@@ -272,7 +263,7 @@ namespace NSwag.Commands
         /// <returns>The document.</returns>
         protected async Task<OpenApiDocument> GenerateSwaggerDocumentAsync()
         {
-            return (OpenApiDocument) await SelectedSwaggerGenerator.RunAsync(null, null);
+            return (OpenApiDocument)await SelectedSwaggerGenerator.RunAsync(null, null);
         }
 
         private static string EscapeJsonString(string value)
@@ -308,10 +299,10 @@ namespace NSwag.Commands
                 DefaultValueHandling = DefaultValueHandling.Include,
                 NullValueHandling = NullValueHandling.Include,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = new List<JsonConverter>
-                {
+                Converters =
+                [
                     new StringEnumConverter()
-                }
+                ]
             };
         }
 
@@ -319,37 +310,15 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToAbsolutePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
             }
 
-            if (SwaggerGenerators.WebApiToOpenApiCommand != null)
-            {
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
-
-                SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate = ConvertToAbsolutePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig);
-            }
-
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths.Select(ConvertToAbsolutePath).ToArray();
-
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig);
-
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.Project = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.Project);
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.MSBuildProjectExtensionsPath = ConvertToAbsolutePath(
@@ -357,14 +326,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory = ConvertToAbsolutePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory);
-            }
-
-            if (SwaggerGenerators.TypesToOpenApiCommand != null)
-            {
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths.Select(ConvertToAbsolutePath).ToArray();
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig = ConvertToAbsolutePath(
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)
@@ -414,37 +375,15 @@ namespace NSwag.Commands
         {
             if (SwaggerGenerators.FromDocumentCommand != null)
             {
-                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://") && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://"))
+                if (!SwaggerGenerators.FromDocumentCommand.Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    && !SwaggerGenerators.FromDocumentCommand.Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
                     SwaggerGenerators.FromDocumentCommand.Url = ConvertToRelativePath(SwaggerGenerators.FromDocumentCommand.Url);
                 }
             }
 
-            if (SwaggerGenerators.WebApiToOpenApiCommand != null)
-            {
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.WebApiToOpenApiCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
-
-                SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate = ConvertToRelativePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.WebApiToOpenApiCommand.AssemblyConfig);
-            }
-
             if (SwaggerGenerators.AspNetCoreToOpenApiCommand != null)
             {
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths =
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.ReferencePaths.Select(ConvertToRelativePath).ToArray();
-
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.DocumentTemplate);
-                SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.AspNetCoreToOpenApiCommand.AssemblyConfig);
-
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.Project = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.Project);
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.MSBuildProjectExtensionsPath = ConvertToRelativePath(
@@ -452,15 +391,6 @@ namespace NSwag.Commands
 
                 SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory = ConvertToRelativePath(
                     SwaggerGenerators.AspNetCoreToOpenApiCommand.WorkingDirectory);
-            }
-
-
-            if (SwaggerGenerators.TypesToOpenApiCommand != null)
-            {
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths =
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyPaths.Select(ConvertToRelativePath).ToArray();
-                SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig = ConvertToRelativePath(
-                    SwaggerGenerators.TypesToOpenApiCommand.AssemblyConfig);
             }
 
             if (CodeGenerators.OpenApiToTypeScriptClientCommand != null)
@@ -510,7 +440,7 @@ namespace NSwag.Commands
             saveFile = false;
 
             // Swagger to OpenApi rename
-            if (data.Contains("\"typeScriptVersion\":") && !data.ToLowerInvariant().Contains("ExceptionClass".ToLowerInvariant()))
+            if (data.Contains("\"typeScriptVersion\":") && !data.Contains("ExceptionClass", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"typeScriptVersion\":", "\"exceptionClass\": \"SwaggerException\", \"typeScriptVersion\":");
                 saveFile = true;
@@ -583,13 +513,7 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("UseDocumentProvider".ToLowerInvariant()))
-            {
-                data = data.Replace("\"noBuild\":", "\"useDocumentProvider\": false, \"noBuild\":");
-                saveFile = true;
-            }
-
-            if (data.Contains("\"noBuild\":") && !data.ToLowerInvariant().Contains("RequireParametersWithoutDefault".ToLowerInvariant()))
+            if (data.Contains("\"noBuild\":") && !data.Contains("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase))
             {
                 data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;
@@ -666,11 +590,11 @@ namespace NSwag.Commands
 
             if (data.Contains("generateReadOnlyKeywords") && !data.Contains("typeScriptVersion"))
             {
-                data = data.Replace(@"""GenerateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
-                data = data.Replace(@"""generateReadOnlyKeywords"": true", @"""typeScriptVersion"": 2.0");
+                data = data.Replace(@"""GenerateReadOnlyKeywords"": true", @"""typeScriptVersion"": 4.3");
+                data = data.Replace(@"""generateReadOnlyKeywords"": true", @"""typeScriptVersion"": 4.3");
 
-                data = data.Replace(@"""GenerateReadOnlyKeywords"": false", @"""typeScriptVersion"": 1.8");
-                data = data.Replace(@"""generateReadOnlyKeywords"": false", @"""typeScriptVersion"": 1.8");
+                data = data.Replace(@"""GenerateReadOnlyKeywords"": false", @"""typeScriptVersion"": 4.3");
+                data = data.Replace(@"""generateReadOnlyKeywords"": false", @"""typeScriptVersion"": 4.3");
 
                 saveFile = true;
             }

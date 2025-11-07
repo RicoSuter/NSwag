@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
-
 namespace NSwag.Generation
 {
     /// <summary>The <see cref="IOpenApiDocumentGenerator"/> interface.</summary>

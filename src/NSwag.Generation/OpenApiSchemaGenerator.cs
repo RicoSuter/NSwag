@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using Namotion.Reflection;
 using NJsonSchema;
 using NJsonSchema.Generation;
@@ -21,12 +20,13 @@ namespace NSwag.Generation
 
         /// <summary>Initializes a new instance of the <see cref="OpenApiSchemaGenerator" /> class.</summary>
         /// <param name="settings">The settings.</param>
-        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings) : base(settings)
+        public OpenApiSchemaGenerator(OpenApiDocumentGeneratorSettings settings)
+            : base(settings.SchemaSettings)
         {
         }
 
         /// <summary>Generates the properties for the given type and schema.</summary>
-        /// <param name="typeDescription">The type desription.</param>
+        /// <param name="typeDescription">The type description.</param>
         /// <param name="schema">The properties</param>
         /// <param name="schemaResolver">The schema resolver.</param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace NSwag.Generation
             }
         }
 
-        /// <summary>Generetes a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
+        /// <summary>Generates a schema directly or referenced for the requested schema type; also adds nullability if required.</summary>
         /// <typeparam name="TSchemaType">The resulted schema type which may reference the actual schema.</typeparam>
         /// <param name="contextualType">The type of the schema to generate.</param>
         /// <param name="isNullable">Specifies whether the property, parameter or requested schema type is nullable.</param>
@@ -62,18 +62,8 @@ namespace NSwag.Generation
             ContextualType contextualType, bool isNullable,
             JsonSchemaResolver schemaResolver, Action<TSchemaType, JsonSchema> transformation = null)
         {
-            if (contextualType.TypeName == "Task`1")
-            {
-                contextualType = contextualType.OriginalGenericArguments[0];
-            }
-            else if (contextualType.TypeName == "JsonResult`1")
-            {
-                contextualType = contextualType.OriginalGenericArguments[0];
-            }
-            else if (contextualType.TypeName == "ActionResult`1")
-            {
-                contextualType = contextualType.OriginalGenericArguments[0];
-            }
+            contextualType = GenericResultWrapperTypes.RemoveGenericWrapperTypes(
+                contextualType, t => t.Name, t => t.OriginalGenericArguments[0]);
 
             if (IsFileResponse(contextualType))
             {
@@ -90,7 +80,7 @@ namespace NSwag.Generation
             return base.GenerateWithReferenceAndNullability(contextualType, isNullable, schemaResolver, transformation);
         }
 
-        private bool IsFileResponse(Type returnType)
+        private static bool IsFileResponse(Type returnType)
         {
             return returnType.IsAssignableToTypeName("FileResult", TypeNameStyle.Name) ||
                    returnType.Name == "IActionResult" ||

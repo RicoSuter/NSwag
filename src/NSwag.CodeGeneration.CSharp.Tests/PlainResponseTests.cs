@@ -1,9 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using NSwag.Generation.WebApi;
-using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -69,8 +64,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
-            Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -111,8 +106,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
-            Assert.Contains("(string)System.Convert.ChangeType(responseData_, typeof(string));", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -154,8 +149,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetIenumerableAsync(", code);
-            Assert.Contains("await ReadObjectResponseAsync<System.Collections.Generic.ICollection<string>>(", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -192,7 +187,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGenerator.GenerateFile();
 
             // Assert
-            Assert.Contains($"public virtual async System.Threading.Tasks.Task<string> PlainAsync(", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

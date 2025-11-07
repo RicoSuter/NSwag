@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Xunit;
 
 namespace NSwag.Core.Tests.Serialization
@@ -24,7 +21,7 @@ namespace NSwag.Core.Tests.Serialization
             Assert.True(getOperation.ActualResponses.ContainsKey("200"));
         }
 
-        private string GetTestDirectory()
+        private static string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);

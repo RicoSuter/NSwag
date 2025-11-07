@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace NSwag.CodeGeneration.CSharp.Models
 {
     /// <summary>The CSharp controller template model.</summary>
@@ -97,5 +94,8 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the API version.</summary>
         public string Version => _document.Info.Version;
+
+        /// <summary>Gets the extension data.</summary>
+        public IDictionary<string, object> ExtensionData => _document.ExtensionData;
     }
 }

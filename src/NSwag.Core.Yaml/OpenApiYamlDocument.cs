@@ -6,11 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Dynamic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -61,18 +57,62 @@ namespace NSwag
         /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The <see cref="OpenApiDocument"/>.</returns>
-        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath, SchemaType expectedSchemaType, 
+        public static async Task<OpenApiDocument> FromYamlAsync(string data, string documentPath,
+            SchemaType expectedSchemaType,
+            Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory,
+            CancellationToken cancellationToken = default)
+            => await FromYamlAsync(new StringReader(data), documentPath, expectedSchemaType, referenceResolverFactory,
+                cancellationToken);
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, null, SchemaType.Swagger2, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, documentPath, SchemaType.Swagger2, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType, CancellationToken cancellationToken = default)
+        {
+            return FromYamlAsync(data, documentPath, expectedSchemaType, null, cancellationToken);
+        }
+
+        /// <summary>Creates a Swagger specification from a YAML text stream.</summary>
+        /// <param name="data">The JSON or YAML data as a reader.</param>
+        /// <param name="documentPath">The document path (URL or file path) for resolving relative document references.</param>
+        /// <param name="expectedSchemaType">The expected schema type which is used when the type cannot be determined.</param>
+        /// <param name="referenceResolverFactory">The JSON reference resolver factory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The <see cref="OpenApiDocument"/>.</returns>
+        public static async Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
             var deserializer = new DeserializerBuilder().Build();
-            var yamlObject = deserializer.Deserialize(new StringReader(data));
+            var yamlObject = deserializer.Deserialize(data);
             var serializer = new SerializerBuilder()
                 .JsonCompatible()
                 .Build();
 
             var json = serializer.Serialize(yamlObject);
 
-            referenceResolverFactory = referenceResolverFactory ?? CreateReferenceResolverFactory();
+            referenceResolverFactory ??= CreateReferenceResolverFactory();
             return await OpenApiDocument.FromJsonAsync(json, documentPath, expectedSchemaType, referenceResolverFactory, cancellationToken).ConfigureAwait(false);
         }
 
@@ -94,7 +134,7 @@ namespace NSwag
         /// <returns>The <see cref="OpenApiDocument" />.</returns>
         public static async Task<OpenApiDocument> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var data = DynamicApis.FileReadAllText(filePath);
+            var data = File.ReadAllText(filePath);
             return await FromYamlAsync(data, filePath, cancellationToken).ConfigureAwait(false);
         }
 
@@ -112,7 +152,7 @@ namespace NSwag
         {
             return document =>
             {
-                var schemaResolver = new OpenApiSchemaResolver(document, new JsonSchemaGeneratorSettings());
+                var schemaResolver = new OpenApiSchemaResolver(document, new SystemTextJsonSchemaGeneratorSettings());
                 return new JsonAndYamlReferenceResolver(schemaResolver);
             };
         }

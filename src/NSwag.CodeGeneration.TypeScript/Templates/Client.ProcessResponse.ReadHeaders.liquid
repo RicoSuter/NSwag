@@ -9,7 +9,7 @@ let _headers: any = {}; if (response.headers && response.headers.forEach) { resp
 {% elsif Framework.IsAxios -%}
 let _headers: any = {};
 if (response.headers && typeof response.headers === "object") {
-    for (let k in response.headers) {
+    for (const k in response.headers) {
         if (response.headers.hasOwnProperty(k)) {
             _headers[k] = response.headers[k];
         }

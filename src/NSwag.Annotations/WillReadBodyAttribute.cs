@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Specifies whether the parameter or class reads the body.</summary>

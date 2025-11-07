@@ -1,0 +1,21 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    
+
+    public partial class SessionStateResent : SportsbookEventBody
+    {
+
+    }
+
+    public partial class SportsbookEventBody
+    {
+
+    }
+
+
+
+}

@@ -6,12 +6,13 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
+#pragma warning disable IDE0005
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -22,9 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NJsonSchema;
-using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
@@ -49,15 +48,6 @@ namespace NSwag.Generation.AspNetCore
         public Task<OpenApiDocument> GenerateAsync(object serviceProvider)
         {
             var typedServiceProvider = (IServiceProvider)serviceProvider;
-
-            var mvcOptions = typedServiceProvider.GetRequiredService<IOptions<MvcOptions>>();
-            var settings =
-                mvcOptions.Value.OutputFormatters.Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter") ?
-                    GetSystemTextJsonSettings(typedServiceProvider) :
-                    GetJsonSerializerSettings(typedServiceProvider) ?? GetSystemTextJsonSettings(typedServiceProvider);
-
-            Settings.ApplySettings(settings, mvcOptions.Value);
-
             var apiDescriptionGroupCollectionProvider = typedServiceProvider.GetRequiredService<IApiDescriptionGroupCollectionProvider>();
             return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
@@ -67,7 +57,7 @@ namespace NSwag.Generation.AspNetCore
         /// <returns>The settings.</returns>
         public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
+            static dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
             {
                 try
                 {
@@ -123,14 +113,15 @@ namespace NSwag.Generation.AspNetCore
                 .ToArray();
 
             var document = await CreateDocumentAsync().ConfigureAwait(false);
-            var schemaResolver = new OpenApiSchemaResolver(document, Settings);
+            var schemaResolver = new OpenApiSchemaResolver(document, Settings.SchemaSettings);
 
             var apiGroups = apiDescriptions
                 .Select(apiDescription => new Tuple<ApiDescription, ActionDescriptor>(apiDescription, apiDescription.ActionDescriptor))
                 .GroupBy(item => (item.Item2 as ControllerActionDescriptor)?.ControllerTypeInfo.AsType())
                 .ToArray();
 
-            var usedControllerTypes = GenerateApiGroups(document, apiGroups, schemaResolver);
+            var generator = new OpenApiDocumentGenerator(Settings, schemaResolver);
+            var usedControllerTypes = GenerateApiGroups(generator, document, apiGroups, schemaResolver);
 
             document.GenerateOperationIds();
 
@@ -141,7 +132,7 @@ namespace NSwag.Generation.AspNetCore
 
             foreach (var processor in Settings.DocumentProcessors)
             {
-                processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, Settings.SchemaGenerator, Settings));
+                processor.Process(new DocumentProcessorContext(document, controllerTypes, usedControllerTypes, schemaResolver, generator.SchemaGenerator, Settings));
             }
 
             Settings.PostProcess?.Invoke(document);
@@ -150,7 +141,7 @@ namespace NSwag.Generation.AspNetCore
 
         /// <summary>Gets the default serializer settings representing System.Text.Json.</summary>
         /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetSystemTextJsonSettings(IServiceProvider serviceProvider)
+        public static JsonSerializerOptions GetSystemTextJsonSettings(IServiceProvider serviceProvider)
         {
             // If the ASP.NET Core website does not use Newtonsoft.JSON we need to provide a
             // contract resolver which reflects best the System.Text.Json behavior.
@@ -166,9 +157,9 @@ namespace NSwag.Generation.AspNetCore
                     var options = serviceProvider.GetService(optionsType);
                     var value = optionsType.GetProperty("Value")?.GetValue(options);
                     var jsonOptions = value?.GetType().GetProperty("JsonSerializerOptions")?.GetValue(value);
-                    if (jsonOptions != null && jsonOptions.GetType().FullName == "System.Text.Json.JsonSerializerOptions")
+                    if (jsonOptions is JsonSerializerOptions serializerOptions)
                     {
-                        return SystemTextJsonUtilities.ConvertJsonOptionsToNewtonsoftSettings(jsonOptions);
+                        return serializerOptions;
                     }
                 }
                 catch
@@ -176,20 +167,16 @@ namespace NSwag.Generation.AspNetCore
                 }
             }
 
-            return new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            return null;
         }
 
         private List<Type> GenerateApiGroups(
+            OpenApiDocumentGenerator generator,
             OpenApiDocument document,
             IGrouping<Type, Tuple<ApiDescription, ActionDescriptor>>[] apiGroups,
             OpenApiSchemaResolver schemaResolver)
         {
             var usedControllerTypes = new List<Type>();
-            var swaggerGenerator = new OpenApiDocumentGenerator(Settings, schemaResolver);
-
             var allOperations = new List<Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>>();
             foreach (var apiGroup in apiGroups)
             {
@@ -212,7 +199,13 @@ namespace NSwag.Generation.AspNetCore
                             continue;
                         }
 
-                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo;
+                        var method = (item.Item2 as ControllerActionDescriptor)?.MethodInfo ??
+#if NETCOREAPP3_1_OR_GREATER
+                            item.Item2?.EndpointMetadata?.OfType<MethodInfo>().FirstOrDefault();
+#else
+                            null;
+#endif
+
                         if (method != null)
                         {
                             var actionHasIgnoreAttribute = method.GetCustomAttributes().GetAssignableToTypeName("SwaggerIgnoreAttribute", TypeNameStyle.Name).Any();
@@ -223,43 +216,60 @@ namespace NSwag.Generation.AspNetCore
                         }
 
                         var path = apiDescription.RelativePath;
-                        if (!path.StartsWith("/", StringComparison.Ordinal))
+                        if (!path.StartsWith('/'))
                         {
                             path = "/" + path;
                         }
 
-                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant();
-                        if (httpMethod == null)
+                        var httpMethod = apiDescription.HttpMethod?.ToLowerInvariant() ?? (apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
+                            ? OpenApiOperationMethod.Post
+                            : OpenApiOperationMethod.Get);
+
+                        var operation = new OpenApiOperation();
+#if NETCOREAPP3_1_OR_GREATER
+                        var openApiOperationMetadata = apiDescription
+                            .ActionDescriptor?
+                            .EndpointMetadata?
+                            .FirstOrDefault(m => m.GetType().FullName == "Microsoft.OpenApi.Models.OpenApiOperation");
+
+                        if (openApiOperationMetadata is not null)
                         {
-                            httpMethod = apiDescription.ParameterDescriptions.Any(p => p.Source == BindingSource.Body)
-                                ? OpenApiOperationMethod.Post
-                                : OpenApiOperationMethod.Get;
+                            var stringBuilder = new StringBuilder();
+                            var openApiJsonWriterType = openApiOperationMetadata.GetType().Assembly.GetType("Microsoft.OpenApi.Writers.OpenApiJsonWriter");
+                            var openApiJsonWriter = Activator.CreateInstance(openApiJsonWriterType, new StringWriter(stringBuilder));
+
+                            openApiOperationMetadata.GetType().GetMethod("SerializeAsV3")
+                                .Invoke(openApiOperationMetadata, [openApiJsonWriter]);
+
+                            operation = JsonConvert.DeserializeObject<OpenApiOperation>(stringBuilder.ToString());
+                            operation.Parameters.Clear(); // clear because parameters are added by the generator
                         }
+#endif
+
+                        operation.IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method);
+                        operation.OperationId = GetOperationId(document, apiDescription, method, httpMethod);
+                        operation.Consumes = apiDescription.SupportedRequestFormats
+                            .Select(f => f.MediaType)
+                            .Distinct()
+                            .ToList();
+
+                        operation.Produces = apiDescription.SupportedResponseTypes
+                            .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
+                            .Distinct()
+                            .ToList();
 
                         var operationDescription = new OpenApiOperationDescription
                         {
                             Path = path,
                             Method = httpMethod,
-                            Operation = new OpenApiOperation
-                            {
-                                IsDeprecated = IsOperationDeprecated(item.Item1, apiDescription.ActionDescriptor, method),
-                                OperationId = GetOperationId(document, apiDescription, method, httpMethod),
-                                Consumes = apiDescription.SupportedRequestFormats
-                                   .Select(f => f.MediaType)
-                                   .Distinct()
-                                   .ToList(),
-                                Produces = apiDescription.SupportedResponseTypes
-                                   .SelectMany(t => t.ApiResponseFormats.Select(f => f.MediaType))
-                                   .Distinct()
-                                   .ToList()
-                            }
+                            Operation = operation
                         };
 
                         operations.Add(new Tuple<OpenApiOperationDescription, ApiDescription, MethodInfo>(operationDescription, apiDescription, method));
                     }
 
-                    var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, swaggerGenerator, schemaResolver);
-                    if (addedOperations.Any() && apiGroup.Key != null)
+                    var addedOperations = AddOperationDescriptionsToDocument(document, controllerType, operations, generator, schemaResolver);
+                    if (addedOperations.Count > 0 && apiGroup.Key != null)
                     {
                         usedControllerTypes.Add(apiGroup.Key);
                     }
@@ -272,7 +282,7 @@ namespace NSwag.Generation.AspNetCore
             return usedControllerTypes;
         }
 
-        private bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
+        private static bool IsOperationDeprecated(ApiDescription apiDescription, ActionDescriptor actionDescriptor, MethodInfo methodInfo)
         {
             if (methodInfo?.GetCustomAttribute<ObsoleteAttribute>() != null)
             {
@@ -321,12 +331,17 @@ namespace NSwag.Generation.AspNetCore
                     var path = operation.Path.Replace("//", "/");
                     if (!document.Paths.TryGetValue(path, out var pathItem))
                     {
-                        document.Paths[path] = pathItem = new OpenApiPathItem();
+                        document.Paths[path] = pathItem = [];
                     }
 
                     if (pathItem.ContainsKey(operation.Method))
                     {
-                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times.");
+                        var conflictingApiDescriptions = operations
+                            .Where(t => t.Item1.Path == operation.Path && t.Item1.Method == operation.Method)
+                            .Select(t => t.Item2)
+                            .ToList();
+
+                        throw new InvalidOperationException($"The method '{operation.Method}' on path '{path}' is registered multiple times for actions {string.Join(", ", conflictingApiDescriptions.Select(apiDesc => apiDesc.ActionDescriptor.DisplayName))}.");
                     }
 
                     pathItem[operation.Method] = operation.Operation;
@@ -343,17 +358,21 @@ namespace NSwag.Generation.AspNetCore
         {
             // TODO: Move to SwaggerGenerator class?
 
-            document.Consumes = allOperations
+            var documentConsumes = allOperations
                 .SelectMany(s => s.Item1.Operation.Consumes)
                 .Where(m => allOperations.All(o => o.Item1.Operation.Consumes.Contains(m)))
                 .Distinct()
-                .ToArray();
+                .ToList();
 
-            document.Produces = allOperations
+            document.Consumes = documentConsumes;
+
+            var documentProduces = allOperations
                 .SelectMany(s => s.Item1.Operation.Produces)
                 .Where(m => allOperations.All(o => o.Item1.Operation.Produces.Contains(m)))
                 .Distinct()
-                .ToArray();
+                .ToList();
+
+            document.Produces = documentProduces;
 
             foreach (var operation in allOperations)
             {
@@ -361,17 +380,17 @@ namespace NSwag.Generation.AspNetCore
 
                 List<string> consumes = null;
                 if (description.Operation.Consumes.Count > 0
-                    && (document.Consumes.Count == 0 || description.Operation.Consumes.Any(c => !document.Consumes.Contains(c))))
+                    && (documentConsumes.Count == 0 || description.Operation.Consumes.Any(c => !documentConsumes.Contains(c))))
                 {
-                    consumes = description.Operation.Consumes.Distinct().ToList();
+                    consumes = [.. description.Operation.Consumes.Distinct()];
                 }
                 description.Operation.Consumes = consumes;
 
                 List<string> produces = null;
                 if (description.Operation.Produces.Count > 0
-                    && (document.Produces.Count == 0 || description.Operation.Produces.Any(c => !document.Produces.Contains(c))))
+                    && (documentProduces.Count == 0 || description.Operation.Produces.Any(c => !documentProduces.Contains(c))))
                 {
-                    produces = description.Operation.Produces.Distinct().ToList();
+                    produces = [.. description.Operation.Produces.Distinct()];
                 }
                 description.Operation.Produces = produces;
             }
@@ -383,13 +402,17 @@ namespace NSwag.Generation.AspNetCore
                 await OpenApiDocument.FromJsonAsync(Settings.DocumentTemplate).ConfigureAwait(false) :
                 new OpenApiDocument();
 
-            document.Generator = $"NSwag v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
-            document.SchemaType = Settings.SchemaType;
-
-            if (document.Info == null)
+            var version = "";
+            if (!string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "true", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(Environment.GetEnvironmentVariable("NSWAG_NOVERSION"), "1", StringComparison.OrdinalIgnoreCase))
             {
-                document.Info = new OpenApiInfo();
+                version = $" v{OpenApiDocument.ToolchainVersion} (NJsonSchema v{JsonSchema.ToolchainVersion})";
             }
+
+            document.Generator = $"NSwag{version}";
+            document.SchemaType = Settings.SchemaSettings.SchemaType;
+
+            document.Info ??= new OpenApiInfo();
 
             if (string.IsNullOrEmpty(Settings.DocumentTemplate))
             {
@@ -412,17 +435,17 @@ namespace NSwag.Generation.AspNetCore
             return document;
         }
 
-        private bool RunOperationProcessors(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator swaggerGenerator, OpenApiSchemaResolver schemaResolver)
+        private bool RunOperationProcessors(OpenApiDocument document, ApiDescription apiDescription, Type controllerType, MethodInfo methodInfo, OpenApiOperationDescription operationDescription, List<OpenApiOperationDescription> allOperations, OpenApiDocumentGenerator generator, OpenApiSchemaResolver schemaResolver)
         {
             // 1. Run from settings
-            var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, swaggerGenerator, Settings.SchemaGenerator, schemaResolver, Settings, allOperations)
+            var operationProcessorContext = new AspNetCoreOperationProcessorContext(document, operationDescription, controllerType, methodInfo, generator, schemaResolver, Settings, allOperations)
             {
                 ApiDescription = apiDescription,
             };
 
             foreach (var operationProcessor in Settings.OperationProcessors)
             {
-                if (operationProcessor.Process(operationProcessorContext) == false)
+                if (!operationProcessor.Process(operationProcessorContext))
                 {
                     return false;
                 }
@@ -443,7 +466,7 @@ namespace NSwag.Generation.AspNetCore
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type, attribute.Parameters) :
                         (IOperationProcessor)Activator.CreateInstance(attribute.Type);
 
-                    if (operationProcessor.Process(operationProcessorContext) == false)
+                    if (!operationProcessor.Process(operationProcessorContext))
                     {
                         return false;
                     }
@@ -465,7 +488,7 @@ namespace NSwag.Generation.AspNetCore
             if (!string.IsNullOrWhiteSpace(httpMethod))
             {
                 var attributeName = Char.ToUpperInvariant(httpMethod[0]) + httpMethod.Substring(1).ToLowerInvariant();
-                var typeName = string.Format("Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
+                var typeName = string.Format(CultureInfo.InvariantCulture, "Microsoft.AspNetCore.Mvc.Http{0}Attribute", attributeName);
                 httpAttribute = method?
                     .GetCustomAttributes()
                     .FirstAssignableToTypeNameOrDefault(typeName);
@@ -515,26 +538,27 @@ namespace NSwag.Generation.AspNetCore
 
                 // From HTTP method and route
                 operationId =
-                httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
-                string.Join("", apiDescription.RelativePath
-                    .Split('/', '\\', '}', ']', '-', '_')
-                    .Where(t => !t.StartsWith("{"))
-                    .Where(t => !t.StartsWith("["))
-                    .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
+                    httpMethod[0].ToString().ToUpperInvariant() + httpMethod.Substring(1) +
+                    string.Join("", apiDescription.RelativePath
+                        .Split('/', '\\', '}', ']', '-', '_')
+                        .Where(t => !t.StartsWith('{'))
+                        .Where(t => !t.StartsWith('['))
+                        .Select(t => t.Length > 1 ? t[0].ToString().ToUpperInvariant() + t.Substring(1) : t.ToUpperInvariant()));
             }
 
             var number = 1;
-            while (document.Operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
+            var operations = document.GetOperations().ToList();
+            while (operations.Any(o => o.Operation.OperationId == operationId + (number > 1 ? "_" + number : string.Empty)))
             {
                 number++;
             }
 
-            return operationId + (number > 1 ? number.ToString() : string.Empty);
+            return operationId + (number > 1 ? number.ToString(CultureInfo.InvariantCulture) : string.Empty);
         }
 
         private static string GetActionName(string actionName)
         {
-            if (actionName.EndsWith("Async"))
+            if (actionName.EndsWith("Async", StringComparison.Ordinal))
             {
                 actionName = actionName.Substring(0, actionName.Length - 5);
             }

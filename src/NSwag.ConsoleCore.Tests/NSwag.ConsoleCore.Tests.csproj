@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitHubActionsTestLogger" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Verify.XunitV3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NSwag.CodeGeneration.CSharp.Tests\NSwag.CodeGeneration.CSharp.Tests.csproj" />
+    <ProjectReference Include="..\NSwag.CodeGeneration.TypeScript.Tests\NSwag.CodeGeneration.TypeScript.Tests.csproj" />
+    <ProjectReference Include="..\NSwag.ConsoleCore\NSwag.ConsoleCore.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.NET80\NSwag.Sample.NET80.csproj" />
+    <ProjectReference Include="..\NSwag.Sample.NET90\NSwag.Sample.NET90.csproj" />
+  </ItemGroup>
+
+</Project>

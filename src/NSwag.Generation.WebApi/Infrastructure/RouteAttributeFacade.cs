@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace NSwag.Generation.WebApi.Infrastructure
@@ -18,7 +16,7 @@ namespace NSwag.Generation.WebApi.Infrastructure
     /// * IHttpRouteInfoProvider
     /// * IRouteTemplateProvider
     /// </summary>
-    internal class RouteAttributeFacade
+    internal sealed class RouteAttributeFacade
     {
         private readonly PropertyInfo _template;
 
