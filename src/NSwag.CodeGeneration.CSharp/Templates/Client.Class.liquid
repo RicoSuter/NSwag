@@ -409,7 +409,7 @@
 {%                 endif -%}
 {%             elsif operation.WrapResponse -%}
                         return new {{ ResponseClass }}(status_, headers_);
-{%             else -%}{% comment %} This method isn't expected to return a value. Just return. {% endcomment %}
+{%             else -%}
                         return;
 {%             endif -%}
                     }
