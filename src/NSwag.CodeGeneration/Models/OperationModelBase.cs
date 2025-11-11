@@ -309,6 +309,9 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets the operation extension data.</summary>
         public IDictionary<string, object> ExtensionData => _operation.ExtensionData;
 
+        /// <summary>Gets the operation tags </summary>
+        public string Tags => string.Join(",", _operation.Tags);
+
         /// <summary>Gets the success response.</summary>
         /// <returns>The response.</returns>
         protected KeyValuePair<string, OpenApiResponse> GetSuccessResponse()
