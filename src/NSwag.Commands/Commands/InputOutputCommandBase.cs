@@ -6,13 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using NConsole;
 using Newtonsoft.Json;
 using NJsonSchema;
-using NJsonSchema.Infrastructure;
 
 #pragma warning disable 1591
 
@@ -58,9 +54,11 @@ namespace NSwag.Commands
                     document.Host = ServiceHost;
                 }
 
-                if (ServiceSchemes != null && ServiceSchemes.Any())
+                if (ServiceSchemes != null && ServiceSchemes.Length > 0)
                 {
-                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema)Enum.Parse(typeof(OpenApiSchema), s, true)).ToList();
+#pragma warning disable CA2263
+                    document.Schemes = ServiceSchemes.Select(s => (OpenApiSchema) Enum.Parse(typeof(OpenApiSchema), s, ignoreCase: true)).ToList();
+#pragma warning restore CA2263
                 }
             }
 
@@ -81,7 +79,7 @@ namespace NSwag.Commands
                 return await JsonSchema.FromJsonAsync(input).ConfigureAwait(false);
             }
 
-            if (DynamicApis.FileExists(input))
+            if (File.Exists(input))
             {
                 return await JsonSchema.FromFileAsync(input).ConfigureAwait(false);
             }

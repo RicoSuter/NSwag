@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace NSwag.AspNetCore.Launcher
 {
-    internal class Program
+    internal sealed class Program
     {
         // Used to load NSwag.Commands into a process running with the app's dependency context
         private const string EntryPointType = "NSwag.Commands.Generation.AspNetCore.AspNetCoreToOpenApiGeneratorCommandEntryPoint";
@@ -60,7 +57,7 @@ namespace NSwag.AspNetCore.Launcher
             ["System.Text.Encodings.Web"] = new AssemblyLoadInfo(new Version(4, 0, 0)),
         };
 
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             // Usage: NSwag.Console.AspNetCore [settingsFile] [toolsDirectory]
             if (args.Length < 2)
@@ -129,7 +126,7 @@ namespace NSwag.AspNetCore.Launcher
 
             try
             {
-                method.Invoke(null, new[] { commandContent, outputFile, applicationName });
+                method.Invoke(null, [commandContent, outputFile, applicationName]);
             }
             catch (Exception ex)
             {
@@ -169,7 +166,7 @@ namespace NSwag.AspNetCore.Launcher
             return true;
         }
 
-        private class AssemblyLoadInfo
+        private sealed class AssemblyLoadInfo
         {
             public AssemblyLoadInfo(Version minimumRequiredVersion)
             {

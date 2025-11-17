@@ -8,7 +8,7 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Chocolatey;
 using Nuke.Common.Tools.DotNet;
-
+using Nuke.Common.Tools.GitHub;
 using static Nuke.Common.Tools.Chocolatey.ChocolateyTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Npm.NpmTasks;
@@ -29,7 +29,7 @@ public partial class Build
     string SourceToUse => IsTaggedBuild ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
-        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild))
+        .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild) && GitRepository.GetGitHubOwner() == "RicoSuter")
         .DependsOn(Pack)
         .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
         .Executes(() =>
@@ -49,17 +49,21 @@ public partial class Build
                         Path.Combine(userDirectory, ".npmrc"),
                         "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
 
-                    var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
-
-                    foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
+                    // do not publish preview packages to npm
+                    if (string.IsNullOrEmpty(VersionSuffix))
                     {
-                        if (output.Type == OutputType.Std)
+                        var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
+
+                        foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
                         {
-                            Serilog.Log.Information(output.Text);
-                        }
-                        else
-                        {
-                            Serilog.Log.Error(output.Text);
+                            if (output.Type == OutputType.Std)
+                            {
+                                Serilog.Log.Information(output.Text);
+                            }
+                            else
+                            {
+                                Serilog.Log.Error(output.Text);
+                            }
                         }
                     }
                 }

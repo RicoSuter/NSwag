@@ -7,12 +7,9 @@ using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
 
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 
 using Project = Microsoft.Build.Evaluation.Project;
@@ -22,8 +19,8 @@ public partial class Build
     // logic from 01_Build.bat
     Target Pack => _ => _
         .DependsOn(Compile)
-        .After(Test, IntegrationTest, UnitTest, Samples)
-        .Produces(ArtifactsDirectory / "*.*")
+        .After(Test)
+        .OnlyWhenDynamic(() => IsRunningOnWindows)
         .Executes(() =>
         {
             if (Configuration != Configuration.Release)
@@ -36,8 +33,6 @@ public partial class Build
             {
                 nugetVersion += "-" + VersionSuffix;
             }
-
-            EnsureCleanDirectory(ArtifactsDirectory);
 
             // it seems to cause some headache with publishing, so let's dotnet pack only files we know are suitable
             var projects = SourceDirectory.GlobFiles("**/*.csproj")
@@ -63,36 +58,29 @@ public partial class Build
                     .SetVersion(nugetVersion)
                     .SetConfiguration(Configuration)
                     .SetOutputDirectory(ArtifactsDirectory)
-                    .SetDeterministic(IsServerBuild)
-                    .SetContinuousIntegrationBuild(IsServerBuild)
+                    .EnableNoRestore()
+                    .EnableNoBuild()
                 );
             }
 
             Serilog.Log.Information("Build WiX installer");
 
-            EnsureCleanDirectory(SourceDirectory / "NSwagStudio.Installer" / "bin");
+            (SourceDirectory / "NSwagStudio.Installer" / "bin").CreateOrCleanDirectory();
 
-            MSBuild(x => x
-                .SetTargetPath(Solution.GetProject("NSwagStudio.Installer"))
-                .SetTargets("Rebuild")
-                .SetAssemblyVersion(VersionPrefix)
-                .SetFileVersion(VersionPrefix)
-                .SetInformationalVersion(VersionPrefix)
+            DotNetBuild(x => x
+                .SetProjectFile(GetProject("NSwagStudio.Installer"))
                 .SetConfiguration(Configuration)
-                .SetMaxCpuCount(Environment.ProcessorCount)
-                .SetNodeReuse(IsLocalBuild)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .SetProperty("Deterministic", IsServerBuild)
-                .SetProperty("ContinuousIntegrationBuild", IsServerBuild)
+                .EnableNoRestore()
+                .SetVerbosity(DotNetVerbosity.minimal)
             );
 
             // gather relevant artifacts
             Serilog.Log.Information("Package nuspecs");
 
             var apiDescriptionClientNuSpec = SourceDirectory / "NSwag.ApiDescription.Client" / "NSwag.ApiDescription.Client.nuspec";
-            var content = TextTasks.ReadAllText(apiDescriptionClientNuSpec);
-            content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + VersionPrefix + "\" />");
-            TextTasks.WriteAllText(apiDescriptionClientNuSpec, content);
+            var content = apiDescriptionClientNuSpec.ReadAllText();
+            content = content.Replace("<dependency id=\"NSwag.MSBuild\" version=\"1.0.0\" />", "<dependency id=\"NSwag.MSBuild\" version=\"" + nugetVersion + "\" />");
+            apiDescriptionClientNuSpec.WriteAllText(content);
 
             var nuspecs = new[]
             {
@@ -117,18 +105,21 @@ public partial class Build
 
             foreach (var artifact in artifacts)
             {
-                CopyFileToDirectory(artifact, ArtifactsDirectory);
+                artifact.CopyToDirectory(ArtifactsDirectory);
             }
 
             // patch npm version
             var npmPackagesFile = SourceDirectory / "NSwag.Npm" / "package.json";
-            content = TextTasks.ReadAllText(npmPackagesFile);
-            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + VersionPrefix + @"""");
-            TextTasks.WriteAllText(npmPackagesFile, content);
+            content = npmPackagesFile.ReadAllText();
+            content = Regex.Replace(content, @"""version"": "".*""", @"""version"": """ + nugetVersion + @"""");
+            npmPackagesFile.WriteAllText(content);
 
             // ZIP directories
             ZipFile.CreateFromDirectory(NSwagNpmBinaries, ArtifactsDirectory / "NSwag.Npm.zip");
             ZipFile.CreateFromDirectory(NSwagStudioBinaries, ArtifactsDirectory / "NSwag.zip");
+
+            // NSwagStudio.msi
+            (ArtifactsDirectory / "bin" / "NSwagStudio.Installer" / Configuration / "NSwagStudio.msi").CopyToDirectory(ArtifactsDirectory);
         });
 }
 

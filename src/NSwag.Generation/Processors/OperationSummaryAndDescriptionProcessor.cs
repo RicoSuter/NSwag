@@ -6,11 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Namotion.Reflection;
+using NJsonSchema.Generation;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors
@@ -23,7 +21,7 @@ namespace NSwag.Generation.Processors
         /// <returns>true if the operation should be added to the Swagger specification.</returns>
         public bool Process(OperationProcessorContext context)
         {
-            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? new Attribute[0];
+            var attributes = context.MethodInfo?.GetCustomAttributes().ToArray() ?? [];
 
             ProcessSummary(context, attributes);
             ProcessDescription(context, attributes);
@@ -31,7 +29,7 @@ namespace NSwag.Generation.Processors
             return true;
         }
 
-        private void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessSummary(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -48,7 +46,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(summary))
             {
-                summary = context.MethodInfo?.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+                summary = context.MethodInfo?.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
             }
 
             if (!string.IsNullOrEmpty(summary))
@@ -57,7 +55,7 @@ namespace NSwag.Generation.Processors
             }
         }
 
-        private void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
+        private static void ProcessDescription(OperationProcessorContext context, Attribute[] attributes)
         {
             dynamic openApiOperationAttribute = attributes
                 .SingleOrDefault(a => a.GetType().Name == "OpenApiOperationAttribute");
@@ -66,7 +64,7 @@ namespace NSwag.Generation.Processors
 
             if (string.IsNullOrEmpty(description))
             {
-                description = context.MethodInfo?.GetXmlDocsRemarks(context.Settings.GetXmlDocsOptions());
+                description = context.MethodInfo?.GetXmlDocsRemarks(context.Settings.SchemaSettings.GetXmlDocsOptions());
             }
 
             if (!string.IsNullOrEmpty(description))

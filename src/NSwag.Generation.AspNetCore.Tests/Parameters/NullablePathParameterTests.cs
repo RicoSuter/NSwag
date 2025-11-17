@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using NJsonSchema;
+﻿using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Parameters
 {
@@ -15,7 +13,10 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             var settings = new AspNetCoreOpenApiDocumentGeneratorSettings
             {
                 RequireParametersWithoutDefault = true,
-                SchemaType = SchemaType.OpenApi3
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                {
+                    SchemaType = SchemaType.OpenApi3
+                }
             };
 
             // Act

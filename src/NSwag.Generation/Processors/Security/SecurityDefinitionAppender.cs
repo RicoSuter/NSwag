@@ -6,9 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using NSwag.Generation.Processors.Contexts;
 
 namespace NSwag.Generation.Processors.Security
@@ -50,7 +47,7 @@ namespace NSwag.Generation.Processors.Security
             {
                 if (context.Document.Security == null)
                 {
-                    context.Document.Security = new Collection<OpenApiSecurityRequirement>();
+                    context.Document.Security = [];
                 }
 
                 context.Document.Security.Add(new OpenApiSecurityRequirement

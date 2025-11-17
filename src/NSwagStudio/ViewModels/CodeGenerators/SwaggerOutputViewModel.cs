@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
 using NSwag;
 
 namespace NSwagStudio.ViewModels.CodeGenerators
@@ -26,8 +25,8 @@ namespace NSwagStudio.ViewModels.CodeGenerators
         /// <summary>Gets or sets the Swagger code. </summary>
         public string SwaggerCode
         {
-            get { return _swaggerCode; }
-            set { Set(ref _swaggerCode, value); }
+            get => _swaggerCode;
+            set => Set(ref _swaggerCode, value);
         }
     }
 }

@@ -12,6 +12,7 @@
                                       xmlns:dialogs="clr-namespace:MyToolkit.Dialogs;assembly=MyToolkit.Extended"
                                       xmlns:codeGenerators="clr-namespace:NSwagStudio.Views.CodeGenerators"
                                       xmlns:typeScriptEnums="clr-namespace:NSwag.CodeGeneration.TypeScript;assembly=NSwag.CodeGeneration.TypeScript"
+                                      xmlns:sys="clr-namespace:System.Globalization;assembly=mscorlib"
                                       mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -37,11 +38,15 @@
                     <TextBlock Text="Namespace (empty for no namespace declaration)" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" ToolTip="Namespace" Margin="0,0,0,12" />
 
-                    <TextBlock Text="TypeScript Version" FontWeight="Bold" Margin="0,0,0,6" />
-                    <ComboBox SelectedItem="{Binding Command.TypeScriptVersion, Mode=TwoWay}"
-                              ToolTip="TypeScriptVersion"
-                              ItemsSource="{Binding TypeScriptVersions}" Margin="0,0,0,12" />
-
+                    <TextBlock Text="TypeScript Version (minimum: 4.3)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Margin="0,0,0,12" ToolTip="TypeScriptVersion" 
+                             Text="{Binding Command.TypeScriptVersion,
+                                Mode=TwoWay,
+                                ConverterCulture={x:Static sys:CultureInfo.InvariantCulture},
+                                UpdateSourceTrigger=LostFocus,
+                                ValidatesOnExceptions=True,
+                                NotifyOnValidationError=True}" />
+                    
                     <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}"
                           ToolTip="InlineNamedDictionaries" Margin="0,0,0,12">
                         <TextBlock Text="Inline named dictionaries" TextWrapping="Wrap" />
@@ -132,6 +137,16 @@
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}"
                                           ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Included Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip="IncludedOperationIds" 
+                                        Text="{Binding Command.IncludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                        Margin="0,0,0,12" />
+                                
+                                <TextBlock Text="Excluded Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ExcludedOperationIds" 
+                                        Text="{Binding Command.ExcludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                        Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />

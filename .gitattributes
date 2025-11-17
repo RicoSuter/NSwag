@@ -36,7 +36,7 @@ nswag.js text eol=lf
 *.sass text
 *.scm text
 *.scss text
-*.sh text
+*.sh text eol=lf
 *.sql text
 *.styl text
 *.tpl text
@@ -156,3 +156,6 @@ makefile text
 src/NSwag.AspNetCore/SwaggerUi/**/* linguist-vendored
 src/NSwag.AspNet.Owin/SwaggerUi/**/* linguist-vendored
 src/NSwag.Integration.*/**/* linguist-vendored
+
+# Verify
+*.verified.txt text eol=lf working-tree-encoding=UTF-8

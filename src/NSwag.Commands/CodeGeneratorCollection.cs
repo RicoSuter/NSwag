@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
 {
     /// <summary>The command collection.</summary>
+#pragma warning disable CA1711
     public class CodeGeneratorCollection
+#pragma warning restore CA1711
     {
         /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
         [JsonProperty("OpenApiToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]

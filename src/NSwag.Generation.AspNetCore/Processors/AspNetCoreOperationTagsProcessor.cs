@@ -6,12 +6,14 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+#pragma warning disable IDE0005
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Namotion.Reflection;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
-using System.Linq;
+using NJsonSchema.Generation;
 
 namespace NSwag.Generation.AspNetCore.Processors
 {
@@ -31,9 +33,12 @@ namespace NSwag.Generation.AspNetCore.Processors
 
             if (tagsAttributes != null)
             {
-                foreach (var tag in tagsAttributes.SelectMany(a => a.Tags))
+                var tags = aspNetCoreContext.OperationDescription.Operation.Tags;
+                foreach (var tag in tagsAttributes
+                    .SelectMany(a => a.Tags)
+                    .Where(t => !tags.Contains(t)))
                 {
-                    aspNetCoreContext.OperationDescription.Operation.Tags.Add(tag);
+                    tags.Add(tag);
                 }
             }
 #endif
@@ -48,7 +53,7 @@ namespace NSwag.Generation.AspNetCore.Processors
             var aspNetCoreContext = (AspNetCoreOperationProcessorContext)context;
             if (aspNetCoreContext.ApiDescription.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
             {
-                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.GetXmlDocsOptions());
+                var summary = controllerActionDescriptor.ControllerTypeInfo.GetXmlDocsSummary(context.Settings.SchemaSettings.GetXmlDocsOptions());
                 aspNetCoreContext.OperationDescription.Operation.Tags.Add(controllerActionDescriptor.ControllerName);
                 UpdateDocumentTagDescription(context, controllerActionDescriptor.ControllerName, summary);
             }

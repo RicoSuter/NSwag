@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Annotations
 {
     /// <summary>Registers an operation processor for the given method or class.</summary>

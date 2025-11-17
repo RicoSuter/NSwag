@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using MyToolkit.Mvvm;
@@ -68,8 +65,8 @@ namespace NSwagStudio.Views
 
         public DocumentModel Document
         {
-            get { return (DocumentModel)GetValue(DocumentProperty); }
-            set { SetValue(DocumentProperty, value); }
+            get => (DocumentModel)GetValue(DocumentProperty);
+            set => SetValue(DocumentProperty, value);
         }
 
         private void OnGenerate(object sender, RoutedEventArgs e)

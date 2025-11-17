@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace NSwag.Generation.Processors.Collections
 {

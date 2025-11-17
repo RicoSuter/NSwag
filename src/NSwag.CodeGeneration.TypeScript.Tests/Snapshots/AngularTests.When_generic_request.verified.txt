@@ -1,0 +1,437 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+
+const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+
+@Injectable()
+class DiscussionClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    addMessage(message: Foo): Observable<void> {
+        let url_ = this.baseUrl + "/Discussion/AddMessage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(message);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddMessage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddMessage(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processAddMessage(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    genericRequestTest1(request: GenericRequest1 | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/Discussion/GenericRequestTest1";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenericRequestTest1(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenericRequestTest1(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processGenericRequestTest1(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    genericRequestTest2(request: GenericRequest2 | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/Discussion/GenericRequestTest2";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenericRequestTest2(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenericRequestTest2(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processGenericRequestTest2(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+}
+
+class Foo implements IFoo {
+    bar?: string | undefined;
+
+    constructor(data?: IFoo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bar = _data["Bar"];
+        }
+    }
+
+    static fromJS(data: any): Foo {
+        data = typeof data === 'object' ? data : {};
+        let result = new Foo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Bar"] = this.bar;
+        return data;
+    }
+}
+
+interface IFoo {
+    bar?: string | undefined;
+}
+
+class GenericRequestBaseOfRequestBodyBase implements IGenericRequestBaseOfRequestBodyBase {
+    request!: RequestBodyBase;
+
+    constructor(data?: IGenericRequestBaseOfRequestBodyBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        if (!data) {
+            this.request = new RequestBodyBase();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.request = _data["Request"] ? RequestBodyBase.fromJS(_data["Request"]) : new RequestBodyBase();
+        }
+    }
+
+    static fromJS(data: any): GenericRequestBaseOfRequestBodyBase {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequestBaseOfRequestBodyBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
+        return data;
+    }
+}
+
+interface IGenericRequestBaseOfRequestBodyBase {
+    request: RequestBodyBase;
+}
+
+class GenericRequest1 extends GenericRequestBaseOfRequestBodyBase implements IGenericRequest1 {
+
+    constructor(data?: IGenericRequest1) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): GenericRequest1 {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequest1();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+interface IGenericRequest1 extends IGenericRequestBaseOfRequestBodyBase {
+}
+
+class RequestBodyBase implements IRequestBodyBase {
+
+    constructor(data?: IRequestBodyBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): RequestBodyBase {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestBodyBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data;
+    }
+}
+
+interface IRequestBodyBase {
+}
+
+class GenericRequestBaseOfRequestBody implements IGenericRequestBaseOfRequestBody {
+    request!: RequestBody;
+
+    constructor(data?: IGenericRequestBaseOfRequestBody) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        if (!data) {
+            this.request = new RequestBody();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.request = _data["Request"] ? RequestBody.fromJS(_data["Request"]) : new RequestBody();
+        }
+    }
+
+    static fromJS(data: any): GenericRequestBaseOfRequestBody {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequestBaseOfRequestBody();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Request"] = this.request ? this.request.toJSON() : undefined as any;
+        return data;
+    }
+}
+
+interface IGenericRequestBaseOfRequestBody {
+    request: RequestBody;
+}
+
+class GenericRequest2 extends GenericRequestBaseOfRequestBody implements IGenericRequest2 {
+
+    constructor(data?: IGenericRequest2) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): GenericRequest2 {
+        data = typeof data === 'object' ? data : {};
+        let result = new GenericRequest2();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+interface IGenericRequest2 extends IGenericRequestBaseOfRequestBody {
+}
+
+class RequestBody extends RequestBodyBase implements IRequestBody {
+
+    constructor(data?: IRequestBody) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): RequestBody {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestBody();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+interface IRequestBody extends IRequestBodyBase {
+}
+
+class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
+    if (result !== null && result !== undefined)
+        return _observableThrow(result);
+    else
+        return _observableThrow(new ApiException(message, status, response, headers, null));
+}
+
+function blobToText(blob: any): Observable<string> {
+    return new Observable<string>((observer: any) => {
+        if (!blob) {
+            observer.next("");
+            observer.complete();
+        } else {
+            let reader = new FileReader();
+            reader.onload = event => {
+                observer.next((event.target as any).result);
+                observer.complete();
+            };
+            reader.readAsText(blob);
+        }
+    });
+}

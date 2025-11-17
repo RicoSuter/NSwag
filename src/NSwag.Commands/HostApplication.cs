@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿#pragma warning disable IDE0005
+#pragma warning disable ASPDEPR008
+
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -32,50 +31,62 @@ namespace NSwag.Commands
 
                 if (buildWebHostMethod != null)
                 {
-                    var result = buildWebHostMethod.Invoke(null, new object[] { args });
-                    serviceProvider = ((IWebHost)result).Services;
+                    var result = buildWebHostMethod.Invoke(null, [args]);
+                    serviceProvider = (result as IHost)?.Services ?? 
+                                      (result as IWebHost)?.Services;
                 }
                 else
                 {
                     var createWebHostMethod =
-                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", new[] { typeof(string[]) }) ??
+                        entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", [typeof(string[])]) ??
                         entryPointType?.GetRuntimeMethod("CreateWebHostBuilder", Type.EmptyTypes);
 
                     if (createWebHostMethod != null)
                     {
-                        var webHostBuilder = (IWebHostBuilder)createWebHostMethod.Invoke(
-                            null, createWebHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
-                        serviceProvider = webHostBuilder.Build().Services;
+                        var hostBuilder = createWebHostMethod.Invoke(
+                            null, createWebHostMethod.GetParameters().Length > 0 ? [args] : []);
+                        
+                        serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                          (hostBuilder as IWebHostBuilder)?.Build().Services;
                     }
 #if NETCOREAPP3_0_OR_GREATER
                     else
                     {
                         var createHostMethod =
-                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", new[] { typeof(string[]) }) ??
+                            entryPointType?.GetRuntimeMethod("CreateHostBuilder", [typeof(string[])]) ??
                             entryPointType?.GetRuntimeMethod("CreateHostBuilder", Type.EmptyTypes);
 
                         if (createHostMethod != null)
                         {
-                            var webHostBuilder = (IHostBuilder)createHostMethod.Invoke(
-                                null, createHostMethod.GetParameters().Length > 0 ? new object[] { args } : Array.Empty<object>());
-                            serviceProvider = webHostBuilder.Build().Services;
+                            var hostBuilder = createHostMethod.Invoke(
+                                null, createHostMethod.GetParameters().Length > 0 ? [args] : []);
+                            serviceProvider = (hostBuilder as IHostBuilder)?.Build().Services ?? 
+                                              (hostBuilder as IWebHostBuilder)?.Build().Services;
                         }
                     }
 #endif
                 }
             }
 
-            if (serviceProvider == null)
-            {
-                serviceProvider = GetServiceProviderWithHostFactoryResolver(assembly);
-            }
+            serviceProvider ??= GetServiceProviderWithHostFactoryResolver(assembly);
 
             if (serviceProvider == null)
             {
                 var startupType = assembly.ExportedTypes.FirstOrDefault(t => t.Name == "Startup");
                 if (startupType != null)
                 {
-                    serviceProvider = WebHost.CreateDefaultBuilder().UseStartup(startupType).Build().Services;
+                    #if NETFRAMEWORK
+                    serviceProvider = WebHost
+                        .CreateDefaultBuilder()
+                        .UseStartup(startupType)
+                        .Build()
+                        .Services;
+                    #else
+                    serviceProvider = new HostBuilder()
+                        .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup(startupType))
+                        .Build()
+                        .Services;
+                    #endif
                 }
             }
 
@@ -85,14 +96,14 @@ namespace NSwag.Commands
             }
 
             throw new InvalidOperationException($"NSwag requires the assembly {assembly.GetName()} to have " +
-                                                $"either an BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
+                                                $"either a BuildWebHost or CreateWebHostBuilder/CreateHostBuilder method. " +
                                                 $"See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosting?tabs=aspnetcore2x " +
                                                 $"for suggestions on ways to refactor your startup type.");
         }
 
         internal static IServiceProvider GetServiceProviderWithHostFactoryResolver(Assembly assembly)
         {
-#if NETCOREAPP2_1 || NETFRAMEWORK
+#if NETFRAMEWORK
             return null;
 #else
             // We're disabling the default server and the console host lifetime. This will disable:
@@ -106,6 +117,19 @@ namespace NSwag.Commands
                 {
                     services.AddSingleton<IServer, NoopServer>();
                     services.AddSingleton<IHostLifetime, NoopHostLifetime>();
+
+                    for (var i = services.Count - 1; i >= 0; i--)
+                    {
+                        // exclude all implementations of IHostedService
+                        // except Microsoft.AspNetCore.Hosting.GenericWebHostService because that one will build/configure
+                        // the WebApplication/Middleware pipeline in the case of the GenericWebHostBuilder.
+                        var registration = services[i];
+                        if (registration.ServiceType == typeof(IHostedService)
+                            && registration.ImplementationType is not { FullName: "Microsoft.AspNetCore.Hosting.GenericWebHostService" })
+                        {
+                            services.RemoveAt(i);
+                        }
+                    }
                 });
             }
 
@@ -143,7 +167,7 @@ namespace NSwag.Commands
 #if NET6_0_OR_GREATER
                 var assemblyName = assembly.GetName()?.FullName ?? string.Empty;
                 // We should set the application name to the startup assembly to avoid falling back to the entry assembly.
-                var services = ((IHost)factory(new[] { $"--{HostDefaults.ApplicationKey}={assemblyName}" })).Services;
+                var services = ((IHost)factory([$"--{HostDefaults.ApplicationKey}={assemblyName}"])).Services;
 #else
                 var services = ((IHost)factory(Array.Empty<string>())).Services;
 #endif
@@ -153,11 +177,9 @@ namespace NSwag.Commands
                 // in the IServiceProvider
                 var applicationLifetime = services.GetRequiredService<IHostApplicationLifetime>();
 
-                using (var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null)))
-                {
-                    waitForStartTcs.Task.Wait();
-                    return services;
-                }
+                using var registration = applicationLifetime.ApplicationStarted.Register(() => waitForStartTcs.TrySetResult(null));
+                waitForStartTcs.Task.Wait();
+                return services;
             }
             catch (InvalidOperationException)
             {
@@ -168,13 +190,13 @@ namespace NSwag.Commands
 #endif
         }
 
-        private class NoopHostLifetime : IHostLifetime
+        private sealed class NoopHostLifetime : IHostLifetime
         {
             public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
             public Task WaitForStartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
         }
 
-        private class NoopServer : IServer
+        private sealed class NoopServer : IServer
         {
             public IFeatureCollection Features { get; } = new FeatureCollection();
             public void Dispose() { }

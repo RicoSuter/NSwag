@@ -49,6 +49,11 @@
                               Content="Generate contracts output" 
                               Margin="0,0,0,12" />
 
+                    <CheckBox IsChecked="{Binding Command.GenerateNativeRecords, Mode=TwoWay}"
+                              ToolTip="GenerateNativeRecords"
+                              Content="Generate record types"
+                              Margin="0,0,0,12" />
+
                     <StackPanel Visibility="{Binding Command.GenerateContractsOutput, Converter={StaticResource VisibilityConverter}}">
                         <TextBlock Text="Contracts Namespace"
                                    FontWeight="Bold" 
@@ -85,6 +90,10 @@
                                       ToolTip="GenerateClientClasses"
                                       Content="Generate Client Classes" Margin="0,0,0,12" />
 
+                            <CheckBox IsChecked="{Binding Command.SuppressClientClassesOutput, Mode=TwoWay}" 
+                                      ToolTip="SuppressClientClassesOutput"
+                                      Content="Suppress output of generated Client Classes" Margin="0,0,0,12" />
+
                             <StackPanel Visibility="{Binding Command.GenerateClientClasses, Converter={StaticResource VisibilityConverter}}">
                                 <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
                                     <Run Text="Operation Generation Mode" FontWeight="Bold" />
@@ -94,6 +103,16 @@
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" 
                                           ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Included Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip="IncludedOperationIds" 
+                                         Text="{Binding Command.IncludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
+                                
+                                <TextBlock Text="Excluded Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip="ExcludedOperationIds" 
+                                         Text="{Binding Command.ExcludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
+                                         Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />
@@ -148,6 +167,10 @@
                                 <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" 
                                           ToolTip="GenerateClientInterfaces"
                                           Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.SuppressClientInterfacesOutput, Mode=TwoWay}" 
+                                          ToolTip="SuppressClientInterfacesOutput"
+                                          Content="Suppress output of generated interfaces for Client classes" Margin="0,0,0,12" />
 
                                 <TextBlock Text="Base interface for Client Interfaces (optional)" FontWeight="Bold" Margin="0,0,0,6"
                                            Visibility="{Binding Command.GenerateClientInterfaces, Converter={StaticResource VisibilityConverter}}" />

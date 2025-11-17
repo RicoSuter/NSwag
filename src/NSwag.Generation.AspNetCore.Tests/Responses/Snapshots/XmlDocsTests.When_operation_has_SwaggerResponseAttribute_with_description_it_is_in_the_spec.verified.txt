@@ -1,0 +1,44 @@
+﻿{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/xmldocs": {
+      "get": {
+        "tags": [
+          "XmlDocs"
+        ],
+        "operationId": "XmlDocs_GetResponse",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MyResponse": {
+        "type": "object",
+        "description": "My response.",
+        "additionalProperties": false,
+        "properties": {
+          "MyProperty": {
+            "type": "string",
+            "description": "My property."
+          }
+        }
+      }
+    }
+  }
+}

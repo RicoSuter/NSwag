@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
-    <PlatformTarget Condition="'$(TargetFramework)'=='net461'">x64</PlatformTarget>
+    <TargetFrameworks>net8.0;net462</TargetFrameworks>
+    <PlatformTarget Condition="'$(TargetFramework)'=='net462'">x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
-    <PackageReference Include="System.Runtime.Loader" Version="4.0.0" />
+  <ItemGroup Condition="'$(TargetFramework)'=='net8.0'">
+    <PackageReference Include="System.Runtime.Loader" />
   </ItemGroup>
 </Project>

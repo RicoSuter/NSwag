@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -71,10 +70,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("System.Threading.Tasks.Task<ValidationException>", code);
-            Assert.DoesNotContain("System.Threading.Tasks.Task<object>", code);
-            Assert.Contains("class BusinessException", code);
-            Assert.Contains("class ValidationException", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -118,9 +115,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("System.Threading.Tasks.Task<BusinessException>", code);
-            Assert.DoesNotContain("System.Threading.Tasks.Task<object>", code);
-            Assert.Contains("class BusinessException", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -177,8 +173,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BusinessException>>", code);
-            Assert.Contains("class BusinessException", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -349,9 +345,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("var result_ = (string)System.Convert.ChangeType(responseData_, typeof(string));", code);
-            Assert.Contains("await ReadObjectResponseAsync<ValidationProblemDetails>", code);
-            Assert.Contains("await ReadObjectResponseAsync<ProblemDetails>", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -518,11 +513,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.DoesNotContain("System.Convert.ChangeType(response", code);
-            Assert.Contains("await ReadObjectResponseAsync<bool>", code);
-            Assert.Contains("await ReadObjectResponseAsync<double?>", code);
-            Assert.Contains("await ReadObjectResponseAsync<string>", code);
-            Assert.Contains("await ReadObjectResponseAsync<byte[]>", code);
+            await VerifyHelper.Verify(code);
+
+            // TODO this seems broken
+            // CodeCompiler.AssertCompile(code);
         }
     }
 }

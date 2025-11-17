@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 
@@ -73,26 +71,13 @@ namespace NSwag.CodeGeneration.Models
         public ICollection<JsonExpectedSchema> ExpectedSchemas => _response.ExpectedSchemas;
 
         /// <summary>Gets a value indicating whether the response is of type date.</summary>
-        public bool IsDate
-        {
-            get
-            {
-                return ActualResponseSchema != null &&
+        public bool IsDate => ActualResponseSchema != null &&
                       (ActualResponseSchema.Format == JsonFormatStrings.Date ||
                        ActualResponseSchema.Format == JsonFormatStrings.DateTime) &&
                        _generator.GetTypeName(ActualResponseSchema, IsNullable, "Response") != "string";
-            }
-        }
 
         /// <summary>Gets a value indicating whether the response requires a text/plain content.</summary>
-        public bool IsPlainText
-        {
-            get
-            {
-                return !_response.Content.ContainsKey("application/json") &&
-                       _response.Content.ContainsKey("text/plain");
-            }
-        }
+        public bool IsPlainText => !_response._content.ContainsKey("application/json") && _response._content.ContainsKey("text/plain");
 
         /// <summary>Gets a value indicating whether this is a file response.</summary>
         public bool IsFile => IsSuccess && _response.IsBinary(_operation);
@@ -139,6 +124,23 @@ namespace NSwag.CodeGeneration.Models
         public IDictionary<string, object> ExtensionData => _response.ExtensionData;
 
         /// <summary>Gets the produced mime type of this response if available.</summary>
-        public string Produces => _response.Content.Keys.FirstOrDefault();
+        public string Produces
+        {
+            get
+            {
+                var content = _response._content;
+                if (content.ContainsKey("*/*"))
+                {
+                    return "*/*";
+                }
+
+                if (content.ContainsKey("application/json"))
+                {
+                    return "application/json";
+                }
+
+                return content.FirstOrDefault().Key;
+            }
+        }
     }
 }

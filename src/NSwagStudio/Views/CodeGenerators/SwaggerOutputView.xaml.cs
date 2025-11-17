@@ -21,7 +21,7 @@ namespace NSwagStudio.Views.CodeGenerators
 
         public override bool IsSelected
         {
-            get { return true; }
+            get => true;
             set { }
         }
 

@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.2",
+  "paths": {
+    "/test": {
+      "get": {
+        "description": "Test path",
+        "requestBody": {
+          "$ref": "./common.json#/components/requestBodies/TestRequest"
+        },
+        "responses": {}
+      }
+    }
+  }
+}

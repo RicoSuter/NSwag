@@ -17,7 +17,7 @@ namespace NSwag.Core.Tests
             // Arrange
             var response = new OpenApiResponse();
             var operation = new OpenApiOperation();
-            operation.Produces = new System.Collections.Generic.List<string> { contentType };
+            operation.Produces = [contentType];
             operation.Responses.Add("200", response);
 
             // Act

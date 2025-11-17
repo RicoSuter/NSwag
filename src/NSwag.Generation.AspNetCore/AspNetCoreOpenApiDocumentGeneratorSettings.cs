@@ -8,7 +8,6 @@
 
 using NSwag.Generation.Processors;
 using NSwag.Generation.AspNetCore.Processors;
-using System;
 
 namespace NSwag.Generation.AspNetCore
 {
@@ -40,7 +39,7 @@ namespace NSwag.Generation.AspNetCore
         /// <summary>
         /// Gets or sets a value indicating whether a route name associated with an action is used to generate its operationId.
         /// </summary>
-        /// <remarks>If <code>SwaggerOperationAttribute</code> is present, it will be preferred over the route name irrespective of this property.</remarks>
+        /// <remarks>If OpenApiOperationAttribute is present, it will be preferred over the route name irrespective of this property.</remarks>
         public bool UseRouteNameAsOperationId { get; set; }
     }
 }

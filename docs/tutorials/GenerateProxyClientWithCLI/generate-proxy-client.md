@@ -77,7 +77,9 @@ nswag run sample.nswag /runtime:Net50
     "codeGenerators": {
         "openApiToCSharpClient": {
             "generateClientClasses": true,
+            "suppressClientClassesOutput": false,
             "generateClientInterfaces": true,
+            "suppressClientInterfacesOutput": false,
             "generateDtoTypes": true,
             "injectHttpClient": true,
             "disposeHttpClient": true,
@@ -103,6 +105,8 @@ nswag run sample.nswag /runtime:Net50
             "queryNullValue": "",
             "className": "SampleService",
             "operationGenerationMode": "MultipleClientsFromOperationId",
+            "includedOperationIds": [ "SampleOperationId" ],
+            "excludedOperationIds": [],
             "generateOptionalParameters": false,
             "generateJsonMethods": true,
             "parameterArrayType": "System.Collections.Generic.IEnumerable",

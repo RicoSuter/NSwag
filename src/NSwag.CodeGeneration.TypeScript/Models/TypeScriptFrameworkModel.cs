@@ -36,18 +36,16 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         public bool IsKnockout => _settings.TypeScriptGeneratorSettings.TypeStyle == TypeScriptTypeStyle.KnockoutClass;
 
         /// <summary>Gets a value indicating whether to render for JQuery.</summary>
-        public bool IsJQuery => _settings.Template == TypeScriptTemplate.JQueryCallbacks || _settings.Template == TypeScriptTemplate.JQueryPromises;
+        public bool IsJQuery => _settings.Template is TypeScriptTemplate.JQueryCallbacks or TypeScriptTemplate.JQueryPromises;
 
         /// <summary>Gets a value indicating whether to render for Fetch or Aurelia</summary>
-        public bool IsFetchOrAurelia => _settings.Template == TypeScriptTemplate.Fetch ||
-                                        _settings.Template == TypeScriptTemplate.Aurelia;
+        public bool IsFetchOrAurelia => _settings.Template is TypeScriptTemplate.Fetch or TypeScriptTemplate.Aurelia;
 
         /// <summary>Gets a value indicating whether to render for Axios.</summary>
         public bool IsAxios => _settings.Template == TypeScriptTemplate.Axios;
 
         /// <summary>Gets a value indicating whether MomentJS is required.</summary>
-        public bool UseMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.MomentJS ||
-                                   _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.OffsetMomentJS;
+        public bool UseMomentJS => _settings.TypeScriptGeneratorSettings.DateTimeType is TypeScriptDateTimeType.MomentJS or TypeScriptDateTimeType.OffsetMomentJS;
 
         /// <summary>Gets a value indicating whether DayJS is required.</summary>
         public bool UseDayJS => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.DayJS;

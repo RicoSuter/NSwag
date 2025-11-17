@@ -6,8 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.Collections;
@@ -24,8 +23,14 @@ namespace NSwag
             var schemas = new ObservableDictionary<string, JsonSchema>();
             schemas.CollectionChanged += (sender, args) =>
             {
-                foreach (var pair in schemas.ToArray())
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, JsonSchema>)args.NewItems[i];
                     if (pair.Value == null)
                     {
                         schemas.Remove(pair.Key);
@@ -38,12 +43,34 @@ namespace NSwag
             };
             Schemas = schemas;
 
+            var requestBodies = new ObservableDictionary<string, OpenApiRequestBody>();
+            requestBodies.CollectionChanged += (sender, args) =>
+            {
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
+                {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiRequestBody>)args.NewItems[i];
+                    pair.Value.Parent = document;
+                }
+            };
+            RequestBodies = requestBodies;
+
             var responses = new ObservableDictionary<string, OpenApiResponse>();
             responses.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in Responses.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    path.Parent = document;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiResponse>)args.NewItems[i];
+                    pair.Value.Parent = document;
                 }
             };
             Responses = responses;
@@ -51,9 +78,15 @@ namespace NSwag
             var parameters = new ObservableDictionary<string, OpenApiParameter>();
             parameters.CollectionChanged += (sender, args) =>
             {
-                foreach (var path in Parameters.Values)
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
-                    path.Parent = document;
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiParameter>)args.NewItems[i];
+                    pair.Value.Parent = document;
                 }
             };
             Parameters = parameters;
@@ -63,8 +96,14 @@ namespace NSwag
             var headers = new ObservableDictionary<string, OpenApiParameter>();
             headers.CollectionChanged += (sender, args) =>
             {
-                foreach (var pair in headers.ToArray())
+                if (args.Action != NotifyCollectionChangedAction.Add && args.Action != NotifyCollectionChangedAction.Replace)
                 {
+                    return;
+                }
+
+                for (var i = 0; i < args.NewItems.Count; i++)
+                {
+                    var pair = (KeyValuePair<string, OpenApiParameter>)args.NewItems[i];
                     if (pair.Value == null)
                     {
                         headers.Remove(pair.Key);
@@ -85,6 +124,10 @@ namespace NSwag
         /// <summary>Gets or sets the types.</summary>
         [JsonProperty(PropertyName = "schemas", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IDictionary<string, JsonSchema> Schemas { get; }
+
+        /// <summary>Gets or sets the responses which can be used for all operations.</summary>
+        [JsonProperty(PropertyName = "requestBodies", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IDictionary<string, OpenApiRequestBody> RequestBodies { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
         [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]

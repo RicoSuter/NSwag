@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace NSwag.Generation.Processors
 {
     /// <summary>Describes an operation response.</summary>

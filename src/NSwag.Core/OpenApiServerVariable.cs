@@ -7,8 +7,6 @@
 //-----------------------------------------------------------------------
 
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace NSwag
 {
@@ -17,7 +15,7 @@ namespace NSwag
     {
         /// <summary>Gets or sets the enum of the server.</summary>
         [JsonProperty(PropertyName = "enum", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public ICollection<string> Enum { get; } = new Collection<string>();
+        public ICollection<string> Enum { get; } = [];
 
         /// <summary>Gets or sets the variables of the server.</summary>
         [JsonProperty(PropertyName = "default", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

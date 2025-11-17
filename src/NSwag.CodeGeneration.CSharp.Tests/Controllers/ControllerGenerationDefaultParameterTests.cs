@@ -1,13 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using NJsonSchema;
-using Xunit;
+using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
 {
     public class ControllerGenerationDefaultParameterTests
     {
         [Fact]
-        public void When_parameter_has_default_then_set_in_partial_controller()
+        public async Task When_parameter_has_default_then_set_in_partial_controller()
         {
             // Arrange
             var document = new OpenApiDocument();
@@ -78,23 +78,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests.Controllers
             var code = generator.GenerateFile();
 
             // Assert
-            Assert.Contains("_implementation.BarAsync(abc, booldef ?? true, intdef ?? 42, doubledef ?? 0.6822871999174D, decdef ?? 79228162514264337593543950335M, strdef ?? \"default\\\"string\\\"\", bar)", code);
-            Assert.Contains("BarAsync(int abc, bool booldef, int intdef, double doubledef, decimal decdef, string strdef, int? bar = null);", code);
-
-            var trimmedCode = RemoveExternalReferences(code);
-
-            //CompilerParameters parameters = new CompilerParameters { GenerateInMemory = true };
-
-            //var result = new CSharpCodeProvider().CompileAssemblyFromSource(parameters, trimmedCode);
-            //if (result.Errors.Count > 0)
-            //{
-            //    foreach (var error in result.Errors)
-            //    {
-            //        Console.WriteLine(error.ToString());
-            //    }
-            //}
-
-            //Assert.True(result.Errors.Count == 0);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         private static string RemoveExternalReferences(string code)

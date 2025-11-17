@@ -1,7 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using NJsonSchema;
 using Xunit;
 
@@ -13,7 +10,7 @@ namespace NSwag.Core.Tests
         public async Task When_document_contains_readOnly_properties_then_they_are_correctly_loaded()
         {
             // Arrange
-            var json = _sampleServiceCode;
+            var json = SampleServiceCode;
 
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
@@ -33,7 +30,7 @@ namespace NSwag.Core.Tests
         public async Task When_generating_operation_ids_then_missing_ids_are_generated()
         {
             // Arrange
-            var json = _sampleServiceCode;
+            var json = SampleServiceCode;
 
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
@@ -47,7 +44,7 @@ namespace NSwag.Core.Tests
         public async Task When_json_has_extension_data_then_it_is_loaded()
         {
             // Arrange
-            var json = _jsonVendorExtensionData;
+            var json = JsonVendorExtensionData;
 
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
@@ -68,18 +65,18 @@ namespace NSwag.Core.Tests
             CultureInfo.DefaultThreadCurrentCulture = ci;
 
             // Act
-            var json = _sampleServiceCode;
+            var json = SampleServiceCode;
 
             // Act
             var document = await OpenApiDocument.FromJsonAsync(json);
             var j = document.ToJson();
+            Assert.NotNull(j);
 
             // Assert
             Assert.Equal(JsonObjectType.Integer, document.Definitions["Pet"].Properties["id"].Type);
         }
 
-        private string _sampleServiceCode =
-@"{
+        private const string SampleServiceCode = @"{
   ""swagger"": ""2.0"",
   ""info"": {
     ""version"": ""1.0.0"",
@@ -143,8 +140,7 @@ namespace NSwag.Core.Tests
   }
 }";
 
-        private string _jsonVendorExtensionData =
-                    @"{
+        private const string JsonVendorExtensionData = @"{
   ""swagger"": ""2.0"",
   ""info"": {
     ""title"": ""Swagger Test Sample"",

@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace NSwag.AspNetCore
 {

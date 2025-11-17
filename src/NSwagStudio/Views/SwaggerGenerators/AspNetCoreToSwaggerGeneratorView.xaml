@@ -22,98 +22,39 @@
                   VerticalScrollBarVisibility="Visible" 
                   HorizontalScrollBarVisibility="Hidden">
         <StackPanel Margin="8" Width="{Binding ElementName=ScrollViewer, Path=ActualWidth, Converter={StaticResource NumberAdditionConverter}, ConverterParameter=-32}">
-            <TextBlock Text="AspNetCoreToSwaggerGenerator (new): This generator uses the API Explorer of ASP.NET Core." TextWrapping="Wrap" Margin="0,0,0,12" />
+            <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
+            <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
+                            FilePath="{Binding Command.Project, Mode=TwoWay}"
+                            DefaultExtension=".csproj"
+                            Filter="C# Project (.csproj)|*.csproj"/>
 
-            <TextBlock Text="Either use Assembly (from compiled .dll) or use Project (to load a .csproj file)." TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12" />
+            <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
+                     ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
 
-            <TabControl Margin="0,0,0,12">
-                <TabItem Header="Project (Recommended)">
-                    <StackPanel Margin="4,8,4,-8">
-                        <TextBlock Text="Project file path" FontWeight="Bold" Margin="0,0,0,6" />
-                        <dialogs:FileOpenPicker ToolTip="Project" Margin="0,0,0,12" 
-                                                FilePath="{Binding Command.Project, Mode=TwoWay}"
-                                                DefaultExtension=".csproj"
-                                                Filter="C# Project (.csproj)|*.csproj"/>
+            <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
+                     ToolTip="Configuration" Margin="0,0,0,12" />
 
-                        <TextBlock Text="MSBuildProjectExtensionsPath" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.MSBuildProjectExtensionsPath, Mode=TwoWay}" 
-                                 ToolTip="MSBuildProjectExtensionsPath" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
+            <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
+                     ToolTip="Runtime" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Configuration" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.Configuration, Mode=TwoWay}" 
-                                 ToolTip="Configuration" Margin="0,0,0,12" />
+            <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
+                     ToolTip="TargetFramework" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Runtime" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.Runtime, Mode=TwoWay}" 
-                                 ToolTip="Runtime" Margin="0,0,0,12" />
+            <TextBlock Text="MSBuildOutputPath" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Command.MSBuildOutputPath, Mode=TwoWay}"
+                     ToolTip="MSBuildOutputPath" Margin="0,0,0,12" />
 
-                        <TextBlock Text="TargetFramework" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.TargetFramework, Mode=TwoWay}" 
-                                 ToolTip="TargetFramework" Margin="0,0,0,12" />
+            <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
+                <TextBlock Text="NoBuild" TextWrapping="Wrap" />
+            </CheckBox>
 
-                        <TextBlock Text="MSBuildOutputPath" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.MSBuildOutputPath, Mode=TwoWay}"
-                                 ToolTip="MSBuildOutputPath" Margin="0,0,0,12" />
-
-                        <CheckBox IsChecked="{Binding Command.NoBuild, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="NoBuild">
-                            <TextBlock Text="NoBuild" TextWrapping="Wrap" />
-                        </CheckBox>
-
-                        <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
-                            <TextBlock Text="Verbose" TextWrapping="Wrap" />
-                        </CheckBox>
-                    </StackPanel>
-                </TabItem>
-                <TabItem Header="Assembly">
-                    <StackPanel Margin="4,8,4,-8">
-                        <Grid Margin="0,0,0,12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Text=".NET Assembly Paths (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                                <TextBox Grid.Row="1" Text="{Binding AssemblyPaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                                         ToolTip="AssemblyPaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  
-                                         Margin="0,0,12,0" VerticalAlignment="Center" />
-                            </Grid>
-
-                            <Button Command="{Binding BrowseAssemblyCommand}" VerticalAlignment="Stretch"
-                                    Padding="8,4,8,4" Grid.Column="1" Content="..." />
-                        </Grid>
-
-                        <TextBlock Text="App.config or Web.config file path (optional, automatically searched when empty)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBlock Text="(Required for correct binding redirects, required when assembly cannot be loaded)" Margin="0,0,0,6" />
-                        <dialogs:FileOpenPicker ToolTip="AssemblyConfig" Margin="0,0,0,12" 
-                                                FilePath="{Binding Command.AssemblyConfig, Mode=TwoWay}"
-                                                DefaultExtension=".config"
-                                                Filter="Config Files (.config)|*.config"/>
-
-                        <TextBlock Text="Paths to search for referenced assembly files (multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ReferencePaths, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" 
-                                 ToolTip="ReferencePaths" Height="52" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Margin="0,0,0,12" />
-
-                        <CheckBox IsChecked="{Binding Command.UseNuGetCache, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseNuGetCache">
-                            <TextBlock Text="Add local Nuget's cache folder to reference paths" TextWrapping="Wrap" />
-                        </CheckBox>
-
-                        <TextBlock Text="CreateWebHostBuilder method in the form 'assemblyName:fullTypeName.methodName' or 'fullTypeName.methodName' (leave empty for auto-discovery)" TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.CreateWebHostBuilderMethod, Mode=TwoWay}" 
-                                 ToolTip="CreateWebHostBuilderMethod" Margin="0,0,0,12" />
-
-                        <TextBlock Text="Startup type in the form 'assemblyName:fullTypeName' or 'fullTypeName' (leave empty for auto-discovery)" 
-                                   FontWeight="Bold" Margin="0,0,0,6" TextWrapping="Wrap" />
-                        <TextBox Text="{Binding Command.StartupType, Mode=TwoWay}" 
-                                 ToolTip="StartupType" Margin="0,0,0,12" />
-                    </StackPanel>
-                </TabItem>
-            </TabControl>
+            <CheckBox IsChecked="{Binding Command.Verbose, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="Verbose">
+                <TextBlock Text="Verbose" TextWrapping="Wrap" />
+            </CheckBox>
 
             <TextBlock Text="Working Directory (optional, i.e. directory of appsettings.json)" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBox Text="{Binding Command.WorkingDirectory, Mode=TwoWay}"
@@ -125,111 +66,8 @@
                      ToolTip="WorkingDirectory"
                      Margin="0,0,0,12" />
 
-            <CheckBox IsChecked="{Binding Command.UseDocumentProvider, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseDocumentProvider">
-                <TextBlock Text="Use document provider (configuration from AddOpenApiDocument()/AddSwaggerDocument(), recommended)" TextWrapping="Wrap" />
-            </CheckBox>
 
-            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource VisibilityConverter}}">
-                <TextBlock Text="Document Name" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Text="{Binding Command.DocumentName, Mode=TwoWay}"
-                         ToolTip="DocumentName"
-                         Margin="0,0,0,12" />
-            </StackPanel>
-
-            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
-                <GroupBox Header="Deprecated, automatically resolved via DI (do not change)" Margin="0,0,0,8">
-                    <StackPanel Margin="4,8,4,-8">
-                        <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
-                        <Run Text="Default Enum Handling" FontWeight="Bold" />
-                        <LineBreak />
-                            Choose 'Integer' if you use the default Json.NET serializer or 'String' if a global StringEnumConverter is registered.
-                        </TextBlock>
-                        <ComboBox SelectedItem="{Binding Command.DefaultEnumHandling, Mode=TwoWay}" 
-                                  ToolTip="DefaultEnumHandling" ItemsSource="{Binding EnumHandlings}" Margin="0,0,0,12" />
-
-                        <TextBlock Margin="0,0,0,6" Text="Default Property Name Handling" TextWrapping="Wrap" FontWeight="Bold" />
-                        <ComboBox SelectedItem="{Binding Command.DefaultPropertyNameHandling, Mode=TwoWay}" 
-                                  ToolTip="DefaultPropertyNameHandling" ItemsSource="{Binding PropertyNameHandlings}" Margin="0,0,0,12" />
-                    </StackPanel>
-                </GroupBox>
-
-                <CheckBox IsChecked="{Binding Command.RequireParametersWithoutDefault, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="RequireParametersWithoutDefault">
-                    <TextBlock Text="Parameters without default value are always required (should not be enabled, legacy)." TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.AllowNullableBodyParameters, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowNullableBodyParameters">
-                    <TextBlock Text="Allow nullable body parameters (ignored when MvcOptions.AllowEmptyInputInBodyModelBinding is available)" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling" TextWrapping="Wrap" FontWeight="Bold" />
-                <ComboBox SelectedItem="{Binding Command.DefaultReferenceTypeNullHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
-
-                <TextBlock Margin="0,0,0,6" Text="The default reference type null handling of dictionary value types" TextWrapping="Wrap" FontWeight="Bold" />
-                <ComboBox SelectedItem="{Binding Command.DefaultDictionaryValueReferenceTypeNullHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultDictionaryValueReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
-
-                <TextBlock Margin="0,0,0,6" Text="The default response reference type null handling (if NotNullAttribute and CanBeNullAttribute are missing)" TextWrapping="Wrap" FontWeight="Bold" />
-                <ComboBox SelectedItem="{Binding Command.DefaultResponseReferenceTypeNullHandling, Mode=TwoWay}" 
-                          ToolTip="DefaultResponseReferenceTypeNullHandling" ItemsSource="{Binding ReferenceTypeNullHandlings}" Margin="0,0,0,12" />
-
-                <CheckBox IsChecked="{Binding Command.GenerateOriginalParameterNames, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateOriginalParameterNames">
-                    <TextBlock Text="Generate x-originalName properties when parameter name is differnt in .NET and HTTP." TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.GenerateAbstractProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractProperties">
-                    <TextBlock Text="Generate abstract properties (i.e. interface and abstract properties. Properties may defined multiple times in a inheritance hierarchy)" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.GenerateAbstractSchemas, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateAbstractSchemas">
-                    <TextBlock Text="Generate the x-abstract flag on schemas" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.IgnoreObsoleteProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="IgnoreObsoleteProperties">
-                    <TextBlock Text="Ignore properties with the ObsoleteAttribute" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.AllowReferencesWithProperties, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="AllowReferencesWithProperties">
-                    <TextBlock Text="Use $ref references even if additional properties are defined on the object (otherwise allOf/oneOf with $ref is used)" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.FlattenInheritanceHierarchy, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="FlattenInheritanceHierarchy">
-                    <TextBlock Text="Flatten the inheritance hierarchy instead of using allOf to describe inheritance" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.GenerateKnownTypes, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateKnownTypes">
-                    <TextBlock Text="Generate schemas for types in KnownTypeAttribute attributes" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.GenerateEnumMappingDescription, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateEnumMappingDescription">
-                    <TextBlock Text="Generate a description with number to enum name mappings (for integer enums only)" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.GenerateXmlObjects, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="GenerateXmlObjects">
-                    <TextBlock Text="Generate xmlObject representation for definitions" TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.UseHttpAttributeNameAsOperationId, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseHttpAttributeNameAsOperationId">
-                    <TextBlock Text="Use the HttpMethodAttribute Name property as OperationId (if available)." TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.UseXmlDocumentation, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="UseXmlDocumentation">
-                    <TextBlock Text="Read XML Docs files." TextWrapping="Wrap" />
-                </CheckBox>
-
-                <CheckBox IsChecked="{Binding Command.ResolveExternalXmlDocumentation, Mode=TwoWay}" Margin="0,0,0,12" ToolTip="ResolveExternalXmlDocumentation">
-                    <TextBlock Text="Resolve the XML Docs from the NuGet cache or .NET SDK directory." TextWrapping="Wrap" />
-                </CheckBox>
-
-                <TextBlock Text="The excluded type names (same as JsonSchemaIgnoreAttribute, comma separated)." FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                         ToolTip="ExcludedTypeNames" Margin="0,0,0,12" />
-
-                <TextBlock Text="The ASP.NET Core API Explorer group names to include (comma separated, empty = all, often used to select API version)" 
-                           TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,6" />
-                <TextBox Text="{Binding Command.ApiGroupNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
-                         ToolTip="ApiGroupNames" Margin="0,0,0,12" />
-
+            <StackPanel>
                 <GroupBox Header="Swagger Information" Margin="0,0,0,8">
                     <StackPanel Margin="4,8,4,-8">
                         <TextBlock Text="Document Template" FontWeight="Bold" Margin="0,0,0,6" />
@@ -237,20 +75,6 @@
                                                 FilePath="{Binding Command.DocumentTemplate, Mode=TwoWay}"
                                                 Filter="OpenAPI Specification JSON (.json)|*.json|Swagger Specification YAML (.yaml)|*.yaml"
                                                 DefaultExtension=".json"/>
-
-                        <StackPanel Visibility="{Binding Command.DocumentTemplate, Converter={StaticResource NotConverter}}">
-                            <TextBlock Text="Title" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.InfoTitle, Mode=TwoWay}"
-                                     ToolTip="InfoTitle" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Description" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.InfoDescription, Mode=TwoWay}"
-                                     ToolTip="InfoDescription" Margin="0,0,0,12" />
-
-                            <TextBlock Text="Version" FontWeight="Bold" Margin="0,0,0,6" />
-                            <TextBox Text="{Binding Command.InfoVersion, Mode=TwoWay}"
-                                     ToolTip="InfoVersion" Margin="0,0,0,12" />
-                        </StackPanel>
 
                         <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}"
@@ -296,10 +120,6 @@
                         <TextBox Text="{Binding Command.SchemaNameGeneratorType, Mode=TwoWay}" 
                                  ToolTip="SchemaNameGeneratorType" Margin="0,0,0,12" />
 
-                        <TextBlock Text="Custom IContractResolver implementation (deprecated, automatically resolved via DI)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <TextBox Text="{Binding Command.ContractResolverType, Mode=TwoWay}" 
-                                 ToolTip="ContractResolverType" Margin="0,0,0,12" />
-
                         <TextBlock Text="Custom JsonSerializerSettings implementation (deprecated, automatically resolved via DI)" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.SerializerSettingsType, Mode=TwoWay}" 
                                 ToolTip="SerializerSettingsType" Margin="0,0,0,12" />
@@ -313,11 +133,6 @@
                                     DefaultExtension=".cs" 
                                     Margin="0,0,0,12"
                                     FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" />
-
-            <StackPanel Visibility="{Binding Command.UseDocumentProvider, Converter={StaticResource NotConverter}}">
-                <TextBlock Margin="0,0,0,6" Text="Output Type" TextWrapping="Wrap" FontWeight="Bold" />
-                <ComboBox SelectedItem="{Binding Command.OutputType, Mode=TwoWay}" ItemsSource="{Binding OutputTypes}" Margin="0,0,0,12" />
-            </StackPanel>
 
             <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
             <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />

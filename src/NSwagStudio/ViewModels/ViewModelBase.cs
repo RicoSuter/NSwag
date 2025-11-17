@@ -6,8 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using System.Windows;
 using MyToolkit.Dialogs;
 
@@ -20,7 +18,7 @@ namespace NSwagStudio.ViewModels
         /// <param name="exception">The exception.</param>
         public override void HandleException(Exception exception)
         {
-            ExceptionBox.Show("An error occured", exception, Application.Current.MainWindow);
+            ExceptionBox.Show("An error occurred", exception, Application.Current.MainWindow);
         }
 
         protected string FromStringArray(string[] array)

@@ -6,43 +6,61 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using NJsonSchema;
 
 namespace NSwag.CodeGeneration
 {
     /// <summary>The default parameter name generator.</summary>
-    public class DefaultParameterNameGenerator : IParameterNameGenerator
+    public sealed class DefaultParameterNameGenerator : IParameterNameGenerator
     {
+        private static readonly char[] _parameterNameCleanupChars = ['-', '.', ':', '$', '@', '[', ']'];
+
+#if NET8_0_OR_GREATER
+        private static readonly System.Buffers.SearchValues<char> ParameterNameCleanupChars = System.Buffers.SearchValues.Create(_parameterNameCleanupChars);
+#else
+        private static readonly char[] ParameterNameCleanupChars = _parameterNameCleanupChars;
+#endif
+
         /// <summary>Generates the parameter name for the given parameter.</summary>
         /// <param name="parameter">The parameter.</param>
         /// <param name="allParameters">All parameters.</param>
         /// <returns>The parameter name.</returns>
         public string Generate(OpenApiParameter parameter, IEnumerable<OpenApiParameter> allParameters)
         {
-            var name = !string.IsNullOrEmpty(parameter.OriginalName) ? 
-                parameter.OriginalName : parameter.Name;
+            var variableName = GetVariableName(parameter);
 
-            if (string.IsNullOrEmpty(name))
-            {
-                return "unnamed";
-            }
-
-            var variableName = ConversionUtilities.ConvertToLowerCamelCase(name
-                .Replace("-", "_")
-                .Replace(".", "_")
-                .Replace("$", string.Empty)
-                .Replace("@", string.Empty)
-                .Replace("[", string.Empty)
-                .Replace("]", string.Empty), true);
-
-            if (allParameters.Count(p => p.Name == name) > 1)
+            if (allParameters.Count(p => GetVariableName(p) == variableName) > 1)
             {
                 return variableName + parameter.Kind;
             }
 
             return variableName;
+
+            static string GetVariableName(OpenApiParameter openApiParameter)
+            {
+                var name = !string.IsNullOrEmpty(openApiParameter.OriginalName)
+                    ? openApiParameter.OriginalName
+                    : openApiParameter.Name;
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    return "unnamed";
+                }
+
+                if (name.AsSpan().IndexOfAny(ParameterNameCleanupChars) != -1)
+                {
+                    name = name
+                        .Replace("-", "_")
+                        .Replace(".", "_")
+                        .Replace(":", "_")
+                        .Replace("$", string.Empty)
+                        .Replace("@", string.Empty)
+                        .Replace("[", string.Empty)
+                        .Replace("]", string.Empty);
+                }
+
+                return ConversionUtilities.ConvertToLowerCamelCase(name, true);
+            }
         }
     }
 }

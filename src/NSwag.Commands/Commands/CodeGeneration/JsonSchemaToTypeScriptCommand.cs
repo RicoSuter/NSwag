@@ -6,9 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
 using NConsole;
-using NJsonSchema;
 using NJsonSchema.CodeGeneration.TypeScript;
 
 #pragma warning disable 1591

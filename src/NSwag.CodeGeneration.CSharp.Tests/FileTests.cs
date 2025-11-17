@@ -1,9 +1,7 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
-using Xunit;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -22,7 +20,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         public async Task When_file_is_generated_system_alias_is_there()
         {
             // Arrange
-            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
             var document = await swaggerGenerator.GenerateForControllerAsync<FileDownloadController>();
 
             // Act
@@ -33,7 +35,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            Assert.Contains("System = global::System", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

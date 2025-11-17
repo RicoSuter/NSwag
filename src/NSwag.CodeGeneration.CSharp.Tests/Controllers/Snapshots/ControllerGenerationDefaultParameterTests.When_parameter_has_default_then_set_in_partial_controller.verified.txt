@@ -1,0 +1,42 @@
+﻿
+
+namespace MyNamespace
+{
+    using System = global::System;
+
+    public interface IController
+    {
+
+
+
+
+
+
+
+        System.Threading.Tasks.Task BarAsync(int abc, bool booldef, int intdef, double doubledef, decimal decdef, string strdef, int? bar = null);
+
+    }
+
+
+    public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
+    {
+        private IController _implementation;
+
+        public Controller(IController implementation)
+        {
+            _implementation = implementation;
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("foo/bar")]
+        public System.Threading.Tasks.Task Bar([Microsoft.AspNetCore.Mvc.FromQuery] int abc, [Microsoft.AspNetCore.Mvc.FromQuery] bool? booldef = null, [Microsoft.AspNetCore.Mvc.FromQuery] int? intdef = null, [Microsoft.AspNetCore.Mvc.FromQuery] double? doubledef = null, [Microsoft.AspNetCore.Mvc.FromQuery] decimal? decdef = null, [Microsoft.AspNetCore.Mvc.FromQuery] string strdef = null, [Microsoft.AspNetCore.Mvc.FromQuery] int? bar = null)
+        {
+
+            return _implementation.BarAsync(abc, booldef ?? true, intdef ?? 42, doubledef ?? 0.6822871999174D, decdef ?? 79228162514264337593543950335M, strdef ?? "default\"string\"", bar);
+        }
+
+    }
+
+    
+
+
+}

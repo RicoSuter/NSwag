@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using NJsonSchema;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Responses;
-using Xunit;
 
 namespace NSwag.Generation.AspNetCore.Tests.Responses
 {
@@ -11,7 +10,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
         public async Task When_produces_is_defined_on_all_operations_then_it_is_added_to_the_document()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(TextProducesController));
@@ -24,12 +23,12 @@ namespace NSwag.Generation.AspNetCore.Tests.Responses
             Assert.Contains("text/html", operation.ActualProduces);
             Assert.Null(operation.Produces);
         }
-        
+
         [Fact]
         public async Task When_operation_produces_is_different_in_several_controllers_then_they_are_added_to_the_operation()
         {
             // Arrange
-            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings();
+            var settings = new AspNetCoreOpenApiDocumentGeneratorSettings { SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 } };
 
             // Act
             var document = await GenerateDocumentAsync(settings, typeof(TextProducesController), typeof(JsonProducesController));

@@ -11,7 +11,7 @@
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
     baseUrl: string;
     beforeSend: any = undefined;
-    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else -%}(key: string, value: any) => any{% endif %} = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
 {%- if HasExtendedConstructor == false -%}
     constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string) {
@@ -19,9 +19,9 @@
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-     endif -%}
 {%-     if UseGetBaseUrlMethod -%}
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+        this.baseUrl = baseUrl ?? this.getBaseUrl("{{ BaseUrl }}");
 {%-     else -%}
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
+        this.baseUrl = baseUrl ?? "{{ BaseUrl }}";
 {%-     endif -%}
     }
 {%- endif -%}
@@ -62,7 +62,7 @@
 {%-    for parameter in operation.HeaderParameters -%}
                 "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
 {%     endfor -%}
-{%-    if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+{%-    if operation.HasContent or operation.ConsumesOnlyFormUrlEncoded -%}
                 "Content-Type": "{{ operation.Consumes }}",
 {%-    endif -%}
 {%-    if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
@@ -93,7 +93,7 @@
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if SupportsStrictNullChecks %} | null{% endif %} {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }} | null {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}

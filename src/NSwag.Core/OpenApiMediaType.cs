@@ -6,7 +6,6 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using NJsonSchema;
 
@@ -29,7 +28,7 @@ namespace NSwag
             set
             {
                 _schema = value;
-                Parent?.Parent?.UpdateBodyParameter();
+                Parent?.ParentOperation?.UpdateBodyParameter();
             }
         }
 
@@ -41,7 +40,7 @@ namespace NSwag
             set
             {
                 _example = value;
-                Parent?.Parent?.UpdateBodyParameter();
+                Parent?.ParentOperation?.UpdateBodyParameter();
             }
         }
 

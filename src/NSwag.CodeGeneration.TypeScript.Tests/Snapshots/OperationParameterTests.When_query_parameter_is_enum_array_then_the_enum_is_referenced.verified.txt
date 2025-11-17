@@ -1,0 +1,151 @@
+﻿
+// ReSharper disable InconsistentNaming
+
+import * as jQuery from 'jquery';
+
+export class FooClient {
+    baseUrl: string;
+    beforeSend: any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string) {
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getFoos(bars: Bar[] | null | undefined, onSuccess?: (result: Foo[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+        let url_ = this.baseUrl + "/foos?";
+        if (bars !== undefined && bars !== null)
+            bars && bars.forEach(item => { url_ += "bars=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let jqXhr = jQuery.ajax({
+            url: url_,
+            beforeSend: this.beforeSend,
+            type: "get",
+            dataType: "text",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        jqXhr.done((_data, _textStatus, xhr) => {
+            this.processGetFoosWithCallbacks(url_, xhr, onSuccess, onFail);
+        }).fail((xhr) => {
+            this.processGetFoosWithCallbacks(url_, xhr, onSuccess, onFail);
+        });
+
+        return jqXhr;
+    }
+
+    private processGetFoosWithCallbacks(_url: string, xhr: any, onSuccess?: any, onFail?: any): void {
+        try {
+            let result = this.processGetFoos(xhr);
+            if (onSuccess !== undefined)
+                onSuccess(result);
+        } catch (e) {
+            if (onFail !== undefined)
+                onFail(e, "http_service_exception");
+        }
+    }
+
+    protected processGetFoos(xhr: any): Foo[] | null | null {
+        const status = xhr.status;
+
+        let _headers: any = {};
+        if (status === 200) {
+            const _responseText = xhr.responseText;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Foo.fromJS(item));
+            }
+            else {
+                result200 = null as any;
+            }
+            return result200;
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = xhr.responseText;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return null;
+    }
+}
+
+export class Foo implements IFoo {
+    bar!: Bar;
+    bar2!: Bar;
+
+    constructor(data?: IFoo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bar = _data["Bar"];
+            this.bar2 = _data["Bar2"];
+        }
+    }
+
+    static fromJS(data: any): Foo {
+        data = typeof data === 'object' ? data : {};
+        let result = new Foo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Bar"] = this.bar;
+        data["Bar2"] = this.bar2;
+        return data;
+    }
+}
+
+export interface IFoo {
+    bar: Bar;
+    bar2: Bar;
+}
+
+export enum Bar {
+    Baz = "Baz",
+    Foo = "Foo",
+}
+
+export class ApiException extends Error {
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
+
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
+
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
+
+    protected isApiException = true;
+
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
+}
