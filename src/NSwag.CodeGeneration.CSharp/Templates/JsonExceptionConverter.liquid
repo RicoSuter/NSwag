@@ -57,9 +57,9 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
         var newSerializer = new Newtonsoft.Json.JsonSerializer();
         newSerializer.ContractResolver = (Newtonsoft.Json.Serialization.IContractResolver)System.Activator.CreateInstance(serializer.ContractResolver.GetType());
     
-        var field = GetField(typeof(Newtonsoft.Json.Serialization.DefaultContractResolver), "_sharedCache");
-        if (field != null)
-            field.SetValue(newSerializer.ContractResolver, false);
+        var field_ = GetField(typeof(Newtonsoft.Json.Serialization.DefaultContractResolver), "_sharedCache");
+        if (field_ != null)
+            field_.SetValue(newSerializer.ContractResolver, false);
     
         dynamic resolver = newSerializer.ContractResolver;
         if (System.Reflection.RuntimeReflectionExtensions.GetRuntimeProperty(newSerializer.ContractResolver.GetType(), "IgnoreSerializableAttribute") != null)
@@ -101,9 +101,9 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
                 property.Key.SetValue(value, propertyValue);
             else
             {
-                field = GetField(objectType, "m_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
-                if (field != null)
-                    field.SetValue(value, propertyValue);
+                field_ = GetField(objectType, "m_" + property.Value.Substring(0, 1).ToLowerInvariant() + property.Value.Substring(1));
+                if (field_ != null)
+                    field_.SetValue(value, propertyValue);
             }
         }
     
@@ -117,10 +117,10 @@ internal class JsonExceptionConverter : Newtonsoft.Json.JsonConverter
     
     private System.Reflection.FieldInfo GetField(System.Type type, string fieldName)
     {
-        var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(type).GetDeclaredField(fieldName);
-        if (field == null && System.Reflection.IntrospectionExtensions.GetTypeInfo(type).BaseType != null)
+        var field_ = System.Reflection.IntrospectionExtensions.GetTypeInfo(type).GetDeclaredField(fieldName);
+        if (field_ == null && System.Reflection.IntrospectionExtensions.GetTypeInfo(type).BaseType != null)
             return GetField(System.Reflection.IntrospectionExtensions.GetTypeInfo(type).BaseType, fieldName);
-        return field;
+        return field_;
     }
     
     private System.Collections.Generic.IDictionary<System.Reflection.PropertyInfo, string> GetExceptionProperties(System.Type exceptionType)
