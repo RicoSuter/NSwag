@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:MyToolkit.Converters;assembly=MyToolkit.Extended"
              xmlns:localConverters="clr-namespace:NSwagStudio.Converters"
+             xmlns:sys="clr-namespace:System.Globalization;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -100,19 +101,31 @@
 
                 <GroupBox Header="Serialization" Margin="0,0,0,12">
                     <StackPanel Margin="4,8,4,-8">
-                        <TextBlock Text="JSON Library ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBlock Text="JSON Library" FontWeight="Bold" Margin="0,0,0,6" />
                         <ComboBox SelectedItem="{Binding Command.JsonLibrary, Mode=TwoWay}" 
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
 
-                        <TextBlock Text="JSON Polymorphic Serialization Style ('System.Text.Json' is experimental/incomplete!)" FontWeight="Bold" Margin="0,0,0,6" />
-                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyles, Mode=TwoWay}" 
+                        <TextBlock Text="JSON Library Version (used in SystemTextJson only)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Margin="0,0,0,12" ToolTip="JsonLibraryVersion" 
+                                 Text="{Binding Command.JsonLibraryVersion,
+                                 Mode=TwoWay,
+                                 ConverterCulture={x:Static sys:CultureInfo.InvariantCulture},
+                                 UpdateSourceTrigger=LostFocus,
+                                 ValidatesOnExceptions=True,
+                                 NotifyOnValidationError=True}" />
+                        
+                        <TextBlock Text="JSON Polymorphic Serialization Style" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyle, Mode=TwoWay}" 
                                   ToolTip="JsonLibrary"
                                   ItemsSource="{Binding JsonPolymorphicSerializationStyles}" Margin="0,0,0,12" />
 
                         <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12">
                             <TextBlock Text="Required properties must be defined in JSON (sets Required.Always when the property is required)" TextWrapping="Wrap" />
                         </CheckBox>
+
+                        <TextBlock Text="Read accessor of properties ('set' | 'init')" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.WriteAccessor, Mode=TwoWay}" ToolTip="WriteAccessor" Margin="0,0,0,12" />
 
                         <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" 
                                   Content="Use preserve references handling (All) in the JSON serializer"

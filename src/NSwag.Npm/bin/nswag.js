@@ -10,10 +10,46 @@ var supportedCoreVersions = [
 
 const path = require('path');
 var c = require('child_process');
+var fs = require('fs');
 
 // Initialize
 process.title = 'nswag';
 console.log("NSwag NPM CLI");
+
+var configFile = null;
+
+// Find configuration json file in arguments
+for (var i = 0; i < process.argv.length; i++) {
+    if (process.argv[i].endsWith('.json') || (process.argv[i] === 'run' && process.argv[i + 1])) {
+        configFile = process.argv[i] === 'run' ? process.argv[i + 1] : process.argv[i];
+        break;
+    }
+}
+
+// Read runtime from config file if found
+if (configFile) {
+    try {
+        var configPath = path.resolve(configFile);
+        if (fs.existsSync(configPath)) {
+            var configContent = fs.readFileSync(configPath, 'utf8');
+            var config = JSON.parse(configContent);
+            if (config.runtime) {
+                // Convert runtime format (e.g., "net90" to "Net90")
+                var runtime = config.runtime.toLowerCase();
+                if (runtime === 'net80' || runtime === 'net8.0') {
+                    defaultCoreVersion = "Net80";
+                } else if (runtime === 'net90' || runtime === 'net9.0') {
+                    defaultCoreVersion = "Net90";
+                } else if (runtime === 'net100' || runtime === 'net10.0') {
+                    defaultCoreVersion = "Net100";
+                }
+                console.log("Found runtime from config: " + defaultCoreVersion);
+            }
+        }
+    } catch (e) {
+        console.log("Could not read runtime from config file, using default: " + defaultCoreVersion);
+    }
+}
 
 let args = process.argv.slice(2);
 
@@ -71,7 +107,7 @@ if (runtimeValue) {
         }
     }
 
-    if(!runtimeValue.toLowerCase().startsWith("win")) {
+    if (!runtimeValue.toLowerCase().startsWith("win")) {
         const isSupported = supportedCoreVersions.some(v => v.dir.toLowerCase() === runtimeValue.toLowerCase());
         if (!isSupported) {
             console.error("Error: Unsupported /runtime: argument '" + runtimeValue + "'.");
@@ -83,14 +119,12 @@ if (runtimeValue) {
 var hasFullDotNet = false;
 if (runtimeValue && runtimeValue.toLowerCase().startsWith("win")) {
     // Search for full .NET installation
-    var fs = require('fs');
 
     if (process.env["windir"]) {
 
         try {
             var stats = fs.lstatSync(process.env["windir"] + '/Microsoft.NET');
-            if (stats.isDirectory())
-            {
+            if (stats.isDirectory()) {
                 hasFullDotNet = true;
             }
         }
@@ -103,7 +137,6 @@ if (runtimeValue && runtimeValue.toLowerCase().startsWith("win")) {
 let childResult = null;
 
 if (hasFullDotNet && runtimeValue && runtimeValue.toLowerCase().startsWith("win")) {
-    
     // Run full .NET version
     if (runtimeValue.toLowerCase() === "winx86") {
         var exePath = path.join(__dirname, 'binaries', 'Win', 'nswag.x86.exe');

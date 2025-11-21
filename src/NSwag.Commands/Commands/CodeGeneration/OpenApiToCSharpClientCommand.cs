@@ -192,42 +192,19 @@ namespace NSwag.Commands.CodeGeneration
             }
         }
 
-        [Argument(Name = "PropertySetterAccessModifier", IsRequired = false, Description = "The access modifier of property setters (default: '').")]
-        public string PropertySetterAccessModifier
-        {
-            get => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier;
-            set => Settings.CSharpGeneratorSettings.PropertySetterAccessModifier = value;
-        }
-
-        [Argument(Name = "GenerateNativeRecords", IsRequired = false, Description = "Generate C# 9.0 record types instead of record-like classes (default: false).")]
-        public bool GenerateNativeRecords
-        {
-            get => Settings.CSharpGeneratorSettings.GenerateNativeRecords;
-            set => Settings.CSharpGeneratorSettings.GenerateNativeRecords = value;
-        }
-        
-
-        [Argument(Name = nameof(UseRequiredKeyword), IsRequired = false,
-            Description = "Indicate whether the C# 11 'required' keyword should be used for required properties (default: false).")]
-        public bool UseRequiredKeyword
-        {
-            get => Settings.CSharpGeneratorSettings.UseRequiredKeyword;
-            set => Settings.CSharpGeneratorSettings.UseRequiredKeyword = value;
-        }
-
         [Argument(Name = "GenerateContractsOutput", IsRequired = false,
-                  Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
+            Description = "Specifies whether to generate contracts output (interface and models in a separate file set with the ContractsOutput parameter).")]
         public bool GenerateContractsOutput { get; set; }
 
         [Argument(Name = "ContractsNamespace", IsRequired = false, Description = "The contracts .NET namespace.")]
         public string ContractsNamespace { get; set; }
 
         [Argument(Name = "ContractsOutput", IsRequired = false,
-                  Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
+            Description = "The contracts output file path (optional, if no path is set then a single file with the implementation and contracts is generated).")]
         public string ContractsOutputFilePath { get; set; }
 
         [Argument(Name = "ParameterDateTimeFormat", IsRequired = false,
-                  Description = "Specifies the format for DateTime type method parameters (default: s).")]
+            Description = "Specifies the format for DateTime type method parameters (default: s).")]
         public string ParameterDateTimeFormat
         {
             get => Settings.ParameterDateTimeFormat;
@@ -235,7 +212,7 @@ namespace NSwag.Commands.CodeGeneration
         }
 
         [Argument(Name = "ParameterDateFormat", IsRequired = false,
-          Description = "Specifies the format for Date type method parameters (default: yyyy-MM-dd).")]
+            Description = "Specifies the format for Date type method parameters (default: yyyy-MM-dd).")]
         public string ParameterDateFormat
         {
             get => Settings.ParameterDateFormat;
