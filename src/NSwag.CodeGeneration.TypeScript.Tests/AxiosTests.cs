@@ -223,5 +223,53 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             await VerifyHelper.Verify(code);
             TypeScriptCompiler.AssertCompile(code);
         }
+        
+        [Fact]
+        public async Task When_typestyle_is_interface_without_handlereferences_will_have_parse_trycatch()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                PromiseType = PromiseType.Promise,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeStyle = NJsonSchema.CodeGeneration.TypeScript.TypeScriptTypeStyle.Interface,
+                    HandleReferences = false
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("try { result200 =", code);
+        }
+
+        [Fact]
+        public async Task When_typestyle_is_interface_with_handlereferences_will_have_jsonParse()
+        {
+            //// Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings());
+            var document = await generator.GenerateForControllerAsync<DiscussionController>();
+
+            //// Act
+            var codeGen = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                Template = TypeScriptTemplate.Axios,
+                PromiseType = PromiseType.Promise,
+                TypeScriptGeneratorSettings =
+                {
+                    TypeStyle = NJsonSchema.CodeGeneration.TypeScript.TypeScriptTypeStyle.Interface,
+                    HandleReferences = true
+                }
+            });
+            var code = codeGen.GenerateFile();
+
+            //// Assert
+            Assert.Contains("jsonParse(", code);
+        }
     }
 }
