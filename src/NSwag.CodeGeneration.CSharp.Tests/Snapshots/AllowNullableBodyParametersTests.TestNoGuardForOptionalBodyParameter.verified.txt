@@ -1,6 +1,6 @@
 ﻿
 
-namespace MyNamespace
+namespace AllowNullableBodyParametersTests.TestNoGuardForOptionalBodyParameter
 {
     using System = global::System;
 

@@ -8,19 +8,21 @@ public class ClientGenerationTests
     [Fact]
     public async Task CanGenerateFromJiraOpenApiSpecification()
     {
+        // Jira's OpenAPI spec generates code like this:
+        //// public bool ShowDaysInColumn { get; set; } = MyNamespace.bool.False;
         await VerifyOutput("JIRA_OpenAPI", "jira-open-api.json", compile: false);
     }
 
     [Fact]
     public async Task CanGenerateFromShipBobOpenApiSpecification()
     {
-        await VerifyOutput("ShipBob_OpenAPI", "shipbob-2025-07.json");
+        await VerifyOutput("ShipBob_OpenAPI", "shipbob-2025-07.json", compile: true);
     }
 
     [Fact]
     public async Task CanGenerateFromNhsSpineServicesOpenApiSpecification()
     {
-        await VerifyOutput("NHS_SpineServices_OpenAPI", "nhs-spineservices.json");
+        await VerifyOutput("NHS_SpineServices_OpenAPI", "nhs-spineservices.json", compile: true);
     }
 
     private static async Task VerifyOutput(string name, string fileName, bool compile = true)

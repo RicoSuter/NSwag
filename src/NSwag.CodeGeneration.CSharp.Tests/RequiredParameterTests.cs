@@ -59,7 +59,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             CSharpCompiler.AssertCompile(code);
         }
 
-        [Fact(Skip = "The C#11 required keyword does not mark schema properties as required")]
+        [Fact(/*Skip = "The C#11 required keyword does not mark schema properties as required"*/)]
         public async Task When_setting_is_enabled_properties_with_required_keyword_should_generate_with_required_keyword()
         {
             // Act
@@ -67,7 +67,16 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
-            CSharpCompiler.AssertCompile(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public class MyBaseClass
+    {
+        public MyBaseClass(MyConfig configuration) {}
+    }
+    public class MyConfig {}
+}
+");
         }
 
         [Fact]
