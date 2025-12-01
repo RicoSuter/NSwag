@@ -84,6 +84,34 @@ namespace NSwag.Commands.CodeGeneration
             get => Settings.TimeSpanType;
             set => Settings.TimeSpanType = value;
         }
+        
+        [Argument(Name = "NumberType", IsRequired = false, Description = "The number .NET type (default: 'double').")]
+        public string NumberType
+        {
+            get { return Settings.NumberType; }
+            set { Settings.NumberType = value; }
+        }
+        
+        [Argument(Name = "NumberFloatType", IsRequired = false, Description = "The number .NET type when the format is float (default: 'float').")]
+        public string NumberFloatType
+        {
+            get { return Settings.NumberFloatType; }
+            set { Settings.NumberFloatType = value; }
+        }
+        
+        [Argument(Name = "NumberDoubleType", IsRequired = false, Description = "The number .NET type when the format is double (default: 'double').")]
+        public string NumberDoubleType
+        {
+            get { return Settings.NumberDoubleType; }
+            set { Settings.NumberDoubleType = value; }
+        }
+        
+        [Argument(Name = "NumberDecimalType", IsRequired = false, Description = "The number .NET type when the format is decimal (default: 'decimal').")]
+        public string NumberDecimalType
+        {
+            get { return Settings.NumberDecimalType; }
+            set { Settings.NumberDecimalType = value; }
+        }
 
         [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ICollection').")]
         public string ArrayType
