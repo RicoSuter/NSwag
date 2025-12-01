@@ -141,7 +141,8 @@ namespace NSwag.CodeGeneration.Models
 
         /// <summary>Gets a value indicating whether the parameter is of type date-time</summary>
         public bool IsDateTime =>
-            Schema.Format == JsonFormatStrings.DateTime && _generator.GetTypeName(Schema, IsNullable, null) != "string";
+            Schema.Format is JsonFormatStrings.DateTime or JsonFormatStrings.TimeSpan &&
+            _generator.GetTypeName(Schema, IsNullable, null) != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type date-time or date</summary>
         public bool IsDateOrDateTime => IsDate || IsDateTime;
@@ -172,7 +173,7 @@ namespace NSwag.CodeGeneration.Models
         /// <summary>Gets a value indicating whether the parameter is of type date-time array.</summary>
         public bool IsDateTimeArray =>
             IsArray &&
-            Schema.Item?.ActualSchema.Format == JsonFormatStrings.DateTime &&
+            Schema.Item?.ActualSchema.Format is JsonFormatStrings.DateTime or JsonFormatStrings.TimeSpan &&
             _generator.GetTypeName(Schema.Item.ActualSchema, IsNullable, null) != "string";
 
         /// <summary>Gets a value indicating whether the parameter is of type date-time or date array.</summary>
