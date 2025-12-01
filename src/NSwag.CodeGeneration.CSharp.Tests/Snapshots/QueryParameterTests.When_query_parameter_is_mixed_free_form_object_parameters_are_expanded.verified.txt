@@ -81,7 +81,10 @@ namespace MyNamespace
                         {
                             urlBuilder_.Append(System.Uri.EscapeDataString("default")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(extendedProperties.Default, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                         }
-                        foreach (var item_ in extendedProperties.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in extendedProperties.AdditionalProperties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 

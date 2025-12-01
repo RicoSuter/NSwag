@@ -1,21 +1,29 @@
 {% if parameter.IsDateTimeArray -%}
 {
-    bool isAfterFirst = false;
+    var i = 0;
     foreach (var item in {{ parameter.VariableName }})
     {
-        if (isAfterFirst) urlBuilder_.Append(',');
         urlBuilder_.Append(System.Uri.EscapeDataString(item.ToString("{{ ParameterDateTimeFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
-        isAfterFirst = true;
+        urlBuilder_.Append(',');
+        i++;
+    }
+    if (i > 0)
+    {
+        urlBuilder_.Length--;
     }
 }
 {% elsif parameter.IsDateArray -%}
 {
-    bool isAfterFirst = false;
+    var i = 0;
     foreach (var item in {{ parameter.VariableName }})
     {
-        if (isAfterFirst) urlBuilder_.Append(',');
         urlBuilder_.Append(System.Uri.EscapeDataString(item.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
-        isAfterFirst = true;
+        urlBuilder_.Append(',');
+        i++;
+    }
+    if (i > 0)
+    {
+        urlBuilder_.Length--;
     }
 }
 {% elsif parameter.IsDateTime -%}
@@ -24,12 +32,16 @@ urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToSt
 urlBuilder_.Append(System.Uri.EscapeDataString({{ parameter.VariableName }}.ToString("{{ ParameterDateFormat }}", System.Globalization.CultureInfo.InvariantCulture)));
 {% elsif parameter.IsArray -%}
 {
-    bool isAfterFirst = false;
+    var i = 0;
     foreach (var item in {{ parameter.VariableName }})
     {
-        if (isAfterFirst) urlBuilder_.Append(',');
-        urlBuilder_.Append(ConvertToString(item, System.Globalization.CultureInfo.InvariantCulture));
-        isAfterFirst = true;
+        urlBuilder_.Append(System.Uri.EscapeDataString(item, System.Globalization.CultureInfo.InvariantCulture));
+        urlBuilder_.Append(',');
+        i++;
+    }
+    if (i > 0)
+    {
+        urlBuilder_.Length--;
     }
 }
 {% else -%}
