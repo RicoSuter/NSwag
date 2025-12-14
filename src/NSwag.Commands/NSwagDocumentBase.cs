@@ -513,12 +513,6 @@ namespace NSwag.Commands
                 saveFile = true;
             }
 
-            if (data.Contains("\"noBuild\":") && !data.Contains("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase))
-            {
-                data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
-                saveFile = true;
-            }
-
             if (data.Contains("assemblyTypeToSwagger"))
             {
                 data = data.Replace("assemblyTypeToSwagger", "typesToSwagger");
