@@ -167,14 +167,7 @@ namespace NSwag.Commands
             where TDocument : NSwagDocumentBase, new()
         {
             var data = File.ReadAllText(filePath);
-            data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
-
-            if (requiredLegacyTransformations)
-            {
-                // Save now to avoid transformations
-                var document = LoadDocument<TDocument>(filePath, data);
-                await document.SaveAsync();
-            }
+            data = TransformLegacyDocument(data, out var _);
 
             if (applyTransformations)
             {
