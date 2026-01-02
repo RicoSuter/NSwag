@@ -75,6 +75,9 @@ if (runtimeIndices.length > 1) {
     console.error("Error: Multiple /runtime:* arguments detected. Please specify only one. Maybe remove the legacy --core argument?");
     process.exit(1);
 }
+else if (runtimeIndices.length === 1) {
+    args.splice(runtimeIndices[0], 1);
+}
 
 if (runtimeValue) {
     if (runtimeValue.toLowerCase() === "netcore") {
