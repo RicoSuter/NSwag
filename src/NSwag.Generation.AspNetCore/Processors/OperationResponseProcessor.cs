@@ -76,7 +76,7 @@ namespace NSwag.Generation.AspNetCore.Processors
 
                     if (!IsVoidResponse(returnType))
                     {
-                        var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>();
+                        var returnTypeAttributes = context.MethodInfo?.ReturnParameter?.GetCustomAttributes(false).OfType<Attribute>() ?? [];
                         var contextualReturnType = returnType.ToContextualType(returnTypeAttributes);
 
                         var nullableXmlAttribute = GetResponseXmlDocsElement(context.MethodInfo, httpStatusCode)?.Attribute("nullable");
