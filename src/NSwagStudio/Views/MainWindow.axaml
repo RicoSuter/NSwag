@@ -12,8 +12,47 @@
         <viewModels:MainWindowModel x:Key="ViewModel" />
     </Window.Resources>
 
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenu>
+                    <NativeMenuItem Header="New"
+                                    Command="{Binding CreateDocumentCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+N" />
+                    <NativeMenuItem Header="Open"
+                                    Command="{Binding OpenDocumentCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+O" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="Close"
+                                    Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+W" />
+                    <NativeMenuItem Header="Close All"
+                                    Command="{Binding CloseAllDocumentsCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+Shift+W" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="Save"
+                                    Command="{Binding SaveDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+S" />
+                    <NativeMenuItem Header="Save All"
+                                    Command="{Binding SaveAllDocumentsCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+Shift+S" />
+                    <NativeMenuItem Header="Save As"
+                                    Command="{Binding SaveAsDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}" />
+                </NativeMenu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Help">
+                <NativeMenu>
+                    <NativeMenuItem Header="About NSwagStudio" />
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+
     <DockPanel DataContext="{StaticResource ViewModel}">
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" x:Name="InWindowMenu">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" InputGesture="Ctrl+N" />
                 <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" InputGesture="Ctrl+O" />

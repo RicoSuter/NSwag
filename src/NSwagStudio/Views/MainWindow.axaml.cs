@@ -1,5 +1,5 @@
+using System.Runtime.InteropServices;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using NSwagStudio.Helpers;
 using NSwagStudio.ViewModels;
@@ -12,6 +12,27 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DialogService.MainWindow = this;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            var inWindowMenu = this.FindControl<Menu>("InWindowMenu");
+            if (inWindowMenu != null)
+                inWindowMenu.IsVisible = false;
+
+            var nativeMenu = NativeMenu.GetMenu(this);
+            if (nativeMenu != null)
+            {
+                foreach (var topItem in nativeMenu.Items.OfType<NativeMenuItem>())
+                {
+                    if (topItem.Menu == null) continue;
+                    foreach (var item in topItem.Menu.Items.OfType<NativeMenuItem>())
+                    {
+                        if (item.Header == "About NSwagStudio")
+                            item.Click += (_, _) => OnShowAbout(null, null!);
+                    }
+                }
+            }
+        }
 
         Opened += OnWindowOpened;
         Closing += OnWindowClosing;
