@@ -1,0 +1,47 @@
+using Avalonia.Controls;
+using NSwag.Commands;
+using NSwag.Commands.CodeGeneration;
+using NSwagStudio.ViewModels.CodeGenerators;
+
+namespace NSwagStudio.Views.CodeGenerators;
+
+public partial class SwaggerToCSharpControllerGeneratorView : CodeGeneratorViewBase
+{
+    private readonly NSwagDocument _document;
+
+    public SwaggerToCSharpControllerGeneratorView(NSwagDocument document)
+    {
+        InitializeComponent();
+        _document = document;
+        Model.Command = document.CodeGenerators.OpenApiToCSharpControllerCommand;
+    }
+
+    public override string Title => "CSharp Controller";
+
+    private SwaggerToCSharpControllerGeneratorViewModel Model => (SwaggerToCSharpControllerGeneratorViewModel)Resources["ViewModel"]!;
+
+    public override void UpdateOutput(OpenApiDocumentExecutionResult result)
+    {
+        Model.ClientCode = result.GetGeneratorOutput<OpenApiToCSharpControllerCommand>();
+        if (result.IsRedirectedOutput)
+        {
+            var tabControl = this.FindControl<Avalonia.Controls.TabControl>("TabControl");
+            if (tabControl != null)
+                tabControl.SelectedIndex = 1;
+        }
+    }
+
+    public override bool IsSelected
+    {
+        get => _document.CodeGenerators.OpenApiToCSharpControllerCommand != null;
+        set
+        {
+            if (value != IsSelected)
+            {
+                _document.CodeGenerators.OpenApiToCSharpControllerCommand = value ? new OpenApiToCSharpControllerCommand() : null;
+                Model.Command = _document.CodeGenerators.OpenApiToCSharpControllerCommand!;
+                OnPropertyChanged();
+            }
+        }
+    }
+}

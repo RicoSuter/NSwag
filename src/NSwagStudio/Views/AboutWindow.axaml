@@ -1,0 +1,45 @@
+<Window x:Class="NSwagStudio.Views.AboutWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About NSwagStudio"
+        Width="550" Height="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="Height">
+
+    <StackPanel Margin="24">
+        <TextBlock Margin="0,0,0,12" FontSize="20" FontWeight="Bold"
+                   Text="NSwagStudio" />
+        <TextBlock Margin="0,0,0,12" FontSize="14" TextWrapping="Wrap"
+                   Text="The OpenAPI/Swagger API toolchain for .NET and TypeScript" />
+        <TextBlock Margin="0,0,0,12" FontSize="13" TextWrapping="Wrap">
+            NSwag is a Swagger 2.0 API toolchain for .NET, TypeScript and other platforms, written in C#.
+            The OpenAPI/Swagger specification uses JSON and JSON Schema to describe a RESTful web API.
+            The project provides tools to automatically generate client code from these Swagger
+            specifications and integrate this generation into existing processes.
+        </TextBlock>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBlock FontSize="13" Text="Developed by " />
+            <TextBlock FontSize="13" Text="Rico Suter"
+                       Foreground="Blue" Cursor="Hand"
+                       Tag="http://www.rsuter.com"
+                       Tapped="OnOpenHyperlink" />
+            <TextBlock FontSize="13" Text=" and other contributors." />
+        </StackPanel>
+        <TextBlock Margin="0,0,0,6" FontSize="13" x:Name="NSwagVersionText" />
+        <TextBlock Margin="0,0,0,12" FontSize="13" x:Name="NJsonSchemaVersionText" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock FontSize="13" Text="Website: " />
+            <TextBlock FontSize="13" Text="nswag.org"
+                       Foreground="Blue" Cursor="Hand"
+                       Tag="http://nswag.org"
+                       Tapped="OnOpenHyperlink" />
+            <TextBlock FontSize="13" Text="  |  License: " />
+            <TextBlock FontSize="13" Text="MIT"
+                       Foreground="Blue" Cursor="Hand"
+                       Tag="https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md"
+                       Tapped="OnOpenHyperlink" />
+        </StackPanel>
+        <Button Content="OK" HorizontalAlignment="Right" Padding="24,6" Click="OnClose" />
+    </StackPanel>
+</Window>

@@ -1,0 +1,76 @@
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using NSwagStudio.Helpers;
+using NSwagStudio.ViewModels;
+
+namespace NSwagStudio.Views;
+
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+        DialogService.MainWindow = this;
+
+        Opened += OnWindowOpened;
+        Closing += OnWindowClosing;
+        Closed += OnWindowClosed;
+
+        LoadWindowState();
+    }
+
+    private MainWindowModel Model => (MainWindowModel)Resources["ViewModel"]!;
+
+    private async void OnWindowOpened(object? sender, EventArgs e)
+    {
+        await Model.LoadApplicationSettingsAsync();
+    }
+
+    private void LoadWindowState()
+    {
+        Width = ApplicationSettings.GetSetting("WindowWidth", Width);
+        Height = ApplicationSettings.GetSetting("WindowHeight", Height);
+
+        var left = ApplicationSettings.GetSetting("WindowLeft", double.NaN);
+        var top = ApplicationSettings.GetSetting("WindowTop", double.NaN);
+        if (!double.IsNaN(left) && !double.IsNaN(top))
+        {
+            Position = new Avalonia.PixelPoint((int)left, (int)top);
+            WindowStartupLocation = WindowStartupLocation.Manual;
+        }
+    }
+
+    private async void OnWindowClosing(object? sender, WindowClosingEventArgs e)
+    {
+        e.Cancel = true;
+
+        foreach (var document in Model.Documents.ToArray())
+        {
+            var success = await Model.CloseDocumentAsync(document);
+            if (!success)
+                return;
+        }
+
+        Model.SaveWindowDocuments();
+        Model.CallOnUnloaded();
+        Model.Documents.Clear();
+
+        Closing -= OnWindowClosing;
+        Close();
+    }
+
+    private void OnWindowClosed(object? sender, EventArgs e)
+    {
+        ApplicationSettings.SetSetting("WindowWidth", Width);
+        ApplicationSettings.SetSetting("WindowHeight", Height);
+        ApplicationSettings.SetSetting("WindowLeft", (double)Position.X);
+        ApplicationSettings.SetSetting("WindowTop", (double)Position.Y);
+    }
+
+    private void OnShowAbout(object? sender, RoutedEventArgs e)
+    {
+        var about = new AboutWindow();
+        about.ShowDialog(this);
+    }
+}

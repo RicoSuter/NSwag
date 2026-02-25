@@ -1,37 +1,87 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="ViewModelBase.cs" company="NSwag">
-//     Copyright (c) Rico Suter. All rights reserved.
-// </copyright>
-// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
-// <author>Rico Suter, mail@rsuter.com</author>
-//-----------------------------------------------------------------------
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
+using NSwagStudio.Helpers;
 
-using System.Windows;
-using MyToolkit.Dialogs;
+namespace NSwagStudio.ViewModels;
 
-namespace NSwagStudio.ViewModels
+/// <summary>The base view model.</summary>
+public class ViewModelBase : ObservableObject
 {
-    /// <summary>The base view model.</summary>
-    public class ViewModelBase : MyToolkit.Mvvm.ViewModelBase
+    private bool _isLoading;
+
+    /// <summary>Gets or sets whether the view model is loading.</summary>
+    public bool IsLoading
     {
-        /// <summary>Handles the exception.</summary>
-        /// <param name="exception">The exception.</param>
-        public override void HandleException(Exception exception)
-        {
-            ExceptionBox.Show("An error occurred", exception, Application.Current.MainWindow);
-        }
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
 
-        protected string FromStringArray(string[] array)
-        {
-            return array != null ? string.Join(",", array) : "";
-        }
+    /// <summary>Sets a property value and raises PropertyChanged.</summary>
+    protected bool Set<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        return SetProperty(ref field, value, propertyName);
+    }
 
-        protected string[] ToStringArray(string value)
+    /// <summary>Raises PropertyChanged for all properties.</summary>
+    public void RaiseAllPropertiesChanged()
+    {
+        OnPropertyChanged(string.Empty);
+    }
+
+    /// <summary>Handles exceptions by showing an error dialog.</summary>
+    public virtual void HandleException(Exception exception)
+    {
+        _ = MessageBoxHelper.ShowError("An error occurred", "Error", exception);
+    }
+
+    /// <summary>Runs an async task with error handling.</summary>
+    protected async Task RunTaskAsync(Func<Task> task)
+    {
+        try
         {
-            if (value != null)
-                return value.Split(',').Select(n => n.Trim()).Where(n => !string.IsNullOrEmpty(n)).ToArray();
-            else
-                return new string[] { };
+            await task();
+        }
+        catch (Exception exception)
+        {
+            HandleException(exception);
         }
     }
+
+    /// <summary>Runs an async task with error handling and return value.</summary>
+    protected async Task<T?> RunTaskAsync<T>(Func<Task<T>> task)
+    {
+        try
+        {
+            return await task();
+        }
+        catch (Exception exception)
+        {
+            HandleException(exception);
+            return default;
+        }
+    }
+
+    /// <summary>Runs an async task with error handling.</summary>
+    protected async Task<T?> RunTaskAsync<T>(Task<T> task)
+    {
+        try
+        {
+            return await task;
+        }
+        catch (Exception exception)
+        {
+            HandleException(exception);
+            return default;
+        }
+    }
+
+    /// <summary>Called when the view is loaded.</summary>
+    public virtual void OnLoaded() { }
+
+    /// <summary>Called when the view is unloaded.</summary>
+    public virtual void OnUnloaded() { }
+
+    /// <summary>Triggers the OnUnloaded lifecycle method.</summary>
+    public void CallOnUnloaded() => OnUnloaded();
 }

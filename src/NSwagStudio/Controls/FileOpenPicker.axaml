@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NSwagStudio.Controls.FileOpenPicker">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="PathTextBox" Text="{Binding FilePath, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" />
+        <Button Grid.Column="1" Content="..." Padding="8,4" Margin="4,0,0,0" Click="OnBrowseClick" />
+    </Grid>
+</UserControl>

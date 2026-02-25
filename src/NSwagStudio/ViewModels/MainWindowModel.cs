@@ -1,260 +1,266 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MainWindowModel.cs" company="NSwag">
-//     Copyright (c) Rico Suter. All rights reserved.
-// </copyright>
-// <license>https://github.com/RicoSuter/NSwag/blob/master/LICENSE.md</license>
-// <author>Rico Suter, mail@rsuter.com</author>
-//-----------------------------------------------------------------------
-
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows.Forms;
-using MyToolkit.Command;
-using MyToolkit.Storage;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag;
 using NSwag.Commands;
+using NSwagStudio.Helpers;
 
-namespace NSwagStudio.ViewModels
+namespace NSwagStudio.ViewModels;
+
+/// <summary>The view model for the MainWindow.</summary>
+public class MainWindowModel : ViewModelBase
 {
-    using System.Windows;
-    using System.Windows.Input;
+    private DocumentModel? _selectedDocument;
 
-    using MessageBox = System.Windows.Forms.MessageBox;
-
-    /// <summary>The view model for the MainWindow.</summary>
-    public class MainWindowModel : ViewModelBase
+    /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
+    public MainWindowModel()
     {
-        private DocumentModel _selectedDocument;
+        CreateDocumentCommand = new RelayCommand(CreateDocument);
+        OpenDocumentCommand = new AsyncRelayCommand(OpenDocumentAsync);
 
-        /// <summary>Initializes a new instance of the <see cref="MainWindowModel"/> class.</summary>
-        public MainWindowModel()
+        CloseDocumentCommand = new AsyncRelayCommand<DocumentModel?>(async document => { if (document != null) await CloseDocumentAsync(document); }, document => document != null);
+        CloseAllDocumentsCommand = new AsyncRelayCommand(async () => await CloseAllDocumentsAsync(Documents!));
+        SaveDocumentCommand = new AsyncRelayCommand<DocumentModel?>(async document => { if (document != null) await SaveDocumentAsync(document); }, document => document != null);
+        SaveAsDocumentCommand = new AsyncRelayCommand<DocumentModel?>(async document => { if (document != null) await SaveAsDocumentAsync(document); }, document => document != null);
+        SaveAllDocumentsCommand = new AsyncRelayCommand(async () => await SaveAllDocumentAsync(Documents!));
+
+        Documents = new ObservableCollection<DocumentModel>();
+    }
+
+    public ObservableCollection<DocumentModel> Documents { get; private set; }
+
+    /// <summary>Gets or sets the selected document. </summary>
+    public DocumentModel? SelectedDocument
+    {
+        get => _selectedDocument;
+        set
         {
-            CreateDocumentCommand = new RelayCommand(CreateDocument);
-            OpenDocumentCommand = new AsyncRelayCommand(OpenDocumentAsync);
-
-            CloseDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await CloseDocumentAsync(document), document => document != null);
-            CloseAllDocumentsCommand = new AsyncRelayCommand<ObservableCollection<DocumentModel>>(async documents => await CloseAllDocumentsAsync(documents), documents => documents.Any());
-            SaveDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveDocumentAsync(document), document => document != null);
-            SaveAsDocumentCommand = new AsyncRelayCommand<DocumentModel>(async document => await SaveAsDocumentAsync(document), document => document != null);
-            SaveAllDocumentsCommand = new AsyncRelayCommand<ObservableCollection<DocumentModel>>(async documents => await SaveAllDocumentAsync(documents), documents => documents.Any());
-
-            Documents = new ObservableCollection<DocumentModel>();
-        }
-
-        public ObservableCollection<DocumentModel> Documents { get; private set; }
-
-        /// <summary>Gets or sets the selected document. </summary>
-        public DocumentModel SelectedDocument
-        {
-            get => _selectedDocument;
-            set
+            if (Set(ref _selectedDocument, value))
             {
-                if (Set(ref _selectedDocument, value))
-                {
-                    CloseDocumentCommand.RaiseCanExecuteChanged();
-                    CloseAllDocumentsCommand.RaiseCanExecuteChanged();
-                    SaveDocumentCommand.RaiseCanExecuteChanged();
-                    SaveAsDocumentCommand.RaiseCanExecuteChanged();
-                    SaveAllDocumentsCommand.RaiseCanExecuteChanged();
-                }
+                CloseDocumentCommand.NotifyCanExecuteChanged();
+                SaveDocumentCommand.NotifyCanExecuteChanged();
+                SaveAsDocumentCommand.NotifyCanExecuteChanged();
             }
         }
+    }
 
-        public RelayCommand CreateDocumentCommand { get; }
+    public RelayCommand CreateDocumentCommand { get; }
 
-        public AsyncRelayCommand OpenDocumentCommand { get; }
+    public AsyncRelayCommand OpenDocumentCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> CloseDocumentCommand { get; }
-        
-        public AsyncRelayCommand<ObservableCollection<DocumentModel>> CloseAllDocumentsCommand { get; }
+    public AsyncRelayCommand<DocumentModel?> CloseDocumentCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> SaveDocumentCommand { get; }
+    public AsyncRelayCommand CloseAllDocumentsCommand { get; }
 
-        public AsyncRelayCommand<DocumentModel> SaveAsDocumentCommand { get; }
+    public AsyncRelayCommand<DocumentModel?> SaveDocumentCommand { get; }
 
-        public AsyncRelayCommand<ObservableCollection<DocumentModel>> SaveAllDocumentsCommand { get; }
+    public AsyncRelayCommand<DocumentModel?> SaveAsDocumentCommand { get; }
 
-        public string NSwagVersion => OpenApiDocument.ToolchainVersion;
+    public AsyncRelayCommand SaveAllDocumentsCommand { get; }
 
-        public string NJsonSchemaVersion => JsonSchema.ToolchainVersion;
+    public string NSwagVersion => OpenApiDocument.ToolchainVersion;
 
-        protected override async void OnLoaded()
+    public string NJsonSchemaVersion => JsonSchema.ToolchainVersion;
+
+    public async Task LoadApplicationSettingsAsync()
+    {
+        try
         {
             await Task.Delay(500);
-            await LoadApplicationSettingsAsync();
-        }
-
-        private async Task LoadApplicationSettingsAsync()
-        {
-            try
+            var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
+            if (settings != string.Empty)
             {
-                var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
-                if (settings != string.Empty)
+                var paths = JsonConvert.DeserializeObject<string[]>(settings)?
+                    .Where(File.Exists)
+                    .ToArray() ?? Array.Empty<string>();
+
+                if (paths.Length > 0)
                 {
-                    var paths = JsonConvert.DeserializeObject<string[]>(settings)
-                        .Where(File.Exists)
-                        .ToArray();
+                    foreach (var path in paths)
+                        await OpenDocumentAsync(path);
 
-                    if (paths.Length > 0)
-                    {
-                        foreach (var path in paths)
-                            await OpenDocumentAsync(path);
-
-                        if (Documents.Any())
-                            SelectedDocument = Documents.Last();
-                        else
-                            CreateDocument();
-                    }
-                    else if (!Documents.Any())
+                    if (Documents.Any())
+                        SelectedDocument = Documents.Last();
+                    else
                         CreateDocument();
                 }
                 else if (!Documents.Any())
                     CreateDocument();
             }
-            catch
-            {
-                if (!Documents.Any())
-                    CreateDocument();
-            }
+            else if (!Documents.Any())
+                CreateDocument();
+        }
+        catch
+        {
+            if (!Documents.Any())
+                CreateDocument();
+        }
 
+        if (Documents.Any())
             SelectedDocument = Documents.First();
-        }
+    }
 
-        private void CreateDocument()
-        {
-            var document = NSwagDocument.Create();
-            var documentModel = new DocumentModel(document);
-            Documents.Add(documentModel);
-            SelectedDocument = documentModel;
-        }
+    private void CreateDocument()
+    {
+        var document = NSwagDocument.Create();
+        var documentModel = new DocumentModel(document);
+        Documents.Add(documentModel);
+        SelectedDocument = documentModel;
+    }
 
-        private async Task OpenDocumentAsync()
+    private async Task OpenDocumentAsync()
+    {
+        var window = DialogService.MainWindow;
+        if (window == null)
+            return;
+
+        var results = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            var dlg = new OpenFileDialog();
-            dlg.Multiselect = true;
-            dlg.Title = "Open NSwag settings file";
-            dlg.Filter = "NSwag file (*.nswag;*nswag.json)|*.nswag;*nswag.json";
-            dlg.RestoreDirectory = true;
-            if (dlg.ShowDialog() == DialogResult.OK)
+            Title = "Open NSwag settings file",
+            AllowMultiple = true,
+            FileTypeFilter = new[]
             {
-                foreach (var fileName in dlg.FileNames)
-                {
-                    await OpenDocumentAsync(fileName);
-                }
+                new FilePickerFileType("NSwag file") { Patterns = new[] { "*.nswag", "*nswag.json" } }
             }
-        }
+        });
 
-        public async Task OpenDocumentAsync(string filePath)
+        foreach (var file in results)
         {
-            await RunTaskAsync(async () =>
-            {
-                var currentDocument = Documents.SingleOrDefault(d => d.Document.Path == filePath);
-                if (currentDocument != null)
-                    SelectedDocument = currentDocument;
-                else
-                {
-                    var document = new DocumentModel(await NSwagDocument.LoadAsync(filePath));
-                    Documents.Add(document);
-                    SelectedDocument = document;
-                }
-            });
+            await OpenDocumentAsync(file.Path.LocalPath);
         }
+    }
 
-        private async Task CloseAllDocumentsAsync(ObservableCollection<DocumentModel> documents)
+    public async Task OpenDocumentAsync(string filePath)
+    {
+        await RunTaskAsync(async () =>
         {
-            foreach (var document in documents.ToList())
+            var currentDocument = Documents.SingleOrDefault(d => d.Document.Path == filePath);
+            if (currentDocument != null)
+                SelectedDocument = currentDocument;
+            else
             {
-                await CloseDocumentAsync(document);
+                var document = new DocumentModel(await NSwagDocument.LoadAsync(filePath));
+                Documents.Add(document);
+                SelectedDocument = document;
             }
+        });
+    }
+
+    private async Task CloseAllDocumentsAsync(ObservableCollection<DocumentModel> documents)
+    {
+        foreach (var document in documents.ToList())
+        {
+            await CloseDocumentAsync(document);
+        }
+    }
+
+    public async Task<bool> CloseDocumentAsync(DocumentModel document)
+    {
+        if (document.Document.IsDirty)
+        {
+            var result = await MessageBoxHelper.ShowYesNoCancel(
+                "Do you want to save the file " + document.Document.Name + " ?",
+                "Save file");
+
+            if (result == ButtonResult.Yes)
+            {
+                var success = await SaveDocumentAsync(document);
+                if (!success)
+                    return false;
+            }
+            else if (result == ButtonResult.Cancel)
+                return false;
         }
 
-        public async Task<bool> CloseDocumentAsync(DocumentModel document)
+        Documents.Remove(document);
+        return true;
+    }
+
+    private async Task<bool> SaveDocumentAsync(DocumentModel document)
+    {
+        return await RunTaskAsync(async () =>
+        {
+            if (File.Exists(document.Document.Path))
+            {
+                await document.Document.SaveAsync();
+                await MessageBoxHelper.ShowInfo($"The file {document.Document.Name} has been saved.", "File saved");
+                return true;
+            }
+            else
+            {
+                if (await SaveAsDocumentAsync(document))
+                    return true;
+            }
+
+            return false;
+        });
+    }
+
+    private async Task<bool> SaveAllDocumentAsync(ObservableCollection<DocumentModel> documents)
+    {
+        int changeCount = 0;
+        foreach (var document in documents)
         {
             if (document.Document.IsDirty)
             {
-                var result = MessageBox.Show("Do you want to save the file " + document.Document.Name + " ?",
-                    "Save file", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    var success = await SaveDocumentAsync(document);
-                    if (!success)
-                        return false;
-                }
-                else if (result == DialogResult.Cancel)
-                    return false;
-            }
-
-            Documents.Remove(document);
-            return true;
-        }
-
-        private async Task<bool> SaveDocumentAsync(DocumentModel document)
-        {
-            return await RunTaskAsync(async () =>
-            {
+                changeCount++;
                 if (File.Exists(document.Document.Path))
                 {
-                    FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
                     await document.Document.SaveAsync();
-                    MessageBox.Show($"The file {document.Document.Name} has been saved.", "File saved");
-                    return true;
                 }
                 else
                 {
-                    if (await SaveAsDocumentAsync(document))
-                        return true;
+                    if (!await SaveAsDocumentAsync(document))
+                        return false;
                 }
-
-                return false;
-            });
+            }
         }
 
-        private async Task<bool> SaveAllDocumentAsync(ObservableCollection<DocumentModel> documents)
+        if (changeCount > 0)
         {
-            int changeCount = 0;
-            FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
-            foreach (var document in documents)
-            {
-                if (document.Document.IsDirty)
-                {
-                    changeCount++;
-                    if (File.Exists(document.Document.Path))
-                    {
-                        await document.Document.SaveAsync();
-                    }
-                    else
-                    {
-                        if (!await SaveAsDocumentAsync(document))
-                            return false;
-                    }
-                }
-            }
+            await MessageBoxHelper.ShowInfo($"{changeCount} changed file(s) saved.", "Files saved");
+        }
 
-            if (changeCount > 0)
-            {
-                MessageBox.Show($"{changeCount} changed file(s) saved.", "Files saved");
-            }
+        return true;
+    }
 
+    private async Task<bool> SaveAsDocumentAsync(DocumentModel document)
+    {
+        var window = DialogService.MainWindow;
+        if (window == null)
+            return false;
+
+        var result = await window.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Save NSwag settings file",
+            SuggestedFileName = document.Document.Name,
+            FileTypeChoices = new[]
+            {
+                new FilePickerFileType("NSwag file") { Patterns = new[] { "*.nswag", "*nswag.json" } }
+            }
+        });
+
+        if (result != null)
+        {
+            document.Document.Path = result.Path.LocalPath;
+            await document.Document.SaveAsync();
             return true;
         }
+        return false;
+    }
 
-        private async Task<bool> SaveAsDocumentAsync(DocumentModel document)
-        {
-            var dlg = new SaveFileDialog();
-            dlg.Filter = "NSwag file (*.nswag;nswag.json)|*.nswag;nswag.json";
-            dlg.RestoreDirectory = true;
-            dlg.AddExtension = true;
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                document.Document.Path = dlg.FileName;
-                FocusManager.SetFocusedElement(Application.Current.MainWindow, null);
-                await document.Document.SaveAsync();
-                return true;
-            }
-            return false;
-        }
+    public void SaveWindowDocuments()
+    {
+        var paths = Documents
+            .Where(d => File.Exists(d.Document.Path))
+            .Select(d => d.Document.Path)
+            .ToArray();
+        ApplicationSettings.SetSetting("NSwagSettings", JsonConvert.SerializeObject(paths, Formatting.Indented));
     }
 }
