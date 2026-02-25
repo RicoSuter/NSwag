@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="NSwagStudio.App"
-             RequestedThemeVariant="Light">
+             RequestedThemeVariant="Default">
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
@@ -43,7 +43,7 @@
         <Style Selector="HeaderedContentControl">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="4"
+                    <Border BorderBrush="{DynamicResource SystemBaseMediumLowColor}" BorderThickness="1" CornerRadius="4"
                             Padding="8,4,8,8" Margin="0">
                         <DockPanel>
                             <ContentPresenter DockPanel.Dock="Top"

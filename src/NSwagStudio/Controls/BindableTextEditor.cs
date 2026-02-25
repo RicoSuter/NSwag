@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Avalonia.Styling;
 using AvaloniaEdit;
 using AvaloniaEdit.TextMate;
 using TextMateSharp.Grammars;
@@ -34,7 +35,6 @@ public class BindableTextEditor : UserControl
             FontFamily = "Consolas,Menlo,Monaco,monospace",
             FontSize = 13,
             ShowLineNumbers = true,
-            Background = Avalonia.Media.Brushes.White,
             Padding = new Thickness(8),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
@@ -109,15 +109,29 @@ public class BindableTextEditor : UserControl
         _editor.IsReadOnly = IsReadOnly;
         _editor.ShowLineNumbers = ShowLineNumbers;
         ApplySyntaxHighlighting(SyntaxHighlighting);
+
+        if (Application.Current is { } app)
+            app.ActualThemeVariantChanged += OnThemeChanged;
     }
 
     protected override void OnDetachedFromVisualTree(Avalonia.VisualTreeAttachmentEventArgs e)
     {
-        // Dispose TextMate installation so it can be cleanly recreated on re-attach
+        if (Application.Current is { } app)
+            app.ActualThemeVariantChanged -= OnThemeChanged;
+
         _textMateInstallation?.Dispose();
         _textMateInstallation = null;
         _registryOptions = null;
         base.OnDetachedFromVisualTree(e);
+    }
+
+    private void OnThemeChanged(object? sender, EventArgs e)
+    {
+        // Recreate TextMate with the new theme
+        _textMateInstallation?.Dispose();
+        _textMateInstallation = null;
+        _registryOptions = null;
+        ApplySyntaxHighlighting(SyntaxHighlighting);
     }
 
     private void ApplySyntaxHighlighting(string? language)
@@ -129,7 +143,8 @@ public class BindableTextEditor : UserControl
         {
             if (_textMateInstallation == null)
             {
-                _registryOptions = new RegistryOptions(ThemeName.Light);
+                var isDark = Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
+                _registryOptions = new RegistryOptions(isDark ? ThemeName.DarkPlus : ThemeName.LightPlus);
                 _textMateInstallation = _editor.InstallTextMate(_registryOptions);
             }
 
