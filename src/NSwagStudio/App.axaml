@@ -39,5 +39,24 @@
                 </ItemsPanelTemplate>
             </Setter>
         </Style>
+        <!-- GroupBox-like style for HeaderedContentControl -->
+        <Style Selector="HeaderedContentControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="4"
+                            Padding="8,4,8,8" Margin="0">
+                        <DockPanel>
+                            <ContentPresenter DockPanel.Dock="Top"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              FontWeight="Bold" FontSize="13"
+                                              Margin="0,0,0,4" />
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
     </Application.Styles>
 </Application>

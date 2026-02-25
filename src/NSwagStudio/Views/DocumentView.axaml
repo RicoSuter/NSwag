@@ -87,17 +87,19 @@
 
             <Grid Grid.Row="1" Grid.Column="2" Height="50" Margin="4,8,0,0" IsVisible="{Binding !IsLoading}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                <Button Command="{Binding GenerateCommand}" Padding="8">
+                <Button Command="{Binding GenerateCommand}" Padding="8"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
                     <TextBlock Text="Generate Outputs" FontSize="16" Margin="0,4,0,4" />
                 </Button>
                 <Button Grid.Column="1"
                         Command="{Binding GenerateCommand}"
                         CommandParameter="files"
-                        Padding="8" Margin="8,0,0,0">
-                    <TextBlock Text="Generate Files" FontSize="16" Margin="8,4,8,4" />
+                        Padding="8" Margin="8,0,0,0"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+                    <TextBlock Text="Generate Files" FontSize="16" Margin="0,4,0,4" />
                 </Button>
             </Grid>
             <ProgressBar Grid.Row="1" Grid.Column="2" IsIndeterminate="True" Height="50" Margin="4,8,0,0"
