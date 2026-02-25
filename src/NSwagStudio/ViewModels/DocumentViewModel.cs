@@ -10,6 +10,7 @@ namespace NSwagStudio.ViewModels;
 public class DocumentViewModel : ViewModelBase
 {
     private DocumentModel? _document;
+    private static HashSet<int>? _installedDotNetVersions;
 
     /// <summary>Initializes a new instance of the <see cref="DocumentViewModel"/> class.</summary>
     public DocumentViewModel()
@@ -29,12 +30,13 @@ public class DocumentViewModel : ViewModelBase
         set => Set(ref _document, value);
     }
 
-    /// <summary>Gets the available runtimes (only shows runtimes whose tools are present on disk).</summary>
+    /// <summary>Gets the available runtimes (only shows runtimes whose tools are present on disk and installed on the OS).</summary>
     public Runtime[] Runtimes
     {
         get
         {
             var root = NSwagDocument.RootBinaryDirectory;
+            var installed = GetInstalledDotNetMajorVersions();
             var runtimes = new List<Runtime> { Runtime.Default, Runtime.Debug };
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -45,14 +47,65 @@ public class DocumentViewModel : ViewModelBase
                     runtimes.Add(Runtime.WinX86);
             }
 
-            if (File.Exists(Path.Combine(root, "Net80", "dotnet-nswag.dll")))
+            if (File.Exists(Path.Combine(root, "Net80", "dotnet-nswag.dll")) && installed.Contains(8))
                 runtimes.Add(Runtime.Net80);
-            if (File.Exists(Path.Combine(root, "Net90", "dotnet-nswag.dll")))
+            if (File.Exists(Path.Combine(root, "Net90", "dotnet-nswag.dll")) && installed.Contains(9))
                 runtimes.Add(Runtime.Net90);
-            if (File.Exists(Path.Combine(root, "Net100", "dotnet-nswag.dll")))
+            if (File.Exists(Path.Combine(root, "Net100", "dotnet-nswag.dll")) && installed.Contains(10))
                 runtimes.Add(Runtime.Net100);
 
             return runtimes.ToArray();
+        }
+    }
+
+    private static HashSet<int> GetInstalledDotNetMajorVersions()
+    {
+        if (_installedDotNetVersions != null)
+            return _installedDotNetVersions;
+
+        _installedDotNetVersions = new HashSet<int> { Environment.Version.Major };
+
+        try
+        {
+            foreach (var dotnetRoot in GetDotNetRootCandidates())
+            {
+                var sharedDir = Path.Combine(dotnetRoot, "shared", "Microsoft.NETCore.App");
+                if (!Directory.Exists(sharedDir))
+                    continue;
+
+                foreach (var dir in Directory.GetDirectories(sharedDir))
+                {
+                    if (Version.TryParse(Path.GetFileName(dir), out var version))
+                        _installedDotNetVersions.Add(version.Major);
+                }
+            }
+        }
+        catch
+        {
+            // Fallback already seeded with current runtime
+        }
+
+        return _installedDotNetVersions;
+    }
+
+    private static IEnumerable<string> GetDotNetRootCandidates()
+    {
+        var envRoot = Environment.GetEnvironmentVariable("DOTNET_ROOT");
+        if (!string.IsNullOrEmpty(envRoot))
+            yield return envRoot;
+
+        // Derive the dotnet root from the running runtime's own location.
+        // Runtime libraries live at <dotnet_root>/shared/Microsoft.NETCore.App/<version>/<dll>,
+        // so navigating up 4 levels from typeof(object).Assembly.Location gives us <dotnet_root>.
+        var coreLibPath = typeof(object).Assembly.Location;
+        if (!string.IsNullOrEmpty(coreLibPath))
+        {
+            var dotnetRoot = Path.GetDirectoryName(
+                Path.GetDirectoryName(
+                    Path.GetDirectoryName(
+                        Path.GetDirectoryName(coreLibPath))));
+            if (!string.IsNullOrEmpty(dotnetRoot))
+                yield return dotnetRoot;
         }
     }
 
