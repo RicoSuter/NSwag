@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using NSwagStudio.Helpers;
 using NSwagStudio.ViewModels;
@@ -8,8 +9,13 @@ namespace NSwagStudio.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly string[]? _startupArgs;
+
+    public MainWindow() : this(null) { }
+
+    public MainWindow(string[]? args)
     {
+        _startupArgs = args;
         InitializeComponent();
         DialogService.MainWindow = this;
 
@@ -45,7 +51,7 @@ public partial class MainWindow : Window
 
     private async void OnWindowOpened(object? sender, EventArgs e)
     {
-        await Model.LoadApplicationSettingsAsync();
+        await Model.LoadApplicationSettingsAsync(_startupArgs);
     }
 
     private void LoadWindowState()
@@ -93,5 +99,15 @@ public partial class MainWindow : Window
     {
         var about = new AboutWindow();
         about.ShowDialog(this);
+    }
+
+    private void OnTabHeaderPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
+            sender is Control { DataContext: DocumentModel document })
+        {
+            _ = Model.CloseDocumentAsync(document);
+            e.Handled = true;
+        }
     }
 }

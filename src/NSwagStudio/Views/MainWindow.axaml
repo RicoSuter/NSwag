@@ -83,7 +83,8 @@
                     Margin="8">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid ToolTip.Tip="{Binding Document.Path}">
+                    <Grid ToolTip.Tip="{Binding Document.Path}"
+                          PointerPressed="OnTabHeaderPointerPressed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />

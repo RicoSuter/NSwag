@@ -68,42 +68,49 @@ public class MainWindowModel : ViewModelBase
 
     public string NJsonSchemaVersion => JsonSchema.ToolchainVersion;
 
-    public async Task LoadApplicationSettingsAsync()
+    public async Task LoadApplicationSettingsAsync(string[]? args = null)
     {
         try
         {
-            await Task.Delay(500);
-            var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
-            if (settings != string.Empty)
+            // Open files passed as command-line arguments (e.g. file association, drag-drop onto exe)
+            var argFiles = (args ?? Array.Empty<string>())
+                .Where(a => !a.StartsWith("-") && File.Exists(a) &&
+                            (a.EndsWith(".nswag", StringComparison.OrdinalIgnoreCase) ||
+                             a.EndsWith(".nswag.json", StringComparison.OrdinalIgnoreCase)))
+                .ToArray();
+
+            if (argFiles.Length > 0)
             {
-                var paths = JsonConvert.DeserializeObject<string[]>(settings)?
-                    .Where(File.Exists)
-                    .ToArray() ?? Array.Empty<string>();
-
-                if (paths.Length > 0)
-                {
-                    foreach (var path in paths)
-                        await OpenDocumentAsync(path);
-
-                    if (Documents.Any())
-                        SelectedDocument = Documents.Last();
-                    else
-                        CreateDocument();
-                }
-                else if (!Documents.Any())
-                    CreateDocument();
+                foreach (var path in argFiles)
+                    await OpenDocumentAsync(path);
             }
-            else if (!Documents.Any())
-                CreateDocument();
+            else
+            {
+                await Task.Delay(500);
+                var settings = ApplicationSettings.GetSetting("NSwagSettings", string.Empty);
+                if (settings != string.Empty)
+                {
+                    var paths = JsonConvert.DeserializeObject<string[]>(settings)?
+                        .Where(File.Exists)
+                        .ToArray() ?? Array.Empty<string>();
+
+                    if (paths.Length > 0)
+                    {
+                        foreach (var path in paths)
+                            await OpenDocumentAsync(path);
+                    }
+                }
+            }
         }
         catch
         {
-            if (!Documents.Any())
-                CreateDocument();
+            // Ignore errors loading settings; ensure at least one document exists below
         }
 
-        if (Documents.Any())
-            SelectedDocument = Documents.First();
+        if (!Documents.Any())
+            CreateDocument();
+
+        SelectedDocument = Documents.First();
     }
 
     private void CreateDocument()
