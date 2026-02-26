@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -35,6 +36,8 @@ public partial class MainWindow : Window
                     {
                         if (item.Header == "About NSwagStudio")
                             item.Click += (_, _) => OnShowAbout(null, null!);
+                        else if (item.Header == "Documentation")
+                            item.Click += (_, _) => OnOpenDocumentation(null, null!);
                     }
                 }
             }
@@ -93,6 +96,14 @@ public partial class MainWindow : Window
         ApplicationSettings.SetSetting("WindowHeight", Height);
         ApplicationSettings.SetSetting("WindowLeft", (double)Position.X);
         ApplicationSettings.SetSetting("WindowTop", (double)Position.Y);
+    }
+
+    private void OnOpenDocumentation(object? sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo("https://github.com/RicoSuter/NSwag/wiki/NSwagStudio")
+        {
+            UseShellExecute = true
+        });
     }
 
     private void OnShowAbout(object? sender, RoutedEventArgs e)
