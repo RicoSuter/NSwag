@@ -167,14 +167,7 @@ namespace NSwag.Commands
             where TDocument : NSwagDocumentBase, new()
         {
             var data = File.ReadAllText(filePath);
-            data = TransformLegacyDocument(data, out var requiredLegacyTransformations);
-
-            if (requiredLegacyTransformations)
-            {
-                // Save now to avoid transformations
-                var document = LoadDocument<TDocument>(filePath, data);
-                await document.SaveAsync();
-            }
+            data = TransformLegacyDocument(data, out var _);
 
             if (applyTransformations)
             {
@@ -510,12 +503,6 @@ namespace NSwag.Commands
             if (data.Contains("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\""))
             {
                 data = data.Replace("\"aspNetNamespace\": \"Microsoft.AspNetCore.Mvc\"", "\"controllerTarget\": \"AspNetCore\"");
-                saveFile = true;
-            }
-
-            if (data.Contains("\"noBuild\":") && !data.Contains("RequireParametersWithoutDefault", StringComparison.OrdinalIgnoreCase))
-            {
-                data = data.Replace("\"noBuild\":", "\"requireParametersWithoutDefault\": true, \"noBuild\":");
                 saveFile = true;
             }
 
