@@ -354,6 +354,58 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             CSharpCompiler.AssertCompile(code);
         }
 
+        [Fact]
+        public async Task When_media_type_contains_quotes_can_generate_client()
+        {
+            // Arrange
+            const string mediaType = "application/vnd.api+json; ext=\"https://jsonapi.org/ext/atomic https://www.jsonapi.net/ext/openapi\"";
+            string mediaTypeJsonEscaped = mediaType.Replace("\"", "\\\"");
+
+            string json =
+                $$"""
+                  {
+                    "openapi": "3.0.1",
+                    "paths": {
+                      "/Test": {
+                        "post": {
+                          "requestBody": {
+                            "content": {
+                              "{{mediaTypeJsonEscaped}}": {
+                                "schema": {
+                                  "type": "object"
+                                }
+                              }
+                            }
+                          },
+                          "responses": {
+                            "200": {
+                              "description": "OK",
+                              "content": {
+                                "{{mediaTypeJsonEscaped}}": {
+                                  "schema": {
+                                    "type": "object"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  """;
+
+            var document = await OpenApiDocument.FromJsonAsync(json);
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+
+            // Act
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
+        }
+
         private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();

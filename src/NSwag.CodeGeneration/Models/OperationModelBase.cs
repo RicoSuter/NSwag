@@ -275,9 +275,8 @@ namespace NSwag.CodeGeneration.Models
                     return "application/json";
                 }
 
-                return actualConsumes?.FirstOrDefault()
-                       ?? _operation.ActualRequestBody?._content.FirstOrDefault().Key
-                       ?? "application/json";
+                var consumes = EscapeQuotes(actualConsumes?.FirstOrDefault() ?? _operation.ActualRequestBody?._content.FirstOrDefault().Key);
+                return consumes ?? "application/json";
             }
         }
 
@@ -286,16 +285,18 @@ namespace NSwag.CodeGeneration.Models
         {
             get
             {
-                if (_operation.ActualProducesCollection?.Contains("application/json") == true)
+                var actualProduces = _operation.ActualProducesCollection;
+                if (actualProduces?.Contains("application/json") == true)
                 {
                     return "application/json";
                 }
 
-                return _operation.ActualProducesCollection?.FirstOrDefault()
-                       ?? SuccessResponse?.Produces
-                       ?? "application/json";
+                var produces = EscapeQuotes(actualProduces?.FirstOrDefault() ?? SuccessResponse?.Produces);
+                return produces ?? "application/json";
             }
         }
+
+        private static string EscapeQuotes(string value) => value?.Replace("\"", "\\\"");
 
         /// <summary>Gets a value indicating whether a file response is expected from one of the responses.</summary>
         public bool IsFile => _operation.HasActualResponse((_, response) => response.IsBinary(_operation));
