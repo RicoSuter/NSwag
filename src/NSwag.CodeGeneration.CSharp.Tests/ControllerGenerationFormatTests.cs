@@ -427,10 +427,10 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var code = codeGen.GenerateFile();
 
             // Assert
-            var fromHeaderCustomAttributeCount = Regex.Matches(code, "public class FromHeaderAttribute :").Count;
+            var fromHeaderCustomAttributeCount = Regex.Count(code, "public class FromHeaderAttribute :");
             Assert.Equal(1, fromHeaderCustomAttributeCount);
 
-            var fromHeaderCustomBindingCount = Regex.Matches(code, "public class FromHeaderBinding :").Count;
+            var fromHeaderCustomBindingCount = Regex.Count(code, "public class FromHeaderBinding :");
             Assert.Equal(1, fromHeaderCustomBindingCount);
 
             await VerifyHelper.Verify(code);
