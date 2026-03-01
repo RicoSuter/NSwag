@@ -72,7 +72,7 @@ namespace NSwag.Commands
                 .Replace("__starstar__", "(.*?)")
                 .Replace("__star__", "([^" + escapedDelimiter + "]*?)") + "$");
 
-            return items.Where(i => regex.Match(i.Replace("\\", "/")).Success);
+            return items.Where(i => regex.IsMatch(i.Replace("\\", "/")));
         }
 
         /// <summary>Converts a relative path to an absolute path.</summary>
