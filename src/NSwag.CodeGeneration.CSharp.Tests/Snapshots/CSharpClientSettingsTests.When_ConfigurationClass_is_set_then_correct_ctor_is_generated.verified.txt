@@ -200,11 +200,13 @@ namespace MyNamespace
             }
         }
 
+        [System.Obsolete]
         public virtual System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override)
         {
             return DeletePersonAsync(@override, System.Threading.CancellationToken.None);
         }
 
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = new System.Net.Http.HttpClient();

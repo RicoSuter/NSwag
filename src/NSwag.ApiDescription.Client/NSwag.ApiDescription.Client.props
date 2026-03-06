@@ -130,6 +130,7 @@
       <NSwagOperationGenerationMode>$(NSwagOperationGenerationMode)</NSwagOperationGenerationMode>
       <NSwagIncludedOperationIds>$(NSwagIncludedOperationIds)</NSwagIncludedOperationIds>
       <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds>
+	  <NSwagExcludeDeprecated>$(NSwagExcludeDeprecated)</NSwagExcludeDeprecated>
       <NSwagAdditionalNamespaceUsages>$(NSwagAdditionalNamespaceUsages)</NSwagAdditionalNamespaceUsages>
       <NSwagAdditionalContractNamespaceUsages>$(NSwagAdditionalContractNamespaceUsages)</NSwagAdditionalContractNamespaceUsages>
       <NSwagGenerateOptionalParameters>$(NSwagGenerateOptionalParameters)</NSwagGenerateOptionalParameters>

@@ -248,6 +248,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.ExcludedOperationIds = value;
         }
 
+        [Argument(Name = "ExcludeDeprecated", IsRequired = false, Description = "Specifies if deprecated endpoints should be generated")]
+        public bool ExcludeDeprecated
+        {
+            get => Settings.ExcludeDeprecated;
+            set => Settings.ExcludeDeprecated = value;
+        }
+
         [Argument(Name = "MarkOptionalProperties", IsRequired = false, Description = "Specifies whether to mark optional properties with ? (default: false).")]
         public bool MarkOptionalProperties
         {

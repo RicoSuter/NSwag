@@ -128,6 +128,9 @@
 		<Command Condition="'%(NSwagExcludedOperationIds)' != ''">%(Command) /excludedOperationIds:%(NSwagExcludedOperationIds)</Command>
 	  </CurrentOpenApiReference>
 	  <CurrentOpenApiReference>
+		<Command Condition="'%(NSwagExcludeDeprecated)' != ''">%(Command) /excludeDeprecated:%(NSwagExcludeDeprecated)</Command>
+	  </CurrentOpenApiReference>
+	  <CurrentOpenApiReference>
         <Command Condition="'%(NSwagAdditionalNamespaceUsages)' != ''">%(Command) /additionalNamespaceUsages:%(NSwagAdditionalNamespaceUsages)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>

@@ -65,6 +65,9 @@ namespace NSwag.CodeGeneration
         /// <summary>Gets or sets the operations that should be excluded from the generated client.</summary>
         public string[] ExcludedOperationIds { get; set; }
 
+        /// <summary>Gets or sets the value indicating if deprecated endpoints shall be rendered</summary>
+        public bool ExcludeDeprecated { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to reorder parameters (required first, optional at the end) and generate optional parameters.</summary>
         public bool GenerateOptionalParameters { get; set; }
 

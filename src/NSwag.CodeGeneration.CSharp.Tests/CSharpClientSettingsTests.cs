@@ -20,6 +20,9 @@ namespace NSwag.CodeGeneration.CSharp.Tests
                 return null;
             }
 
+#pragma warning disable S1133 // Deprecated code should be removed
+            [Obsolete("Testing generation of obsolete endpoints")]
+#pragma warning restore S1133 // Deprecated code should be removed
             public object DeletePerson(bool @override = false)
             {
                 return null;
@@ -411,6 +414,59 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Assert
             await VerifyHelper.Verify(code)
                 .UseParameters(excludedOperationIds.Length);
+            CSharpCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_depreacted_endpoints_are_excluded_the_client_should_not_generate_these_endpoint()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                ExcludeDeprecated = true
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain("DeletePerson", code);
+            Assert.DoesNotContain("Obsolete", code);
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
+        }
+
+        [Fact]
+        public async Task When_depreacted_endpoints_are_excluded_the_client_should_still_generate_explicitly_included_endpoints()
+        {
+            // Arrange
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                GenerateClientClasses = true,
+                ExcludeDeprecated = true,
+                IncludedOperationIds = ["Foo_DeletePerson"]
+            });
+
+            // Act
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.Contains("DeletePerson", code);
+            Assert.Contains("Obsolete", code);
+            await VerifyHelper.Verify(code);
             CSharpCompiler.AssertCompile(code);
         }
     }

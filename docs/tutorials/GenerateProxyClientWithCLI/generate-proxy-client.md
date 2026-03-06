@@ -107,6 +107,7 @@ nswag run sample.nswag /runtime:Net50
             "operationGenerationMode": "MultipleClientsFromOperationId",
             "includedOperationIds": [ "SampleOperationId" ],
             "excludedOperationIds": [],
+            "excludeDeprecated": false,
             "generateOptionalParameters": false,
             "generateJsonMethods": true,
             "parameterArrayType": "System.Collections.Generic.IEnumerable",
