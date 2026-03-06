@@ -81,42 +81,23 @@ namespace NSwag.CodeGeneration.OperationNameGenerators
         private static ReadOnlySpan<char> GetClientName(OpenApiOperation operation)
         {
             ReadOnlySpan<char> operationIdSpan = operation.OperationId.AsSpan();
-            const char underscoreSeparator = '_';
-            int idxFirst = operationIdSpan.IndexOf(underscoreSeparator);
+            int idx = operationIdSpan.IndexOf('_');
 
-            // no underscore, fast path
-            if (idxFirst == -1)
+            // no underscore or underscore is the first character
+            if (idx <= 0)
             {
                 return [];
             }
 
-            int idxLast = operationIdSpan.LastIndexOf(underscoreSeparator);
-
-            // only one underscore
-            if (idxFirst == idxLast)
-            {
-                // underscore is the first character
-                if (idxFirst == 0)
-                {
-                    return [];
-                }
-
-                return operationIdSpan.Slice(0, idxFirst);
-            }
-
-            // backwards search for the second underscore
-            // e.g. OperationId_SecondUnderscore_Test => SecondUnderscore
-            operationIdSpan = operationIdSpan.Slice(0, idxLast);
-            int idxSecondLast = operationIdSpan.LastIndexOf(underscoreSeparator);
-
-            return operationIdSpan.Slice(idxSecondLast + 1);
+            return operationIdSpan.Slice(0, idx);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlySpan<char> GetOperationName(OpenApiOperation operation)
         {
             var span = operation.OperationId.AsSpan();
-            var idx = span.LastIndexOf('_');
+            var idx = span.IndexOf('_');
+            // No underscore, or underscore is the last character: return the full operation ID
             return idx != -1 && idx < span.Length - 1
                 ? span.Slice(idx + 1)
                 : span;
