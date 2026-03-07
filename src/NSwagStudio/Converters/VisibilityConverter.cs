@@ -3,17 +3,21 @@ using Avalonia.Data.Converters;
 
 namespace NSwagStudio.Converters;
 
-public class NumberAdditionConverter : IValueConverter
+public class VisibilityConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is double d && parameter != null)
-            return d + double.Parse(parameter.ToString()!, CultureInfo.InvariantCulture);
-        return value;
+        if (value is bool b)
+            return b;
+        if (value is string s)
+            return !string.IsNullOrEmpty(s);
+        return value != null;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        if (value is bool b)
+            return b;
+        return false;
     }
 }

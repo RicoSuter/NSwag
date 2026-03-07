@@ -19,13 +19,9 @@ namespace NSwag.Commands
     /// <seealso cref="NSwagDocumentBase" />
     public class NSwagDocument : NSwagDocumentBase
     {
-#if NET462
-
         /// <summary>Gets or sets the root binary directory where the command line executables loaded from.</summary>
         public static string RootBinaryDirectory { get; set; } =
-            System.IO.Path.GetDirectoryName(typeof(NSwagDocument).GetTypeInfo().Assembly.Location);
-
-#endif
+            System.IO.Path.GetDirectoryName(typeof(NSwagDocument).GetTypeInfo().Assembly.Location)!;
         /// <summary>Initializes a new instance of the <see cref="NSwagDocument"/> class.</summary>
         public NSwagDocument()
         {
@@ -94,6 +90,11 @@ namespace NSwag.Commands
                 return await ExecuteAsync();
             }
 
+            if (Runtime == Runtime.Default)
+            {
+                return await ExecuteInProcessAsync(redirectOutput);
+            }
+
             var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
             var swaggerFilename = baseFilename + "_swagger.json";
             var filenames = new List<string>();
@@ -125,6 +126,62 @@ namespace NSwag.Commands
             finally
             {
                 DeleteFileIfExists(configFilename);
+                DeleteFileIfExists(swaggerFilename);
+                foreach (var filename in filenames)
+                {
+                    DeleteFileIfExists(filename);
+                }
+            }
+        }
+
+        private async Task<OpenApiDocumentExecutionResult> ExecuteInProcessAsync(bool redirectOutput)
+        {
+            var baseFilename = System.IO.Path.GetTempPath() + "nswag_document_" + Guid.NewGuid();
+            var swaggerFilename = baseFilename + "_swagger.json";
+            var filenames = new List<string>();
+
+            var clone = FromJson<NSwagDocument>(null, ToJson());
+            if (redirectOutput || string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
+            {
+                clone.SelectedSwaggerGenerator.OutputFilePath = swaggerFilename;
+            }
+
+            foreach (var command in clone.CodeGenerators.Items.Where(c => c != null))
+            {
+                if (redirectOutput || string.IsNullOrEmpty(command.OutputFilePath))
+                {
+                    var codeFilePath = baseFilename + "_" + command.GetType().Name + ".temp";
+                    command.OutputFilePath = codeFilePath;
+                    filenames.Add(codeFilePath);
+                }
+            }
+
+            try
+            {
+                var document = await clone.GenerateSwaggerDocumentAsync();
+
+                if (!string.IsNullOrEmpty(clone.SelectedSwaggerGenerator.OutputFilePath))
+                {
+                    File.WriteAllText(clone.SelectedSwaggerGenerator.OutputFilePath, document.ToJson());
+                }
+
+                var tasks = new List<Task>();
+                foreach (var codeGen in clone.CodeGenerators.Items.Where(c => c != null && !string.IsNullOrEmpty(c.OutputFilePath)))
+                {
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        await Task.Yield();
+                        codeGen.Input = document;
+                        await codeGen.RunAsync(null, null);
+                        codeGen.Input = null;
+                    }));
+                }
+                await Task.WhenAll(tasks);
+
+                return clone.ProcessExecutionResult("", baseFilename, redirectOutput);
+            }
+            finally
+            {
                 DeleteFileIfExists(swaggerFilename);
                 foreach (var filename in filenames)
                 {
@@ -230,12 +287,8 @@ namespace NSwag.Commands
             return System.IO.Path.GetDirectoryName(absoluteDocumentPath);
         }
 
-#pragma warning disable CA1822
         private string GetArgumentsPrefix()
-#pragma warning restore CA1822
         {
-#if NET462
-
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime == Runtime.Net80)
             {
@@ -249,15 +302,12 @@ namespace NSwag.Commands
             {
                 return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net100/dotnet-nswag.dll") + "\" ";
             }
-#endif
+
             return "";
         }
 
-#pragma warning disable CA1822
         private string GetProgramName()
-#pragma warning restore CA1822
         {
-#if NET462
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
             if (runtime is Runtime.WinX64 or Runtime.Debug)
             {
@@ -268,7 +318,7 @@ namespace NSwag.Commands
             {
                 return System.IO.Path.Combine(RootBinaryDirectory, "Win/nswag.x86.exe");
             }
-#endif
+
             return "dotnet";
         }
 
