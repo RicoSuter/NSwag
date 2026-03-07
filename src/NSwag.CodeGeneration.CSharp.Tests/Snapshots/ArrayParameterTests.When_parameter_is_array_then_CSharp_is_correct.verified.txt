@@ -1,6 +1,6 @@
 ﻿
 
-namespace MyNamespace
+namespace ArrayParameterTests.When_parameter_is_array_then_CSharp_is_correct
 {
     using System = global::System;
 
@@ -77,20 +77,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (elementId != null)
                     {
-                        bool isAfterFirst = false;
                         foreach (var item_ in elementId)
                         {
-                            if (!isAfterFirst)
-                            {
-                                urlBuilder_.Append(System.Uri.EscapeDataString("elementId")).Append('=');
-                            }
-                            urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append(',');
-                            isAfterFirst = true;
-                        }
-                        if (isAfterFirst)
-                        {
-                            urlBuilder_.Length--;
-                            urlBuilder_.Append('&');
+                            urlBuilder_.Append(System.Uri.EscapeDataString("elementId")).Append('=');
+                            urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                         }
                     }
                     urlBuilder_.Length--;

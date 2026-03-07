@@ -60,6 +60,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    partial class Client
+    {
+        static global::System.Text.Json.JsonSerializerOptions TestJsonSerializerSettingsTransformationMethod(global::System.Text.Json.JsonSerializerOptions settings) { return settings; }
+    }
+}
+");
         }
 
         [Fact]
@@ -78,6 +87,15 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    partial class Client
+    {
+        static global::Newtonsoft.Json.JsonSerializerSettings TestJsonSerializerSettingsTransformationMethod(global::Newtonsoft.Json.JsonSerializerSettings settings) { return settings; }
+    }
+}
+");
         }
 
         [Fact]
@@ -96,6 +114,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+#nullable disable
+namespace MyNamespace {
+    class CustomConverter1 : global::System.Text.Json.Serialization.JsonConverter<Client>
+    {
+        public override Client Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options) { return default(Client); }
+        public override void Write(global::System.Text.Json.Utf8JsonWriter writer, Client value, global::System.Text.Json.JsonSerializerOptions options) { }
+    }
+    class CustomConverter2 : CustomConverter1 { }
+}
+");
         }
 
         [Fact]
@@ -115,6 +144,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+#nullable disable
+namespace MyNamespace {
+    class CustomConverter1 : global::System.Text.Json.Serialization.JsonConverter<Client>
+    {
+        public override Client Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options) { return default(Client); }
+        public override void Write(global::System.Text.Json.Utf8JsonWriter writer, Client value, global::System.Text.Json.JsonSerializerOptions options) { }
+    }
+    class CustomConverter2 : CustomConverter1 { }
+}
+");
         }
 
         [Fact]
