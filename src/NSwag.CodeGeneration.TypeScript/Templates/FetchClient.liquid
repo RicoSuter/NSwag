@@ -12,16 +12,16 @@
 @inject({% if HasConfigurationClass %}{{ ConfigurationClass }}, {% endif %}String, HttpClient)
 {%- endif -%}
 {% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 {{ '' }}
 {%- if HasExtendedConstructor == false -%}
-    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, {% endif %}baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
 {%-    if HasBaseClass -%}
         super({% if HasConfigurationClass %}configuration{% endif %});
 {%-    endif -%}
-        this.http = http ? http : window as any;
+        this.http = http ? http : globalThis as any;
 {%-    if UseGetBaseUrlMethod -%}
         this.baseUrl = this.getBaseUrl("{{ BaseUrl }}", baseUrl);
 {%-    else -%}
