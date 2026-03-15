@@ -268,21 +268,24 @@ namespace NSwag.CodeGeneration.CSharp.Models
                             "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
                             "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
                     }
-                    else
-                    {
-                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
-                            "Microsoft.AspNetCore.Http.IFormFile" :
-                            "System.Web.HttpPostedFileBase";
-                    }
+
+                    return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                        "Microsoft.AspNetCore.Http.IFormFile" :
+                        "System.Web.HttpPostedFileBase";
                 }
-                else
-                {
-                    return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
-                }
+
+                return parameter.HasBinaryBodyWithMultipleMimeTypes ? "FileParameter" : "System.IO.Stream";
             }
 
             if (schema.Type == JsonObjectType.Array && (schema.Item?.IsBinary ?? false))
             {
+                if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+                {
+                    return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                        "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                        "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                }
+
                 return "System.Collections.Generic.IEnumerable<FileParameter>";
             }
 
@@ -290,7 +293,21 @@ namespace NSwag.CodeGeneration.CSharp.Models
             {
                 if (parameter.CollectionFormat == OpenApiParameterCollectionFormat.Multi && !schema.Type.HasFlag(JsonObjectType.Array))
                 {
+                    if (_settings is CSharpControllerGeneratorSettings controllerSettings)
+                    {
+                        return controllerSettings.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                            "System.Collections.Generic.ICollection<Microsoft.AspNetCore.Http.IFormFile>" :
+                            "System.Collections.Generic.ICollection<System.Web.HttpPostedFileBase>";
+                    }
+
                     return "System.Collections.Generic.IEnumerable<FileParameter>";
+                }
+
+                if (_settings is CSharpControllerGeneratorSettings controllerSettings1)
+                {
+                    return controllerSettings1.ControllerTarget == CSharpControllerTarget.AspNetCore ?
+                        "Microsoft.AspNetCore.Http.IFormFile" :
+                        "System.Web.HttpPostedFileBase";
                 }
 
                 return "FileParameter";

@@ -56,6 +56,64 @@ components:
         }
 
         [Fact]
+        public async Task When_body_is_binary_then_IFormFile_is_used_as_part_of_object_in_CSharp_ASPNETCore()
+        {
+          var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Add File'
+      operationId: addFile
+      responses:
+        '200':
+          description: 'something'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileToken'
+      requestBody:
+       content:
+         multipart/form-data:
+           schema:
+             type: object
+             properties:
+              file:
+                type: string
+                format: binary
+              name:
+                type: string
+components:
+  schemas:
+    FileToken:
+      type: object
+      required:
+        - fileId    
+      properties:  
+        fileId:
+          type: string
+          format: uuid";
+
+          var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+          // Act
+          CSharpControllerGeneratorSettings settings = new CSharpControllerGeneratorSettings();
+          settings.ControllerTarget = CSharpControllerTarget.AspNetCore;
+          var codeGenerator = new CSharpControllerGenerator(document, settings);
+          var code = codeGenerator.GenerateFile();
+
+          // Assert
+          await VerifyHelper.Verify(code);
+          CSharpCompiler.AssertCompile(code);
+        }
+
+        [Fact]
         public async Task When_body_is_binary_then_IFormFile_is_used_as_parameter_in_CSharp_ASPNETCore()
         {
             var yaml = @"openapi: 3.0.0
