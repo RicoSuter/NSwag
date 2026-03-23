@@ -124,9 +124,9 @@
       <CurrentOpenApiReference>
         <Command Condition="'%(NSwagIncludedOperationIds)' != ''">%(Command) /includedOperationIds:%(NSwagIncludedOperationIds)</Command>
       </CurrentOpenApiReference>
-	  <CurrentOpenApiReference>
-		<Command Condition="'%(NSwagExcludedOperationIds)' != ''">%(Command) /excludedOperationIds:%(NSwagExcludedOperationIds)</Command>
-	  </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagExcludedOperationIds)' != ''">%(Command) /excludedOperationIds:%(NSwagExcludedOperationIds)</Command>
+      </CurrentOpenApiReference>
 	  <CurrentOpenApiReference>
 		<Command Condition="'%(NSwagExcludeDeprecated)' != ''">%(Command) /excludeDeprecated:%(NSwagExcludeDeprecated)</Command>
 	  </CurrentOpenApiReference>

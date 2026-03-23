@@ -418,7 +418,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_depreacted_endpoints_are_excluded_the_client_should_not_generate_these_endpoint()
+        public async Task When_deprecated_endpoints_are_excluded_the_client_should_not_generate_these_endpoint()
         {
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
@@ -444,7 +444,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
-        public async Task When_depreacted_endpoints_are_excluded_the_client_should_still_generate_explicitly_included_endpoints()
+        public async Task When_deprecated_endpoints_are_excluded_the_client_should_still_generate_explicitly_included_endpoints()
         {
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings

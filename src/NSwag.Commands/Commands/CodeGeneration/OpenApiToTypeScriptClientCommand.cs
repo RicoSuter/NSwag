@@ -248,7 +248,7 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.ExcludedOperationIds = value;
         }
 
-        [Argument(Name = "ExcludeDeprecated", IsRequired = false, Description = "Specifies if deprecated endpoints should be generated")]
+        [Argument(Name = "ExcludeDeprecated", IsRequired = false, Description = "Specifies whether deprecated endpoints should be excluded from generation.")]
         public bool ExcludeDeprecated
         {
             get => Settings.ExcludeDeprecated;
