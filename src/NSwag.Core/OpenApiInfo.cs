@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 
 namespace NSwag
@@ -15,28 +15,35 @@ namespace NSwag
     public class OpenApiInfo : JsonExtensionObject
     {
         /// <summary>Gets or sets the title.</summary>
-        [JsonProperty(PropertyName = "title", Required = Required.Always,
-            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("title")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonRequired]
         public string Title { get; set; } = "Swagger specification";
 
         /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the terms of service.</summary>
-        [JsonProperty(PropertyName = "termsOfService", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("termsOfService")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string TermsOfService { get; set; }
 
         /// <summary>Gets or sets the contact information.</summary>
-        [JsonProperty(PropertyName = "contact", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("contact")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiContact Contact { get; set; }
 
         /// <summary>Gets or sets the license information.</summary>
-        [JsonProperty(PropertyName = "license", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("license")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiLicense License { get; set; }
 
         /// <summary>Gets or sets the API version.</summary>
-        [JsonProperty(PropertyName = "version", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("version")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonRequired]
         public string Version { get; set; } = "1.0.0";
     }
 }

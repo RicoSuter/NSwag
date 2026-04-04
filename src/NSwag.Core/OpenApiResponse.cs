@@ -7,8 +7,8 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.References;
 
@@ -34,32 +34,44 @@ namespace NSwag
         public OpenApiResponse ActualResponse => Reference ?? this;
 
         /// <summary>Gets or sets the response's description.</summary>
-        [JsonProperty(PropertyName = "description", Order = 1)]
+        [JsonPropertyName("description")]
+        [JsonPropertyOrder(1)]
         public string Description { get; set; } = "";
 
         /// <summary>Gets or sets the headers.</summary>
-        [JsonProperty(PropertyName = "headers", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("headers")]
+        [JsonPropertyOrder(3)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiHeaders Headers { get; } = [];
 
         /// <summary>Sets a value indicating whether the response can be null (use IsNullable() to get a parameter's nullability).</summary>
         /// <remarks>The Swagger spec does not support null in schemas, see https://github.com/OAI/OpenAPI-Specification/issues/229 </remarks>
-        [JsonProperty(PropertyName = "x-nullable", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-nullable")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? IsNullableRaw { internal get; set; }
 
         /// <summary>Gets or sets the expected child schemas of the base schema (can be used for generating enhanced typings/documentation).</summary>
-        [JsonProperty(PropertyName = "x-expectedSchemas", Order = 7, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-expectedSchemas")]
+        [JsonPropertyOrder(7)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<JsonExpectedSchema> ExpectedSchemas { get; set; }
 
         /// <summary>Gets or sets the descriptions of potential response payloads (OpenApi only).</summary>
-        [JsonProperty(PropertyName = "content", Order = 4, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("content")]
+        [JsonPropertyOrder(4)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiMediaType> Content => _content;
 
         /// <summary>Gets or sets the links that can be followed from the response (OpenApi only).</summary>
-        [JsonProperty(PropertyName = "links", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("links")]
+        [JsonPropertyOrder(5)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiLink> Links { get; } = new Dictionary<string, OpenApiLink>();
 
         /// <summary>Gets or sets the response schema (Swagger only).</summary>
-        [JsonProperty(PropertyName = "schema", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("schema")]
+        [JsonPropertyOrder(2)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public JsonSchema Schema
         {
             get => _content.FirstOrDefault(static c => c.Value.Schema != null).Value?.Schema;
@@ -67,7 +79,9 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the headers (Swagger only).</summary>
-        [JsonProperty(PropertyName = "examples", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("examples")]
+        [JsonPropertyOrder(6)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public object Examples
         {
             get => _content.FirstOrDefault(static c => c.Value.Example != null).Value?.Example;

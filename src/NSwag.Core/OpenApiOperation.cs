@@ -9,8 +9,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 using NJsonSchema.Infrastructure;
 using NSwag.Collections;
@@ -72,31 +71,45 @@ namespace NSwag
         public OpenApiPathItem Parent { get; internal set; }
 
         /// <summary>Gets or sets the tags.</summary>
-        [JsonProperty(PropertyName = "tags", Order = 1, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("tags")]
+        [JsonPropertyOrder(1)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string> Tags { get; set; }
 
         /// <summary>Gets or sets the summary of the operation.</summary>
-        [JsonProperty(PropertyName = "summary", Order = 2, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("summary")]
+        [JsonPropertyOrder(2)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Summary { get; set; }
 
         /// <summary>Gets or sets the long description of the operation.</summary>
-        [JsonProperty(PropertyName = "description", Order = 3, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("description")]
+        [JsonPropertyOrder(3)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the external documentation.</summary>
-        [JsonProperty(PropertyName = "externalDocs", Order = 4, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalDocs")]
+        [JsonPropertyOrder(4)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiExternalDocumentation ExternalDocumentation { get; set; }
 
         /// <summary>Gets or sets the operation ID (unique name).</summary>
-        [JsonProperty(PropertyName = "operationId", Order = 5, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("operationId")]
+        [JsonPropertyOrder(5)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string OperationId { get; set; }
 
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
-        [JsonProperty(PropertyName = "consumes", Order = 6, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("consumes")]
+        [JsonPropertyOrder(6)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string> Consumes { get; set; }
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
-        [JsonProperty(PropertyName = "produces", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("produces")]
+        [JsonPropertyOrder(7)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string> Produces { get; set; }
 
         /// <summary>Gets or sets the parameters.</summary>
@@ -104,7 +117,9 @@ namespace NSwag
         public IList<OpenApiParameter> Parameters { get; }
 
         /// <summary>Gets or sets the request body (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "requestBody", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("requestBody")]
+        [JsonPropertyOrder(9)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiRequestBody RequestBody
         {
             get => _requestBody;
@@ -145,27 +160,39 @@ namespace NSwag
         private readonly record struct NameKindPair(string Name, OpenApiParameterKind ParameterKind);
 
         /// <summary>Gets or sets the HTTP Status Code/Response pairs.</summary>
-        [JsonProperty(PropertyName = "responses", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("responses")]
+        [JsonPropertyOrder(10)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiResponse> Responses => _responses;
 
         /// <summary>Gets or sets the schemes.</summary>
-        [JsonProperty(PropertyName = "schemes", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
+        [JsonPropertyName("schemes")]
+        [JsonPropertyOrder(11)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<OpenApiSchema> Schemes { get; set; }
 
         /// <summary>Gets or sets the callbacks (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "callbacks", Order = 12, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("callbacks")]
+        [JsonPropertyOrder(12)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiCallback> Callbacks { get; set; } = new Dictionary<string, OpenApiCallback>();
 
         /// <summary>Gets or sets a value indicating whether the operation is deprecated.</summary>
-        [JsonProperty(PropertyName = "deprecated", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("deprecated")]
+        [JsonPropertyOrder(13)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsDeprecated { get; set; }
 
         /// <summary>Gets or sets a security description.</summary>
-        [JsonProperty(PropertyName = "security", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("security")]
+        [JsonPropertyOrder(14)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiSecurityRequirement> Security { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "servers", Order = 15, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("servers")]
+        [JsonPropertyOrder(15)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiServer> Servers { get; set; } = [];
 
         /// <summary>Gets the list of MIME types the operation can consume, either from the operation or from the <see cref="OpenApiDocument"/>.</summary>
@@ -285,16 +312,14 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the parameters.</summary>
-        [JsonProperty(PropertyName = "parameters", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("parameters")]
+        [JsonPropertyOrder(8)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonInclude]
         internal IList<OpenApiParameter> ParametersRaw
         {
             get
             {
-                if (JsonSchemaSerialization.IsWriting)
-                {
-                    return Parameters;
-                }
-
                 if (JsonSchemaSerialization.CurrentSchemaType != SchemaType.Swagger2)
                 {
                     return Parameters.Where(p => p.Kind != OpenApiParameterKind.Body).ToList();
@@ -302,6 +327,17 @@ namespace NSwag
                 else
                 {
                     return Parameters;
+                }
+            }
+            set
+            {
+                Parameters.Clear();
+                if (value != null)
+                {
+                    foreach (var parameter in value)
+                    {
+                        Parameters.Add(parameter);
+                    }
                 }
             }
         }

@@ -8,7 +8,9 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using NJsonSchema.References;
 using NSwag.Collections;
 
@@ -45,24 +47,28 @@ namespace NSwag
         public OpenApiPathItem ActualPathItem => Reference ?? this;
 
         /// <summary>Gets or sets the summary (OpenApi only).</summary>
-        [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("summary")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Summary { get; set; }
 
         /// <summary>Gets or sets the description (OpenApi only).</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "servers", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("servers")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiServer> Servers { get; set; } = [];
 
         /// <summary>Gets or sets the parameters.</summary>
-        [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("parameters")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiParameter> Parameters { get; set; } = [];
 
         /// <summary>Gets or sets the extension data (i.e. additional properties which are not directly defined by the JSON object).</summary>
         [JsonExtensionData]
-        public IDictionary<string, object> ExtensionData { get; set; }
+        public IDictionary<string, JsonNode> ExtensionData { get; set; }
 
         #region Implementation of IJsonReferenceBase and IJsonReference
 
@@ -73,7 +79,8 @@ namespace NSwag
         public string DocumentPath { get; set; }
 
         /// <summary>Gets or sets the type reference path ($ref). </summary>
-        [JsonProperty("$ref", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("$ref")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         string IJsonReferenceBase.ReferencePath { get; set; }
 
         /// <summary>Gets or sets the referenced object.</summary>
@@ -108,106 +115,104 @@ namespace NSwag
         #endregion
 
         // Needed to convert dictionary keys to lower case
-        internal sealed class OpenApiPathItemConverter : JsonConverter
+        internal sealed class OpenApiPathItemConverter : JsonConverter<OpenApiPathItem>
         {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            public override OpenApiPathItem Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
-                var operations = (OpenApiPathItem)value;
-                writer.WriteStartObject();
-
-                if (operations.Summary != null)
-                {
-                    writer.WritePropertyName("summary");
-                    serializer.Serialize(writer, operations.Summary);
-                }
-
-                if (operations.Description != null)
-                {
-                    writer.WritePropertyName("description");
-                    serializer.Serialize(writer, operations.Description);
-                }
-
-                if (operations.ExtensionData != null)
-                {
-                    foreach (var tuple in operations.ExtensionData)
-                    {
-                        writer.WritePropertyName(tuple.Key);
-                        serializer.Serialize(writer, tuple.Value);
-                    }
-                }
-
-                if (operations.Parameters != null && operations.Parameters.Count > 0)
-                {
-                    writer.WritePropertyName("parameters");
-                    serializer.Serialize(writer, operations.Parameters);
-                }
-
-                if (operations.Servers != null && operations.Servers.Count > 0)
-                {
-                    writer.WritePropertyName("servers");
-                    serializer.Serialize(writer, operations.Servers);
-                }
-
-                foreach (var pair in operations)
-                {
-                    writer.WritePropertyName(pair.Key.ToString().ToLowerInvariant());
-                    serializer.Serialize(writer, pair.Value);
-                }
-
-                writer.WriteEndObject();
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                if (reader.TokenType == JsonToken.Null)
+                if (reader.TokenType == JsonTokenType.Null)
                 {
                     return null;
                 }
 
-                var operations = new OpenApiPathItem();
-                while (reader.Read() && reader.TokenType == JsonToken.PropertyName)
+                if (reader.TokenType != JsonTokenType.StartObject)
                 {
-                    var propertyName = reader.Value.ToString();
+                    throw new JsonException("Expected StartObject token.");
+                }
+
+                var pathItem = new OpenApiPathItem();
+                while (reader.Read() && reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    var propertyName = reader.GetString();
                     reader.Read();
 
                     if (propertyName == "summary")
                     {
-                        operations.Summary = serializer.Deserialize<string>(reader);
+                        pathItem.Summary = reader.GetString();
                     }
                     else if (propertyName == "description")
                     {
-                        operations.Description = serializer.Deserialize<string>(reader);
+                        pathItem.Description = reader.GetString();
                     }
                     else if (propertyName == "parameters")
                     {
-                        operations.Parameters = serializer.Deserialize<Collection<OpenApiParameter>>(reader);
+                        pathItem.Parameters = JsonSerializer.Deserialize<Collection<OpenApiParameter>>(ref reader, options);
                     }
                     else if (propertyName == "servers")
                     {
-                        operations.Servers = serializer.Deserialize<Collection<OpenApiServer>>(reader);
+                        pathItem.Servers = JsonSerializer.Deserialize<Collection<OpenApiServer>>(ref reader, options);
                     }
                     else if (propertyName.StartsWith("x-", StringComparison.OrdinalIgnoreCase))
                     {
-                        operations.ExtensionData ??= new Dictionary<string, object>();
-                        operations.ExtensionData[propertyName] = serializer.Deserialize(reader);
+                        pathItem.ExtensionData ??= new Dictionary<string, JsonNode>();
+                        pathItem.ExtensionData[propertyName] = JsonNode.Parse(ref reader);
                     }
                     else if (propertyName.Contains("$ref"))
                     {
-                        string refPath = serializer.Deserialize(reader).ToString();
-                        ((IJsonReferenceBase)operations).ReferencePath = refPath;
+                        var referencePath = reader.GetString();
+                        ((IJsonReferenceBase)pathItem).ReferencePath = referencePath;
                     }
                     else
                     {
-                        var value = serializer.Deserialize<OpenApiOperation>(reader);
-                        operations.Add(propertyName, value);
+                        var operation = JsonSerializer.Deserialize<OpenApiOperation>(ref reader, options);
+                        pathItem.Add(propertyName, operation);
                     }
                 }
-                return operations;
+
+                return pathItem;
             }
 
-            public override bool CanConvert(Type objectType)
+            public override void Write(Utf8JsonWriter writer, OpenApiPathItem value, JsonSerializerOptions options)
             {
-                return objectType == typeof(OpenApiPathItem);
+                writer.WriteStartObject();
+
+                if (value.Summary != null)
+                {
+                    writer.WriteString("summary", value.Summary);
+                }
+
+                if (value.Description != null)
+                {
+                    writer.WriteString("description", value.Description);
+                }
+
+                if (value.ExtensionData != null)
+                {
+                    foreach (var entry in value.ExtensionData)
+                    {
+                        writer.WritePropertyName(entry.Key);
+                        JsonSerializer.Serialize(writer, entry.Value, options);
+                    }
+                }
+
+                if (value.Parameters != null && value.Parameters.Count > 0)
+                {
+                    writer.WritePropertyName("parameters");
+                    JsonSerializer.Serialize(writer, value.Parameters, options);
+                }
+
+                if (value.Servers != null && value.Servers.Count > 0)
+                {
+                    writer.WritePropertyName("servers");
+                    JsonSerializer.Serialize(writer, value.Servers, options);
+                }
+
+                foreach (var pair in value)
+                {
+                    writer.WritePropertyName(pair.Key.ToLowerInvariant());
+                    JsonSerializer.Serialize(writer, pair.Value, options);
+                }
+
+                writer.WriteEndObject();
             }
         }
     }

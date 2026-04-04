@@ -6,10 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using NJsonSchema;
-
 namespace NSwag
 {
     /// <summary>Describes an operation parameter. </summary>
@@ -29,7 +28,8 @@ namespace NSwag
         [JsonIgnore] internal OpenApiOperation ParentOperation => Parent as OpenApiOperation;
 
         /// <summary>Gets or sets the name.</summary>
-        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Name
         {
             get => _name;
@@ -41,11 +41,13 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets a original name property x-originalName which is often used in code generation (default: null).</summary>
-        [JsonProperty(PropertyName = "x-originalName", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-originalName")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string OriginalName { get; set; }
 
         /// <summary>Gets or sets the kind of the parameter.</summary>
-        [JsonProperty(PropertyName = "in", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("in")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiParameterKind Kind
         {
             get => _kind;
@@ -57,7 +59,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the style of the parameter (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "style", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("style")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiParameterStyle Style
         {
             get => _style;
@@ -69,7 +72,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the explode setting for the parameter (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "explode", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("explode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Explode
         {
             get => _explode;
@@ -81,7 +85,7 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets a value indicating whether the parameter is required (default: false).</summary>
-        [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonIgnore]
         public bool IsRequired
         {
             get => _isRequired;
@@ -93,11 +97,13 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets a value indicating whether passing empty-valued parameters is allowed (default: false).</summary>
-        [JsonProperty(PropertyName = "allowEmptyValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("allowEmptyValue")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool AllowEmptyValue { get; set; }
 
         /// <summary>Gets or sets the description. </summary>
-        [JsonProperty("description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public override string Description
         {
             get => base.Description;
@@ -113,11 +119,13 @@ namespace NSwag
         public OpenApiParameter ActualParameter => Reference is OpenApiParameter ? (OpenApiParameter)Reference : this;
 
         /// <summary>Gets or sets the format of the array if type array is used.</summary>
-        [JsonProperty(PropertyName = "collectionFormat", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("collectionFormat")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiParameterCollectionFormat CollectionFormat { get; set; }
 
         /// <summary>Gets or sets the examples (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("examples")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiExample> Examples
         {
             get => _examples;
@@ -129,7 +137,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the schema which is only available when <see cref="Kind"/> == body.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("schema")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public JsonSchema Schema
         {
             get => _schema;
@@ -141,11 +150,13 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the custom schema which is used when <see cref="Kind"/> != body.</summary>
-        [JsonProperty(PropertyName = "x-schema", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-schema")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public JsonSchema CustomSchema { get; set; }
 
         /// <summary>Gets or sets the name.</summary>
-        [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-position")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int? Position
         {
             get => _position;

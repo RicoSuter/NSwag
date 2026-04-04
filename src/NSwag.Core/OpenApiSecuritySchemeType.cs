@@ -7,10 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary></summary>
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiSecuritySchemeType>))]
     public enum OpenApiSecuritySchemeType
     {
         /// <summary>The security scheme is not defined.</summary>

@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="SwaggerSchema.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -7,10 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>The enumeration of Swagger protocol schemes.</summary>
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiSchema>))]
     public enum OpenApiSchema
     {
         /// <summary>An undefined schema.</summary>

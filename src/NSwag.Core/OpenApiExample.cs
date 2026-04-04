@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema.References;
 
 namespace NSwag
@@ -15,19 +15,23 @@ namespace NSwag
     public class OpenApiExample : JsonReferenceBase<OpenApiExample>, IJsonReference
     {
         /// <summary>Gets or sets the example's description.</summary>
-        [JsonProperty(PropertyName = "summary", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("summary")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Summary { get; set; }
 
         /// <summary>Gets or sets the example's description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Description { get; set; }
 
         /// <summary>Gets or sets the example's value.</summary>
-        [JsonProperty(PropertyName = "value", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("value")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public object Value { get; set; }
 
         /// <summary>Gets or sets the example's external value.</summary>
-        [JsonProperty(PropertyName = "externalValue", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("externalValue")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string ExternalValue { get; set; }
 
         /// <summary>Gets the actual example, either this or the referenced example.</summary>
