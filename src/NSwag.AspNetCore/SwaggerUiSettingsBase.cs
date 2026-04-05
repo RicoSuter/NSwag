@@ -10,7 +10,7 @@
 #pragma warning disable CA1305
 
 using NSwag.Generation;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System.Text;
 
 #if AspNetOwin
@@ -124,7 +124,7 @@ namespace NSwag.AspNetCore
             var code = "";
             foreach (var pair in additionalSettings)
             {
-                code += pair.Key + ": " + JsonConvert.SerializeObject(pair.Value) + ", \n    ";
+                code += pair.Key + ": " + System.Text.Json.JsonSerializer.Serialize(pair.Value) + ", \n    ";
             }
 
             return code;
