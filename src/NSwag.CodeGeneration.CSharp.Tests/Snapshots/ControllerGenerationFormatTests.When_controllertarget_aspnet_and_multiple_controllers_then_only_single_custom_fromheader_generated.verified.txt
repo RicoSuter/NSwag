@@ -4,7 +4,6 @@ namespace MyNamespace
 {
     using System = global::System;
 
-
     public abstract class ControllerBase : System.Web.Http.ApiController
     {
         [System.Web.Http.HttpGet, System.Web.Http.Route("Foo")]
@@ -26,7 +25,6 @@ namespace MyNamespace
         public abstract System.Threading.Tasks.Task<ComplexTypeResponse> ComplexRequired([System.Web.Http.FromBody] ComplexType complexType);
 
     }
-
 
     public abstract class SecondaryControllerBase : System.Web.Http.ApiController
     {

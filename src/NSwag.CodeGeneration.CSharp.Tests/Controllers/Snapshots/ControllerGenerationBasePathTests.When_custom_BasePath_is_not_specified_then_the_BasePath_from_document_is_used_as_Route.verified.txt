@@ -17,7 +17,6 @@ namespace MyNamespace
     }
 
     [Microsoft.AspNetCore.Mvc.Route("virtual_directory/v1")]
-
     public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IController _implementation;

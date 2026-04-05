@@ -32,7 +32,6 @@ namespace MyNamespace
 
     }
 
-
     public partial class TestController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private ITestController _implementation;

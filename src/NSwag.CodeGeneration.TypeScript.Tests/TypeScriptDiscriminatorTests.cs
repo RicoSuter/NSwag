@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.Generation.WebApi;
 using System.Runtime.Serialization;
-using NJsonSchema.NewtonsoftJson.Converters;
+using NJsonSchema.Converters;
 using NJsonSchema;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
     public class TypeScriptDiscriminatorTests
     {
-        [JsonConverter(typeof(JsonInheritanceConverter), "type")]
+        [JsonInheritanceConverter(typeof(Base), "type")]
         [KnownType(typeof(OneChild))]
         [KnownType(typeof(SecondChild))]
         public abstract class Base
@@ -76,7 +75,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
 
             var document = await generator.GenerateForControllerAsync<DiscriminatorController>();

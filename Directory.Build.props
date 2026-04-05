@@ -37,7 +37,7 @@
     <UseArtifactsOutput>true</UseArtifactsOutput>
 
     <!-- Set to true to use local NJsonSchema project references (development), false for NuGet packages (production) -->
-    <UseLocalNJsonSchemaProjects>false</UseLocalNJsonSchemaProjects>
+    <UseLocalNJsonSchemaProjects>true</UseLocalNJsonSchemaProjects>
 
   </PropertyGroup>
 

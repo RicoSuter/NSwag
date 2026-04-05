@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.Annotations;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -132,7 +132,7 @@ namespace NSwag.Generation.Tests.Processors
             var operationDescription = new OpenApiOperationDescription { Operation = new OpenApiOperation() };
             var settings = new OpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings(),
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings(),
                 UseControllerSummaryAsTagDescription = true
             };
             return new OperationProcessorContext(document, operationDescription, controllerType, methodInfo, null, null, settings, null);

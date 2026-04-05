@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
 
@@ -68,7 +68,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await generator.GenerateForControllerAsync<FileUploadController>();

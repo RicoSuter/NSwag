@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Generation;
-using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
 
@@ -114,10 +113,6 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             await VerifyHelper.Verify(code);
             CSharpCompiler.AssertCompile(code);
         }
-    }
-
-    public class UseRequiredKeywordNewtonsoftJsonSchemaGeneratorTests : UseRequiredKeywordTests<NewtonsoftJsonSchemaGeneratorSettings>
-    {
     }
 
     public class UseRequiredKeywordSystemTextJsonSchemaGeneratorSettingsTests : UseRequiredKeywordTests<SystemTextJsonSchemaGeneratorSettings>

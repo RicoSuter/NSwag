@@ -32,7 +32,6 @@ namespace MyNamespace
 
     }
 
-
     public partial class TestController : System.Web.Http.ApiController
     {
         private ITestController _implementation;
