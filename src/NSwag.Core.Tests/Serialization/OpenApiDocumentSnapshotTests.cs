@@ -365,4 +365,5 @@ public class OpenApiDocumentSnapshotTests
         // Assert
         await Verify(json).UseDirectory("Snapshots");
     }
+
 }

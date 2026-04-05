@@ -31,7 +31,6 @@ namespace NSwag
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
         [JsonPropertyName("scopes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonRequired]
         public IDictionary<string, string> Scopes { get; set; } = new Dictionary<string, string>();
     }
 }
