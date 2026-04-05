@@ -6,8 +6,8 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Text.Json.Serialization;
 using Namotion.Reflection;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NSwag.Generation.Processors;
