@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NSwag.CodeGeneration;
 
 namespace NSwag.Commands.CodeGeneration

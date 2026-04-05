@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using NSwag.Commands.CodeGeneration;
 
 namespace NSwag.Commands
@@ -9,15 +9,18 @@ namespace NSwag.Commands
 #pragma warning restore CA1711
     {
         /// <summary>Gets or sets the SwaggerToTypeScriptClientCommand.</summary>
-        [JsonProperty("OpenApiToTypeScriptClient", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("OpenApiToTypeScriptClient")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public OpenApiToTypeScriptClientCommand OpenApiToTypeScriptClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpClientCommand.</summary>
-        [JsonProperty("OpenApiToCSharpClient", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("OpenApiToCSharpClient")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public OpenApiToCSharpClientCommand OpenApiToCSharpClientCommand { get; set; }
 
         /// <summary>Gets or sets the SwaggerToCSharpControllerCommand.</summary>
-        [JsonProperty("OpenApiToCSharpController", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("OpenApiToCSharpController")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public OpenApiToCSharpControllerCommand OpenApiToCSharpControllerCommand { get; set; }
 
         /// <summary>Gets the items.</summary>

@@ -12,10 +12,9 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 
@@ -59,8 +58,8 @@ namespace NSwag.Commands
         public string DefaultVariables { get; set; }
 
         /// <summary>Gets or sets the selected swagger generator JSON.</summary>
-        [JsonProperty("DocumentGenerator")]
-        internal JObject SelectedSwaggerGeneratorRaw
+        [JsonPropertyName("documentGenerator")]
+        internal JsonObject SelectedSwaggerGeneratorRaw
         {
             get
             {
@@ -68,21 +67,21 @@ namespace NSwag.Commands
                     .Replace("CommandBase", string.Empty)
                     .Replace("Command", string.Empty);
 
-                return JObject.FromObject(new Dictionary<string, IOutputCommand>
+                return System.Text.Json.JsonSerializer.SerializeToNode(new Dictionary<string, IOutputCommand>
                 {
                     {
                         key[0].ToString().ToLowerInvariant() + key.Substring(1),
                         SelectedSwaggerGenerator
                     }
-                }, JsonSerializer.Create(GetSerializerSettings()));
+                }, GetSerializerOptions())?.AsObject();
             }
             set
             {
-                var generatorProperty = value.Properties().First();
-                var key = generatorProperty.Name + "Command";
+                var generatorProperty = value.First();
+                var key = generatorProperty.Key + "Command";
                 var collectionProperty = SwaggerGenerators.GetType().GetRuntimeProperty(key[0].ToString().ToUpperInvariant() + key.Substring(1));
                 var generator = collectionProperty.GetValue(SwaggerGenerators);
-                var newGenerator = (IOutputCommand)JsonConvert.DeserializeObject(generatorProperty.Value.ToString(), generator.GetType(), GetSerializerSettings());
+                var newGenerator = (IOutputCommand)System.Text.Json.JsonSerializer.Deserialize(generatorProperty.Value.ToJsonString(), generator.GetType(), GetSerializerOptions());
                 collectionProperty.SetValue(SwaggerGenerators, newGenerator);
                 SelectedSwaggerGenerator = newGenerator;
             }
@@ -93,7 +92,7 @@ namespace NSwag.Commands
         public OpenApiGeneratorCollection SwaggerGenerators { get; } = new OpenApiGeneratorCollection();
 
         /// <summary>Gets the code generators.</summary>
-        [JsonProperty("CodeGenerators")]
+        [JsonPropertyName("codeGenerators")]
         public CodeGeneratorCollection CodeGenerators { get; } = new CodeGeneratorCollection();
 
         /// <summary>Gets or sets the path.</summary>
@@ -128,7 +127,7 @@ namespace NSwag.Commands
 
         /// <summary>Gets a value indicating whether the document is dirty (has any changes).</summary>
         [JsonIgnore]
-        public bool IsDirty => _latestData != JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+        public bool IsDirty => _latestData != System.Text.Json.JsonSerializer.Serialize(this, GetSerializerOptions());
 
         /// <summary>Gets the selected Swagger generator.</summary>
         [JsonIgnore]
@@ -150,7 +149,7 @@ namespace NSwag.Commands
         {
             var document = new TDocument();
             document.Path = "Untitled";
-            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+            document._latestData = System.Text.Json.JsonSerializer.Serialize(document, GetSerializerOptions());
             return document;
         }
 
@@ -178,10 +177,10 @@ namespace NSwag.Commands
                     data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
                 }
 
-                var obj = JObject.Parse(data);
+                var obj = JsonNode.Parse(data)?.AsObject();
                 if (obj["defaultVariables"] != null)
                 {
-                    var defaultVariables = obj["defaultVariables"].Value<string>();
+                    var defaultVariables = obj["defaultVariables"].GetValue<string>();
                     foreach (var p in ConvertVariables(defaultVariables))
                     {
                         data = data.Replace("$(" + p.Key + ")", EscapeJsonString(p.Value));
@@ -207,8 +206,8 @@ namespace NSwag.Commands
         public static TDocument FromJson<TDocument>(string filePath, string data)
             where TDocument : NSwagDocumentBase, new()
         {
-            var settings = GetSerializerSettings();
-            var document = JsonConvert.DeserializeObject<TDocument>(data, settings);
+            var options = GetSerializerOptions();
+            var document = System.Text.Json.JsonSerializer.Deserialize<TDocument>(data, options);
 
             if (filePath != null)
             {
@@ -216,7 +215,7 @@ namespace NSwag.Commands
                 document.ConvertToAbsolutePaths();
             }
 
-            document._latestData = JsonConvert.SerializeObject(document, Formatting.Indented, GetSerializerSettings());
+            document._latestData = System.Text.Json.JsonSerializer.Serialize(document, GetSerializerOptions());
 
             return document;
         }
@@ -226,7 +225,7 @@ namespace NSwag.Commands
         public Task SaveAsync()
         {
             File.WriteAllText(Path, ToJsonWithRelativePaths());
-            _latestData = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            _latestData = System.Text.Json.JsonSerializer.Serialize(this, GetSerializerOptions());
             return Task.CompletedTask;
         }
 
@@ -249,7 +248,7 @@ namespace NSwag.Commands
         /// <returns>The JSON data.</returns>
         public string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            return System.Text.Json.JsonSerializer.Serialize(this, GetSerializerOptions());
         }
 
         /// <summary>Generates the <see cref="OpenApiDocument"/> with the currently selected generator.</summary>
@@ -263,8 +262,8 @@ namespace NSwag.Commands
         {
             if (!string.IsNullOrEmpty(value))
             {
-                value = JsonConvert.ToString(value);
-                return value.Substring(1, value.Length - 2);
+                var serialized = System.Text.Json.JsonSerializer.Serialize(value);
+                return serialized.Substring(1, serialized.Length - 2);
             }
 
             return string.Empty;
@@ -285,17 +284,14 @@ namespace NSwag.Commands
             }
         }
 
-        private static JsonSerializerSettings GetSerializerSettings()
+        private static JsonSerializerOptions GetSerializerOptions()
         {
-            return new JsonSerializerSettings
+            return new JsonSerializerOptions
             {
-                DefaultValueHandling = DefaultValueHandling.Include,
-                NullValueHandling = NullValueHandling.Include,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters =
-                [
-                    new StringEnumConverter()
-                ]
+                DefaultIgnoreCondition = JsonIgnoreCondition.Never,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Converters = { new JsonStringEnumConverter() },
+                WriteIndented = true
             };
         }
 
@@ -520,56 +516,56 @@ namespace NSwag.Commands
 
             if (data.Contains("\"SelectedSwaggerGenerator\""))
             {
-                var obj = JsonConvert.DeserializeObject<JObject>(data);
-                var selectedSwaggerGenerator = obj["SelectedSwaggerGenerator"].Value<int>();
+                var obj = JsonNode.Parse(data)?.AsObject();
+                var selectedSwaggerGenerator = obj["SelectedSwaggerGenerator"].GetValue<int>();
                 if (selectedSwaggerGenerator == 0) // swagger url/data
                 {
-                    obj["swaggerGenerator"] = new JObject
+                    obj["swaggerGenerator"] = new JsonObject
                     {
                         {
-                            "fromSwagger", new JObject
+                            "fromSwagger", new JsonObject
                             {
-                                {"url", obj["InputSwaggerUrl"]},
-                                {"json", string.IsNullOrEmpty(obj["InputSwaggerUrl"].Value<string>()) ? obj["InputSwagger"] : null}
+                                {"url", obj["InputSwaggerUrl"]?.DeepClone()},
+                                {"json", string.IsNullOrEmpty(obj["InputSwaggerUrl"]?.GetValue<string>()) ? obj["InputSwagger"]?.DeepClone() : null}
                             }
                         }
                     };
                 }
                 if (selectedSwaggerGenerator == 1) // web api
                 {
-                    obj["swaggerGenerator"] = new JObject
+                    obj["swaggerGenerator"] = new JsonObject
                     {
-                        {"webApiToSwagger", obj["WebApiToSwaggerCommand"]}
+                        {"webApiToSwagger", obj["WebApiToSwaggerCommand"]?.DeepClone()}
                     };
                 }
                 if (selectedSwaggerGenerator == 2) // json schema
                 {
-                    obj["swaggerGenerator"] = new JObject
+                    obj["swaggerGenerator"] = new JsonObject
                     {
                         {
-                            "jsonSchemaToSwagger", new JObject
+                            "jsonSchemaToSwagger", new JsonObject
                             {
-                                {"schema", obj["InputJsonSchema"]},
+                                {"schema", obj["InputJsonSchema"]?.DeepClone()},
                             }
                         }
                     };
                 }
                 if (selectedSwaggerGenerator == 3) // types
                 {
-                    obj["swaggerGenerator"] = new JObject
+                    obj["swaggerGenerator"] = new JsonObject
                     {
-                        {"assemblyTypeToSwagger", obj["AssemblyTypeToSwaggerCommand"]}
+                        {"assemblyTypeToSwagger", obj["AssemblyTypeToSwaggerCommand"]?.DeepClone()}
                     };
                 }
 
-                obj["codeGenerators"] = new JObject
+                obj["codeGenerators"] = new JsonObject
                 {
-                    {"swaggerToTypeScriptClient", obj["SwaggerToTypeScriptCommand"]},
-                    {"swaggerToCSharpClient", obj["SwaggerToCSharpClientCommand"]},
-                    {"swaggerToCSharpController", obj["SwaggerToCSharpControllerGenerator"]}
+                    {"swaggerToTypeScriptClient", obj["SwaggerToTypeScriptCommand"]?.DeepClone()},
+                    {"swaggerToCSharpClient", obj["SwaggerToCSharpClientCommand"]?.DeepClone()},
+                    {"swaggerToCSharpController", obj["SwaggerToCSharpControllerGenerator"]?.DeepClone()}
                 };
 
-                data = obj.ToString().Replace("\"OutputFilePath\"", "\"output\"");
+                data = obj.ToJsonString().Replace("\"OutputFilePath\"", "\"output\"");
                 saveFile = true;
             }
 

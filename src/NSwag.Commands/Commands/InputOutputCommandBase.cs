@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 
 #pragma warning disable 1591

@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Reflection;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 #pragma warning disable CS0618
 
@@ -18,7 +18,7 @@ namespace NSwag.Commands.Generation.AspNetCore
     {
         public static void Process(string commandContent, string outputFile, string applicationName)
         {
-            var command = JsonConvert.DeserializeObject<AspNetCoreToOpenApiCommand>(commandContent);
+            var command = JsonSerializer.Deserialize<AspNetCoreToOpenApiCommand>(commandContent);
             var previousWorkingDirectory = command.ChangeWorkingDirectoryAndSetAspNetCoreEnvironment();
 
             var assemblyName = new AssemblyName(applicationName);

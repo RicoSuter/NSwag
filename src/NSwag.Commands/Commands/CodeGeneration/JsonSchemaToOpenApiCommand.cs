@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 
 #pragma warning disable 1591
@@ -9,10 +9,10 @@ namespace NSwag.Commands.CodeGeneration
 {
     public class JsonSchemaToOpenApiCommand : OutputCommandBase
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("schema")]
+        [JsonPropertyName("schema")]
         public string Schema { get; set; }
 
         public override async Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host)

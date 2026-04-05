@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using NSwag.Commands.CodeGeneration;
 using NSwag.Commands.Generation;
 using NSwag.Commands.Generation.AspNetCore;
