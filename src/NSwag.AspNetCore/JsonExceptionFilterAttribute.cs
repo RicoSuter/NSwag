@@ -121,10 +121,12 @@ namespace NSwag.AspNetCore
             return 500;
         }
 
+        private const int MaxInnerExceptionDepth = 10;
+
         private static readonly HashSet<string> _ignoredExceptionProperties =
             ["Message", "StackTrace", "Source", "InnerException", "Data", "TargetSite", "HelpLink", "HResult"];
 
-        private JsonObject SerializeException(Exception exception)
+        private JsonObject SerializeException(Exception exception, int depth = 0)
         {
             var jsonObject = new JsonObject
             {
@@ -132,18 +134,25 @@ namespace NSwag.AspNetCore
                 ["Message"] = exception.Message,
                 ["StackTrace"] = _hideStackTrace ? "HIDDEN" : exception.StackTrace,
                 ["Source"] = exception.Source,
-                ["InnerException"] = exception.InnerException != null
-                    ? SerializeException(exception.InnerException)
+                ["InnerException"] = exception.InnerException != null && depth < MaxInnerExceptionDepth
+                    ? SerializeException(exception.InnerException, depth + 1)
                     : null
             };
 
             foreach (var property in exception.GetType().GetRuntimeProperties()
                 .Where(p => p.GetMethod?.IsPublic == true && !_ignoredExceptionProperties.Contains(p.Name)))
             {
-                var propertyValue = property.GetValue(exception);
-                if (propertyValue != null)
+                try
                 {
-                    jsonObject[property.Name] = JsonValue.Create(propertyValue);
+                    var propertyValue = property.GetValue(exception);
+                    if (propertyValue != null)
+                    {
+                        jsonObject[property.Name] = JsonValue.Create(propertyValue);
+                    }
+                }
+                catch
+                {
+                    // Skip properties that cannot be serialized (complex types, circular refs, etc.)
                 }
             }
 

@@ -47,8 +47,8 @@ namespace NSwag
             // collision between OpenApiParameter.IsRequired (bool) and JsonSchema.RequiredPropertiesRaw (string[]).
             converter.AddConverter(new Converters.OpenApiParameterJsonConverter());
 
-            // Register additional types for empty collection filtering (no specific ignores needed,
-            // but registering them ensures the converter handles them for empty array stripping).
+            // Register types so the SchemaSerializationConverter handles their serialization
+            // (needed for empty collection stripping and schema-version-aware property filtering).
             converter.IgnoreProperty(typeof(OpenApiComponents));
             converter.IgnoreProperty(typeof(OpenApiServer));
             converter.IgnoreProperty(typeof(OpenApiOAuthFlows));

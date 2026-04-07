@@ -103,7 +103,9 @@ namespace NSwag
         public static async Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
-            var deserializer = new DeserializerBuilder().Build();
+            var deserializer = new DeserializerBuilder()
+                .WithAttemptingUnquotedStringTypeDeserialization()
+                .Build();
             var yamlObject = deserializer.Deserialize(data);
             var serializer = new SerializerBuilder()
                 .JsonCompatible()

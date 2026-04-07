@@ -71,7 +71,6 @@ namespace NSwag.Converters
                 // Add the "required" boolean (IsRequired is [JsonIgnore], so it's not in the node)
                 if (value.IsRequired)
                 {
-                    // Insert "required" after "in" for consistent ordering, or just add it
                     obj["required"] = true;
                 }
             }

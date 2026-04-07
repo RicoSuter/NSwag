@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
+using NJsonSchema;
 using Xunit;
 
 namespace NSwag.Core.Yaml.Tests
@@ -52,7 +53,7 @@ paths:
 
             // Assert
             Assert.NotNull(document);
-            Assert.Equal("bar", document.Paths.First().Value.ExtensionData["x-swagger-router-controller"]);
+            Assert.Equal("bar", document.Paths.First().Value.ExtensionData["x-swagger-router-controller"]?.ToString());
             Assert.Contains("x-swagger-router-controller: bar", yaml);
         }
 
@@ -79,9 +80,55 @@ paths:
 
             // Assert
             Assert.NotNull(document);
-            Assert.Equal(JObject.Parse(@"{""bar"": ""baz""}"), document.Paths.First().Value.ExtensionData["x-swagger-router-controller"]);
+            var extensionData = document.Paths.First().Value.ExtensionData["x-swagger-router-controller"];
+            var jsonObj = extensionData is JsonObject jo ? jo : JsonNode.Parse(extensionData.ToString())?.AsObject();
+            Assert.Equal("baz", jsonObj["bar"]?.GetValue<string>());
             Assert.Equal("baz", document.Paths.First().Value["get"].Responses["200"].Description);
             Assert.Contains("bar: baz", yaml);
+        }
+
+        [Fact]
+        public async Task When_yaml_openapi3_is_loaded_then_roundtrip_preserves_structure()
+        {
+            // Arrange
+            var yaml = @"openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of items";
+
+            // Act
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml, null, SchemaType.OpenApi3);
+            var roundTrippedYaml = document.ToYaml();
+            var document2 = await OpenApiYamlDocument.FromYamlAsync(roundTrippedYaml, null, SchemaType.OpenApi3);
+
+            // Assert
+            Assert.Equal("Test API", document2.Info.Title);
+            Assert.Equal("1.0.0", document2.Info.Version);
+
+            var parameters = document2.Paths["/items"]["get"].Parameters;
+            Assert.Equal(2, parameters.Count);
+            Assert.True(parameters.First(p => p.Name == "id").IsRequired);
+            Assert.False(parameters.First(p => p.Name == "filter").IsRequired);
+
+            Assert.Contains("operationId: listItems", roundTrippedYaml);
+            Assert.Contains("required: true", roundTrippedYaml);
         }
     }
 }

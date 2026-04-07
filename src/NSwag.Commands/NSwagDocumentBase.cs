@@ -178,7 +178,7 @@ namespace NSwag.Commands
                 }
 
                 var obj = JsonNode.Parse(data)?.AsObject();
-                if (obj["defaultVariables"] != null)
+                if (obj != null && obj["defaultVariables"] != null)
                 {
                     var defaultVariables = obj["defaultVariables"].GetValue<string>();
                     foreach (var p in ConvertVariables(defaultVariables))
@@ -284,16 +284,15 @@ namespace NSwag.Commands
             }
         }
 
-        private static JsonSerializerOptions GetSerializerOptions()
+        private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
         {
-            return new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Converters = { new JsonStringEnumConverter() },
-                WriteIndented = true
-            };
-        }
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new JsonStringEnumConverter() },
+            WriteIndented = true
+        };
+
+        private static JsonSerializerOptions GetSerializerOptions() => SerializerOptions;
 
         private void ConvertToAbsolutePaths()
         {
@@ -517,7 +516,9 @@ namespace NSwag.Commands
             if (data.Contains("\"SelectedSwaggerGenerator\""))
             {
                 var obj = JsonNode.Parse(data)?.AsObject();
-                var selectedSwaggerGenerator = obj["SelectedSwaggerGenerator"].GetValue<int>();
+                if (obj == null) return data;
+
+                var selectedSwaggerGenerator = obj["SelectedSwaggerGenerator"]?.GetValue<int>() ?? 0;
                 if (selectedSwaggerGenerator == 0) // swagger url/data
                 {
                     obj["swaggerGenerator"] = new JsonObject

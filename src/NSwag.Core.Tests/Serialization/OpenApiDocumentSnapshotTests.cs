@@ -366,4 +366,48 @@ public class OpenApiDocumentSnapshotTests
         await Verify(json).UseDirectory("Snapshots");
     }
 
+    [Fact]
+    public async Task Snapshot_ParameterRequired_RoundTrip()
+    {
+        // Arrange: document with both required=true and required=false (omitted) parameters
+        var inputJson = @"{
+  ""openapi"": ""3.0.0"",
+  ""info"": { ""title"": ""Test"", ""version"": ""1.0.0"" },
+  ""paths"": {
+    ""/test"": {
+      ""get"": {
+        ""operationId"": ""test"",
+        ""parameters"": [
+          {
+            ""name"": ""requiredParam"",
+            ""in"": ""path"",
+            ""required"": true,
+            ""schema"": { ""type"": ""string"" }
+          },
+          {
+            ""name"": ""optionalParam"",
+            ""in"": ""query"",
+            ""schema"": { ""type"": ""string"" }
+          }
+        ],
+        ""responses"": {
+          ""200"": { ""description"": ""OK"" }
+        }
+      }
+    }
+  }
+}";
+
+        // Act
+        var document = await OpenApiDocument.FromJsonAsync(inputJson, null, SchemaType.OpenApi3);
+        var json = document.ToJson(SchemaType.OpenApi3, true);
+
+        // Assert: required=true should be present, required=false should be omitted (OpenAPI default)
+        var reparsed = await OpenApiDocument.FromJsonAsync(json, null, SchemaType.OpenApi3);
+        var pathParams = reparsed.Paths["/test"]["get"].Parameters;
+        Assert.True(pathParams.First(p => p.Name == "requiredParam").IsRequired);
+        Assert.False(pathParams.First(p => p.Name == "optionalParam").IsRequired);
+        Assert.Contains("\"required\": true", json);
+    }
+
 }

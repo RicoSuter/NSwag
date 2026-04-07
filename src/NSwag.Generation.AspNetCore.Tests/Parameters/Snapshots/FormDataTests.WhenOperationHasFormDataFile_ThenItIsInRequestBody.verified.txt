@@ -95,11 +95,11 @@
           {
             "name": "caseId",
             "in": "path",
-            "required": true,
             "schema": {
               "type": "string"
             },
-            "x-position": 1
+            "x-position": 1,
+            "required": true
           }
         ],
         "requestBody": {
