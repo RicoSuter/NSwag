@@ -49,20 +49,25 @@ namespace NSwag.ConsoleCore.Tests
                 }
             });
 
+            // Read stdout/stderr asynchronously to avoid deadlock when pipe buffers fill up
+            var outputTask = process.StandardOutput.ReadToEndAsync();
+            var errorTask = process.StandardError.ReadToEndAsync();
+
             try
             {
-                process.WaitForExit(20000);
+                process.WaitForExit(60000);
             }
             finally
             {
                 process.Kill();
             }
 
+            var output = await outputTask;
+            var error = await errorTask;
+
             // Assert
             if (process.ExitCode != 0)
             {
-                var output = await process.StandardOutput.ReadToEndAsync();
-                var error = await process.StandardError.ReadToEndAsync();
                 Assert.Fail(output + error);
             }
 
