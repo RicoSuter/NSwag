@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>14.6.3</VersionPrefix>
+    <VersionPrefix>14.7.0</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
     <Copyright>Copyright © Rico Suter, 2025</Copyright>
