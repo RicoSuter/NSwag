@@ -260,8 +260,9 @@ namespace MyNamespace
         [Newtonsoft.Json.JsonProperty("RequiredByAttribute", Required = Newtonsoft.Json.Required.Always)]
         public required int RequiredByAttribute { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("RequiredByC11Keyword", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string RequiredByC11Keyword { get; set; }
+        [Newtonsoft.Json.JsonProperty("RequiredByC11Keyword", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public required string RequiredByC11Keyword { get; set; }
 
         [Newtonsoft.Json.JsonProperty("RequiredByAttributeAndC11Keyword", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]

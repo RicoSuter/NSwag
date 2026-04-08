@@ -43,7 +43,6 @@ namespace MyNamespace
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "")]
-
     public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IController _implementation;
@@ -92,7 +91,6 @@ namespace MyNamespace
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "")]
-
     public partial class ExampleController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IExampleController _implementation;

@@ -4,7 +4,6 @@ namespace MyNamespace
 {
     using System = global::System;
 
-
     public abstract class TestControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("Foo")]

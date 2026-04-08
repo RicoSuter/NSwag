@@ -14,7 +14,6 @@ namespace MyNamespace
 
     }
 
-
     public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IController _implementation;

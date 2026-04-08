@@ -55,7 +55,6 @@ namespace MyNamespace
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "")]
-
     public partial class ValuesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IValuesController _implementation;
