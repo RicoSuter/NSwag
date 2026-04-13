@@ -207,8 +207,8 @@ function blobToText(blob: any): Observable<string> {
             observer.complete();
         } else {
             blob.text().then(
-                text => { observer.next(text); observer.complete(); },
-                err => observer.error(err)
+                (text: string) => { observer.next(text); observer.complete(); },
+                (err: any) => observer.error(err)
             );
         }
     });
