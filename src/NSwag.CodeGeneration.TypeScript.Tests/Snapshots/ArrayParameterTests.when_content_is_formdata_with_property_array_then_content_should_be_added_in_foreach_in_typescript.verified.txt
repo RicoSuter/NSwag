@@ -14,20 +14,16 @@ export class FileUploadClient {
     /**
      */
     uploadFile(file: FileParameter | undefined, arrayOfIds: string[] | null | undefined, test: string | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/FileUpload/UploadFile";
-        url_ = url_.replace(/[?&]$/, "");
+        const url_ = new UriBuilder(this.baseUrl + "/api/FileUpload/UploadFile")
+            .toString();
 
+        Guard.notNull(file, "file");
+        Guard.defined(arrayOfIds, "arrayOfIds");
+        Guard.notNull(test, "test");
         const content_ = new FormData();
-        if (file === null || file === undefined)
-            throw new globalThis.Error("The parameter 'file' cannot be null.");
-        else
-            content_.append("file", file.data, file.fileName ? file.fileName : "file");
-        if (arrayOfIds !== null && arrayOfIds !== undefined)
-            arrayOfIds.forEach(item_ => content_.append("arrayOfIds", item_.toString()));
-        if (test === null || test === undefined)
-            throw new globalThis.Error("The parameter 'test' cannot be null.");
-        else
-            content_.append("test", test.toString());
+        content_.append("file", file.data, file.fileName ? file.fileName : "file");
+        arrayOfIds.forEach(item_ => content_.append("arrayOfIds", item_.toString()));
+        content_.append("test", test.toString());
 
         let options_: RequestInit = {
             body: content_,
@@ -106,4 +102,68 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new ApiException(message, status, response, headers, null);
+}
+
+class Guard {
+    static required(value: any, name: string) {
+        if (value === undefined || value === null)
+            throw new globalThis.Error(`The parameter '${name}' must be defined and cannot be null.`);
+    }
+
+    static defined(value: any, name: string) {
+        if (value === undefined)
+            throw new globalThis.Error(`The parameter '${name}' must be defined.`);
+    }
+
+    static notNull(value: any, name: string) {
+        if (value === null)
+            throw new globalThis.Error(`The parameter '${name}' cannot be null.`);
+    }
+}
+
+class UriBuilder {
+    private params: string[] = [];
+
+    constructor(private url: string) {}
+
+    path(name: string, value: any) {
+        if (value === undefined || value === null) {
+            this.url = this.url.replace(`/{${name}}`, "").replace(`{${name}}`, "");
+            return this;
+        }
+        const resolved = Array.isArray(value) ? value.join() : value;
+        this.url = this.url.replace(`{${name}}`, encodeURIComponent("" + resolved));
+        return this;
+    }
+
+    param(name: string, value: any) {
+        if (value == null) return this;
+        this.params.push(`${name}=${encodeURIComponent("" + value)}`);
+        return this;
+    }
+
+    paramArray(name: string, arr: any[]) {
+        if (!arr) return this;
+        arr.forEach(v =>
+            this.params.push(`${name}=${encodeURIComponent("" + v)}`)
+        );
+        return this;
+    }
+
+    paramObjectArray(name: string, arr: any[]) {
+        if (!arr) return this;
+        arr.forEach((obj, i) => {
+            Object.entries(obj).forEach(([k, v]) => {
+                this.params.push(
+                    `${name}[${i}].${k}=${encodeURIComponent("" + v)}`
+                );
+            });
+        });
+        return this;
+    }
+
+    toString() {
+        if (!this.params.length) return this.url;
+        return this.url + (this.url.includes("?") ? "&" : "?") + this.params.join("&");
+    }
 }

@@ -1,60 +1,33 @@
-﻿let url_ = this.baseUrl + "/{{ operation.Path }}{% if operation.HasQueryParameters %}?{% endif %}";
-{% for parameter in operation.PathParameters -%}
-{%    if parameter.IsRequired -%}
-if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' must be defined.");
-{%    else -%}
-if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
-{%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
-url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.{{ parameter.GetDateTimeToString }} : "null").join()));
-{%    elsif parameter.IsDateOrDateTime -%}
-url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "null"));
-{%    elsif parameter.IsArray -%}
-url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.join()));
-{%    else -%}
-url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent("" + {{ parameter.VariableName }}));
-{%    endif -%}
-{%    if parameter.IsOptional -%}
-else
-    url_ = url_.replace("/{{ "{" }}{{ parameter.Name }}}", "");
-{%    endif -%}
+﻿{% for parameter in operation.PathParameters -%}
+{% if parameter.IsRequired -%}
+Guard.required({{ parameter.VariableName }}, '{{ parameter.VariableName }}');
+{% endif -%}
 {% endfor -%}
 {% for parameter in operation.QueryParameters -%}
 {%    if parameter.IsRequired -%}
 {%        if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} === undefined)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' must be defined.");
-else if({{ parameter.VariableName }} !== null)
+Guard.defined({{ parameter.VariableName }}, '{{ parameter.VariableName }}');
 {%        else -%}
-if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' must be defined and cannot be null.");
-else
-{%        endif -%}
-{%    else -%}
-{%        if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null)
-{%        else -%}
-if ({{ parameter.VariableName }} === null)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
-else if ({{ parameter.VariableName }} !== undefined)
-{%        endif -%}
-{%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
-{%    elsif parameter.IsObjectArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
-        for (const attr in item)
-			if (item.hasOwnProperty(attr)) {
-				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-			}
-    });
-{%    elsif parameter.IsDateOrDateTime -%}
-    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
-{%    elsif parameter.IsArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + item) + "&"; });
-{%    else -%}
-    url_ += "{{ parameter.Name }}=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
-{%    endif -%}
+Guard.required({{ parameter.VariableName }}, '{{ parameter.VariableName }}');
+{%    endif    -%}
+{% elsif parameter.IsNullable == false -%}
+Guard.notNull({{ parameter.VariableName }}, '{{ parameter.VariableName }}');
+{% endif -%}
 {% endfor -%}
-url_ = url_.replace(/[?&]$/, "");
+
+const url_ = new UriBuilder(this.baseUrl + "/{{ operation.Path }}")
+{% for parameter in operation.PathParameters -%}
+    .path("{{ parameter.Name }}", {{ parameter.VariableName }})
+{% endfor -%}
+{% for parameter in operation.QueryParameters -%}
+{% if parameter.IsDateOrDateTime -%}
+    .param("{{ parameter.Name }}",{{ parameter.VariableName }} ? {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}")
+{% elsif parameter.IsArray -%}
+    .paramArray("{{ parameter.Name }}", {{ parameter.VariableName }})
+{% elsif parameter.IsObjectArray -%}
+    .paramObjectArray("{{ parameter.Name }}", {{ parameter.VariableName }})
+{% else -%}
+    .param("{{ parameter.Name }}", {{ parameter.VariableName }})
+{% endif -%}
+{% endfor -%}
+    .toString();
