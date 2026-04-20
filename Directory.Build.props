@@ -3,7 +3,7 @@
     <VersionPrefix>14.7.1</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
-    <Copyright>Copyright © Rico Suter, 2025</Copyright>
+    <Copyright>Copyright © Rico Suter, 2026</Copyright>
 
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
