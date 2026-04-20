@@ -279,5 +279,85 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             await VerifyHelper.Verify(code);
             CSharpCompiler.AssertCompile(code);
         }
+
+        [Fact]
+        public void When_query_parameter_is_keyword_use_correct_variable_name_when_object_parameters_has_expanded()
+        {
+            var spec = @"{
+  ""openapi"": ""3.0.0"",
+  ""info"": {
+    ""version"": ""1.0.0"",
+    ""title"": ""Query params tests""
+  },
+  ""servers"": [
+    {
+      ""url"": ""http://localhost:8080""
+    }
+  ],
+  ""paths"": {
+    ""/settings"": {
+      ""post"": {
+        ""summary"": ""List all settings"",
+        ""operationId"": ""listSettings"",
+        ""parameters"": [
+          {
+            ""name"": ""params"",
+            ""in"": ""query"",
+            ""required"": true,
+            ""schema"": {
+              ""$ref"": ""#/components/schemas/MultiValueMapStringObject""
+            }
+          }
+        ],
+        ""responses"": {
+          ""200"": {
+            ""description"": ""An array of settings""
+          }
+        }
+      }
+    }
+  },
+  ""components"": {
+    ""schemas"": {
+      ""MultiValueMapStringObject"": {
+        ""type"": ""object"",
+        ""properties"": {
+          ""all"": {
+            ""type"": ""object"",
+            ""additionalProperties"": {
+              ""type"": ""object""
+            },
+            ""writeOnly"": true
+          },
+          ""empty"": {
+            ""type"": ""boolean""
+          }
+        },
+        ""additionalProperties"": {
+          ""type"": ""array"",
+          ""items"": {
+            ""type"": ""object""
+          }
+        }
+      }
+    }
+  }
+}
+";
+
+            var document = OpenApiDocument.FromJsonAsync(spec).Result;
+
+            // Act
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = generator.GenerateFile();
+
+            // Assert
+            Assert.DoesNotContain(
+                "foreach (var item_ in params.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
+                code);
+            Assert.Contains(
+                "foreach (var item_ in @params.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }",
+                code);
+        }
     }
 }
