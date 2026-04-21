@@ -174,7 +174,12 @@ namespace NSwag.CodeGeneration
                 foreach (var p in pair.Value.ActualPathItem)
                 {
                     var operation = p.Value;
- 
+
+                    if (this.BaseSettings.ExcludeDeprecated && operation.IsDeprecated && !operationsToInclude.Contains(operation.OperationId))
+                    {
+                        continue;
+                    }
+
                     if ((operationsToInclude.Count is not 0 && !operationsToInclude.Contains(operation.OperationId))
                         ||
                         (operationsToExclude.Count is not 0 && operationsToExclude.Contains(operation.OperationId))
