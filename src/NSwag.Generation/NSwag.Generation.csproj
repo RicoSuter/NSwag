@@ -6,7 +6,10 @@
     <NoWarn>$(NoWarn),618</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.NewtonsoftJson\NJsonSchema.NewtonsoftJson.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema.NewtonsoftJson" />
   </ItemGroup>
 

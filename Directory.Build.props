@@ -36,6 +36,10 @@
 
     <UseArtifactsOutput>true</UseArtifactsOutput>
 
+    <!-- v15 development: build against the sibling NJsonSchema v12 checkout via project references.
+         Flip to false (or remove) when v15 switches to stable NJsonSchema v12 NuGet packages before release. -->
+    <UseLocalNJsonSchemaProjects>true</UseLocalNJsonSchemaProjects>
+
   </PropertyGroup>
 
   <ItemGroup>
