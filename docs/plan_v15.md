@@ -12,7 +12,18 @@ v15 is gated on NJsonSchema v12 and bundles the companion set of breaking improv
 
 ## Dependency on NJsonSchema v12
 
-NSwag v15 depends on NJsonSchema v12. During Phase 1 development, this is wired via **project references** using the `UseLocalNJsonSchemaProjects=true` MSBuild property (default true on the `v15` branch). Practical implications:
+NSwag v15 depends on NJsonSchema v12. During Phase 1 development, this is wired via **project references** using the `UseLocalNJsonSchemaProjects` MSBuild property, defined in `Directory.Build.props` and defaulting to `true` on the `v15` branch. Each NSwag csproj that depends on NJsonSchema has a pair of conditional `ItemGroup` blocks:
+
+```xml
+<ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
+  <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj" />
+</ItemGroup>
+<ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
+  <PackageReference Include="NJsonSchema" />
+</ItemGroup>
+```
+
+Practical implications:
 
 - Both repos are checked out as siblings locally: `../NJsonSchema` on the `v12` branch, `../NSwag` on the `v15` branch.
 - Changes to NJsonSchema v12 flow into the local NSwag v15 build immediately.
@@ -72,8 +83,8 @@ Before the final `v15` → `master` merge, revert the temporary shims that only 
 - **`.github/workflows/build.yml`, `.github/workflows/pr.yml`**: regenerate from NUKE (`nuke --generate-configuration GitHubActions_build --host GitHubActions` and the `pr` equivalent). This will:
   - Remove the `v15` branch filter entry.
   - **Remove the hand-added sibling NJsonSchema checkout steps** — they're the temporary glue for `UseLocalNJsonSchemaProjects=true` in CI and won't make sense once v15 references stable NJsonSchema v12 NuGet packages.
-- **`Directory.Packages.props` (or equivalent)**: flip `UseLocalNJsonSchemaProjects` default back to `false` (or remove the property entirely if the conditional ItemGroups also go). NSwag `master` should consume NJsonSchema via NuGet only.
-- **Bump NJsonSchema package references** to the released stable `12.0.0`.
+- **`Directory.Build.props`**: flip `UseLocalNJsonSchemaProjects` default back to `false`, or remove the property entirely and drop the conditional `ItemGroup` blocks from each csproj. NSwag `master` historically uses plain `PackageReference` only; decide before the final merge whether to keep the conditional pattern (allows future major-version dev to reuse it) or revert to the simpler form.
+- **Bump NJsonSchema package references** in `Directory.Packages.props` to the released stable `12.0.0` (or later).
 - **`docs/plan_v15.md` and `docs/changelog_v15.md`**: move or archive after release — either delete once v15 is GA, or relocate to `docs/releases/` as historical context.
 - **Any `[Obsolete]` shims** added specifically to ease the v14→v15 migration: remove or mark for removal in v16.
 

@@ -7,6 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.NewtonsoftJson\NJsonSchema.NewtonsoftJson.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema.NewtonsoftJson" />
   </ItemGroup>
   

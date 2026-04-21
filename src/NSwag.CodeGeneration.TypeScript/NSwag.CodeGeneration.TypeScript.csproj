@@ -12,7 +12,10 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration.TypeScript\NJsonSchema.CodeGeneration.TypeScript.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" />
   </ItemGroup>
 </Project>

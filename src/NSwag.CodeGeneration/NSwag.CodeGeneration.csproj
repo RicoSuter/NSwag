@@ -4,7 +4,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   
-  <ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
+    <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration\NJsonSchema.CodeGeneration.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema.CodeGeneration" />
   </ItemGroup>
   

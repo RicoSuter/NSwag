@@ -10,7 +10,9 @@ See [`plan_v15.md`](./plan_v15.md) for the v15 scope, branch model, and release 
 
 ### Breaking changes
 
-- **Set up v15 integration branch, CI triggers, and sibling NJsonSchema v12 checkout** (this PR) — no user-facing impact; infrastructure only.
+- **Set up v15 integration branch, project-ref mechanism, CI triggers, and sibling NJsonSchema v12 checkout** (this PR) — no user-facing impact; infrastructure only.
+  - Adds `UseLocalNJsonSchemaProjects` property (`Directory.Build.props`, default `true` on v15).
+  - Converts 8 NSwag csprojs that reference NJsonSchema packages to conditional `ItemGroup` blocks: `NSwag.Core`, `NSwag.Core.Yaml`, `NSwag.CodeGeneration`, `NSwag.CodeGeneration.CSharp`, `NSwag.CodeGeneration.TypeScript`, `NSwag.Generation`, `NSwag.AspNet.WebApi`, `NSwag.CodeGeneration.Tests`.
 
 Planned (not yet merged — track via linked PRs):
 
