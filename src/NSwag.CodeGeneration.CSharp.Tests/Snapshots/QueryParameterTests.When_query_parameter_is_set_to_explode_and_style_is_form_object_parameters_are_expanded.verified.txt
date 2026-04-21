@@ -81,7 +81,10 @@ namespace MyNamespace
                         {
                             urlBuilder_.Append(System.Uri.EscapeDataString("limit")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(paging.Limit, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                         }
-                        foreach (var item_ in paging.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in paging.AdditionalProperties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 

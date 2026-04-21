@@ -97,7 +97,10 @@ namespace MyNamespace
                         {
                             urlBuilder_.Append(System.Uri.EscapeDataString("options[optionalOriginLocationCode]")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(options.OptionalOriginLocationCode, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                         }
-                        foreach (var item_ in options.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in options.AdditionalProperties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 

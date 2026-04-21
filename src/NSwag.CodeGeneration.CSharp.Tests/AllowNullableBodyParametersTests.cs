@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.OperationNameGenerators;
+using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
 using System.ComponentModel.DataAnnotations;
-using NSwag.CodeGeneration.Tests;
+using System.Reflection;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
 {
@@ -46,7 +47,11 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             {
                 UseBaseUrl = false,
                 GenerateClientInterfaces = true,
-                OperationNameGenerator = new SingleClientFromOperationIdOperationNameGenerator()
+                OperationNameGenerator = new SingleClientFromOperationIdOperationNameGenerator(),
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
             });
 
             var code = codeGen.GenerateFile();
@@ -61,12 +66,23 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             // Arrange
             var generator = await GenerateCode(true);
+            generator.Settings.CSharpGeneratorSettings.Namespace = VerifyHelper.GetNameSpace();
 
             // Act
             var code = generator.GenerateFile();
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace AllowNullableBodyParametersTests.TestNullableBodyWithAllowNullableBodyParameters
+{
+    public class MyBaseClass
+    {
+        public MyBaseClass(MyConfig configuration) {}
+    }
+    public class MyConfig {}
+}
+");
         }
 
         [Fact]
@@ -74,12 +90,23 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         {
             // Arrange
             var generator = await GenerateCode(false);
+            generator.Settings.CSharpGeneratorSettings.Namespace = VerifyHelper.GetNameSpace();
 
             // Act
             var code = generator.GenerateFile();
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace AllowNullableBodyParametersTests.TestNullableBodyWithoutAllowNullableBodyParameters
+{
+    public class MyBaseClass
+    {
+        public MyBaseClass(MyConfig configuration) {}
+    }
+    public class MyConfig {}
+}
+");
         }
 
         private static async Task<CSharpClientGenerator> GenerateCode(bool allowNullableBodyParameters)

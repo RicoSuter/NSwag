@@ -1,10 +1,10 @@
 ﻿
 
-namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_content_should_be_added_in_foreach_in_csharp
+namespace MyNamespace
 {
     using System = global::System;
 
-    public partial class MyClass 
+    public partial class TestClient 
     {
         #pragma warning disable 8618
         private string _baseUrl;
@@ -15,7 +15,7 @@ namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_
         private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public MyClass(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public TestClient(string baseUrl, System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = baseUrl;
@@ -51,12 +51,12 @@ namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        public virtual System.Threading.Tasks.Task<FileResponse> UploadFileAsync(FileParameter file, System.Collections.Generic.IEnumerable<string> arrayOfIds, string test)
+        public virtual System.Threading.Tasks.Task TestWithInputAsync(DTOWithRequiredFieldsOfNewtonsoftJsonSchemaGeneratorSettings input)
         {
-            return UploadFileAsync(file, arrayOfIds, test, System.Threading.CancellationToken.None);
+            return TestWithInputAsync(input, System.Threading.CancellationToken.None);
         }
 
-        public virtual async System.Threading.Tasks.Task<FileResponse> UploadFileAsync(FileParameter file, System.Collections.Generic.IEnumerable<string> arrayOfIds, string test, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task TestWithInputAsync(DTOWithRequiredFieldsOfNewtonsoftJsonSchemaGeneratorSettings input, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -64,43 +64,16 @@ namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var boundary_ = System.Guid.NewGuid().ToString();
-                    var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
-                    content_.Headers.Remove("Content-Type");
-                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
-
-                    if (file == null)
-                        throw new System.ArgumentNullException("file");
-                    else
-                    {
-                        var content_file_ = new System.Net.Http.StreamContent(file.Data);
-                        if (!string.IsNullOrEmpty(file.ContentType))
-                            content_file_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(file.ContentType);
-                        content_.Add(content_file_, "file", file.FileName ?? "file");
-                    }
-
-                    if (arrayOfIds != null)
-                    {
-                        foreach (var item_ in arrayOfIds)
-                        {
-                            content_.Add(new System.Net.Http.StringContent(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture)), "arrayOfIds");
-                        }
-                    }
-
-                    if (test == null)
-                        throw new System.ArgumentNullException("test");
-                    else
-                    {
-                        content_.Add(new System.Net.Http.StringContent(ConvertToString(test, System.Globalization.CultureInfo.InvariantCulture)), "test");
-                    }
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(input, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/FileUpload/UploadFile"
-                    urlBuilder_.Append("api/FileUpload/UploadFile");
+                    // Operation Path: "TestWithInput"
+                    urlBuilder_.Append("TestWithInput");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -125,12 +98,9 @@ namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200 || status_ == 206)
+                        if (status_ == 204)
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await ReadAsStreamAsync(response_.Content, cancellationToken).ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            return;
                         }
                         else
                         {
@@ -284,68 +254,24 @@ namespace ArrayParameterTests.when_content_is_formdata_with_property_array_then_
         }
     }
 
-    
-
-    public partial class FileParameter
+    public partial class DTOWithRequiredFieldsOfNewtonsoftJsonSchemaGeneratorSettings
     {
-        public FileParameter(System.IO.Stream data)
-            : this (data, null, null)
-        {
-        }
 
-        public FileParameter(System.IO.Stream data, string fileName)
-            : this (data, fileName, null)
-        {
-        }
+        [Newtonsoft.Json.JsonProperty("RequiredByAttribute", Required = Newtonsoft.Json.Required.Always)]
+        public required int RequiredByAttribute { get; set; }
 
-        public FileParameter(System.IO.Stream data, string fileName, string contentType)
-        {
-            Data = data;
-            FileName = fileName;
-            ContentType = contentType;
-        }
+        [Newtonsoft.Json.JsonProperty("RequiredByC11Keyword", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string RequiredByC11Keyword { get; set; }
 
-        public System.IO.Stream Data { get; private set; }
+        [Newtonsoft.Json.JsonProperty("RequiredByAttributeAndC11Keyword", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public required string RequiredByAttributeAndC11Keyword { get; set; }
 
-        public string FileName { get; private set; }
+        [Newtonsoft.Json.JsonProperty("NotRequired", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string NotRequired { get; set; }
 
-        public string ContentType { get; private set; }
     }
 
-    public partial class FileResponse : System.IDisposable
-    {
-        private System.IDisposable _client;
-        private System.IDisposable _response;
-
-        public int StatusCode { get; private set; }
-
-        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
-
-        public System.IO.Stream Stream { get; private set; }
-
-        public bool IsPartial
-        {
-            get { return StatusCode == 206; }
-        }
-
-        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
-        {
-            StatusCode = statusCode;
-            Headers = headers;
-            Stream = stream;
-            _client = client;
-            _response = response;
-        }
-
-        public void Dispose()
-        {
-            Stream.Dispose();
-            if (_response != null)
-                _response.Dispose();
-            if (_client != null)
-                _client.Dispose();
-        }
-    }
 
 
     public partial class ApiException : System.Exception

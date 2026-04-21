@@ -60,7 +60,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
@@ -136,7 +143,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
@@ -214,7 +228,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
@@ -280,7 +301,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
@@ -346,7 +374,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(swagger);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 
@@ -421,7 +456,14 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var document = await OpenApiDocument.FromJsonAsync(json);
 
             // Act
-            var settings = new CSharpClientGeneratorSettings { ClassName = "MyClass" };
+            var settings = new CSharpClientGeneratorSettings
+            {
+                ClassName = "MyClass",
+                CSharpGeneratorSettings =
+                {
+                    Namespace = VerifyHelper.GetNameSpace(),
+                },
+            };
             var generator = new CSharpClientGenerator(document, settings);
             var code = generator.GenerateFile();
 

@@ -1,6 +1,6 @@
 ﻿
 
-namespace MyNamespace
+namespace ArrayParameterTests.When_CollectionFormat_is_multi_then_explode
 {
     using System = global::System;
 
@@ -77,7 +77,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (elementId != null)
                     {
-                            foreach (var item_ in elementId) { urlBuilder_.Append(System.Uri.EscapeDataString("elementId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in elementId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("elementId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
