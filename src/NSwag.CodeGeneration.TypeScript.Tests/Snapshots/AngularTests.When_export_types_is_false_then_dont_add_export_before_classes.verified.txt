@@ -432,12 +432,10 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader();
-            reader.onload = event => {
-                observer.next((event.target as any).result);
-                observer.complete();
-            };
-            reader.readAsText(blob);
+            blob.text().then(
+                (text: string) => { observer.next(text); observer.complete(); },
+                (err: any) => observer.error(err)
+            );
         }
     });
 }
