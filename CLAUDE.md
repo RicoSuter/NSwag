@@ -69,7 +69,19 @@ Multi-targeting: specification/generation projects typically target `netstandard
 
 Tests use **xUnit v3** + **Verify.XunitV3** for snapshot assertions — expected output lives under `Snapshots/*.verified.txt` next to each test project. When generator output intentionally changes, a `.received.txt` file will appear; review, rename to `.verified.txt`, and commit. `NSwag.CodeGeneration.CSharp.Tests` also shells out to a C# compiler (`CSharpCompiler.cs`) to confirm generated code actually builds.
 
-## v15 branch conventions (current branch: `docs/v15-setup` / PRs target `v15`)
+## Project docs
+
+| File | Read when |
+|------|-----------|
+| `docs/plan_v15.md` | Working on the `v15` branch — scope, branch model, pre-release cleanup checklist |
+| `docs/changelog_v15.md` | Landing any user-visible change on `v15` — **must be updated** (Breaking / New / Fixes + Migration guide entry if the change breaks v14 consumers) |
+| `../NJsonSchema/docs/references.md` | Touching `$ref` resolution, `ActualSchema` / `ActualTypeSchema`, overrides like `OpenApiParameter.ActualSchema`, or spec-keyword parity issues |
+| `../NJsonSchema/docs/plan_v12.md` | Coordinating NSwag v15 work with upstream NJsonSchema v12 changes |
+| `../NJsonSchema/docs/changelog_v12.md` | Understanding which NJsonSchema breaking changes cascade into v15 — link from `changelog_v15.md` entries that absorb upstream changes |
+
+Keep this index up to date — if a new persistent doc lands under `docs/`, add a row with a concrete "read when" trigger.
+
+## v15 branch conventions
 
 - **NJsonSchema is consumed via local project references**, not NuGet, while v15 is in development. This is controlled by `<UseLocalNJsonSchemaProjects>true</UseLocalNJsonSchemaProjects>` in `Directory.Build.props`. Every `*.csproj` that uses NJsonSchema has paired `ItemGroup Condition=...` blocks — leave both arms in sync when adding a new NJsonSchema reference.
 - **Expected local layout**: `../NJsonSchema` (on the `v12` branch) as a sibling to this checkout. CI clones it explicitly; locally you must check it out yourself.
