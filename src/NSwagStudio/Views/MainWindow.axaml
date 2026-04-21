@@ -1,0 +1,112 @@
+<Window x:Class="NSwagStudio.Views.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="using:NSwagStudio.ViewModels"
+        xmlns:views="using:NSwagStudio.Views"
+        Title="NSwagStudio: The Swagger API toolchain for .NET and TypeScript"
+        MinHeight="650" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Height="650" Width="1000">
+
+    <Window.Resources>
+        <viewModels:MainWindowModel x:Key="ViewModel" />
+    </Window.Resources>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenu>
+                    <NativeMenuItem Header="New"
+                                    Command="{Binding CreateDocumentCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+N" />
+                    <NativeMenuItem Header="Open"
+                                    Command="{Binding OpenDocumentCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+O" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="Close"
+                                    Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+W" />
+                    <NativeMenuItem Header="Close All"
+                                    Command="{Binding CloseAllDocumentsCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+Shift+W" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="Save"
+                                    Command="{Binding SaveDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+S" />
+                    <NativeMenuItem Header="Save All"
+                                    Command="{Binding SaveAllDocumentsCommand, Source={StaticResource ViewModel}}"
+                                    Gesture="Cmd+Shift+S" />
+                    <NativeMenuItem Header="Save As"
+                                    Command="{Binding SaveAsDocumentCommand, Source={StaticResource ViewModel}}"
+                                    CommandParameter="{Binding SelectedDocument, Source={StaticResource ViewModel}}" />
+                </NativeMenu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Help">
+                <NativeMenu>
+                    <NativeMenuItem Header="Documentation" />
+                    <NativeMenuItemSeparator />
+                    <NativeMenuItem Header="About NSwagStudio" />
+                </NativeMenu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+
+    <DockPanel DataContext="{StaticResource ViewModel}">
+        <Menu DockPanel.Dock="Top" x:Name="InWindowMenu">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="{Binding CreateDocumentCommand}" InputGesture="Ctrl+N" />
+                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}" InputGesture="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="_Close"
+                          Command="{Binding CloseDocumentCommand}"
+                          CommandParameter="{Binding SelectedDocument}" InputGesture="Ctrl+W" />
+                <MenuItem Header="Close A_ll"
+                          Command="{Binding CloseAllDocumentsCommand}" InputGesture="Ctrl+Shift+W" />
+                <Separator />
+                <MenuItem Header="_Save"
+                          Command="{Binding SaveDocumentCommand}"
+                          CommandParameter="{Binding SelectedDocument}" InputGesture="Ctrl+S" />
+                <MenuItem Header="Save _All"
+                          Command="{Binding SaveAllDocumentsCommand}" InputGesture="Ctrl+Shift+S" />
+                <MenuItem Header="Save _As"
+                          Command="{Binding SaveAsDocumentCommand}"
+                          CommandParameter="{Binding SelectedDocument}" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Documentation" Click="OnOpenDocumentation" InputGesture="F1" />
+                <Separator />
+                <MenuItem Header="_About NSwagStudio" Click="OnShowAbout" />
+            </MenuItem>
+        </Menu>
+
+        <TabControl ItemsSource="{Binding Documents}"
+                    SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+                    Classes="scrollable"
+                    Margin="8">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid ToolTip.Tip="{Binding Document.Path}"
+                          PointerPressed="OnTabHeaderPointerPressed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Document.Name}" VerticalAlignment="Center" Margin="0,2,0,0" />
+                        <Button Grid.Column="1"
+                                Content="X" Padding="6,2,6,2" Margin="8,3,0,2"
+                                CommandParameter="{Binding}"
+                                Command="{Binding CloseDocumentCommand, Source={StaticResource ViewModel}}" />
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <views:DocumentView Document="{Binding}" Margin="4" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </DockPanel>
+</Window>

@@ -1,9 +1,8 @@
 using NSwagStudio.Views.CodeGenerators;
 
-namespace NSwagStudio.ViewModels
+namespace NSwagStudio.ViewModels;
+
+public class CodeGeneratorModel
 {
-    public class CodeGeneratorModel
-    {
-        public CodeGeneratorViewBase View { get; set; }
-    }
+    public CodeGeneratorViewBase View { get; set; } = null!;
 }

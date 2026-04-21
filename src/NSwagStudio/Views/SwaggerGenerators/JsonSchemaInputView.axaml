@@ -1,0 +1,26 @@
+<UserControl x:Class="NSwagStudio.Views.SwaggerGenerators.JsonSchemaInputView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:NSwagStudio.Controls">
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Schema name to use as key in 'definitions'" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Text="{Binding Name, Mode=TwoWay}" Margin="0,0,0,12" />
+
+            <TextBlock Text="JSON Schema: " FontWeight="Bold" Margin="0,0,0,8" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <controls:BindableTextEditor x:Name="JsonSchema"
+                Text="{Binding Schema, Mode=TwoWay}"
+                SyntaxHighlighting="json"
+                ShowLineNumbers="True" />
+        </Border>
+    </Grid>
+</UserControl>

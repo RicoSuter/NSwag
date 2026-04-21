@@ -1,36 +1,28 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
+using System.Globalization;
+using Avalonia.Data.Converters;
 
-namespace NSwagStudio.Converters
+namespace NSwagStudio.Converters;
+
+public class IsValueToVisibilityConverter : IValueConverter
 {
-    public class IsValueToVisibilityConverter : MarkupExtension, IValueConverter
+    public object? Target { get; set; }
+
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        public object Target { get; set; }
+        if (value == null && Target == null)
+            return true;
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+        if (value == null || Target == null)
+            return false;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value == null && Target == null)
-                return Visibility.Visible;
+        if (value.Equals(Target))
+            return true;
 
-            if (value == null || Target == null)
-                return Visibility.Collapsed;
+        return false;
+    }
 
-            if (value.Equals(Target))
-                return Visibility.Visible;
-
-            return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

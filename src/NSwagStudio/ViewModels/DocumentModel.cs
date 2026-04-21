@@ -1,66 +1,65 @@
 using System.ComponentModel;
-using MyToolkit.Model;
+using CommunityToolkit.Mvvm.ComponentModel;
 using NSwag.Commands;
 using NSwagStudio.Views.CodeGenerators;
 using NSwagStudio.Views.SwaggerGenerators;
 
-namespace NSwagStudio.ViewModels
+namespace NSwagStudio.ViewModels;
+
+public class DocumentModel : ObservableObject
 {
-    public class DocumentModel : ObservableObject
+    public NSwagDocument Document { get; }
+
+    /// <summary>Gets the swagger generators.</summary>
+    public ISwaggerGeneratorView[] SwaggerGeneratorViews { get; }
+
+    public IReadOnlyCollection<CodeGeneratorModel> CodeGenerators { get; }
+
+    public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.View.IsSelected || c.View.IsPersistent);
+
+    public DocumentModel(NSwagDocument document)
     {
-        public NSwagDocument Document { get; }
+        Document = document;
 
-        /// <summary>Gets the swagger generators.</summary>
-        public ISwaggerGeneratorView[] SwaggerGeneratorViews { get; }
-
-        public IReadOnlyCollection<CodeGeneratorModel> CodeGenerators { get; }
-
-        public IEnumerable<CodeGeneratorModel> SelectedCodeGenerators => CodeGenerators.Where(c => c.View.IsSelected);
-
-        public DocumentModel(NSwagDocument document)
+        SwaggerGeneratorViews = new ISwaggerGeneratorView[]
         {
-            Document = document;
+            new SwaggerInputView(Document.SwaggerGenerators.FromDocumentCommand),
+            new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToOpenApiCommand, document),
+            new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToOpenApiCommand),
+        };
 
-            SwaggerGeneratorViews = new ISwaggerGeneratorView[]
-            {
-                new SwaggerInputView(Document.SwaggerGenerators.FromDocumentCommand),
-                new AspNetCoreToSwaggerGeneratorView(Document.SwaggerGenerators.AspNetCoreToOpenApiCommand, document),
-                new JsonSchemaInputView(Document.SwaggerGenerators.JsonSchemaToOpenApiCommand),
-            };
-
-            CodeGenerators = new CodeGeneratorViewBase[]
-            {
-                new SwaggerOutputView(),
-                new SwaggerToTypeScriptClientGeneratorView(Document),
-                new SwaggerToCSharpClientGeneratorView(Document),
-                new SwaggerToCSharpControllerGeneratorView(Document)
-            }
-            .Select(v => new CodeGeneratorModel { View = v })
-            .ToList();
-
-            foreach (var codeGenerator in CodeGenerators)
-                codeGenerator.View.PropertyChanged += OnCodeGeneratorPropertyChanged;
-
-            RaisePropertyChanged(() => SwaggerGeneratorViews);
-            RaisePropertyChanged(() => CodeGenerators);
-        }
-
-        private void OnCodeGeneratorPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        CodeGenerators = new CodeGeneratorViewBase[]
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(CodeGeneratorViewBase.IsSelected))
-                RaisePropertyChanged(() => SelectedCodeGenerators);
+            new SwaggerOutputView(),
+            new SwaggerToTypeScriptClientGeneratorView(Document),
+            new SwaggerToCSharpClientGeneratorView(Document),
+            new SwaggerToCSharpControllerGeneratorView(Document)
         }
+        .Select(v => new CodeGeneratorModel { View = v })
+        .ToList();
 
-        public ISwaggerGeneratorView GetSwaggerGeneratorView()
-        {
-            return SwaggerGeneratorViews.Single(g => g.Command == Document.SelectedSwaggerGenerator);
-        }
+        foreach (var codeGenerator in CodeGenerators)
+            codeGenerator.View.PropertyChanged += OnCodeGeneratorPropertyChanged;
 
-        public string GetDocumentPath(ISwaggerGeneratorView generator)
-        {
-            return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromDocumentCommand.Url)
-                ? Document.SwaggerGenerators.FromDocumentCommand.Url
-                : null;
-        }
+        OnPropertyChanged(nameof(SwaggerGeneratorViews));
+        OnPropertyChanged(nameof(CodeGenerators));
+    }
+
+    private void OnCodeGeneratorPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(CodeGeneratorViewBase.IsSelected))
+            OnPropertyChanged(nameof(SelectedCodeGenerators));
+    }
+
+    public ISwaggerGeneratorView GetSwaggerGeneratorView()
+    {
+        return SwaggerGeneratorViews.Single(g => g.Command == Document.SelectedSwaggerGenerator);
+    }
+
+    public string? GetDocumentPath(ISwaggerGeneratorView generator)
+    {
+        return generator is SwaggerInputView && !string.IsNullOrEmpty(Document.SwaggerGenerators.FromDocumentCommand.Url)
+            ? Document.SwaggerGenerators.FromDocumentCommand.Url
+            : null;
     }
 }

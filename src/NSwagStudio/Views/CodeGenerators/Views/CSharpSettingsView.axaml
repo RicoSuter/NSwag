@@ -1,0 +1,91 @@
+<UserControl x:Class="NSwagStudio.Views.CodeGenerators.Views.CSharpSettingsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:NSwagStudio.Converters">
+
+    <UserControl.Resources>
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:NotConverter x:Key="NotConverter" />
+        <converters:StringArrayConverter x:Key="StringArrayConverter" />
+    </UserControl.Resources>
+
+    <HeaderedContentControl Header="DTO Classes" Margin="0,0,0,12">
+        <StackPanel Margin="4,8,4,-8">
+            <CheckBox IsChecked="{Binding Command.GenerateDtoTypes, Mode=TwoWay}" Margin="0,0,0,12" ToolTip.Tip="GenerateDtoTypes" Content="Generate DTO Types (e.g. request and response classes)" />
+
+            <StackPanel IsVisible="{Binding Command.GenerateDtoTypes}">
+                <CheckBox IsChecked="{Binding Command.GenerateOptionalPropertiesAsNullable, Mode=TwoWay}" ToolTip.Tip="GenerateOptionalPropertiesAsNullable" Margin="0,0,0,12" Content="Generate optional schema properties (not required) as nullable properties" />
+                <CheckBox IsChecked="{Binding Command.GenerateNullableReferenceTypes, Mode=TwoWay}" ToolTip.Tip="GenerateNullableReferenceTypes" Margin="0,0,0,12" Content="Generate Nullable Reference Type (NRT) annotations (C# 8)" />
+
+                <TextBlock Text="Excluded Type Names (comma separated, must be defined in another namespace)." FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.ExcludedTypeNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" ToolTip.Tip="ExcludedTypeNames" Margin="0,0,0,12" />
+
+                <TextBlock Text="DTO class/enum access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.TypeAccessModifier, Mode=TwoWay}" ToolTip.Tip="TypeAccessModifier" Margin="0,0,0,12" />
+
+                <TextBlock Text="DTO property setter access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox Text="{Binding Command.PropertySetterAccessModifier, Mode=TwoWay}" ToolTip.Tip="PropertySetterAccessModifier" Margin="0,0,0,12" />
+
+                <CheckBox IsChecked="{Binding Command.GenerateDefaultValues, Mode=TwoWay}" ToolTip.Tip="GenerateDefaultValues" Margin="0,0,0,12" Content="Generate default values for properties (if default value is specified)" />
+                <CheckBox IsChecked="{Binding Command.GenerateImmutableArrayProperties, Mode=TwoWay}" ToolTip.Tip="GenerateImmutableArrayProperties" Margin="0,0,0,12" Content="Remove the setter for non-nullable array properties" />
+                <CheckBox IsChecked="{Binding Command.GenerateImmutableDictionaryProperties, Mode=TwoWay}" ToolTip.Tip="GenerateImmutableDictionaryProperties" Margin="0,0,0,12" Content="Remove the setter for non-nullable dictionary properties" />
+                <CheckBox IsChecked="{Binding Command.GenerateDataAnnotations, Mode=TwoWay}" ToolTip.Tip="GenerateDataAnnotations" Margin="0,0,0,12" Content="Generate data annotation attributes" />
+                <CheckBox IsChecked="{Binding Command.GenerateJsonMethods, Mode=TwoWay}" ToolTip.Tip="GenerateJsonMethods" Margin="0,0,0,12" Content="Generate ToJson() and FromJson() methods" />
+                <CheckBox IsChecked="{Binding Command.EnforceFlagEnums, Mode=TwoWay}" ToolTip.Tip="EnforceFlagEnums" Margin="0,0,0,12" Content="Always generate enums as bit flags (with [Flags] attribute)" />
+                <CheckBox IsChecked="{Binding Command.InlineNamedArrays, Mode=TwoWay}" ToolTip.Tip="InlineNamedArrays" Margin="0,0,0,12" Content="Inline named arrays" />
+                <CheckBox IsChecked="{Binding Command.InlineNamedDictionaries, Mode=TwoWay}" ToolTip.Tip="InlineNamedDictionaries" Margin="0,0,0,12" Content="Inline named dictionaries" />
+                <CheckBox IsChecked="{Binding Command.InlineNamedTuples, Mode=TwoWay}" ToolTip.Tip="InlineNamedTuples" Margin="0,0,0,12" Content="Inline named tuples" />
+                <CheckBox IsChecked="{Binding Command.InlineNamedAny, Mode=TwoWay}" ToolTip.Tip="InlineNamedAny" Margin="0,0,0,12" Content="Inline named any schemas" />
+
+                <TextBlock Text="Class Style" FontWeight="Bold" Margin="0,0,0,6" />
+                <ComboBox SelectedItem="{Binding Command.ClassStyle, Mode=TwoWay}" ToolTip.Tip="ClassStyle" ItemsSource="{Binding ClassStyles}" Margin="0,0,0,12" />
+
+                <HeaderedContentControl Header="Serialization" Margin="0,0,0,12">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="JSON Library" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonLibrary, Mode=TwoWay}" ToolTip.Tip="JsonLibrary" ItemsSource="{Binding JsonLibraries}" Margin="0,0,0,12" />
+                        <TextBlock Text="JSON Library Version (used in SystemTextJson only)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Margin="0,0,0,12" ToolTip.Tip="JsonLibraryVersion" Text="{Binding Command.JsonLibraryVersion, Mode=TwoWay}" />
+                        <TextBlock Text="JSON Polymorphic Serialization Style" FontWeight="Bold" Margin="0,0,0,6" />
+                        <ComboBox SelectedItem="{Binding Command.JsonPolymorphicSerializationStyle, Mode=TwoWay}" ToolTip.Tip="JsonLibrary" ItemsSource="{Binding JsonPolymorphicSerializationStyles}" Margin="0,0,0,12" />
+                        <CheckBox IsChecked="{Binding Command.RequiredPropertiesMustBeDefined, Mode=TwoWay}" ToolTip.Tip="RequiredPropertiesMustBeDefined" Margin="0,0,0,12" Content="Required properties must be defined in JSON (sets Required.Always when the property is required)" />
+                        <TextBlock Text="Read accessor of properties ('set' | 'init')" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.WriteAccessor, Mode=TwoWay}" ToolTip.Tip="WriteAccessor" Margin="0,0,0,12" />
+                        <CheckBox IsChecked="{Binding Command.HandleReferences, Mode=TwoWay}" Content="Use preserve references handling (All) in the JSON serializer" ToolTip.Tip="HandleReferences" Margin="0,0,0,12" />
+                        <TextBlock Text="Custom Json.NET converter types (optional, multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.JsonConverters, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" ToolTip.Tip="JsonConverters" Height="52" AcceptsReturn="True" Margin="0,0,0,12" />
+                        <TextBlock Text="JsonSerializerSettings transformation method name (we recommend GenerateUpdateJsonSerializerSettingsMethod instead)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.JsonSerializerSettingsTransformationMethod, Mode=TwoWay}" ToolTip.Tip="JsonSerializerSettingsTransformationMethod" Margin="0,0,0,12" />
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <HeaderedContentControl Header="Primitive Types" Margin="0,0,0,12">
+                    <StackPanel Margin="4,8,4,-8">
+                        <TextBlock Text="Any Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.AnyType, Mode=TwoWay}" ToolTip.Tip="AnyType" Margin="0,0,0,12" />
+                        <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" ToolTip.Tip="DateType" Margin="0,0,0,12" />
+                        <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DateTimeType, Mode=TwoWay}" ToolTip.Tip="DateTimeType" Margin="0,0,0,12" />
+                        <TextBlock Text="Time Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.TimeType, Mode=TwoWay}" ToolTip.Tip="TimeType" Margin="0,0,0,12" />
+                        <TextBlock Text="Time Span Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.TimeSpanType, Mode=TwoWay}" ToolTip.Tip="TimeSpanType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ArrayType, Mode=TwoWay}" ToolTip.Tip="ArrayType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Array Instance Type (empty = ArrayType)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ArrayInstanceType, Mode=TwoWay}" ToolTip.Tip="ArrayInstanceType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DictionaryType, Mode=TwoWay}" ToolTip.Tip="DictionaryType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Dictionary Instance Type (empty = DictionaryType)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DictionaryInstanceType, Mode=TwoWay}" ToolTip.Tip="DictionaryInstanceType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Array Base Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ArrayBaseType, Mode=TwoWay}" ToolTip.Tip="ArrayBaseType" Margin="0,0,0,12" />
+                        <TextBlock Text="Generic Dictionary Base Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.DictionaryBaseType, Mode=TwoWay}" ToolTip.Tip="DictionaryBaseType" Margin="0,0,0,12" />
+                    </StackPanel>
+                </HeaderedContentControl>
+            </StackPanel>
+        </StackPanel>
+    </HeaderedContentControl>
+</UserControl>

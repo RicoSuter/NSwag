@@ -4,8 +4,16 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AvalonEdit" Version="5.0.3" />
-    <PackageVersion Include="Expression.Interaction" Version="3.0.40218" />
+    <PackageVersion Include="Avalonia" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.AvaloniaEdit" Version="11.4.1" />
+    <PackageVersion Include="AvaloniaEdit.TextMate" Version="11.3.0" />
+    <PackageVersion Include="TextMateSharp.Grammars" Version="1.0.69" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="MessageBox.Avalonia" Version="3.3.1.1" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />

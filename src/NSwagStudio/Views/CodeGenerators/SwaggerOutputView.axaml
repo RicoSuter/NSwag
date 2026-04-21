@@ -1,0 +1,26 @@
+<UserControl x:Class="NSwagStudio.Views.CodeGenerators.SwaggerOutputView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="using:NSwagStudio.ViewModels.CodeGenerators"
+             xmlns:controls="using:NSwagStudio.Controls">
+
+    <UserControl.Resources>
+        <viewModels:SwaggerOutputViewModel x:Key="ViewModel" />
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource ViewModel}" Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="OpenAPI/Swagger Specification (JSON):" FontWeight="Bold" Margin="0,0,0,8" />
+        <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <controls:BindableTextEditor
+                Text="{Binding SwaggerCode, Mode=TwoWay}"
+                SyntaxHighlighting="json"
+                IsReadOnly="True"
+                ShowLineNumbers="True" />
+        </Border>
+    </Grid>
+</UserControl>

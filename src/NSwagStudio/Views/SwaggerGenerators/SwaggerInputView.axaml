@@ -1,0 +1,41 @@
+<UserControl x:Class="NSwagStudio.Views.SwaggerGenerators.SwaggerInputView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:swaggerGenerators="using:NSwagStudio.ViewModels.SwaggerGenerators"
+             xmlns:controls="using:NSwagStudio.Controls">
+
+    <UserControl.Resources>
+        <swaggerGenerators:SwaggerInputViewModel x:Key="ViewModel" />
+    </UserControl.Resources>
+
+    <Grid Margin="8" DataContext="{StaticResource ViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Specification URL:" FontWeight="Bold" Margin="0,0,0,4" />
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalContentAlignment="Center" Text="{Binding Command.Url, Mode=TwoWay}" />
+                <Button Content="Create local Copy"
+                        Command="{Binding LoadSwaggerUrlCommand}"
+                        CommandParameter="{Binding Command.Url}"
+                        Margin="4,0,0,0" Padding="8,4,8,4" Grid.Column="1" />
+            </Grid>
+
+            <TextBlock Text="Specification JSON/YAML (if specified, the URL is ignored): " FontWeight="Bold" Margin="0,0,0,8" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="-8,0,-8,-8" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <controls:BindableTextEditor
+                Text="{Binding Command.Json, Mode=TwoWay}"
+                SyntaxHighlighting="json"
+                ShowLineNumbers="True" />
+        </Border>
+    </Grid>
+</UserControl>

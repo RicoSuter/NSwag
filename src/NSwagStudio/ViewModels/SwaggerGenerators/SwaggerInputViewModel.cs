@@ -1,51 +1,51 @@
 using System.IO;
 using System.Windows.Input;
-using MyToolkit.Command;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using NJsonSchema.Infrastructure;
 using NSwag.Commands.Generation;
 
-namespace NSwagStudio.ViewModels.SwaggerGenerators
+namespace NSwagStudio.ViewModels.SwaggerGenerators;
+
+public class SwaggerInputViewModel : ViewModelBase
 {
-    public class SwaggerInputViewModel : ViewModelBase
+    public SwaggerInputViewModel()
     {
-        public SwaggerInputViewModel()
+        LoadSwaggerUrlCommand = new AsyncRelayCommand<string?>(async url => { if (url != null) await LoadSwaggerUrlAsync(url); });
+    }
+
+    public FromDocumentCommand? Command { get; set; }
+
+    public ICommand LoadSwaggerUrlCommand { get; }
+
+    public async Task LoadSwaggerUrlAsync(string url)
+    {
+        var json = string.Empty;
+        await RunTaskAsync(async () =>
         {
-            LoadSwaggerUrlCommand = new AsyncRelayCommand<string>(async url => await LoadSwaggerUrlAsync(url));
-        }
+            json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
+                   url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
+                await DynamicApis.HttpGetAsync(url, CancellationToken.None) : File.ReadAllText(url);
 
-        public FromDocumentCommand Command { get; set; }
-
-        public ICommand LoadSwaggerUrlCommand { get; }
-
-        public async Task LoadSwaggerUrlAsync(string url)
-        {
-            var json = string.Empty;
-            await RunTaskAsync(async () =>
+            if (json.StartsWith("{"))
             {
-                json = url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
-                       url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase) ?
-                    await DynamicApis.HttpGetAsync(url, CancellationToken.None) : File.ReadAllText(url);
+                json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
+            }
+        });
 
-                if (json.StartsWith("{"))
-                {
-                    json = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented);
-                }
-            });
-
+        if (Command != null)
             Command.Json = json;
-        }
+    }
 
-        public async Task<string> GenerateSwaggerAsync()
+    public async Task<string> GenerateSwaggerAsync()
+    {
+        return await RunTaskAsync(async () =>
         {
-            return await RunTaskAsync(async () =>
+            return await Task.Run(async () =>
             {
-                return await Task.Run(async () =>
-                {
-                    var document = await Command.RunAsync().ConfigureAwait(false);
-                    return document.ToJson();
-                });
+                var document = await Command!.RunAsync().ConfigureAwait(false);
+                return document.ToJson();
             });
-        }
+        }) ?? string.Empty;
     }
 }

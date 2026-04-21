@@ -53,7 +53,7 @@ namespace NSwag.Commands
         public abstract Task<OpenApiDocumentExecutionResult> ExecuteAsync();
 
         /// <summary>Gets or sets the runtime where the document should be processed.</summary>
-        public Runtime Runtime { get; set; } = Runtime.Net80;
+        public Runtime Runtime { get; set; } = Runtime.Default;
 
         /// <summary>Gets or sets the default variables.</summary>
         public string DefaultVariables { get; set; }

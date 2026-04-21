@@ -1,0 +1,200 @@
+<UserControl x:Class="NSwagStudio.Views.CodeGenerators.SwaggerToCSharpClientGeneratorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:NSwagStudio.Converters"
+             xmlns:viewModels="using:NSwagStudio.ViewModels.CodeGenerators"
+             xmlns:controls="using:NSwagStudio.Controls"
+             xmlns:views="using:NSwagStudio.Views.CodeGenerators.Views">
+
+    <UserControl.Resources>
+        <viewModels:SwaggerToCSharpClientGeneratorViewModel x:Key="ViewModel" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:NotConverter x:Key="NotConverter" />
+        <converters:NumberAdditionConverter x:Key="NumberAdditionConverter" />
+        <converters:StringArrayConverter x:Key="StringArrayConverter" />
+    </UserControl.Resources>
+
+    <TabControl Margin="8" Name="TabControl" DataContext="{StaticResource ViewModel}">
+        <TabItem Header="Settings">
+            <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="8,8,8,0">
+                    <TextBlock Text="CSharp Client Settings" FontSize="15" FontWeight="Bold" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.Namespace, Mode=TwoWay}" ToolTip.Tip="Namespace" Margin="0,0,0,12" />
+
+                    <TextBlock Text="Additional Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBox Text="{Binding Command.AdditionalNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" ToolTip.Tip="AdditionalNamespaceUsages" Margin="0,0,0,12" />
+
+                    <CheckBox IsChecked="{Binding Command.GenerateContractsOutput, Mode=TwoWay}" ToolTip.Tip="GenerateContractsOutput" Content="Generate contracts output" Margin="0,0,0,12" />
+                    <CheckBox IsChecked="{Binding Command.GenerateNativeRecords, Mode=TwoWay}" ToolTip.Tip="GenerateNativeRecords" Content="Generate record types" Margin="0,0,0,12" />
+
+                    <StackPanel IsVisible="{Binding Command.GenerateContractsOutput}">
+                        <TextBlock Text="Contracts Namespace" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ContractsNamespace, Mode=TwoWay}" ToolTip.Tip="ContractsNamespace" Margin="0,0,0,12" />
+                        <TextBlock Text="Additional Contract Namespace Usages (comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.AdditionalContractNamespaceUsages, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" ToolTip.Tip="AdditionalContractNamespaceUsages" Margin="0,0,0,12" />
+                    </StackPanel>
+
+                    <CheckBox IsChecked="{Binding Command.GenerateExceptionClasses, Mode=TwoWay}" Content="Generate exception classes (when disabled, exception classes must be imported)" ToolTip.Tip="GenerateExceptionClasses" Margin="0,0,0,12" />
+
+                    <StackPanel IsVisible="{Binding Command.GenerateExceptionClasses}">
+                        <TextBlock Text="Exception class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.ExceptionClass, Mode=TwoWay}" ToolTip.Tip="ExceptionClass" Margin="0,0,0,12" />
+                    </StackPanel>
+
+                    <HeaderedContentControl Header="Client" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <CheckBox IsChecked="{Binding Command.GenerateClientClasses, Mode=TwoWay}" ToolTip.Tip="GenerateClientClasses" Content="Generate Client Classes" Margin="0,0,0,12" />
+                            <CheckBox IsChecked="{Binding Command.SuppressClientClassesOutput, Mode=TwoWay}" ToolTip.Tip="SuppressClientClassesOutput" Content="Suppress output of generated Client Classes" Margin="0,0,0,12" />
+
+                            <StackPanel IsVisible="{Binding Command.GenerateClientClasses}">
+                                <TextBlock Margin="0,0,0,6" TextWrapping="Wrap">
+                                    <Run Text="Operation Generation Mode" FontWeight="Bold" />
+                                </TextBlock>
+                                <TextBlock Text="The {controller} placeholder of the Class Name is replaced by generated client name (depends on the OperationGenerationMode strategy)." TextWrapping="Wrap" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}" ToolTip.Tip="OperationGenerationMode" ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Included Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip.Tip="IncludedOperationIds" Text="{Binding Command.IncludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Excluded Operation IDs (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip.Tip="ExcludedOperationIds" Text="{Binding Command.ExcludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip.Tip="ClassName" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Client class access modifier" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ClientClassAccessModifier, Mode=TwoWay}" ToolTip.Tip="ClientClassAccessModifier" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Methods with a protected access modifier to use in partial methods ('classname.methodname', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ProtectedMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" ToolTip.Tip="ProtectedMethods" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.UseBaseUrl, Mode=TwoWay}" Content="Use the base URL for the request" ToolTip.Tip="UseBaseUrl" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.GenerateBaseUrlProperty, Mode=TwoWay}" IsVisible="{Binding Command.UseBaseUrl}" Content="Generate the BaseUrl property (must be defined on the base class otherwise)" ToolTip.Tip="GenerateBaseUrlProperty" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.GenerateOptionalParameters, Mode=TwoWay}" ToolTip.Tip="GenerateOptionalParameters" Content="Generate optional parameters (reorder parameters (required first, optional at the end) and generate optional parameters)" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Excluded Parameter Names (comma separated)." FontWeight="Bold" Margin="0,0,0,12" />
+                                <TextBox ToolTip.Tip="ExcludedParameterNames" Text="{Binding Command.ExcludedParameterNames, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.GenerateSyncMethods, Mode=TwoWay}" Content="Generate synchronous methods (not recommended)" ToolTip.Tip="GenerateSyncMethods" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.GeneratePrepareRequestAndProcessResponseAsAsyncMethods, Mode=TwoWay}" Content="Generate PrepareRequest and ProcessResponse as asynchronous methods" ToolTip.Tip="GeneratePrepareRequestAndProcessResponseAsAsyncMethods" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.ExposeJsonSerializerSettings, Mode=TwoWay}" Content="Expose the JsonSerializerSettings property" ToolTip.Tip="ExposeJsonSerializerSettings" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.InjectHttpClient, Mode=TwoWay}" ToolTip.Tip="InjectHttpClient" Content="Inject HttpClient via constructor (life cycle is managed by the caller)" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.DisposeHttpClient, Mode=TwoWay}" ToolTip.Tip="DisposeHttpClient" IsVisible="{Binding !Command.InjectHttpClient}" Content="Dispose the HttpClient (life cycle must be handled by the base class and CreateHttpClientAsync())" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.GenerateClientInterfaces, Mode=TwoWay}" ToolTip.Tip="GenerateClientInterfaces" Content="Generate interfaces for Client classes" Margin="0,0,0,12" />
+                                <CheckBox IsChecked="{Binding Command.SuppressClientInterfacesOutput, Mode=TwoWay}" ToolTip.Tip="SuppressClientInterfacesOutput" Content="Suppress output of generated interfaces for Client classes" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Base interface for Client Interfaces (optional)" FontWeight="Bold" Margin="0,0,0,6" IsVisible="{Binding Command.GenerateClientInterfaces}" />
+                                <TextBox Text="{Binding Command.ClientBaseInterface, Mode=TwoWay}" IsVisible="{Binding Command.GenerateClientInterfaces}" ToolTip.Tip="ClientBaseInterface" Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.SerializeTypeInformation, Mode=TwoWay}" ToolTip.Tip="SerializeTypeInformation" Content="Serialize the type information in a $type property (not recommended, also sets TypeNameHandling = Auto)" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Http Client Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.HttpClientType, Mode=TwoWay}" ToolTip.Tip="HttpClientType" Margin="0,0,0,12" />
+
+                                <TextBlock Text="DateTime format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateTimeFormat, Mode=TwoWay}" ToolTip.Tip="ParameterDateTimeFormat" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Date format for method parameters" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.ParameterDateFormat, Mode=TwoWay}" ToolTip.Tip="ParameterDateFormat" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Null value used for query parameters which are null" FontWeight="Bold" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Command.QueryNullValue, Mode=TwoWay}" ToolTip.Tip="QueryNullValue" Margin="0,0,0,12" />
+
+                                <HeaderedContentControl Header="Base Class and Configuration Class" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Base Class Name (optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ClientBaseClass, Mode=TwoWay}" ToolTip.Tip="ClientBaseClass" Margin="0,0,0,12" />
+                                        <StackPanel IsVisible="{Binding Command.ClientBaseClass, Converter={StaticResource VisibilityConverter}}">
+                                            <CheckBox IsChecked="{Binding Command.UseHttpClientCreationMethod, Mode=TwoWay}" Margin="0,0,0,12" IsVisible="{Binding !Command.InjectHttpClient}" ToolTip.Tip="UseHttpClientCreationMethod" Content="Call the CreateHttpClientAsync method on the client base class to create a new HttpClient instance" />
+                                            <CheckBox IsChecked="{Binding Command.UseHttpRequestMessageCreationMethod, Mode=TwoWay}" ToolTip.Tip="UseHttpRequestMessageCreationMethod" Margin="0,0,0,12" Content="Call the CreateHttpRequestMessageAsync method on the client base class to create a new HttpRequestMessage instance" />
+                                            <CheckBox IsChecked="{Binding Command.GenerateUpdateJsonSerializerSettingsMethod, Mode=TwoWay}" Content="Generate the UpdateJsonSerializerSettings method (must be implemented in the base class otherwise)." ToolTip.Tip="GenerateUpdateJsonSerializerSettingsMethod" Margin="0,0,0,12" />
+                                            <TextBlock Text="Configuration Class Name (passed to base class ctor, optional)" FontWeight="Bold" Margin="0,0,0,6" />
+                                            <TextBox Text="{Binding Command.ConfigurationClass, Mode=TwoWay}" ToolTip.Tip="ConfigurationClass" Margin="0,0,0,12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </HeaderedContentControl>
+
+                                <HeaderedContentControl Header="Response Wrapping" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <CheckBox IsChecked="{Binding Command.WrapDtoExceptions, Mode=TwoWay}" ToolTip.Tip="WrapDtoExceptions" Content="Wrap DTO exceptions in a SwaggerException instance" Margin="0,0,0,12" />
+                                        <CheckBox IsChecked="{Binding Command.WrapResponses, Mode=TwoWay}" ToolTip.Tip="WrapResponses" Content="Wrap success responses to allow full response access" Margin="0,0,0,12" />
+                                        <StackPanel IsVisible="{Binding Command.WrapResponses}">
+                                            <TextBlock Text="Methods where responses are wrapped (empty for all, 'ControllerName.MethodName', comma separated)" FontWeight="Bold" Margin="0,0,0,6" />
+                                            <TextBox ToolTip.Tip="WrapResponseMethods" Text="{Binding Command.WrapResponseMethods, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" Margin="0,0,0,12" />
+                                            <CheckBox IsChecked="{Binding Command.GenerateResponseClasses, Mode=TwoWay}" ToolTip.Tip="GenerateResponseClasses" Content="Generate response classes (when disabled, response classes must be imported)" Margin="0,0,0,12" />
+                                            <StackPanel IsVisible="{Binding Command.GenerateResponseClasses}">
+                                                <TextBlock Text="Response class name (may contain the '{controller}' placeholder)" FontWeight="Bold" Margin="0,0,0,6" />
+                                                <TextBox Text="{Binding Command.ResponseClass, Mode=TwoWay}" ToolTip.Tip="ResponseClass" Margin="0,0,0,12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </HeaderedContentControl>
+
+                                <HeaderedContentControl Header="Parameter Types" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ParameterArrayType, Mode=TwoWay}" ToolTip.Tip="ParameterArrayType" Margin="0,0,0,12" />
+                                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ParameterDictionaryType, Mode=TwoWay}" ToolTip.Tip="ParameterDictionaryType" Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </HeaderedContentControl>
+
+                                <HeaderedContentControl Header="Response Types" Margin="0,0,0,12">
+                                    <StackPanel Margin="4,8,4,-8">
+                                        <TextBlock Text="Generic Array Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ResponseArrayType, Mode=TwoWay}" ToolTip.Tip="ResponseArrayType" Margin="0,0,0,12" />
+                                        <TextBlock Text="Generic Dictionary Type" FontWeight="Bold" Margin="0,0,0,6" />
+                                        <TextBox Text="{Binding Command.ResponseDictionaryType, Mode=TwoWay}" ToolTip.Tip="ResponseDictionaryType" Margin="0,0,0,12" />
+                                    </StackPanel>
+                                </HeaderedContentControl>
+                            </StackPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <views:CSharpSettingsView />
+
+                    <HeaderedContentControl Header="Swagger Information" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Service host (optional, use '.' to remove the hostname)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceHost, Mode=TwoWay}" ToolTip.Tip="ServiceHost" Margin="0,0,0,12" />
+                            <TextBlock Text="Service schemes (optional, 'http', 'https', 'ws', 'wss', multiple on separate lines)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.ServiceSchemes, Mode=TwoWay, Converter={StaticResource StringArrayConverter}}" ToolTip.Tip="ServiceSchemes" Height="52" AcceptsReturn="True" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Header="Templating" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Template directory" FontWeight="Bold" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding Command.TemplateDirectory, Mode=TwoWay}" ToolTip.Tip="TemplateDirectory" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Header="Output" Margin="0,0,0,12">
+                        <StackPanel Margin="4,8,4,-8">
+                            <TextBlock Text="Output file path (empty: no file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                            <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs" FilePath="{Binding Command.OutputFilePath, Mode=TwoWay}" ToolTip.Tip="Output" Margin="0,0,0,12" />
+                            <StackPanel IsVisible="{Binding Command.GenerateContractsOutput}">
+                                <TextBlock Text="Contracts output file path (empty: single output file output)" FontWeight="Bold" Margin="0,0,0,6" />
+                                <controls:FileSavePicker DefaultExtension=".cs" Filter="CSharp Files (.cs)|*.cs" FilePath="{Binding Command.ContractsOutputFilePath, Mode=TwoWay}" ToolTip.Tip="ContractsOutput" Margin="0,0,0,12" />
+                            </StackPanel>
+                            <TextBlock Margin="0,0,0,6" Text="New Line Behavior" TextWrapping="Wrap" FontWeight="Bold" />
+                            <ComboBox SelectedItem="{Binding Command.NewLineBehavior, Mode=TwoWay}" ItemsSource="{Binding NewLineBehaviors}" Margin="0,0,0,12" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Output">
+            <Border Margin="-2">
+                <controls:BindableTextEditor
+                    Text="{Binding ClientCode, Mode=TwoWay}"
+                    SyntaxHighlighting="csharp"
+                    IsReadOnly="True"
+                    ShowLineNumbers="True" />
+            </Border>
+        </TabItem>
+    </TabControl>
+</UserControl>
