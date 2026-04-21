@@ -21,6 +21,7 @@ on:
     branches:
       - master
       - main
+      - v15
     paths:
       - '**/*.*'
       - '!**/*.md'
@@ -47,6 +48,8 @@ jobs:
           dotnet-version: |
             10.0
       - uses: actions/checkout@v6
+      - name: 'Clone NJsonSchema (v12) as sibling for project references'
+        run: git clone --depth 1 --branch v12 https://github.com/RicoSuter/NJsonSchema.git ../NJsonSchema
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
       - name: 'Publish: NSwag.zip'
@@ -78,6 +81,8 @@ jobs:
           dotnet-version: |
             10.0
       - uses: actions/checkout@v6
+      - name: 'Clone NJsonSchema (v12) as sibling for project references'
+        run: git clone --depth 1 --branch v12 https://github.com/RicoSuter/NJsonSchema.git ../NJsonSchema
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
   macos-latest:
@@ -89,5 +94,7 @@ jobs:
           dotnet-version: |
             10.0
       - uses: actions/checkout@v6
+      - name: 'Clone NJsonSchema (v12) as sibling for project references'
+        run: git clone --depth 1 --branch v12 https://github.com/RicoSuter/NJsonSchema.git ../NJsonSchema
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
