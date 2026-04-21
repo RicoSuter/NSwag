@@ -209,12 +209,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -492,12 +487,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -884,12 +874,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -5287,12 +5272,7 @@ namespace MyNamespace
                         else
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<object>("Returned if the request is successful but time tracking is disabled.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return default(TimeTrackingProvider);
                         }
                         else
                         if (status_ == 401)
@@ -5385,12 +5365,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -6752,12 +6727,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -6865,12 +6835,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -7102,12 +7067,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -8907,12 +8867,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -9020,12 +8975,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -9437,12 +9387,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -9991,12 +9936,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -10474,12 +10414,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -10595,12 +10530,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -10721,12 +10651,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -10851,12 +10776,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -11366,12 +11286,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -11742,12 +11657,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -11868,12 +11778,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -12680,12 +12585,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 403)
@@ -13785,12 +13685,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -13902,12 +13797,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -14139,12 +14029,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -14714,12 +14599,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -14824,12 +14704,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -14942,12 +14817,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -15060,12 +14930,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -15179,12 +15044,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -16876,12 +16736,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -20910,12 +20765,7 @@ namespace MyNamespace
                         else
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -21049,12 +20899,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -22404,12 +22249,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -23588,12 +23428,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -23844,12 +23679,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -24173,12 +24003,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -24516,12 +24341,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -27428,12 +27248,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -28191,12 +28006,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -28454,12 +28264,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -28586,12 +28391,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -28877,12 +28677,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -29015,12 +28810,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -29151,12 +28941,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31102,12 +30887,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31214,12 +30994,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31329,12 +31104,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31449,12 +31219,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31571,12 +31336,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -31691,12 +31451,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32286,12 +32041,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32394,12 +32144,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32510,12 +32255,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32626,12 +32366,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32748,12 +32483,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -32864,12 +32594,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -33561,12 +33286,7 @@ namespace MyNamespace
                         else
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<object>("Returned if the request is successful.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return default(JqlFunctionPrecomputationUpdateResponse);
                         }
                         else
                         if (status_ == 400)
@@ -34938,12 +34658,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -35032,12 +34747,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -35217,12 +34927,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -35900,12 +35605,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -36034,12 +35734,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -36158,12 +35853,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -36288,12 +35978,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -38257,12 +37942,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -38393,12 +38073,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -38794,12 +38469,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -38934,12 +38604,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -39208,12 +38873,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -39490,12 +39150,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -39766,12 +39421,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -39902,12 +39552,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -40233,12 +39878,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -40359,12 +39999,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -40863,12 +40498,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -41458,12 +41088,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -43260,12 +42885,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -43378,12 +42998,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -43842,12 +43457,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -44056,12 +43666,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -46456,12 +46061,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -48226,12 +47826,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -48352,12 +47947,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -48841,12 +48431,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -51597,12 +51182,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -51718,12 +51298,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -52176,12 +51751,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -53836,12 +53406,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -54159,12 +53724,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -55220,12 +54780,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 401)
@@ -55337,12 +54892,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -60205,12 +59755,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -60874,12 +60419,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -65824,12 +65364,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
@@ -66262,12 +65797,7 @@ namespace MyNamespace
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 204)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return default(object);
                         }
                         else
                         if (status_ == 400)
