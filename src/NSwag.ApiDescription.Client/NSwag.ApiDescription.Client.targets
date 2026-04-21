@@ -8,6 +8,8 @@
         Condition="'$(TargetFramework)' == 'net8.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net80)/dotnet-nswag.dll"</_NSwagCommand>
     <_NSwagCommand
         Condition="'$(TargetFramework)' == 'net9.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net90)/dotnet-nswag.dll"</_NSwagCommand>
+    <_NSwagCommand
+        Condition="'$(TargetFramework)' == 'net10.0'">dotnet --roll-forward-on-no-candidate-fx 2 "$(NSwagDir_Net100)/dotnet-nswag.dll"</_NSwagCommand>
   </PropertyGroup>
 
   <!-- OpenApiReference support for C# -->

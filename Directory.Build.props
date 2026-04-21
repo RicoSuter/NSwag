@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>14.6.3</VersionPrefix>
+    <VersionPrefix>14.7.1</VersionPrefix>
 
     <Authors>Rico Suter</Authors>
-    <Copyright>Copyright © Rico Suter, 2025</Copyright>
+    <Copyright>Copyright © Rico Suter, 2026</Copyright>
 
     <Description>NSwag: The OpenAPI/Swagger API toolchain for .NET and TypeScript</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -36,7 +36,8 @@
 
     <UseArtifactsOutput>true</UseArtifactsOutput>
 
-    <!-- Set to true to use local NJsonSchema project references (development), false for NuGet packages (production) -->
+    <!-- v15 development: build against the sibling NJsonSchema v12 checkout via project references.
+         Flip to false (or remove) when v15 switches to stable NJsonSchema v12 NuGet packages before release. -->
     <UseLocalNJsonSchemaProjects>true</UseLocalNJsonSchemaProjects>
 
   </PropertyGroup>
