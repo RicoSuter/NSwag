@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Specialized;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 using NSwag.Collections;
 
@@ -16,6 +16,21 @@ namespace NSwag
     /// <summary>Container for reusable components (OpenAPI only).</summary>
     public class OpenApiComponents
     {
+        /// <summary>Parameterless constructor for System.Text.Json deserialization (Populate mode).</summary>
+        [System.Text.Json.Serialization.JsonConstructor]
+        internal OpenApiComponents()
+        {
+            Schemas = new Dictionary<string, JsonSchema>();
+            RequestBodies = new Dictionary<string, OpenApiRequestBody>();
+            Responses = new Dictionary<string, OpenApiResponse>();
+            Parameters = new Dictionary<string, OpenApiParameter>();
+            Examples = new Dictionary<string, OpenApiExample>();
+            Headers = new Dictionary<string, OpenApiParameter>();
+            SecuritySchemes = new Dictionary<string, OpenApiSecurityScheme>();
+            Links = new Dictionary<string, OpenApiLink>();
+            Callbacks = new Dictionary<string, OpenApiCallback>();
+        }
+
         /// <summary></summary>
         /// <param name="document"></param>
         public OpenApiComponents(OpenApiDocument document)
@@ -122,39 +137,48 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the types.</summary>
-        [JsonProperty(PropertyName = "schemas", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("schemas")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, JsonSchema> Schemas { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
-        [JsonProperty(PropertyName = "requestBodies", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("requestBodies")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiRequestBody> RequestBodies { get; }
 
         /// <summary>Gets or sets the responses which can be used for all operations.</summary>
-        [JsonProperty(PropertyName = "responses", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("responses")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiResponse> Responses { get; }
 
         /// <summary>Gets or sets the parameters which can be used for all operations.</summary>
-        [JsonProperty(PropertyName = "parameters", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("parameters")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiParameter> Parameters { get; }
 
         /// <summary>Gets or sets the headers.</summary>
-        [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("examples")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiExample> Examples { get; set; }
 
         /// <summary>Gets or sets the types.</summary>
-        [JsonProperty(PropertyName = "headers", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("headers")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiParameter> Headers { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
-        [JsonProperty(PropertyName = "securitySchemes", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("securitySchemes")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiSecurityScheme> SecuritySchemes { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
-        [JsonProperty(PropertyName = "links", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("links")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiLink> Links { get; }
 
         /// <summary>Gets or sets the security definitions.</summary>
-        [JsonProperty(PropertyName = "callbacks", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callbacks")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiCallback> Callbacks { get; }
     }
 }

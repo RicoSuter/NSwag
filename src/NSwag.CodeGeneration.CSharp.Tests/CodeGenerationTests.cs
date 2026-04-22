@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.CSharp.Tests
@@ -409,7 +408,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         private static OpenApiDocument CreateDocument()
         {
             var document = new OpenApiDocument();
-            var settings = new NewtonsoftJsonSchemaGeneratorSettings();
+            var settings = new SystemTextJsonSchemaGeneratorSettings();
             var generator = new JsonSchemaGenerator(settings);
 
             document.Paths["/Person"] = new OpenApiPathItem

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using NJsonSchema;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -77,7 +77,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
@@ -105,7 +105,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
@@ -134,7 +134,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
@@ -163,7 +163,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
             var document = await generator.GenerateForControllerAsync<DiscussionController>();
             var json = document.ToJson();
@@ -192,7 +192,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             // Arrange
             var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
             });
             var document = await generator.GenerateForControllerAsync<UrlEncodedRequestConsumingController>();
             var json = document.ToJson();

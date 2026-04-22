@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
 using NSwag.Generation.WebApi;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
@@ -38,18 +38,18 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_query_parameter_is_enum_array_then_the_enum_is_referenced()
         {
-            var serializerSettings = new JsonSerializerSettings
+            var serializerOptions = new JsonSerializerOptions
             {
-                Converters = [new StringEnumConverter()]
+                Converters = { new JsonStringEnumConverter() }
             };
 
             // Arrange
             var settings = new WebApiOpenApiDocumentGeneratorSettings
             {
                 DefaultUrlTemplate = "api/{controller}/{action}/{id}",
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings
                 {
-                    SerializerSettings = serializerSettings,
+                    SerializerOptions = serializerOptions,
                     SchemaType = SchemaType.Swagger2
                 }
             };

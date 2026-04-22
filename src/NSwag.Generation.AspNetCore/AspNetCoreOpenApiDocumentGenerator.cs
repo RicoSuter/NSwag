@@ -22,7 +22,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Namotion.Reflection;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -52,48 +51,29 @@ namespace NSwag.Generation.AspNetCore
             return GenerateAsync(apiDescriptionGroupCollectionProvider.ApiDescriptionGroups);
         }
 
-        /// <summary>Loads the <see cref="GetJsonSerializerSettings"/> from the given service provider.</summary>
+        /// <summary>Loads Newtonsoft.Json serializer settings from the service provider.</summary>
         /// <param name="serviceProvider">The service provider.</param>
-        /// <returns>The settings.</returns>
-        public static JsonSerializerSettings GetJsonSerializerSettings(IServiceProvider serviceProvider)
+        /// <returns>The settings as an object, or null if Newtonsoft.Json is not configured.</returns>
+        /// <remarks>Use NSwag.Generation.NewtonsoftJson package for typed Newtonsoft support.</remarks>
+        [Obsolete("Use NSwag.Generation.NewtonsoftJson.NewtonsoftJsonSettingsResolver.GetJsonSerializerSettings() instead.")]
+        public static object GetJsonSerializerSettings(IServiceProvider serviceProvider)
         {
-            static dynamic GetJsonOptionsWithReflection(IServiceProvider sp)
+            try
             {
-                try
+                var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
+                var iOptionsType = Type.GetType("Microsoft.Extensions.Options.IOptions`1, Microsoft.Extensions.Options");
+                if (iOptionsType == null)
                 {
-                    // Try to load ASP.NET Core 3 options
-                    var optionsAssembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Mvc.NewtonsoftJson"));
-                    var optionsType = typeof(IOptions<>).MakeGenericType(optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
-                    return sp?.GetService(optionsType);
-                }
-                catch
-                {
-                    // Newtonsoft.JSON not available, use GetSystemTextJsonSettings()
                     return null;
                 }
-            }
 
-#if NETCOREAPP3_1_OR_GREATER
-            dynamic options = GetJsonOptionsWithReflection(serviceProvider);
-#else
-            object options = null;
-            try
-            {
-                options = new Func<dynamic>(() => serviceProvider?.GetRequiredService(typeof(IOptions<MvcJsonOptions>)))();
+                var optionsType = iOptionsType.MakeGenericType(
+                    optionsAssembly.GetType("Microsoft.AspNetCore.Mvc.MvcNewtonsoftJsonOptions", true));
+                var options = serviceProvider?.GetService(optionsType);
+                return ((dynamic)options?.GetType().GetProperty("Value")?.GetValue(options))?.SerializerSettings;
             }
             catch
             {
-                options = GetJsonOptionsWithReflection(serviceProvider);
-            }
-#endif
-
-            try
-            {
-                return (JsonSerializerSettings)((dynamic)options.GetType().GetProperty("Value")?.GetValue(options))?.SerializerSettings;
-            }
-            catch
-            {
-                // Newtonsoft.JSON not available, use GetSystemTextJsonSettings()
                 return null;
             }
         }
@@ -241,7 +221,7 @@ namespace NSwag.Generation.AspNetCore
                             openApiOperationMetadata.GetType().GetMethod("SerializeAsV3")
                                 .Invoke(openApiOperationMetadata, [openApiJsonWriter]);
 
-                            operation = JsonConvert.DeserializeObject<OpenApiOperation>(stringBuilder.ToString());
+                            operation = System.Text.Json.JsonSerializer.Deserialize<OpenApiOperation>(stringBuilder.ToString());
                             operation.Parameters.Clear(); // clear because parameters are added by the generator
                         }
 #endif

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.Generation.WebApi;
 using System.ComponentModel.DataAnnotations;
@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 AllowNullableBodyParameters = allowNullableBodyParameters,
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
             var document = await swaggerGenerator.GenerateForControllerAsync<TestController>();
 

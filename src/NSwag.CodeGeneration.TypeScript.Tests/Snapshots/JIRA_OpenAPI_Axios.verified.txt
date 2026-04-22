@@ -59041,7 +59041,7 @@ export interface IDeprecatedWorkflow {
 
 export class DetailedErrorCollection implements IDetailedErrorCollection {
     /** Map of objects representing additional details for an error */
-    details?: { [key: string]: any; };
+    details?: any;
     /** The list of error messages produced by this operation. For example, "input parameter 'key' must be provided" */
     errorMessages?: string[];
     /** The list of errors by parameter returned by the operation. For example,"projectKey": "Project keys must start with an uppercase letter, followed by one or more uppercase alphanumeric characters." */
@@ -59058,13 +59058,7 @@ export class DetailedErrorCollection implements IDetailedErrorCollection {
 
     init(_data?: any) {
         if (_data) {
-            if (_data["details"]) {
-                this.details = {} as any;
-                for (let key in _data["details"]) {
-                    if (_data["details"].hasOwnProperty(key))
-                        (this.details as any)![key] = _data["details"][key];
-                }
-            }
+            this.details = _data["details"];
             if (Array.isArray(_data["errorMessages"])) {
                 this.errorMessages = [] as any;
                 for (let item of _data["errorMessages"])
@@ -59089,13 +59083,7 @@ export class DetailedErrorCollection implements IDetailedErrorCollection {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.details) {
-            data["details"] = {};
-            for (let key in this.details) {
-                if (this.details.hasOwnProperty(key))
-                    (data["details"] as any)[key] = (this.details as any)[key];
-            }
-        }
+        data["details"] = this.details;
         if (Array.isArray(this.errorMessages)) {
             data["errorMessages"] = [];
             for (let item of this.errorMessages)
@@ -59114,7 +59102,7 @@ export class DetailedErrorCollection implements IDetailedErrorCollection {
 
 export interface IDetailedErrorCollection {
     /** Map of objects representing additional details for an error */
-    details?: { [key: string]: any; };
+    details?: any;
     /** The list of error messages produced by this operation. For example, "input parameter 'key' must be provided" */
     errorMessages?: string[];
     /** The list of errors by parameter returned by the operation. For example,"projectKey": "Project keys must start with an uppercase letter, followed by one or more uppercase alphanumeric characters." */
@@ -64643,7 +64631,7 @@ export class IssueBean implements IIssueBean {
     readonly editmeta?: IssueUpdateMetadata;
     /** Expand options that include additional issue details in the response. */
     readonly expand?: string;
-    fields?: { [key: string]: any; };
+    fields?: any;
     fieldsToInclude?: IncludedFields;
     /** The ID of the issue. */
     readonly id?: string;
@@ -64680,13 +64668,7 @@ export class IssueBean implements IIssueBean {
             (this as any).changelog = _data["changelog"] ? PageOfChangelogs.fromJS(_data["changelog"]) : undefined as any;
             (this as any).editmeta = _data["editmeta"] ? IssueUpdateMetadata.fromJS(_data["editmeta"]) : undefined as any;
             (this as any).expand = _data["expand"];
-            if (_data["fields"]) {
-                this.fields = {} as any;
-                for (let key in _data["fields"]) {
-                    if (_data["fields"].hasOwnProperty(key))
-                        (this.fields as any)![key] = _data["fields"][key];
-                }
-            }
+            this.fields = _data["fields"];
             this.fieldsToInclude = _data["fieldsToInclude"] ? IncludedFields.fromJS(_data["fieldsToInclude"]) : undefined as any;
             (this as any).id = _data["id"];
             (this as any).key = _data["key"];
@@ -64747,13 +64729,7 @@ export class IssueBean implements IIssueBean {
         data["changelog"] = this.changelog ? this.changelog.toJSON() : undefined as any;
         data["editmeta"] = this.editmeta ? this.editmeta.toJSON() : undefined as any;
         data["expand"] = this.expand;
-        if (this.fields) {
-            data["fields"] = {};
-            for (let key in this.fields) {
-                if (this.fields.hasOwnProperty(key))
-                    (data["fields"] as any)[key] = (this.fields as any)[key];
-            }
-        }
+        data["fields"] = this.fields;
         data["fieldsToInclude"] = this.fieldsToInclude ? this.fieldsToInclude.toJSON() : undefined as any;
         data["id"] = this.id;
         data["key"] = this.key;
@@ -64811,7 +64787,7 @@ export interface IIssueBean {
     editmeta?: IssueUpdateMetadata;
     /** Expand options that include additional issue details in the response. */
     expand?: string;
-    fields?: { [key: string]: any; };
+    fields?: any;
     fieldsToInclude?: IncludedFields;
     /** The ID of the issue. */
     id?: string;
@@ -65873,7 +65849,7 @@ export class IssueFieldOption implements IIssueFieldOption {
     /** The unique identifier for the option. This is only unique within the select field's set of options. */
     id!: number;
     /** The properties of the object, as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see [Issue Field Option Property Index](https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/)) are defined in the descriptor for the issue field module. */
-    properties?: { [key: string]: any; };
+    properties?: any;
     /** The option's name, which is displayed in Jira. */
     value!: string;
 
@@ -65890,13 +65866,7 @@ export class IssueFieldOption implements IIssueFieldOption {
         if (_data) {
             this.config = _data["config"] ? IssueFieldOptionConfiguration.fromJS(_data["config"]) : undefined as any;
             this.id = _data["id"];
-            if (_data["properties"]) {
-                this.properties = {} as any;
-                for (let key in _data["properties"]) {
-                    if (_data["properties"].hasOwnProperty(key))
-                        (this.properties as any)![key] = _data["properties"][key];
-                }
-            }
+            this.properties = _data["properties"];
             this.value = _data["value"];
         }
     }
@@ -65912,13 +65882,7 @@ export class IssueFieldOption implements IIssueFieldOption {
         data = typeof data === 'object' ? data : {};
         data["config"] = this.config ? this.config.toJSON() : undefined as any;
         data["id"] = this.id;
-        if (this.properties) {
-            data["properties"] = {};
-            for (let key in this.properties) {
-                if (this.properties.hasOwnProperty(key))
-                    (data["properties"] as any)[key] = (this.properties as any)[key];
-            }
-        }
+        data["properties"] = this.properties;
         data["value"] = this.value;
         return data;
     }
@@ -65930,7 +65894,7 @@ export interface IIssueFieldOption {
     /** The unique identifier for the option. This is only unique within the select field's set of options. */
     id: number;
     /** The properties of the object, as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see [Issue Field Option Property Index](https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/)) are defined in the descriptor for the issue field module. */
-    properties?: { [key: string]: any; };
+    properties?: any;
     /** The option's name, which is displayed in Jira. */
     value: string;
 }
@@ -65992,7 +65956,7 @@ export interface IIssueFieldOptionConfiguration {
 export class IssueFieldOptionCreateBean implements IIssueFieldOptionCreateBean {
     config?: IssueFieldOptionConfiguration;
     /** The properties of the option as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/) are defined in the descriptor for the issue field module. */
-    properties?: { [key: string]: any; };
+    properties?: any;
     /** The option's name, which is displayed in Jira. */
     value!: string;
 
@@ -66014,13 +65978,7 @@ export class IssueFieldOptionCreateBean implements IIssueFieldOptionCreateBean {
                     this[property] = _data[property];
             }
             this.config = _data["config"] ? IssueFieldOptionConfiguration.fromJS(_data["config"]) : undefined as any;
-            if (_data["properties"]) {
-                this.properties = {} as any;
-                for (let key in _data["properties"]) {
-                    if (_data["properties"].hasOwnProperty(key))
-                        (this.properties as any)![key] = _data["properties"][key];
-                }
-            }
+            this.properties = _data["properties"];
             this.value = _data["value"];
         }
     }
@@ -66039,13 +65997,7 @@ export class IssueFieldOptionCreateBean implements IIssueFieldOptionCreateBean {
                 data[property] = this[property];
         }
         data["config"] = this.config ? this.config.toJSON() : undefined as any;
-        if (this.properties) {
-            data["properties"] = {};
-            for (let key in this.properties) {
-                if (this.properties.hasOwnProperty(key))
-                    (data["properties"] as any)[key] = (this.properties as any)[key];
-            }
-        }
+        data["properties"] = this.properties;
         data["value"] = this.value;
         return data;
     }
@@ -66054,7 +66006,7 @@ export class IssueFieldOptionCreateBean implements IIssueFieldOptionCreateBean {
 export interface IIssueFieldOptionCreateBean {
     config?: IssueFieldOptionConfiguration;
     /** The properties of the option as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/) are defined in the descriptor for the issue field module. */
-    properties?: { [key: string]: any; };
+    properties?: any;
     /** The option's name, which is displayed in Jira. */
     value: string;
 
@@ -69098,7 +69050,7 @@ export interface IIssueTypesWorkflowMapping {
 /** Details of an issue update request. */
 export class IssueUpdateDetails implements IIssueUpdateDetails {
     /** List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. */
-    fields?: { [key: string]: any; };
+    fields?: any;
     /** Additional issue history details. */
     historyMetadata?: HistoryMetadata;
     /** Details of issue properties to be add or update. */
@@ -69125,13 +69077,7 @@ export class IssueUpdateDetails implements IIssueUpdateDetails {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
-            if (_data["fields"]) {
-                this.fields = {} as any;
-                for (let key in _data["fields"]) {
-                    if (_data["fields"].hasOwnProperty(key))
-                        (this.fields as any)![key] = _data["fields"][key];
-                }
-            }
+            this.fields = _data["fields"];
             this.historyMetadata = _data["historyMetadata"] ? HistoryMetadata.fromJS(_data["historyMetadata"]) : undefined as any;
             if (Array.isArray(_data["properties"])) {
                 this.properties = [] as any;
@@ -69162,13 +69108,7 @@ export class IssueUpdateDetails implements IIssueUpdateDetails {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        if (this.fields) {
-            data["fields"] = {};
-            for (let key in this.fields) {
-                if (this.fields.hasOwnProperty(key))
-                    (data["fields"] as any)[key] = (this.fields as any)[key];
-            }
-        }
+        data["fields"] = this.fields;
         data["historyMetadata"] = this.historyMetadata ? this.historyMetadata.toJSON() : undefined as any;
         if (Array.isArray(this.properties)) {
             data["properties"] = [];
@@ -69190,7 +69130,7 @@ export class IssueUpdateDetails implements IIssueUpdateDetails {
 /** Details of an issue update request. */
 export interface IIssueUpdateDetails {
     /** List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. */
-    fields?: { [key: string]: any; };
+    fields?: any;
     /** Additional issue history details. */
     historyMetadata?: HistoryMetadata;
     /** Details of issue properties to be add or update. */
@@ -72222,7 +72162,7 @@ export interface IJiraRichTextField {
 }
 
 export class JiraRichTextInput implements IJiraRichTextInput {
-    adfValue?: { [key: string]: any; };
+    adfValue?: any;
 
     constructor(data?: IJiraRichTextInput) {
         if (data) {
@@ -72235,13 +72175,7 @@ export class JiraRichTextInput implements IJiraRichTextInput {
 
     init(_data?: any) {
         if (_data) {
-            if (_data["adfValue"]) {
-                this.adfValue = {} as any;
-                for (let key in _data["adfValue"]) {
-                    if (_data["adfValue"].hasOwnProperty(key))
-                        (this.adfValue as any)![key] = _data["adfValue"][key];
-                }
-            }
+            this.adfValue = _data["adfValue"];
         }
     }
 
@@ -72254,19 +72188,13 @@ export class JiraRichTextInput implements IJiraRichTextInput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.adfValue) {
-            data["adfValue"] = {};
-            for (let key in this.adfValue) {
-                if (this.adfValue.hasOwnProperty(key))
-                    (data["adfValue"] as any)[key] = (this.adfValue as any)[key];
-            }
-        }
+        data["adfValue"] = this.adfValue;
         return data;
     }
 }
 
 export interface IJiraRichTextInput {
-    adfValue?: { [key: string]: any; };
+    adfValue?: any;
 }
 
 export class JiraSelectedOptionField implements IJiraSelectedOptionField {

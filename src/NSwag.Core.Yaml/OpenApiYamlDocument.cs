@@ -7,8 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Nodes;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -104,7 +103,9 @@ namespace NSwag
         public static async Task<OpenApiDocument> FromYamlAsync(TextReader data, string documentPath, SchemaType expectedSchemaType,
             Func<OpenApiDocument, JsonReferenceResolver> referenceResolverFactory, CancellationToken cancellationToken = default)
         {
-            var deserializer = new DeserializerBuilder().Build();
+            var deserializer = new DeserializerBuilder()
+                .WithAttemptingUnquotedStringTypeDeserialization()
+                .Build();
             var yamlObject = deserializer.Deserialize(data);
             var serializer = new SerializerBuilder()
                 .JsonCompatible()
@@ -121,11 +122,11 @@ namespace NSwag
         public static string ToYaml(this OpenApiDocument document)
         {
             var json = document.ToJson();
-            var expConverter = new ExpandoObjectConverter();
-            dynamic deserializedObject = JsonConvert.DeserializeObject<ExpandoObject>(json, expConverter);
+            var jsonNode = JsonNode.Parse(json);
+            var expandoObject = ConvertJsonNodeToExpandoObject(jsonNode);
 
             var serializer = new Serializer();
-            return serializer.Serialize(deserializedObject);
+            return serializer.Serialize(expandoObject);
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>
@@ -146,6 +147,33 @@ namespace NSwag
         {
             var data = await DynamicApis.HttpGetAsync(url, cancellationToken).ConfigureAwait(false);
             return await FromYamlAsync(data, url, cancellationToken).ConfigureAwait(false);
+        }
+
+        private static object ConvertJsonNodeToExpandoObject(JsonNode node)
+        {
+            if (node is JsonObject jsonObject)
+            {
+                var expando = new ExpandoObject();
+                var dict = (IDictionary<string, object>)expando;
+                foreach (var property in jsonObject)
+                {
+                    dict[property.Key] = property.Value != null ? ConvertJsonNodeToExpandoObject(property.Value) : null;
+                }
+                return expando;
+            }
+            else if (node is JsonArray jsonArray)
+            {
+                return jsonArray.Select(item => item != null ? ConvertJsonNodeToExpandoObject(item) : null).ToList();
+            }
+            else if (node is JsonValue jsonValue)
+            {
+                if (jsonValue.TryGetValue<bool>(out var boolValue)) return boolValue;
+                if (jsonValue.TryGetValue<long>(out var longValue)) return longValue;
+                if (jsonValue.TryGetValue<double>(out var doubleValue)) return doubleValue;
+                if (jsonValue.TryGetValue<string>(out var stringValue)) return stringValue;
+                return node.ToJsonString();
+            }
+            return null;
         }
 
         private static Func<OpenApiDocument, JsonReferenceResolver> CreateReferenceResolverFactory()

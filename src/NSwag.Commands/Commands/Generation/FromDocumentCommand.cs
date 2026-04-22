@@ -9,7 +9,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NSwag.Commands.Generation
 {
@@ -20,7 +20,8 @@ namespace NSwag.Commands.Generation
         private string _url = "http://redocly.github.io/redoc/openapi.yaml";
 
         /// <summary>Gets or sets the input Swagger specification.</summary>
-        [JsonProperty("json", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("json")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Json
         {
             get => _json;
@@ -32,7 +33,8 @@ namespace NSwag.Commands.Generation
         }
 
         /// <summary>Gets or sets the input Swagger specification URL.</summary>
-        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonPropertyName("url")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Url
         {
             get => _url;

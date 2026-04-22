@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using NJsonSchema;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.CSharp.Models;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using NSwag.CodeGeneration.Tests;
@@ -244,7 +244,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             complexTypeReponseSchema.Properties["Prop3"] = new JsonSchemaProperty { Type = JsonObjectType.Boolean, IsRequired = true };
             complexTypeReponseSchema.Properties["Prop4"] = new JsonSchemaProperty { Type = JsonObjectType.Object, Reference = complexTypeSchema, IsRequired = true };
 
-            var typeString = NewtonsoftJsonSchemaGenerator.FromType<string>();
+            var typeString = JsonSchema.FromType<string>();
 
             var document = new OpenApiDocument();
             document.Paths["Foo"] = new OpenApiPathItem

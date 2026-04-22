@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema;
 
 namespace NSwag
@@ -21,7 +21,8 @@ namespace NSwag
         internal OpenApiRequestBody Parent { get; set; }
 
         /// <summary>Gets or sets the schema.</summary>
-        [JsonProperty(PropertyName = "schema", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("schema")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public JsonSchema Schema
         {
             get => _schema;
@@ -33,7 +34,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the example.</summary>
-        [JsonProperty(PropertyName = "example", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("example")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public object Example
         {
             get => _example;
@@ -45,11 +47,13 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the headers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "examples", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("examples")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiExample> Examples { get; internal set; } = new Dictionary<string, OpenApiExample>();
 
         /// <summary>Gets or sets the example's value.</summary>
-        [JsonProperty(PropertyName = "encoding", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("encoding")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiEncoding> Encoding { get; } = new Dictionary<string, OpenApiEncoding>();
     }
 }

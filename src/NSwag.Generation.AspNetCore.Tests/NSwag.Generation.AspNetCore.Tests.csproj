@@ -24,6 +24,7 @@
     <ProjectReference Include="..\NSwag.Annotations\NSwag.Annotations.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore.Tests.Web\NSwag.Generation.AspNetCore.Tests.Web.csproj" />
     <ProjectReference Include="..\NSwag.Generation.AspNetCore\NSwag.Generation.AspNetCore.csproj" />
+    <ProjectReference Include="..\NSwag.Generation.NewtonsoftJson\NSwag.Generation.NewtonsoftJson.csproj" />
   </ItemGroup>
 
   <ItemGroup>

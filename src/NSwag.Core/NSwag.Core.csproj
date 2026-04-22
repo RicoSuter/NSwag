@@ -6,9 +6,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <!-- Local project references for development -->
   <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema\NJsonSchema.csproj" />
   </ItemGroup>
+  <!-- NuGet package references for production -->
   <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema" />
   </ItemGroup>

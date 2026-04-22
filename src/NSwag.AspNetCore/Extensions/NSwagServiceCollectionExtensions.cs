@@ -6,12 +6,12 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ApiDescriptions;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
 using NJsonSchema.Generation;
-using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.AspNetCore;
 using NSwag.Generation;
 using NSwag.Generation.AspNetCore;
@@ -69,7 +69,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 var hasSystemTextJsonOutputFormatter = mvcOptions.Value.OutputFormatters
                     .Any(f => f.GetType().Name == "SystemTextJsonOutputFormatter");
 
+#pragma warning disable CS0618 // Obsolete: we use the reflection-based resolver directly here
                 var newtonsoftSettings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(services);
+#pragma warning restore CS0618
                 var systemTextJsonOptions = hasSystemTextJsonOutputFormatter
                     ? AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(services)
 #if NET6_0_OR_GREATER
@@ -80,7 +82,15 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (newtonsoftSettings != null && !hasSystemTextJsonOutputFormatter)
                 {
-                    settings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = newtonsoftSettings }, mvcOptions.Value);
+                    var newtonsoftSchemaSettings = TryCreateNewtonsoftJsonSchemaGeneratorSettings(newtonsoftSettings);
+                    if (newtonsoftSchemaSettings != null)
+                    {
+                        settings.ApplySettings(newtonsoftSchemaSettings, mvcOptions.Value);
+                    }
+                    else
+                    {
+                        settings.ApplySettings(new SystemTextJsonSchemaGeneratorSettings(), mvcOptions.Value);
+                    }
                 }
                 else if (systemTextJsonOptions != null)
                 {
@@ -129,6 +139,27 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection, Action<AspNetCoreOpenApiDocumentGeneratorSettings> configure = null)
         {
             return AddSwaggerDocument(serviceCollection, configure);
+        }
+
+        private static JsonSchemaGeneratorSettings TryCreateNewtonsoftJsonSchemaGeneratorSettings(object newtonsoftSettings)
+        {
+            try
+            {
+                var assembly = Assembly.Load(new AssemblyName("NJsonSchema.NewtonsoftJson"));
+                var settingsType = assembly.GetType("NJsonSchema.NewtonsoftJson.Generation.NewtonsoftJsonSchemaGeneratorSettings");
+                if (settingsType == null)
+                {
+                    return null;
+                }
+
+                var instance = Activator.CreateInstance(settingsType);
+                settingsType.GetProperty("SerializerSettings")?.SetValue(instance, newtonsoftSettings);
+                return instance as JsonSchemaGeneratorSettings;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

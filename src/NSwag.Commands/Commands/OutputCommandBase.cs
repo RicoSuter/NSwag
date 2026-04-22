@@ -7,18 +7,18 @@
 //-----------------------------------------------------------------------
 
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NSwag.Commands
 {
     public abstract class OutputCommandBase : IOutputCommand
     {
         [Argument(Name = "Output", IsRequired = false, Description = "The output file path (optional).")]
-        [JsonProperty("output", NullValueHandling = NullValueHandling.Include)]
+        [JsonPropertyName("output")]
         public string OutputFilePath { get; set; }
 
         [Argument(Name = "NewLineBehavior", IsRequired = false, Description = "The new line behavior (Auto (OS default), CRLF, LF).")]
-        [JsonProperty("newLineBehavior", NullValueHandling = NullValueHandling.Include)]
+        [JsonPropertyName("newLineBehavior")]
         public NewLineBehavior NewLineBehavior { get; set; } = NewLineBehavior.Auto;
 
         public abstract Task<object> RunAsync(CommandLineProcessor processor, IConsoleHost host);

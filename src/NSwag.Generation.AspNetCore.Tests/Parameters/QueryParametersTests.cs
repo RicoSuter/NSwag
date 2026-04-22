@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using NJsonSchema;
+﻿using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.AspNetCore.Tests.Web.Controllers.Parameters;
 
@@ -31,7 +30,7 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             Assert.Equal(2, operation.ActualParameters.Count);
 
             Assert.Equal("Bar.", operation.ActualParameters[0].Description);
-            Assert.Equal(JToken.Parse("42"), operation.ActualParameters[0].Example);
+            Assert.Equal("42", operation.ActualParameters[0].Example?.ToString());
 
             Assert.Equal("Baz.", operation.ActualParameters[operation.ActualParameters.Count - 1].Description);
         }

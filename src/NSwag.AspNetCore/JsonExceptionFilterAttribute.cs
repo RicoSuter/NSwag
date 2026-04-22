@@ -7,11 +7,11 @@
 //-----------------------------------------------------------------------
 
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using NJsonSchema.NewtonsoftJson.Converters;
 using NSwag.Annotations;
 using NSwag.Generation.AspNetCore;
 
@@ -56,11 +56,20 @@ namespace NSwag.AspNetCore
         {
             if (context.Exception != null && (_exceptionTypes.Count == 0 || _exceptionTypes.Exists(t => t.IsInstanceOfType(context.Exception))))
             {
-                var settings = AspNetCoreOpenApiDocumentGenerator.GetJsonSerializerSettings(context.HttpContext?.RequestServices);
-                settings = settings != null ? CopySettings(settings) : (JsonConvert.DefaultSettings?.Invoke() ?? new JsonSerializerSettings());
-                settings.Converters.Add(new JsonExceptionConverter(_hideStackTrace, _searchedNamespaces));
+                var options = AspNetCoreOpenApiDocumentGenerator.GetSystemTextJsonSettings(context.HttpContext?.RequestServices)
+                    ?? new JsonSerializerOptions();
 
-                var json = JsonConvert.SerializeObject(context.Exception, settings);
+#pragma warning disable CA1869 // options vary per request (from DI)
+                var optionsCopy = new JsonSerializerOptions(options)
+#pragma warning restore CA1869
+                {
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                    WriteIndented = true
+                };
+
+                var json = System.Text.Json.JsonSerializer.Serialize(
+                    SerializeException(context.Exception), optionsCopy);
+
                 context.Result = new ContentResult
                 {
                     StatusCode = GetStatusCode(context.Exception, context),
@@ -112,23 +121,42 @@ namespace NSwag.AspNetCore
             return 500;
         }
 
-        private static JsonSerializerSettings CopySettings(JsonSerializerSettings settings)
+        private const int MaxInnerExceptionDepth = 10;
+
+        private static readonly HashSet<string> _ignoredExceptionProperties =
+            ["Message", "StackTrace", "Source", "InnerException", "Data", "TargetSite", "HelpLink", "HResult"];
+
+        private JsonObject SerializeException(Exception exception, int depth = 0)
         {
-            var settingsCopy = new JsonSerializerSettings();
-
-            foreach (var property in typeof(JsonSerializerSettings)
-                .GetRuntimeProperties()
-                .Where(p => p.Name != "Converters"))
+            var jsonObject = new JsonObject
             {
-                property.SetValue(settingsCopy, property.GetValue(settings));
+                ["discriminator"] = exception.GetType().Name,
+                ["Message"] = exception.Message,
+                ["StackTrace"] = _hideStackTrace ? "HIDDEN" : exception.StackTrace,
+                ["Source"] = exception.Source,
+                ["InnerException"] = exception.InnerException != null && depth < MaxInnerExceptionDepth
+                    ? SerializeException(exception.InnerException, depth + 1)
+                    : null
+            };
+
+            foreach (var property in exception.GetType().GetRuntimeProperties()
+                .Where(p => p.GetMethod?.IsPublic == true && !_ignoredExceptionProperties.Contains(p.Name)))
+            {
+                try
+                {
+                    var propertyValue = property.GetValue(exception);
+                    if (propertyValue != null)
+                    {
+                        jsonObject[property.Name] = JsonValue.Create(propertyValue);
+                    }
+                }
+                catch
+                {
+                    // Skip properties that cannot be serialized (complex types, circular refs, etc.)
+                }
             }
 
-            foreach (var converter in settings.Converters)
-            {
-                settingsCopy.Converters.Add(converter);
-            }
-
-            return settingsCopy;
+            return jsonObject;
         }
     }
 }

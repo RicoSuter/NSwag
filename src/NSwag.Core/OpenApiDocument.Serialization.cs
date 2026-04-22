@@ -6,111 +6,135 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using NJsonSchema;
-using NJsonSchema.Infrastructure;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json.Serialization;
+using NJsonSchema;
+using NJsonSchema.Infrastructure;
 
 namespace NSwag
 {
     public partial class OpenApiDocument
     {
-        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> Swagger2ContractResolver =
-            new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.Swagger2));
+        private static readonly Lazy<SchemaSerializationConverter> Swagger2Converter =
+            new Lazy<SchemaSerializationConverter>(() => CreateSchemaSerializationConverter(SchemaType.Swagger2));
 
-        private static readonly Lazy<PropertyRenameAndIgnoreSerializerContractResolver> OpenApi3ContractResolver =
-            new Lazy<PropertyRenameAndIgnoreSerializerContractResolver>(() => CreateJsonSerializerContractResolver(SchemaType.OpenApi3));
+        private static readonly Lazy<SchemaSerializationConverter> OpenApi3Converter =
+            new Lazy<SchemaSerializationConverter>(() => CreateSchemaSerializationConverter(SchemaType.OpenApi3));
 
-        /// <summary>Creates the serializer contract resolver based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
+        /// <summary>Creates the schema serialization converter based on the <see cref="NJsonSchema.SchemaType"/>.</summary>
         /// <param name="schemaType">The schema type.</param>
-        /// <returns>The settings.</returns>
-        public static PropertyRenameAndIgnoreSerializerContractResolver GetJsonSerializerContractResolver(SchemaType schemaType)
+        /// <returns>The converter.</returns>
+        public static SchemaSerializationConverter GetSchemaSerializationConverter(SchemaType schemaType)
         {
             if (schemaType == SchemaType.Swagger2)
             {
-                return Swagger2ContractResolver.Value;
+                return Swagger2Converter.Value;
             }
             else if (schemaType == SchemaType.OpenApi3)
             {
-                return OpenApi3ContractResolver.Value;
+                return OpenApi3Converter.Value;
             }
 
             throw new ArgumentException("The schema type '" + schemaType + "' is not supported.");
         }
 
-        private static PropertyRenameAndIgnoreSerializerContractResolver CreateJsonSerializerContractResolver(SchemaType schemaType)
+        private static SchemaSerializationConverter CreateSchemaSerializationConverter(SchemaType schemaType)
         {
-            var resolver = JsonSchema.CreateJsonSerializerContractResolver(schemaType);
+            var converter = JsonSchema.CreateSchemaSerializationConverter(schemaType);
+
+            // Add custom converter for OpenApiParameter to handle the "required" property
+            // collision between OpenApiParameter.IsRequired (bool) and JsonSchema.RequiredPropertiesRaw (string[]).
+            converter.AddConverter(new Converters.OpenApiParameterJsonConverter());
+
+            // Register types so the SchemaSerializationConverter handles their serialization
+            // (needed for empty collection stripping and schema-version-aware property filtering).
+            converter.IgnoreProperty(typeof(OpenApiComponents));
+            converter.IgnoreProperty(typeof(OpenApiServer));
+            converter.IgnoreProperty(typeof(OpenApiOAuthFlows));
+            converter.IgnoreProperty(typeof(OpenApiOAuthFlow));
+            converter.IgnoreProperty(typeof(OpenApiMediaType));
+            converter.IgnoreProperty(typeof(OpenApiLink));
+            converter.IgnoreProperty(typeof(OpenApiRequestBody));
+            converter.IgnoreProperty(typeof(OpenApiEncoding));
+            converter.IgnoreProperty(typeof(OpenApiInfo));
+            converter.IgnoreProperty(typeof(OpenApiTag));
+            converter.IgnoreProperty(typeof(OpenApiExample));
+            converter.IgnoreProperty(typeof(OpenApiExternalDocumentation));
+            converter.IgnoreProperty(typeof(OpenApiContact));
+            converter.IgnoreProperty(typeof(OpenApiLicense));
+            converter.IgnoreProperty(typeof(OpenApiServerVariable));
+            converter.IgnoreProperty(typeof(OpenApiHeader));
+            // Note: OpenApiCallback and OpenApiPathItem implement IDictionary and have their own
+            // serialization logic, so they're not registered with the SchemaSerializationConverter.
 
             if (schemaType == SchemaType.Swagger2)
             {
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "openapi");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "servers");
-                resolver.IgnoreProperty(typeof(OpenApiParameter), "title");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "openapi");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "servers");
+                converter.IgnoreProperty(typeof(OpenApiParameter), "title");
 
                 // TODO: Use rename for not mapped properties!
-                resolver.IgnoreProperty(typeof(OpenApiPathItem), "summary");
-                resolver.IgnoreProperty(typeof(OpenApiPathItem), "description");
-                resolver.IgnoreProperty(typeof(OpenApiPathItem), "servers");
+                converter.IgnoreProperty(typeof(OpenApiPathItem), "summary");
+                converter.IgnoreProperty(typeof(OpenApiPathItem), "description");
+                converter.IgnoreProperty(typeof(OpenApiPathItem), "servers");
 
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "callbacks");
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "servers");
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "requestBody");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "callbacks");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "servers");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "requestBody");
 
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "components");
-                resolver.IgnoreProperty(typeof(OpenApiParameter), "examples");
-                resolver.IgnoreProperty(typeof(OpenApiParameter), "x-position");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "components");
+                converter.IgnoreProperty(typeof(OpenApiParameter), "examples");
+                converter.IgnoreProperty(typeof(OpenApiParameter), "x-position");
 
-                resolver.IgnoreProperty(typeof(OpenApiResponse), "content");
-                resolver.IgnoreProperty(typeof(OpenApiResponse), "links");
+                converter.IgnoreProperty(typeof(OpenApiResponse), "content");
+                converter.IgnoreProperty(typeof(OpenApiResponse), "links");
 
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scheme");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "bearerFormat");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "openIdConnectUrl");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "flows");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "scheme");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "bearerFormat");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "openIdConnectUrl");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "flows");
             }
             else if (schemaType == SchemaType.OpenApi3)
             {
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "swagger");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "swagger");
 
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "host");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "basePath");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "schemes");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "host");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "basePath");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "schemes");
 
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "consumes");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "produces");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "consumes");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "produces");
 
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "schemes");
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "consumes");
-                resolver.IgnoreProperty(typeof(OpenApiOperation), "produces");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "schemes");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "consumes");
+                converter.IgnoreProperty(typeof(OpenApiOperation), "produces");
 
-                //resolver.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
+                //converter.IgnoreProperty(typeof(SwaggerParameter), "x-nullable");
 
-                //resolver.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
-                //resolver.IgnoreProperty(typeof(SwaggerResponse), "produces");
+                //converter.IgnoreProperty(typeof(SwaggerResponse), "consumes"); => TODO map to response.content
+                //converter.IgnoreProperty(typeof(SwaggerResponse), "produces");
 
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "definitions");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "parameters");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "responses");
-                resolver.IgnoreProperty(typeof(OpenApiDocument), "securityDefinitions");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "definitions");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "parameters");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "responses");
+                converter.IgnoreProperty(typeof(OpenApiDocument), "securityDefinitions");
 
-                resolver.IgnoreProperty(typeof(OpenApiResponse), "schema");
-                resolver.IgnoreProperty(typeof(OpenApiResponse), "examples");
-                resolver.IgnoreProperty(typeof(OpenApiResponse), "x-nullable");
+                converter.IgnoreProperty(typeof(OpenApiResponse), "schema");
+                converter.IgnoreProperty(typeof(OpenApiResponse), "examples");
+                converter.IgnoreProperty(typeof(OpenApiResponse), "x-nullable");
 
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "flow");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "authorizationUrl");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "tokenUrl");
-                resolver.IgnoreProperty(typeof(OpenApiSecurityScheme), "scopes");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "flow");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "authorizationUrl");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "tokenUrl");
+                converter.IgnoreProperty(typeof(OpenApiSecurityScheme), "scopes");
             }
             else
             {
                 throw new ArgumentException("The given schema type is not supported.");
             }
 
-            return resolver;
+            return converter;
         }
 
         private ObservableCollection<OpenApiSchema> _schemes = [];
@@ -118,7 +142,9 @@ namespace NSwag
         internal List<string> _produces = [];
 
         /// <summary>Gets or sets the host (name or ip) serving the API (Swagger only).</summary>
-        [JsonProperty(PropertyName = "host", Order = 5, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("host")]
+        [JsonPropertyOrder(5)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Host
         {
             get => Servers?.FirstOrDefault()?.Url?.Replace("http://", "").Replace("https://", "").Split('/')[0];
@@ -126,7 +152,9 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the base path on which the API is served, which is relative to the <see cref="Host"/>.</summary>
-        [JsonProperty(PropertyName = "basePath", Order = 6, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("basePath")]
+        [JsonPropertyOrder(6)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string BasePath
         {
             get
@@ -138,7 +166,9 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the schemes.</summary>
-        [JsonProperty(PropertyName = "schemes", Order = 7, DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(StringEnumConverter))]
+        [JsonPropertyName("schemes")]
+        [JsonPropertyOrder(7)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiSchema> Schemes
         {
             get
@@ -187,7 +217,9 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets a list of MIME types the operation can consume.</summary>
-        [JsonProperty(PropertyName = "consumes", Order = 8, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("consumes")]
+        [JsonPropertyOrder(8)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<string> Consumes
         {
             get => _consumes;
@@ -195,7 +227,9 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets a list of MIME types the operation can produce.</summary>
-        [JsonProperty(PropertyName = "produces", Order = 9, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("produces")]
+        [JsonPropertyOrder(9)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<string> Produces
         {
             get => _produces;
@@ -203,19 +237,27 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the types (Swagger only).</summary>
-        [JsonProperty(PropertyName = "definitions", Order = 13, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("definitions")]
+        [JsonPropertyOrder(13)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, JsonSchema> Definitions => Components.Schemas;
 
         /// <summary>Gets or sets the parameters which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "parameters", Order = 14, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("parameters")]
+        [JsonPropertyOrder(14)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiParameter> Parameters => Components.Parameters;
 
         /// <summary>Gets or sets the responses which can be used for all operations (Swagger only).</summary>
-        [JsonProperty(PropertyName = "responses", Order = 15, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("responses")]
+        [JsonPropertyOrder(15)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiResponse> Responses => Components.Responses;
 
         /// <summary>Gets or sets the security definitions (Swagger only).</summary>
-        [JsonProperty(PropertyName = "securityDefinitions", Order = 16, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("securityDefinitions")]
+        [JsonPropertyOrder(16)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiSecurityScheme> SecurityDefinitions => Components.SecuritySchemes;
     }
 }

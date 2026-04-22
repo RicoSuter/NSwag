@@ -7,10 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>Specifies the location of the API Key.</summary>
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiSecurityApiKeyLocation>))]
     public enum OpenApiSecurityApiKeyLocation
     {
         /// <summary>The API key kind is not defined.</summary>

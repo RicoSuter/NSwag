@@ -6,9 +6,9 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
-using NJsonSchema.References;
 using System.Collections;
+using System.Text.Json.Serialization;
+using NJsonSchema.References;
 
 namespace NSwag
 {

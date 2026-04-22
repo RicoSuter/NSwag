@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="SwaggerOAuth2Flow.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -7,13 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>Enumeration of the OAuth2 flows. </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiOAuth2Flow>))]
     public enum OpenApiOAuth2Flow
     {
         /// <summary>An undefined flow.</summary>

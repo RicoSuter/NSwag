@@ -79318,7 +79318,7 @@ namespace MyNamespace
         /// Map of objects representing additional details for an error
         /// </summary>
         [Newtonsoft.Json.JsonProperty("details", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> Details { get; set; }
+        public object Details { get; set; }
 
         /// <summary>
         /// The list of error messages produced by this operation. For example, "input parameter 'key' must be provided"
@@ -82102,7 +82102,7 @@ namespace MyNamespace
         public string Expand { get; set; }
 
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> Fields { get; set; }
+        public object Fields { get; set; }
 
         [Newtonsoft.Json.JsonProperty("fieldsToInclude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public IncludedFields FieldsToInclude { get; set; }
@@ -82591,7 +82591,7 @@ namespace MyNamespace
         /// The properties of the object, as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see [Issue Field Option Property Index](https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/)) are defined in the descriptor for the issue field module.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> Properties { get; set; }
+        public object Properties { get; set; }
 
         /// <summary>
         /// The option's name, which is displayed in Jira.
@@ -82632,7 +82632,7 @@ namespace MyNamespace
         /// The properties of the option as arbitrary key-value pairs. These properties can be searched using JQL, if the extractions (see https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/) are defined in the descriptor for the issue field module.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> Properties { get; set; }
+        public object Properties { get; set; }
 
         /// <summary>
         /// The option's name, which is displayed in Jira.
@@ -84093,7 +84093,7 @@ namespace MyNamespace
         /// List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("fields", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> Fields { get; set; }
+        public object Fields { get; set; }
 
         /// <summary>
         /// Additional issue history details.
@@ -85310,7 +85310,7 @@ namespace MyNamespace
     {
 
         [Newtonsoft.Json.JsonProperty("adfValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, object> AdfValue { get; set; }
+        public object AdfValue { get; set; }
 
     }
 

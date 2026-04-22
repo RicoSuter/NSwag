@@ -1,11 +1,11 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>Enumeration of the parameter kinds. </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiParameterStyle>))]
     public enum OpenApiParameterStyle
     {
         /// <summary>An undefined kind.</summary>

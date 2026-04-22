@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NSwag
 {
@@ -14,19 +14,23 @@ namespace NSwag
     public class OpenApiOAuthFlow
     {
         /// <summary>Gets or sets the authorization URL to be used for this flow.</summary>
-        [JsonProperty(PropertyName = "authorizationUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("authorizationUrl")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string AuthorizationUrl { get; set; }
 
         /// <summary>Gets or sets the token URL to be used for this flow.</summary>
-        [JsonProperty(PropertyName = "tokenUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("tokenUrl")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string TokenUrl { get; set; }
 
         /// <summary>Gets or sets the token URL to be used for this flow.</summary>
-        [JsonProperty(PropertyName = "refreshUrl", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("refreshUrl")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string RefreshUrl { get; set; }
 
         /// <summary>Gets the available scopes for the OAuth2 security scheme.</summary>
-        [JsonProperty(PropertyName = "scopes", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, Required = Required.DisallowNull)]
+        [JsonPropertyName("scopes")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, string> Scopes { get; set; } = new Dictionary<string, string>();
     }
 }

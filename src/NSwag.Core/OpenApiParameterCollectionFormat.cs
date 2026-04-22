@@ -7,13 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>Defines the collectionFormat of a parameter.</summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiParameterCollectionFormat>))]
     public enum OpenApiParameterCollectionFormat
     {
         /// <summary>An undefined format.</summary>

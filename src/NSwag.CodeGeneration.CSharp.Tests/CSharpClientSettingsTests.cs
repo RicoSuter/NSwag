@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
 using System.Collections;
@@ -32,7 +32,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
 
@@ -56,7 +56,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -80,7 +80,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -104,7 +104,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -124,7 +124,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -147,7 +147,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -170,7 +170,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -193,7 +193,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -217,7 +217,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -240,7 +240,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -264,7 +264,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -290,7 +290,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -334,7 +334,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -365,7 +365,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
@@ -394,7 +394,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
 
             var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();

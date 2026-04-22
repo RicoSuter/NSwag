@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using NJsonSchema.NewtonsoftJson.Generation;
+using NJsonSchema.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
 
@@ -28,7 +28,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
@@ -50,7 +50,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // Arrange
             var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 
@@ -72,7 +72,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             var swaggerGen = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
             {
                 IsAspNetCore = true,
-                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+                SchemaSettings = new SystemTextJsonSchemaGeneratorSettings()
             });
             var document = await swaggerGen.GenerateForControllerAsync<TestController>();
 

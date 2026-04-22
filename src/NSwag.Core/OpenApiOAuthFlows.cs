@@ -6,7 +6,7 @@
 // <author>Rico Suter, mail@rsuter.com</author>
 //-----------------------------------------------------------------------
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NSwag
 {
@@ -14,19 +14,23 @@ namespace NSwag
     public class OpenApiOAuthFlows
     {
         /// <summary>Gets or sets the configuration for the OAuth Implicit Code flow.</summary>
-        [JsonProperty(PropertyName = "implicit", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("implicit")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiOAuthFlow Implicit { get; set; }
 
         /// <summary>Gets or sets the configuration for the OAuth Resource Owner Password flow.</summary>
-        [JsonProperty(PropertyName = "password", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("password")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiOAuthFlow Password { get; set; }
 
         /// <summary>Gets or sets the configuration for the OAuth Client Credentials flow.</summary>
-        [JsonProperty(PropertyName = "clientCredentials", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("clientCredentials")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiOAuthFlow ClientCredentials { get; set; }
 
         /// <summary>Gets or sets the configuration for the OAuth Authorization Code flow.</summary>
-        [JsonProperty(PropertyName = "authorizationCode", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("authorizationCode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiOAuthFlow AuthorizationCode { get; set; }
     }
 }

@@ -8,8 +8,8 @@
 
 using System.Collections.Specialized;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -64,39 +64,58 @@ namespace NSwag
         public string DocumentPath { get; set; }
 
         /// <summary>Gets or sets the Swagger generator information.</summary>
-        [JsonProperty(PropertyName = "x-generator", Order = 1, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-generator")]
+        [JsonPropertyOrder(1)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Generator { get; set; }
 
         /// <summary>Gets or sets the Swagger specification version being used (Swagger only).</summary>
-        [JsonProperty(PropertyName = "swagger", Order = 2, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("swagger")]
+        [JsonPropertyOrder(2)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Swagger { get; set; }
 
         /// <summary>Gets or sets the OpenAPI specification version being used (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "openapi", Order = 3, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("openapi")]
+        [JsonPropertyOrder(3)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string OpenApi { get; set; }
 
         /// <summary>Gets or sets the metadata about the API.</summary>
-        [JsonProperty(PropertyName = "info", Order = 4, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("info")]
+        [JsonPropertyOrder(4)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiInfo Info { get; set; }
 
         /// <summary>Gets or sets the servers (OpenAPI only).</summary>
-        [JsonProperty(PropertyName = "servers", Order = 10, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("servers")]
+        [JsonPropertyOrder(10)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiServer> Servers { get; private set; } = [];
 
         /// <summary>Gets or sets the operations.</summary>
-        [JsonProperty(PropertyName = "paths", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("paths")]
+        [JsonPropertyOrder(11)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiPathItem> Paths => _paths;
 
         /// <summary>Gets or sets the components.</summary>
-        [JsonProperty(PropertyName = "components", Order = 12, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("components")]
+        [JsonPropertyOrder(12)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonObjectCreationHandling(JsonObjectCreationHandling.Populate)]
         public OpenApiComponents Components { get; }
 
         /// <summary>Gets or sets a security description.</summary>
-        [JsonProperty(PropertyName = "security", Order = 17, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("security")]
+        [JsonPropertyOrder(17)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<OpenApiSecurityRequirement> Security { get; set; } = [];
 
         /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "tags", Order = 18, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("tags")]
+        [JsonPropertyOrder(18)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IList<OpenApiTag> Tags { get; set; } = [];
 
         /// <summary>Gets the base URL of the web service.</summary>
@@ -104,7 +123,9 @@ namespace NSwag
         public string BaseUrl => Servers?.FirstOrDefault(s => s.IsValid)?.Url ?? "";
 
         /// <summary>Gets or sets the external documentation.</summary>
-        [JsonProperty(PropertyName = "externalDocs", Order = 19, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalDocs")]
+        [JsonPropertyOrder(19)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OpenApiExternalDocumentation ExternalDocumentation { get; set; }
 
         /// <summary>Converts the Swagger specification to JSON.</summary>
@@ -120,19 +141,19 @@ namespace NSwag
         [Obsolete("Do not use this method but only ToJson(). Use the correct generator settings to generate a document in the correct format.")]
         public string ToJson(SchemaType schemaType)
         {
-            return ToJson(schemaType, Formatting.Indented);
+            return ToJson(schemaType, true);
         }
 
         /// <summary>Converts the description object to JSON.</summary>
         /// <param name="schemaType">The schema type.</param>
-        /// <param name="formatting">The formatting.</param>
+        /// <param name="writeIndented">Whether to write indented JSON.</param>
         /// <returns>The JSON string.</returns>
-        public string ToJson(SchemaType schemaType, Formatting formatting)
+        public string ToJson(SchemaType schemaType, bool writeIndented)
         {
             GenerateOperationIds();
 
-            var contractResolver = GetJsonSerializerContractResolver(schemaType);
-            return JsonSchemaSerialization.ToJson(this, schemaType, contractResolver, formatting);
+            var converter = GetSchemaSerializationConverter(schemaType);
+            return JsonSchemaSerialization.ToJson(this, schemaType, converter, writeIndented);
         }
 
         /// <summary>Creates a Swagger specification from a JSON string.</summary>
@@ -200,7 +221,7 @@ namespace NSwag
                 throw new NotSupportedException("The schema type JsonSchema is not supported.");
             }
 
-            var contractResolver = GetJsonSerializerContractResolver(expectedSchemaType);
+            var converter = GetSchemaSerializationConverter(expectedSchemaType);
             return await JsonSchemaSerialization.FromJsonAsync<OpenApiDocument>(data, expectedSchemaType, documentPath, document =>
             {
                 document.SchemaType = expectedSchemaType;
@@ -213,7 +234,7 @@ namespace NSwag
                     var schemaResolver = new OpenApiSchemaResolver(document, new SystemTextJsonSchemaGeneratorSettings());
                     return new JsonReferenceResolver(schemaResolver);
                 }
-            }, contractResolver, cancellationToken).ConfigureAwait(false);
+            }, converter, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Creates a Swagger specification from a JSON file.</summary>

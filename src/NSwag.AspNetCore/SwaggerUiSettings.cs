@@ -11,7 +11,8 @@
 using System.Collections;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using NSwag.Generation;
 
 #if AspNetOwin
@@ -145,7 +146,7 @@ namespace NSwag.AspNetCore
                 var value = property.GetValue(oauth2Settings);
                 if (value is ICollection collection)
                 {
-                    htmlBuilder.Replace("{" + property.Name + "}", JsonConvert.SerializeObject(collection));
+                    htmlBuilder.Replace("{" + property.Name + "}", System.Text.Json.JsonSerializer.Serialize(collection));
                 }
                 else if (value is bool boolean)
                 {
@@ -163,7 +164,7 @@ namespace NSwag.AspNetCore
 
             htmlBuilder.Replace("{Urls}", swaggerRoutes.Count == 0
                 ? "undefined"
-                : JsonConvert.SerializeObject(
+                : System.Text.Json.JsonSerializer.Serialize(
 #pragma warning disable 618
                     swaggerRoutes.Select(r => new SwaggerUiRoute(r.Name,
                         TransformToExternalPath(r.Url.Substring(MiddlewareBasePath?.Length ?? 0), request)))
@@ -207,11 +208,11 @@ namespace NSwag.AspNetCore
         }
 
         /// <summary>Gets the route URL.</summary>
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; internal set; }
 
         /// <summary>Gets the route name.</summary>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; internal set; }
     }
 }

@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Specialized;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using NJsonSchema.References;
 using NSwag.Collections;
 
@@ -68,7 +68,8 @@ namespace NSwag
         public OpenApiRequestBody ActualRequestBody => Reference ?? this;
 
         /// <summary>Gets or sets the name.</summary>
-        [JsonProperty(PropertyName = "x-name", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Name
         {
             get => _name;
@@ -80,7 +81,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the description.</summary>
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Description
         {
             get => _description;
@@ -92,11 +94,13 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the descriptions of potential response payloads (OpenApi only).</summary>
-        [JsonProperty(PropertyName = "content", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("content")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, OpenApiMediaType> Content => _content;
 
         /// <summary>Gets or sets the example's external value.</summary>
-        [JsonProperty(PropertyName = "required", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("required")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool IsRequired
         {
             get => _isRequired;
@@ -108,7 +112,8 @@ namespace NSwag
         }
 
         /// <summary>Gets or sets the name.</summary>
-        [JsonProperty(PropertyName = "x-position", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("x-position")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int? Position
         {
             get => _position;

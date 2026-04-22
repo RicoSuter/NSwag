@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------
 
 using Namotion.Reflection;
-using Newtonsoft.Json;
 using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Infrastructure;
@@ -126,7 +125,7 @@ namespace NSwag.Generation
 
                 var referencedSchema = SchemaGenerator.Generate(contextualParameter, _schemaResolver);
 
-                var hasSchemaAnnotations = JsonConvert.SerializeObject(operationParameter.Schema) != "{}";
+                var hasSchemaAnnotations = System.Text.Json.JsonSerializer.Serialize(operationParameter.Schema) != "{}";
                 if (hasSchemaAnnotations || typeDescription.IsNullable)
                 {
                     operationParameter.Schema.IsNullableRaw = true;

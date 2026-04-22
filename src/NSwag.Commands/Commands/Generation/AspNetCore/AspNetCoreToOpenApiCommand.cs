@@ -11,7 +11,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using NConsole;
-using Newtonsoft.Json;
+using System.Text.Json;
 using NSwag.Generation;
 
 #if NETCOREAPP || NETSTANDARD
@@ -175,7 +175,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             var commandFile = Path.GetTempFileName();
             var outputFile = Path.GetTempFileName();
-            File.WriteAllText(commandFile, JsonConvert.SerializeObject(this));
+            File.WriteAllText(commandFile, JsonSerializer.Serialize(this));
             cleanupFiles.Add(commandFile);
             cleanupFiles.Add(outputFile);
 

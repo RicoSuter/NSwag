@@ -12,9 +12,11 @@
     <ProjectReference Include="..\NSwag.CodeGeneration\NSwag.CodeGeneration.csproj" />
   </ItemGroup>
   
+  <!-- Local project references for development -->
   <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' == 'true'">
     <ProjectReference Include="..\..\..\NJsonSchema\src\NJsonSchema.CodeGeneration.TypeScript\NJsonSchema.CodeGeneration.TypeScript.csproj" />
   </ItemGroup>
+  <!-- NuGet package references for production -->
   <ItemGroup Condition="'$(UseLocalNJsonSchemaProjects)' != 'true'">
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" />
   </ItemGroup>

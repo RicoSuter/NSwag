@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="SwaggerParameterKind.cs" company="NSwag">
 //     Copyright (c) Rico Suter. All rights reserved.
 // </copyright>
@@ -7,13 +7,13 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using NSwag.Converters;
 
 namespace NSwag
 {
     /// <summary>Enumeration of the parameter kinds. </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EnumMemberStringEnumConverter<OpenApiParameterKind>))]
     public enum OpenApiParameterKind
     {
         /// <summary>An undefined kind.</summary>
