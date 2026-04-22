@@ -8402,6 +8402,7 @@ namespace MyNamespace
         /// <param name="expand">Use [expand](#expansion) to include additional information in the response. This parameter accepts `meta.complexity` that returns information about the expression complexity. For example, the number of expensive operations used by the expression and how close the expression is to reaching the [complexity limit](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#restrictions). Useful when designing and debugging your expressions.</param>
         /// <returns>Returned if the evaluation results in a value. The result is a JSON primitive value, list, or object.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<JiraExpressionResult> EvaluateJiraExpressionAsync(JiraExpressionEvalRequestBean body, string expand = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -11932,6 +11933,7 @@ namespace MyNamespace
         /// <param name="maxResults">The maximum number of items to return per page.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<PageBeanContext> GetContextsForFieldDeprecatedAsync(string fieldId, long? startAt = null, int? maxResults = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (fieldId == null)
@@ -17481,6 +17483,7 @@ namespace MyNamespace
         /// <param name="expand">List of fields to expand.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<Group> GetGroupAsync(string groupname = null, string groupId = null, string expand = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -19226,6 +19229,7 @@ namespace MyNamespace
         /// <param name="expand">Use [expand](#expansion) to include additional information about issue metadata in the response. This parameter accepts `projects.issuetypes.fields`, which returns information about the fields in the issue creation screen for each issue type. Fields hidden from the screen are not returned. Use the information to populate the `fields` and `update` fields in [Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post).</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<IssueCreateMetadata> GetCreateIssueMetaAsync(System.Collections.Generic.IEnumerable<string> projectIds = null, System.Collections.Generic.IEnumerable<string> projectKeys = null, System.Collections.Generic.IEnumerable<string> issuetypeIds = null, System.Collections.Generic.IEnumerable<string> issuetypeNames = null, string expand = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -34986,6 +34990,7 @@ namespace MyNamespace
         /// </remarks>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<object> DeleteLocaleAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -35163,6 +35168,7 @@ namespace MyNamespace
         /// <param name="body">The locale defined in a LocaleBean.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<object> SetLocaleAsync(Locale body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -39974,6 +39980,7 @@ namespace MyNamespace
         /// </remarks>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Priority>> GetPrioritiesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -40061,6 +40068,7 @@ namespace MyNamespace
         /// </remarks>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<PriorityId> CreatePriorityAsync(CreatePriorityDetails body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -40440,6 +40448,7 @@ namespace MyNamespace
         /// <param name="expand">Use `schemes` to return the associated priority schemes for each priority. Limited to returning first 15 priority schemes per priority.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<PageBeanPriority> SearchPrioritiesAsync(string startAt = null, string maxResults = null, System.Collections.Generic.IEnumerable<string> id = null, System.Collections.Generic.IEnumerable<string> projectId = null, string priorityName = null, bool? onlyDefault = null, string expand = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -40801,6 +40810,7 @@ namespace MyNamespace
         /// <param name="id">The ID of the issue priority.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<object> UpdatePriorityAsync(string id, UpdatePriorityDetails body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
@@ -41857,6 +41867,7 @@ namespace MyNamespace
         /// <param name="properties">A list of project properties to return for the project. This parameter accepts a comma-separated list.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Project>> GetAllProjectsAsync(string expand = null, int? recent = null, System.Collections.Generic.IEnumerable<string> properties = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -47965,6 +47976,7 @@ namespace MyNamespace
         /// </remarks>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Resolution>> GetResolutionsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -52277,6 +52289,7 @@ namespace MyNamespace
         /// <param name="failFast">Whether to fail the request quickly in case of an error while loading fields for an issue. For `failFast=true`, if one field fails, the entire operation fails. For `failFast=false`, the operation will continue even if a field fails. It will return a valid response, but without values for the failed field(s).</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<SearchResults> SearchForIssuesUsingJqlAsync(string jql = null, int? startAt = null, int? maxResults = null, ValidateQuery? validateQuery = null, System.Collections.Generic.IEnumerable<string> fields = null, string expand = null, System.Collections.Generic.IEnumerable<string> properties = null, bool? fieldsByKeys = null, bool? failFast = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -52414,6 +52427,7 @@ namespace MyNamespace
         /// <param name="body">A JSON object containing the search request.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<SearchResults> SearchForIssuesUsingJqlPostAsync(SearchRequestBean body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -52624,6 +52638,7 @@ namespace MyNamespace
         /// <param name="body">A JSON object containing the search request.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<IdSearchResults> SearchForIssuesIdsAsync(IdSearchRequestBean body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -59806,6 +59821,7 @@ namespace MyNamespace
         /// <param name="moveAffectedIssuesTo">The ID of the version to update `affectedVersion` to when the field contains the deleted version. The replacement version must be in the same project as the version being deleted and cannot be the version being deleted.</param>
         /// <returns>Returned if the version is deleted.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task DeleteVersionAsync(string id, string moveFixIssuesTo = null, string moveAffectedIssuesTo = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
@@ -61670,6 +61686,7 @@ namespace MyNamespace
         /// <param name="workflowName">The name of the workflow to be returned. Only one workflow can be specified.</param>
         /// <returns>Returned if the request is successful.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<DeprecatedWorkflow>> GetAllWorkflowsAsync(string workflowName = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -62490,6 +62507,7 @@ namespace MyNamespace
         /// <param name="body">The workflow details.</param>
         /// <returns>Returned if the workflow is created.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<WorkflowIDs> CreateWorkflowAsync(CreateWorkflowDetails body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
@@ -73383,6 +73401,9 @@ namespace MyNamespace
         [Newtonsoft.Json.JsonProperty("desc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Desc { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("example", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Example { get; set; }
+
         /// <summary>
         /// The ID of the application property. The ID and key are the same.
         /// </summary>
@@ -73412,9 +73433,6 @@ namespace MyNamespace
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Value { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("x-example", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string XExample { get; set; }
 
     }
 
@@ -80481,6 +80499,13 @@ namespace MyNamespace
         public string Cfid { get; set; }
 
         /// <summary>
+        /// Whether this field has been deprecated.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("deprecated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public FieldReferenceDataDeprecated Deprecated { get; set; }
+
+        /// <summary>
         /// The searcher key of the field, only passed when the field is deprecated.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("deprecatedSearcherKey", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -80527,13 +80552,6 @@ namespace MyNamespace
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Value { get; set; }
-
-        /// <summary>
-        /// Whether this field has been deprecated.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("x-deprecated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public FieldReferenceDataXDeprecated XDeprecated { get; set; }
 
     }
 
@@ -99030,6 +99048,12 @@ namespace MyNamespace
         [Newtonsoft.Json.JsonProperty("approvalConfiguration", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ApprovalConfiguration ApprovalConfiguration { get; set; }
 
+        /// <summary>
+        /// Indicates if the status is deprecated.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("deprecated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Deprecated { get; set; }
+
         [Newtonsoft.Json.JsonProperty("layout", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public WorkflowStatusLayout Layout { get; set; }
 
@@ -99044,12 +99068,6 @@ namespace MyNamespace
         /// </summary>
         [Newtonsoft.Json.JsonProperty("statusReference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StatusReference { get; set; }
-
-        /// <summary>
-        /// Indicates if the status is deprecated.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("x-deprecated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool XDeprecated { get; set; }
 
     }
 
@@ -102855,6 +102873,17 @@ namespace MyNamespace
 
     }
 
+    public enum FieldReferenceDataDeprecated
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"true")]
+        True = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"false")]
+        False = 1,
+
+    }
+
     public enum FieldReferenceDataOrderable
     {
 
@@ -102867,17 +102896,6 @@ namespace MyNamespace
     }
 
     public enum FieldReferenceDataSearchable
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"true")]
-        True = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"false")]
-        False = 1,
-
-    }
-
-    public enum FieldReferenceDataXDeprecated
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"true")]

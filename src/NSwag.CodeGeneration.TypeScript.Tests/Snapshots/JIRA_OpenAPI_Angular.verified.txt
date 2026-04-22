@@ -5482,6 +5482,7 @@ export class Client {
      * @param body The Jira expression and the evaluation context.
      * @param expand (optional) Use [expand](#expansion) to include additional information in the response. This parameter accepts `meta.complexity` that returns information about the expression complexity. For example, the number of expensive operations used by the expression and how close the expression is to reaching the [complexity limit](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#restrictions). Useful when designing and debugging your expressions.
      * @return Returned if the evaluation results in a value. The result is a JSON primitive value, list, or object.
+     * @deprecated
      */
     evaluateJiraExpression(body: JiraExpressionEvalRequestBean, expand?: string | undefined): Observable<JiraExpressionResult> {
         let url_ = this.baseUrl + "/rest/api/3/expression/eval?";
@@ -7773,6 +7774,7 @@ export class Client {
      * @param startAt (optional) The index of the first item to return in a page of results (page offset).
      * @param maxResults (optional) The maximum number of items to return per page.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getContextsForFieldDeprecated(fieldId: string, startAt?: number | undefined, maxResults?: number | undefined): Observable<PageBeanContext> {
         let url_ = this.baseUrl + "/rest/api/3/field/{fieldId}/contexts?";
@@ -11484,6 +11486,7 @@ export class Client {
      * @param groupId (optional) The ID of the group. This parameter cannot be used with the `groupName` parameter.
      * @param expand (optional) List of fields to expand.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getGroup(groupname?: string | undefined, groupId?: string | undefined, expand?: string | undefined): Observable<Group> {
         let url_ = this.baseUrl + "/rest/api/3/group?";
@@ -12636,6 +12639,7 @@ export class Client {
      * @param issuetypeNames (optional) List of issue type names. This parameter accepts a comma-separated list. Multiple issue type names can also be provided using an ampersand-separated list. For example, `issuetypeNames=name1,name2&issuetypeNames=name3`. This parameter may be provided with `issuetypeIds`.
      * @param expand (optional) Use [expand](#expansion) to include additional information about issue metadata in the response. This parameter accepts `projects.issuetypes.fields`, which returns information about the fields in the issue creation screen for each issue type. Fields hidden from the screen are not returned. Use the information to populate the `fields` and `update` fields in [Create issue](#api-rest-api-3-issue-post) and [Create issues](#api-rest-api-3-issue-bulk-post).
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getCreateIssueMeta(projectIds?: string[] | undefined, projectKeys?: string[] | undefined, issuetypeIds?: string[] | undefined, issuetypeNames?: string[] | undefined, expand?: string | undefined): Observable<IssueCreateMetadata> {
         let url_ = this.baseUrl + "/rest/api/3/issue/createmeta?";
@@ -22812,6 +22816,7 @@ export class Client {
     /**
      * Delete locale
      * @return Returned if the request is successful.
+     * @deprecated
      */
     deleteLocale(): Observable<any> {
         let url_ = this.baseUrl + "/rest/api/3/mypreferences/locale";
@@ -22926,6 +22931,7 @@ export class Client {
      * Set locale
      * @param body The locale defined in a LocaleBean.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     setLocale(body: Locale): Observable<any> {
         let url_ = this.baseUrl + "/rest/api/3/mypreferences/locale";
@@ -26075,6 +26081,7 @@ export class Client {
     /**
      * Get priorities
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getPriorities(): Observable<Priority[]> {
         let url_ = this.baseUrl + "/rest/api/3/priority";
@@ -26138,6 +26145,7 @@ export class Client {
     /**
      * Create priority
      * @return Returned if the request is successful.
+     * @deprecated
      */
     createPriority(body: CreatePriorityDetails): Observable<PriorityId> {
         let url_ = this.baseUrl + "/rest/api/3/priority";
@@ -26392,6 +26400,7 @@ export class Client {
      * @param onlyDefault (optional) Whether only the default priority is returned.
      * @param expand (optional) Use `schemes` to return the associated priority schemes for each priority. Limited to returning first 15 priority schemes per priority.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     searchPriorities(startAt?: string | undefined, maxResults?: string | undefined, id?: string[] | undefined, projectId?: string[] | undefined, priorityName?: string | undefined, onlyDefault?: boolean | undefined, expand?: string | undefined): Observable<PageBeanPriority> {
         let url_ = this.baseUrl + "/rest/api/3/priority/search?";
@@ -26633,6 +26642,7 @@ export class Client {
      * Update priority
      * @param id The ID of the issue priority.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     updatePriority(id: string, body: UpdatePriorityDetails): Observable<any> {
         let url_ = this.baseUrl + "/rest/api/3/priority/{id}";
@@ -27360,6 +27370,7 @@ export class Client {
      * @param recent (optional) Returns the user's most recently accessed projects. You may specify the number of results to return up to a maximum of 20. If access is anonymous, then the recently accessed projects are based on the current HTTP session.
      * @param properties (optional) A list of project properties to return for the project. This parameter accepts a comma-separated list.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getAllProjects(expand?: string | undefined, recent?: number | undefined, properties?: string[] | undefined): Observable<Project[]> {
         let url_ = this.baseUrl + "/rest/api/3/project?";
@@ -31473,6 +31484,7 @@ export class Client {
     /**
      * Get resolutions
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getResolutions(): Observable<Resolution[]> {
         let url_ = this.baseUrl + "/rest/api/3/resolution";
@@ -34383,6 +34395,7 @@ export class Client {
      * @param fieldsByKeys (optional) Reference fields by their key (rather than ID).
      * @param failFast (optional) Whether to fail the request quickly in case of an error while loading fields for an issue. For `failFast=true`, if one field fails, the entire operation fails. For `failFast=false`, the operation will continue even if a field fails. It will return a valid response, but without values for the failed field(s).
      * @return Returned if the request is successful.
+     * @deprecated
      */
     searchForIssuesUsingJql(jql?: string | undefined, startAt?: number | undefined, maxResults?: number | undefined, validateQuery?: ValidateQuery | undefined, fields?: string[] | undefined, expand?: string | undefined, properties?: string[] | undefined, fieldsByKeys?: boolean | undefined, failFast?: boolean | undefined): Observable<SearchResults> {
         let url_ = this.baseUrl + "/rest/api/3/search?";
@@ -34480,6 +34493,7 @@ export class Client {
      * Search for issues using JQL (POST)
      * @param body A JSON object containing the search request.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     searchForIssuesUsingJqlPost(body: SearchRequestBean): Observable<SearchResults> {
         let url_ = this.baseUrl + "/rest/api/3/search";
@@ -34610,6 +34624,7 @@ export class Client {
      * Search issue IDs using JQL
      * @param body A JSON object containing the search request.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     searchForIssuesIds(body: IdSearchRequestBean): Observable<IdSearchResults> {
         let url_ = this.baseUrl + "/rest/api/3/search/id";
@@ -39553,6 +39568,7 @@ export class Client {
      * @param moveFixIssuesTo (optional) The ID of the version to update `fixVersion` to when the field contains the deleted version. The replacement version must be in the same project as the version being deleted and cannot be the version being deleted.
      * @param moveAffectedIssuesTo (optional) The ID of the version to update `affectedVersion` to when the field contains the deleted version. The replacement version must be in the same project as the version being deleted and cannot be the version being deleted.
      * @return Returned if the version is deleted.
+     * @deprecated
      */
     deleteVersion(id: string, moveFixIssuesTo?: string | undefined, moveAffectedIssuesTo?: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/rest/api/3/version/{id}?";
@@ -40773,6 +40789,7 @@ export class Client {
      * Get all workflows
      * @param workflowName (optional) The name of the workflow to be returned. Only one workflow can be specified.
      * @return Returned if the request is successful.
+     * @deprecated
      */
     getAllWorkflows(workflowName?: string | undefined): Observable<DeprecatedWorkflow[]> {
         let url_ = this.baseUrl + "/rest/api/3/workflow?";
@@ -40841,6 +40858,7 @@ export class Client {
      * Create workflow
      * @param body The workflow details.
      * @return Returned if the workflow is created.
+     * @deprecated
      */
     createWorkflow(body: CreateWorkflowDetails): Observable<WorkflowIDs> {
         let url_ = this.baseUrl + "/rest/api/3/workflow";
@@ -46929,6 +46947,7 @@ export class ApplicationProperty implements IApplicationProperty {
     defaultValue?: string;
     /** The description of the application property. */
     desc?: string;
+    example?: string;
     /** The ID of the application property. The ID and key are the same. */
     id?: string;
     /** The key of the application property. The ID and key are the same. */
@@ -46939,7 +46958,6 @@ export class ApplicationProperty implements IApplicationProperty {
     type?: string;
     /** The new value. */
     value?: string;
-    xExample?: string;
 
     constructor(data?: IApplicationProperty) {
         if (data) {
@@ -46959,12 +46977,12 @@ export class ApplicationProperty implements IApplicationProperty {
             }
             this.defaultValue = _data["defaultValue"];
             this.desc = _data["desc"];
+            this.example = _data["example"];
             this.id = _data["id"];
             this.key = _data["key"];
             this.name = _data["name"];
             this.type = _data["type"];
             this.value = _data["value"];
-            this.xExample = _data["x-example"];
         }
     }
 
@@ -46984,12 +47002,12 @@ export class ApplicationProperty implements IApplicationProperty {
         }
         data["defaultValue"] = this.defaultValue;
         data["desc"] = this.desc;
+        data["example"] = this.example;
         data["id"] = this.id;
         data["key"] = this.key;
         data["name"] = this.name;
         data["type"] = this.type;
         data["value"] = this.value;
-        data["x-example"] = this.xExample;
         return data;
     }
 }
@@ -47002,6 +47020,7 @@ export interface IApplicationProperty {
     defaultValue?: string;
     /** The description of the application property. */
     desc?: string;
+    example?: string;
     /** The ID of the application property. The ID and key are the same. */
     id?: string;
     /** The key of the application property. The ID and key are the same. */
@@ -47012,7 +47031,6 @@ export interface IApplicationProperty {
     type?: string;
     /** The new value. */
     value?: string;
-    xExample?: string;
 }
 
 /** Details of an application role. */
@@ -61440,6 +61458,8 @@ export class FieldReferenceData implements IFieldReferenceData {
     auto?: FieldReferenceDataAuto;
     /** If the item is a custom field, the ID of the custom field. */
     cfid?: string;
+    /** Whether this field has been deprecated. */
+    deprecated?: FieldReferenceDataDeprecated;
     /** The searcher key of the field, only passed when the field is deprecated. */
     deprecatedSearcherKey?: string;
     /** The display name contains the following:
@@ -61458,8 +61478,6 @@ export class FieldReferenceData implements IFieldReferenceData {
     types?: string[];
     /** The field identifier. */
     value?: string;
-    /** Whether this field has been deprecated. */
-    xDeprecated?: FieldReferenceDataXDeprecated;
 
     constructor(data?: IFieldReferenceData) {
         if (data) {
@@ -61474,6 +61492,7 @@ export class FieldReferenceData implements IFieldReferenceData {
         if (_data) {
             this.auto = _data["auto"];
             this.cfid = _data["cfid"];
+            this.deprecated = _data["deprecated"];
             this.deprecatedSearcherKey = _data["deprecatedSearcherKey"];
             this.displayName = _data["displayName"];
             if (Array.isArray(_data["operators"])) {
@@ -61489,7 +61508,6 @@ export class FieldReferenceData implements IFieldReferenceData {
                     this.types!.push(item);
             }
             this.value = _data["value"];
-            this.xDeprecated = _data["x-deprecated"];
         }
     }
 
@@ -61504,6 +61522,7 @@ export class FieldReferenceData implements IFieldReferenceData {
         data = typeof data === 'object' ? data : {};
         data["auto"] = this.auto;
         data["cfid"] = this.cfid;
+        data["deprecated"] = this.deprecated;
         data["deprecatedSearcherKey"] = this.deprecatedSearcherKey;
         data["displayName"] = this.displayName;
         if (Array.isArray(this.operators)) {
@@ -61519,7 +61538,6 @@ export class FieldReferenceData implements IFieldReferenceData {
                 data["types"].push(item);
         }
         data["value"] = this.value;
-        data["x-deprecated"] = this.xDeprecated;
         return data;
     }
 }
@@ -61530,6 +61548,8 @@ export interface IFieldReferenceData {
     auto?: FieldReferenceDataAuto;
     /** If the item is a custom field, the ID of the custom field. */
     cfid?: string;
+    /** Whether this field has been deprecated. */
+    deprecated?: FieldReferenceDataDeprecated;
     /** The searcher key of the field, only passed when the field is deprecated. */
     deprecatedSearcherKey?: string;
     /** The display name contains the following:
@@ -61548,8 +61568,6 @@ export interface IFieldReferenceData {
     types?: string[];
     /** The field identifier. */
     value?: string;
-    /** Whether this field has been deprecated. */
-    xDeprecated?: FieldReferenceDataXDeprecated;
 }
 
 /** Details of an operation to perform on a field. */
@@ -99443,13 +99461,13 @@ export interface IWorkflowReadResponse {
 /** The statuses referenced in the workflow. */
 export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
     approvalConfiguration?: ApprovalConfiguration | undefined;
+    /** Indicates if the status is deprecated. */
+    deprecated?: boolean;
     layout?: WorkflowStatusLayout | undefined;
     /** The properties associated with the status. */
     properties?: { [key: string]: string; };
     /** The reference of the status. */
     statusReference?: string;
-    /** Indicates if the status is deprecated. */
-    xDeprecated?: boolean;
 
     constructor(data?: IWorkflowReferenceStatus) {
         if (data) {
@@ -99463,6 +99481,7 @@ export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
     init(_data?: any) {
         if (_data) {
             this.approvalConfiguration = _data["approvalConfiguration"] ? ApprovalConfiguration.fromJS(_data["approvalConfiguration"]) : undefined as any;
+            this.deprecated = _data["deprecated"];
             this.layout = _data["layout"] ? WorkflowStatusLayout.fromJS(_data["layout"]) : undefined as any;
             if (_data["properties"]) {
                 this.properties = {} as any;
@@ -99472,7 +99491,6 @@ export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
                 }
             }
             this.statusReference = _data["statusReference"];
-            this.xDeprecated = _data["x-deprecated"];
         }
     }
 
@@ -99486,6 +99504,7 @@ export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["approvalConfiguration"] = this.approvalConfiguration ? this.approvalConfiguration.toJSON() : undefined as any;
+        data["deprecated"] = this.deprecated;
         data["layout"] = this.layout ? this.layout.toJSON() : undefined as any;
         if (this.properties) {
             data["properties"] = {};
@@ -99495,7 +99514,6 @@ export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
             }
         }
         data["statusReference"] = this.statusReference;
-        data["x-deprecated"] = this.xDeprecated;
         return data;
     }
 }
@@ -99503,13 +99521,13 @@ export class WorkflowReferenceStatus implements IWorkflowReferenceStatus {
 /** The statuses referenced in the workflow. */
 export interface IWorkflowReferenceStatus {
     approvalConfiguration?: ApprovalConfiguration | undefined;
+    /** Indicates if the status is deprecated. */
+    deprecated?: boolean;
     layout?: WorkflowStatusLayout | undefined;
     /** The properties associated with the status. */
     properties?: { [key: string]: string; };
     /** The reference of the status. */
     statusReference?: string;
-    /** Indicates if the status is deprecated. */
-    xDeprecated?: boolean;
 }
 
 /** The configuration of the rule. */
@@ -104146,17 +104164,17 @@ export enum FieldReferenceDataAuto {
     False = "false",
 }
 
+export enum FieldReferenceDataDeprecated {
+    True = "true",
+    False = "false",
+}
+
 export enum FieldReferenceDataOrderable {
     True = "true",
     False = "false",
 }
 
 export enum FieldReferenceDataSearchable {
-    True = "true",
-    False = "false",
-}
-
-export enum FieldReferenceDataXDeprecated {
     True = "true",
     False = "false",
 }
