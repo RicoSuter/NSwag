@@ -331,10 +331,7 @@ namespace NSwag.Generation.WebApi
             }
             else
             {
-                if (controllerName.EndsWith("Controller", StringComparison.Ordinal))
-                {
-                    controllerName = controllerName.Substring(0, controllerName.Length - 10);
-                }
+                controllerName = RemoveControllerSuffix(controllerName);
 
                 operationId = $"{controllerName}_{GetActionName(method)}";
             }
@@ -352,7 +349,7 @@ namespace NSwag.Generation.WebApi
         private List<string> GetHttpPaths(Type controllerType, MethodInfo method)
         {
             var httpPaths = new List<string>();
-            var controllerName = controllerType.Name.Replace("Controller", string.Empty);
+            var controllerName = RemoveControllerSuffix(controllerType.Name);
 
             var routeAttributes = GetRouteAttributes(method.GetCustomAttributes()).ToList();
 
@@ -662,6 +659,15 @@ namespace NSwag.Generation.WebApi
                     }
                 }
             }
+        }
+
+        private static string RemoveControllerSuffix(string controllerName)
+        {
+            if (controllerName.EndsWith("Controller", StringComparison.OrdinalIgnoreCase))
+            {
+                controllerName = controllerName.Substring(0, controllerName.Length - "Controller".Length);
+            }
+            return controllerName;
         }
     }
 }
