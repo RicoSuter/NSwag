@@ -2,12 +2,6 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-{% if UseBaseUrl -%}
-    #pragma warning disable 8618
-    private string _baseUrl;
-    #pragma warning restore 8618
-
-{% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
 {% endif -%}
@@ -47,9 +41,9 @@
 {%                     assign lastUrlCharIndex = baseUrlLength | minus: 1 -%}
 {%                     assign lastUrlChar = BaseUrl | slice: lastUrlCharIndex, 1 -%}
 {%                     if lastUrlChar == "/" -%}
-        _baseUrl = "{{ BaseUrl }}";
+        BaseUrl = "{{ BaseUrl }}";
 {%                     else -%}
-        _baseUrl = "{{ BaseUrl }}/";
+        BaseUrl = "{{ BaseUrl }}/";
 {%                     endif -%}
 {%                 endif -%}
 {%             endif -%}
@@ -58,7 +52,7 @@
         BaseUrl = baseUrl;
 {%             else -%}
 {%                 if HasConfigurationClass == false -%}
-        _baseUrl = (string.IsNullOrEmpty(baseUrl) || baseUrl.EndsWith("/"))
+        BaseUrl = (string.IsNullOrEmpty(baseUrl) || baseUrl.EndsWith("/"))
             ? baseUrl
             : baseUrl + "/";
 {%                 endif -%}
@@ -88,6 +82,9 @@
     }
 
 {% if UseBaseUrl and GenerateBaseUrlProperty -%}
+    #pragma warning disable 8618
+    private string _baseUrl;
+    #pragma warning restore 8618
     public string BaseUrl
     {
         get { return _baseUrl; }
@@ -295,7 +292,7 @@
 {%     endif -%}
 
                 var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
+                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% endif %}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
