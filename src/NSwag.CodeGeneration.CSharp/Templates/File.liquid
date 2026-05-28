@@ -200,6 +200,10 @@ namespace {{ Namespace }}
     {% template JsonExceptionConverter %}
 {%     endif -%}
 {%- endif %}
+{%- if GenerateJsonSerializerContext -%}
+
+    {% template Client.JsonSerializerContext %}
+{%- endif -%}
 
 }
 
