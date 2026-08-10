@@ -8,6 +8,7 @@
 
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -84,9 +85,10 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             {
                 var response = GetSuccessResponse();
                 var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
+                var optionalReturn = _settings.TypeScriptGeneratorSettings.NullValue == TypeScriptNullValue.Undefined ? "undefined" : "null";
 
-                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
-                    UnwrappedResultType + " | null" :
+                var resultType = isNullable && UnwrappedResultType != "void" ?
+                    UnwrappedResultType + " | " + optionalReturn :
                     UnwrappedResultType;
 
                 if (WrapResponse)
