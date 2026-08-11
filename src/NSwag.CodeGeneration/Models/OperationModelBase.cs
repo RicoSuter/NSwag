@@ -362,9 +362,12 @@ namespace NSwag.CodeGeneration.Models
                 parameters = [.. parameters.Where(p => !_settings.ExcludedParameterNames.Contains(p.Name))];
             }
 
-            var formDataSchemaProperties = _operation?.ActualRequestBody?._content?.TryGetValue("multipart/form-data", out var formData) == true
-                ? formData.Schema?.ActualSchema?.ActualProperties
+            var formDataSchema = _operation?.ActualRequestBody?._content?.TryGetValue("multipart/form-data", out var formData) == true
+                ? formData.Schema?.ActualSchema
                 : null;
+
+            var formDataSchemaProperties = formDataSchema?.ActualProperties;
+            var formDataRequiredProperties = formDataSchema?.RequiredProperties;
 
             if (formDataSchemaProperties?.Count > 0)
             {
@@ -376,6 +379,7 @@ namespace NSwag.CodeGeneration.Models
                         Kind = OpenApiParameterKind.FormData,
                         Schema = p.Value,
                         Description = p.Value.Description,
+                        IsRequired = formDataRequiredProperties?.Contains(p.Key) == true,
                         CollectionFormat = (p.Value.Type & JsonObjectType.Array) != 0 && p.Value.Item != null
                             ? OpenApiParameterCollectionFormat.Multi
                             : OpenApiParameterCollectionFormat.Undefined,
