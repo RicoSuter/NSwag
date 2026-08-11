@@ -11,7 +11,7 @@ export class NullableParameterClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    test(a: number, b: number | null): Promise<string | null> {
+    test(a: number, b: number | null): Promise<string> {
         let url_ = this.baseUrl + "/foo?";
         if (a === undefined || a === null)
             throw new globalThis.Error("The parameter 'a' must be defined and cannot be null.");
@@ -35,7 +35,7 @@ export class NullableParameterClient {
         });
     }
 
-    protected processTest(response: Response): Promise<string | null> {
+    protected processTest(response: Response): Promise<string> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -51,7 +51,7 @@ export class NullableParameterClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 }
 

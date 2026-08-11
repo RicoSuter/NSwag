@@ -280,7 +280,7 @@ namespace NSwag.Generation.Processors
                 var returnParameterAttributes = returnParameter?.GetCustomAttributes(false)?.OfType<Attribute>() ?? [];
                 var contextualReturnParameter = returnType.ToContextualType(returnParameterAttributes);
 
-                var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.SchemaSettings);
+                var typeDescription = _settings.SchemaSettings.ReflectionService.GetDescription(contextualReturnParameter, _settings.DefaultResponseReferenceTypeNullHandling, _settings.SchemaSettings);
                 var responseSchema = context.SchemaGenerator.GenerateWithReferenceAndNullability<JsonSchema>(
                     contextualReturnParameter, typeDescription.IsNullable, context.SchemaResolver);
 
