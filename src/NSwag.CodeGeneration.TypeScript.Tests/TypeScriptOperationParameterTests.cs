@@ -18,7 +18,6 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
-        // ToDo atmoos: Use this for a test of optional returns!
         public class NullableOptionalParameterController
         {
             [Route("foo")]
