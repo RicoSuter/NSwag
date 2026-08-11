@@ -36,6 +36,19 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             await Run<NullableReturnController>(TypeScriptNullValue.Null);
         }
 
+        [Fact]
+        public async Task When_return_value_is_nullable_and_settings_uses_undefined_then_it_is_a_union_type_with_undefined()
+        {
+            await Run<NullableReturnController>(TypeScriptNullValue.Undefined);
+        }
+
+        [Fact]
+        public async Task When_return_value_is_non_nullable_and_then_it_is_not_a_union_type()
+        {
+            await Run<NonNullableReturnController>(TypeScriptNullValue.Null);
+            await Run<NonNullableReturnController>(TypeScriptNullValue.Undefined);
+        }
+
         private static async Task Run<TController>(TypeScriptNullValue nullSetting)
             where TController : class
         {
