@@ -9,14 +9,16 @@ dotnet test "$TEST_PROJECT" --no-restore || true
 
 SNAPSHOT_DIR="$TEST_PROJECT/Snapshots"
 count=0
+updated=()
 
 for received in "$SNAPSHOT_DIR"/*.received.txt; do
     [ -f "$received" ] || continue
     verified="${received/.received.txt/.verified.txt}"
     mv "$received" "$verified"
     git -C "$SCRIPT_DIR" add -f "$verified"
-    echo "Updated: $(basename "$verified")"
+    updated+=("$(basename "$received" .received.txt)")
     count=$((count + 1))
 done
 
-echo "Done. Updated $count snapshot(s)."
+echo "Done. Updated $count snapshot(s):"
+printf '  %s\n' "${updated[@]}"
