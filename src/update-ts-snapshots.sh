@@ -3,9 +3,15 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEST_PROJECT="$SCRIPT_DIR/NSwag.CodeGeneration.TypeScript.Tests"
+FILTER="${1:-}"
 
 echo "Running TypeScript code generation tests..."
-dotnet test "$TEST_PROJECT" --no-restore || true
+if [ -n "$FILTER" ]; then
+    echo "Filter: $FILTER"
+    dotnet test "$TEST_PROJECT" --no-restore --filter "FullyQualifiedName~$FILTER" || true
+else
+    dotnet test "$TEST_PROJECT" --no-restore || true
+fi
 
 SNAPSHOT_DIR="$TEST_PROJECT/Snapshots"
 count=0
