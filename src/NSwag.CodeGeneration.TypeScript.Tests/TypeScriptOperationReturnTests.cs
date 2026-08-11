@@ -5,6 +5,7 @@ using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.Tests;
 using NSwag.Generation.WebApi;
+using Xunit.v3;
 
 namespace NSwag.CodeGeneration.TypeScript.Tests
 {
@@ -33,23 +34,24 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_return_value_is_nullable_and_settings_uses_null_then_it_is_a_union_type_with_null()
         {
-            await Run<NullableReturnController>(TypeScriptNullValue.Null);
+            await RunTest<NullableReturnController>(TypeScriptNullValue.Null);
         }
 
         [Fact]
         public async Task When_return_value_is_nullable_and_settings_uses_undefined_then_it_is_a_union_type_with_undefined()
         {
-            await Run<NullableReturnController>(TypeScriptNullValue.Undefined);
+            await RunTest<NullableReturnController>(TypeScriptNullValue.Undefined);
         }
 
-        [Fact]
-        public async Task When_return_value_is_non_nullable_and_then_it_is_not_a_union_type()
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_non_nullable_and_then_it_is_not_a_union_type_with(TypeScriptNullValue nullSetting)
         {
-            await Run<NonNullableReturnController>(TypeScriptNullValue.Null);
-            await Run<NonNullableReturnController>(TypeScriptNullValue.Undefined);
+            await RunTest<NonNullableReturnController>(nullSetting);
         }
 
-        private static async Task Run<TController>(TypeScriptNullValue nullSetting)
+        private static async Task RunTest<TController>(TypeScriptNullValue nullSetting)
             where TController : class
         {
 
