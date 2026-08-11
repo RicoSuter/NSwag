@@ -70,7 +70,7 @@ export class UrlEncodedRequestConsumingClient {
         return Promise.resolve<void>(null as any);
     }
 
-    getMessage(messageId: string | null, cancelToken?: CancelToken): Promise<Foo | null> {
+    getMessage(messageId: string | null, cancelToken?: CancelToken): Promise<Foo | undefined> {
         let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming?";
         if (messageId === undefined)
             throw new globalThis.Error("The parameter 'messageId' must be defined.");
@@ -98,7 +98,7 @@ export class UrlEncodedRequestConsumingClient {
         });
     }
 
-    protected processGetMessage(response: AxiosResponse): Promise<Foo | null> {
+    protected processGetMessage(response: AxiosResponse): Promise<Foo | undefined> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -113,13 +113,13 @@ export class UrlEncodedRequestConsumingClient {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = resultData200 ? Foo.fromJS(resultData200) : null as any;
-            return Promise.resolve<Foo | null>(result200);
+            return Promise.resolve<Foo | undefined>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<Foo | null>(null as any);
+        return Promise.resolve<Foo | undefined>(null as any);
     }
 }
 

@@ -11,7 +11,7 @@ export class DiscriminatorClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    testLeaf(param: OneChild | SecondChild | null | undefined): Promise<string | null> {
+    testLeaf(param: OneChild | SecondChild | null | undefined): Promise<string | undefined> {
         let url_ = this.baseUrl + "/foo";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -31,7 +31,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestLeaf(response: Response): Promise<string | null> {
+    protected processTestLeaf(response: Response): Promise<string | undefined> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -47,10 +47,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<string | undefined>(null as any);
     }
 
-    testLeafArr(param: (OneChild | SecondChild)[] | null | undefined): Promise<string | null> {
+    testLeafArr(param: (OneChild | SecondChild)[] | null | undefined): Promise<string | undefined> {
         let url_ = this.baseUrl + "/foo-arr";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -70,7 +70,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestLeafArr(response: Response): Promise<string | null> {
+    protected processTestLeafArr(response: Response): Promise<string | undefined> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -86,10 +86,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<string | undefined>(null as any);
     }
 
-    test(param: OneChild | null | undefined): Promise<string | null> {
+    test(param: OneChild | null | undefined): Promise<string | undefined> {
         let url_ = this.baseUrl + "/bar";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -109,7 +109,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTest(response: Response): Promise<string | null> {
+    protected processTest(response: Response): Promise<string | undefined> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -125,10 +125,10 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<string | undefined>(null as any);
     }
 
-    testNested(param: Nested | null | undefined): Promise<string | null> {
+    testNested(param: Nested | null | undefined): Promise<string | undefined> {
         let url_ = this.baseUrl + "/baz";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -148,7 +148,7 @@ export class DiscriminatorClient {
         });
     }
 
-    protected processTestNested(response: Response): Promise<string | null> {
+    protected processTestNested(response: Response): Promise<string | undefined> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -164,7 +164,7 @@ export class DiscriminatorClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<string | undefined>(null as any);
     }
 }
 

@@ -79,7 +79,7 @@ export class UrlEncodedRequestConsumingClient {
         return _observableOf<void>(null as any);
     }
 
-    getMessage(messageId: string | null, httpContext?: HttpContext): Observable<Foo | null> {
+    getMessage(messageId: string | null, httpContext?: HttpContext): Observable<Foo | undefined> {
         let url_ = this.baseUrl + "/api/UrlEncodedRequestConsuming?";
         if (messageId === undefined)
             throw new globalThis.Error("The parameter 'messageId' must be defined.");
@@ -103,14 +103,14 @@ export class UrlEncodedRequestConsumingClient {
                 try {
                     return this.processGetMessage(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<Foo | null>;
+                    return _observableThrow(e) as any as Observable<Foo | undefined>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<Foo | null>;
+                return _observableThrow(response_) as any as Observable<Foo | undefined>;
         }));
     }
 
-    protected processGetMessage(response: HttpResponseBase): Observable<Foo | null> {
+    protected processGetMessage(response: HttpResponseBase): Observable<Foo | undefined> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -129,7 +129,7 @@ export class UrlEncodedRequestConsumingClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Foo | null>(null as any);
+        return _observableOf<Foo | undefined>(null as any);
     }
 }
 
