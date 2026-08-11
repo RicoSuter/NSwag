@@ -9,13 +9,12 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
 {
     public class TypeScriptOperationParameterTests
     {
-#nullable enable
         public class NullableParameterController
         {
             [Route("foo")]
             public string Test(int a, int? b)
             {
-                return string.Empty;
+                return null;
             }
         }
 
@@ -25,10 +24,9 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             [Route("foo")]
             public string Test(int a, int? b = null)
             {
-                return string.Empty;
+                return null;
             }
         }
-#nullable restore
 
         [Fact]
         public async Task When_parameter_is_nullable_and_ts20_then_it_is_a_union_type_with_undefined()
