@@ -87,7 +87,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
                 var optionalReturn = _settings.TypeScriptGeneratorSettings.NullValue == TypeScriptNullValue.Undefined ? "undefined" : "null";
 
-                var resultType = isNullable && UnwrappedResultType != "void" ?
+                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != optionalReturn ?
                     UnwrappedResultType + " | " + optionalReturn :
                     UnwrappedResultType;
 
