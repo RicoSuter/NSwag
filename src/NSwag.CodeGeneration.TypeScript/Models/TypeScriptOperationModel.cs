@@ -87,7 +87,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
                 var optionalReturn = _settings.TypeScriptGeneratorSettings.NullValue == TypeScriptNullValue.Undefined ? "undefined" : "null";
 
-                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != optionalReturn ?
+                // "any" already includes null and undefined, so a union like "any | null" is redundant.
+                var resultType = isNullable && UnwrappedResultType is not "void" and not "any" ?
                     UnwrappedResultType + " | " + optionalReturn :
                     UnwrappedResultType;
 
