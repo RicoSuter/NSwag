@@ -16,6 +16,7 @@ namespace NSwag.CodeGeneration.CSharp
     public class CSharpClientGenerator : CSharpGeneratorBase
     {
         private readonly OpenApiDocument _document;
+        private readonly List<CSharpOperationModel> _collectedOperations = [];
 
         /// <summary>Initializes a new instance of the <see cref="CSharpClientGenerator" /> class.</summary>
         /// <param name="document">The Swagger document.</param>
@@ -36,6 +37,45 @@ namespace NSwag.CodeGeneration.CSharp
         {
             Settings = settings;
             _document = document ?? throw new ArgumentNullException(nameof(document));
+
+            ValidateAotSettings(settings);
+        }
+
+        private static void ValidateAotSettings(CSharpClientGeneratorSettings settings)
+        {
+            if (!settings.GenerateJsonSerializerContext)
+            {
+                return;
+            }
+
+            if (settings.CSharpGeneratorSettings.JsonLibrary != CSharpJsonLibrary.SystemTextJson)
+            {
+                throw new InvalidOperationException(
+                    "GenerateJsonSerializerContext requires JsonLibrary = SystemTextJson. " +
+                    "Set CSharpGeneratorSettings.JsonLibrary = CSharpJsonLibrary.SystemTextJson, or disable GenerateJsonSerializerContext.");
+            }
+
+            if (settings.CSharpGeneratorSettings.JsonLibraryVersion < 8.0m)
+            {
+                throw new InvalidOperationException(
+                    "GenerateJsonSerializerContext requires JsonLibraryVersion >= 8.0 (TypeInfoResolverChain and the source generator are .NET 8+). " +
+                    "Set CSharpGeneratorSettings.JsonLibraryVersion = 8.0m (or higher), or disable GenerateJsonSerializerContext.");
+            }
+
+            if (settings.CSharpGeneratorSettings.JsonPolymorphicSerializationStyle != CSharpJsonPolymorphicSerializationStyle.SystemTextJson)
+            {
+                throw new InvalidOperationException(
+                    "GenerateJsonSerializerContext requires JsonPolymorphicSerializationStyle = SystemTextJson. " +
+                    "The NJsonSchema polymorphic discriminator emits a reflection-based JsonInheritanceConverter that is not AOT-safe. " +
+                    "Set CSharpGeneratorSettings.JsonPolymorphicSerializationStyle = CSharpJsonPolymorphicSerializationStyle.SystemTextJson.");
+            }
+
+            if (settings.CSharpGeneratorSettings.GenerateJsonMethods)
+            {
+                throw new InvalidOperationException(
+                    "GenerateJsonSerializerContext is incompatible with GenerateJsonMethods because the generated ToJson()/FromJson() methods " +
+                    "call the reflection-based JsonSerializer overloads. Disable GenerateJsonMethods.");
+            }
         }
 
         /// <summary>Gets or sets the generator settings.</summary>
@@ -51,9 +91,16 @@ namespace NSwag.CodeGeneration.CSharp
         /// <returns>The code.</returns>
         protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
         {
+            var operationsList = operations as IList<CSharpOperationModel> ?? operations.ToList();
+
+            if (Settings.GenerateJsonSerializerContext)
+            {
+                _collectedOperations.AddRange(operationsList);
+            }
+
             var exceptionSchema = (Resolver as CSharpTypeResolver)?.ExceptionSchema;
 
-            var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operations, exceptionSchema, _document, Settings);
+            var model = new CSharpClientTemplateModel(controllerName, controllerClassName, operationsList, exceptionSchema, _document, Settings);
             if (model.HasOperations)
             {
                 if (model.GenerateClientInterfaces && !model.SuppressClientInterfacesOutput)
@@ -68,6 +115,27 @@ namespace NSwag.CodeGeneration.CSharp
                     yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, classTemplate);
                 }
             }
+        }
+
+        /// <summary>Generates the file, populating the AOT-mode JSON serializer context type list when enabled.</summary>
+        /// <param name="clientTypes">The rendered client artifacts.</param>
+        /// <param name="dtoTypes">The rendered DTO artifacts.</param>
+        /// <param name="outputType">The output type.</param>
+        /// <returns>The rendered file.</returns>
+        protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
+        {
+            if (!Settings.GenerateJsonSerializerContext)
+            {
+                return base.GenerateFile(clientTypes, dtoTypes, outputType);
+            }
+
+            var model = new CSharpFileTemplateModel(clientTypes, dtoTypes, outputType, _document, Settings, this, (CSharpTypeResolver)Resolver)
+            {
+                JsonSerializableTypes = JsonSerializableTypeCollector.Collect(_collectedOperations)
+            };
+
+            var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
+            return template.Render();
         }
 
         /// <summary>Creates an operation model.</summary>

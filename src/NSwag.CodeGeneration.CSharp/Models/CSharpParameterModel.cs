@@ -57,5 +57,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets the unescaped variable name.</summary>
         public string VariableIdentifier { get; }
+
+        /// <summary>Gets the property name on the generated <c>JsonSerializerContext</c> that exposes
+        /// the <c>JsonTypeInfo&lt;T&gt;</c> for this parameter's <see cref="ParameterModelBase.Type"/>.</summary>
+        public string JsonTypeInfoPropertyName => JsonSerializableTypeCollector.ToTypeInfoPropertyName(Type);
     }
 }

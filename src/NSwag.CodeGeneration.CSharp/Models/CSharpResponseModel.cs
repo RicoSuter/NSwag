@@ -30,5 +30,9 @@ namespace NSwag.CodeGeneration.CSharp.Models
             : base(operationModel, operation, statusCode, response, isPrimarySuccessResponse, exceptionSchema, resolver, settings, generator)
         {
         }
+
+        /// <summary>Gets the property name on the generated <c>JsonSerializerContext</c> that exposes
+        /// the <c>JsonTypeInfo&lt;T&gt;</c> for this response's <see cref="ResponseModelBase.Type"/>.</summary>
+        public string JsonTypeInfoPropertyName => JsonSerializableTypeCollector.ToTypeInfoPropertyName(Type);
     }
 }

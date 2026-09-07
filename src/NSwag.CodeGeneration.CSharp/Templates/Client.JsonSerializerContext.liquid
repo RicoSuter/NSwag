@@ -1,0 +1,7 @@
+[System.Text.Json.Serialization.JsonSourceGenerationOptions]
+{% for type in JsonSerializableTypes -%}
+[System.Text.Json.Serialization.JsonSerializable(typeof({{ type.TypeReference }}), TypeInfoPropertyName = "{{ type.TypeInfoPropertyName }}")]
+{% endfor -%}
+internal partial class {{ JsonSerializerContextClassName }} : System.Text.Json.Serialization.JsonSerializerContext
+{
+}
