@@ -14,19 +14,19 @@ Remove these comments when filling in the description. Drop optional sections th
 
 Review the relevant diffs before answering. Write "None" explicitly if there are no breaking changes. -->
 
-## Verification
-
-<!-- Describe the checks you actually ran and their results, including test counts when available. State what you did not verify and why. Choose evidence relevant to this change, for example:
-
-- A regression test that fails before the fix and passes afterward.
-- Build, unit, integration, or manual test results.
-- Review of snapshot or output diffs against the intended behavior; accepting updated snapshots alone is not verification.
-- Compilation or runtime checks for affected outputs where a text diff cannot establish correctness.
-- Package contents, dependency, or compatibility comparisons when packaging or build changes could affect consumers.
-- Documentation or sample updates for changed behavior.
-
-Summarize meaningful differences or link to them instead of pasting large outputs. A small documentation change can simply describe its manual review. -->
-
 ## Performance
 
 <!-- Optional. Include this section when performance was measured. Summarize the scenario, before/after results, and relevant costs such as time or allocations. Include regressions and measurement limitations as well as improvements. -->
+
+## Verification
+
+<!-- Tick what you did and describe the results, including test counts when available. Strike through an entry with ~~two tildes~~ and give a short reason when it does not apply. Leave applicable checks unticked if they are not done, and explain what remains unverified and why.
+
+Choose checks relevant to the change: regression tests, builds, unit or integration tests, or manual checks. Review snapshot and output diffs against the intended behavior; accepting updated snapshots alone is not verification. Use compilation or runtime checks where a text diff cannot establish correctness. For build or packaging changes, consider package contents, dependencies, and compatibility.
+
+Summarize meaningful results or link to them instead of pasting large outputs. A documentation-only change can describe its manual review and mark unrelated checks as not applicable. -->
+
+- [ ] Breaking changes and migration steps documented, or "None" stated
+- [ ] Relevant builds and tests run, with results recorded
+- [ ] Relevant snapshot or output diffs reviewed
+- [ ] Documentation and samples updated
