@@ -11,7 +11,9 @@
 {% for usage in NamespaceUsages -%}
 using {{ usage }};
 {% endfor -%}
-
+{% for usage in AdditionalNamespaceUsages -%}
+using {{ usage }};
+{% endfor -%}
 {% template File.Header %}
 
 namespace {{ Namespace }}
