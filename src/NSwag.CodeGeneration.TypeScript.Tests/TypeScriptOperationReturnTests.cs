@@ -31,6 +31,27 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
             }
         }
 
+        public class NullableReturnAnyController
+        {
+            [Route("foo")]
+            [return: CanBeNull]
+            public object Test(int a)
+            {
+                return null;
+            }
+        }
+
+        public class NonNullableReturnAnyController
+        {
+            [Route("foo")]
+            [return: NotNull]
+            public object Test(int a, int? b = null)
+            {
+                return string.Empty;
+            }
+        }
+
+
         [Fact]
         public async Task When_return_value_is_nullable_and_settings_uses_null_then_it_is_a_union_type_with_null()
         {
@@ -49,6 +70,22 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public async Task When_return_value_is_non_nullable_and_then_it_is_not_a_union_type_with(TypeScriptNullValue nullSetting)
         {
             await RunTest<NonNullableReturnController>(nullSetting);
+        }
+
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_any_nullable_then_it_is_only_any(TypeScriptNullValue nullSetting)
+        {
+            await RunTest<NullableReturnAnyController>(nullSetting);
+        }
+
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_non_nullable_any_then_it_is_only_any(TypeScriptNullValue nullSetting)
+        {
+            await RunTest<NonNullableReturnAnyController>(nullSetting);
         }
 
         private static async Task RunTest<TController>(TypeScriptNullValue nullSetting)
