@@ -546,5 +546,75 @@ paths:
           Assert.DoesNotContain("ActionResult<Microsoft.AspNetCore.Mvc.FileResult>", code);
           Assert.Contains("System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> GetLogo", code);
         }
+
+        [Fact]
+        public async Task When_multipart_required_fields_via_ref_are_used_then_controller_parameters_are_non_nullable()
+        {
+            var yaml = @"openapi: 3.0.0
+servers:
+  - url: https://www.example.com/
+info:
+  version: '2.0.0'
+  title: 'Test API'   
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      summary: 'Create File'
+      operationId: addFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddFileRequest'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    AddFileRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        comment:
+          type: string
+      required:
+        - file
+        - id
+        - name";
+
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            CSharpControllerGeneratorSettings settings = new CSharpControllerGeneratorSettings
+            {
+                ControllerTarget = CSharpControllerTarget.AspNetCore,
+                ControllerStyle = CSharpControllerStyle.Abstract,
+                UseActionResultType = true,
+            };
+
+            var codeGenerator = new CSharpControllerGenerator(document, settings);
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
+
+            Assert.Contains("AddFile(FileParameter file, int id, string name, string comment)",
+                code.Replace("\n", " ").Replace("\r", " "));
+            Assert.DoesNotContain("FileParameter? file", code);
+            Assert.DoesNotContain("int? id", code);
+            Assert.DoesNotContain("string? name", code);
+            Assert.DoesNotContain("string? comment", code);
+        }
     }
 }
