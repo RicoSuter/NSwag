@@ -3,12 +3,12 @@
 // ReSharper disable InconsistentNaming
 
 export class Client {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37284,12 +37284,12 @@ export class Client {
 }
 
 export class AddonPropertiesResource_getAddonPropertiesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37344,12 +37344,12 @@ export class AddonPropertiesResource_getAddonPropertiesClient {
 }
 
 export class AddonPropertiesResource_deleteAddonPropertyClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37418,12 +37418,12 @@ export class AddonPropertiesResource_deleteAddonPropertyClient {
 }
 
 export class AddonPropertiesResource_getAddonPropertyClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37496,12 +37496,12 @@ export class AddonPropertiesResource_getAddonPropertyClient {
 }
 
 export class AddonPropertiesResource_putAddonPropertyClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37578,12 +37578,12 @@ export class AddonPropertiesResource_putAddonPropertyClient {
 }
 
 export class DynamicModulesResource_removeModulesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37637,12 +37637,12 @@ export class DynamicModulesResource_removeModulesClient {
 }
 
 export class DynamicModulesResource_getModulesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37693,12 +37693,12 @@ export class DynamicModulesResource_getModulesClient {
 }
 
 export class DynamicModulesResource_registerModulesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37756,12 +37756,12 @@ export class DynamicModulesResource_registerModulesClient {
 }
 
 export class AppIssueFieldValueUpdateResource_updateIssueFieldsClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37820,12 +37820,12 @@ export class AppIssueFieldValueUpdateResource_updateIssueFieldsClient {
 }
 
 export class MigrationResource_updateEntityPropertiesValueClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37883,12 +37883,12 @@ export class MigrationResource_updateEntityPropertiesValueClient {
 }
 
 export class MigrationResource_workflowRuleSearchClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
@@ -37946,12 +37946,12 @@ export class MigrationResource_workflowRuleSearchClient {
 }
 
 export class ServiceRegistryResource_servicesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private http: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : window as any;
+    constructor(baseUrl?: string, http?: { fetch(input: string | URL | Request, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : globalThis as any;
         this.baseUrl = baseUrl ?? "https://your-domain.atlassian.net";
     }
 
