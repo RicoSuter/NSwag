@@ -1,0 +1,121 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using NJsonSchema;
+using NJsonSchema.Annotations;
+using NJsonSchema.CodeGeneration.TypeScript;
+using NJsonSchema.NewtonsoftJson.Generation;
+using NSwag.CodeGeneration.Tests;
+using NSwag.Generation.WebApi;
+using Xunit.v3;
+
+namespace NSwag.CodeGeneration.TypeScript.Tests
+{
+    public class TypeScriptOperationReturnTests
+    {
+        public class NullableReturnController
+        {
+            [Route("foo")]
+            [return: CanBeNull]
+            public string Test(int a)
+            {
+                return null;
+            }
+        }
+
+        public class NonNullableReturnController
+        {
+            [Route("foo")]
+            [return: NotNull]
+            public string Test(int a, int? b = null)
+            {
+                return string.Empty;
+            }
+        }
+
+        public class NullableReturnAnyController
+        {
+            [Route("foo")]
+            [return: CanBeNull]
+            public object Test(int a)
+            {
+                return null;
+            }
+        }
+
+        public class NonNullableReturnAnyController
+        {
+            [Route("foo")]
+            [return: NotNull]
+            public object Test(int a, int? b = null)
+            {
+                return string.Empty;
+            }
+        }
+
+
+        [Fact]
+        public async Task When_return_value_is_nullable_and_settings_uses_null_then_it_is_a_union_type_with_null()
+        {
+            await RunTest<NullableReturnController>(TypeScriptNullValue.Null);
+        }
+
+        [Fact]
+        public async Task When_return_value_is_nullable_and_settings_uses_undefined_then_it_is_a_union_type_with_undefined()
+        {
+            await RunTest<NullableReturnController>(TypeScriptNullValue.Undefined);
+        }
+
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_non_nullable_and_then_it_is_not_a_union_type_with(TypeScriptNullValue nullSetting)
+        {
+            await RunTest<NonNullableReturnController>(nullSetting);
+        }
+
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_any_nullable_then_it_is_only_any(TypeScriptNullValue nullSetting)
+        {
+            await RunTest<NullableReturnAnyController>(nullSetting);
+        }
+
+        [Theory]
+        [InlineData(TypeScriptNullValue.Null)]
+        [InlineData(TypeScriptNullValue.Undefined)]
+        public async Task When_return_value_is_non_nullable_any_then_it_is_only_any(TypeScriptNullValue nullSetting)
+        {
+            await RunTest<NonNullableReturnAnyController>(nullSetting);
+        }
+
+        private static async Task RunTest<TController>(TypeScriptNullValue nullSetting)
+            where TController : class
+        {
+
+            // Arrange
+            var generator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.Swagger2 }
+            });
+
+            var document = await generator.GenerateForControllerAsync<TController>();
+            var clientGenerator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+            {
+                TypeScriptGeneratorSettings =
+                {
+                    NullValue = nullSetting
+                }
+            });
+
+            var json = document.ToJson();
+            Assert.NotNull(json);
+
+            // Act
+            var code = clientGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            TypeScriptCompiler.AssertCompile(code);
+        }
+    }
+}

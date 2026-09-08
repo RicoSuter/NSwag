@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NJsonSchema;
+using NJsonSchema.Annotations;
 using NJsonSchema.CodeGeneration.TypeScript;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.CodeGeneration.Tests;
@@ -12,6 +13,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class NullableParameterController
         {
             [Route("foo")]
+            [return: NotNull]
             public string Test(int a, int? b)
             {
                 return null;
@@ -21,6 +23,7 @@ namespace NSwag.CodeGeneration.TypeScript.Tests
         public class NullableOptionalParameterController
         {
             [Route("foo")]
+            [return: NotNull]
             public string Test(int a, int? b = null)
             {
                 return null;

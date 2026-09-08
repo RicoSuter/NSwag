@@ -12,7 +12,7 @@ export class FooClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getFoos(bars: Bar[] | null | undefined, onSuccess?: (result: Foo[] | null) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
+    getFoos(bars: Bar[] | null | undefined, onSuccess?: (result: Foo[] | undefined) => void, onFail?: (exception: string, reason: string) => void): JQueryXHR {
         let url_ = this.baseUrl + "/foos?";
         if (bars !== undefined && bars !== null)
             bars && bars.forEach(item => { url_ += "bars=" + encodeURIComponent("" + item) + "&"; });
@@ -48,7 +48,7 @@ export class FooClient {
         }
     }
 
-    protected processGetFoos(xhr: any): Foo[] | null | null {
+    protected processGetFoos(xhr: any): Foo[] | undefined | null {
         const status = xhr.status;
 
         let _headers: any = {};
