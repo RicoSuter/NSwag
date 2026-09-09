@@ -1,70 +1,54 @@
 ﻿{%- if operation.HasFormParameters -%}
-{%-     if operation.ConsumesOnlyFormUrlEncoded -%}
-let content_ = "";
 {%-         for parameter in operation.FormParameters -%}
 {%-             if parameter.IsRequired -%}
 {%-                 if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} === undefined)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' must be defined.");
-else
+Guard.defined({{ parameter.VariableName }}, "{{ parameter.VariableName }}");
 {%-                 else -%}
-if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' must be defined and cannot be null.");
-else
+Guard.required({{ parameter.VariableName }}, "{{ parameter.VariableName }}");
 {%-                 endif -%}
 {%-             else -%}
 {%-                 if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} !== undefined)
+Guard.defined({{ parameter.VariableName }}, "{{ parameter.VariableName }}");
 {%-                 else -%}
-if ({{ parameter.VariableName }} === null)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
-else if ({{ parameter.VariableName }} !== undefined)
+Guard.notNull({{ parameter.VariableName }}, "{{ parameter.VariableName }}");
 {%-                 endif -%}
 {%-             endif -%}
+{%-         endfor -%}
+
+{%-     if operation.ConsumesOnlyFormUrlEncoded -%}
+const content_ = new UriBuilder("")
+{%-         for parameter in operation.FormParameters -%}
 {%-             if parameter.IsDateOrDateTimeArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
+    .paramArray("{{ parameter.Name }}", {{ parameter.VariableName }}.map(d => d ? d.toJSON() : ""))
 {%-             elsif parameter.IsObjectArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => {
-        for (const attr_ in item_) {
-           if (item_.hasOwnProperty(attr_)) {
-                content_ += encodeURIComponent("{{ parameter.Name }}[" + index_ + "]." + attr_) + "=" + encodeURIComponent("" + (item_ as any)[attr_]) + "&";
-           }
-        }
-    });
+    .paramObjectArray("{{ parameter.Name }}", {{ parameter.VariableName }})
 {%-             elsif parameter.IsDateOrDateTime -%}
-    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&";
+    .param("{{ parameter.Name }}", {{ parameter.VariableName }} ? {{ parameter.VariableName }}.toJSON() : "")
 {%-             elsif parameter.IsArray -%}
-    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + item) + "&"; });
+    .paramArray("{{ parameter.Name }}", {{ parameter.VariableName }})
 {%-             else -%}
-    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent("" + {{ parameter.VariableName }}) + "&";
+    .param("{{ parameter.Name }}", {{ parameter.VariableName }})
 {%-             endif -%}
 {%-         endfor -%}
-content_ = content_.replace(/&$/, "");
+    .toString();
 
 {%-     else -%}
 const content_ = new FormData();
 {%         for parameter in operation.FormParameters -%}
-{%-             if parameter.IsNullable -%}
-if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
-{%-             else -%}
-if ({{ parameter.VariableName }} === null || {{ parameter.VariableName }} === undefined)
-    throw new globalThis.Error("The parameter '{{ parameter.VariableName }}' cannot be null.");
-else
-{%-             endif -%}
 {%-             if parameter.IsFile -%}
 {%-                 if parameter.IsArray -%}
-    {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.data, item_.fileName ? item_.fileName : "{{ parameter.Name }}") );
+{{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.data, item_.fileName ? item_.fileName : "{{ parameter.Name }}") );
 {%-                 else -%}
-    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
+content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
 {%-                 endif -%}
 {%-             elsif parameter.IsDateOrDateTime -%}
-    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
+content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
 {%-             elsif parameter.IsObject -%}
-    content_.append("{{ parameter.Name }}", JSON.stringify({{ parameter.VariableName }}));
+content_.append("{{ parameter.Name }}", JSON.stringify({{ parameter.VariableName }}));
 {%-             elsif parameter.IsArray -%}
-    {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.toString()));
+{{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.toString()));
 {%-             else -%}
-    content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
+content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toString());
 {%-             endif -%}
 {%-         endfor -%}
 {%-     endif -%}
