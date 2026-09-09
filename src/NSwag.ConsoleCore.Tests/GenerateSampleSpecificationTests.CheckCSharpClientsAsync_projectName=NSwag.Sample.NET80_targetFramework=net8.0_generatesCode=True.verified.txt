@@ -141,8 +141,7 @@ namespace MyNamespace
                         else
                         if (status_ == 204)
                         {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
-                            throw new ApiException("A server side error occurred.", status_, responseText_, headers_, null);
+                            return default(System.Collections.Generic.ICollection<Person>);
                         }
                         else
                         {
