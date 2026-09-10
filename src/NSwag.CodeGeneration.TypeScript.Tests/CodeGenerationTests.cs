@@ -204,6 +204,39 @@ public class CodeGenerationTests
         TypeScriptCompiler.AssertCompile(code);
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void When_namespace_is_set_then_namespace_is_exported_based_on_export_types(bool exportTypes)
+    {
+        // Arrange
+        var document = CreateDocument();
+
+        // Act
+        var generator = new TypeScriptClientGenerator(document, new TypeScriptClientGeneratorSettings
+        {
+            ClassName = "MyClass",
+            TypeScriptGeneratorSettings =
+            {
+                Namespace = "MyNamespace",
+                ExportTypes = exportTypes
+            }
+        });
+        var code = generator.GenerateFile();
+
+        // Assert
+        if (exportTypes)
+        {
+            Assert.Contains("export namespace MyNamespace {", code);
+        }
+        else
+        {
+            Assert.Contains("namespace MyNamespace {", code);
+            Assert.DoesNotContain("export namespace MyNamespace {", code);
+        }
+        TypeScriptCompiler.AssertCompile(code);
+    }
+
     private static OpenApiDocument CreateDocument()
     {
         var document = new OpenApiDocument();
