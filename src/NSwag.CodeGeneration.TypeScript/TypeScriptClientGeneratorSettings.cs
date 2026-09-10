@@ -27,6 +27,7 @@ namespace NSwag.CodeGeneration.TypeScript
             BaseUrlTokenName = "API_BASE_URL";
             ImportRequiredTypes = true;
             QueryNullValue = "";
+            ResponseNullValue = TypeScriptNullValue.Null;
 
             TypeScriptGeneratorSettings = new TypeScriptGeneratorSettings
             {
@@ -87,6 +88,10 @@ namespace NSwag.CodeGeneration.TypeScript
 
         /// <summary>Gets or sets the null value used for query parameters which are null (default: '').</summary>
         public string QueryNullValue { get; set; }
+
+        /// <summary>Gets or sets the value used to represent "no value" in response types and their runtime
+        /// conversion, i.e. whether a nullable response is typed and returned as 'null' or 'undefined' (default: Null).</summary>
+        public TypeScriptNullValue ResponseNullValue { get; set; }
 
         /// <summary>Gets or sets the name of the exception class (default 'ApiException').</summary>
         public string ExceptionClass { get; set; }

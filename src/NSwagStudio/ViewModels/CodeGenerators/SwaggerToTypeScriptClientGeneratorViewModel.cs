@@ -76,6 +76,11 @@ namespace NSwagStudio.ViewModels.CodeGenerators
             .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
             .ToArray();
 
+        /// <summary>Gets the list of response null values.</summary>
+        public TypeScriptNullValue[] ResponseNullValues { get; } = Enum.GetNames(typeof(TypeScriptNullValue))
+            .Select(t => (TypeScriptNullValue)Enum.Parse(typeof(TypeScriptNullValue), t))
+            .ToArray();
+
         /// <summary>Gets new line behaviors. </summary>
         public NewLineBehavior[] NewLineBehaviors { get; } = Enum.GetNames(typeof(NewLineBehavior))
             .Select(t => (NewLineBehavior)Enum.Parse(typeof(NewLineBehavior), t))

@@ -137,7 +137,7 @@ namespace NSwag.CodeGeneration.TypeScript
                 Schema = null,
                 Resolver = _resolver,
                 Settings = Settings.TypeScriptGeneratorSettings,
-                NullValue = TypeScriptNullValue.Null,
+                NullValue = Settings.ResponseNullValue,
                 TypeNameHint = string.Empty
             };
 
