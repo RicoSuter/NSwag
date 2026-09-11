@@ -116,6 +116,20 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.ResponseDictionaryType = value;
         }
 
+        [Argument(Name = "ModelNamePrefix", IsRequired = false, Description = "The prefix to prepend to all generated model class names (default: '').")]
+        public string ModelNamePrefix
+        {
+            get => Settings.ModelNamePrefix;
+            set => Settings.ModelNamePrefix = value;
+        }
+
+        [Argument(Name = "ModelNameSuffix", IsRequired = false, Description = "The suffix to append to all generated model class names (default: '').")]
+        public string ModelNameSuffix
+        {
+            get => Settings.ModelNameSuffix;
+            set => Settings.ModelNameSuffix = value;
+        }
+
         [Argument(Name = "WrapResponses", IsRequired = false, Description = "Specifies whether to wrap success responses to allow full response access.")]
         public bool WrapResponses
         {
