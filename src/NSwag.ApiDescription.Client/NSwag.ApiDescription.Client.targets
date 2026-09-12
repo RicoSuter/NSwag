@@ -185,6 +185,18 @@
         <Command Condition="'%(NSwagAnyType)' != ''">%(Command) /anyType:%(NSwagAnyType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagNumberType)' != ''">%(Command) /numberType:%(NSwagNumberType)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagNumberDecimalType)' != ''">%(Command) /numberDecimalType:%(NSwagNumberDecimalType)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagNumberDoubleType)' != ''">%(Command) /numberDoubleType:%(NSwagNumberDoubleType)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
+        <Command Condition="'%(NSwagNumberFloatType)' != ''">%(Command) /numberFloatType:%(NSwagNumberFloatType)</Command>
+      </CurrentOpenApiReference>
+      <CurrentOpenApiReference>
         <Command Condition="'%(NSwagDateTimeType)' != ''">%(Command) /dateTimeType:%(NSwagDateTimeType)</Command>
       </CurrentOpenApiReference>
       <CurrentOpenApiReference>

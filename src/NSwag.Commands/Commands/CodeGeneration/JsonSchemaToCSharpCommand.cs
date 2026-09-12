@@ -64,6 +64,34 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.AnyType = value;
         }
 
+        [Argument(Name = "NumberType", IsRequired = false, Description = "The default number .NET type if no format is specified in the JSON schema (default: 'double').")]
+        public string NumberType
+        {
+            get => Settings.NumberType;
+            set => Settings.NumberType = value;
+        }
+
+        [Argument(Name = "NumberDecimalType", IsRequired = false, Description = "The decimal number .NET type (default: 'decimal').")]
+        public string NumberDecimalType
+        {
+            get => Settings.NumberDecimalType;
+            set => Settings.NumberDecimalType = value;
+        }
+
+        [Argument(Name = "NumberDoubleType", IsRequired = false, Description = "The double number .NET type (default: 'double').")]
+        public string NumberDoubleType
+        {
+            get => Settings.NumberDoubleType;
+            set => Settings.NumberDoubleType = value;
+        }
+
+        [Argument(Name = "NumberFloatType", IsRequired = false, Description = "The float number .NET type (default: 'float').")]
+        public string NumberFloatType
+        {
+            get => Settings.NumberFloatType;
+            set => Settings.NumberFloatType = value;
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTimeOffset').")]
         public string DateTimeType
         {
