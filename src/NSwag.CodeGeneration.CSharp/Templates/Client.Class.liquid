@@ -220,9 +220,11 @@
 {%         elsif operation.HasPlainTextBodyParameter -%}
                 var content_ = new System.Net.Http.StringContent({{ operation.ContentParameter.VariableName }});
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
+{%         elsif UseSystemTextJson -%}
+                var content_ = System.Net.Http.Json.JsonContent.Create({{ operation.ContentParameter.VariableName }}, System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}"), {% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
 {%         else -%}
-                var json_ = {% if UseSystemTextJson %}System.Text.Json.JsonSerializer.SerializeToUtf8Bytes{% else %}Newtonsoft.Json.JsonConvert.SerializeObject{% endif %}({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
-                var content_ = new System.Net.Http.{% if UseSystemTextJson %}ByteArrayContent{% else %}StringContent{% endif %}(json_);
+                var json_ = Newtonsoft.Json.JsonConvert.SerializeObject({{ operation.ContentParameter.VariableName }}, {% if SerializeTypeInformation %}typeof({{ operation.ContentParameter.Type }}), {% endif %}{% if UseRequestAndResponseSerializationSettings %}Request{% endif %}JsonSerializerSettings);
+                var content_ = new System.Net.Http.StringContent(json_);
                 content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("{{ operation.Consumes }}");
 {%         endif -%}
                 request_.Content = content_;

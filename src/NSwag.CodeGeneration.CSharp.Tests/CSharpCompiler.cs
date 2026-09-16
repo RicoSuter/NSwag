@@ -21,6 +21,7 @@ public static class CSharpCompiler
             .Append(MetadataReference.CreateFromFile(typeof(System.Collections.ObjectModel.ObservableCollection<>).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.Runtime.Serialization.EnumMemberAttribute).Assembly.Location))
             .Append(MetadataReference.CreateFromFile(typeof(System.Text.Json.Serialization.JsonConverter).Assembly.Location))
+            .Append(MetadataReference.CreateFromFile(typeof(System.Net.Http.Json.JsonContent).Assembly.Location))
             .ToList();
     }
 
