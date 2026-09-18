@@ -6,8 +6,12 @@ if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} =
 {%    else -%}
 if ({{ parameter.VariableName }} !== null && {{ parameter.VariableName }} !== undefined)
 {%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
+{%    if parameter.IsDateArray -%}
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? {% if parameter.UseJsDate %}formatDate(s_){% else %}s_.{{ parameter.GetDateToString }}{% endif %} : "null").join()));
+{%    elsif parameter.IsDateOrDateTimeArray -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }}.map(s_ => s_ ? s_.{{ parameter.GetDateTimeToString }} : "null").join()));
+{%    elsif parameter.IsDate -%}
+url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? {% if parameter.UseJsDate %}formatDate({{ parameter.VariableName }}){% else %}{{ parameter.VariableName }}.{{ parameter.GetDateToString }}{% endif %} : "null"));
 {%    elsif parameter.IsDateOrDateTime -%}
 url_ = url_.replace("{{ "{" }}{{ parameter.Name }}}", encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "null"));
 {%    elsif parameter.IsArray -%}
@@ -40,7 +44,9 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%        endif -%}
 {%    endif -%}
-{%    if parameter.IsDateOrDateTimeArray -%}
+{%    if parameter.IsDateArray -%}
+    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? {% if parameter.UseJsDate %}formatDate(item_){% else %}item_.{{ parameter.GetDateToString }}{% endif %} : "null") + "&"; });
+{%    elsif parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
 {%    elsif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item, index) => {
@@ -49,6 +55,8 @@ else if ({{ parameter.VariableName }} !== undefined)
 				url_ += "{{ parameter.Name }}[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
 			}
     });
+{%    elsif parameter.IsDate -%}
+    url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? {% if parameter.UseJsDate %}formatDate({{ parameter.VariableName }}){% else %}{{ parameter.VariableName }}.{{ parameter.GetDateToString }}{% endif %} : "{{ QueryNullValue }}") + "&";
 {%    elsif parameter.IsDateOrDateTime -%}
     url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
 {%    elsif parameter.IsArray -%}
