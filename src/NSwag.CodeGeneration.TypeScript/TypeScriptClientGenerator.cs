@@ -91,7 +91,21 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The code.</returns>
         protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
         {
-            var model = new TypeScriptFileTemplateModel(clientTypes, dtoTypes, _document, _extensionCode, Settings, _resolver);
+            var clientTypeList = clientTypes.ToList();
+            var dtoTypeList = dtoTypes.ToList();
+
+            // The DTO generator only emits formatDate() when a DTO property needs it (see TypeScriptGenerator.GenerateTypes),
+            // so a client whose date-only parameters use it has to bring the function along itself.
+            if (Settings.GenerateClientClasses &&
+                Settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.Date &&
+                clientTypeList.Any(static c => c.Code.Contains("formatDate(")) &&
+                !dtoTypeList.Any(static d => d.TypeName == "formatDate"))
+            {
+                var formatDateTemplate = Settings.TypeScriptGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File.FormatDate", new object());
+                dtoTypeList.Add(new CodeArtifact("formatDate", CodeArtifactType.Function, CodeArtifactLanguage.TypeScript, CodeArtifactCategory.Utility, formatDateTemplate));
+            }
+
+            var model = new TypeScriptFileTemplateModel(clientTypeList, dtoTypeList, _document, _extensionCode, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
         }
