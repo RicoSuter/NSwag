@@ -203,6 +203,34 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.TimeSpanType = value;
         }
 
+        [Argument(Name = "NumberType", IsRequired = false, Description = "The number .NET type (default: 'double').")]
+        public string NumberType
+        {
+            get { return Settings.CSharpGeneratorSettings.NumberType; }
+            set { Settings.CSharpGeneratorSettings.NumberType = value; }
+        }
+        
+        [Argument(Name = "NumberFloatType", IsRequired = false, Description = "The number .NET type when the format is float (default: 'float').")]
+        public string NumberFloatType
+        {
+            get { return Settings.CSharpGeneratorSettings.NumberFloatType; }
+            set { Settings.CSharpGeneratorSettings.NumberFloatType = value; }
+        }
+        
+        [Argument(Name = "NumberDoubleType", IsRequired = false, Description = "The number .NET type when the format is double (default: 'double').")]
+        public string NumberDoubleType
+        {
+            get { return Settings.CSharpGeneratorSettings.NumberDoubleType; }
+            set { Settings.CSharpGeneratorSettings.NumberDoubleType = value; }
+        }
+        
+        [Argument(Name = "NumberDecimalType", IsRequired = false, Description = "The number .NET type when the format is decimal (default: 'decimal').")]
+        public string NumberDecimalType
+        {
+            get { return Settings.CSharpGeneratorSettings.NumberDecimalType; }
+            set { Settings.CSharpGeneratorSettings.NumberDecimalType = value; }
+        }
+        
         [Argument(Name = "ArrayType", IsRequired = false, Description = "The generic array .NET type (default: 'ICollection').")]
         public string ArrayType
         {
