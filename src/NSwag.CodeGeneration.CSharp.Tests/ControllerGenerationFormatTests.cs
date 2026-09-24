@@ -226,6 +226,13 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public class ComplexType {}
+    public class ComplexTypeResponse {}
+}
+");
         }
 
         private static OpenApiDocument GetOpenApiDocument()
@@ -434,6 +441,7 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             Assert.Equal(1, fromHeaderCustomBindingCount);
 
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
         }
 
         [Fact]
@@ -471,6 +479,8 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+
+            CSharpCompiler.AssertCompile(code);
         }
     }
 }

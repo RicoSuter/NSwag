@@ -1,6 +1,6 @@
 ﻿
 
-namespace MyNamespace
+namespace AllowNullableBodyParametersTests.TestNullableBodyWithoutAllowNullableBodyParameters
 {
     using System = global::System;
 
@@ -14,7 +14,7 @@ namespace MyNamespace
         private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public TestClient(MyConfig configuration) : base(configuration)
+        public TestClient(string baseUrl, MyConfig configuration) : base(configuration)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = baseUrl;
