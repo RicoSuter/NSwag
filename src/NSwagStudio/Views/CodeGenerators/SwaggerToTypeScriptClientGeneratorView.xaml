@@ -134,6 +134,7 @@
                                         <LineBreak />
                                         The operation name detection and replacement strategy of the {controller} placeholder in the Class Name setting:
                                 </TextBlock>
+
                                 <ComboBox SelectedItem="{Binding Command.OperationGenerationMode, Mode=TwoWay}"
                                           ToolTip="OperationGenerationMode"
                                           ItemsSource="{Binding OperationGenerationModes}" Margin="0,0,0,12" />
@@ -147,6 +148,11 @@
                                 <TextBox ToolTip="ExcludedOperationIds" 
                                         Text="{Binding Command.ExcludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                         Margin="0,0,0,12" />
+
+                                <CheckBox IsChecked="{Binding Command.ExcludeDeprecated, Mode=TwoWay}" 
+                                    Content="Exclude deprecated endpoints" 
+                                    ToolTip="ExcludeDeprecated"
+                                    Margin="0,0,0,12" />
 
                                 <TextBlock Text="Class Name" FontWeight="Bold" Margin="0,0,0,6" />
                                 <TextBox Text="{Binding Command.ClassName, Mode=TwoWay}" ToolTip="ClassName" Margin="0,0,0,12" />

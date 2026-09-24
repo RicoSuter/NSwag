@@ -6,8 +6,10 @@ namespace MyNamespace
 
     public partial interface IFooClient
     {
+        [System.Obsolete]
         System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override);
 
+        [System.Obsolete]
         System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override, System.Threading.CancellationToken cancellationToken);
 
     }
@@ -59,11 +61,13 @@ namespace MyNamespace
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
+        [System.Obsolete]
         public virtual System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override)
         {
             return DeletePersonAsync(@override, System.Threading.CancellationToken.None);
         }
 
+        [System.Obsolete]
         public virtual async System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;

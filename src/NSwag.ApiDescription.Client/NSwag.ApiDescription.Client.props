@@ -38,7 +38,8 @@
       <NSwagQueryNullValue>$(NSwagQueryNullValue)</NSwagQueryNullValue>
       <NSwagOperationGenerationMode>$(NSwagOperationGenerationMode)</NSwagOperationGenerationMode>
       <NSwagIncludedOperationIds>$(NSwagIncludedOperationIds)</NSwagIncludedOperationIds>
-	  <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds> 
+      <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds>
+      <NSwagExcludeDeprecated>$(NSwagExcludeDeprecated)</NSwagExcludeDeprecated>
       <NSwagAdditionalNamespaceUsages>$(NSwagAdditionalNamespaceUsages)</NSwagAdditionalNamespaceUsages>
       <NSwagAdditionalContractNamespaceUsages>$(NSwagAdditionalContractNamespaceUsages)</NSwagAdditionalContractNamespaceUsages>
       <NSwagGenerateOptionalParameters>$(NSwagGenerateOptionalParameters)</NSwagGenerateOptionalParameters>
@@ -130,6 +131,7 @@
       <NSwagOperationGenerationMode>$(NSwagOperationGenerationMode)</NSwagOperationGenerationMode>
       <NSwagIncludedOperationIds>$(NSwagIncludedOperationIds)</NSwagIncludedOperationIds>
       <NSwagExcludedOperationIds>$(NSwagExcludedOperationIds)</NSwagExcludedOperationIds>
+      <NSwagExcludeDeprecated>$(NSwagExcludeDeprecated)</NSwagExcludeDeprecated>
       <NSwagAdditionalNamespaceUsages>$(NSwagAdditionalNamespaceUsages)</NSwagAdditionalNamespaceUsages>
       <NSwagAdditionalContractNamespaceUsages>$(NSwagAdditionalContractNamespaceUsages)</NSwagAdditionalContractNamespaceUsages>
       <NSwagGenerateOptionalParameters>$(NSwagGenerateOptionalParameters)</NSwagGenerateOptionalParameters>

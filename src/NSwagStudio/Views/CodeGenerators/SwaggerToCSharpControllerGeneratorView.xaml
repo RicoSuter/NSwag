@@ -123,6 +123,12 @@
                                     <TextBox ToolTip="ExcludedOperationIds" 
                                             Text="{Binding Command.ExcludedOperationIds, Mode=TwoWay, Converter={StaticResource StringArrayConverter}, ConverterParameter=','}" 
                                             Margin="0,0,0,12" />
+
+                                    <CheckBox IsChecked="{Binding Command.ExcludeDeprecated, Mode=TwoWay}" 
+                                           Content="Exclude deprecated endpoints" 
+                                            ToolTip="ExcludeDeprecated"
+                                            Margin="0,0,0,12" />
+
                                 </StackPanel>
                             </GroupBox>
 

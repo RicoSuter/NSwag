@@ -14,8 +14,10 @@ namespace MyNamespace
 
         System.Threading.Tasks.Task<object> CreatePersonAsync(bool? @override, System.Threading.CancellationToken cancellationToken);
 
+        [System.Obsolete]
         System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override);
 
+        [System.Obsolete]
         System.Threading.Tasks.Task<object> DeletePersonAsync(bool? @override, System.Threading.CancellationToken cancellationToken);
 
     }
