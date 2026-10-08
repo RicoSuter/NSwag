@@ -3,10 +3,12 @@
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
 {% if UseBaseUrl -%}
+{%     if HasBaseClass == false or GenerateBaseUrlProperty == true -%}
     #pragma warning disable 8618
     private string _baseUrl;
     #pragma warning restore 8618
 
+{%     endif -%}
 {% endif -%}
 {% if InjectHttpClient -%}
     private {{ HttpClientType }} _httpClient;
@@ -37,7 +39,7 @@
     public {{ Class }}({{ constructorParameters }}){% if HasConfigurationClass and HasBaseClass -%}{{ " : base(configuration)"}}{% endif %}
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-{%     if UseBaseUrl -%}
+{%      if UseBaseUrl and HasBaseClass == false and GenerateBaseUrlProperty == true -%}
 {%         if HasBaseUrl -%}
 {%             if GenerateBaseUrlProperty -%}
         BaseUrl = "{{ BaseUrl }}";
@@ -295,7 +297,11 @@
 {%     endif -%}
 
                 var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
+{%              if HasBaseClass == true and GenerateBaseUrlProperty == false -%}
+                if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
+{%              else -%}
+                if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+{%              endif -%}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
