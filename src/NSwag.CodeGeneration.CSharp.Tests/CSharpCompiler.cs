@@ -26,11 +26,20 @@ public static class CSharpCompiler
 
     public static void AssertCompile(string source)
     {
-        var syntaxTree = CSharpSyntaxTree.ParseText(source);
+        Emit(source);
+    }
 
+    public static System.Reflection.Assembly Compile(params string[] sources)
+    {
+        var (dll, pdb) = Emit(sources);
+        return System.Reflection.Assembly.Load(dll, pdb);
+    }
+
+    private static (byte[] Dll, byte[] Pdb) Emit(params string[] sources)
+    {
         CSharpCompilation compilation = CSharpCompilation.Create(
             assemblyName: "assemblyName",
-            syntaxTrees: [syntaxTree],
+            syntaxTrees: sources.Select(source => CSharpSyntaxTree.ParseText(source)),
             references:
             MetadataReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -44,5 +53,7 @@ public static class CSharpCompiler
             // emitResult.Diagnostics
             Assert.Empty(emitResult.Diagnostics);
         }
+
+        return (dllStream.ToArray(), pdbStream.ToArray());
     }
 }

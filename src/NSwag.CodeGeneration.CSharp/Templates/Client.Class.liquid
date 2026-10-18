@@ -2,7 +2,11 @@
 [System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
 {{ ClientClassAccessModifier }} partial class {{ Class }} {% if HasBaseType %}: {% endif %}{% if HasBaseClass %}{{ BaseClass }}{% if GenerateClientInterfaces %}, {% endif %}{% endif %}{% if GenerateClientInterfaces %}I{{ Class }}{% endif %}
 {
-{% if UseBaseUrl -%}
+{% assign useBaseClassBaseUrl = false -%}
+{% if UseBaseUrl and HasBaseClass -%}
+{%     unless GenerateBaseUrlProperty -%}{% assign useBaseClassBaseUrl = true -%}{% endunless -%}
+{% endif -%}
+{% if UseBaseUrl and useBaseClassBaseUrl == false -%}
     #pragma warning disable 8618
     private string _baseUrl;
     #pragma warning restore 8618
@@ -37,7 +41,11 @@
     public {{ Class }}({{ constructorParameters }}){% if HasConfigurationClass and HasBaseClass -%}{{ " : base(configuration)"}}{% endif %}
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-{%     if UseBaseUrl -%}
+{%     if useBaseClassBaseUrl -%}
+{%         if HasBaseUrl == false and HasConfigurationClass == false -%}
+        BaseUrl = baseUrl;
+{%         endif -%}
+{%     elsif UseBaseUrl -%}
 {%         if HasBaseUrl -%}
 {%             if GenerateBaseUrlProperty -%}
         BaseUrl = "{{ BaseUrl }}";
@@ -295,7 +303,7 @@
 {%     endif -%}
 
                 var urlBuilder_ = new System.Text.StringBuilder();
-                {% if UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
+                {% if useBaseClassBaseUrl %}if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);{% elsif UseBaseUrl %}if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);{% endif %}
                 // Operation Path: "{{ operation.Path }}"
 {%     if operation.Path contains "{" -%}
 {%        assign pathParts = operation.Path | split: "{" -%}
