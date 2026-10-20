@@ -114,8 +114,8 @@ namespace NSwag
                 if (value != null)
                 {
                     value.Parent = this;
-                    UpdateBodyParameter();
                 }
+                UpdateBodyParameter();
             }
         }
 
