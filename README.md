@@ -81,6 +81,18 @@ The project is developed and maintained by [Rico Suter](http://rsuter.com) and o
 			- Aurelia using the HttpClient from aurelia-fetch-client, `Aurelia` (based on the Fetch template)
 			- `Axios` (preview)
 	    
+For clients that need to tolerate string enum values added by a server after generation, set `GenerateEnumAsString` on the nested code-generation settings:
+
+```cs
+var csharpSettings = new CSharpClientGeneratorSettings();
+csharpSettings.CSharpGeneratorSettings.GenerateEnumAsString = true;
+
+var typeScriptSettings = new TypeScriptClientGeneratorSettings();
+typeScriptSettings.TypeScriptGeneratorSettings.GenerateEnumAsString = true;
+```
+
+Generated properties use plain strings and include the currently declared enum values in their comments. The option is disabled by default, and numeric enums retain their existing representation.
+
 ### Downloads
 
 - [Download latest **NSwagStudio MSI installer (NSwagStudio.msi)**](https://github.com/RicoSuter/NSwag/releases) (Windows Desktop application)

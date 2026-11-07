@@ -276,6 +276,14 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.TypeScriptGeneratorSettings.EnumStyle = value;
         }
 
+        [Argument(Name = "GenerateEnumAsString", IsRequired = false,
+            Description = "Generate string-valued enums as plain strings to allow values added by the server (default: false).")]
+        public bool GenerateEnumAsString
+        {
+            get => Settings.TypeScriptGeneratorSettings.GenerateEnumAsString;
+            set => Settings.TypeScriptGeneratorSettings.GenerateEnumAsString = value;
+        }
+
         [Argument(Name = "UseLeafType", IsRequired = false, Description = "Generate leaf types for an object with discriminator (default: false).")]
         public bool UseLeafType
         {

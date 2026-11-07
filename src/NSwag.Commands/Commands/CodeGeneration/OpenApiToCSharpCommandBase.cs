@@ -88,6 +88,14 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.EnforceFlagEnums = value;
         }
 
+        [Argument(Name = "GenerateEnumAsString", IsRequired = false,
+            Description = "Generate string-valued enums as plain strings to allow values added by the server (default: false).")]
+        public bool GenerateEnumAsString
+        {
+            get => Settings.CSharpGeneratorSettings.GenerateEnumAsString;
+            set => Settings.CSharpGeneratorSettings.GenerateEnumAsString = value;
+        }
+
         [Argument(Name = "ParameterArrayType", IsRequired = false, Description = "The generic array .NET type of operation parameters (default: 'IEnumerable').")]
         public string ParameterArrayType
         {
