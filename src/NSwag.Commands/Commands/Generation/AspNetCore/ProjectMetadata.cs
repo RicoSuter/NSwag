@@ -217,11 +217,41 @@ namespace NSwag.Commands.Generation.AspNetCore
         }
 
         /// <summary>
+        /// Kills the process and, where the runtime can, everything it spawned. MSBuild worker
+        /// nodes are separate processes, so killing the driver alone leaves them building.
+        /// </summary>
+        private static void TryKillTree(Process process)
+        {
+            try
+            {
+#if NET462
+                // No process-tree overload on .NET Framework; the worker nodes outlive this.
+                process.Kill();
+#else
+                process.Kill(entireProcessTree: true);
+#endif
+            }
+            catch (Exception)
+            {
+                // it exited between the wait timing out and the kill
+            }
+        }
+
+        /// <summary>
         /// NET 8 and later support evaluating properties via CLI. https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8#cli-based-project-evaluation
         /// </summary>
         private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
         {
-            const int TimeoutMilliseconds = 10000;
+            // These arguments carry /t:Build when noBuild is false, so this is a full build of the
+            // project and its references. Ten seconds was shorter than a cold build, which made
+            // falling back the normal path and left an abandoned build writing the same obj
+            // directory as the one the fallback starts. Waiting for it avoids that race and a
+            // second build of the same project.
+            const int BuildTimeoutMilliseconds = 5 * 60 * 1000;
+
+            // Once the process has exited its output is already there. This only guards against a
+            // worker node that inherited the pipes and is holding them open.
+            const int ReadTimeoutMilliseconds = 30 * 1000;
 
             var properties = new[]
             {
@@ -253,29 +283,33 @@ namespace NSwag.Commands.Generation.AspNetCore
                 // Both pipes have to be drained while the process runs. Waiting for exit first
                 // deadlocks as soon as the child fills a buffer, and stderr was never read at all.
                 var outputTask = process.StandardOutput.ReadToEndAsync();
-                _ = process.StandardError.ReadToEndAsync();
+                var errorTask = process.StandardError.ReadToEndAsync();
 
-                if (!process.WaitForExit(TimeoutMilliseconds))
+                // When noBuild is false these arguments carry /t:Build, so this is a full build of
+                // the project and its references and can legitimately outlast the timeout on a cold
+                // machine, so this waits for it instead of cutting a build short. The wait runs off
+                // the calling thread: NSwagStudio reaches this synchronously, and blocking there
+                // would freeze its UI for the whole timeout.
+                var exited = await Task.Run(() => process.WaitForExit(BuildTimeoutMilliseconds)).ConfigureAwait(false);
+                if (!exited)
                 {
-                    // ExitCode below throws while the process is still running.
-                    try
-                    {
-                        process.Kill();
-                    }
-                    catch (Exception)
-                    {
-                        // the process may have exited in the meantime
-                    }
-
+                    // After five minutes nothing useful is coming. Leaving it alive would put a
+                    // second MSBuild on the same obj directory as the fallback below, which
+                    // MSBuild does not coordinate. Reading ExitCode would throw while it runs.
+                    TryKillTree(process);
                     return null;
                 }
 
-                if (process.ExitCode == 0)
+                if (process.ExitCode != 0)
+                {
+                    return null;
+                }
+
                 {
                     // MSBuild worker nodes inherit the pipes and can outlive dotnet itself, so the
                     // read waits for an end of stream that never arrives. Bound it and fall back.
                     using var readTimeoutCts = new CancellationTokenSource();
-                    var readTimeoutTask = Task.Delay(TimeoutMilliseconds, readTimeoutCts.Token);
+                    var readTimeoutTask = Task.Delay(ReadTimeoutMilliseconds, readTimeoutCts.Token);
                     if (await Task.WhenAny(outputTask, readTimeoutTask).ConfigureAwait(false) == readTimeoutTask)
                     {
                         return null;

@@ -55,19 +55,51 @@ namespace NSwag.ConsoleCore.Tests
             var outputTask = process.StandardOutput.ReadToEndAsync();
             var errorTask = process.StandardError.ReadToEndAsync();
 
-            // The first run of a sample restores and builds the project, which is slow on a
-            // cold CI runner. A cap that is too tight does not surface as a timeout: Kill() is
-            // asynchronous, so the ExitCode read below throws "Process must exit before
-            // requested information can be determined" instead.
+            // The first run of a sample restores and builds the project, which is slow on a cold
+            // CI runner. The reads are bounded as well as the exit: WaitForExit does not wait for
+            // the redirected streams, and MSBuild worker nodes inherit those pipes and can outlive
+            // dotnet-nswag, so awaiting them on their own can block for ever.
             var timeout = TimeSpan.FromMinutes(5);
-            if (!process.WaitForExit((int)timeout.TotalMilliseconds))
-            {
-                process.Kill(entireProcessTree: true);
-                process.WaitForExit();
+            using var timeoutCts = new CancellationTokenSource(timeout);
 
-                Assert.Fail($"dotnet-nswag did not exit within {timeout.TotalMinutes:0} minutes for " +
-                            $"{projectName} ({targetFramework})." + Environment.NewLine +
-                            await outputTask + await errorTask);
+            try
+            {
+                await process.WaitForExitAsync(timeoutCts.Token);
+                await Task.WhenAll(outputTask, errorTask).WaitAsync(timeoutCts.Token);
+            }
+            catch (Exception exception)
+            {
+                // The timeout arrives as OperationCanceledException, a broken pipe as IOException.
+                // Either way the process may still be running, so it goes before the test reports.
+                try
+                {
+                    process.Kill(entireProcessTree: true);
+                    await process.WaitForExitAsync();
+                }
+                catch (Exception)
+                {
+                    // Kill on a tree reports Win32Exception or AggregateException when a
+                    // descendant is already on its way out; the test should still report.
+                }
+
+                string captured;
+                try
+                {
+                    // Killing the tree closes the pipes, so this normally completes at once.
+                    captured = string.Concat(
+                        await Task.WhenAll(outputTask, errorTask).WaitAsync(TimeSpan.FromSeconds(30)));
+                }
+                catch (Exception)
+                {
+                    captured = "(the process output could not be read)";
+                }
+
+                var reason = exception is OperationCanceledException
+                    ? $"did not finish within {timeout.TotalMinutes:0} minutes"
+                    : $"failed with {exception.GetType().Name}: {exception.Message}";
+
+                Assert.Fail($"dotnet-nswag {reason} for {projectName} ({targetFramework})." +
+                            Environment.NewLine + captured);
             }
 
             var output = await outputTask;

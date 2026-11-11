@@ -49,52 +49,79 @@ jobs:
         id: nuget-login
         with:
           user: ${{ secrets.NUGET_USER }}
+      - name: 'Use an npm that supports trusted publishing'
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global npm@11
+          required=11.5.1
+          installed=$(npm --version)
+          if [ "$(printf '%s\n%s\n' "$required" "$installed" | sort -V | head -1)" != "$required" ]; then
+            echo "::error::npm $installed is older than $required, which trusted publishing needs"
+            exit 1
+          fi
+          echo "npm $installed"
       - name: 'Run: Compile, Test, Pack, Publish'
         run: ./build.cmd Compile Test Pack Publish
         env:
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
-      - name: 'Attach binaries to the GitHub release'
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          for attempt in 1 2 3 4 5 6 7 8 9 10; do
-            if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
-              gh release upload "$GITHUB_REF_NAME" \
-                artifacts/NSwag.zip \
-                artifacts/NSwagStudio.msi \
-                --clobber
-              exit 0
-            fi
-            echo "Release $GITHUB_REF_NAME does not exist yet, waiting (attempt $attempt of 10)"
-            sleep 30
-          done
-          echo "::error::Release $GITHUB_REF_NAME was not created within five minutes, binaries not attached"
-          exit 1
       - name: 'Publish: NSwag.zip'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwag.zip
           path: artifacts/NSwag.zip
       - name: 'Publish: NSwag.Npm.zip'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwag.Npm.zip
           path: artifacts/NSwag.Npm.zip
       - name: 'Publish: NSwagStudio.msi'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwagStudio.msi
           path: artifacts/NSwagStudio.msi
       - name: 'Publish: NuGet Packages'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NuGet Packages
           path: artifacts/*.nupkg
+      - name: 'Attach binaries to the GitHub release'
+        if: ${{ !cancelled() && startsWith(github.ref, 'refs/tags/v') }}
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          report_failure() {
+            echo "::error::$1"
+            echo "::error::The binaries are on this run as the NSwag.zip and NSwagStudio.msi artifacts."
+            exit 1
+          }
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if error=$(gh release view "$GITHUB_REF_NAME" 2>&1 > /dev/null); then
+              for upload_attempt in 1 2 3; do
+                if gh release upload "$GITHUB_REF_NAME" \
+                    artifacts/NSwag.zip \
+                    artifacts/NSwagStudio.msi \
+                    --clobber; then
+                  exit 0
+                fi
+                echo "Upload to $GITHUB_REF_NAME failed (attempt $upload_attempt of 3)"
+                [ "$upload_attempt" = 3 ] || sleep 15
+              done
+              report_failure "Uploading the binaries to release $GITHUB_REF_NAME failed three times."
+            fi
+            echo "Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): ${error//$'\n'/ }"
+            [ "$attempt" = 10 ] || sleep 30
+          done
+          report_failure "Release $GITHUB_REF_NAME did not appear: ${error//$'\n'/ }"
   ubuntu-latest:
     name: ubuntu-latest
     runs-on: ubuntu-latest
@@ -115,7 +142,6 @@ jobs:
         env:
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
   macos-latest:
     name: macos-latest
@@ -137,5 +163,4 @@ jobs:
         env:
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}

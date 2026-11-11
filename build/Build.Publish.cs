@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -23,34 +22,51 @@ public partial class Build
 
     [Parameter] [Secret] string ChocoApiKey;
 
-    [Parameter] [Secret] string NpmAuthToken;
-
     string ApiKeyToUse => IsTaggedBuild ? NuGetApiKey : MyGetApiKey;
     string SourceToUse => IsTaggedBuild ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
         .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild) && GitRepository.GetGitHubOwner() == "RicoSuter")
         .DependsOn(Pack)
-        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
+        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey)
         .Executes(() =>
         {
+            // Each registry is pushed independently and the failures are collected. These run in
+            // one method, so letting the first one throw decides what the rest of the release
+            // does: an npm credential problem would abort before the NuGet push and ship
+            // Chocolatey alone, with no way to re-run it cleanly.
+            var failures = new List<Exception>();
+
+            void Push(string registry, Action push)
+            {
+                try
+                {
+                    push();
+                }
+                catch (Exception e)
+                {
+                    Serilog.Log.Error("Push to {Registry} failed: {Message}", registry, e.Message);
+                    failures.Add(new InvalidOperationException($"Push to {registry} failed: {e.Message}", e));
+                }
+            }
+
             if (IsTaggedBuild)
             {
-                ChocolateyPush(_ => _
+                Push("Chocolatey", () => ChocolateyPush(_ => _
                     .SetApiKey(ChocoApiKey)
                     .SetPathToNuGetPackage(ArtifactsDirectory.GlobFiles("NSwagStudio.*.nupkg").Single())
                     .SetSource("https://push.chocolatey.org/")
-                );
+                ));
 
-                try
+                // npm trusted publishing: the CLI exchanges the workflow's OIDC token for a
+                // short-lived credential, so there is no token to store or rotate. It needs a
+                // trusted publisher on npmjs.com for this repository and build.yml, id-token:
+                // write in the workflow, and npm 11.5.1 or later, which the workflow installs.
+                //
+                // do not publish preview packages to npm
+                if (string.IsNullOrEmpty(VersionSuffix))
                 {
-                    var userDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    File.WriteAllText(
-                        Path.Combine(userDirectory, ".npmrc"),
-                        "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
-
-                    // do not publish preview packages to npm
-                    if (string.IsNullOrEmpty(VersionSuffix))
+                    Push("npm", () =>
                     {
                         var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
 
@@ -65,36 +81,32 @@ public partial class Build
                                 Serilog.Log.Error(output.Text);
                             }
                         }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine("NPM PUBLISH FAILED: " + ex.Message);
+                    });
                 }
             }
 
-            try
+            Push(IsTaggedBuild ? "NuGet" : "MyGet", () => DotNetNuGetPush(_ => _
+                    .Apply(PushSettingsBase)
+                    .Apply(PushSettings)
+                    .CombineWith(PushPackageFiles, (_, v) => _
+                        .SetTargetPath(v))
+                    .Apply(PackagePushSettings),
+                PushDegreeOfParallelism,
+                PushCompleteOnFailure));
+
+            if (failures.Count == 0)
             {
-                DotNetNuGetPush(_ => _
-                        .Apply(PushSettingsBase)
-                        .Apply(PushSettings)
-                        .CombineWith(PushPackageFiles, (_, v) => _
-                            .SetTargetPath(v))
-                        .Apply(PackagePushSettings),
-                    PushDegreeOfParallelism,
-                    PushCompleteOnFailure);
+                return;
             }
-            catch (Exception e)
+
+            if (IsTaggedBuild)
             {
-                if (IsTaggedBuild)
-                {
-                    // fatal
-                    throw;
-                }
-
-                Serilog.Log.Error("Could not push: {Message}", e.Message);
+                // A tagged build that could not reach a registry is a broken release. Everything
+                // that did succeed has still been pushed, so the gap is named rather than hidden.
+                throw new AggregateException(
+                    "One or more pushes failed on a tagged build; see the errors above for which.",
+                    failures);
             }
-
         });
 
     Configure<DotNetNuGetPushSettings> PushSettingsBase => _ => _
