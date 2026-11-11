@@ -217,27 +217,20 @@ namespace NSwag.Commands.Generation.AspNetCore
         }
 
         /// <summary>
-        /// Returning disposes the process, which closes the redirected pipes and faults any read
-        /// still in flight. Nothing awaits those, so mark them observed.
-        /// </summary>
-        private static void ObserveAfterDispose(params Task[] tasks)
-        {
-            foreach (var task in tasks)
-            {
-                _ = task.ContinueWith(
-                    t => _ = t.Exception,
-                    CancellationToken.None,
-                    TaskContinuationOptions.OnlyOnFaulted,
-                    TaskScheduler.Default);
-            }
-        }
-
-        /// <summary>
         /// NET 8 and later support evaluating properties via CLI. https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8#cli-based-project-evaluation
         /// </summary>
         private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
         {
-            const int TimeoutMilliseconds = 10000;
+            // These arguments carry /t:Build when noBuild is false, so this is a full build of the
+            // project and its references. Ten seconds was shorter than a cold build, which made
+            // falling back the normal path and left an abandoned build writing the same obj
+            // directory as the one the fallback starts. Waiting for it avoids that race and a
+            // second build of the same project.
+            const int BuildTimeoutMilliseconds = 5 * 60 * 1000;
+
+            // Once the process has exited its output is already there. This only guards against a
+            // worker node that inherited the pipes and is holding them open.
+            const int ReadTimeoutMilliseconds = 30 * 1000;
 
             var properties = new[]
             {
@@ -273,18 +266,17 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                 // When noBuild is false these arguments carry /t:Build, so this is a full build of
                 // the project and its references and can legitimately outlast the timeout on a cold
-                // machine. Leave it running rather than killing a build in progress: the fallback
-                // below issues the same build and picks up the work this one has already done.
-                if (!process.WaitForExit(TimeoutMilliseconds))
+                // machine, so this waits for it instead of killing a build in progress.
+                if (!process.WaitForExit(BuildTimeoutMilliseconds))
                 {
-                    // Reading ExitCode here would throw while the process is still running.
-                    ObserveAfterDispose(outputTask, errorTask);
+                    // Reading ExitCode here would throw while the process is still running. The
+                    // reads stay pending: disposing the process does not close streams that have
+                    // already been handed out, and net462 has no cancellable ReadToEndAsync.
                     return null;
                 }
 
                 if (process.ExitCode != 0)
                 {
-                    ObserveAfterDispose(outputTask, errorTask);
                     return null;
                 }
 
@@ -292,10 +284,9 @@ namespace NSwag.Commands.Generation.AspNetCore
                     // MSBuild worker nodes inherit the pipes and can outlive dotnet itself, so the
                     // read waits for an end of stream that never arrives. Bound it and fall back.
                     using var readTimeoutCts = new CancellationTokenSource();
-                    var readTimeoutTask = Task.Delay(TimeoutMilliseconds, readTimeoutCts.Token);
+                    var readTimeoutTask = Task.Delay(ReadTimeoutMilliseconds, readTimeoutCts.Token);
                     if (await Task.WhenAny(outputTask, readTimeoutTask).ConfigureAwait(false) == readTimeoutTask)
                     {
-                        ObserveAfterDispose(outputTask, errorTask);
                         return null;
                     }
 

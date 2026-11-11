@@ -67,10 +67,19 @@ namespace NSwag.ConsoleCore.Tests
                 await process.WaitForExitAsync(timeoutCts.Token);
                 await Task.WhenAll(outputTask, errorTask).WaitAsync(timeoutCts.Token);
             }
-            catch (OperationCanceledException)
+            catch (Exception exception)
             {
-                process.Kill(entireProcessTree: true);
-                await process.WaitForExitAsync();
+                // The timeout arrives as OperationCanceledException, a broken pipe as IOException.
+                // Either way the process may still be running, so it goes before the test reports.
+                try
+                {
+                    process.Kill(entireProcessTree: true);
+                    await process.WaitForExitAsync();
+                }
+                catch (InvalidOperationException)
+                {
+                    // the process is already gone
+                }
 
                 string captured;
                 try
@@ -79,13 +88,17 @@ namespace NSwag.ConsoleCore.Tests
                     captured = string.Concat(
                         await Task.WhenAll(outputTask, errorTask).WaitAsync(TimeSpan.FromSeconds(30)));
                 }
-                catch (TimeoutException)
+                catch (Exception)
                 {
                     captured = "(the process output could not be read)";
                 }
 
-                Assert.Fail($"dotnet-nswag did not finish within {timeout.TotalMinutes:0} minutes for " +
-                            $"{projectName} ({targetFramework})." + Environment.NewLine + captured);
+                var reason = exception is OperationCanceledException
+                    ? $"did not finish within {timeout.TotalMinutes:0} minutes"
+                    : $"failed with {exception.GetType().Name}: {exception.Message}";
+
+                Assert.Fail($"dotnet-nswag {reason} for {projectName} ({targetFramework})." +
+                            Environment.NewLine + captured);
             }
 
             var output = await outputTask;
