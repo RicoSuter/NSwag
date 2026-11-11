@@ -1,4 +1,36 @@
-﻿{%              if GenerateNullableReferenceTypes -%}
+﻿{%              if GenerateJsonSerializerContext -%}
+private string ConvertToString<[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields)] T>(T value, System.Globalization.CultureInfo cultureInfo) where T : struct, System.Enum
+{
+    var name = System.Enum.GetName<T>(value);
+    if (name == null)
+    {
+        var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(typeof(T)), cultureInfo));
+        return converted == null ? string.Empty : converted;
+    }
+    var field_ = typeof(T).GetField(name);
+    if (field_ == null)
+    {
+        return name;
+    }
+    var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field_, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+        as System.Runtime.Serialization.EnumMemberAttribute;
+    return attribute?.Value ?? name;
+}
+
+{%                  if GenerateNullableReferenceTypes -%}
+private string ConvertToString<[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields)] T>(T? value, System.Globalization.CultureInfo cultureInfo) where T : struct, System.Enum
+    => value.HasValue ? ConvertToString<T>(value.Value, cultureInfo) : "";
+
+[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "All NSwag-emitted call sites pass a strongly-typed enum value and bind to the generic ConvertToString<T> overload that carries DynamicallyAccessedMembers. This object overload's enum branch is only reachable via direct external invocation, where the caller is responsible for trimming safety.")]
+private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
+{%                  else -%}
+private string ConvertToString<[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicFields)] T>(System.Nullable<T> value, System.Globalization.CultureInfo cultureInfo) where T : struct, System.Enum
+    => value.HasValue ? ConvertToString<T>(value.Value, cultureInfo) : "";
+
+[System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "All NSwag-emitted call sites pass a strongly-typed enum value and bind to the generic ConvertToString<T> overload that carries DynamicallyAccessedMembers. This object overload's enum branch is only reachable via direct external invocation, where the caller is responsible for trimming safety.")]
+private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+{%                  endif -%}
+{%              elsif GenerateNullableReferenceTypes -%}
 private string ConvertToString(object? value, System.Globalization.CultureInfo cultureInfo)
 {%              else -%}
 private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)

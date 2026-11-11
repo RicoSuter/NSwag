@@ -1,5 +1,57 @@
-﻿public bool ReadResponseAsString { get; set; }
+public bool ReadResponseAsString { get; set; }
 
+{% if GenerateJsonSerializerContext -%}
+protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> jsonTypeInfo, System.Threading.CancellationToken cancellationToken)
+{
+    if (response == null || response.Content == null)
+    {
+{%- if GenerateNullableReferenceTypes -%}
+        return new ObjectResponseResult<T>(default(T)!, string.Empty);
+{%- else -%}
+        return new ObjectResponseResult<T>(default(T), string.Empty);
+{%- endif -%}
+    }
+
+    if (ReadResponseAsString)
+    {
+        var responseText = await ReadAsStringAsync(response.Content, cancellationToken).ConfigureAwait(false);
+        try
+        {
+            var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, jsonTypeInfo);
+{%- if GenerateNullableReferenceTypes -%}
+            return new ObjectResponseResult<T>(typedBody!, responseText);
+{%- else -%}
+            return new ObjectResponseResult<T>(typedBody, responseText);
+{%- endif -%}
+        }
+        catch (System.Text.Json.JsonException exception)
+        {
+            var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, responseText, headers, exception);
+        }
+    }
+    else
+    {
+        try
+        {
+            using (var responseStream = await ReadAsStreamAsync(response.Content, cancellationToken).ConfigureAwait(false))
+            {
+                var typedBody = await System.Text.Json.JsonSerializer.DeserializeAsync<T>(responseStream, jsonTypeInfo, cancellationToken).ConfigureAwait(false);
+{%- if GenerateNullableReferenceTypes -%}
+                return new ObjectResponseResult<T>(typedBody!, string.Empty);
+{%- else -%}
+                return new ObjectResponseResult<T>(typedBody, string.Empty);
+{%- endif -%}
+            }
+        }
+        catch (System.Text.Json.JsonException exception)
+        {
+            var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+            throw new {{ ExceptionClass }}(message, (int)response.StatusCode, string.Empty, headers, exception);
+        }
+    }
+}
+{% else -%}
 protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponseAsync<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.Threading.CancellationToken cancellationToken)
 {
     if (response == null || response.Content == null)
@@ -58,3 +110,4 @@ protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> Rea
         }
     }
 }
+{% endif -%}

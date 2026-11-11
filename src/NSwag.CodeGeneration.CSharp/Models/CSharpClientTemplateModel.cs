@@ -141,6 +141,12 @@ namespace NSwag.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property.</summary>
         public bool ExposeJsonSerializerSettings => _settings.ExposeJsonSerializerSettings;
 
+        /// <summary>Gets a value indicating whether to generate AOT/trimming-safe JSON I/O wired into a <c>JsonSerializerContext</c>.</summary>
+        public bool GenerateJsonSerializerContext => _settings.GenerateJsonSerializerContext;
+
+        /// <summary>Gets the name of the generated <c>JsonSerializerContext</c> partial class.</summary>
+        public string JsonSerializerContextClassName => _settings.JsonSerializerContextClassName;
+
         /// <summary>Gets or sets a value indicating whether to generate the UpdateJsonSerializerSettings method.</summary>
         public bool GenerateUpdateJsonSerializerSettingsMethod => _settings.GenerateUpdateJsonSerializerSettingsMethod;
 

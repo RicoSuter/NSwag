@@ -33,6 +33,7 @@ namespace NSwag.CodeGeneration.CSharp
             ExposeJsonSerializerSettings = false;
             InjectHttpClient = true;
             ProtectedMethods = [];
+            JsonSerializerContextClassName = "ApiJsonSerializerContext";
         }
 
         /// <summary>Gets or sets the full name of the base class.</summary>
@@ -116,5 +117,16 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to expose the JsonSerializerSettings property (default: false).</summary>
         public bool ExposeJsonSerializerSettings { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to generate a partial <c>System.Text.Json.Serialization.JsonSerializerContext</c>
+        /// class for the client and rewrite the client's JSON I/O to use AOT/trimming-safe <c>JsonTypeInfo&lt;T&gt;</c> overloads (default: false).
+        /// Requires <c>JsonLibrary = SystemTextJson</c>, <c>JsonLibraryVersion &gt;= 8.0</c>, <c>JsonPolymorphicSerializationStyle = SystemTextJson</c>
+        /// (if any polymorphic schemas are present), and <c>GenerateJsonMethods = false</c>. Note: user-supplied JsonConverters and string-enum
+        /// converters from NJsonSchema must themselves be AOT-safe.</summary>
+        public bool GenerateJsonSerializerContext { get; set; }
+
+        /// <summary>Gets or sets the name of the generated <c>JsonSerializerContext</c> partial class
+        /// (default: <c>ApiJsonSerializerContext</c>). Only honored when <see cref="GenerateJsonSerializerContext"/> is true.</summary>
+        public string JsonSerializerContextClassName { get; set; }
     }
 }

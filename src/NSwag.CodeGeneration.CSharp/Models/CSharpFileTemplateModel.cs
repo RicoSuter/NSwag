@@ -46,6 +46,7 @@ namespace NSwag.CodeGeneration.CSharp.Models
             _clientCode = clientTypes.Concatenate();
 
             Classes = dtoTypes.Concatenate();
+            JsonSerializableTypes = [];
         }
 
         /// <summary>Gets the namespace.</summary>
@@ -113,6 +114,20 @@ namespace NSwag.CodeGeneration.CSharp.Models
 
         /// <summary>Gets or sets a value indicating whether to generate exception classes (default: true).</summary>
         public bool GenerateExceptionClasses => _settings is CSharpClientGeneratorSettings { GenerateExceptionClasses: true };
+
+        /// <summary>Gets a value indicating whether a <c>JsonSerializerContext</c> partial class should be emitted for AOT/trimming.</summary>
+        public bool GenerateJsonSerializerContext =>
+            _settings is CSharpClientGeneratorSettings { GenerateJsonSerializerContext: true };
+
+        /// <summary>Gets the name of the generated <c>JsonSerializerContext</c> partial class.</summary>
+        public string JsonSerializerContextClassName =>
+            _settings is CSharpClientGeneratorSettings clientSettings
+                ? clientSettings.JsonSerializerContextClassName
+                : null;
+
+        /// <summary>Gets the deduplicated list of types to register on the generated <c>JsonSerializerContext</c>.
+        /// Populated by <c>CSharpClientGenerator</c> when <see cref="GenerateJsonSerializerContext"/> is true.</summary>
+        public IReadOnlyList<JsonSerializableTypeModel> JsonSerializableTypes { get; internal set; }
 
         /// <summary>Gets or sets a value indicating whether to wrap success responses to allow full response access.</summary>
         public bool WrapResponses => _settings.WrapResponses;

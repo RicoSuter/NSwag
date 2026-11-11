@@ -273,6 +273,32 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.JsonLibraryVersion = value;
         }
 
+        [Argument(Name = "GenerateJsonSerializerContext", IsRequired = false, Description = "Specifies whether to emit a System.Text.Json.Serialization.JsonSerializerContext partial class and rewrite the client to use AOT/trimming-safe JsonTypeInfo<T> overloads (requires JsonLibrary=SystemTextJson, JsonLibraryVersion>=8.0, JsonPolymorphicSerializationStyle=SystemTextJson, GenerateJsonMethods=false; default: false).")]
+        public bool GenerateJsonSerializerContext
+        {
+            get => Settings is CSharpClientGeneratorSettings clientSettings && clientSettings.GenerateJsonSerializerContext;
+            set
+            {
+                if (Settings is CSharpClientGeneratorSettings clientSettings)
+                {
+                    clientSettings.GenerateJsonSerializerContext = value;
+                }
+            }
+        }
+
+        [Argument(Name = "JsonSerializerContextClassName", IsRequired = false, Description = "Name of the generated JsonSerializerContext partial class (default: 'ApiJsonSerializerContext').")]
+        public string JsonSerializerContextClassName
+        {
+            get => (Settings as CSharpClientGeneratorSettings)?.JsonSerializerContextClassName;
+            set
+            {
+                if (Settings is CSharpClientGeneratorSettings clientSettings)
+                {
+                    clientSettings.JsonSerializerContextClassName = value;
+                }
+            }
+        }
+
         [Argument(Name = "GenerateDefaultValues", IsRequired = false, Description = "Specifies whether to generate default values for properties (may generate CSharp 6 code, default: true).")]
         public bool GenerateDefaultValues
         {
