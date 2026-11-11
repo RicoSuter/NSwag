@@ -68,10 +68,13 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         // add artifacts manually as they would otherwise by hard to configure via attributes
         if (PublishArtifacts && onWindows)
         {
-            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.zip", Path = "artifacts/NSwag.zip" });
-            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwag.Npm.zip", Path = "artifacts/NSwag.Npm.zip" });
-            newSteps.Add(new GitHubActionsArtifactStep { Name = "NSwagStudio.msi", Path = "artifacts/NSwagStudio.msi" });
-            newSteps.Add(new GitHubActionsArtifactStep { Name = "NuGet Packages", Path = "artifacts/*.nupkg" });
+            // Uploaded even when the build step failed. A step with no 'if' is implicitly gated on
+            // success(), which would leave a failed release with nothing to download and no way
+            // to attach the binaries by hand.
+            newSteps.Add(new GitHubActionsUnconditionalArtifactStep { Name = "NSwag.zip", Path = "artifacts/NSwag.zip" });
+            newSteps.Add(new GitHubActionsUnconditionalArtifactStep { Name = "NSwag.Npm.zip", Path = "artifacts/NSwag.Npm.zip" });
+            newSteps.Add(new GitHubActionsUnconditionalArtifactStep { Name = "NSwagStudio.msi", Path = "artifacts/NSwagStudio.msi" });
+            newSteps.Add(new GitHubActionsUnconditionalArtifactStep { Name = "NuGet Packages", Path = "artifacts/*.nupkg" });
         }
 
         // Trusted publishing replaces the stored NUGET_API_KEY secret with a short-lived
@@ -177,46 +180,23 @@ class GitHubActionsSetupDotNetStep : GitHubActionsStep
     }
 }
 
-class GitHubActionsReleaseAssetsStep : GitHubActionsStep
+class GitHubActionsUnconditionalArtifactStep : GitHubActionsStep
 {
+    public string Name { get; set; }
+    public string Path { get; set; }
+
     public override void Write(CustomFileWriter writer)
     {
-        writer.WriteLine("- name: 'Attach binaries to the GitHub release'");
+        writer.WriteLine($"- name: 'Publish: {Name}'");
         using (writer.Indent())
         {
-            writer.WriteLine("if: ${{ startsWith(github.ref, 'refs/tags/v') }}");
-            // Publish has already pushed to NuGet, Chocolatey and npm by the time this runs,
-            // so a missing release must not report that shipped build as failed. The error
-            // annotations below are what makes it visible.
-            writer.WriteLine("continue-on-error: true");
-            // The default shell on a Windows runner is PowerShell.
-            writer.WriteLine("shell: bash");
-            writer.WriteLine("env:");
+            writer.WriteLine("if: ${{ !cancelled() }}");
+            writer.WriteLine("uses: actions/upload-artifact@v5");
+            writer.WriteLine("with:");
             using (writer.Indent())
             {
-                writer.WriteLine("GH_TOKEN: ${{ github.token }}");
-            }
-
-            writer.WriteLine("run: |");
-            using (writer.Indent())
-            {
-                // The release is normally created from the tag while this build is still
-                // running, so wait for it rather than racing it. gh's stderr is kept so that
-                // an auth or API failure is not reported as "not created yet".
-                writer.WriteLine("for attempt in 1 2 3 4 5 6 7 8 9 10; do");
-                writer.WriteLine("  if error=$(gh release view \"$GITHUB_REF_NAME\" 2>&1 > /dev/null); then");
-                writer.WriteLine("    gh release upload \"$GITHUB_REF_NAME\" \\");
-                writer.WriteLine("      artifacts/NSwag.zip \\");
-                writer.WriteLine("      artifacts/NSwagStudio.msi \\");
-                writer.WriteLine("      --clobber");
-                writer.WriteLine("    exit 0");
-                writer.WriteLine("  fi");
-                writer.WriteLine("  echo \"Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): $error\"");
-                writer.WriteLine("  [ \"$attempt\" = 10 ] || sleep 30");
-                writer.WriteLine("done");
-                writer.WriteLine("echo \"::error::Could not attach the binaries to release $GITHUB_REF_NAME: $error\"");
-                writer.WriteLine("echo \"::error::They are on this run as the NSwag.zip and NSwagStudio.msi artifacts.\"");
-                writer.WriteLine("exit 1");
+                writer.WriteLine($"name: {Name}");
+                writer.WriteLine($"path: {Path}");
             }
         }
     }
@@ -229,12 +209,73 @@ class GitHubActionsUpgradeNpmStep : GitHubActionsStep
         writer.WriteLine("- name: 'Use an npm that supports trusted publishing'");
         using (writer.Indent())
         {
+            // The default shell on a Windows runner is pwsh, where a failing native command does
+            // not fail the step and only the last exit code is propagated, so a failed upgrade
+            // would be hidden by the version check that follows it.
+            writer.WriteLine("shell: bash");
             writer.WriteLine("run: |");
             using (writer.Indent())
             {
-                writer.WriteLine("npm install --global npm@latest");
-                // So the log says which version actually published.
-                writer.WriteLine("npm --version");
+                writer.WriteLine("set -euo pipefail");
+                writer.WriteLine("npm install --global npm@11");
+                writer.WriteLine("required=11.5.1");
+                writer.WriteLine("installed=$(npm --version)");
+                writer.WriteLine("if [ \"$(printf '%s\\n%s\\n' \"$required\" \"$installed\" | sort -V | head -1)\" != \"$required\" ]; then");
+                writer.WriteLine("  echo \"::error::npm $installed is older than $required, which trusted publishing needs\"");
+                writer.WriteLine("  exit 1");
+                writer.WriteLine("fi");
+                writer.WriteLine("echo \"npm $installed\"");
+            }
+        }
+    }
+}
+
+class GitHubActionsReleaseAssetsStep : GitHubActionsStep
+{
+    public override void Write(CustomFileWriter writer)
+    {
+        writer.WriteLine("- name: 'Attach binaries to the GitHub release'");
+        using (writer.Indent())
+        {
+            writer.WriteLine("if: ${{ startsWith(github.ref, 'refs/tags/v') }}");
+            // Publish has already pushed to NuGet, Chocolatey and npm by the time this runs, so a
+            // missing release must not report that shipped build as failed. The error annotations
+            // below are what makes it visible.
+            writer.WriteLine("continue-on-error: true");
+            // The default shell on a Windows runner is PowerShell.
+            writer.WriteLine("shell: bash");
+            writer.WriteLine("env:");
+            using (writer.Indent())
+            {
+                writer.WriteLine("GH_TOKEN: ${{ github.token }}");
+            }
+
+            writer.WriteLine("run: |");
+            using (writer.Indent())
+            {
+                // The release is normally created from the tag while this build is still running,
+                // so wait for it rather than racing it. gh's stderr is kept so that an auth or API
+                // failure is not reported as "not created yet". Every exit reports first: bash
+                // runs with -e here, so an unguarded failing command would end the step silently.
+                writer.WriteLine("report_failure() {");
+                writer.WriteLine("  echo \"::error::$1\"");
+                writer.WriteLine("  echo \"::error::The binaries are on this run as the NSwag.zip and NSwagStudio.msi artifacts.\"");
+                writer.WriteLine("  exit 1");
+                writer.WriteLine("}");
+                writer.WriteLine("for attempt in 1 2 3 4 5 6 7 8 9 10; do");
+                writer.WriteLine("  if error=$(gh release view \"$GITHUB_REF_NAME\" 2>&1 > /dev/null); then");
+                writer.WriteLine("    if gh release upload \"$GITHUB_REF_NAME\" \\");
+                writer.WriteLine("        artifacts/NSwag.zip \\");
+                writer.WriteLine("        artifacts/NSwagStudio.msi \\");
+                writer.WriteLine("        --clobber; then");
+                writer.WriteLine("      exit 0");
+                writer.WriteLine("    fi");
+                writer.WriteLine("    report_failure \"Uploading the binaries to release $GITHUB_REF_NAME failed.\"");
+                writer.WriteLine("  fi");
+                writer.WriteLine("  echo \"Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): ${error//$'\\n'/ }\"");
+                writer.WriteLine("  [ \"$attempt\" = 10 ] || sleep 30");
+                writer.WriteLine("done");
+                writer.WriteLine("report_failure \"Release $GITHUB_REF_NAME did not appear: ${error//$'\\n'/ }\"");
             }
         }
     }

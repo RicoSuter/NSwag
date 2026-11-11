@@ -45,21 +45,25 @@ jobs:
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
       - name: 'Publish: NSwag.zip'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwag.zip
           path: artifacts/NSwag.zip
       - name: 'Publish: NSwag.Npm.zip'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwag.Npm.zip
           path: artifacts/NSwag.Npm.zip
       - name: 'Publish: NSwagStudio.msi'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NSwagStudio.msi
           path: artifacts/NSwagStudio.msi
       - name: 'Publish: NuGet Packages'
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: NuGet Packages
