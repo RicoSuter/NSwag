@@ -23,5 +23,14 @@ namespace NSwag.ConsoleCore.Tests
         {
             Assert.Null(RuntimeUtilities.GetDirectoryName(runtime));
         }
+
+        [Fact]
+        public void CurrentRuntime_matches_the_runtime_the_tests_run_on()
+        {
+            // This test project targets net11.0 only, so CurrentRuntime must report Net110.
+            // It also pins the descending order of the CoreRuntimes table: an entry added
+            // out of order would make CurrentRuntime return an older runtime and this would fail.
+            Assert.Equal(Runtime.Net110, RuntimeUtilities.CurrentRuntime);
+        }
     }
 }
