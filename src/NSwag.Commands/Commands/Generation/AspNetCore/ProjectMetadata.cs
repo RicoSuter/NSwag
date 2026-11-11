@@ -217,6 +217,27 @@ namespace NSwag.Commands.Generation.AspNetCore
         }
 
         /// <summary>
+        /// Kills the process and, where the runtime can, everything it spawned. MSBuild worker
+        /// nodes are separate processes, so killing the driver alone leaves them building.
+        /// </summary>
+        private static void TryKillTree(Process process)
+        {
+            try
+            {
+#if NET462
+                // No process-tree overload on .NET Framework; the worker nodes outlive this.
+                process.Kill();
+#else
+                process.Kill(entireProcessTree: true);
+#endif
+            }
+            catch (Exception)
+            {
+                // it exited between the wait timing out and the kill
+            }
+        }
+
+        /// <summary>
         /// NET 8 and later support evaluating properties via CLI. https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8#cli-based-project-evaluation
         /// </summary>
         private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
@@ -266,12 +287,16 @@ namespace NSwag.Commands.Generation.AspNetCore
 
                 // When noBuild is false these arguments carry /t:Build, so this is a full build of
                 // the project and its references and can legitimately outlast the timeout on a cold
-                // machine, so this waits for it instead of killing a build in progress.
-                if (!process.WaitForExit(BuildTimeoutMilliseconds))
+                // machine, so this waits for it instead of cutting a build short. The wait runs off
+                // the calling thread: NSwagStudio reaches this synchronously, and blocking there
+                // would freeze its UI for the whole timeout.
+                var exited = await Task.Run(() => process.WaitForExit(BuildTimeoutMilliseconds)).ConfigureAwait(false);
+                if (!exited)
                 {
-                    // Reading ExitCode here would throw while the process is still running. The
-                    // reads stay pending: disposing the process does not close streams that have
-                    // already been handed out, and net462 has no cancellable ReadToEndAsync.
+                    // After five minutes nothing useful is coming. Leaving it alive would put a
+                    // second MSBuild on the same obj directory as the fallback below, which
+                    // MSBuild does not coordinate. Reading ExitCode would throw while it runs.
+                    TryKillTree(process);
                     return null;
                 }
 

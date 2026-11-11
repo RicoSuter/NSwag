@@ -76,9 +76,10 @@ namespace NSwag.ConsoleCore.Tests
                     process.Kill(entireProcessTree: true);
                     await process.WaitForExitAsync();
                 }
-                catch (InvalidOperationException)
+                catch (Exception)
                 {
-                    // the process is already gone
+                    // Kill on a tree reports Win32Exception or AggregateException when a
+                    // descendant is already on its way out; the test should still report.
                 }
 
                 string captured;

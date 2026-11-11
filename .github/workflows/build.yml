@@ -50,6 +50,7 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: 'Use an npm that supports trusted publishing'
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
         run: |
           set -euo pipefail
@@ -92,7 +93,7 @@ jobs:
           name: NuGet Packages
           path: artifacts/*.nupkg
       - name: 'Attach binaries to the GitHub release'
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ !cancelled() && startsWith(github.ref, 'refs/tags/v') }}
         continue-on-error: true
         shell: bash
         env:
@@ -105,13 +106,17 @@ jobs:
           }
           for attempt in 1 2 3 4 5 6 7 8 9 10; do
             if error=$(gh release view "$GITHUB_REF_NAME" 2>&1 > /dev/null); then
-              if gh release upload "$GITHUB_REF_NAME" \
-                  artifacts/NSwag.zip \
-                  artifacts/NSwagStudio.msi \
-                  --clobber; then
-                exit 0
-              fi
-              report_failure "Uploading the binaries to release $GITHUB_REF_NAME failed."
+              for upload_attempt in 1 2 3; do
+                if gh release upload "$GITHUB_REF_NAME" \
+                    artifacts/NSwag.zip \
+                    artifacts/NSwagStudio.msi \
+                    --clobber; then
+                  exit 0
+                fi
+                echo "Upload to $GITHUB_REF_NAME failed (attempt $upload_attempt of 3)"
+                [ "$upload_attempt" = 3 ] || sleep 15
+              done
+              report_failure "Uploading the binaries to release $GITHUB_REF_NAME failed three times."
             fi
             echo "Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): ${error//$'\n'/ }"
             [ "$attempt" = 10 ] || sleep 30

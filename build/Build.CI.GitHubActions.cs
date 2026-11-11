@@ -209,6 +209,10 @@ class GitHubActionsUpgradeNpmStep : GitHubActionsStep
         writer.WriteLine("- name: 'Use an npm that supports trusted publishing'");
         using (writer.Indent())
         {
+            // Only a tagged build publishes to npm. Upgrading on every master push would gate the
+            // whole job on a global install it does not need, and leave Windows restoring on a
+            // different npm from the other images.
+            writer.WriteLine("if: ${{ startsWith(github.ref, 'refs/tags/v') }}");
             // The default shell on a Windows runner is pwsh, where a failing native command does
             // not fail the step and only the last exit code is propagated, so a failed upgrade
             // would be hidden by the version check that follows it.
@@ -237,7 +241,11 @@ class GitHubActionsReleaseAssetsStep : GitHubActionsStep
         writer.WriteLine("- name: 'Attach binaries to the GitHub release'");
         using (writer.Indent())
         {
-            writer.WriteLine("if: ${{ startsWith(github.ref, 'refs/tags/v') }}");
+            // !cancelled() is load-bearing. An if without a status function keeps the implicit
+            // success(), which would skip this step whenever Publish failed - the case it exists
+            // for, since by then some registries have shipped and the release still needs its
+            // binaries.
+            writer.WriteLine("if: ${{ !cancelled() && startsWith(github.ref, 'refs/tags/v') }}");
             // Publish has already pushed to NuGet, Chocolatey and npm by the time this runs, so a
             // missing release must not report that shipped build as failed. The error annotations
             // below are what makes it visible.
@@ -264,13 +272,17 @@ class GitHubActionsReleaseAssetsStep : GitHubActionsStep
                 writer.WriteLine("}");
                 writer.WriteLine("for attempt in 1 2 3 4 5 6 7 8 9 10; do");
                 writer.WriteLine("  if error=$(gh release view \"$GITHUB_REF_NAME\" 2>&1 > /dev/null); then");
-                writer.WriteLine("    if gh release upload \"$GITHUB_REF_NAME\" \\");
-                writer.WriteLine("        artifacts/NSwag.zip \\");
-                writer.WriteLine("        artifacts/NSwagStudio.msi \\");
-                writer.WriteLine("        --clobber; then");
-                writer.WriteLine("      exit 0");
-                writer.WriteLine("    fi");
-                writer.WriteLine("    report_failure \"Uploading the binaries to release $GITHUB_REF_NAME failed.\"");
+                writer.WriteLine("    for upload_attempt in 1 2 3; do");
+                writer.WriteLine("      if gh release upload \"$GITHUB_REF_NAME\" \\");
+                writer.WriteLine("          artifacts/NSwag.zip \\");
+                writer.WriteLine("          artifacts/NSwagStudio.msi \\");
+                writer.WriteLine("          --clobber; then");
+                writer.WriteLine("        exit 0");
+                writer.WriteLine("      fi");
+                writer.WriteLine("      echo \"Upload to $GITHUB_REF_NAME failed (attempt $upload_attempt of 3)\"");
+                writer.WriteLine("      [ \"$upload_attempt\" = 3 ] || sleep 15");
+                writer.WriteLine("    done");
+                writer.WriteLine("    report_failure \"Uploading the binaries to release $GITHUB_REF_NAME failed three times.\"");
                 writer.WriteLine("  fi");
                 writer.WriteLine("  echo \"Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): ${error//$'\\n'/ }\"");
                 writer.WriteLine("  [ \"$attempt\" = 10 ] || sleep 30");
