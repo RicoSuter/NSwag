@@ -48,6 +48,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1
@@ -89,6 +90,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1
@@ -110,6 +112,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1
