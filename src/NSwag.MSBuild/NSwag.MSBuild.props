@@ -6,10 +6,12 @@
     <NSwagExe_Net80>dotnet "$(MSBuildThisFileDirectory)../tools/Net80/dotnet-nswag.dll"</NSwagExe_Net80>
     <NSwagExe_Net90>dotnet "$(MSBuildThisFileDirectory)../tools/Net90/dotnet-nswag.dll"</NSwagExe_Net90>
     <NSwagExe_Net100>dotnet "$(MSBuildThisFileDirectory)../tools/Net100/dotnet-nswag.dll"</NSwagExe_Net100>
+    <NSwagExe_Net110>dotnet "$(MSBuildThisFileDirectory)../tools/Net110/dotnet-nswag.dll"</NSwagExe_Net110>
 
     <NSwagDir>$(MSBuildThisFileDirectory)../tools/Win/</NSwagDir>
     <NSwagDir_Net80>$(MSBuildThisFileDirectory)../tools/Net80/</NSwagDir_Net80>
     <NSwagDir_Net90>$(MSBuildThisFileDirectory)../tools/Net90/</NSwagDir_Net90>
     <NSwagDir_Net100>$(MSBuildThisFileDirectory)../tools/Net100/</NSwagDir_Net100>
+    <NSwagDir_Net110>$(MSBuildThisFileDirectory)../tools/Net110/</NSwagDir_Net110>
   </PropertyGroup>
 </Project>
