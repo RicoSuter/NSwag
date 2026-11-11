@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 "use strict";
 
-var defaultCoreVersion = "Net80";
+var defaultCoreVersion = "Net100";
 var supportedCoreVersions = [
     { ver: '8.0', dir: "Net80", },
     { ver: '9.0', dir: "Net90", },
     { ver: '10.0', dir: "Net100", },
+    { ver: '11.0', dir: "Net110", },
 ];
 
 const path = require('path');
@@ -34,14 +35,12 @@ if (configFile) {
             var configContent = fs.readFileSync(configPath, 'utf8');
             var config = JSON.parse(configContent);
             if (config.runtime) {
-                // Convert runtime format (e.g., "net90" to "Net90")
+                // Accepts both "Net100" and "net10.0" spellings
                 var runtime = config.runtime.toLowerCase();
-                if (runtime === 'net80' || runtime === 'net8.0') {
-                    defaultCoreVersion = "Net80";
-                } else if (runtime === 'net90' || runtime === 'net9.0') {
-                    defaultCoreVersion = "Net90";
-                } else if (runtime === 'net100' || runtime === 'net10.0') {
-                    defaultCoreVersion = "Net100";
+                var configMatch = supportedCoreVersions.find(v =>
+                    runtime === v.dir.toLowerCase() || runtime === 'net' + v.ver);
+                if (configMatch) {
+                    defaultCoreVersion = configMatch.dir;
                 }
                 console.log("Found runtime from config: " + defaultCoreVersion);
             }
@@ -56,9 +55,9 @@ let args = process.argv.slice(2);
 // Legacy support
 args = args.map(arg => arg === '--x86' ? '/runtime:WinX86' : arg);
 args = args.map(arg => arg === '--core' ? '/runtime:' + defaultCoreVersion : arg);
-args = args.map(arg => arg === '--core 8.0' ? '/runtime:Net80' : arg);
-args = args.map(arg => arg === '--core 9.0' ? '/runtime:Net90' : arg);
-args = args.map(arg => arg === '--core 10.0' ? '/runtime:Net100' : arg);
+supportedCoreVersions.forEach(v => {
+    args = args.map(arg => arg === '--core ' + v.ver ? '/runtime:' + v.dir : arg);
+});
 
 // Remove /runtime:* parameter from args, but remember its value
 let runtimeIndices = [];

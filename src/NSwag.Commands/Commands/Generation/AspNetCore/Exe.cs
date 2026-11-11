@@ -58,7 +58,14 @@ namespace NSwag.Commands.Generation.AspNetCore
                 process.BeginOutputReadLine();
             }
 
-            var result = await Task.WhenAny(tcs.Task, Task.Delay(timeout ?? TimeSpan.FromSeconds(60 * 5))).ConfigureAwait(false);
+            using var timeoutCts = new CancellationTokenSource();
+            var delayTask = Task.Delay(timeout ?? TimeSpan.FromSeconds(60 * 5), timeoutCts.Token);
+            var result = await Task.WhenAny(tcs.Task, delayTask).ConfigureAwait(false);
+            if (result != delayTask)
+            {
+                // Stop the timer as soon as the process finishes (CA2027).
+                timeoutCts.Cancel();
+            }
             if (result != tcs.Task)
             {
                 throw new InvalidOperationException($"Process {startInfo.FileName} timed out.");

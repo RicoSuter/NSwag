@@ -18,7 +18,7 @@ NSwag is an OpenAPI/Swagger toolchain for .NET, ASP.NET Core and TypeScript. It 
 
 - `./build.sh Compile Test` builds and tests everything (`build.cmd` on Windows). This is the same entry point CI uses.
 - The build is [NUKE](https://nuke.build), implemented in `build/`. Targets and their dependencies: `Clean`, `Restore`, `Compile` (default, depends on `Restore`), `Test` (depends on `Compile`), `Pack` (depends on `Compile`), `Publish` (depends on `Pack`). `./build.sh --help` lists targets and parameters.
-- The SDK is pinned in `global.json` (`10.0.100`, `rollForward: latestMinor`). `build.sh` uses the `dotnet` on `PATH` when there is one and otherwise installs the pinned version under `.nuke/temp`. Do not change `global.json` to work around a local SDK mismatch, install the pinned SDK instead.
+- The SDK is pinned in `global.json` (`11.0.100`, `rollForward: latestMinor`). `build.sh` uses the `dotnet` on `PATH` when there is one and otherwise installs the pinned version under `.nuke/temp`. Do not change `global.json` to work around a local SDK mismatch, install the pinned SDK instead.
 - `Restore` runs `npm install` in `src/NSwag.Npm` and in `src/NSwag.CodeGeneration.TypeScript.Tests`, so Node.js is required. The TypeScript tests compile generated clients with the TypeScript compiler from that second install.
 - `Compile` also publishes `NSwag.ConsoleCore` per target framework and copies the binaries into `src/NSwag.Npm/bin/binaries` (and, on Windows, the NSwagStudio output). Later targets and the console tests depend on those copies, so do not replace a `Compile` run with a plain `dotnet build`.
 - On macOS and Linux the build uses the solution filter `src/NSwag.NoInstaller.slnf` instead of `src/NSwag.sln`. NSwagStudio, the WiX installer, the .NET Framework consoles and `NSwag.Generation.WebApi.Tests` (net462) are Windows only and are not built or tested there. CI runs Windows, Ubuntu and macOS.
@@ -52,9 +52,9 @@ Package versions are managed centrally in `Directory.Packages.props` (`ManagePac
 
 ## Per-runtime tool folders
 
-The command line tool ships one folder per runtime: `Win` (.NET Framework, Windows only) and `Net80`, `Net90`, `Net100` for .NET 8, 9 and 10. `build/Build.cs` publishes `NSwag.ConsoleCore` for each target framework and copies the results into those folders, which then become the NPM package layout and the `tools/` layout of `NSwag.MSBuild`.
+The command line tool ships one folder per runtime: `Win` (.NET Framework, Windows only) and `Net80`, `Net90`, `Net100`, `Net110` for .NET 8, 9, 10 and 11. `build/Build.cs` publishes `NSwag.ConsoleCore` for each target framework and copies the results into those folders, which then become the NPM package layout and the `tools/` layout of `NSwag.MSBuild`.
 
-Adding a runtime touches around thirty files: the build, the runtime selection in `NSwag.Commands`, the NPM, MSBuild and NSwagStudio launchers, and the sample projects. Missing one is not a build error, it ships a tool pointing at a folder that does not exist. Find them with a case-insensitive grep for both spellings of the current runtime, `grep -rilE "net100|net10\.0" src build *.props *.json`, and update the folder list above as well.
+Adding a runtime touches around thirty files: the build, the runtime selection in `NSwag.Commands`, the NPM, MSBuild and NSwagStudio launchers, and the sample projects. Missing one is not a build error, it ships a tool pointing at a folder that does not exist. Find them with a case-insensitive grep for both spellings of the current runtime, `grep -rilE "net110|net11\.0" src build *.props *.json`, and update the folder list above as well.
 
 Three sites that grep does not find: the SDK pin in `global.json`, the `setup-dotnet` version list in `build/Build.CI.GitHubActions.cs`, and the default `Runtime` of new documents in `src/NSwag.Commands/NSwagDocumentBase.cs`. The new sample projects also extend the `InlineData` matrix of `src/NSwag.ConsoleCore.Tests/GenerateSampleSpecificationTests.cs`, which produces a new set of snapshots to review.
 

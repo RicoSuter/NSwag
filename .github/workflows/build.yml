@@ -29,7 +29,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 jobs:
   windows-latest:
@@ -38,16 +38,11 @@ jobs:
     steps:
       - name: 'Allow long file path'
         run: git config --system core.longpaths true
-      - if: ${{ runner.os == 'Windows' }}
-        name: 'Use GNU tar'
-        shell: cmd
-        run: |
-          echo "Adding GNU tar to PATH"
-          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1
@@ -61,6 +56,25 @@ jobs:
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+      - name: 'Attach binaries to the GitHub release'
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+              gh release upload "$GITHUB_REF_NAME" \
+                artifacts/NSwag.zip \
+                artifacts/NSwagStudio.msi \
+                --clobber
+              exit 0
+            fi
+            echo "Release $GITHUB_REF_NAME does not exist yet, waiting (attempt $attempt of 10)"
+            sleep 30
+          done
+          echo "::error::Release $GITHUB_REF_NAME was not created within five minutes, binaries not attached"
+          exit 1
       - name: 'Publish: NSwag.zip'
         uses: actions/upload-artifact@v5
         with:
@@ -89,6 +103,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1
@@ -110,6 +125,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'NuGet login'
         uses: NuGet/login@v1

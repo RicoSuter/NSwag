@@ -35,7 +35,9 @@
       "NSwag.Sample.NET90Minimal\\NSwag.Sample.NET90Minimal.csproj",
       "NSwag.Sample.NET90\\NSwag.Sample.NET90.csproj",
       "NSwag.Sample.NET100Minimal\\NSwag.Sample.NET100Minimal.csproj",
-      "NSwag.Sample.NET100\\NSwag.Sample.NET100.csproj"
+      "NSwag.Sample.NET100\\NSwag.Sample.NET100.csproj",
+      "NSwag.Sample.NET110Minimal\\NSwag.Sample.NET110Minimal.csproj",
+      "NSwag.Sample.NET110\\NSwag.Sample.NET110.csproj"
     ]
   }
 }

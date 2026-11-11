@@ -13,6 +13,8 @@ namespace NSwag.ConsoleCore.Tests
         [InlineData("NSwag.Sample.NET90Minimal", "net9.0", true)]
         [InlineData("NSwag.Sample.NET100", "net10.0", true)]
         [InlineData("NSwag.Sample.NET100Minimal", "net10.0", true)]
+        [InlineData("NSwag.Sample.NET110", "net11.0", true)]
+        [InlineData("NSwag.Sample.NET110Minimal", "net11.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange
@@ -53,13 +55,19 @@ namespace NSwag.ConsoleCore.Tests
             var outputTask = process.StandardOutput.ReadToEndAsync();
             var errorTask = process.StandardError.ReadToEndAsync();
 
-            try
+            // The first run of a sample restores and builds the project, which is slow on a
+            // cold CI runner. A cap that is too tight does not surface as a timeout: Kill() is
+            // asynchronous, so the ExitCode read below throws "Process must exit before
+            // requested information can be determined" instead.
+            var timeout = TimeSpan.FromMinutes(5);
+            if (!process.WaitForExit((int)timeout.TotalMilliseconds))
             {
-                process.WaitForExit(60000);
-            }
-            finally
-            {
-                process.Kill();
+                process.Kill(entireProcessTree: true);
+                process.WaitForExit();
+
+                Assert.Fail($"dotnet-nswag did not exit within {timeout.TotalMinutes:0} minutes for " +
+                            $"{projectName} ({targetFramework})." + Environment.NewLine +
+                            await outputTask + await errorTask);
             }
 
             var output = await outputTask;

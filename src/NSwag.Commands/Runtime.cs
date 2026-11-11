@@ -29,6 +29,9 @@ namespace NSwag.Commands
         /// <summary>.NET 10 app.</summary>
         Net100,
 
+        /// <summary>.NET 11 app.</summary>
+        Net110,
+
         /// <summary>Execute in the same process.</summary>
         Debug
     }

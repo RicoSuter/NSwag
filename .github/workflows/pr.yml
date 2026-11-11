@@ -36,16 +36,11 @@ jobs:
     steps:
       - name: 'Allow long file path'
         run: git config --system core.longpaths true
-      - if: ${{ runner.os == 'Windows' }}
-        name: 'Use GNU tar'
-        shell: cmd
-        run: |
-          echo "Adding GNU tar to PATH"
-          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
@@ -77,6 +72,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack
@@ -88,6 +84,7 @@ jobs:
         with:
           dotnet-version: |
             10.0
+            11.0
       - uses: actions/checkout@v6
       - name: 'Run: Compile, Test, Pack'
         run: ./build.cmd Compile Test Pack

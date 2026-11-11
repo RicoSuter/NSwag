@@ -177,7 +177,10 @@ namespace NSwag.Commands.Generation.AspNetCore
             {
                 "msbuild",
                 "/nologo",
-                "/verbosity:quiet"
+                "/verbosity:quiet",
+                // Worker nodes inherit the redirected pipes and outlive the msbuild process when
+                // they are kept for reuse, so a reader waiting for end of stream never returns.
+                "/nodeReuse:false"
             };
 
             if (!noBuild)
@@ -218,6 +221,8 @@ namespace NSwag.Commands.Generation.AspNetCore
         /// </summary>
         private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
         {
+            const int TimeoutMilliseconds = 10000;
+
             var properties = new[]
             {
                 "BaseIntermediateOutputPath",
@@ -235,7 +240,7 @@ namespace NSwag.Commands.Generation.AspNetCore
 
             try
             {
-                var process = Process.Start(new ProcessStartInfo
+                using var process = Process.Start(new ProcessStartInfo
                 {
                     WorkingDirectory = Path.GetDirectoryName(file),
                     FileName = "dotnet",
@@ -245,11 +250,41 @@ namespace NSwag.Commands.Generation.AspNetCore
                     RedirectStandardError = true
                 });
 
-                process.WaitForExit(10000);
+                // Both pipes have to be drained while the process runs. Waiting for exit first
+                // deadlocks as soon as the child fills a buffer, and stderr was never read at all.
+                var outputTask = process.StandardOutput.ReadToEndAsync();
+                _ = process.StandardError.ReadToEndAsync();
+
+                if (!process.WaitForExit(TimeoutMilliseconds))
+                {
+                    // ExitCode below throws while the process is still running.
+                    try
+                    {
+                        process.Kill();
+                    }
+                    catch (Exception)
+                    {
+                        // the process may have exited in the meantime
+                    }
+
+                    return null;
+                }
 
                 if (process.ExitCode == 0)
                 {
-                    var output = await process.StandardOutput.ReadToEndAsync();
+                    // MSBuild worker nodes inherit the pipes and can outlive dotnet itself, so the
+                    // read waits for an end of stream that never arrives. Bound it and fall back.
+                    using var readTimeoutCts = new CancellationTokenSource();
+                    var readTimeoutTask = Task.Delay(TimeoutMilliseconds, readTimeoutCts.Token);
+                    if (await Task.WhenAny(outputTask, readTimeoutTask).ConfigureAwait(false) == readTimeoutTask)
+                    {
+                        return null;
+                    }
+
+                    // Stop the timer as soon as the read finishes (CA2027).
+                    readTimeoutCts.Cancel();
+
+                    var output = await outputTask.ConfigureAwait(false);
 
                     var document = JsonSerializer.Deserialize<JsonDocument>(output);
                     var metadata = document.RootElement.GetProperty("Properties")
