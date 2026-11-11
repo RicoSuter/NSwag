@@ -217,6 +217,22 @@ namespace NSwag.Commands.Generation.AspNetCore
         }
 
         /// <summary>
+        /// Returning disposes the process, which closes the redirected pipes and faults any read
+        /// still in flight. Nothing awaits those, so mark them observed.
+        /// </summary>
+        private static void ObserveAfterDispose(params Task[] tasks)
+        {
+            foreach (var task in tasks)
+            {
+                _ = task.ContinueWith(
+                    t => _ = t.Exception,
+                    CancellationToken.None,
+                    TaskContinuationOptions.OnlyOnFaulted,
+                    TaskScheduler.Default);
+            }
+        }
+
+        /// <summary>
         /// NET 8 and later support evaluating properties via CLI. https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8#cli-based-project-evaluation
         /// </summary>
         private static async Task<Dictionary<string, string>> TryReadingUsingGetProperties(List<string> args, string file, bool noBuild)
@@ -253,24 +269,25 @@ namespace NSwag.Commands.Generation.AspNetCore
                 // Both pipes have to be drained while the process runs. Waiting for exit first
                 // deadlocks as soon as the child fills a buffer, and stderr was never read at all.
                 var outputTask = process.StandardOutput.ReadToEndAsync();
-                _ = process.StandardError.ReadToEndAsync();
+                var errorTask = process.StandardError.ReadToEndAsync();
 
+                // When noBuild is false these arguments carry /t:Build, so this is a full build of
+                // the project and its references and can legitimately outlast the timeout on a cold
+                // machine. Leave it running rather than killing a build in progress: the fallback
+                // below issues the same build and picks up the work this one has already done.
                 if (!process.WaitForExit(TimeoutMilliseconds))
                 {
-                    // ExitCode below throws while the process is still running.
-                    try
-                    {
-                        process.Kill();
-                    }
-                    catch (Exception)
-                    {
-                        // the process may have exited in the meantime
-                    }
-
+                    // Reading ExitCode here would throw while the process is still running.
+                    ObserveAfterDispose(outputTask, errorTask);
                     return null;
                 }
 
-                if (process.ExitCode == 0)
+                if (process.ExitCode != 0)
+                {
+                    ObserveAfterDispose(outputTask, errorTask);
+                    return null;
+                }
+
                 {
                     // MSBuild worker nodes inherit the pipes and can outlive dotnet itself, so the
                     // read waits for an end of stream that never arrives. Bound it and fall back.
@@ -278,6 +295,7 @@ namespace NSwag.Commands.Generation.AspNetCore
                     var readTimeoutTask = Task.Delay(TimeoutMilliseconds, readTimeoutCts.Token);
                     if (await Task.WhenAny(outputTask, readTimeoutTask).ConfigureAwait(false) == readTimeoutTask)
                     {
+                        ObserveAfterDispose(outputTask, errorTask);
                         return null;
                     }
 

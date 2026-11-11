@@ -55,19 +55,37 @@ namespace NSwag.ConsoleCore.Tests
             var outputTask = process.StandardOutput.ReadToEndAsync();
             var errorTask = process.StandardError.ReadToEndAsync();
 
-            // The first run of a sample restores and builds the project, which is slow on a
-            // cold CI runner. A cap that is too tight does not surface as a timeout: Kill() is
-            // asynchronous, so the ExitCode read below throws "Process must exit before
-            // requested information can be determined" instead.
+            // The first run of a sample restores and builds the project, which is slow on a cold
+            // CI runner. The reads are bounded as well as the exit: WaitForExit does not wait for
+            // the redirected streams, and MSBuild worker nodes inherit those pipes and can outlive
+            // dotnet-nswag, so awaiting them on their own can block for ever.
             var timeout = TimeSpan.FromMinutes(5);
-            if (!process.WaitForExit((int)timeout.TotalMilliseconds))
+            using var timeoutCts = new CancellationTokenSource(timeout);
+
+            try
+            {
+                await process.WaitForExitAsync(timeoutCts.Token);
+                await Task.WhenAll(outputTask, errorTask).WaitAsync(timeoutCts.Token);
+            }
+            catch (OperationCanceledException)
             {
                 process.Kill(entireProcessTree: true);
-                process.WaitForExit();
+                await process.WaitForExitAsync();
 
-                Assert.Fail($"dotnet-nswag did not exit within {timeout.TotalMinutes:0} minutes for " +
-                            $"{projectName} ({targetFramework})." + Environment.NewLine +
-                            await outputTask + await errorTask);
+                string captured;
+                try
+                {
+                    // Killing the tree closes the pipes, so this normally completes at once.
+                    captured = string.Concat(
+                        await Task.WhenAll(outputTask, errorTask).WaitAsync(TimeSpan.FromSeconds(30)));
+                }
+                catch (TimeoutException)
+                {
+                    captured = "(the process output could not be read)";
+                }
+
+                Assert.Fail($"dotnet-nswag did not finish within {timeout.TotalMinutes:0} minutes for " +
+                            $"{projectName} ({targetFramework})." + Environment.NewLine + captured);
             }
 
             var output = await outputTask;
