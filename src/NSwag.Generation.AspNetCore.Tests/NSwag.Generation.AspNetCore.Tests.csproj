@@ -4,6 +4,13 @@
     <NoWarn>$(NoWarn),618,1591;CA1707;CA1816</NoWarn>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <OutputType>Exe</OutputType>
+    <!--
+      Works around an SDK 11 regression: a Debug-only Blazor hot-reload JS
+      initializer is emitted with no matching endpoint, which fails the scoped
+      CSS validation. Only affects Debug, so CI (Release) is unaffected.
+      Remove once https://github.com/dotnet/sdk/issues/56656 ships a fix.
+    -->
+    <EnableHotReloadInRuntimeConfigDevFile>false</EnableHotReloadInRuntimeConfigDevFile>
   </PropertyGroup>
 
   <ItemGroup>
