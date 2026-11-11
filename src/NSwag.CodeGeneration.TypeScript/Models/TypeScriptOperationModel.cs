@@ -8,6 +8,7 @@
 
 using NJsonSchema;
 using NJsonSchema.CodeGeneration;
+using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag.CodeGeneration.Models;
 
 namespace NSwag.CodeGeneration.TypeScript.Models
@@ -82,12 +83,7 @@ namespace NSwag.CodeGeneration.TypeScript.Models
         {
             get
             {
-                var response = GetSuccessResponse();
-                var isNullable = response.Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true;
-
-                var resultType = isNullable && UnwrappedResultType != "void" && UnwrappedResultType != "null" ?
-                    UnwrappedResultType + " | null" :
-                    UnwrappedResultType;
+                var resultType = IsNullableResult ? UnwrappedResultType + " | " + ResultNullValue : UnwrappedResultType;
 
                 if (WrapResponse)
                 {
@@ -99,6 +95,25 @@ namespace NSwag.CodeGeneration.TypeScript.Models
                 }
             }
         }
+
+        /// <summary>Gets a value indicating whether the success result type carries a "| null"/"| undefined"
+        /// union: the response is nullable and the type is not "void" or "any" (which already allow both).</summary>
+        // "any" already includes null and undefined, so a union like "any | null" is redundant.
+        private bool IsNullableResult =>
+            GetSuccessResponse().Value?.IsNullable(_settings.CodeGeneratorSettings.SchemaType) == true
+            && UnwrappedResultType is not "void" and not "any";
+
+        /// <summary>Gets the TypeScript literal ("null" or "undefined") used to represent an absent response
+        /// value, both in the result type and in the runtime response conversion (see <see cref="TypeScriptClientGeneratorSettings.ResponseNullValue"/>).</summary>
+        public string ResultNullValue => _settings.ResponseNullValue == TypeScriptNullValue.Undefined ? "undefined" : "null";
+
+        /// <summary>Gets the value returned for an absent/no-content result. When the result type already
+        /// permits the configured null value (nullable response and ResponseNullValue is Undefined, so
+        /// ResultType is "T | undefined"), the bare value is returned; otherwise it is cast through "any".</summary>
+        public string ResultNullValueReturn =>
+            _settings.ResponseNullValue == TypeScriptNullValue.Undefined && IsNullableResult
+                ? ResultNullValue
+                : ResultNullValue + " as any";
 
         /// <summary>Gets a value indicating whether the operation requires mappings for DTO generation.</summary>
         public bool RequiresMappings => Responses.Any(r => r.HasType && r.ActualResponseSchema.UsesComplexObjectSchema());

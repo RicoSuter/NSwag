@@ -114,6 +114,13 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.TypeScriptGeneratorSettings.NullValue = value;
         }
 
+        [Argument(Name = nameof(ResponseNullValue), IsRequired = false, Description = "The value used to represent a null/absent response, both in the return type and its runtime conversion (default 'Null', 'Undefined').")]
+        public TypeScriptNullValue ResponseNullValue
+        {
+            get => Settings.ResponseNullValue;
+            set => Settings.ResponseNullValue = value;
+        }
+
         [Argument(Name = "GenerateClientClasses", IsRequired = false, Description = "Specifies whether generate client classes.")]
         public bool GenerateClientClasses
         {

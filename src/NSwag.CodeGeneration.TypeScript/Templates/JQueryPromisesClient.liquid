@@ -93,7 +93,7 @@
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }} | null {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }} | {{ operation.ResultNullValue }} {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}

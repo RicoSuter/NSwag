@@ -38,9 +38,9 @@ return response.blob().then(blob => { return { fileName: fileName, data: blob, s
 {% else -%}
 {% template Client.ProcessResponse.ReadBodyStart %}
 {%     if response.HasType -%}
-let result{{ response.StatusCode }}: any = null;
+let result{{ response.StatusCode }}: {{ response.ResultVariableType }} = {{ operation.ResultNullValue }};
 {%         if Framework.IsAxios -%}
-let resultData{{ response.StatusCode }}  = _responseText;
+let resultData{{ response.StatusCode }}  = _responseText{% if response.CoerceToResponseNullValue %} ?? {{ operation.ResultNullValue }}{% endif %};
 {%             if response.UseDtoClass -%}
 {{ response.DataConversionCode }}
 {%             else -%}
@@ -48,10 +48,10 @@ result{{ response.StatusCode }} = {% unless response.IsPlainText or Framework.Is
 {%             endif -%}
 {%         else -%}
 {%              if response.UseDtoClass or response.IsDateOrDateTime -%}
-let resultData{{ response.StatusCode }} = _responseText === "" ? null : {% if response.IsPlainText %}_responseText{% else %}{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver){% endif %};
+let resultData{{ response.StatusCode }} = _responseText === "" ? {{ operation.ResultNullValue }} : {{ response.DeserializeResponseTextExpression }}{% if response.CoerceToResponseNullValue %} ?? {{ operation.ResultNullValue }}{% endif %};
 {{ response.DataConversionCode }}
 {%              else -%}
-result{{ response.StatusCode }} = _responseText === "" ? null : {% if response.IsPlainText %}_responseText{% else %}{% if operation.HandleReferences %}jsonParse{% else %}JSON.parse{% endif %}(_responseText, this.jsonParseReviver){% endif %} as {{ response.Type }};
+result{{ response.StatusCode }} = _responseText === "" ? {{ operation.ResultNullValue }} : {% if response.CoerceToResponseNullValue %}({{ response.DeserializeResponseTextExpression }} as {{ response.Type }}) ?? {{ operation.ResultNullValue }}{% else %}{{ response.DeserializeResponseTextExpression }} as {{ response.Type }}{% endif %};
 {%              endif -%}
 {%         endif -%}
 {%         if response.IsSuccess -%}
@@ -82,27 +82,27 @@ return throwException({% if Framework.IsAngularJS %}this.q, {% endif %}"{{ respo
 {%     elsif response.IsSuccess -%}
 {%         if operation.WrapResponse -%}
 {%             if Framework.IsAngular -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%             elsif Framework.IsAngularJS -%}
-return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%             elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, null as any));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResultType }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%             else -%}
-return new {{ operation.ResponseClass }}(status, _headers, null as any);
+return new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any);
 {%             endif -%}
 {%         else -%}
 {%             if Framework.IsAngular -%}
 {%                 if Framework.UseRxJs7 -%}
-return {{ Framework.RxJs.ObservableOfMethod }}(null as any);
+return {{ Framework.RxJs.ObservableOfMethod }}({{ operation.ResultNullValueReturn }});
 {%                 else -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{operation.ResultType}}>(null as any);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{operation.ResultType}}>({{ operation.ResultNullValueReturn }});
 {%                 endif -%}
 {%             elsif Framework.IsAngularJS -%}
-return this.q.resolve<{{ operation.ResultType }}>(null as any);
+return this.q.resolve<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%             elsif Framework.IsAxios -%}
-return Promise.resolve<{{ operation.ResultType }}>(null as any);
+return Promise.resolve<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%             else -%}
-return{% if operation.HasResultType %} null{% endif %};
+return{% if operation.HasResultType %} {{ operation.ResultNullValue }}{% endif %};
 {%             endif -%}
 {%         endif -%}
 {%     else -%}

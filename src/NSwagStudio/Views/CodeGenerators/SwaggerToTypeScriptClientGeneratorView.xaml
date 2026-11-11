@@ -259,6 +259,11 @@
                                           ToolTip="NullValue"
                                           ItemsSource="{Binding NullValues}" Margin="0,0,0,12" />
 
+                                <TextBlock Text="Null value used for response types and their runtime conversion" FontWeight="Bold" Margin="0,0,0,6" />
+                                <ComboBox SelectedItem="{Binding Command.ResponseNullValue, Mode=TwoWay}"
+                                          ToolTip="ResponseNullValue"
+                                          ItemsSource="{Binding ResponseNullValues}" Margin="0,0,0,12" />
+
                                 <TextBlock Text="Date Time Type" FontWeight="Bold" Margin="0,0,0,6" />
                                 <ComboBox SelectedItem="{Binding Command.DateTimeType, Mode=TwoWay}"
                                           ToolTip="DateTimeType"

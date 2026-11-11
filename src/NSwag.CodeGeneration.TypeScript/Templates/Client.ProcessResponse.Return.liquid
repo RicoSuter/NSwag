@@ -1,35 +1,35 @@
 {% if Framework.IsFetchOrAurelia -%}
 {%     if operation.WrapResponse -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%     else -%}
-return Promise.resolve<{{ operation.ResultType }}>(null as any);
+return Promise.resolve<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%     endif -%}
 {% elsif Framework.IsAxios -%}
 {%     if operation.WrapResponse -%}
-return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return Promise.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%     else -%}
-return Promise.resolve<{{ operation.ResultType }}>(null as any);
+return Promise.resolve<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%     endif -%}
 {% elsif Framework.IsAngular -%}
 {%     if operation.WrapResponse -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%     else -%}
 {%         if Framework.UseRxJs7 -%}
-return {{ Framework.RxJs.ObservableOfMethod }}(null as any);
+return {{ Framework.RxJs.ObservableOfMethod }}({{ operation.ResultNullValueReturn }});
 {%         else -%}
-return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>(null as any);
+return {{ Framework.RxJs.ObservableOfMethod }}<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%         endif -%}
 {%     endif -%}
 {% elsif Framework.IsAngularJS -%}
 {%     if operation.WrapResponse -%}
-return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, null as any));
+return this.q.resolve<{{ operation.ResultType }}>(new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any));
 {%     else -%}
-return this.q.resolve<{{ operation.ResultType }}>(null as any);
+return this.q.resolve<{{ operation.ResultType }}>({{ operation.ResultNullValueReturn }});
 {%     endif -%}
 {% else -%}
 {%     if operation.WrapResponse -%}
-return new {{ operation.ResponseClass }}(status, _headers, null as any);
+return new {{ operation.ResponseClass }}(status, _headers, {{ operation.ResultNullValue }} as any);
 {%     else -%}
-return{% if operation.HasResultType %} null{% endif %};
+return{% if operation.HasResultType %} {{ operation.ResultNullValue }}{% endif %};
 {%     endif -%}
 {%- endif -%}

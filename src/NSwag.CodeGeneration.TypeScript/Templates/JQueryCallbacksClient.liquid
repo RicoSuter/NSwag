@@ -88,7 +88,7 @@
         }
     }
 
-    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType %} | null{% endif %} {
+    protected process{{ operation.ActualOperationNameUpper }}(xhr: any): {{ operation.ResultType }}{% if operation.HasResultType %} | {{ operation.ResultNullValue }}{% endif %} {
         const status = xhr.status;
 
         {% template Client.ProcessResponse %}
