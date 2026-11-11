@@ -32,7 +32,9 @@ using Nuke.Common.Utilities;
     InvokedTargets = [nameof(Compile), nameof(Test), nameof(Pack), nameof(Publish)],
     // NUGET_API_KEY is not imported as a secret: trusted publishing supplies it at
     // run time from the NuGet/login step (see CustomGitHubActionsAttribute.GetJobs).
-    ImportSecrets = ["MYGET_API_KEY", "CHOCO_API_KEY", "NPM_AUTH_TOKEN"],
+    // NPM_AUTH_TOKEN is gone with the move to npm trusted publishing, which uses the same
+    // OIDC token as NuGet. npm caps write tokens at 90 days, so the stored one kept expiring.
+    ImportSecrets = ["MYGET_API_KEY", "CHOCO_API_KEY"],
     // id-token lets GitHub mint the OIDC token that NuGet/login exchanges for a
     // short-lived API key. contents: write lets the tagged build attach the binaries to
     // the GitHub release, and covers the read access checkout needs. NUKE writes
@@ -92,9 +94,17 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
 
             // The zip and the installer are only produced on Windows, and until now they were
             // attached to the release by hand, days after the tag in practice.
+            //
+            // It goes last, after the artifact uploads. A step without an 'if' is implicitly
+            // gated on success(), so a failure here would otherwise skip those uploads and
+            // take away the very files the manual fallback needs.
             if (onWindows)
             {
-                newSteps.Insert(newSteps.IndexOf(runStep) + 1, new GitHubActionsReleaseAssetsStep());
+                // npm trusted publishing needs npm 11.5.1 or later; the runner image ships the
+                // npm bundled with its Node, which is older.
+                newSteps.Insert(newSteps.IndexOf(runStep), new GitHubActionsUpgradeNpmStep());
+
+                newSteps.Add(new GitHubActionsReleaseAssetsStep());
             }
         }
 
@@ -175,6 +185,10 @@ class GitHubActionsReleaseAssetsStep : GitHubActionsStep
         using (writer.Indent())
         {
             writer.WriteLine("if: ${{ startsWith(github.ref, 'refs/tags/v') }}");
+            // Publish has already pushed to NuGet, Chocolatey and npm by the time this runs,
+            // so a missing release must not report that shipped build as failed. The error
+            // annotations below are what makes it visible.
+            writer.WriteLine("continue-on-error: true");
             // The default shell on a Windows runner is PowerShell.
             writer.WriteLine("shell: bash");
             writer.WriteLine("env:");
@@ -187,21 +201,40 @@ class GitHubActionsReleaseAssetsStep : GitHubActionsStep
             using (writer.Indent())
             {
                 // The release is normally created from the tag while this build is still
-                // running, so wait for it rather than racing it.
-                // A literal list rather than seq, which is not guaranteed on a Windows runner.
+                // running, so wait for it rather than racing it. gh's stderr is kept so that
+                // an auth or API failure is not reported as "not created yet".
                 writer.WriteLine("for attempt in 1 2 3 4 5 6 7 8 9 10; do");
-                writer.WriteLine("  if gh release view \"$GITHUB_REF_NAME\" > /dev/null 2>&1; then");
+                writer.WriteLine("  if error=$(gh release view \"$GITHUB_REF_NAME\" 2>&1 > /dev/null); then");
                 writer.WriteLine("    gh release upload \"$GITHUB_REF_NAME\" \\");
                 writer.WriteLine("      artifacts/NSwag.zip \\");
                 writer.WriteLine("      artifacts/NSwagStudio.msi \\");
                 writer.WriteLine("      --clobber");
                 writer.WriteLine("    exit 0");
                 writer.WriteLine("  fi");
-                writer.WriteLine("  echo \"Release $GITHUB_REF_NAME does not exist yet, waiting (attempt $attempt of 10)\"");
-                writer.WriteLine("  sleep 30");
+                writer.WriteLine("  echo \"Release $GITHUB_REF_NAME not available yet (attempt $attempt of 10): $error\"");
+                writer.WriteLine("  [ \"$attempt\" = 10 ] || sleep 30");
                 writer.WriteLine("done");
-                writer.WriteLine("echo \"::error::Release $GITHUB_REF_NAME was not created within five minutes, binaries not attached\"");
+                writer.WriteLine("echo \"::error::Could not attach the binaries to release $GITHUB_REF_NAME: $error\"");
+                writer.WriteLine("echo \"::error::They are on this run as the NSwag.zip and NSwagStudio.msi artifacts.\"");
                 writer.WriteLine("exit 1");
+            }
+        }
+    }
+}
+
+class GitHubActionsUpgradeNpmStep : GitHubActionsStep
+{
+    public override void Write(CustomFileWriter writer)
+    {
+        writer.WriteLine("- name: 'Use an npm that supports trusted publishing'");
+        using (writer.Indent())
+        {
+            writer.WriteLine("run: |");
+            using (writer.Indent())
+            {
+                writer.WriteLine("npm install --global npm@latest");
+                // So the log says which version actually published.
+                writer.WriteLine("npm --version");
             }
         }
     }

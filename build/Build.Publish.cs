@@ -23,15 +23,13 @@ public partial class Build
 
     [Parameter] [Secret] string ChocoApiKey;
 
-    [Parameter] [Secret] string NpmAuthToken;
-
     string ApiKeyToUse => IsTaggedBuild ? NuGetApiKey : MyGetApiKey;
     string SourceToUse => IsTaggedBuild ? NuGetSource : MyGetGetSource;
 
     Target Publish => _ => _
         .OnlyWhenDynamic(() => IsRunningOnWindows && (GitRepository.IsOnMainOrMasterBranch() || IsTaggedBuild) && GitRepository.GetGitHubOwner() == "RicoSuter")
         .DependsOn(Pack)
-        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey, () => NpmAuthToken)
+        .Requires(() => NuGetApiKey, () => MyGetApiKey, () => ChocoApiKey)
         .Executes(() =>
         {
             if (IsTaggedBuild)
@@ -42,34 +40,31 @@ public partial class Build
                     .SetSource("https://push.chocolatey.org/")
                 );
 
-                try
+                // npm trusted publishing: the CLI exchanges the workflow's OIDC token for a
+                // short-lived credential, so there is no token to store or rotate. It needs a
+                // trusted publisher on npmjs.com for this repository and build.yml, id-token:
+                // write in the workflow, and npm 11.5.1 or later, which the workflow installs.
+                //
+                // A failure is no longer swallowed. It used to be written to stderr and the
+                // build stayed green, so a release could ship everywhere except npm without
+                // anything turning red.
+                //
+                // do not publish preview packages to npm
+                if (string.IsNullOrEmpty(VersionSuffix))
                 {
-                    var userDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    File.WriteAllText(
-                        Path.Combine(userDirectory, ".npmrc"),
-                        "//registry.npmjs.org/:_authToken=" + NpmAuthToken + "\n");
+                    var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
 
-                    // do not publish preview packages to npm
-                    if (string.IsNullOrEmpty(VersionSuffix))
+                    foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
                     {
-                        var outputs = Npm("publish", SourceDirectory / "NSwag.Npm", logOutput: false);
-
-                        foreach (var output in outputs.Where(o => !o.Text.Contains("npm notice")))
+                        if (output.Type == OutputType.Std)
                         {
-                            if (output.Type == OutputType.Std)
-                            {
-                                Serilog.Log.Information(output.Text);
-                            }
-                            else
-                            {
-                                Serilog.Log.Error(output.Text);
-                            }
+                            Serilog.Log.Information(output.Text);
+                        }
+                        else
+                        {
+                            Serilog.Log.Error(output.Text);
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine("NPM PUBLISH FAILED: " + ex.Message);
                 }
             }
 
