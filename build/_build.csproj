@@ -20,7 +20,6 @@
     <!-- Keep the build runner compatible with the NuGet assemblies loaded by the .NET SDK. -->
     <PackageReference Include="NuGet.Packaging" Version="7.9.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.15" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
   </ItemGroup>
 
   <ItemGroup>
