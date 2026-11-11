@@ -13,6 +13,8 @@ namespace NSwag.ConsoleCore.Tests
         [InlineData("NSwag.Sample.NET90Minimal", "net9.0", true)]
         [InlineData("NSwag.Sample.NET100", "net10.0", true)]
         [InlineData("NSwag.Sample.NET100Minimal", "net10.0", true)]
+        [InlineData("NSwag.Sample.NET110", "net11.0", true)]
+        [InlineData("NSwag.Sample.NET110Minimal", "net11.0", true)]
         public async Task Should_generate_openapi_for_project(string projectName, string targetFramework, bool generatesCode)
         {
             // Arrange
