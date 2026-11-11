@@ -60,7 +60,6 @@ class CustomGitHubActionsAttribute : GitHubActionsAttribute
         var onWindows = image.ToString().StartsWith("windows", StringComparison.OrdinalIgnoreCase);
         if (onWindows)
         {
-            newSteps.Insert(0, new GitHubActionsUseGnuTarStep());
             newSteps.Insert(0, new GitHubActionsConfigureLongPathsStep());
         }
 
@@ -156,25 +155,6 @@ class GitHubActionsSetupDotNetStep : GitHubActionsStep
                         writer.WriteLine(version);
                     }
                 }
-            }
-        }
-    }
-}
-
-class GitHubActionsUseGnuTarStep : GitHubActionsStep
-{
-    public override void Write(CustomFileWriter writer)
-    {
-        writer.WriteLine("- if: ${{ runner.os == 'Windows' }}");
-        using (writer.Indent())
-        {
-            writer.WriteLine("name: 'Use GNU tar'");
-            writer.WriteLine("shell: cmd");
-            writer.WriteLine("run: |");
-            using (writer.Indent())
-            {
-                writer.WriteLine("echo \"Adding GNU tar to PATH\"");
-                writer.WriteLine("echo C:\\Program Files\\Git\\usr\\bin>>\"%GITHUB_PATH%\"");
             }
         }
     }
