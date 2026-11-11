@@ -237,17 +237,10 @@ namespace NSwag.Commands
 #if NET462
 
             var runtime = Runtime != Runtime.Default ? Runtime : RuntimeUtilities.CurrentRuntime;
-            if (runtime == Runtime.Net80)
+            var directoryName = RuntimeUtilities.GetDirectoryName(runtime);
+            if (directoryName != null)
             {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net80/dotnet-nswag.dll") + "\" ";
-            }
-            if (runtime == Runtime.Net90)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net90/dotnet-nswag.dll") + "\" ";
-            }
-            if (runtime == Runtime.Net100)
-            {
-                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, "Net100/dotnet-nswag.dll") + "\" ";
+                return "\"" + System.IO.Path.Combine(RootBinaryDirectory, directoryName + "/dotnet-nswag.dll") + "\" ";
             }
 #endif
             return "";
