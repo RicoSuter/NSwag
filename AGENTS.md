@@ -54,17 +54,34 @@ Package versions are managed centrally in `Directory.Packages.props` (`ManagePac
 
 The command line tool ships one folder per runtime: `Win` (.NET Framework, Windows only) and `Net80`, `Net90`, `Net100` for .NET 8, 9 and 10. `build/Build.cs` publishes `NSwag.ConsoleCore` for each target framework and copies the results into those folders, which then become the NPM package layout and the `tools/` layout of `NSwag.MSBuild`.
 
-Adding or removing a runtime touches all of these together, and missing one leaves the tool pointing at a folder that is not shipped:
+Adding or removing a runtime touches all of these together, and missing one leaves the tool pointing at a folder that is not shipped.
 
+Toolchain and build:
+
+- `global.json` — the pinned SDK, when the new runtime needs a newer one
+- `build/Build.CI.GitHubActions.cs` — the version list of the `setup-dotnet` step, followed by regenerating both workflow files
 - `build/Build.cs` — the target framework list in `PublishConsoleProject` and the copies in `CopyConsoleBinaries`
+- `Directory.Packages.props` — the target-framework-conditional `ItemGroup` for the new framework
+- The `TargetFrameworks` of the multi-targeting projects that follow the runtimes: `NSwag.ConsoleCore`, `NSwag.Commands`, `NSwag.AspNetCore`, `NSwag.Generation.AspNetCore` and the test projects that run per framework
+
+Runtime selection:
+
 - `src/NSwag.Commands/Runtime.cs` and `src/NSwag.Commands/RuntimeUtilities.cs` — the enum value and the `CurrentRuntime` detection
 - `src/NSwag.Commands/NSwagDocument.cs` — the runtime to `dotnet-nswag.dll` path mapping
-- `src/NSwag.Npm/bin/nswag.js` — `supportedCoreVersions`, the config file runtime detection and the legacy `--core` mappings
+- `src/NSwag.Commands/NSwagDocumentBase.cs` — the default `Runtime` of new documents, when the default moves with the release
+
+Distribution:
+
+- `src/NSwag.Npm/bin/nswag.js` — `supportedCoreVersions`, the config file runtime detection and the legacy `--core` mappings, plus `package.json` and the README of the same folder
 - `src/NSwagStudio/nswag.cmd` — the `/runtime:netXX` dispatch
 - `src/NSwag.MSBuild/NSwag.MSBuild.props` — the `NSwagExe_NetXX` and `NSwagDir_NetXX` properties
 - `src/NSwag.MSBuild/NSwag.MSBuild.nuspec` — the `tools/NetXX` file entries
 - `src/NSwag.ApiDescription.Client/NSwag.ApiDescription.Client.targets` — the per target framework command
-- `Directory.Packages.props` — the conditional `ItemGroup` for the new target framework, plus a `NSwag.Sample.NETxx` and `NSwag.Sample.NETxxMinimal` project and their solution entries
+
+Samples and tests:
+
+- A `NSwag.Sample.NETxx` and `NSwag.Sample.NETxxMinimal` project, added to `src/NSwag.sln` and `src/NSwag.NoInstaller.slnf`
+- `src/NSwag.ConsoleCore.Tests/GenerateSampleSpecificationTests.cs` — the `InlineData` matrix, which produces a new set of `*.verified.txt` snapshots that have to be reviewed rather than accepted blindly
 
 ## Repository layout
 
