@@ -518,5 +518,50 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             // TODO this seems broken
             // CodeCompiler.AssertCompile(code);
         }
+
+        [Fact]
+        public async Task When_response_includes_204_return_default_object()
+        {
+            var yaml = """
+                       openapi: 3.0.3
+                       info:
+                         title: Example App
+                         version: '1.0'
+                       servers:
+                         - url: 'https://example.com/'
+                       paths:
+                         /get_a_thing:
+                           get:
+                             tags:
+                               - Things
+                             operationId: getAThing
+                             summary: Gets a thing.
+                             responses:
+                               '200':
+                                 description: Success
+                                 content:
+                                   application/json:
+                                     schema:
+                                       type: object
+                               '204':
+                                 description: No Content
+                               '500':
+                                 description: Internal Server Error
+                                 content:
+                                   application/json:
+                                     schema:
+                                       type: object
+                       """;
+
+            var document = await OpenApiYamlDocument.FromYamlAsync(yaml);
+
+            // Act
+            var codeGenerator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings());
+            var code = codeGenerator.GenerateFile();
+
+            // Assert
+            await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code);
+        }
     }
 }
