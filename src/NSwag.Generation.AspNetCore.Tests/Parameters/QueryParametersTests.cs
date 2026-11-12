@@ -52,10 +52,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First().Operation;
 
-            Assert.Equal(3, operation.ActualParameters.Count);
+            Assert.Equal(4, operation.ActualParameters.Count);
             Assert.True(operation.ActualParameters.Skip(0).First().IsRequired);
-            Assert.False(operation.ActualParameters.Skip(1).First().IsRequired);
-            Assert.True(operation.ActualParameters.Skip(2).First().IsRequired);
+            Assert.True(operation.ActualParameters.Skip(1).First().IsRequired);
+            Assert.False(operation.ActualParameters.Skip(2).First().IsRequired);
+            Assert.True(operation.ActualParameters.Skip(3).First().IsRequired);
         }
 
         [Fact]
@@ -74,10 +75,11 @@ namespace NSwag.Generation.AspNetCore.Tests.Parameters
             // Assert
             var operation = document.Operations.First().Operation;
 
-            Assert.Equal(3, operation.ActualParameters.Count);
-            Assert.False(operation.ActualParameters.Skip(0).First().IsRequired);
+            Assert.Equal(4, operation.ActualParameters.Count);
+            Assert.True(operation.ActualParameters.Skip(0).First().IsRequired);
             Assert.False(operation.ActualParameters.Skip(1).First().IsRequired);
-            Assert.True(operation.ActualParameters.Skip(2).First().IsRequired);
+            Assert.False(operation.ActualParameters.Skip(2).First().IsRequired);
+            Assert.True(operation.ActualParameters.Skip(3).First().IsRequired);
         }
 
         [Fact]
