@@ -99,6 +99,56 @@ namespace NSwag.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task WhenUsingBaseUrl_ButNoProperty_ThenBaseUrlFromClientBaseClassIsUsed()
+        {
+            // https://github.com/RicoSuter/NSwag/issues/4705
+
+            // Arrange
+            const string baseClassCode =
+                """
+                namespace MyNamespace
+                {
+                    public class MyBaseClass
+                    {
+                        public string BaseUrl => "https://from-base-class.example.com/";
+                    }
+                }
+                """;
+
+            // Act
+            var requestUri = await GenerateClientWithBaseClassAndGetRequestUri(
+                "https://from-document.example.com", baseClassCode, new HttpClient(new RequestCapturingHandler()));
+
+            // Assert
+            Assert.StartsWith("https://from-base-class.example.com/", requestUri.ToString());
+        }
+
+        [Fact]
+        public async Task WhenUsingBaseUrl_ButNoPropertyAndNoServer_ThenConstructorSetsBaseUrlOfClientBaseClass()
+        {
+            // https://github.com/RicoSuter/NSwag/issues/4705
+
+            // Arrange
+            const string baseClassCode =
+                """
+                namespace MyNamespace
+                {
+                    public class MyBaseClass
+                    {
+                        public string BaseUrl { get; set; }
+                    }
+                }
+                """;
+
+            // Act
+            var requestUri = await GenerateClientWithBaseClassAndGetRequestUri(
+                null, baseClassCode, "https://from-constructor.example.com/", new HttpClient(new RequestCapturingHandler()));
+
+            // Assert
+            Assert.StartsWith("https://from-constructor.example.com/", requestUri.ToString());
+        }
+
+        [Fact]
         public async Task When_parameter_name_is_reserved_keyword_then_it_is_appended_with_at()
         {
             // Arrange
@@ -412,6 +462,49 @@ namespace NSwag.CodeGeneration.CSharp.Tests
             await VerifyHelper.Verify(code)
                 .UseParameters(excludedOperationIds.Length);
             CSharpCompiler.AssertCompile(code);
+        }
+
+        private static async Task<Uri> GenerateClientWithBaseClassAndGetRequestUri(string serverUrl, string baseClassCode, params object[] constructorArguments)
+        {
+            var swaggerGenerator = new WebApiOpenApiDocumentGenerator(new WebApiOpenApiDocumentGeneratorSettings
+            {
+                SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings()
+            });
+
+            var document = await swaggerGenerator.GenerateForControllerAsync<FooController>();
+            if (serverUrl != null)
+            {
+                document.Servers.Add(new OpenApiServer { Url = serverUrl });
+            }
+
+            var generator = new CSharpClientGenerator(document, new CSharpClientGeneratorSettings
+            {
+                UseBaseUrl = true,
+                GenerateBaseUrlProperty = false,
+                ClientBaseClass = "MyBaseClass",
+                CSharpGeneratorSettings = { Namespace = "MyNamespace" }
+            });
+
+            var code = generator.GenerateFile();
+            var assembly = CSharpCompiler.Compile(code, baseClassCode);
+
+            var client = Activator.CreateInstance(assembly.GetType("MyNamespace.FooClient"), constructorArguments);
+            var task = (Task)client.GetType().GetMethod("GetPersonAsync", [typeof(bool?)]).Invoke(client, [null]);
+            var exception = await Assert.ThrowsAsync<RequestCapturedException>(() => task);
+            return exception.RequestUri;
+        }
+
+        private sealed class RequestCapturedException(Uri requestUri) : Exception
+        {
+            public Uri RequestUri { get; } = requestUri;
+        }
+
+        private sealed class RequestCapturingHandler : HttpMessageHandler
+        {
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                throw new RequestCapturedException(request.RequestUri);
+            }
         }
     }
 }
