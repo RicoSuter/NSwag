@@ -206,6 +206,42 @@ namespace NSwag.Core.Tests.Serialization
             Assert.Equal("bar123", parameter.Description);
         }
 
+        [Theory]
+        [InlineData(SchemaType.OpenApi3)]
+        [InlineData(SchemaType.Swagger2)]
+        public async Task When_request_body_is_cleared_then_body_parameter_and_serialized_body_are_removed(SchemaType schemaType)
+        {
+            var document = CreateDocument();
+            var operation = document.Paths["/baz"][OpenApiOperationMethod.Get];
+            operation.Parameters.Add(new OpenApiParameter { Name = "query", Kind = OpenApiParameterKind.Query, Type = JsonObjectType.String });
+
+            operation.RequestBody = null;
+
+            Assert.Null(operation.RequestBody);
+            Assert.DoesNotContain(operation.Parameters, parameter => parameter.Kind == OpenApiParameterKind.Body);
+            Assert.Equal("query", Assert.Single(operation.Parameters).Name);
+
+            var reloaded = await OpenApiDocument.FromJsonAsync(document.ToJson(schemaType));
+            var reloadedOperation = reloaded.Paths["/baz"][OpenApiOperationMethod.Get];
+            Assert.Null(reloadedOperation.RequestBody);
+            Assert.DoesNotContain(reloadedOperation.Parameters, parameter => parameter.Kind == OpenApiParameterKind.Body);
+            Assert.Equal("query", Assert.Single(reloadedOperation.Parameters).Name);
+        }
+
+        [Fact]
+        public void When_missing_request_body_is_cleared_then_other_parameters_are_unchanged()
+        {
+            var operation = new OpenApiOperation();
+            var parameter = new OpenApiParameter { Name = "query", Kind = OpenApiParameterKind.Query, Type = JsonObjectType.String };
+            operation.Parameters.Add(parameter);
+
+            operation.RequestBody = null;
+            operation.RequestBody = null;
+
+            Assert.Null(operation.RequestBody);
+            Assert.Same(parameter, Assert.Single(operation.Parameters));
+        }
+
         private static OpenApiDocument CreateDocument()
         {
             var schema = new JsonSchema
