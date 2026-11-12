@@ -31,6 +31,8 @@ namespace NSwag.CodeGeneration.CSharp
                 typeof(CSharpGeneratorBaseSettings).GetTypeInfo().Assembly
             ]);
 
+            CSharpGeneratorSettings.TypeNameGenerator = new CSharpTypeNameGenerator();
+
             ResponseArrayType = "System.Collections.Generic.ICollection";
             ResponseDictionaryType = "System.Collections.Generic.IDictionary";
 
@@ -65,5 +67,30 @@ namespace NSwag.CodeGeneration.CSharp
 
         /// <summary>Gets or sets the dictionary type of operation parameters.</summary>
         public string ParameterDictionaryType { get; set; }
+
+        private string _modelNamePrefix = "";
+        private string _modelNameSuffix = "";
+
+        /// <summary>Gets or sets the prefix to prepend to all generated model class names (default: "").</summary>
+        public string ModelNamePrefix
+        {
+            get => _modelNamePrefix;
+            set
+            {
+                _modelNamePrefix = value ?? string.Empty;
+                CSharpGeneratorSettings.TypeNameGenerator = new CSharpTypeNameGenerator(_modelNamePrefix, _modelNameSuffix);
+            }
+        }
+
+        /// <summary>Gets or sets the suffix to append to all generated model class names (default: "").</summary>
+        public string ModelNameSuffix
+        {
+            get => _modelNameSuffix;
+            set
+            {
+                _modelNameSuffix = value ?? string.Empty;
+                CSharpGeneratorSettings.TypeNameGenerator = new CSharpTypeNameGenerator(_modelNamePrefix, _modelNameSuffix);
+            }
+        }
     }
 }
