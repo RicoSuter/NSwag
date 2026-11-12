@@ -91,5 +91,38 @@ namespace NSwag.CodeGeneration.TypeScript.Models
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether dates are JavaScript Date objects, in which case a date-only value
+        /// (format: date) is serialized with the generated formatDate() function.
+        /// </summary>
+        public bool UseJsDate => _settings.TypeScriptGeneratorSettings.DateTimeType == TypeScriptDateTimeType.Date;
+
+        /// <summary>
+        /// Format a date-only value (format: date) to a string based on the chosen datetime type setting.
+        /// Not used for JavaScript Date objects, see <see cref="UseJsDate"/>.
+        /// </summary>
+        public string GetDateToString
+        {
+            get
+            {
+                switch (_settings.TypeScriptGeneratorSettings.DateTimeType)
+                {
+                    case TypeScriptDateTimeType.Date:
+                    case TypeScriptDateTimeType.String:
+                        return "";
+
+                    case TypeScriptDateTimeType.MomentJS:
+                    case TypeScriptDateTimeType.OffsetMomentJS:
+                    case TypeScriptDateTimeType.DayJS:
+                        return "format('YYYY-MM-DD')";
+
+                    case TypeScriptDateTimeType.Luxon:
+                        return "toFormat('yyyy-MM-dd')";
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
     }
 }
