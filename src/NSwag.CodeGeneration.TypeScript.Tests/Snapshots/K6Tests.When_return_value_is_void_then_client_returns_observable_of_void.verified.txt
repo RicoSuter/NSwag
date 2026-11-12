@@ -27,8 +27,8 @@ export class DiscussionClient implements IDiscussionClient {
         requestParameters || {},
         this.commonRequestParameters,
       );
-        let url_ = this.baseUrl + "/Discussion/AddMessage";
-        url_ = url_.replace(/[?&]$/, "");
+        const url_ = new UriBuilder(this.baseUrl + "/Discussion/AddMessage")
+            .toString();
 
       const content_ = JSON.stringify(message);
 
@@ -53,8 +53,8 @@ export class DiscussionClient implements IDiscussionClient {
         requestParameters || {},
         this.commonRequestParameters,
       );
-        let url_ = this.baseUrl + "/Discussion/GenericRequestTest1";
-        url_ = url_.replace(/[?&]$/, "");
+        const url_ = new UriBuilder(this.baseUrl + "/Discussion/GenericRequestTest1")
+            .toString();
 
       const content_ = JSON.stringify(request);
 
@@ -79,8 +79,8 @@ export class DiscussionClient implements IDiscussionClient {
         requestParameters || {},
         this.commonRequestParameters,
       );
-        let url_ = this.baseUrl + "/Discussion/GenericRequestTest2";
-        url_ = url_.replace(/[?&]$/, "");
+        const url_ = new UriBuilder(this.baseUrl + "/Discussion/GenericRequestTest2")
+            .toString();
 
       const content_ = JSON.stringify(request);
 
@@ -379,4 +379,68 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new ApiException(message, status, response, headers, null);
+}
+
+class Guard {
+    static required(value: any, name: string) {
+        if (value === undefined || value === null)
+            throw new globalThis.Error(`The parameter '${name}' must be defined and cannot be null.`);
+    }
+
+    static defined(value: any, name: string) {
+        if (value === undefined)
+            throw new globalThis.Error(`The parameter '${name}' must be defined.`);
+    }
+
+    static notNull(value: any, name: string) {
+        if (value === null)
+            throw new globalThis.Error(`The parameter '${name}' cannot be null.`);
+    }
+}
+
+class UriBuilder {
+    private params: string[] = [];
+
+    constructor(private url: string) {}
+
+    path(name: string, value: any) {
+        if (value === undefined || value === null) {
+            this.url = this.url.replace(`/{${name}}`, "").replace(`{${name}}`, "");
+            return this;
+        }
+        const resolved = Array.isArray(value) ? value.join() : value;
+        this.url = this.url.replace(`{${name}}`, encodeURIComponent("" + resolved));
+        return this;
+    }
+
+    param(name: string, value: any) {
+        if (value == null) return this;
+        this.params.push(`${name}=${encodeURIComponent("" + value)}`);
+        return this;
+    }
+
+    paramArray(name: string, arr: any[]) {
+        if (!arr) return this;
+        arr.forEach(v =>
+            this.params.push(`${name}=${encodeURIComponent("" + v)}`)
+        );
+        return this;
+    }
+
+    paramObjectArray(name: string, arr: any[]) {
+        if (!arr) return this;
+        arr.forEach((obj, i) => {
+            Object.entries(obj).forEach(([k, v]) => {
+                this.params.push(
+                    `${name}[${i}].${k}=${encodeURIComponent("" + v)}`
+                );
+            });
+        });
+        return this;
+    }
+
+    toString() {
+        if (!this.params.length) return this.url;
+        return this.url + (this.url.includes("?") ? "&" : "?") + this.params.join("&");
+    }
 }
