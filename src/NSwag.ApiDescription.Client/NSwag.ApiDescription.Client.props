@@ -57,6 +57,10 @@
       <NSwagDateType>$(NSwagDateType)</NSwagDateType>
       <NSwagJsonConverters>$(NSwagJsonConverters)</NSwagJsonConverters>
       <NSwagAnyType>$(NSwagAnyType)</NSwagAnyType>
+      <NSwagNumberType>$(NSwagNumberType)</NSwagNumberType>
+      <NSwagNumberDecimalType>$(NSwagNumberDecimalType)</NSwagNumberDecimalType>
+      <NSwagNumberDoubleType>$(NSwagNumberDoubleType)</NSwagNumberDoubleType>
+      <NSwagNumberFloatType>$(NSwagNumberFloatType)</NSwagNumberFloatType>
       <NSwagDateTimeType>$(NSwagDateTimeType)</NSwagDateTimeType>
       <NSwagTimeType>$(NSwagTimeType)</NSwagTimeType>
       <NSwagTimeSpanType>$(NSwagTimeSpanType)</NSwagTimeSpanType>
@@ -148,6 +152,10 @@
       <NSwagDateType>$(NSwagDateType)</NSwagDateType>
       <NSwagJsonConverters>$(NSwagJsonConverters)</NSwagJsonConverters>
       <NSwagAnyType>$(NSwagAnyType)</NSwagAnyType>
+      <NSwagNumberType>$(NSwagNumberType)</NSwagNumberType>
+      <NSwagNumberDecimalType>$(NSwagNumberDecimalType)</NSwagNumberDecimalType>
+      <NSwagNumberDoubleType>$(NSwagNumberDoubleType)</NSwagNumberDoubleType>
+      <NSwagNumberFloatType>$(NSwagNumberFloatType)</NSwagNumberFloatType>
       <NSwagDateTimeType>$(NSwagDateTimeType)</NSwagDateTimeType>
       <NSwagTimeType>$(NSwagTimeType)</NSwagTimeType>
       <NSwagTimeSpanType>$(NSwagTimeSpanType)</NSwagTimeSpanType>

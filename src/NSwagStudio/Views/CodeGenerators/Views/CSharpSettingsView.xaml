@@ -149,6 +149,18 @@
                         <TextBlock Text="Any Type" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.AnyType, Mode=TwoWay}" ToolTip="AnyType" Margin="0,0,0,12" />
 
+                        <TextBlock Text="Number Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.NumberType, Mode=TwoWay}" ToolTip="NumberType" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Number Decimal Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.NumberDecimalType, Mode=TwoWay}" ToolTip="NumberDecimalType" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Number Double Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.NumberDoubleType, Mode=TwoWay}" ToolTip="NumberDoubleType" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Number Float Type" FontWeight="Bold" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Command.NumberFloatType, Mode=TwoWay}" ToolTip="NumberFloatType" Margin="0,0,0,12" />
+
                         <TextBlock Text="Date Type" FontWeight="Bold" Margin="0,0,0,6" />
                         <TextBox Text="{Binding Command.DateType, Mode=TwoWay}" ToolTip="DateType" Margin="0,0,0,12" />
 

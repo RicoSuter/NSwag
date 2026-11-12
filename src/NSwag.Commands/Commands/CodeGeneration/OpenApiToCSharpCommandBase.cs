@@ -182,6 +182,34 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.CSharpGeneratorSettings.AnyType = value;
         }
 
+        [Argument(Name = "NumberType", IsRequired = false, Description = "The default number .NET type if no format is specified in the OpenAPI schema (default: 'double').")]
+        public string NumberType
+        {
+            get => Settings.CSharpGeneratorSettings.NumberType;
+            set => Settings.CSharpGeneratorSettings.NumberType = value;
+        }
+
+        [Argument(Name = "NumberDecimalType", IsRequired = false, Description = "The decimal number .NET type (default: 'decimal').")]
+        public string NumberDecimalType
+        {
+            get => Settings.CSharpGeneratorSettings.NumberDecimalType;
+            set => Settings.CSharpGeneratorSettings.NumberDecimalType = value;
+        }
+
+        [Argument(Name = "NumberDoubleType", IsRequired = false, Description = "The double number .NET type (default: 'double').")]
+        public string NumberDoubleType
+        {
+            get => Settings.CSharpGeneratorSettings.NumberDoubleType;
+            set => Settings.CSharpGeneratorSettings.NumberDoubleType = value;
+        }
+
+        [Argument(Name = "NumberFloatType", IsRequired = false, Description = "The float number .NET type (default: 'float').")]
+        public string NumberFloatType
+        {
+            get => Settings.CSharpGeneratorSettings.NumberFloatType;
+            set => Settings.CSharpGeneratorSettings.NumberFloatType = value;
+        }
+
         [Argument(Name = "DateTimeType", IsRequired = false, Description = "The date time .NET type (default: 'DateTimeOffset').")]
         public string DateTimeType
         {
