@@ -42,5 +42,8 @@ namespace NSwag.CodeGeneration.TypeScript.Models
 
         /// <summary>Gets whether the export keyword should be added to all classes and enums.</summary>
         public bool ExportTypes => _settings.TypeScriptGeneratorSettings.ExportTypes;
+
+        /// <summary>Gets whether to generate Angular resource companion methods.</summary>
+        public bool GenerateResourceMethods => UseHttpClient && _settings.GenerateAngularResourceMethods;
     }
 }

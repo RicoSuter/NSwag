@@ -1,11 +1,18 @@
 ﻿{% if HasOperations -%}
+{% assign resourceInterface = true -%}
 {% if GenerateClientInterfaces -%}
 {% if ExportTypes %}export {% endif %}interface I{{ Class }} {
 {%     for operation in Operations -%}
+{%         if Framework.Angular.GenerateResourceMethods == false or operation.MethodAccessModifier == "" -%}
     {% template Client.Method.Documentation %}
     {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false%}, {% endif %}{% endfor %}): Observable<{{ operation.ResultType }}>;
+{%         if Framework.Angular.GenerateResourceMethods -%}
+    {% template AngularClient.ResourceMethod %}
+{%         endif -%}
+{%         endif -%}
 {%     endfor -%}}
 {%- endif -%}
+{% assign resourceInterface = false -%}
 
 {% if Framework.Angular.UseSingletonProvider -%}
 @Injectable({
@@ -106,6 +113,10 @@
         }){% if Framework.UseRxJs6 %}){% endif %};
     }
 
+{%    if Framework.Angular.GenerateResourceMethods -%}
+    {% template AngularClient.ResourceMethod %}
+
+{%    endif -%}
     protected process{{ operation.ActualOperationNameUpper }}(response: {% if Framework.Angular.UseHttpClient %}HttpResponseBase{% else %}Response{% endif %}): Observable<{{ operation.ResultType }}> {
         const status = response.status;
 {%- if Framework.Angular.UseHttpClient -%}

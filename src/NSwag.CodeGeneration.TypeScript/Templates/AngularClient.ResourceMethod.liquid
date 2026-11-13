@@ -1,0 +1,8 @@
+{{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}Resource(options{% if operation.Parameters.size == 0 %}?{% endif %}: {% if operation.Parameters.size > 0 %}AngularResourceOptions{% else %}BaseResourceOptions{% endif %}<{{ operation.ResultType }}, {% if operation.Parameters.size == 0 and IncludeHttpContext == false %}{}{% else %}{ {% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}; {% endfor %}{% if IncludeHttpContext %}httpContext?: HttpContext; {% endif %}}{% endif %}{% if operation.Parameters.size == 0 %} | undefined{% endif %}>): ResourceRef<{{ operation.ResultType }} | undefined>{% if resourceInterface %};
+{% else %} {
+    return rxResource({
+        ...options,
+        stream: ({ params }) => this.{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}params.{{ parameter.VariableName }}{% if parameter.IsLast == false or IncludeHttpContext %}, {% endif %}{% endfor %}{% if IncludeHttpContext %}params{% if operation.Parameters.size == 0 %}?{% endif %}.httpContext{% endif %})
+    });
+}
+{% endif -%}
