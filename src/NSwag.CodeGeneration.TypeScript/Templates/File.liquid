@@ -25,7 +25,10 @@ import { Observable } from 'rxjs/Observable';
 import { mergeMap as {{ Framework.RxJs.ObservableMergeMapMethod }}, catchError as {{ Framework.RxJs.ObservableCatchMethod }} } from 'rxjs/operators';
 import { Observable, {% if UseTransformOptionsMethod %}from as {{ Framework.RxJs.ObservableFromMethod }}, {% endif %}throwError as {{ Framework.RxJs.ObservableThrowMethod }}, of as {{ Framework.RxJs.ObservableOfMethod }} } from 'rxjs';
 {%-            endif -%}
-import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }} } from '@angular/core';
+import { Injectable, Inject, Optional, {{ Framework.Angular.InjectionTokenType }}{% if Framework.Angular.GenerateResourceMethods %}, BaseResourceOptions, ResourceRef{% endif %} } from '@angular/core';
+{%-            if Framework.Angular.GenerateResourceMethods %}
+import { rxResource } from '@angular/core/rxjs-interop';
+{%-            endif -%}
 {%-            if Framework.Angular.UseHttpClient -%}
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase{% if IncludeHttpContext %}, HttpContext{% endif %} } from '@angular/common/http';
 {%-            else -%}
@@ -83,6 +86,10 @@ namespace {{ Namespace }} {
 {%- endif -%}
 {{ ExtensionCodeTop }}
 
+{% if GenerateClientClasses and Framework.Angular.GenerateResourceMethods -%}
+type AngularResourceOptions<T, P> = BaseResourceOptions<T, P | undefined> & Required<Pick<BaseResourceOptions<T, P | undefined>, "params">>;
+
+{% endif -%}
 {{ Clients }}
 
 {{ Types }}

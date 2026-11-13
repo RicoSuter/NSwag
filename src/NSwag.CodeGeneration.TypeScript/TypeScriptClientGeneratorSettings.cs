@@ -114,6 +114,9 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <summary>Gets a value indicating whether to use the Angular 6 Singleton Provider (Angular template only, default: false).</summary>
         public bool UseSingletonProvider { get; set; }
 
+        /// <summary>Gets or sets whether to generate Angular 22 resource companion methods (default: false).</summary>
+        public bool GenerateAngularResourceMethods { get; set; }
+
         /// <summary>Gets or sets the injection token type (applies only for the Angular template).</summary>
         public InjectionTokenType InjectionTokenType { get; set; } = InjectionTokenType.OpaqueToken;
 

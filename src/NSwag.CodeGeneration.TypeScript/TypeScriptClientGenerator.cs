@@ -91,6 +91,12 @@ namespace NSwag.CodeGeneration.TypeScript
         /// <returns>The code.</returns>
         protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
         {
+            if (Settings.GenerateAngularResourceMethods &&
+                (Settings.Template != TypeScriptTemplate.Angular || Settings.HttpClass != HttpClass.HttpClient || Settings.RxJsVersion < 6.0m))
+            {
+                throw new ArgumentException("GenerateAngularResourceMethods requires Template = Angular, HttpClass = HttpClient and RxJsVersion >= 6.");
+            }
+
             var model = new TypeScriptFileTemplateModel(clientTypes, dtoTypes, _document, _extensionCode, Settings, _resolver);
             var template = BaseSettings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("TypeScript", "File", model);
             return template.Render();
@@ -106,6 +112,19 @@ namespace NSwag.CodeGeneration.TypeScript
             UpdateUseDtoClassAndDataConversionCodeProperties(operations);
 
             var model = new TypeScriptClientTemplateModel(controllerName, controllerClassName, operations, _extensionCode, _document, Settings);
+            if (Settings.GenerateAngularResourceMethods)
+            {
+                var methodNames = new HashSet<string>(model.Operations.Select(o => o.ActualOperationName), StringComparer.Ordinal);
+                foreach (var operation in model.Operations)
+                {
+                    var resourceMethodName = operation.ActualOperationName + "Resource";
+                    if (!methodNames.Add(resourceMethodName))
+                    {
+                        throw new InvalidOperationException($"Resource method '{resourceMethodName}' conflicts with another method in client '{model.Class}'.");
+                    }
+                }
+            }
+
             var template = Settings.CreateTemplate(model);
             yield return new CodeArtifact(model.Class, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Client, template);
         }

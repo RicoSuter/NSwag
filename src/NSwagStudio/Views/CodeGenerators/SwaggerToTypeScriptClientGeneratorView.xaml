@@ -93,6 +93,10 @@
                                                   ToolTip="IncludeHttpContext"
                                                   Content="Include the httpContext parameter" Margin="0,4,0,12" />
 
+                                        <CheckBox IsChecked="{Binding Command.GenerateAngularResourceMethods, Mode=TwoWay}"
+                                                  ToolTip="Generate resource companion methods (Angular 22+ HttpClient only)"
+                                                  Content="Generate Angular resource methods" Margin="0,4,0,12" />
+
                                         <TextBlock Text="HTTP service class" FontWeight="Bold" Margin="0,0,0,6" />
                                         <TextBlock Text="HttpClient recommended for new projects (Angular 4.3+)" Margin="0,0,0,6" />
                                         <Grid>

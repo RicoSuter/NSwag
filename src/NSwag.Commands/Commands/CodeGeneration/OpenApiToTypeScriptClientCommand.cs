@@ -86,6 +86,14 @@ namespace NSwag.Commands.CodeGeneration
             set => Settings.UseSingletonProvider = value;
         }
 
+        /// <summary>Gets or sets whether to generate Angular 22 resource companion methods (default: false).</summary>
+        [Argument(Name = "GenerateAngularResourceMethods", IsRequired = false, Description = "Generate resource companion methods (Angular 22+ HttpClient only, default: false).")]
+        public bool GenerateAngularResourceMethods
+        {
+            get => Settings.GenerateAngularResourceMethods;
+            set => Settings.GenerateAngularResourceMethods = value;
+        }
+
         [Argument(Name = "InjectionTokenType", IsRequired = false, Description = "The Angular injection token type (default 'InjectionToken', 'OpaqueToken').")]
         public InjectionTokenType InjectionTokenType
         {
