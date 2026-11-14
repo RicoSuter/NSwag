@@ -32,7 +32,7 @@ if (configFile) {
     try {
         var configPath = path.resolve(configFile);
         if (fs.existsSync(configPath)) {
-            var configContent = fs.readFileSync(configPath, 'utf8');
+            var configContent = fs.readFileSync(configPath, 'utf8').replace(/^\uFEFF/, '');
             var config = JSON.parse(configContent);
             if (config.runtime) {
                 // Accepts both "Net100" and "net10.0" spellings
