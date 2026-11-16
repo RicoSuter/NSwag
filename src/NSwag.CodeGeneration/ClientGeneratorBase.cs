@@ -11,6 +11,7 @@ using NJsonSchema;
 using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.Models;
 using System.Runtime;
+using System.Text.RegularExpressions;
 
 namespace NSwag.CodeGeneration
 {
@@ -189,6 +190,8 @@ namespace NSwag.CodeGeneration
                     var operationName = BaseSettings.OperationNameGenerator.GetOperationName(document, path, httpMethod, operation);
 
                     operationName = operationName.Replace('.', '_');
+                    operationName = Regex.Replace(operationName, @"[^\w\s/-]+$", string.Empty);
+                    operationName = Regex.Replace(operationName, @"[^\w\s/-]+", "-");
 
                     if (operationName.EndsWith("Async", StringComparison.Ordinal))
                     {
