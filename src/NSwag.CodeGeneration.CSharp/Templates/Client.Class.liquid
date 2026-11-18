@@ -249,10 +249,12 @@
 {%                 for parameter in operation.FormParameters %}
 {%                     if parameter.IsNullable -%}
                 if ({{ parameter.VariableName }} != null)
-{%                     else -%}
+{%                     elsif parameter.IsRequired -%}
                 if ({{ parameter.VariableName }} == null)
                     throw new System.ArgumentNullException("{{ parameter.VariableName }}");
                 else
+{%                     else -%}
+				if ({{ parameter.VariableName }} != null)
 {%                     endif -%}
                 {
 {%                     if parameter.IsFile -%}
