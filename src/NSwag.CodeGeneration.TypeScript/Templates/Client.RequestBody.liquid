@@ -21,7 +21,9 @@ if ({{ parameter.VariableName }} === null)
 else if ({{ parameter.VariableName }} !== undefined)
 {%-                 endif -%}
 {%-             endif -%}
-{%-             if parameter.IsDateOrDateTimeArray -%}
+{%-             if parameter.IsDateArray -%}
+    {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? formatDate(item_) : "null") + "&"; });
+{%-             elsif parameter.IsDateOrDateTimeArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent(item_ ? "" + item_.toJSON() : "null") + "&"; });
 {%-             elsif parameter.IsObjectArray -%}
     {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach((item_, index_) => {
@@ -31,6 +33,8 @@ else if ({{ parameter.VariableName }} !== undefined)
            }
         }
     });
+{%-             elsif parameter.IsDate -%}
+    content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? formatDate({{ parameter.VariableName }}) : "{{ QueryNullValue }}") + "&";
 {%-             elsif parameter.IsDateOrDateTime -%}
     content_ += encodeURIComponent("{{ parameter.Name }}") + "=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.toJSON() : "{{ QueryNullValue }}") + "&";
 {%-             elsif parameter.IsArray -%}
@@ -57,10 +61,14 @@ else
 {%-                 else -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.data, {{ parameter.VariableName }}.fileName ? {{ parameter.VariableName }}.fileName : "{{ parameter.Name }}");
 {%-                 endif -%}
+{%-             elsif parameter.IsDate -%}
+    content_.append("{{ parameter.Name }}", formatDate({{ parameter.VariableName }}));
 {%-             elsif parameter.IsDateOrDateTime -%}
     content_.append("{{ parameter.Name }}", {{ parameter.VariableName }}.toJSON());
 {%-             elsif parameter.IsObject -%}
     content_.append("{{ parameter.Name }}", JSON.stringify({{ parameter.VariableName }}));
+{%-             elsif parameter.IsDateArray -%}
+    {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", formatDate(item_)));
 {%-             elsif parameter.IsArray -%}
     {{ parameter.VariableName }}.forEach(item_ => content_.append("{{ parameter.Name }}", item_.toString()));
 {%-             else -%}
