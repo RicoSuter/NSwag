@@ -56,5 +56,5 @@ if ({{parameter.Name}}.{{property.Name}} != null)
 urlBuilder_.Append(System.Uri.EscapeDataString("{{ parameter.Name }}")).Append('=').Append(System.Uri.EscapeDataString({% if parameter.IsNullable and parameter.IsRequired %}{{ parameter.VariableName }} != null ? {% endif %}ConvertToString({{ parameter.VariableName }}, System.Globalization.CultureInfo.InvariantCulture){% if parameter.IsNullable and parameter.IsRequired %} : "{{ QueryNullValue }}"{% endif %})).Append('&');
 {% endif -%}
 {% if parameter.HasAdditionalProperties -%}
-foreach (var item_ in {{parameter.Name}}.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+foreach (var item_ in {{ parameter.VariableName }}.AdditionalProperties) { urlBuilder_.Append(System.Uri.EscapeDataString(item_.Key)).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_.Value, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
 {% endif -%}
