@@ -6336,7 +6336,10 @@ namespace MyNamespace
                     }
                     if (invoiceTypes != null)
                     {
-                            foreach (var item_ in invoiceTypes) { urlBuilder_.Append(System.Uri.EscapeDataString("InvoiceTypes")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in invoiceTypes)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("InvoiceTypes")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (pageSize != null)
                     {

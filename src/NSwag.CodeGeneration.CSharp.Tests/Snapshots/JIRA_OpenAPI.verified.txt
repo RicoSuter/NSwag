@@ -318,11 +318,17 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (fieldContextId != null)
                     {
-                            foreach (var item_ in fieldContextId) { urlBuilder_.Append(System.Uri.EscapeDataString("fieldContextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fieldContextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fieldContextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (issueId != null)
                     {
@@ -588,11 +594,17 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (fieldContextId != null)
                     {
-                            foreach (var item_ in fieldContextId) { urlBuilder_.Append(System.Uri.EscapeDataString("fieldContextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fieldContextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fieldContextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (issueId != null)
                     {
@@ -3819,7 +3831,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (status != null)
                     {
-                            foreach (var item_ in status) { urlBuilder_.Append(System.Uri.EscapeDataString("status")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in status)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("status")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (orderBy != null)
                     {
@@ -4520,7 +4535,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (projectIdsOrKeys != null)
                     {
-                            foreach (var item_ in projectIdsOrKeys) { urlBuilder_.Append(System.Uri.EscapeDataString("projectIdsOrKeys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectIdsOrKeys)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectIdsOrKeys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -6489,15 +6507,24 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (moduleKey != null)
                     {
-                            foreach (var item_ in moduleKey) { urlBuilder_.Append(System.Uri.EscapeDataString("moduleKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in moduleKey)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("moduleKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (uri != null)
                     {
-                            foreach (var item_ in uri) { urlBuilder_.Append(System.Uri.EscapeDataString("uri")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in uri)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("uri")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (gadgetId != null)
                     {
-                            foreach (var item_ in gadgetId) { urlBuilder_.Append(System.Uri.EscapeDataString("gadgetId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in gadgetId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("gadgetId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -9129,11 +9156,17 @@ namespace MyNamespace
                     }
                     if (type != null)
                     {
-                            foreach (var item_ in type) { urlBuilder_.Append(System.Uri.EscapeDataString("type")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in type)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("type")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (query != null)
                     {
@@ -9149,7 +9182,10 @@ namespace MyNamespace
                     }
                     if (projectIds != null)
                     {
-                            foreach (var item_ in projectIds) { urlBuilder_.Append(System.Uri.EscapeDataString("projectIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectIds)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -9278,7 +9314,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (query != null)
                     {
@@ -9541,7 +9580,10 @@ namespace MyNamespace
                     }
                     if (contextId != null)
                     {
-                            foreach (var item_ in contextId) { urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in contextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -9811,7 +9853,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (contextId != null)
                     {
-                            foreach (var item_ in contextId) { urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in contextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -10080,7 +10125,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (contextId != null)
                     {
-                            foreach (var item_ in contextId) { urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in contextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -10329,7 +10377,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (contextId != null)
                     {
-                            foreach (var item_ in contextId) { urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in contextId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("contextId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -13544,7 +13595,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (isDefault != null)
                     {
@@ -14232,7 +14286,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -14455,7 +14512,10 @@ namespace MyNamespace
                     }
                     if (fieldConfigurationSchemeId != null)
                     {
-                            foreach (var item_ in fieldConfigurationSchemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("fieldConfigurationSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fieldConfigurationSchemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fieldConfigurationSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -14572,7 +14632,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/fieldconfigurationscheme/project"
                     urlBuilder_.Append("rest/api/3/fieldconfigurationscheme/project");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in projectId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (startAt != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("startAt")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(startAt, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -15854,7 +15917,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (orderBy != null)
                     {
@@ -17738,11 +17804,17 @@ namespace MyNamespace
                     }
                     if (groupId != null)
                     {
-                            foreach (var item_ in groupId) { urlBuilder_.Append(System.Uri.EscapeDataString("groupId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in groupId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("groupId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (groupName != null)
                     {
-                            foreach (var item_ in groupName) { urlBuilder_.Append(System.Uri.EscapeDataString("groupName")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in groupName)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("groupName")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (accessType != null)
                     {
@@ -18269,11 +18341,17 @@ namespace MyNamespace
                     }
                     if (exclude != null)
                     {
-                            foreach (var item_ in exclude) { urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in exclude)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (excludeId != null)
                     {
-                            foreach (var item_ in excludeId) { urlBuilder_.Append(System.Uri.EscapeDataString("excludeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in excludeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("excludeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (maxResults != null)
                     {
@@ -18415,11 +18493,17 @@ namespace MyNamespace
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (issueTypeId != null)
                     {
-                            foreach (var item_ in issueTypeId) { urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issueTypeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (avatarSize != null)
                     {
@@ -19248,19 +19332,31 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (projectIds != null)
                     {
-                            foreach (var item_ in projectIds) { urlBuilder_.Append(System.Uri.EscapeDataString("projectIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectIds)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectKeys != null)
                     {
-                            foreach (var item_ in projectKeys) { urlBuilder_.Append(System.Uri.EscapeDataString("projectKeys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectKeys)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectKeys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (issuetypeIds != null)
                     {
-                            foreach (var item_ in issuetypeIds) { urlBuilder_.Append(System.Uri.EscapeDataString("issuetypeIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issuetypeIds)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issuetypeIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (issuetypeNames != null)
                     {
-                            foreach (var item_ in issuetypeNames) { urlBuilder_.Append(System.Uri.EscapeDataString("issuetypeNames")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issuetypeNames)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issuetypeNames")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -20710,7 +20806,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (fields != null)
                     {
-                            foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fields)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (fieldsByKeys != null)
                     {
@@ -20722,7 +20821,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (updateHistory != null)
                     {
@@ -27275,11 +27377,17 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (schemeId != null)
                     {
-                            foreach (var item_ in schemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in schemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (onlyDefault != null)
                     {
@@ -27548,15 +27656,24 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (schemeId != null)
                     {
-                            foreach (var item_ in schemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in schemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (levelId != null)
                     {
-                            foreach (var item_ in levelId) { urlBuilder_.Append(System.Uri.EscapeDataString("levelId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in levelId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("levelId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -27673,11 +27790,17 @@ namespace MyNamespace
                     }
                     if (issueSecuritySchemeId != null)
                     {
-                            foreach (var item_ in issueSecuritySchemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("issueSecuritySchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issueSecuritySchemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issueSecuritySchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -27950,11 +28073,17 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -28313,7 +28442,10 @@ namespace MyNamespace
                     }
                     if (issueSecurityLevelId != null)
                     {
-                            foreach (var item_ in issueSecurityLevelId) { urlBuilder_.Append(System.Uri.EscapeDataString("issueSecurityLevelId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issueSecurityLevelId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issueSecurityLevelId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -30611,7 +30743,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (orderBy != null)
                     {
@@ -30849,7 +30984,10 @@ namespace MyNamespace
                     }
                     if (issueTypeSchemeId != null)
                     {
-                            foreach (var item_ in issueTypeSchemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issueTypeSchemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -30958,7 +31096,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/issuetypescheme/project"
                     urlBuilder_.Append("rest/api/3/issuetypescheme/project");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in projectId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (startAt != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("startAt")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(startAt, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -31790,7 +31931,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (queryString != null)
                     {
@@ -32035,7 +32179,10 @@ namespace MyNamespace
                     }
                     if (issueTypeScreenSchemeId != null)
                     {
-                            foreach (var item_ in issueTypeScreenSchemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeScreenSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in issueTypeScreenSchemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("issueTypeScreenSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -32144,7 +32291,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/issuetypescreenscheme/project"
                     urlBuilder_.Append("rest/api/3/issuetypescreenscheme/project");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in projectId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (startAt != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("startAt")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(startAt, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -33392,7 +33542,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (functionKey != null)
                     {
-                            foreach (var item_ in functionKey) { urlBuilder_.Append(System.Uri.EscapeDataString("functionKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in functionKey)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("functionKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -35403,11 +35556,17 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (onlyDefault != null)
                     {
@@ -35640,11 +35799,17 @@ namespace MyNamespace
                     }
                     if (notificationSchemeId != null)
                     {
-                            foreach (var item_ in notificationSchemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("notificationSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in notificationSchemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("notificationSchemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -40475,11 +40640,17 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (priorityName != null)
                     {
@@ -40975,11 +41146,17 @@ namespace MyNamespace
                     }
                     if (priorityId != null)
                     {
-                            foreach (var item_ in priorityId) { urlBuilder_.Append(System.Uri.EscapeDataString("priorityId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in priorityId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("priorityId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (schemeId != null)
                     {
-                            foreach (var item_ in schemeId) { urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in schemeId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("schemeId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (schemeName != null)
                     {
@@ -41331,7 +41508,10 @@ namespace MyNamespace
                     }
                     if (exclude != null)
                     {
-                            foreach (var item_ in exclude) { urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in exclude)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -41774,7 +41954,10 @@ namespace MyNamespace
                     }
                     if (projectId != null)
                     {
-                            foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in projectId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (query != null)
                     {
@@ -41894,7 +42077,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -42227,7 +42413,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -42387,11 +42576,17 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (keys != null)
                     {
-                            foreach (var item_ in keys) { urlBuilder_.Append(System.Uri.EscapeDataString("keys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in keys)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("keys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (query != null)
                     {
@@ -42415,11 +42610,17 @@ namespace MyNamespace
                     }
                     if (status != null)
                     {
-                            foreach (var item_ in status) { urlBuilder_.Append(System.Uri.EscapeDataString("status")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in status)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("status")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (propertyQuery != null)
                     {
@@ -43003,7 +43204,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -48463,7 +48667,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (onlyDefault != null)
                     {
@@ -49976,7 +50183,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (queryString != null)
                     {
@@ -49984,7 +50194,10 @@ namespace MyNamespace
                     }
                     if (scope != null)
                     {
-                            foreach (var item_ in scope) { urlBuilder_.Append(System.Uri.EscapeDataString("scope")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in scope)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("scope")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (orderBy != null)
                     {
@@ -50304,11 +50517,17 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (screenId != null)
                     {
-                            foreach (var item_ in screenId) { urlBuilder_.Append(System.Uri.EscapeDataString("screenId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in screenId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("screenId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (tabId != null)
                     {
-                            foreach (var item_ in tabId) { urlBuilder_.Append(System.Uri.EscapeDataString("tabId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in tabId)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("tabId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (startAt != null)
                     {
@@ -51817,7 +52036,10 @@ namespace MyNamespace
                     }
                     if (id != null)
                     {
-                            foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in id)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -52324,7 +52546,10 @@ namespace MyNamespace
                     }
                     if (fields != null)
                     {
-                            foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fields)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -52332,7 +52557,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (fieldsByKeys != null)
                     {
@@ -52816,7 +53044,10 @@ namespace MyNamespace
                     }
                     if (fields != null)
                     {
-                            foreach (var item_ in fields) { urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in fields)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("fields")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -52824,7 +53055,10 @@ namespace MyNamespace
                     }
                     if (properties != null)
                     {
-                            foreach (var item_ in properties) { urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in properties)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("properties")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (fieldsByKeys != null)
                     {
@@ -52836,7 +53070,10 @@ namespace MyNamespace
                     }
                     if (reconcileIssues != null)
                     {
-                            foreach (var item_ in reconcileIssues) { urlBuilder_.Append(System.Uri.EscapeDataString("reconcileIssues")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in reconcileIssues)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("reconcileIssues")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -53808,7 +54045,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/statuses"
                     urlBuilder_.Append("rest/api/3/statuses");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in id)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -53917,7 +54157,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/statuses"
                     urlBuilder_.Append("rest/api/3/statuses");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in id) { urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in id)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (expand != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("expand")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(expand, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -56891,7 +57134,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/user/bulk"
                     urlBuilder_.Append("rest/api/3/user/bulk");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in accountId) { urlBuilder_.Append(System.Uri.EscapeDataString("accountId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in accountId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("accountId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (startAt != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("startAt")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(startAt, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -56902,11 +57148,17 @@ namespace MyNamespace
                     }
                     if (username != null)
                     {
-                            foreach (var item_ in username) { urlBuilder_.Append(System.Uri.EscapeDataString("username")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in username)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("username")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (key != null)
                     {
-                            foreach (var item_ in key) { urlBuilder_.Append(System.Uri.EscapeDataString("key")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in key)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("key")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -57015,11 +57267,17 @@ namespace MyNamespace
                     }
                     if (username != null)
                     {
-                            foreach (var item_ in username) { urlBuilder_.Append(System.Uri.EscapeDataString("username")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in username)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("username")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (key != null)
                     {
-                            foreach (var item_ in key) { urlBuilder_.Append(System.Uri.EscapeDataString("key")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in key)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("key")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -57567,7 +57825,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/user/email/bulk"
                     urlBuilder_.Append("rest/api/3/user/email/bulk");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in accountId) { urlBuilder_.Append(System.Uri.EscapeDataString("accountId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in accountId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("accountId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -58260,11 +58521,17 @@ namespace MyNamespace
                     }
                     if (exclude != null)
                     {
-                            foreach (var item_ in exclude) { urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in exclude)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("exclude")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (excludeAccountIds != null)
                     {
-                            foreach (var item_ in excludeAccountIds) { urlBuilder_.Append(System.Uri.EscapeDataString("excludeAccountIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in excludeAccountIds)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("excludeAccountIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (avatarSize != null)
                     {
@@ -62652,7 +62919,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/workflow/rule/config"
                     urlBuilder_.Append("rest/api/3/workflow/rule/config");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in types) { urlBuilder_.Append(System.Uri.EscapeDataString("types")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in types)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("types")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (startAt != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("startAt")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(startAt, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -62663,15 +62933,24 @@ namespace MyNamespace
                     }
                     if (keys != null)
                     {
-                            foreach (var item_ in keys) { urlBuilder_.Append(System.Uri.EscapeDataString("keys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in keys)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("keys")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (workflowNames != null)
                     {
-                            foreach (var item_ in workflowNames) { urlBuilder_.Append(System.Uri.EscapeDataString("workflowNames")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in workflowNames)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("workflowNames")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (withTags != null)
                     {
-                            foreach (var item_ in withTags) { urlBuilder_.Append(System.Uri.EscapeDataString("withTags")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in withTags)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("withTags")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (draft != null)
                     {
@@ -63065,7 +63344,10 @@ namespace MyNamespace
                     }
                     if (workflowName != null)
                     {
-                            foreach (var item_ in workflowName) { urlBuilder_.Append(System.Uri.EscapeDataString("workflowName")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in workflowName)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("workflowName")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     if (expand != null)
                     {
@@ -65690,7 +65972,10 @@ namespace MyNamespace
                     // Operation Path: "rest/api/3/workflowscheme/project"
                     urlBuilder_.Append("rest/api/3/workflowscheme/project");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in projectId) { urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in projectId)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("projectId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -71213,7 +71498,10 @@ namespace MyNamespace
                     urlBuilder_.Append('?');
                     if (moduleKey != null)
                     {
-                            foreach (var item_ in moduleKey) { urlBuilder_.Append(System.Uri.EscapeDataString("moduleKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                        foreach (var item_ in moduleKey)
+                        {
+                            urlBuilder_.Append(System.Uri.EscapeDataString("moduleKey")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        }
                     }
                     urlBuilder_.Length--;
 
@@ -72873,7 +73161,10 @@ namespace MyNamespace
                     // Operation Path: "rest/atlassian-connect/1/service-registry"
                     urlBuilder_.Append("rest/atlassian-connect/1/service-registry");
                     urlBuilder_.Append('?');
-                        foreach (var item_ in serviceIds) { urlBuilder_.Append(System.Uri.EscapeDataString("serviceIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    foreach (var item_ in serviceIds)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("serviceIds")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);

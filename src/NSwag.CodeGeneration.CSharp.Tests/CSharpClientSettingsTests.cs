@@ -48,6 +48,16 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public class MyBaseClass
+    {
+        public MyBaseClass(MyConfig configuration) {}
+    }
+    public class MyConfig {}
+}
+");
         }
 
         [Fact]
@@ -72,6 +82,17 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public class MyBaseClass
+    {
+        public MyBaseClass(MyConfig configuration) {}
+        protected global::System.Threading.Tasks.Task<global::System.Net.Http.HttpRequestMessage> CreateHttpRequestMessageAsync(global::System.Threading.CancellationToken ct) { return default; }
+    }
+    public class MyConfig {}
+}
+");
         }
 
         [Fact]
@@ -162,6 +183,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace CustomNamespace
+{
+    public class CustomHttpClient : global::System.Net.Http.HttpClient { }
+}
+");
         }
 
         [Fact]
@@ -232,6 +259,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public interface IClientBase { }
+}
+");
         }
 
         [Fact]
@@ -256,6 +289,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public interface IClientBase { }
+}
+");
         }
 
         [Fact]
@@ -307,6 +346,12 @@ namespace NSwag.CodeGeneration.CSharp.Tests
 
             // Assert
             await VerifyHelper.Verify(code);
+            CSharpCompiler.AssertCompile(code + @"
+namespace MyNamespace
+{
+    public interface IFooClient { }
+}
+");
         }
 
         public class OperationSelectionTestData : IEnumerable<object[]>

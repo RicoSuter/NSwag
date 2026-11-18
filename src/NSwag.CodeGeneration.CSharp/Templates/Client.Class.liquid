@@ -22,12 +22,12 @@
 {% endif -%}
 
 {% assign constructorParameters = "" -%}
-{% if HasConfigurationClass -%}
-{%     assign constructorParameters = ConfigurationClass | append: " configuration" -%}
+{% if UseBaseUrl and HasBaseUrl == false -%}
+{%     assign constructorParameters = "string baseUrl" %}
 {% endif -%}
-{% if UseBaseUrl and HasBaseUrl == false and HasConfigurationClass == false -%}
+{% if HasConfigurationClass -%}
 {%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
-{%     assign constructorParameters = constructorParameters | append: "string baseUrl" -%}
+{%     assign constructorParameters = constructorParameters | append: ConfigurationClass | append: " configuration" -%}
 {% endif -%}
 {% if InjectHttpClient -%}
 {%     unless constructorParameters == "" -%}{% assign constructorParameters = constructorParameters | append: ", " -%}{% endunless -%}
@@ -306,7 +306,6 @@
 {%                for parameter in operation.PathParameters -%}
 {%                    if parameter.Name == pathParameterParts[0] -%}
 {%                        if parameter.IsOptional -%}
-{%                            assign pathParameterFound = false -%}
                 if ({{ parameter.VariableName }} != null)
                 {
                     {% template Client.Class.PathParameter %}
@@ -318,21 +317,21 @@
 {%                        endif -%}
 {%                    endif -%}
 {%                endfor -%}
-{%                comment -%} >>> just in case {% endcomment -%}
-{%                unless pathParameterFound -%}
-                urlBuilder_.Append("{{ '{' }}{{ pathParameterParts[0] }}{{ '}' }}");
-{%                endunless -%}
 {%                comment -%} <<< just in case {% endcomment -%}
 {%                assign nonParameterPartLengh = pathParameterParts[1] | size -%}
 {%                if nonParameterPartLengh == 1 -%}
+{%                  if pathParameterParts[1] == "'" -%}
+                urlBuilder_.Append('\'');
+{%                  else -%}
                 urlBuilder_.Append('{{ pathParameterParts[1] }}');
+{%                  endif -%}
 {%                elsif nonParameterPartLengh > 0 -%}
                 urlBuilder_.Append("{{ pathParameterParts[1] }}");
 {%                endif -%}
 {%            else -%}
-{%                 unless pathPart == "" -%}
+{%                unless pathPart == "" -%}
                 urlBuilder_.Append("{{ pathPart }}");
-{%                 endunless -%}
+{%                endunless -%}
 {%            endif -%}
 {%        endfor -%}
 {%    else -%}
