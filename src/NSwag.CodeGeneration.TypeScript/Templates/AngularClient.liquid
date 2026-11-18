@@ -99,10 +99,10 @@
                     return this.process{{ operation.ActualOperationNameUpper }}(response_ as any);
 {%-    endif -%}
                 } catch (e) {
-                    return {{ Framework.RxJs.ObservableThrowMethod }}(e) as any as Observable<{{ operation.ResultType }}>;
+                    return {{ Framework.RxJs.ObservableThrowMethod }}(() => e) as any as Observable<{{ operation.ResultType }}>;
                 }
             } else
-                return {{ Framework.RxJs.ObservableThrowMethod }}(response_) as any as Observable<{{ operation.ResultType }}>;
+                return {{ Framework.RxJs.ObservableThrowMethod }}(() => response_) as any as Observable<{{ operation.ResultType }}>;
         }){% if Framework.UseRxJs6 %}){% endif %};
     }
 
